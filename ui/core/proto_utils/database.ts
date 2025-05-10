@@ -29,10 +29,10 @@ import { Gear, ItemSwapGear } from './gear.js';
 import { CHARACTER_LEVEL } from '../constants/mechanics.js';
 import { distinct } from '../utils.js';
 
-const dbUrlJson = '/wotlk/BRANCH/assets/database/db.json';
-const dbUrlBin = '/wotlk/BRANCH/assets/database/db.bin';
-const leftoversUrlJson = '/wotlk/BRANCH/assets/database/leftover_db.json';
-const leftoversUrlBin = '/wotlk/BRANCH/assets/database/leftover_db.bin';
+const dbUrlJson = '/sims/wotlk/BRANCH/assets/database/db.json';
+const dbUrlBin = '/sims/wotlk/BRANCH/assets/database/db.bin';
+const leftoversUrlJson = '/sims/wotlk/BRANCH/assets/database/leftover_db.json';
+const leftoversUrlBin = '/sims/wotlk/BRANCH/assets/database/leftover_db.bin';
 // When changing this value, don't forget to change the html <link> for preloading!
 const READ_JSON = true;
 

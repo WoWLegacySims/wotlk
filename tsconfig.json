@@ -9,7 +9,7 @@
             "ES2021",
             "DOM.Iterable"
         ],
-        "outDir": "dist/wotlk/BRANCH",
+        "outDir": "dist/sims/wotlk/BRANCH",
         "pretty": false,
         "allowJs": true,
         "resolveJsonModule": true,

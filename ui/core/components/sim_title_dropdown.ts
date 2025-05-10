@@ -288,7 +288,7 @@ export class SimTitleDropdown extends Component {
 			iconPath = raidSimIcon;
 		} else if (data.type == 'Class') {
 			const className = classNames[data.index];
-			iconPath = `/wotlk/BRANCH/assets/img/${className.toLowerCase().replace(/\s/g, '_')}_icon.png`;
+			iconPath = `/sims/wotlk/BRANCH/assets/img/${className.toLowerCase().replace(/\s/g, '_')}_icon.png`;
 		} else {
 			iconPath = titleIcons[data.index];
 		}

@@ -3,10 +3,10 @@ import path from "path";
 import { defineConfig } from 'vite'
 
 export default defineConfig(({ command, mode }) => ({
-	base: "/wotlk/BRANCH/",
+	base: "/sims/wotlk/BRANCH/",
 	root: path.join(__dirname, "ui"),
 	build: {
-		outDir: path.join(__dirname, "dist", "wotlk/BRANCH"),
+		outDir: path.join(__dirname, "dist", "sims/wotlk/BRANCH"),
 		minify: mode === "development" ? false : "terser",
 		sourcemap: command === "serve" ? "inline" : "false",
 		target: ["es2020"],

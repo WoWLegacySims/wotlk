@@ -1,4 +1,4 @@
-OUT_DIR := dist/wotlk/BRANCH
+OUT_DIR := dist/sims/wotlk/BRANCH
 TS_CORE_SRC := $(shell find ui/core -name '*.ts' -type f)
 ASSETS_INPUT := $(shell find assets/ -type f)
 ASSETS := $(patsubst assets/%,$(OUT_DIR)/assets/%,$(ASSETS_INPUT))
@@ -253,5 +253,5 @@ ifeq ($(WATCH), 1)
 else
 	# Intentionally serve one level up, so the local site has 'wotlk' as the first
 	# directory just like github pages.
-	npx http-server $(OUT_DIR)/../..
+	npx http-server $(OUT_DIR)/../../..
 endif
