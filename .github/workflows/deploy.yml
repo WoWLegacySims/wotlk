@@ -44,4 +44,4 @@ jobs:
           folder: dist/sims/wotlk/BRANCH
           repository-name: WoWLegacySims/sims
           token: ${{ secrets.WOWSIMS_TOKEN }}
-          target-folder: sims/wotlk/BRANCH
+          target-folder: wotlk/BRANCH
