@@ -81,17 +81,17 @@ dps_results: {
 dps_results: {
  key: "TestSmite-AllItems-BaubleofTrueBlood-50354"
  value: {
-  dps: 2933.01632
-  tps: 2466.00851
-  hps: 89.26925
+  dps: 2783.94305
+  tps: 2340.58703
+  hps: 90.33849
  }
 }
 dps_results: {
  key: "TestSmite-AllItems-BaubleofTrueBlood-50726"
  value: {
-  dps: 2951.58477
-  tps: 2480.13725
-  hps: 90.11257
+  dps: 2783.94305
+  tps: 2340.58703
+  hps: 90.33849
  }
 }
 dps_results: {
@@ -294,8 +294,8 @@ dps_results: {
 dps_results: {
  key: "TestSmite-AllItems-EyeoftheBroodmother-45308"
  value: {
-  dps: 2886.44236
-  tps: 2422.97869
+  dps: 2884.63766
+  tps: 2421.61108
  }
 }
 dps_results: {
@@ -602,15 +602,15 @@ dps_results: {
 dps_results: {
  key: "TestSmite-AllItems-SanctificationGarb"
  value: {
-  dps: 2766.03738
-  tps: 2331.73868
+  dps: 2695.53354
+  tps: 2273.03777
  }
 }
 dps_results: {
  key: "TestSmite-AllItems-SanctificationRegalia"
  value: {
-  dps: 2799.56623
-  tps: 2362.54679
+  dps: 2711.64173
+  tps: 2290.79113
  }
 }
 dps_results: {
@@ -623,8 +623,8 @@ dps_results: {
 dps_results: {
  key: "TestSmite-AllItems-ShinyShardoftheGods"
  value: {
-  dps: 2962.24067
-  tps: 2488.91519
+  dps: 2782.87337
+  tps: 2338.81139
  }
 }
 dps_results: {
@@ -777,8 +777,8 @@ dps_results: {
 dps_results: {
  key: "TestSmite-AllItems-Val'anyr,HammerofAncientKings-46017"
  value: {
-  dps: 2971.76409
-  tps: 2487.83574
+  dps: 2900.15342
+  tps: 2435.0303
  }
 }
 dps_results: {
@@ -791,8 +791,8 @@ dps_results: {
 dps_results: {
  key: "TestSmite-AllItems-WingedTalisman-37844"
  value: {
-  dps: 2914.31092
-  tps: 2446.2492
+  dps: 2835.04964
+  tps: 2382.19892
  }
 }
 dps_results: {

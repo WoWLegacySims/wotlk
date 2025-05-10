@@ -46,15 +46,15 @@ character_stats_results: {
 dps_results: {
  key: "TestProtection-AllItems-AegisBattlegear"
  value: {
-  dps: 3441.1714
-  tps: 8204.01424
+  dps: 3400.37462
+  tps: 8112.63775
  }
 }
 dps_results: {
  key: "TestProtection-AllItems-AegisPlate"
  value: {
-  dps: 3240.77653
-  tps: 7795.8914
+  dps: 3204.20422
+  tps: 7709.11887
  }
 }
 dps_results: {
@@ -95,17 +95,17 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-BaubleofTrueBlood-50354"
  value: {
-  dps: 3256.54107
-  tps: 7837.14422
-  hps: 87.62207
+  dps: 3159.68034
+  tps: 7587.66331
+  hps: 87.90158
  }
 }
 dps_results: {
  key: "TestProtection-AllItems-BaubleofTrueBlood-50726"
  value: {
-  dps: 3261.02591
-  tps: 7848.04828
-  hps: 87.53341
+  dps: 3159.68034
+  tps: 7587.66331
+  hps: 87.90158
  }
 }
 dps_results: {
@@ -315,8 +315,8 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-EyeoftheBroodmother-45308"
  value: {
-  dps: 3212.09742
-  tps: 7710.96793
+  dps: 3211.44252
+  tps: 7709.83902
  }
 }
 dps_results: {
@@ -687,8 +687,8 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-ShinyShardoftheGods"
  value: {
-  dps: 3252.7259
-  tps: 7828.26201
+  dps: 3159.69442
+  tps: 7587.69954
  }
 }
 dps_results: {
@@ -883,15 +883,15 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-Val'anyr,HammerofAncientKings-46017"
  value: {
-  dps: 3126.25552
-  tps: 7559.22414
+  dps: 3072.80244
+  tps: 7433.54621
  }
 }
 dps_results: {
  key: "TestProtection-AllItems-WingedTalisman-37844"
  value: {
-  dps: 3208.32441
-  tps: 7711.57527
+  dps: 3168.58379
+  tps: 7610.58079
  }
 }
 dps_results: {

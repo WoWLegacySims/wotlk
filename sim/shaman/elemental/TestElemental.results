@@ -119,15 +119,15 @@ dps_results: {
 dps_results: {
  key: "TestElemental-AllItems-BaubleofTrueBlood-50354"
  value: {
-  dps: 6714.00191
-  tps: 3952.27155
+  dps: 6383.63628
+  tps: 3754.47542
  }
 }
 dps_results: {
  key: "TestElemental-AllItems-BaubleofTrueBlood-50726"
  value: {
-  dps: 6719.86343
-  tps: 3956.10856
+  dps: 6383.63628
+  tps: 3754.47542
  }
 }
 dps_results: {
@@ -385,8 +385,8 @@ dps_results: {
 dps_results: {
  key: "TestElemental-AllItems-EyeoftheBroodmother-45308"
  value: {
-  dps: 6729.4714
-  tps: 3950.89645
+  dps: 6726.67403
+  tps: 3948.86311
  }
 }
 dps_results: {
@@ -469,8 +469,8 @@ dps_results: {
 dps_results: {
  key: "TestElemental-AllItems-Gladiator'sWartide"
  value: {
-  dps: 6327.6065
-  tps: 3724.73128
+  dps: 6112.79044
+  tps: 3592.17518
  }
 }
 dps_results: {
@@ -735,8 +735,8 @@ dps_results: {
 dps_results: {
  key: "TestElemental-AllItems-ShinyShardoftheGods"
  value: {
-  dps: 6720.70756
-  tps: 3956.7902
+  dps: 6383.63628
+  tps: 3754.47542
  }
 }
 dps_results: {
@@ -987,29 +987,29 @@ dps_results: {
 dps_results: {
  key: "TestElemental-AllItems-Val'anyr,HammerofAncientKings-46017"
  value: {
-  dps: 7128.01624
-  tps: 4183.98496
+  dps: 6955.06068
+  tps: 4079.86195
  }
 }
 dps_results: {
  key: "TestElemental-AllItems-WingedTalisman-37844"
  value: {
-  dps: 6597.24562
-  tps: 3881.85001
+  dps: 6383.63628
+  tps: 3754.47542
  }
 }
 dps_results: {
  key: "TestElemental-AllItems-WorldbreakerBattlegear"
  value: {
-  dps: 5093.03619
-  tps: 2978.14057
+  dps: 4984.67482
+  tps: 2908.82618
  }
 }
 dps_results: {
  key: "TestElemental-AllItems-WorldbreakerGarb"
  value: {
-  dps: 6644.51389
-  tps: 3953.39731
+  dps: 6437.18235
+  tps: 3822.16016
  }
 }
 dps_results: {

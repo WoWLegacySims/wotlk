@@ -21,7 +21,7 @@ character_stats_results: {
   final_stats: 14255.48
   final_stats: 0
   final_stats: 0
-  final_stats: 13604.372
+  final_stats: 13625.372
   final_stats: 6133.1248
   final_stats: 0
   final_stats: 0
@@ -88,16 +88,16 @@ dps_results: {
 dps_results: {
  key: "TestMM-AllItems-BaubleofTrueBlood-50354"
  value: {
-  dps: 7122.08999
-  tps: 6206.89863
+  dps: 7064.87473
+  tps: 6158.16398
   hps: 91.55526
  }
 }
 dps_results: {
  key: "TestMM-AllItems-BaubleofTrueBlood-50726"
  value: {
-  dps: 7124.12431
-  tps: 6208.71872
+  dps: 7064.87473
+  tps: 6158.16398
   hps: 91.55526
  }
 }
@@ -343,8 +343,8 @@ dps_results: {
 dps_results: {
  key: "TestMM-AllItems-EyeoftheBroodmother-45308"
  value: {
-  dps: 7188.69225
-  tps: 6276.63648
+  dps: 7181.57186
+  tps: 6269.52884
  }
 }
 dps_results: {
@@ -645,8 +645,8 @@ dps_results: {
 dps_results: {
  key: "TestMM-AllItems-ScourgestalkerBattlegear"
  value: {
-  dps: 7065.56974
-  tps: 6186.05793
+  dps: 6951.19151
+  tps: 6079.09864
  }
 }
 dps_results: {
@@ -666,8 +666,8 @@ dps_results: {
 dps_results: {
  key: "TestMM-AllItems-ShinyShardoftheGods"
  value: {
-  dps: 7128.54958
-  tps: 6212.50872
+  dps: 7064.94744
+  tps: 6158.19186
  }
 }
 dps_results: {
@@ -848,8 +848,8 @@ dps_results: {
 dps_results: {
  key: "TestMM-AllItems-Val'anyr,HammerofAncientKings-46017"
  value: {
-  dps: 7044.43231
-  tps: 6137.68887
+  dps: 7034.88517
+  tps: 6131.51726
  }
 }
 dps_results: {
@@ -862,8 +862,8 @@ dps_results: {
 dps_results: {
  key: "TestMM-AllItems-WingedTalisman-37844"
  value: {
-  dps: 7086.15162
-  tps: 6176.19538
+  dps: 7064.94744
+  tps: 6158.19186
  }
 }
 dps_results: {

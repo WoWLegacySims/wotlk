@@ -82,7 +82,7 @@ dps_results: {
  key: "TestDestruction-AllItems-BaubleofTrueBlood-50354"
  value: {
   dps: 13020.8403
-  tps: 10738.51679
+  tps: 10741.89779
   hps: 102.01591
  }
 }
@@ -90,7 +90,7 @@ dps_results: {
  key: "TestDestruction-AllItems-BaubleofTrueBlood-50726"
  value: {
   dps: 13020.8403
-  tps: 10738.01651
+  tps: 10741.89779
   hps: 102.01591
  }
 }
@@ -203,8 +203,8 @@ dps_results: {
 dps_results: {
  key: "TestDestruction-AllItems-DeathbringerGarb"
  value: {
-  dps: 10977.39094
-  tps: 8960.47538
+  dps: 10810.51887
+  tps: 8812.96814
  }
 }
 dps_results: {
@@ -287,8 +287,8 @@ dps_results: {
 dps_results: {
  key: "TestDestruction-AllItems-EyeoftheBroodmother-45308"
  value: {
-  dps: 13414.44181
-  tps: 11083.32309
+  dps: 13405.57088
+  tps: 11075.33925
  }
 }
 dps_results: {
@@ -568,7 +568,7 @@ dps_results: {
  key: "TestDestruction-AllItems-ShinyShardoftheGods"
  value: {
   dps: 13015.62797
-  tps: 10732.38178
+  tps: 10736.77646
  }
 }
 dps_results: {
@@ -722,7 +722,7 @@ dps_results: {
  key: "TestDestruction-AllItems-WingedTalisman-37844"
  value: {
   dps: 13167.51032
-  tps: 10865.11881
+  tps: 10866.65582
  }
 }
 dps_results: {

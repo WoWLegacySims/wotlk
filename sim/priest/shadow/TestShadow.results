@@ -82,15 +82,15 @@ dps_results: {
  key: "TestShadow-AllItems-BaubleofTrueBlood-50354"
  value: {
   dps: 6944.54538
-  tps: 6747.782
+  tps: 6751.61382
   hps: 88.41863
  }
 }
 dps_results: {
  key: "TestShadow-AllItems-BaubleofTrueBlood-50726"
  value: {
-  dps: 6946.58824
-  tps: 6749.31143
+  dps: 6944.54538
+  tps: 6751.61382
   hps: 88.41863
  }
 }
@@ -294,8 +294,8 @@ dps_results: {
 dps_results: {
  key: "TestShadow-AllItems-EyeoftheBroodmother-45308"
  value: {
-  dps: 7275.73784
-  tps: 7076.46188
+  dps: 7272.1293
+  tps: 7072.84028
  }
 }
 dps_results: {
@@ -602,15 +602,15 @@ dps_results: {
 dps_results: {
  key: "TestShadow-AllItems-SanctificationGarb"
  value: {
-  dps: 6910.4836
-  tps: 6715.81873
+  dps: 6793.85531
+  tps: 6602.2312
  }
 }
 dps_results: {
  key: "TestShadow-AllItems-SanctificationRegalia"
  value: {
-  dps: 6599.798
-  tps: 6400.95497
+  dps: 6502.33697
+  tps: 6305.43148
  }
 }
 dps_results: {
@@ -623,8 +623,8 @@ dps_results: {
 dps_results: {
  key: "TestShadow-AllItems-ShinyShardoftheGods"
  value: {
-  dps: 6946.19912
-  tps: 6748.84052
+  dps: 6943.03168
+  tps: 6750.38276
  }
 }
 dps_results: {
@@ -777,8 +777,8 @@ dps_results: {
 dps_results: {
  key: "TestShadow-AllItems-Val'anyr,HammerofAncientKings-46017"
  value: {
-  dps: 7558.82137
-  tps: 7354.73286
+  dps: 7412.77613
+  tps: 7212.59391
  }
 }
 dps_results: {
@@ -792,7 +792,7 @@ dps_results: {
  key: "TestShadow-AllItems-WingedTalisman-37844"
  value: {
   dps: 7076.51323
-  tps: 6872.31287
+  tps: 6874.16861
  }
 }
 dps_results: {
