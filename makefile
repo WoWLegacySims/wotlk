@@ -1,4 +1,4 @@
-OUT_DIR := dist/sims/wotlk/BRANCH
+OUT_DIR := dist/sims/wotlk/80
 TS_CORE_SRC := $(shell find ui/core -name '*.ts' -type f)
 ASSETS_INPUT := $(shell find assets/ -type f)
 ASSETS := $(patsubst assets/%,$(OUT_DIR)/assets/%,$(ASSETS_INPUT))
