@@ -157,13 +157,13 @@ message Mage {
 			Scorch = 2;
 		}
 		PrimaryFireSpell primary_fire_spell = 3;
-		
+
 		bool maintain_improved_scorch = 4;
 
 		// Frost Options.
 		bool use_ice_lance = 18;
 	}
-	
+
 	message Options {
 		enum ArmorType {
 			NoArmor = 0;
@@ -171,6 +171,8 @@ message Mage {
 			MoltenArmor = 2;
 		}
 		ArmorType armor = 1;
+
+		bool ignite_munching = 6;
 
 		int32 focus_magic_percent_uptime = 3;
 		UnitReference focus_magic_target = 4;

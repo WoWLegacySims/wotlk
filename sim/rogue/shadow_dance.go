@@ -3,9 +3,9 @@ package rogue
 import (
 	"time"
 
-	"github.com/wowsims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 
-	"github.com/wowsims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core"
 )
 
 func (rogue *Rogue) registerShadowDanceCD() {

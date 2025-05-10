@@ -10,12 +10,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/wowsims/wotlk/sim"
-	"github.com/wowsims/wotlk/sim/core"
-	"github.com/wowsims/wotlk/sim/core/proto"
-	_ "github.com/wowsims/wotlk/sim/encounters" // Needed for preset encounters.
-	"github.com/wowsims/wotlk/tools"
-	"github.com/wowsims/wotlk/tools/database"
+	"github.com/WoWLegacySims/wotlk/sim"
+	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	_ "github.com/WoWLegacySims/wotlk/sim/encounters" // Needed for preset encounters.
+	"github.com/WoWLegacySims/wotlk/tools"
+	"github.com/WoWLegacySims/wotlk/tools/database"
 )
 
 // To do a full re-scrape, delete the previous output file first.
@@ -103,6 +103,7 @@ func main() {
 	db.MergeEnchants(database.EnchantOverrides)
 	ApplyGlobalFilters(db)
 	AttachFactionInformation(db, factionRestrictions)
+	ApplySourceFilters(db)
 
 	leftovers := db.Clone()
 	ApplyNonSimmableFilters(leftovers)
@@ -151,6 +152,38 @@ func main() {
 	db.MergeNpcs(atlasDBProto.Npcs)
 
 	db.WriteBinaryAndJson(fmt.Sprintf("%s/db.bin", dbDir), fmt.Sprintf("%s/db.json", dbDir))
+}
+
+func ApplySourceFilters(db *database.WowDatabase) {
+	for id, item := range db.Items {
+		deleted := false
+		for i := 0; i < len(item.Sources); i++ {
+			delete := false
+			drop := item.Sources[i].GetDrop()
+			bought := item.Sources[i].GetSoldBy()
+			if drop != nil {
+				if drop.Difficulty >= 7 {
+					delete = true
+				}
+			}
+
+			if bought != nil {
+				if bought.NpcId > 43000 {
+					delete = true
+				}
+			}
+
+			if delete {
+				copy(item.Sources[i:], item.Sources[i+1:])
+				item.Sources[len(item.Sources)-1] = nil
+				item.Sources = item.Sources[:len(item.Sources)-1]
+				i--
+			}
+		}
+		if deleted && len(item.Sources) == 0 {
+			fmt.Printf("Item %d has no source anymore", id)
+		}
+	}
 }
 
 // Filters out entities which shouldn't be included anywhere.

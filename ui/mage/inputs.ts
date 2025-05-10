@@ -1,14 +1,12 @@
-import { Spec } from '../core/proto/common.js';
-import { ActionId } from '../core/proto_utils/action_id.js';
-import { Player } from '../core/player.js';
-import { TypedEvent } from '../core/typed_event.js';
-
-import {
-	Mage_Rotation_PrimaryFireSpell as PrimaryFireSpell,
-	Mage_Options_ArmorType as ArmorType,
-} from '../core/proto/mage.js';
-
 import * as InputHelpers from '../core/components/input_helpers.js';
+import { Player } from '../core/player.js';
+import { Spec } from '../core/proto/common.js';
+import {
+	Mage_Options_ArmorType as ArmorType,
+	Mage_Rotation_PrimaryFireSpell as PrimaryFireSpell,
+} from '../core/proto/mage.js';
+import { ActionId } from '../core/proto_utils/action_id.js';
+import { TypedEvent } from '../core/typed_event.js';
 
 // Configuration for spec-specific UI elements on the settings tab.
 // These don't need to be in a separate file but it keeps things cleaner.
@@ -20,6 +18,19 @@ export const Armor = InputHelpers.makeSpecOptionsEnumIconInput<Spec.SpecMage, Ar
 		{ actionId: ActionId.fromSpellId(43024), value: ArmorType.MageArmor },
 		{ actionId: ActionId.fromSpellId(43046), value: ArmorType.MoltenArmor },
 	],
+});
+
+
+export const IgniteMunching = InputHelpers.makeSpecOptionsBooleanInput<Spec.SpecMage>({
+	fieldName: 'igniteMunching',
+	label: 'Ignite Munching',
+	labelTooltip: `
+		<p>When two spells crit at the same time (20 ms window), only the latter spell will count towards ignite.</p>
+		<p>For example when an instant pyroblast lands right after a fireball, or when Living Bomb explodes at the same time as another spell lands on the target.</p>
+		<p>However, this does not affect Hot Streak with Frostfire Bolt due to Frostfire Bolt having a faster travel time. </p>
+	`,
+	showWhen: (player: Player<Spec.SpecMage>) => player.getTalents().ignite > 0,
+	changeEmitter: (player: Player<Spec.SpecMage>) => player.talentsChangeEmitter,
 });
 
 export const WaterElementalDisobeyChance = InputHelpers.makeSpecOptionsNumberInput<Spec.SpecMage>({

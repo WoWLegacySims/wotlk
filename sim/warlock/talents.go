@@ -5,9 +5,9 @@ import (
 	"slices"
 	"time"
 
-	"github.com/wowsims/wotlk/sim/core"
-	"github.com/wowsims/wotlk/sim/core/proto"
-	"github.com/wowsims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
 func (warlock *Warlock) ApplyTalents() {
@@ -552,7 +552,7 @@ func (warlock *Warlock) setupDemonicPact() {
 
 	icd := core.Cooldown{
 		Timer:    warlock.NewTimer(),
-		Duration: 1 * time.Second,
+		Duration: 20 * time.Second,
 	}
 
 	var demonicPactAuras [25]*core.Aura
@@ -586,13 +586,11 @@ func (warlock *Warlock) setupDemonicPact() {
 			}
 			newSPBonus := math.Round(dpMult * (warlock.GetStat(stats.SpellPower) - lastBonus))
 
-			if warlock.DemonicPactAura.RemainingDuration(sim) < 10*time.Second || newSPBonus >= lastBonus {
-				warlock.updateDPASP(sim)
-				for _, dpAura := range demonicPactAuras {
-					if dpAura != nil {
-						dpAura.ExclusiveEffects[0].SetPriority(sim, newSPBonus)
-						dpAura.Activate(sim)
-					}
+			warlock.updateDPASP(sim)
+			for _, dpAura := range demonicPactAuras {
+				if dpAura != nil {
+					dpAura.ExclusiveEffects[0].SetPriority(sim, newSPBonus)
+					dpAura.Activate(sim)
 				}
 			}
 		},

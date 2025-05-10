@@ -9,8 +9,8 @@ import (
 
 var rootCmd = &cobra.Command{
 	Use:   "wowsimcli",
-	Short: "wowsims command line tool",
-	Long:  "wowsims command line tool",
+	Short: "WoWLegacySims command line tool",
+	Long:  "WoWLegacySims command line tool",
 }
 
 func Execute(version string) {

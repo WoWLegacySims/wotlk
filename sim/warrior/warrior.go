@@ -3,15 +3,16 @@ package warrior
 import (
 	"time"
 
-	"github.com/wowsims/wotlk/sim/core"
-	"github.com/wowsims/wotlk/sim/core/proto"
-	"github.com/wowsims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
 var TalentTreeSizes = [3]int{31, 27, 27}
 
 type WarriorInputs struct {
 	StanceSnapshot bool
+	Munch          bool
 }
 
 const (
@@ -35,6 +36,9 @@ type Warrior struct {
 	BloodsurgeValidUntil time.Duration
 	revengeProcAura      *core.Aura
 	Ymirjar4pcProcAura   *core.Aura
+
+	munchDmg  float64
+	munchTime time.Duration
 
 	// Reaction time values
 	reactionTime       time.Duration
@@ -144,6 +148,8 @@ func (warrior *Warrior) Reset(_ *core.Simulation) {
 	warrior.RendValidUntil = 0
 	warrior.curQueueAura = nil
 	warrior.curQueuedAutoSpell = nil
+	warrior.munchDmg = 0
+	warrior.munchTime = 0
 }
 
 func NewWarrior(character *core.Character, talents string, inputs WarriorInputs) *Warrior {

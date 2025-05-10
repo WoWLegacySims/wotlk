@@ -3,8 +3,8 @@ package core
 import (
 	"fmt"
 
-	"github.com/wowsims/wotlk/sim/core/proto"
-	"github.com/wowsims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
 type TargetDummy struct {

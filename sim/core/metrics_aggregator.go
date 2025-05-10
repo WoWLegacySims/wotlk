@@ -4,7 +4,7 @@ import (
 	"math"
 	"time"
 
-	"github.com/wowsims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 )
 
 type ResourceKey struct {

@@ -740,23 +740,23 @@ interface ItemDataWithIdx<T> {
 }
 
 const emptySlotIcons: Record<ItemSlot, string> = {
-	[ItemSlot.ItemSlotHead]: '/wotlk/assets/item_slots/head.jpg',
-	[ItemSlot.ItemSlotNeck]: '/wotlk/assets/item_slots/neck.jpg',
-	[ItemSlot.ItemSlotShoulder]: '/wotlk/assets/item_slots/shoulders.jpg',
-	[ItemSlot.ItemSlotBack]: '/wotlk/assets/item_slots/shirt.jpg',
-	[ItemSlot.ItemSlotChest]: '/wotlk/assets/item_slots/chest.jpg',
-	[ItemSlot.ItemSlotWrist]: '/wotlk/assets/item_slots/wrists.jpg',
-	[ItemSlot.ItemSlotHands]: '/wotlk/assets/item_slots/hands.jpg',
-	[ItemSlot.ItemSlotWaist]: '/wotlk/assets/item_slots/waist.jpg',
-	[ItemSlot.ItemSlotLegs]: '/wotlk/assets/item_slots/legs.jpg',
-	[ItemSlot.ItemSlotFeet]: '/wotlk/assets/item_slots/feet.jpg',
-	[ItemSlot.ItemSlotFinger1]: '/wotlk/assets/item_slots/finger.jpg',
-	[ItemSlot.ItemSlotFinger2]: '/wotlk/assets/item_slots/finger.jpg',
-	[ItemSlot.ItemSlotTrinket1]: '/wotlk/assets/item_slots/trinket.jpg',
-	[ItemSlot.ItemSlotTrinket2]: '/wotlk/assets/item_slots/trinket.jpg',
-	[ItemSlot.ItemSlotMainHand]: '/wotlk/assets/item_slots/mainhand.jpg',
-	[ItemSlot.ItemSlotOffHand]: '/wotlk/assets/item_slots/offhand.jpg',
-	[ItemSlot.ItemSlotRanged]: '/wotlk/assets/item_slots/ranged.jpg',
+	[ItemSlot.ItemSlotHead]: '/wotlk/BRANCH/assets/item_slots/head.jpg',
+	[ItemSlot.ItemSlotNeck]: '/wotlk/BRANCH/assets/item_slots/neck.jpg',
+	[ItemSlot.ItemSlotShoulder]: '/wotlk/BRANCH/assets/item_slots/shoulders.jpg',
+	[ItemSlot.ItemSlotBack]: '/wotlk/BRANCH/assets/item_slots/shirt.jpg',
+	[ItemSlot.ItemSlotChest]: '/wotlk/BRANCH/assets/item_slots/chest.jpg',
+	[ItemSlot.ItemSlotWrist]: '/wotlk/BRANCH/assets/item_slots/wrists.jpg',
+	[ItemSlot.ItemSlotHands]: '/wotlk/BRANCH/assets/item_slots/hands.jpg',
+	[ItemSlot.ItemSlotWaist]: '/wotlk/BRANCH/assets/item_slots/waist.jpg',
+	[ItemSlot.ItemSlotLegs]: '/wotlk/BRANCH/assets/item_slots/legs.jpg',
+	[ItemSlot.ItemSlotFeet]: '/wotlk/BRANCH/assets/item_slots/feet.jpg',
+	[ItemSlot.ItemSlotFinger1]: '/wotlk/BRANCH/assets/item_slots/finger.jpg',
+	[ItemSlot.ItemSlotFinger2]: '/wotlk/BRANCH/assets/item_slots/finger.jpg',
+	[ItemSlot.ItemSlotTrinket1]: '/wotlk/BRANCH/assets/item_slots/trinket.jpg',
+	[ItemSlot.ItemSlotTrinket2]: '/wotlk/BRANCH/assets/item_slots/trinket.jpg',
+	[ItemSlot.ItemSlotMainHand]: '/wotlk/BRANCH/assets/item_slots/mainhand.jpg',
+	[ItemSlot.ItemSlotOffHand]: '/wotlk/BRANCH/assets/item_slots/offhand.jpg',
+	[ItemSlot.ItemSlotRanged]: '/wotlk/BRANCH/assets/item_slots/ranged.jpg',
 };
 export function getEmptySlotIconUrl(slot: ItemSlot): string {
 	return emptySlotIcons[slot];
@@ -1283,10 +1283,10 @@ export class ItemList<T> {
 				<span>
 					Quest
 					{item.factionRestriction == UIItem_FactionRestriction.ALLIANCE_ONLY && (
-						<img src="/wotlk/assets/img/alliance.png" className="ms-1" width="15" height="15" />
+						<img src="/wotlk/BRANCH/assets/img/alliance.png" className="ms-1" width="15" height="15" />
 					)}
 					{item.factionRestriction == UIItem_FactionRestriction.HORDE_ONLY && (
-						<img src="/wotlk/assets/img/horde.png" className="ms-1" width="15" height="15" />
+						<img src="/wotlk/BRANCH/assets/img/horde.png" className="ms-1" width="15" height="15" />
 					)}
 					<br />
 					{src.name}
@@ -1306,10 +1306,10 @@ export class ItemList<T> {
 						<span>
 							{name}
 							{item.factionRestriction == UIItem_FactionRestriction.ALLIANCE_ONLY && (
-								<img src="/wotlk/assets/img/alliance.png" className="ms-1" width="15" height="15" />
+								<img src="/wotlk/BRANCH/assets/img/alliance.png" className="ms-1" width="15" height="15" />
 							)}
 							{item.factionRestriction == UIItem_FactionRestriction.HORDE_ONLY && (
-								<img src="/wotlk/assets/img/horde.png" className="ms-1" width="15" height="15" />
+								<img src="/wotlk/BRANCH/assets/img/horde.png" className="ms-1" width="15" height="15" />
 							)}
 							<br />
 						</span>

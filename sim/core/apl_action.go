@@ -3,7 +3,7 @@ package core
 import (
 	"fmt"
 
-	"github.com/wowsims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 )
 
 type APLAction struct {

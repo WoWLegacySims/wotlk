@@ -1,7 +1,7 @@
 package hunter
 
 import (
-	"github.com/wowsims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core"
 )
 
 func (hunter *Hunter) registerScorpidStingSpell() {

@@ -3,7 +3,7 @@ package rogue
 import (
 	"time"
 
-	"github.com/wowsims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core"
 )
 
 var OverkillActionID = core.ActionID{SpellID: 58426}

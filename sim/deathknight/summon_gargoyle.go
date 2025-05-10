@@ -3,8 +3,8 @@ package deathknight
 import (
 	"time"
 
-	"github.com/wowsims/wotlk/sim/core"
-	"github.com/wowsims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
 func (dk *Deathknight) registerSummonGargoyleCD() {
@@ -105,11 +105,6 @@ func (dk *Deathknight) NewGargoyle() *GargoylePet {
 		gargoyle.PseudoStats.CastSpeedMultiplier = 1 // guardians are not affected by raid buffs
 		gargoyle.MultiplyCastSpeed(dk.PseudoStats.MeleeSpeedMultiplier)
 
-		// "Nerfed Gargoyle" dynamically updates with owner's haste and melee speed
-		gargoyle.EnableDynamicMeleeSpeed(func(amount float64) {
-			gargoyle.MultiplyCastSpeed(amount)
-		})
-
 		gargoyle.EnableDynamicStats(func(ownerStats stats.Stats) stats.Stats {
 			return stats.Stats{
 				stats.SpellHaste: ownerStats[stats.MeleeHaste] * PetSpellHasteScale,
@@ -133,7 +128,8 @@ func (garg *GargoylePet) Initialize() {
 func (garg *GargoylePet) Reset(_ *core.Simulation) {
 }
 
-func (garg *GargoylePet) ExecuteCustomRotation(_ *core.Simulation) {
+func (garg *GargoylePet) ExecuteCustomRotation(sim *core.Simulation) {
+	garg.GargoyleStrike.Cast(sim, garg.CurrentTarget)
 }
 
 func (garg *GargoylePet) registerGargoyleStrikeSpell() {
@@ -147,6 +143,7 @@ func (garg *GargoylePet) registerGargoyleStrikeSpell() {
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
 				CastTime: time.Millisecond * 2000,
+				GCD:      core.GCDDefault,
 			},
 		},
 
@@ -158,8 +155,6 @@ func (garg *GargoylePet) registerGargoyleStrikeSpell() {
 			baseDamage := 2.05*sim.Roll(51, 69) + attackPowerModifier*spell.MeleeAttackPower()
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 			spell.DealDamage(sim, result)
-
-			garg.GargoyleStrike.Cast(sim, garg.CurrentTarget)
 		},
 	})
 }

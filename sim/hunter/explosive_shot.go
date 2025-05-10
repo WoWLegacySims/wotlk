@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/wowsims/wotlk/sim/core"
-	"github.com/wowsims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 )
 
 func (hunter *Hunter) registerExplosiveShotSpell(timer *core.Timer) {

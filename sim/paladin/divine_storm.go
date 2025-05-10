@@ -3,7 +3,7 @@ package paladin
 import (
 	"time"
 
-	"github.com/wowsims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core"
 )
 
 func (paladin *Paladin) registerDivineStormSpell() {

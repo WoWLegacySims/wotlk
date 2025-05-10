@@ -9,8 +9,8 @@ import (
 
 	googleProto "google.golang.org/protobuf/proto"
 
-	"github.com/wowsims/wotlk/sim/core/proto"
-	"github.com/wowsims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
 // Applies buffs that affect individual players.

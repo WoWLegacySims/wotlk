@@ -3,7 +3,7 @@ package wotlk
 import (
 	"time"
 
-	"github.com/wowsims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core"
 )
 
 type ProcDamageEffect struct {
@@ -45,6 +45,20 @@ func newProcDamageEffect(config ProcDamageEffect) {
 
 func init() {
 	core.AddEffectsToTest = false
+
+	newProcDamageEffect(ProcDamageEffect{
+		ID: 12631,
+		Trigger: core.ProcTrigger{
+			Name:       "Fiery Plate Gauntlets",
+			Callback:   core.CallbackOnSpellHitDealt,
+			ProcMask:   core.ProcMaskMelee,
+			Outcome:    core.OutcomeLanded,
+			ProcChance: 1.0,
+		},
+		School: core.SpellSchoolFire,
+		MinDmg: 4,
+		MaxDmg: 4,
+	})
 
 	newProcDamageEffect(ProcDamageEffect{
 		ID: 37064,

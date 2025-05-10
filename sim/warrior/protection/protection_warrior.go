@@ -1,9 +1,9 @@
 package protection
 
 import (
-	"github.com/wowsims/wotlk/sim/core"
-	"github.com/wowsims/wotlk/sim/core/proto"
-	"github.com/wowsims/wotlk/sim/warrior"
+	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/warrior"
 )
 
 func RegisterProtectionWarrior() {
@@ -33,7 +33,9 @@ func NewProtectionWarrior(character *core.Character, options *proto.Player) *Pro
 	warOptions := options.GetProtectionWarrior()
 
 	war := &ProtectionWarrior{
-		Warrior: warrior.NewWarrior(character, options.TalentsString, warrior.WarriorInputs{}),
+		Warrior: warrior.NewWarrior(character, options.TalentsString, warrior.WarriorInputs{
+			Munch: warOptions.Options.Munch,
+		}),
 		Options: warOptions.Options,
 	}
 

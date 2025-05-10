@@ -3,7 +3,7 @@ package mage
 import (
 	"time"
 
-	"github.com/wowsims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core"
 )
 
 func (mage *Mage) registerFireBlastSpell() {

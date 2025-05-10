@@ -1,7 +1,7 @@
 package mage
 
 import (
-	"github.com/wowsims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core"
 	"time"
 )
 

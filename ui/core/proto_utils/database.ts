@@ -29,10 +29,10 @@ import { Gear, ItemSwapGear } from './gear.js';
 import { CHARACTER_LEVEL } from '../constants/mechanics.js';
 import { distinct } from '../utils.js';
 
-const dbUrlJson = '/wotlk/assets/database/db.json';
-const dbUrlBin = '/wotlk/assets/database/db.bin';
-const leftoversUrlJson = '/wotlk/assets/database/leftover_db.json';
-const leftoversUrlBin = '/wotlk/assets/database/leftover_db.bin';
+const dbUrlJson = '/wotlk/BRANCH/assets/database/db.json';
+const dbUrlBin = '/wotlk/BRANCH/assets/database/db.bin';
+const leftoversUrlJson = '/wotlk/BRANCH/assets/database/leftover_db.json';
+const leftoversUrlBin = '/wotlk/BRANCH/assets/database/leftover_db.bin';
 // When changing this value, don't forget to change the html <link> for preloading!
 const READ_JSON = true;
 
@@ -144,7 +144,7 @@ export class Database {
 	}
 
 	getGems(socketColor?: GemColor): Array<Gem> {
-		if (!socketColor) 
+		if (!socketColor)
 			return Array.from(this.gems.values());
 
 		let ret = new Array();

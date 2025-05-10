@@ -119,7 +119,6 @@ enum PaladinMajorGlyph {
 	GlyphOfShieldOfRighteousness = 45744;
 	GlyphOfSpiritualAttunement = 41096;
 	GlyphOfTurnEvil = 41102;
-	GlyphOfReckoning = 204385;
 }
 enum PaladinMinorGlyph {
 	PaladinMinorGlyphNone = 0;

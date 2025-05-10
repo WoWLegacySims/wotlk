@@ -1,9 +1,9 @@
 package dps
 
 import (
-	"github.com/wowsims/wotlk/sim/core"
-	"github.com/wowsims/wotlk/sim/core/proto"
-	"github.com/wowsims/wotlk/sim/warrior"
+	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/warrior"
 )
 
 func RegisterDpsWarrior() {
@@ -35,6 +35,7 @@ func NewDpsWarrior(character *core.Character, options *proto.Player) *DpsWarrior
 	war := &DpsWarrior{
 		Warrior: warrior.NewWarrior(character, options.TalentsString, warrior.WarriorInputs{
 			StanceSnapshot: warOptions.Options.StanceSnapshot,
+			Munch:          warOptions.Options.Munch,
 		}),
 		Options: warOptions.Options,
 	}

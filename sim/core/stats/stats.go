@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/wowsims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 )
 
 type Stats [Len]float64

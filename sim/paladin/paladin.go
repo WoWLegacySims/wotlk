@@ -1,9 +1,9 @@
 package paladin
 
 import (
-	"github.com/wowsims/wotlk/sim/core"
-	"github.com/wowsims/wotlk/sim/core/proto"
-	"github.com/wowsims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
 const (
@@ -31,7 +31,6 @@ type Paladin struct {
 	Exorcism              *core.Spell
 	HolyShield            *core.Spell
 	HammerOfTheRighteous  *core.Spell
-	HandOfReckoning       *core.Spell
 	ShieldOfRighteousness *core.Spell
 	AvengersShield        *core.Spell
 	JudgementOfWisdom     *core.Spell
@@ -141,7 +140,6 @@ func (paladin *Paladin) Initialize() {
 	paladin.registerExorcismSpell()
 	paladin.registerHolyShieldSpell()
 	paladin.registerHammerOfTheRighteousSpell()
-	paladin.registerHandOfReckoningSpell()
 	paladin.registerShieldOfRighteousnessSpell()
 	paladin.registerAvengersShieldSpell()
 	paladin.registerJudgements()

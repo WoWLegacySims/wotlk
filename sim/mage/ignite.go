@@ -1,13 +1,15 @@
 package mage
 
 import (
+	"fmt"
 	"time"
 
-	"github.com/wowsims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core"
 )
 
 // If two spells proc Ignite at almost exactly the same time, the latter
 // overwrites the former.
+const IgniteMunchWindow = time.Millisecond * 20
 const IgniteTicks = 2
 
 func (mage *Mage) applyIgnite() {
@@ -72,8 +74,18 @@ func (mage *Mage) procIgnite(sim *core.Simulation, result *core.SpellResult) {
 	newDamage := result.Damage * 0.08 * float64(mage.Talents.Ignite)
 	outstandingDamage := core.TernaryFloat64(dot.IsActive(), dot.SnapshotBaseDamage*float64(dot.NumberOfTicks-dot.TickCount), 0)
 
+	var munchPenalty float64
+	if mage.Options.IgniteMunching && sim.CurrentTime <= mage.igniteMunchTime+IgniteMunchWindow {
+		munchPenalty = mage.igniteMunchDmg
+		if munchPenalty > 0 && sim.Log != nil {
+			mage.Log(sim, fmt.Sprintf("Ignite munched: %0.01f", mage.igniteMunchDmg))
+		}
+	}
+
 	dot.SnapshotAttackerMultiplier = 1
-	dot.SnapshotBaseDamage = (outstandingDamage + newDamage) / float64(IgniteTicks)
+	dot.SnapshotBaseDamage = (outstandingDamage + newDamage - munchPenalty) / float64(IgniteTicks)
+	mage.igniteMunchDmg = newDamage
+	mage.igniteMunchTime = sim.CurrentTime
 	mage.Ignite.Cast(sim, result.Target)
 }
 

@@ -3,8 +3,8 @@ package deathknight
 import (
 	"time"
 
-	"github.com/wowsims/wotlk/sim/core"
-	"github.com/wowsims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 )
 
 var ScourgeStrikeActionID = core.ActionID{SpellID: 55271}

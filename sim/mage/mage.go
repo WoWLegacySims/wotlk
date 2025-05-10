@@ -1,11 +1,13 @@
 package mage
 
 import (
-	"github.com/wowsims/wotlk/sim/common/wotlk"
+	"time"
 
-	"github.com/wowsims/wotlk/sim/core"
-	"github.com/wowsims/wotlk/sim/core/proto"
-	"github.com/wowsims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/common/wotlk"
+
+	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
 const (
@@ -41,6 +43,9 @@ type Mage struct {
 
 	waterElemental *WaterElemental
 	mirrorImage    *MirrorImage
+
+	igniteMunchDmg  float64
+	igniteMunchTime time.Duration
 
 	// Cached values for a few mechanics.
 	bonusCritDamage float64
@@ -134,6 +139,8 @@ func (mage *Mage) Initialize() {
 }
 
 func (mage *Mage) Reset(sim *core.Simulation) {
+	mage.igniteMunchDmg = 0
+	mage.igniteMunchTime = 0
 }
 
 func NewMage(character *core.Character, options *proto.Player) *Mage {

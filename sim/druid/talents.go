@@ -4,9 +4,8 @@ import (
 	"math"
 	"time"
 
-	"github.com/wowsims/wotlk/sim/core"
-	"github.com/wowsims/wotlk/sim/core/proto"
-	"github.com/wowsims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
 func (druid *Druid) ThickHideMultiplier() float64 {
@@ -384,8 +383,6 @@ func (druid *Druid) applyOmenOfClarity() {
 		}
 	}
 
-	hasOocGlyph := druid.HasMajorGlyph(proto.DruidMajorGlyph_GlyphOfOmenOfClarity)
-
 	druid.RegisterAura(core.Aura{
 		Label:    "Omen of Clarity",
 		Duration: core.NeverExpires,
@@ -434,11 +431,6 @@ func (druid *Druid) applyOmenOfClarity() {
 				if sim.RandomFloat("Clearcasting") < chanceToProc {
 					druid.ProcOoc(sim)
 				}
-			}
-		},
-		OnCastComplete: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell) {
-			if druid.FaerieFire.IsEqual(spell) && druid.InForm(Cat|Bear) && hasOocGlyph {
-				druid.ProcOoc(sim)
 			}
 		},
 	})

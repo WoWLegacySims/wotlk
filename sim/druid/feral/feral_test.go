@@ -3,9 +3,9 @@ package feral
 import (
 	"testing"
 
-	_ "github.com/wowsims/wotlk/sim/common"
-	"github.com/wowsims/wotlk/sim/core"
-	"github.com/wowsims/wotlk/sim/core/proto"
+	_ "github.com/WoWLegacySims/wotlk/sim/common"
+	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 )
 
 func init() {
@@ -91,7 +91,7 @@ func BenchmarkSimulate(b *testing.B) {
 
 var StandardTalents = "-503202132322010053120230310511-205503012"
 var StandardGlyphs = &proto.Glyphs{
-	Major1: int32(proto.DruidMajorGlyph_GlyphOfOmenOfClarity),
+	Major1: int32(proto.DruidMajorGlyph_GlyphOfRip),
 	Major2: int32(proto.DruidMajorGlyph_GlyphOfShred),
 	Major3: int32(proto.DruidMajorGlyph_GlyphOfBerserk),
 	Minor1: int32(proto.DruidMinorGlyph_GlyphOfTheWild),

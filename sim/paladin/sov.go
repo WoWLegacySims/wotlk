@@ -3,9 +3,9 @@ package paladin
 import (
 	"time"
 
-	"github.com/wowsims/wotlk/sim/core"
-	"github.com/wowsims/wotlk/sim/core/proto"
-	"github.com/wowsims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
 func (paladin *Paladin) registerSealOfVengeanceSpellAndAura() {
@@ -195,8 +195,6 @@ func (paladin *Paladin) registerSealOfVengeanceSpellAndAura() {
 
 			dotApplicableSpells := []*core.Spell{
 				paladin.HammerOfTheRighteous,
-				paladin.CrusaderStrike,
-				paladin.DivineStorm,
 				paladin.HammerOfWrath,
 				paladin.ShieldOfRighteousness,
 			}

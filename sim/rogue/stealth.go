@@ -1,7 +1,7 @@
 package rogue
 
 import (
-	"github.com/wowsims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core"
 )
 
 func (rogue *Rogue) registerStealthAura() {

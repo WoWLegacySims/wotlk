@@ -1,17 +1,10 @@
-import { getWowheadLanguagePrefix } from '../constants/lang.js';
-import { ActionID as ActionIdProto } from '../proto/common.js';
+import { CHARACTER_LEVEL } from '../constants/mechanics.js';
 import { ResourceType } from '../proto/api.js';
-import { OtherAction } from '../proto/common.js';
-import { IconData } from '../proto/ui.js';
-import {
+import { ActionID as ActionIdProto , OtherAction } from '../proto/common.js';
+import { IconData ,
 	UIItem as Item,
 } from '../proto/ui.js';
-
 import { Database } from './database.js';
-import { CHARACTER_LEVEL } from '../constants/mechanics.js';
-
-// If true uses wotlkdb.com, else uses wowhead.com.
-export const USE_WOTLK_DB = false;
 
 // Uniquely identifies a specific item / spell / thing in WoW. This object is immutable.
 export class ActionId {
@@ -137,44 +130,19 @@ export class ActionId {
 	}
 
 	static makeItemUrl(id: number): string {
-		const langPrefix = getWowheadLanguagePrefix();
-		if (USE_WOTLK_DB) {
-			return 'https://wotlkdb.com/?item=' + id;
-		} else {
-			return `https://wowhead.com/wotlk/${langPrefix}item=${id}?lvl=${CHARACTER_LEVEL}`;
-		}
+		return `https://wowgaming.altervista.org/aowow/?item=${id}`;
 	}
 	static makeSpellUrl(id: number): string {
-		const langPrefix = getWowheadLanguagePrefix();
-		if (USE_WOTLK_DB) {
-			return 'https://wotlkdb.com/?spell=' + id;
-		} else {
-			return `https://wowhead.com/wotlk/${langPrefix}spell=${id}`;
-		}
+		return `https://wowgaming.altervista.org/aowow/?spell=${id}`;
 	}
 	static makeQuestUrl(id: number): string {
-		const langPrefix = getWowheadLanguagePrefix();
-		if (USE_WOTLK_DB) {
-			return 'https://wotlkdb.com/?quest=' + id;
-		} else {
-			return `https://wowhead.com/wotlk/${langPrefix}quest=${id}`;
-		}
+		return `https://wowgaming.altervista.org/aowow/?quest=${id}`;
 	}
 	static makeNpcUrl(id: number): string {
-		const langPrefix = getWowheadLanguagePrefix();
-		if (USE_WOTLK_DB) {
-			return 'https://wotlkdb.com/?npc=' + id;
-		} else {
-			return `https://wowhead.com/wotlk/${langPrefix}npc=${id}`;
-		}
+		return `https://wowgaming.altervista.org/aowow/?npc=${id}`;
 	}
 	static makeZoneUrl(id: number): string {
-		const langPrefix = getWowheadLanguagePrefix();
-		if (USE_WOTLK_DB) {
-			return 'https://wotlkdb.com/?zone=' + id;
-		} else {
-			return `https://wowhead.com/wotlk/${langPrefix}zone=${id}`;
-		}
+		return `https://wowgaming.altervista.org/aowow/?zone=${id}`;
 	}
 
 	setWowheadHref(elem: HTMLAnchorElement) {
@@ -595,11 +563,7 @@ export class ActionId {
 	}
 
 	private static makeIconUrl(iconLabel: string): string {
-		if (USE_WOTLK_DB) {
-			return `https://wotlkdb.com/static/images/wow/icons/large/${iconLabel}.jpg`;
-		} else {
-			return `https://wow.zamimg.com/images/wow/icons/large/${iconLabel}.jpg`;
-		}
+		return `https://wow.zamimg.com/images/wow/icons/large/${iconLabel}.jpg`;
 	}
 
 	static async getTooltipData(actionId: ActionId): Promise<IconData> {
@@ -679,7 +643,7 @@ const petNameToIcon: Record<string, string> = {
 	'Worm': 'https://wow.zamimg.com/images/wow/icons/medium/ability_hunter_pet_worm.jpg',
 };
 
-export function getPetIconFromName(name: string): string|ActionId|undefined {
+export function getPetIconFromName(name: string): string | ActionId | undefined {
 	return petNameToActionId[name] || petNameToIcon[name];
 }
 
@@ -692,8 +656,8 @@ export const resourceTypeToIcon: Record<ResourceType, string> = {
 	[ResourceType.ResourceTypeComboPoints]: 'https://wow.zamimg.com/images/wow/icons/medium/inv_mace_2h_pvp410_c_01.jpg',
 	[ResourceType.ResourceTypeFocus]: 'https://wow.zamimg.com/images/wow/icons/medium/ability_hunter_focusfire.jpg',
 	[ResourceType.ResourceTypeRunicPower]: 'https://wow.zamimg.com/images/wow/icons/medium/inv_sword_62.jpg',
-	[ResourceType.ResourceTypeBloodRune]: '/wotlk/assets/img/blood_rune.png',
-	[ResourceType.ResourceTypeFrostRune]: '/wotlk/assets/img/frost_rune.png',
-	[ResourceType.ResourceTypeUnholyRune]: '/wotlk/assets/img/unholy_rune.png',
-	[ResourceType.ResourceTypeDeathRune]: '/wotlk/assets/img/death_rune.png',
+	[ResourceType.ResourceTypeBloodRune]: '/wotlk/BRANCH/assets/img/blood_rune.png',
+	[ResourceType.ResourceTypeFrostRune]: '/wotlk/BRANCH/assets/img/frost_rune.png',
+	[ResourceType.ResourceTypeUnholyRune]: '/wotlk/BRANCH/assets/img/unholy_rune.png',
+	[ResourceType.ResourceTypeDeathRune]: '/wotlk/BRANCH/assets/img/death_rune.png',
 };

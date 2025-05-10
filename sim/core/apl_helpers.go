@@ -1,7 +1,7 @@
 package core
 
 import (
-	"github.com/wowsims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 )
 
 // Struct for handling unit references, to account for values that can

@@ -1,23 +1,21 @@
-Welcome to the WoW WOTLK Classic simulator! If you have questions or are thinking about contributing, [join our discord](https://discord.gg/jJMPr9JWwx "https://discord.gg/jJMPr9JWwx") to chat!
+Welcome to the WoW WOTLK simulator!
 
 The primary goal of this project is to provide a framework that makes it easy to build a DPS sim for any class/spec, with a polished UI and accurate results. Each community will have ownership / responsibility over their portion of the sim, to ensure accuracy and that their community is represented. By having all the individual sims on the same engine, we can also have a combined 'raid sim' for testing raid compositions.
 
 This project is licensed with MIT license. We request that anyone using this software in their own project to make sure there is a user visible link back to the original project.
 
-[Live sims can be found here.](https://wowsims.github.io/wotlk "https://wowsims.github.io/wotlk")
-
-[Support our devs via Patreon.](https://www.patreon.com/wowsims)
+[Live sims can be found here.](https://WoWLegacySims.github.io/sims/wotlk "https://WoWLegacySims.github.io/sims/wotlk")
 
 # Downloading Sim
 
 Links for latest Sim build:
-- [Windows Sim](https://github.com/wowsims/wotlk/releases/latest/download/wowsimwotlk-windows.exe.zip)
-- [MacOS Sim](https://github.com/wowsims/wotlk/releases/latest/download/wowsimwotlk-amd64-darwin.zip)
-- [Linux Sim](https://github.com/wowsims/wotlk/releases/latest/download/wowsimwotlk-amd64-linux.zip)
+- [Windows Sim](https://github.com/WoWLegacySims/wotlk/releases/latest/download/wotlk-windows.exe.zip)
+- [MacOS Sim](https://github.com/WoWLegacySims/wotlk/releases/latest/download/wotlk-amd64-darwin.zip)
+- [Linux Sim](https://github.com/WoWLegacySims/wotlk/releases/latest/download/wotlk-amd64-linux.zip)
 
 Then unzip the downloaded file, then open the unzipped file to open the sim in your browser!
 
-Alternatively, you can choose from a specific relase on the [Releases](https://github.com/wowsims/wotlk/releases) page and click the suitable link under "Assets"
+Alternatively, you can choose from a specific relase on the [Releases](https://github.com/WoWLegacySims/wotlk/releases) page and click the suitable link under "Assets"
 # Local Dev Installation
 
 This project has dependencies on Go >=1.21, protobuf-compiler and the corresponding Go plugins, and node >= 14.0.
@@ -28,7 +26,7 @@ Script below will curl latest versions and install them.
 ```sh
 # Standard Go installation script
 curl -O https://dl.google.com/go/go1.21.1.linux-amd64.tar.gz
-sudo rm -rf /usr/local/go 
+sudo rm -rf /usr/local/go
 sudo tar -C /usr/local -xzf go1.21.1.linux-amd64.tar.gz
 echo 'export PATH=$PATH:/usr/local/go/bin' >> $HOME/.bashrc
 echo 'export GOPATH=$HOME/go' >> $HOME/.bashrc
@@ -54,16 +52,16 @@ npm install
 ## Docker
 Alternatively, install Docker and your workflow will look something like this:
 ```sh
-git clone https://github.com/wowsims/wotlk.git
+git clone https://github.com/WoWLegacySims/wotlk.git
 cd wotlk
 
 # Build the docker image and install npm dependencies (only need to run these once).
-docker build --tag wowsims-wotlk .
-docker run --rm -v $(pwd):/wotlk wowsims-wotlk npm install
+docker build --tag wotlk .
+docker run --rm -v $(pwd):/wotlk wotlk npm install
 
-# Now you can run the commands as shown in the Commands sections, preceding everything with, "docker run --rm -it -p 8080:8080 -v $(pwd):/wotlk wowsims-wotlk".
+# Now you can run the commands as shown in the Commands sections, preceding everything with, "docker run --rm -it -p 8080:8080 -v $(pwd):/wotlk wotlk".
 # For convenience, set this as an environment variable:
-WOTLK_CMD="docker run --rm -it -p 8080:8080 -v $(pwd):/wotlk wowsims-wotlk"
+WOTLK_CMD="docker run --rm -it -p 8080:8080 -v $(pwd):/wotlk wotlk"
 
 # ... do some coding on the sim ...
 
@@ -113,7 +111,7 @@ make clean
 # Recompiles the ts only for the given spec (e.g. make host_elemental_shaman)
 make host_$spec
 
-# Recompiles the `wowsimwotlk` server binary and runs it, hosting /dist directory at http://localhost:3333/wotlk. 
+# Recompiles the `wowsimwotlk` server binary and runs it, hosting /dist directory at http://localhost:3333/wotlk.
 # This is the fastest way to iterate on core go simulator code so you don't have to wait for client rebuilds.
 # To rebuild client for a spec just do 'make $spec' and refresh browser.
 make rundevserver
@@ -126,7 +124,7 @@ WATCH=1 make rundevserver
 # It does this by first doing make dist/wotlk and then copying all those files to binary_dist/wotlk and loading all the files in that directory into its binary on compile.
 make wowsimwotlk
 
-# Using the --usefs flag will instead of hosting the client built into the binary, it will host whatever code is found in the /dist directory. 
+# Using the --usefs flag will instead of hosting the client built into the binary, it will host whatever code is found in the /dist directory.
 # Use --wasm to host the client with the wasm simulator.
 # The server also disables all caching so that refreshes should pickup any changed files in dist/. The client will still call to the server to run simulations so you can iterate more quickly on client changes.
 # make dist/wotlk && ./wowsimwotlk --usefs would rebuild the whole client and host it. (you would have had to run `make devserver` to build the wowsimwotlk binary first.)

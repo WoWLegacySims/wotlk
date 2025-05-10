@@ -1,12 +1,12 @@
-import path from "path";
 import glob from "glob";
+import path from "path";
 import { defineConfig } from 'vite'
 
 export default defineConfig(({ command, mode }) => ({
-	base: "/wotlk/",
+	base: "/wotlk/BRANCH/",
 	root: path.join(__dirname, "ui"),
 	build: {
-		outDir: path.join(__dirname, "dist", "wotlk"),
+		outDir: path.join(__dirname, "dist", "wotlk/BRANCH"),
 		minify: mode === "development" ? false : "terser",
 		sourcemap: command === "serve" ? "inline" : "false",
 		target: ["es2020"],

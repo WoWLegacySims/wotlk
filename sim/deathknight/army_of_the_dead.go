@@ -3,7 +3,7 @@ package deathknight
 import (
 	"time"
 
-	"github.com/wowsims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core"
 )
 
 func (dk *Deathknight) registerArmyOfTheDeadCD() {

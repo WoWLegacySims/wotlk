@@ -1,4 +1,4 @@
-OUT_DIR := dist/wotlk
+OUT_DIR := dist/wotlk/BRANCH
 TS_CORE_SRC := $(shell find ui/core -name '*.ts' -type f)
 ASSETS_INPUT := $(shell find assets/ -type f)
 ASSETS := $(patsubst assets/%,$(OUT_DIR)/assets/%,$(ASSETS_INPUT))
@@ -99,7 +99,7 @@ node_modules: package-lock.json
 # Generic rule for hosting any class directory
 .PHONY: host_%
 host_%: $(OUT_DIR) node_modules
-	npx http-server $(OUT_DIR)/..
+	npx http-server $(OUT_DIR)
 
 # Generic rule for building index.html for any class directory
 $(OUT_DIR)/%/index.html: ui/index_template.html $(OUT_DIR)/assets
@@ -120,7 +120,7 @@ $(OUT_DIR)/lib.wasm: sim/wasm/* sim/core/proto/api.pb.go $(filter-out sim/core/i
 		printf "\033[1;31mWASM COMPILE FAILED\033[0m\n"; \
 		exit 1; \
 	fi
-	
+
 $(OUT_DIR)/assets/%: assets/%
 	mkdir -p $(@D)
 	cp $< $@
@@ -253,5 +253,5 @@ ifeq ($(WATCH), 1)
 else
 	# Intentionally serve one level up, so the local site has 'wotlk' as the first
 	# directory just like github pages.
-	npx http-server $(OUT_DIR)/..
+	npx http-server $(OUT_DIR)/../..
 endif

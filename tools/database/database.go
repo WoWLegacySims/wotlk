@@ -7,8 +7,8 @@ import (
 	"os"
 	"slices"
 
-	"github.com/wowsims/wotlk/sim/core/proto"
-	"github.com/wowsims/wotlk/tools"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/tools"
 	"golang.org/x/exp/maps"
 	"google.golang.org/protobuf/encoding/protojson"
 	googleProto "google.golang.org/protobuf/proto"
@@ -84,6 +84,7 @@ func (db *WowDatabase) MergeItem(src *proto.UIItem) {
 			dst.SocketBonus = src.SocketBonus
 			src.SocketBonus = nil
 		}
+		src.Ilvl = dst.Ilvl
 		googleProto.Merge(dst, src)
 	} else {
 		db.Items[src.Id] = src

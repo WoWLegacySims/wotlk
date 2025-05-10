@@ -1,10 +1,13 @@
 package warrior
 
 import (
+	"fmt"
 	"time"
 
-	"github.com/wowsims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core"
 )
+
+const munchingWindow = time.Millisecond * 20
 
 func (warrior *Warrior) applyDeepWounds() {
 	if warrior.Talents.DeepWounds == 0 {
@@ -46,7 +49,7 @@ func (warrior *Warrior) applyDeepWounds() {
 			aura.Activate(sim)
 		},
 		OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-			if spell.ProcMask.Matches(core.ProcMaskEmpty) || !spell.SpellSchool.Matches(core.SpellSchoolPhysical) {
+			if spell.ProcMask.Matches(core.ProcMaskEmpty) {
 				return
 			}
 			if result.Outcome.Matches(core.OutcomeCrit) {
@@ -74,7 +77,17 @@ func (warrior *Warrior) procDeepWounds(sim *core.Simulation, target *core.Unit, 
 	}
 	newDamage := awd * 0.16 * float64(warrior.Talents.DeepWounds)
 
-	dot.SnapshotBaseDamage = (outstandingDamage + newDamage) / float64(dot.NumberOfTicks)
+	var munchPenalty float64
+	if warrior.WarriorInputs.Munch && sim.CurrentTime <= warrior.munchTime+munchingWindow {
+		munchPenalty = warrior.munchDmg
+		if munchPenalty > 0 && sim.Log != nil {
+			warrior.Log(sim, fmt.Sprintf("Deep Wounds munched: %0.01f", warrior.munchDmg))
+		}
+	}
+
+	dot.SnapshotBaseDamage = (outstandingDamage + newDamage - munchPenalty) / float64(dot.NumberOfTicks)
+	warrior.munchDmg = newDamage
+	warrior.munchTime = sim.CurrentTime
 	dot.SnapshotAttackerMultiplier = 1
 	warrior.DeepWounds.Cast(sim, target)
 }

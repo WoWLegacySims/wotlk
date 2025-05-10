@@ -19,12 +19,12 @@ import (
 	"syscall"
 	"time"
 
+	dist "github.com/WoWLegacySims/wotlk/binary_dist"
+	"github.com/WoWLegacySims/wotlk/sim"
+	"github.com/WoWLegacySims/wotlk/sim/core"
+	proto "github.com/WoWLegacySims/wotlk/sim/core/proto"
 	uuid "github.com/google/uuid"
 	"github.com/pkg/browser"
-	dist "github.com/wowsims/wotlk/binary_dist"
-	"github.com/wowsims/wotlk/sim"
-	"github.com/wowsims/wotlk/sim/core"
-	proto "github.com/wowsims/wotlk/sim/core/proto"
 
 	googleProto "google.golang.org/protobuf/proto"
 )
@@ -54,7 +54,7 @@ func main() {
 	fmt.Printf("Version: %s\n", Version)
 	if !*skipVersionCheck && Version != "development" {
 		go func() {
-			resp, err := http.Get("https://api.github.com/repos/wowsims/wotlk/releases/latest")
+			resp, err := http.Get("https://api.github.com/repos/WoWLegacySims/wotlk/releases/latest")
 			if err != nil {
 				return
 			}

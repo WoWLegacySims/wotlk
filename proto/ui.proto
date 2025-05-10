@@ -96,8 +96,6 @@ enum DungeonDifficulty {
 	DifficultyUnknown = 0;
 	DifficultyNormal = 1;
 	DifficultyHeroic = 2;
-	DifficultyTitanRuneAlpha = 7;
-	DifficultyTitanRuneBeta = 8;
 	DifficultyRaid10 = 3;
 	DifficultyRaid10H = 4;
 	DifficultyRaid25 = 5;
@@ -214,8 +212,6 @@ enum SourceFilterOption {
 	SourceQuest = 2;
 	SourceDungeon = 3;
 	SourceDungeonH = 4;
-	SourceDungeonTRA = 9;
-	SourceDungeonTRB = 10;
 	SourceRaid10 = 5;
 	SourceRaid10H = 6;
 	SourceRaid25 = 7;
