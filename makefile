@@ -126,18 +126,18 @@ $(OUT_DIR)/assets/%: assets/%
 	cp $< $@
 
 binary_dist/dist.go: sim/web/dist.go.tmpl
-	mkdir -p binary_dist/wotlk
-	touch binary_dist/wotlk/embedded
+	mkdir -p binary_dist/BRANCH
+	touch binary_dist/BRANCH/embedded
 	cp sim/web/dist.go.tmpl binary_dist/dist.go
 
 binary_dist: $(OUT_DIR)/.dirstamp
 	rm -rf binary_dist
 	mkdir -p binary_dist
 	cp -r $(OUT_DIR) binary_dist/
-	rm binary_dist/wotlk/lib.wasm
-	rm -rf binary_dist/wotlk/assets/db_inputs
-	rm binary_dist/wotlk/assets/database/db.bin
-	rm binary_dist/wotlk/assets/database/leftover_db.bin
+	rm binary_dist/BRANCH/lib.wasm
+	rm -rf binary_dist/BRANCH/assets/db_inputs
+	rm binary_dist/BRANCH/assets/database/db.bin
+	rm binary_dist/BRANCH/assets/database/leftover_db.bin
 
 # Rebuild the protobuf generated code.
 .PHONY: proto
