@@ -1,4 +1,3 @@
-import { CHARACTER_LEVEL } from '../constants/mechanics.js';
 import { ResourceType } from '../proto/api.js';
 import { ActionID as ActionIdProto , OtherAction } from '../proto/common.js';
 import { IconData ,

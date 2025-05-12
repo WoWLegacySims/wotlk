@@ -1,30 +1,27 @@
+import * as BuffDebuffInputs from '../core/components/inputs/buffs_debuffs.js';
+import * as OtherInputs from '../core/components/other_inputs.js';
+import * as Ratings from '../core/constants/ratings.js';
+import { IndividualSimUI, registerSpecConfig } from '../core/individual_sim_ui.js';
+import { Player } from '../core/player.js';
+import {
+	APLRotation,
+} from '../core/proto/apl.js';
 import {
 	Class,
 	Debuffs,
 	Faction,
 	IndividualBuffs,
 	PartyBuffs,
+PseudoStat,
 	Race,
 	RaidBuffs,
 	Spec,
-	Stat, PseudoStat,
-	TristateEffect,
+	Stat, 	TristateEffect,
 } from '../core/proto/common.js';
-import {
-	APLRotation,
-} from '../core/proto/apl.js';
-import { Stats } from '../core/proto_utils/stats.js';
-import { Player } from '../core/player.js';
-import { getSpecIcon } from '../core/proto_utils/utils.js';
-import { IndividualSimUI, registerSpecConfig } from '../core/individual_sim_ui.js';
-import { TypedEvent } from '../core/typed_event.js';
-
-import * as BuffDebuffInputs from '../core/components/inputs/buffs_debuffs.js';
-import * as OtherInputs from '../core/components/other_inputs.js';
-import * as Mechanics from '../core/constants/mechanics.js';
-
 import { PaladinMajorGlyph, PaladinSeal } from '../core/proto/paladin.js';
-
+import { Stats } from '../core/proto_utils/stats.js';
+import { getSpecIcon } from '../core/proto_utils/utils.js';
+import { TypedEvent } from '../core/typed_event.js';
 import * as RetributionPaladinInputs from './inputs.js';
 import * as Presets from './presets.js';
 
@@ -81,7 +78,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecRetributionPaladin, {
 
 		TypedEvent.freezeAllAndDo(() => {
 			if (player.getMajorGlyphs().includes(PaladinMajorGlyph.GlyphOfSealOfVengeance) && (player.getSpecOptions().seal == PaladinSeal.Vengeance)) {
-				stats = stats.addStat(Stat.StatExpertise, 10 * Mechanics.EXPERTISE_PER_QUARTER_PERCENT_REDUCTION);
+				stats = stats.addStat(Stat.StatExpertise, 10 * Ratings.GET_EXPERTISE_PER_QUARTER_PERCENT_REDUCTION(player.getLevel()));
 			}
 		})
 

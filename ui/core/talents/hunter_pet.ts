@@ -1,17 +1,14 @@
-import { Spec } from '../proto/common.js';
-import { HunterPetTalents, Hunter_Options_PetType as PetType } from '../proto/hunter.js';
-import { Player } from '../player.js';
 import { Component } from '../components/component.js';
-import { SavedDataManager } from '../components/saved_data_manager.js';
-import { EventID, TypedEvent } from '../typed_event.js';
-import { ActionId } from '../proto_utils/action_id.js';
-
-import { TalentsConfig, TalentsPicker, newTalentsConfig } from './talents_picker.js';
-import { protoToTalentString, talentStringToProto } from './factory.js';
-
 import * as InputHelpers from '../components/input_helpers.js';
+import { SavedDataManager } from '../components/saved_data_manager.js';
+import { Player } from '../player.js';
+import { Spec } from '../proto/common.js';
+import { Hunter_Options_PetType as PetType,HunterPetTalents } from '../proto/hunter.js';
+import { ActionId } from '../proto_utils/action_id.js';
 import { SimUI } from '../sim_ui.js';
-
+import { EventID, TypedEvent } from '../typed_event.js';
+import { protoToTalentString, talentStringToProto } from './factory.js';
+import { newTalentsConfig,TalentsConfig, TalentsPicker } from './talents_picker.js';
 import HunterPetCunningJson from './trees/hunter_cunning.json'
 import HunterPetFerocityJson from './trees/hunter_ferocity.json'
 import HunterPetTenacityJson from './trees/hunter_tenacity.json'
@@ -150,7 +147,7 @@ export class HunterPetTalentsPicker extends Component {
 					this.curTalents = options.petTalents;
 				},
 				pointsPerRow: 3,
-				maxPoints: 16,
+				maxPoints: player.getMaxPetTalentPoints(),
 			});
 
 			const savedTalentsManager = new SavedDataManager<Player<Spec.SpecHunter>, string>(pickerContainer, this.player, {
@@ -209,12 +206,13 @@ export class HunterPetTalentsPicker extends Component {
 			}
 		});
 
-		const updateIsBM = () => {
-			const maxPoints = this.player.getTalents().beastMastery ? 20 : 16;
-			pickers.forEach(picker => picker.setMaxPoints(maxPoints));
+		const updateTalentPoints = () => {
+			pickers.forEach(picker => picker.setMaxPoints(player.getMaxPetTalentPoints()));
 		};
-		player.talentsChangeEmitter.on(updateIsBM);
-		updateIsBM();
+		TypedEvent.onAny([player.talentsChangeEmitter, player.levelChangeEmitter]).on(() => {
+			updateTalentPoints();
+		});
+		updateTalentPoints();
 	}
 
 	getPetTalentsFromPlayer(): HunterPetTalents {

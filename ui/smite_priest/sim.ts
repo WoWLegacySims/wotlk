@@ -1,3 +1,10 @@
+import * as OtherInputs from '../core/components/other_inputs.js';
+import * as Ratings from '../core/constants/ratings.js';
+import { IndividualSimUI, registerSpecConfig } from '../core/individual_sim_ui.js';
+import { Player } from '../core/player.js';
+import {
+	APLRotation,
+} from '../core/proto/apl.js';
 import {
 	Class,
 	Faction,
@@ -6,19 +13,10 @@ import {
 	Spec,
 	Stat,
 } from '../core/proto/common.js';
-import {
-	APLRotation,
-} from '../core/proto/apl.js';
 import { Stats } from '../core/proto_utils/stats.js';
-import { Player } from '../core/player.js';
 import { getSpecIcon, specNames } from '../core/proto_utils/utils.js';
-import { IndividualSimUI, registerSpecConfig } from '../core/individual_sim_ui.js';
-
-import * as OtherInputs from '../core/components/other_inputs.js';
-import * as Mechanics from '../core/constants/mechanics.js';
-
-import * as SmitePriestInputs from './inputs.js';
 import * as ShadowPresets from '../shadow_priest/presets.js';
+import * as SmitePriestInputs from './inputs.js';
 import * as Presets from './presets.js';
 
 const SPEC_CONFIG = registerSpecConfig(Spec.SpecSmitePriest, {
@@ -54,7 +52,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecSmitePriest, {
 	],
 	modifyDisplayStats: (player: Player<Spec.SpecSmitePriest>) => {
 		let stats = new Stats();
-		stats = stats.addStat(Stat.StatSpellHit, player.getTalents().shadowFocus * 1 * Mechanics.SPELL_HIT_RATING_PER_HIT_CHANCE);
+		stats = stats.addStat(Stat.StatSpellHit, player.getTalents().shadowFocus * 1 * Ratings.GET_SPELL_HIT_RATING_PER_HIT_CHANCE(player.getLevel()));
 
 		return {
 			talents: stats,

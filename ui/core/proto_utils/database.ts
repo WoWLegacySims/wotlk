@@ -1,4 +1,3 @@
-import { CHARACTER_LEVEL } from '../constants/mechanics.js';
 import {
 	EquipmentSpec,
 	GemColor,

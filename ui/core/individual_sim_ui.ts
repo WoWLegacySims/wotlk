@@ -257,16 +257,19 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 			},
 		});
 		this.addWarning({
-			updateOn: this.player.talentsChangeEmitter,
+			updateOn: TypedEvent.onAny([
+				this.player.levelChangeEmitter,
+				this.player.talentsChangeEmitter,
+			]),
 			getContent: () => {
 				const talentPoints = getTalentPoints(this.player.getTalentsString());
 
 				if (talentPoints == 0) {
 					// Just return here, so we don't show a warning during page load.
 					return '';
-				} else if (talentPoints < Mechanics.MAX_TALENT_POINTS) {
+				} else if (talentPoints < player.getMaxTalentPoints()) {
 					return 'Unspent talent points.';
-				} else if (talentPoints > Mechanics.MAX_TALENT_POINTS) {
+				} else if (talentPoints > player.getMaxTalentPoints()) {
 					return 'More than maximum talent points spent.';
 				} else {
 					return '';

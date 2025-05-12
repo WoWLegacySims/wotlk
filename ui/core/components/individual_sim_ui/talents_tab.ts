@@ -1,20 +1,16 @@
+import * as Mechanics from '../../constants/mechanics';
 import { IndividualSimUI } from "../../individual_sim_ui";
 import { Player } from "../../player";
-import { EventID, TypedEvent } from "../../typed_event";
-
 import { Class, Glyphs, Spec } from "../../proto/common";
 import { SavedTalents } from "../../proto/ui";
-
 import { classGlyphsConfig, classTalentsConfig } from "../../talents/factory";
 import { GlyphsPicker } from "../../talents/glyphs_picker";
 import { HunterPetTalentsPicker, makePetTypeInputConfig } from "../../talents/hunter_pet";
 import { TalentsPicker } from "../../talents/talents_picker";
-
+import { EventID, TypedEvent } from "../../typed_event";
 import { IconEnumPicker } from "../icon_enum_picker";
 import { SavedDataManager } from "../saved_data_manager";
 import { SimTab } from "../sim_tab";
-
-import * as Mechanics from '../../constants/mechanics';
 
 export class TalentsTab extends SimTab {
 	protected simUI: IndividualSimUI<Spec>;
@@ -58,7 +54,7 @@ export class TalentsTab extends SimTab {
         player.setTalentsString(eventID, newValue);
       },
       pointsPerRow: 5,
-      maxPoints: Mechanics.MAX_TALENT_POINTS,
+      maxPoints: this.simUI.player.getMaxTalentPoints(),
     });
   }
 
@@ -149,5 +145,5 @@ export class TalentsTab extends SimTab {
 				});
 			});
 		});
-  } 
+  }
 }

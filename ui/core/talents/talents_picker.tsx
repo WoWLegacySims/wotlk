@@ -1,21 +1,16 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { element, fragment, ref } from 'tsx-vanilla';
 import { Tooltip } from 'bootstrap';
+import { element, fragment, ref } from 'tsx-vanilla';
 
 import { Component } from '../components/component.js';
 import { CopyButton } from '../components/copy_button.js';
 import { Input, InputConfig } from '../components/input.js';
+import { Player } from '../player.js';
 import { Class, Spec } from '../proto/common.js';
 import { ActionId } from '../proto_utils/action_id.js';
 import { getSpecIcon } from '../proto_utils/utils.js';
 import { TypedEvent } from '../typed_event.js';
-import { isRightClick } from '../utils.js';
-import { sum } from '../utils.js';
-import { Player } from '../player.js';
-
-const MAX_POINTS_PLAYER = 71;
-const MAX_POINTS_HUNTER_PET = 16;
-const MAX_POINTS_HUNTER_PET_BM = 20;
+import { isRightClick , sum } from '../utils.js';
 
 export interface TalentsPickerConfig<TalentsProto> extends InputConfig<Player<Spec>, string> {
 	klass: Class,
@@ -50,7 +45,8 @@ export class TalentsPicker<TalentsProto> extends Input<Player<Spec>, string> {
 			return <span className="talent-tree-points" ref={pointsRemainingElemRef}>{pointsRemaining}</span>
 		}
 
-		TypedEvent.onAny([player.talentsChangeEmitter]).on(() => {
+		TypedEvent.onAny([player.talentsChangeEmitter, player.levelChangeEmitter]).on(() => {
+			this.maxPoints = player.getMaxTalentPoints();
 			pointsRemainingElemRef.value!.replaceWith(PointsRemainingElem())
 		});
 
@@ -280,9 +276,8 @@ class TalentTreePicker<TalentsProto> extends Component {
 	}
 
 	getMaxSpendablePoints() {
-		if (!this.picker.isHunterPet()) return MAX_POINTS_PLAYER;
-		if ((this.picker.modObject as Player<Spec.SpecHunter>).getTalents().beastMastery) return MAX_POINTS_HUNTER_PET_BM;
-		return MAX_POINTS_HUNTER_PET;
+		if (!this.picker.isHunterPet()) return Math.max(0,this.picker.modObject.getMaxTalentPoints());
+		return this.picker.modObject.getMaxPetTalentPoints();
 	}
 }
 
@@ -405,7 +400,7 @@ class TalentPicker<TalentsProto> extends Component {
 			} else {
 				return;
 			}
-			var newPoints = this.getPoints() + 1;
+			let newPoints = this.getPoints() + 1;
 			if (this.config.maxPoints < newPoints) {
 				newPoints = 0;
 			}
@@ -433,7 +428,7 @@ class TalentPicker<TalentsProto> extends Component {
 	}
 
 	getChildReqArrow(loc: TalentLocation): TalentReqArrow {
-		for (let c of this.childReqs) {
+		for (const c of this.childReqs) {
 			if (c.childLoc === loc) {
 				return c;
 			}
@@ -555,7 +550,7 @@ class TalentPicker<TalentsProto> extends Component {
 	}
 
 	update() {
-		let canSetPoints = this.canSetPoints(this.getPoints() + 1);
+		const canSetPoints = this.canSetPoints(this.getPoints() + 1);
 		if (canSetPoints) {
 			this.rootElem.classList.add('talent-picker-can-add');
 		} else {

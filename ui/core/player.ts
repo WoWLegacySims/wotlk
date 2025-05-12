@@ -1,5 +1,5 @@
 import { getLanguageCode } from './constants/lang.js';
-import * as Mechanics from './constants/mechanics.js';
+import * as Ratings from './constants/ratings.js';
 import { MAX_PARTY_SIZE,Party } from './party.js';
 import {
 	AuraStats as AuraStatsProto,
@@ -326,6 +326,7 @@ export class Player<SpecType extends Spec> {
 			this.itemSwapChangeEmitter,
 			this.professionChangeEmitter,
 			this.raceChangeEmitter,
+			this.levelChangeEmitter,
 			this.rotationChangeEmitter,
 			this.talentsChangeEmitter,
 			this.glyphsChangeEmitter,
@@ -678,9 +679,9 @@ export class Player<SpecType extends Spec> {
 	}
 
 	getMeleeCritCapInfo(): MeleeCritCapInfo {
-		const meleeCrit = (this.currentStats.finalStats?.stats[Stat.StatMeleeCrit] || 0.0) / Mechanics.MELEE_CRIT_RATING_PER_CRIT_CHANCE;
-		const meleeHit = (this.currentStats.finalStats?.stats[Stat.StatMeleeHit] || 0.0) / Mechanics.MELEE_HIT_RATING_PER_HIT_CHANCE;
-		const expertise = (this.currentStats.finalStats?.stats[Stat.StatExpertise] || 0.0) / Mechanics.EXPERTISE_PER_QUARTER_PERCENT_REDUCTION / 4;
+		const meleeCrit = (this.currentStats.finalStats?.stats[Stat.StatMeleeCrit] || 0.0) / Ratings.GET_CRIT_RATING_PER_CRIT_CHANCE(this.getLevel());
+		const meleeHit = (this.currentStats.finalStats?.stats[Stat.StatMeleeHit] || 0.0) / Ratings.GET_MELEE_HIT_RATING_PER_HIT_CHANCE(this.getLevel());
+		const expertise = (this.currentStats.finalStats?.stats[Stat.StatExpertise] || 0.0) / Ratings.GET_EXPERTISE_PER_QUARTER_PERCENT_REDUCTION(this.getLevel()) / 4;
 		//const agility = (this.currentStats.finalStats?.stats[Stat.StatAgility] || 0.0) / this.getClass();
 		const suppression = 4.8;
 		const glancing = 24.0;
@@ -824,6 +825,17 @@ export class Player<SpecType extends Spec> {
 			this.talents = playerTalentStringToProto(this.spec, this.talentsString) as SpecTalents<SpecType>;
 		}
 		return this.talents!;
+	}
+
+	getMaxTalentPoints(): number {
+		return Math.max(0, this.getLevel()-9);
+	}
+
+	getMaxPetTalentPoints(): number {
+		if (this.spec != Spec.SpecHunter) return 0;
+		let points = Math.floor(this.getLevel()/4);
+		if (!(this as Player<Spec.SpecHunter>).getTalents().beastMastery) points -= 4;
+		return Math.max(0,points);
 	}
 
 	getTalentsString(): string {
