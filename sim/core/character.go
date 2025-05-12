@@ -146,8 +146,7 @@ func NewCharacter(party *Party, partyIndex int, player *proto.Player) Character 
 	if player.Consumes != nil {
 		character.Consumes = player.Consumes
 	}
-
-	character.baseStats = BaseStats[BaseStatsKey{Race: character.Race, Class: character.Class}]
+	character.baseStats = MakeBaseStats(character.Race, character.Class, character.Level)
 
 	character.AddStats(character.baseStats)
 	character.addUniversalStatDependencies()
