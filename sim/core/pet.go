@@ -97,7 +97,7 @@ func NewPet(name string, owner *Character, baseStats stats.Stats, basePercentage
 		stats.Block:      pet.BlockRatingPerBlockChance,
 		stats.Resilience: pet.ResilienceRatingPerCritReductionChance,
 	}
-	pet.baseStats.Add(basePercentageStats.DotProduct(statMultiplier))
+	baseStats.Add(basePercentageStats.DotProduct(statMultiplier))
 	pet.GCD = pet.NewTimer()
 
 	pet.AddStats(baseStats)

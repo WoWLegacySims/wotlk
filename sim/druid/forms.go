@@ -72,7 +72,7 @@ func (druid *Druid) GetBearWeapon() core.Weapon {
 func (druid *Druid) GetFormShiftStats() stats.Stats {
 	s := stats.Stats{
 		stats.AttackPower: float64(druid.Talents.PredatoryStrikes) * 0.5 * float64(druid.Level),
-		stats.MeleeCrit:   float64(druid.Talents.SharpenedClaws) * 2,
+		stats.MeleeCrit:   float64(druid.Talents.SharpenedClaws) * 2 * druid.CritRatingPerCritChance,
 	}
 
 	if weapon := druid.GetMHWeapon(); weapon != nil {
@@ -109,7 +109,7 @@ func (druid *Druid) registerCatFormSpell() {
 
 	statBonus := druid.GetFormShiftStats().Add(stats.Stats{
 		stats.AttackPower: float64(druid.Level) * 2,
-		stats.MeleeCrit:   2 * float64(druid.Talents.MasterShapeshifter),
+		stats.MeleeCrit:   2 * float64(druid.Talents.MasterShapeshifter) * druid.CritRatingPerCritChance,
 	})
 
 	agiApDep := druid.NewDynamicStatDependency(stats.Agility, stats.AttackPower, 1)

@@ -579,8 +579,7 @@ func (result *SpellResult) applyEnemyAttackTableParry(spell *Spell, attackTable 
 
 func (result *SpellResult) applyEnemyAttackTableCrit(spell *Spell, _ *AttackTable, roll float64, chance *float64) bool {
 
-	critRating := spell.Unit.stats[stats.MeleeCrit] + spell.BonusCrit*spell.Unit.CritRatingPerCritChance
-	critChance := critRating / (spell.Unit.CritRatingPerCritChance * 100)
+	critChance := (spell.Unit.stats[stats.MeleeCrit]/spell.Unit.CritRatingPerCritChance + spell.BonusCrit) / 100
 	critChance -= result.Target.stats[stats.Defense] * result.Target.GetDefenseRatingToChanceReduction()
 	critChance -= result.Target.stats[stats.Resilience] / result.Target.ResilienceRatingPerCritReductionChance / 100
 	critChance -= result.Target.PseudoStats.ReducedCritTakenChance
