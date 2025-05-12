@@ -78,10 +78,10 @@ func (dk *Deathknight) NewGargoyle() *GargoylePet {
 	// Remove any hit that would be given by NocS as it does not translate to pets
 	var nocsHit float64
 	if dk.nervesOfColdSteelActive() {
-		nocsHit = float64(dk.Talents.NervesOfColdSteel)
+		nocsHit = float64(dk.Talents.NervesOfColdSteel) * dk.MeleeHitRatingPerHitChance
 	}
 	if dk.HasDraeneiHitAura {
-		nocsHit += 1
+		nocsHit += 1 * dk.MeleeHitRatingPerHitChance
 	}
 
 	gargoyle := &GargoylePet{

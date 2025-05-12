@@ -23,10 +23,10 @@ func (dk *Deathknight) NewArmyGhoulPet(_ int) *GhoulPet {
 	// Remove any hit that would be given by NocS as it does not translate to pets
 	var nocsHit float64
 	if dk.nervesOfColdSteelActive() {
-		nocsHit = float64(dk.Talents.NervesOfColdSteel)
+		nocsHit = float64(dk.Talents.NervesOfColdSteel) * dk.MeleeHitRatingPerHitChance
 	}
 	if dk.HasDraeneiHitAura {
-		nocsHit += 1
+		nocsHit += 1 * dk.MeleeHitRatingPerHitChance
 	}
 
 	armyGhoulPetBaseStats := stats.Stats{
@@ -34,12 +34,11 @@ func (dk *Deathknight) NewArmyGhoulPet(_ int) *GhoulPet {
 		stats.Agility:     856,
 		stats.Strength:    0,
 		stats.AttackPower: -20,
+		stats.MeleeHit:    -nocsHit,
+		stats.Expertise:   -nocsHit * dk.GetPetExpertiseScale(),
 	}
 
-	armyGhoulPetBasePercentageStats := stats.Stats{
-		stats.MeleeHit:  -nocsHit,
-		stats.Expertise: -nocsHit * dk.GetPetExpertiseScale(),
-	}
+	armyGhoulPetBasePercentageStats := stats.Stats{}
 
 	ghoulPet := &GhoulPet{
 		Pet:     core.NewPet("Army of the Dead", &dk.Character, armyGhoulPetBaseStats, armyGhoulPetBasePercentageStats, dk.armyGhoulStatInheritance(), false, true),
@@ -78,21 +77,20 @@ func (dk *Deathknight) NewGhoulPet(permanent bool) *GhoulPet {
 	// Remove any hit that would be given by NocS as it does not translate to pets
 	var nocsHit float64
 	if dk.nervesOfColdSteelActive() {
-		nocsHit = float64(dk.Talents.NervesOfColdSteel)
+		nocsHit = float64(dk.Talents.NervesOfColdSteel) * dk.MeleeHitRatingPerHitChance
 	}
 	if dk.HasDraeneiHitAura {
-		nocsHit += 1
+		nocsHit += 1 * dk.MeleeHitRatingPerHitChance
 	}
 
 	ghoulPetBaseStats := stats.Stats{
 		stats.Agility:     856,
 		stats.Strength:    331,
 		stats.AttackPower: -20,
+		stats.MeleeHit:    -nocsHit,
+		stats.Expertise:   -nocsHit * dk.GetPetExpertiseScale(),
 	}
-	ghoulPetBasePercentageStats := stats.Stats{
-		stats.MeleeHit:  -nocsHit,
-		stats.Expertise: -nocsHit * dk.GetPetExpertiseScale(),
-	}
+	ghoulPetBasePercentageStats := stats.Stats{}
 
 	ghoulPet := &GhoulPet{
 		Pet:     core.NewPet("Ghoul", &dk.Character, ghoulPetBaseStats, ghoulPetBasePercentageStats, dk.ghoulStatInheritance(), permanent, !permanent),
