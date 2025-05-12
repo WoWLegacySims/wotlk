@@ -29,7 +29,7 @@ type FireElemental struct {
 
 func (shaman *Shaman) NewFireElemental(bonusSpellPower float64) *FireElemental {
 	fireElemental := &FireElemental{
-		Pet:         core.NewPet("Greater Fire Elemental", &shaman.Character, fireElementalPetBaseStats, shaman.fireElementalStatInheritance(), false, true),
+		Pet:         core.NewPet("Greater Fire Elemental", &shaman.Character, fireElementalPetBaseStats, fireElementalPetBasePercentageStats, shaman.fireElementalStatInheritance(), false, true),
 		shamanOwner: shaman,
 	}
 	fireElemental.EnableManaBar()
@@ -43,7 +43,8 @@ func (shaman *Shaman) NewFireElemental(bonusSpellPower float64) *FireElemental {
 		},
 		AutoSwingMelee: true,
 	})
-	fireElemental.AddStatDependency(stats.Intellect, stats.SpellCrit, core.CritRatingPerCritChance/212)
+	// @todo
+	fireElemental.AddStatDependency(stats.Intellect, stats.SpellCrit, shaman.CritRatingPerCritChance/212)
 
 	if bonusSpellPower > 0 {
 		fireElemental.AddStat(stats.SpellPower, float64(bonusSpellPower)*0.5218)
@@ -52,9 +53,9 @@ func (shaman *Shaman) NewFireElemental(bonusSpellPower float64) *FireElemental {
 
 	if shaman.hasHeroicPresence || shaman.Race == proto.Race_RaceDraenei {
 		fireElemental.AddStats(stats.Stats{
-			stats.MeleeHit:  -core.MeleeHitRatingPerHitChance,
-			stats.SpellHit:  -core.SpellHitRatingPerHitChance,
-			stats.Expertise: math.Floor(-core.SpellHitRatingPerHitChance * 0.79),
+			stats.MeleeHit:  -shaman.MeleeHitRatingPerHitChance,
+			stats.SpellHit:  -shaman.SpellHitRatingPerHitChance,
+			stats.Expertise: math.Floor(-shaman.SpellHitRatingPerHitChance * 0.79),
 		})
 	}
 
@@ -146,19 +147,21 @@ var fireElementalPetBaseStats = stats.Stats{
 	stats.Stamina:     327,
 	stats.SpellPower:  0,    //Estimated
 	stats.AttackPower: 1303, //Estimated
+}
 
+var fireElementalPetBasePercentageStats = stats.Stats{
 	// TODO : Log digging and my own samples this seems to be around the 5% mark.
-	stats.MeleeCrit: (5 + 1.8) * core.CritRatingPerCritChance,
-	stats.SpellCrit: 2.61 * core.CritRatingPerCritChance,
+	stats.MeleeCrit: (5 + 1.8),
+	stats.SpellCrit: 2.61,
 }
 
 func (shaman *Shaman) fireElementalStatInheritance() core.PetStatInheritance {
 	return func(ownerStats stats.Stats) stats.Stats {
-		ownerSpellHitChance := math.Floor(ownerStats[stats.SpellHit] / core.SpellHitRatingPerHitChance)
-		spellHitRatingFromOwner := ownerSpellHitChance * core.SpellHitRatingPerHitChance
+		ownerSpellHitChance := math.Floor(ownerStats[stats.SpellHit] / shaman.SpellHitRatingPerHitChance)
+		spellHitRatingFromOwner := ownerSpellHitChance * shaman.SpellHitRatingPerHitChance
 
-		ownerHitChance := ownerStats[stats.MeleeHit] / core.MeleeHitRatingPerHitChance
-		hitRatingFromOwner := math.Floor(ownerHitChance) * core.MeleeHitRatingPerHitChance
+		ownerHitChance := ownerStats[stats.MeleeHit] / shaman.MeleeHitRatingPerHitChance
+		hitRatingFromOwner := math.Floor(ownerHitChance) * shaman.MeleeHitRatingPerHitChance
 		return stats.Stats{
 			stats.Stamina:     ownerStats[stats.Stamina] * 0.75,
 			stats.Intellect:   ownerStats[stats.Intellect] * 0.30,

@@ -10,7 +10,7 @@ import (
 func (druid *Druid) registerMoonfireSpell() {
 	numTicks := druid.moonfireTicks()
 
-	starfireBonusCrit := float64(druid.Talents.ImprovedInsectSwarm) * core.CritRatingPerCritChance
+	starfireBonusCrit := float64(druid.Talents.ImprovedInsectSwarm)
 	dotCanCrit := druid.HasSetBonus(ItemSetMalfurionsRegalia, 2)
 
 	baseDamageMultiplier := 1 +
@@ -39,7 +39,7 @@ func (druid *Druid) registerMoonfireSpell() {
 			},
 		},
 
-		BonusCritRating:  float64(druid.Talents.ImprovedMoonfire) * 5 * core.CritRatingPerCritChance,
+		BonusCrit:        float64(druid.Talents.ImprovedMoonfire) * 5,
 		DamageMultiplier: baseDamageMultiplier - malusInitialDamageMultiplier,
 
 		CritMultiplier:   druid.BalanceCritMultiplier(),
@@ -49,10 +49,10 @@ func (druid *Druid) registerMoonfireSpell() {
 			Aura: core.Aura{
 				Label: "Moonfire",
 				OnGain: func(aura *core.Aura, sim *core.Simulation) {
-					druid.Starfire.BonusCritRating += starfireBonusCrit
+					druid.Starfire.BonusCrit += starfireBonusCrit
 				},
 				OnExpire: func(aura *core.Aura, sim *core.Simulation) {
-					druid.Starfire.BonusCritRating -= starfireBonusCrit
+					druid.Starfire.BonusCrit -= starfireBonusCrit
 				},
 			},
 			NumberOfTicks: druid.moonfireTicks(),

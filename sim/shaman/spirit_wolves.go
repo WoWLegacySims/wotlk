@@ -40,14 +40,16 @@ var spiritWolfBaseStats = stats.Stats{
 	stats.Agility:     113,
 	stats.Strength:    331,
 	stats.AttackPower: -20,
+}
 
+var spiritWolfBasePercentageStats = stats.Stats{
 	// Add 1.8% because pets aren't affected by that component of crit suppression.
-	stats.MeleeCrit: (1.1515 + 1.8) * core.CritRatingPerCritChance,
+	stats.MeleeCrit: (1.1515 + 1.8),
 }
 
 func (shaman *Shaman) NewSpiritWolf(index int) *SpiritWolf {
 	spiritWolf := &SpiritWolf{
-		Pet:         core.NewPet("Spirit Wolf "+strconv.Itoa(index), &shaman.Character, spiritWolfBaseStats, shaman.makeStatInheritance(), false, false),
+		Pet:         core.NewPet("Spirit Wolf "+strconv.Itoa(index), &shaman.Character, spiritWolfBaseStats, spiritWolfBasePercentageStats, shaman.makeStatInheritance(), false, false),
 		shamanOwner: shaman,
 	}
 
@@ -62,7 +64,7 @@ func (shaman *Shaman) NewSpiritWolf(index int) *SpiritWolf {
 	})
 
 	spiritWolf.AddStatDependency(stats.Strength, stats.AttackPower, 2)
-	spiritWolf.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritRatingPerCritChance/83.3)
+	spiritWolf.AddStatDependency(stats.Agility, stats.MeleeCrit, spiritWolf.CritRatingPerCritChance*core.CritPerAgi[proto.Class_ClassRogue][spiritWolf.Level])
 	core.ApplyPetConsumeEffects(&spiritWolf.Character, shaman.Consumes)
 
 	shaman.AddPet(spiritWolf)
@@ -74,8 +76,8 @@ const PetExpertiseScale = 3.25
 
 func (shaman *Shaman) makeStatInheritance() core.PetStatInheritance {
 	return func(ownerStats stats.Stats) stats.Stats {
-		ownerHitChance := ownerStats[stats.MeleeHit] / core.MeleeHitRatingPerHitChance
-		hitRatingFromOwner := math.Floor(ownerHitChance) * core.MeleeHitRatingPerHitChance
+		ownerHitChance := ownerStats[stats.MeleeHit] / shaman.MeleeHitRatingPerHitChance
+		hitRatingFromOwner := math.Floor(ownerHitChance) * shaman.MeleeHitRatingPerHitChance
 
 		return stats.Stats{
 			stats.Stamina:     ownerStats[stats.Stamina] * 0.3,
@@ -83,7 +85,7 @@ func (shaman *Shaman) makeStatInheritance() core.PetStatInheritance {
 			stats.AttackPower: ownerStats[stats.AttackPower] * (core.TernaryFloat64(shaman.HasMajorGlyph(proto.ShamanMajorGlyph_GlyphOfFeralSpirit), 0.61, 0.31)),
 
 			stats.MeleeHit:  hitRatingFromOwner,
-			stats.Expertise: math.Floor(math.Floor(ownerHitChance)*PetExpertiseScale) * core.ExpertisePerQuarterPercentReduction,
+			stats.Expertise: math.Floor(math.Floor(ownerHitChance)*PetExpertiseScale) * shaman.ExpertisePerQuarterPercentReduction,
 		}
 	}
 }

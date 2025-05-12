@@ -28,8 +28,8 @@ func (warlock *Warlock) registerUnstableAfflictionSpell() {
 			},
 		},
 
-		BonusCritRating: 0 +
-			3*core.CritRatingPerCritChance*float64(warlock.Talents.Malediction),
+		BonusCrit: 0 +
+			3*float64(warlock.Talents.Malediction),
 		DamageMultiplierAdditive: 1 +
 			warlock.GrandSpellstoneBonus() +
 			0.03*float64(warlock.Talents.ShadowMastery) +

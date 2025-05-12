@@ -39,13 +39,13 @@ func (warrior *Warrior) RegisterRecklessnessCD() {
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
 			warrior.PseudoStats.DamageTakenMultiplier *= 1.2
 			for _, spell := range affectedSpells {
-				spell.BonusCritRating += 100 * core.CritRatingPerCritChance
+				spell.BonusCrit += 100
 			}
 		},
 		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
 			warrior.PseudoStats.DamageTakenMultiplier /= 1.2
 			for _, spell := range affectedSpells {
-				spell.BonusCritRating -= 100 * core.CritRatingPerCritChance
+				spell.BonusCrit -= 100
 			}
 		},
 		OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {

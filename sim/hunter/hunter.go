@@ -206,7 +206,7 @@ func NewHunter(character *core.Character, options *proto.Player) *Hunter {
 	hunter.AddStatDependency(stats.Strength, stats.AttackPower, 1)
 	hunter.AddStatDependency(stats.Agility, stats.AttackPower, 1)
 	hunter.AddStatDependency(stats.Agility, stats.RangedAttackPower, 1)
-	hunter.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritPerAgiMaxLevel[character.Class]*core.CritRatingPerCritChance)
+	hunter.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritPerAgi[character.Class][hunter.Level]*hunter.CritRatingPerCritChance)
 
 	return hunter
 }

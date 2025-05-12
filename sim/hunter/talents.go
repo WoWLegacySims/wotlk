@@ -14,9 +14,9 @@ func (hunter *Hunter) ApplyTalents() {
 		hunter.applyFrenzy()
 		hunter.registerBestialWrathCD()
 
-		hunter.pet.AddStat(stats.MeleeCrit, core.CritRatingPerCritChance*2*float64(hunter.Talents.Ferocity))
-		hunter.pet.AddStat(stats.SpellCrit, core.CritRatingPerCritChance*2*float64(hunter.Talents.Ferocity))
-		hunter.pet.AddStat(stats.Dodge, 3*core.DodgeRatingPerDodgeChance*float64(hunter.Talents.CatlikeReflexes))
+		hunter.pet.AddStat(stats.MeleeCrit, hunter.pet.CritRatingPerCritChance*2*float64(hunter.Talents.Ferocity))
+		hunter.pet.AddStat(stats.SpellCrit, hunter.pet.CritRatingPerCritChance*2*float64(hunter.Talents.Ferocity))
+		hunter.pet.AddStat(stats.Dodge, 3*hunter.pet.DodgeRatingPerDodgeChance*float64(hunter.Talents.CatlikeReflexes))
 		hunter.pet.PseudoStats.DamageDealtMultiplier *= 1 + 0.03*float64(hunter.Talents.UnleashedFury)
 		hunter.pet.PseudoStats.DamageDealtMultiplier *= 1 + 0.04*float64(hunter.Talents.KindredSpirits)
 		hunter.pet.PseudoStats.MeleeSpeedMultiplier *= 1 + 0.04*float64(hunter.Talents.SerpentsSwiftness)
@@ -27,17 +27,17 @@ func (hunter *Hunter) ApplyTalents() {
 		hunter.pet.ApplyTalents()
 	}
 
-	hunter.AddStat(stats.MeleeHit, core.MeleeHitRatingPerHitChance*1*float64(hunter.Talents.FocusedAim))
-	hunter.AddStat(stats.MeleeCrit, core.CritRatingPerCritChance*1*float64(hunter.Talents.KillerInstinct))
-	hunter.AddStat(stats.MeleeCrit, core.CritRatingPerCritChance*1*float64(hunter.Talents.MasterMarksman))
-	hunter.AddStat(stats.Parry, core.ParryRatingPerParryChance*1*float64(hunter.Talents.Deflection))
-	hunter.AddStat(stats.Dodge, 1*core.DodgeRatingPerDodgeChance*float64(hunter.Talents.CatlikeReflexes))
+	hunter.AddStat(stats.MeleeHit, hunter.MeleeHitRatingPerHitChance*1*float64(hunter.Talents.FocusedAim))
+	hunter.AddStat(stats.MeleeCrit, hunter.CritRatingPerCritChance*1*float64(hunter.Talents.KillerInstinct))
+	hunter.AddStat(stats.MeleeCrit, hunter.CritRatingPerCritChance*1*float64(hunter.Talents.MasterMarksman))
+	hunter.AddStat(stats.Parry, hunter.ParryRatingPerParryChance*1*float64(hunter.Talents.Deflection))
+	hunter.AddStat(stats.Dodge, 1*hunter.DodgeRatingPerDodgeChance*float64(hunter.Talents.CatlikeReflexes))
 	hunter.PseudoStats.RangedSpeedMultiplier *= 1 + 0.04*float64(hunter.Talents.SerpentsSwiftness)
 	hunter.PseudoStats.DamageTakenMultiplier *= 1 - 0.02*float64(hunter.Talents.SurvivalInstincts)
 	hunter.AutoAttacks.RangedConfig().DamageMultiplier *= hunter.markedForDeathMultiplier()
 
 	if hunter.Talents.LethalShots > 0 {
-		hunter.AddBonusRangedCritRating(1 * float64(hunter.Talents.LethalShots) * core.CritRatingPerCritChance)
+		hunter.AddBonusRangedCritRating(1 * float64(hunter.Talents.LethalShots) * hunter.CritRatingPerCritChance)
 	}
 	if hunter.Talents.RangedWeaponSpecialization > 0 {
 		mult := 1 + []float64{0, .01, .03, .05}[hunter.Talents.RangedWeaponSpecialization]
@@ -212,15 +212,15 @@ func (hunter *Hunter) applyCobraStrikes() {
 		Duration:  time.Second * 10,
 		MaxStacks: 2,
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
-			hunter.pet.focusDump.BonusCritRating += 100 * core.CritRatingPerCritChance
+			hunter.pet.focusDump.BonusCrit += 100
 			if hunter.pet.specialAbility != nil {
-				hunter.pet.specialAbility.BonusCritRating += 100 * core.CritRatingPerCritChance
+				hunter.pet.specialAbility.BonusCrit += 100
 			}
 		},
 		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
-			hunter.pet.focusDump.BonusCritRating -= 100 * core.CritRatingPerCritChance
+			hunter.pet.focusDump.BonusCrit -= 100
 			if hunter.pet.specialAbility != nil {
-				hunter.pet.specialAbility.BonusCritRating -= 100 * core.CritRatingPerCritChance
+				hunter.pet.specialAbility.BonusCrit -= 100
 			}
 		},
 		OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
@@ -700,7 +700,7 @@ func (hunter *Hunter) applyMasterTactician() {
 	}
 
 	procChance := 0.1
-	critBonus := 2 * core.CritRatingPerCritChance * float64(hunter.Talents.MasterTactician)
+	critBonus := 2 * hunter.CritRatingPerCritChance * float64(hunter.Talents.MasterTactician)
 
 	procAura := hunter.NewTemporaryStatsAura("Master Tactician Proc", core.ActionID{SpellID: 34839}, stats.Stats{stats.MeleeCrit: critBonus}, time.Second*8)
 

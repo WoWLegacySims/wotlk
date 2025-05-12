@@ -48,7 +48,7 @@ func (warrior *Warrior) registerShieldSlamSpell() {
 			return warrior.PseudoStats.CanBlock
 		},
 
-		BonusCritRating: 5 * core.CritRatingPerCritChance * float64(warrior.Talents.CriticalBlock),
+		BonusCrit: 5 * float64(warrior.Talents.CriticalBlock),
 		DamageMultiplier: 1 +
 			.05*float64(warrior.Talents.GagOrder) +
 			core.TernaryFloat64(warrior.HasSetBonus(ItemSetOnslaughtArmor, 4), .10, 0) +

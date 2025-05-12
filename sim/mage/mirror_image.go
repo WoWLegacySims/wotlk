@@ -69,7 +69,7 @@ type MirrorImage struct {
 
 func (mage *Mage) NewMirrorImage() *MirrorImage {
 	mirrorImage := &MirrorImage{
-		Pet:       core.NewPet("Mirror Image", &mage.Character, mirrorImageBaseStats, createMirrorImageInheritance(mage), false, true),
+		Pet:       core.NewPet("Mirror Image", &mage.Character, mirrorImageBaseStats, mirrorImageBasePercentageStats, createMirrorImageInheritance(mage), false, true),
 		mageOwner: mage,
 	}
 	mirrorImage.EnableManaBar()
@@ -106,12 +106,15 @@ var mirrorImageBaseStats = stats.Stats{
 	stats.Mana: 3000, // Unknown
 }
 
+var mirrorImageBasePercentageStats = stats.Stats{
+	// seems to be about 8% baseline
+	stats.SpellCrit: 8,
+}
+
 var createMirrorImageInheritance = func(mage *Mage) func(stats.Stats) stats.Stats {
 	return func(ownerStats stats.Stats) stats.Stats {
 		return stats.Stats{
-			stats.SpellHit: ownerStats[stats.SpellHit] - float64(mage.Talents.Precision),
-			// seems to be about 8% baseline
-			stats.SpellCrit:  8 * core.CritRatingPerCritChance,
+			stats.SpellHit:   ownerStats[stats.SpellHit] - float64(mage.Talents.Precision),
 			stats.SpellPower: ownerStats[stats.SpellPower] * 0.33,
 		}
 	}

@@ -103,8 +103,8 @@ func (paladin *Paladin) registerSealOfVengeanceSpellAndAura() {
 		ProcMask:    core.ProcMaskMeleeSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | SpellFlagSecondaryJudgement,
 
-		BonusCritRating: (6 * float64(paladin.Talents.Fanaticism) * core.CritRatingPerCritChance) +
-			(core.TernaryFloat64(paladin.HasSetBonus(ItemSetTuralyonsBattlegear, 4), 5, 0) * core.CritRatingPerCritChance),
+		BonusCrit: (6 * float64(paladin.Talents.Fanaticism)) +
+			(core.TernaryFloat64(paladin.HasSetBonus(ItemSetTuralyonsBattlegear, 4), 5, 0)),
 		DamageMultiplier: 1 *
 			(1 + paladin.getItemSetLightswornBattlegearBonus4() +
 				paladin.getTalentSealsOfThePureBonus() + paladin.getMajorGlyphOfJudgementBonus() + paladin.getTalentTheArtOfWarBonus()) *
@@ -158,14 +158,14 @@ func (paladin *Paladin) registerSealOfVengeanceSpellAndAura() {
 		Duration: SealDuration,
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
 			if paladin.HasMajorGlyph(proto.PaladinMajorGlyph_GlyphOfSealOfVengeance) {
-				expertise := core.ExpertisePerQuarterPercentReduction * 10
+				expertise := paladin.ExpertisePerQuarterPercentReduction * 10
 				paladin.AddStatDynamic(sim, stats.Expertise, expertise)
 			}
 		},
 
 		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
 			if paladin.HasMajorGlyph(proto.PaladinMajorGlyph_GlyphOfSealOfVengeance) {
-				expertise := core.ExpertisePerQuarterPercentReduction * 10
+				expertise := paladin.ExpertisePerQuarterPercentReduction * 10
 				paladin.AddStatDynamic(sim, stats.Expertise, -expertise)
 			}
 		},

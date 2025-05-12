@@ -21,13 +21,19 @@ var baseStats = stats.Stats{
 	stats.Stamina:     348,
 	stats.Intellect:   201,
 	stats.AttackPower: -20,
+}
+
+var basePercentageStats = stats.Stats{
 	// with 3% crit debuff, shadowfiend crits around 9-12% (TODO: verify and narrow down)
-	stats.MeleeCrit: 8 * core.CritRatingPerCritChance,
+	stats.MeleeCrit: 8,
+	// never misses
+	stats.MeleeHit:  8,
+	stats.Expertise: 14 * 4,
 }
 
 func (priest *Priest) NewShadowfiend() *Shadowfiend {
 	shadowfiend := &Shadowfiend{
-		Pet:    core.NewPet("Shadowfiend", &priest.Character, baseStats, priest.shadowfiendStatInheritance(), false, false),
+		Pet:    core.NewPet("Shadowfiend", &priest.Character, baseStats, basePercentageStats, priest.shadowfiendStatInheritance(), false, false),
 		Priest: priest,
 	}
 
@@ -106,9 +112,6 @@ func (priest *Priest) shadowfiendStatInheritance() core.PetStatInheritance {
 
 		return stats.Stats{ //still need to nail down shadow fiend crit scaling, but removing owner crit scaling after further investigation
 			stats.AttackPower: inheritableSP*0.57 + spellBonusAPEquivalent,
-			// never misses
-			stats.MeleeHit:  8 * core.MeleeHitRatingPerHitChance,
-			stats.Expertise: 14 * core.ExpertisePerQuarterPercentReduction * 4,
 		}
 	}
 }

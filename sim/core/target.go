@@ -131,14 +131,25 @@ func NewTarget(options *proto.Target, targetIndex int32) *Target {
 			StatDependencyManager: stats.NewStatDependencyManager(),
 		},
 	}
-	defaultRaidBossLevel := int32(CharacterLevel + 3)
+	defaultRaidBossLevel := int32(MaxLevel + 3)
 	target.GCD = target.NewTimer()
 	if target.Level == 0 {
 		target.Level = defaultRaidBossLevel
 	}
+	target.ExpertisePerQuarterPercentReduction = ExpertisePerQuarterPercentReduction[target.Level]
+	target.HasteRatingPerHastePercent = HasteRatingPerHastePercent[target.Level]
+	target.CritRatingPerCritChance = CritRatingPerCritChance[target.Level]
+	target.MeleeHitRatingPerHitChance = MeleeHitRatingPerHitChance[target.Level]
+	target.SpellHitRatingPerHitChance = SpellHitRatingPerHitChance[target.Level]
+	target.DefenseRatingPerDefense = DefenseRatingPerDefense[target.Level]
+	target.DodgeRatingPerDodgeChance = DodgeRatingPerDodgeChance[target.Level]
+	target.ParryRatingPerParryChance = ParryRatingPerParryChance[target.Level]
+	target.BlockRatingPerBlockChance = BlockRatingPerBlockChance[target.Level]
+	target.ResilienceRatingPerCritReductionChance = ResilienceRatingPerCritReductionChance[target.Level]
+
 	if target.stats[stats.MeleeCrit] == 0 {
 		// Treat any % crit buff an enemy would gain as though it was scaled with level 80 ratings
-		target.stats[stats.MeleeCrit] = UnitLevelFloat64(target.Level, 5.0, 5.2, 5.4, 5.6) * CritRatingPerCritChance
+		target.stats[stats.MeleeCrit] = UnitLevelFloat64(target.Level, 5.0, 5.2, 5.4, 5.6) * target.CritRatingPerCritChance
 	}
 
 	if target.Level == defaultRaidBossLevel && options.SuppressDodge {

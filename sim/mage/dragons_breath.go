@@ -1,8 +1,9 @@
 package mage
 
 import (
-	"github.com/WoWLegacySims/wotlk/sim/core"
 	"time"
+
+	"github.com/WoWLegacySims/wotlk/sim/core"
 )
 
 func (mage *Mage) registerDragonsBreathSpell() {
@@ -27,7 +28,7 @@ func (mage *Mage) registerDragonsBreathSpell() {
 				Duration: time.Second * 20,
 			},
 		},
-		BonusCritRating:          float64(mage.Talents.CriticalMass+mage.Talents.WorldInFlames) * 2 * core.CritRatingPerCritChance,
+		BonusCrit:                float64(mage.Talents.CriticalMass + mage.Talents.WorldInFlames),
 		DamageMultiplierAdditive: 1 + .02*float64(mage.Talents.FirePower),
 		CritMultiplier:           mage.SpellCritMultiplier(1, mage.bonusCritDamage),
 		ThreatMultiplier:         1 - 0.1*float64(mage.Talents.BurningSoul),

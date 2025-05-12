@@ -35,7 +35,7 @@ func (priest *Priest) registerCircleOfHealingSpell() {
 			},
 		},
 
-		BonusCritRating: float64(priest.Talents.HolySpecialization) * 1 * core.CritRatingPerCritChance,
+		BonusCrit: float64(priest.Talents.HolySpecialization),
 		DamageMultiplier: 1 *
 			(1 + .02*float64(priest.Talents.SpiritualHealing)) *
 			(1 + .01*float64(priest.Talents.BlessedResilience)) *

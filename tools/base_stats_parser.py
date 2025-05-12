@@ -9,7 +9,6 @@ BASE_DIR = ""
 DIR_PATH = "assets/db_inputs/basestats/"
 OUTPUT_PATH = "sim/core/"
 
-BASE_MP = "octbasempbyclass.txt"
 MELEE_CRIT = "chancetomeleecrit.txt"
 MELEE_CRIT_BASE = "chancetomeleecritbase.txt"
 SPELL_CRIT = "chancetospellcrit.txt"
@@ -57,12 +56,18 @@ def GenRowIndexedDb(file : str):
     return db
 
 class ClassStats:
-    BaseMp : dict
     MCrit : dict
     SCrit : dict
     MCritBase : dict
     SCritBase : dict
     CombatRatings : dict
+
+def GenRatingPerLevel(rating: dict, variable: str, key: str):
+    output = f"var {variable} = map[int32]float64{{"
+    for i in range(1,81):
+        output += f"{i}:{rating[key][i-1]},"
+    output += '''}\n'''
+    return output
 
 def GenExtraStatsGoFile(cs: ClassStats):
     header = '''
@@ -79,29 +84,36 @@ import (
 
 '''
     output = header
-    output += f"const ExpertisePerQuarterPercentReduction = {cs.CombatRatings['weapon skill'][BASE_LEVEL-1]}\n"
-    output += f"const HasteRatingPerHastePercent = {cs.CombatRatings['haste melee'][BASE_LEVEL-1]}\n"
-    output += f"const CritRatingPerCritChance = {cs.CombatRatings['crit melee'][BASE_LEVEL-1]}\n"
-    output += f"const MeleeHitRatingPerHitChance = {cs.CombatRatings['hit melee'][BASE_LEVEL-1]}\n"
-    output += f"const SpellHitRatingPerHitChance = {cs.CombatRatings['hit spell'][BASE_LEVEL-1]}\n"
-    output += f"const DefenseRatingPerDefense = {cs.CombatRatings['defense skill'][BASE_LEVEL-1]}\n"
-    output += f"const DodgeRatingPerDodgeChance = {cs.CombatRatings['dodge'][BASE_LEVEL-1]}\n"
-    output += f"const ParryRatingPerParryChance = {cs.CombatRatings['parry'][BASE_LEVEL-1]}\n"
-    output += f"const BlockRatingPerBlockChance = {cs.CombatRatings['block'][BASE_LEVEL-1]}\n"
-    output += f"const ResilienceRatingPerCritReductionChance = {cs.CombatRatings['crit taken melee'][BASE_LEVEL-1]}\n"
+    output += GenRatingPerLevel(cs.CombatRatings,"ExpertisePerQuarterPercentReduction","weapon skill")
+    output += GenRatingPerLevel(cs.CombatRatings,"HasteRatingPerHastePercent","haste melee")
+    output += GenRatingPerLevel(cs.CombatRatings,"CritRatingPerCritChance","crit melee")
+    output += GenRatingPerLevel(cs.CombatRatings,"MeleeHitRatingPerHitChance","hit melee")
+    output += GenRatingPerLevel(cs.CombatRatings,"SpellHitRatingPerHitChance","hit spell")
+    output += GenRatingPerLevel(cs.CombatRatings,"DefenseRatingPerDefense","defense skill")
+    output += GenRatingPerLevel(cs.CombatRatings,"DodgeRatingPerDodgeChance","dodge")
+    output += GenRatingPerLevel(cs.CombatRatings,"ParryRatingPerParryChance","parry")
+    output += GenRatingPerLevel(cs.CombatRatings,"BlockRatingPerBlockChance","block")
+    output += GenRatingPerLevel(cs.CombatRatings,"ResilienceRatingPerCritReductionChance","crit taken melee")
 
-    output += '''var CritPerAgiMaxLevel = map[proto.Class]float64{
-proto.Class_ClassUnknown: 0.0,'''
+    output += '''\nvar CritPer = map[proto.Class]map[int32]float64{
+proto.Class_ClassUnknown:{'''
+    for i in range(1,81):
+        output += f"{i}:0.0,"
+    output += '''},'''
+
     for c in ["Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Death Knight", "Shaman", "Mage", "Warlock", "Druid"]:
         cName = c.split()
         if len(cName) > 1:
             cName[1] = cName[1].lower()
         cName = ''.join(cName)
-        mc = float(cs.MCrit[str(BASE_LEVEL)][Offs[c]])*100
-        output += f"\nproto.Class_Class{cName}: {mc:.4f},"
+        output += f"\nproto.Class_Class{cName}: {{"
+        for i in range(1,81):
+            mc = float(cs.MCrit[str(i)][Offs[c]])*100
+            output += f"{i}:{mc:.4f},"
+        output += '''},'''
     output += "\n}\n"
 
-    output += '''var ExtraClassBaseStats = map[proto.Class]stats.Stats{
+    output += '''var BaseCrit = map[proto.Class]stats.Stats{
 proto.Class_ClassUnknown: {},'''
     for c in ["Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Death Knight", "Shaman", "Mage", "Warlock", "Druid"]:
         cName = c.split()
@@ -109,12 +121,10 @@ proto.Class_ClassUnknown: {},'''
             cName[1] = cName[1].lower()
         cName = ''.join(cName)
         output += f"\nproto.Class_Class{cName}: {{"
-        mp = float(cs.BaseMp[str(BASE_LEVEL)][Offs[c]])
         scb = float(cs.SCritBase["1"][Offs[c]])*100
         mcb = float(cs.MCritBase["1"][Offs[c]])*100
-        output += f"\n stats.Mana: {mp:.4f},"
-        output += f"\n stats.SpellCrit: {scb:.4f}*CritRatingPerCritChance,"
-        output += f"\n stats.MeleeCrit: {mcb:.4f}*CritRatingPerCritChance,"
+        output += f"\n stats.SpellCrit: {scb:.4f},"
+        output += f"\n stats.MeleeCrit: {mcb:.4f},"
         output += "\n},"
     output += "\n}\n"
     return output
@@ -122,7 +132,6 @@ proto.Class_ClassUnknown: {},'''
 
 if __name__ == "__main__":
     args = ClassStats()
-    args.BaseMp = GenIndexedDb(BASE_DIR + DIR_PATH + BASE_MP)
     args.MCrit = GenIndexedDb(BASE_DIR + DIR_PATH + MELEE_CRIT)
     args.SCrit = GenIndexedDb(BASE_DIR + DIR_PATH + SPELL_CRIT)
     args.MCritBase = GenIndexedDb(BASE_DIR + DIR_PATH + MELEE_CRIT_BASE)

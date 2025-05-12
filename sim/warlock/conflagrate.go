@@ -36,9 +36,9 @@ func (warlock *Warlock) registerConflagrateSpell() {
 			return warlock.Immolate.Dot(target).IsActive()
 		},
 
-		BonusCritRating: 0 +
-			core.TernaryFloat64(warlock.Talents.Devastation, 5*core.CritRatingPerCritChance, 0) +
-			5*float64(warlock.Talents.FireAndBrimstone)*core.CritRatingPerCritChance,
+		BonusCrit: 0 +
+			core.TernaryFloat64(warlock.Talents.Devastation, 5, 0) +
+			5*float64(warlock.Talents.FireAndBrimstone),
 		DamageMultiplierAdditive: 1 +
 			warlock.GrandFirestoneBonus() +
 			0.03*float64(warlock.Talents.Emberstorm) +

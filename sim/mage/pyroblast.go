@@ -43,9 +43,9 @@ func (mage *Mage) registerPyroblastSpell() {
 			},
 		},
 
-		BonusCritRating: 0 +
-			2*float64(mage.Talents.CriticalMass)*core.CritRatingPerCritChance +
-			2*float64(mage.Talents.WorldInFlames)*core.CritRatingPerCritChance,
+		BonusCrit: 0 +
+			2*float64(mage.Talents.CriticalMass) +
+			2*float64(mage.Talents.WorldInFlames),
 		DamageMultiplier: 1 *
 			(1 + .04*float64(mage.Talents.TormentTheWeak)),
 		DamageMultiplierAdditive: 1 +

@@ -27,8 +27,8 @@ func (rogue *Rogue) registerAmbushSpell() {
 			return !rogue.PseudoStats.InFrontOfTarget && rogue.HasDagger(core.MainHand) && rogue.IsStealthed()
 		},
 
-		BonusCritRating: []float64{0, 2, 4, 6}[rogue.Talents.TurnTheTables]*core.CritRatingPerCritChance +
-			25*core.CritRatingPerCritChance*float64(rogue.Talents.ImprovedAmbush),
+		BonusCrit: float64(rogue.Talents.TurnTheTables)*2 +
+			25*float64(rogue.Talents.ImprovedAmbush),
 		// All of these use "Apply Aura: Modifies Damage/Healing Done", and stack additively.
 		DamageMultiplier: 2.75 * (1 +
 			0.02*float64(rogue.Talents.FindWeakness) +

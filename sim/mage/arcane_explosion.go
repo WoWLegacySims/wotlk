@@ -22,8 +22,8 @@ func (mage *Mage) registerArcaneExplosionSpell() {
 			},
 		},
 
-		BonusHitRating:   float64(mage.Talents.ArcaneFocus) * 2 * core.SpellHitRatingPerHitChance,
-		BonusCritRating:  float64(mage.Talents.SpellImpact) * 2 * core.CritRatingPerCritChance,
+		BonusHit:         float64(mage.Talents.ArcaneFocus) * 2,
+		BonusCrit:        float64(mage.Talents.SpellImpact) * 2,
 		DamageMultiplier: 1,
 		CritMultiplier:   mage.SpellCritMultiplier(1, mage.bonusCritDamage),
 		ThreatMultiplier: 1 - 0.2*float64(mage.Talents.ArcaneSubtlety),

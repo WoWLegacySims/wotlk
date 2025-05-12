@@ -22,10 +22,10 @@ func (priest *Priest) registerDevouringPlagueSpell() {
 			ProcMask:    core.ProcMaskSuppressedProc, // this can proc things like Talisman of Volatile Power
 			Flags:       core.SpellFlagDisease,
 
-			BonusHitRating: float64(priest.Talents.ShadowFocus) * 1 * core.SpellHitRatingPerHitChance,
-			BonusCritRating: 0 +
-				3*float64(priest.Talents.MindMelt)*core.CritRatingPerCritChance +
-				core.TernaryFloat64(priest.HasSetBonus(ItemSetCrimsonAcolyte, 2), 5, 0)*core.CritRatingPerCritChance,
+			BonusHit: float64(priest.Talents.ShadowFocus),
+			BonusCrit: 0 +
+				3*float64(priest.Talents.MindMelt) +
+				core.TernaryFloat64(priest.HasSetBonus(ItemSetCrimsonAcolyte, 2), 5, 0),
 			DamageMultiplier: 1 +
 				0.02*float64(priest.Talents.Darkness) +
 				0.01*float64(priest.Talents.TwinDisciplines) +
@@ -61,10 +61,10 @@ func (priest *Priest) registerDevouringPlagueSpell() {
 			},
 		},
 
-		BonusHitRating: float64(priest.Talents.ShadowFocus) * 1 * core.SpellHitRatingPerHitChance,
-		BonusCritRating: 0 +
-			3*float64(priest.Talents.MindMelt)*core.CritRatingPerCritChance +
-			core.TernaryFloat64(priest.HasSetBonus(ItemSetCrimsonAcolyte, 2), 5, 0)*core.CritRatingPerCritChance,
+		BonusHit: float64(priest.Talents.ShadowFocus) * 1,
+		BonusCrit: 0 +
+			3*float64(priest.Talents.MindMelt) +
+			core.TernaryFloat64(priest.HasSetBonus(ItemSetCrimsonAcolyte, 2), 5, 0),
 		DamageMultiplier: 1 +
 			0.02*float64(priest.Talents.Darkness) +
 			0.01*float64(priest.Talents.TwinDisciplines) +

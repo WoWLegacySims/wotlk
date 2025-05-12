@@ -48,10 +48,10 @@ func (druid *Druid) registerStarfireSpell() {
 			},
 		},
 
-		BonusCritRating: 0 +
-			2*float64(druid.Talents.NaturesMajesty)*core.CritRatingPerCritChance +
-			core.TernaryFloat64(druid.HasSetBonus(ItemSetThunderheartRegalia, 4), 5*core.CritRatingPerCritChance, 0) +
-			core.TernaryFloat64(druid.HasSetBonus(ItemSetDreamwalkerGarb, 4), 5*core.CritRatingPerCritChance, 0),
+		BonusCrit: 0 +
+			2*float64(druid.Talents.NaturesMajesty) +
+			core.TernaryFloat64(druid.HasSetBonus(ItemSetThunderheartRegalia, 4), 5, 0) +
+			core.TernaryFloat64(druid.HasSetBonus(ItemSetDreamwalkerGarb, 4), 5, 0),
 		DamageMultiplier: (1 + []float64{0.0, 0.03, 0.06, 0.1}[druid.Talents.Moonfury]) *
 			core.TernaryFloat64(druid.HasSetBonus(ItemSetMalfurionsRegalia, 4), 1.04, 1),
 		CritMultiplier:   druid.BalanceCritMultiplier(),

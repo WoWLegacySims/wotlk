@@ -18,13 +18,13 @@ func (rogue *Rogue) ApplyTalents() {
 	rogue.applyFocusedAttacks()
 	rogue.applyInitiative()
 
-	rogue.AddStat(stats.Dodge, core.DodgeRatingPerDodgeChance*2*float64(rogue.Talents.LightningReflexes))
+	rogue.AddStat(stats.Dodge, rogue.DodgeRatingPerDodgeChance*2*float64(rogue.Talents.LightningReflexes))
 	rogue.PseudoStats.MeleeSpeedMultiplier *= []float64{1, 1.03, 1.06, 1.10}[rogue.Talents.LightningReflexes]
-	rogue.AddStat(stats.Parry, core.ParryRatingPerParryChance*2*float64(rogue.Talents.Deflection))
-	rogue.AddStat(stats.MeleeCrit, core.CritRatingPerCritChance*1*float64(rogue.Talents.Malice))
-	rogue.AddStat(stats.MeleeHit, core.MeleeHitRatingPerHitChance*1*float64(rogue.Talents.Precision))
-	rogue.AddStat(stats.SpellHit, core.SpellHitRatingPerHitChance*1*float64(rogue.Talents.Precision))
-	rogue.AddStat(stats.Expertise, core.ExpertisePerQuarterPercentReduction*5*float64(rogue.Talents.WeaponExpertise))
+	rogue.AddStat(stats.Parry, rogue.ParryRatingPerParryChance*2*float64(rogue.Talents.Deflection))
+	rogue.AddStat(stats.MeleeCrit, rogue.CritRatingPerCritChance*1*float64(rogue.Talents.Malice))
+	rogue.AddStat(stats.MeleeHit, rogue.MeleeHitRatingPerHitChance*1*float64(rogue.Talents.Precision))
+	rogue.AddStat(stats.SpellHit, rogue.SpellHitRatingPerHitChance*1*float64(rogue.Talents.Precision))
+	rogue.AddStat(stats.Expertise, rogue.ExpertisePerQuarterPercentReduction*5*float64(rogue.Talents.WeaponExpertise))
 	rogue.AddStat(stats.ArmorPenetration, core.ArmorPenPerPercentArmor*3*float64(rogue.Talents.SerratedBlades))
 	rogue.AutoAttacks.OHConfig().DamageMultiplier *= rogue.dwsMultiplier()
 
@@ -228,14 +228,14 @@ func (rogue *Rogue) registerColdBloodCD() {
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
 			for _, spell := range rogue.Spellbook {
 				if spell.Flags.Matches(SpellFlagColdBlooded) {
-					spell.BonusCritRating += 100 * core.CritRatingPerCritChance
+					spell.BonusCrit += 100
 				}
 			}
 		},
 		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
 			for _, spell := range rogue.Spellbook {
 				if spell.Flags.Matches(SpellFlagColdBlooded) {
-					spell.BonusCritRating -= 100 * core.CritRatingPerCritChance
+					spell.BonusCrit -= 100
 				}
 			}
 		},
@@ -340,19 +340,19 @@ func (rogue *Rogue) applyWeaponSpecializations() {
 	if cqc := rogue.Talents.CloseQuartersCombat; cqc > 0 {
 		switch rogue.GetProcMaskForTypes(proto.WeaponType_WeaponTypeDagger, proto.WeaponType_WeaponTypeFist) {
 		case core.ProcMaskMelee:
-			rogue.AddStat(stats.MeleeCrit, core.CritRatingPerCritChance*float64(cqc))
+			rogue.AddStat(stats.MeleeCrit, rogue.CritRatingPerCritChance*float64(cqc))
 		case core.ProcMaskMeleeMH:
 			// the default character pane displays critical strike chance for main hand only
-			rogue.AddStat(stats.MeleeCrit, core.CritRatingPerCritChance*float64(cqc))
+			rogue.AddStat(stats.MeleeCrit, rogue.CritRatingPerCritChance*float64(cqc))
 			rogue.OnSpellRegistered(func(spell *core.Spell) {
 				if spell.ProcMask.Matches(core.ProcMaskMeleeOH) {
-					spell.BonusCritRating -= core.CritRatingPerCritChance * float64(cqc)
+					spell.BonusCrit -= float64(cqc)
 				}
 			})
 		case core.ProcMaskMeleeOH:
 			rogue.OnSpellRegistered(func(spell *core.Spell) {
 				if spell.ProcMask.Matches(core.ProcMaskMeleeOH) {
-					spell.BonusCritRating += core.CritRatingPerCritChance * float64(cqc)
+					spell.BonusCrit += float64(cqc)
 				}
 			})
 		}

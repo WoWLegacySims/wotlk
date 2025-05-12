@@ -160,7 +160,7 @@ func (warrior *Warrior) registerDefensiveStanceAura() {
 
 func (warrior *Warrior) registerBerserkerStanceAura() {
 	threatMult := 0.8 - 0.02*float64(warrior.Talents.ImprovedBerserkerStance)
-	critBonus := core.CritRatingPerCritChance * (3 + core.TernaryFloat64(warrior.HasSetBonus(ItemSetWrynnsBattlegear, 2), 2, 0))
+	critBonus := warrior.CritRatingPerCritChance * (3 + core.TernaryFloat64(warrior.HasSetBonus(ItemSetWrynnsBattlegear, 2), 2, 0))
 
 	var dep *stats.StatDependency
 	if warrior.Talents.ImprovedBerserkerStance > 0 {

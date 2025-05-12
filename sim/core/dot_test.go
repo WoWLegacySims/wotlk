@@ -48,6 +48,18 @@ func NewFakeElementalShaman(char *Character, _ *proto.Player) Agent {
 	fa := &FakeAgent{
 		Character: *char,
 	}
+	fa.Level = 80
+	fa.ExpertisePerQuarterPercentReduction = ExpertisePerQuarterPercentReduction[fa.Level]
+	fa.HasteRatingPerHastePercent = HasteRatingPerHastePercent[fa.Level]
+	fa.CritRatingPerCritChance = CritRatingPerCritChance[fa.Level]
+	fa.MeleeHitRatingPerHitChance = MeleeHitRatingPerHitChance[fa.Level]
+	fa.SpellHitRatingPerHitChance = SpellHitRatingPerHitChance[fa.Level]
+	fa.DefenseRatingPerDefense = DefenseRatingPerDefense[fa.Level]
+	fa.DodgeRatingPerDodgeChance = DodgeRatingPerDodgeChance[fa.Level]
+	fa.ParryRatingPerParryChance = ParryRatingPerParryChance[fa.Level]
+	fa.BlockRatingPerBlockChance = BlockRatingPerBlockChance[fa.Level]
+	fa.ResilienceRatingPerCritReductionChance = ResilienceRatingPerCritReductionChance[fa.Level]
+	fa.CritPerAgi = CritPerAgi[proto.Class_ClassShaman][fa.Level]
 
 	fa.Init = func() {
 		fa.Spell = fa.RegisterSpell(SpellConfig{
@@ -57,7 +69,7 @@ func NewFakeElementalShaman(char *Character, _ *proto.Player) Agent {
 			Flags:       SpellFlagIgnoreResists,
 			Cast:        CastConfig{},
 
-			BonusCritRating:  3 * CritRatingPerCritChance,
+			BonusCrit:        3,
 			DamageMultiplier: 1.5,
 			ThreatMultiplier: 1,
 

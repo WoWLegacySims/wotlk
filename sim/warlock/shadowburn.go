@@ -18,7 +18,7 @@ func (warlock *Warlock) registerShadowBurnSpell() {
 		warlock.RegisterResetEffect(func(sim *core.Simulation) {
 			sim.RegisterExecutePhaseCallback(func(sim *core.Simulation, isExecute int32) {
 				if isExecute == 35 {
-					warlock.Shadowburn.BonusCritRating += 20 * core.CritRatingPerCritChance
+					warlock.Shadowburn.BonusCrit += 20
 				}
 			})
 		})
@@ -44,8 +44,8 @@ func (warlock *Warlock) registerShadowBurnSpell() {
 			},
 		},
 
-		BonusCritRating: 0 +
-			core.TernaryFloat64(warlock.Talents.Devastation, 5*core.CritRatingPerCritChance, 0),
+		BonusCrit: 0 +
+			core.TernaryFloat64(warlock.Talents.Devastation, 5, 0),
 		DamageMultiplierAdditive: 1 +
 			warlock.GrandFirestoneBonus() +
 			0.03*float64(warlock.Talents.ShadowMastery),

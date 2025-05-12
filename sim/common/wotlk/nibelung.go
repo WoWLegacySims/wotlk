@@ -19,7 +19,7 @@ type ValkyrPet struct {
 
 func newValkyr(character *core.Character) *ValkyrPet {
 	return &ValkyrPet{
-		Pet: core.NewPet("Valkyr", character, valkyrStats, func(ownerStats stats.Stats) stats.Stats {
+		Pet: core.NewPet("Valkyr", character, valkyrStats, stats.Stats{}, func(ownerStats stats.Stats) stats.Stats {
 			return stats.Stats{}
 		}, false, true),
 	}

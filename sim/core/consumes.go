@@ -628,7 +628,7 @@ func makePotionActivationInternal(potionType proto.Potions, character *Character
 		}
 	} else if potionType == proto.Potions_DestructionPotion {
 		actionID := ActionID{ItemID: 22839}
-		aura := character.NewTemporaryStatsAura("Destruction Potion", actionID, stats.Stats{stats.SpellPower: 120, stats.SpellCrit: 2 * CritRatingPerCritChance}, time.Second*15)
+		aura := character.NewTemporaryStatsAura("Destruction Potion", actionID, stats.Stats{stats.SpellPower: 120, stats.SpellCrit: 2 * character.CritRatingPerCritChance}, time.Second*15)
 		return MajorCooldown{
 			Type: CooldownTypeDPS,
 			Spell: character.GetOrRegisterSpell(SpellConfig{
@@ -989,7 +989,7 @@ func (character *Character) newBasicExplosiveSpellConfig(sharedTimer *Timer, act
 		},
 
 		// Explosives always have 1% resist chance, so just give them hit cap.
-		BonusHitRating:   100 * SpellHitRatingPerHitChance,
+		BonusHit:         100,
 		DamageMultiplier: 1,
 		CritMultiplier:   2,
 		ThreatMultiplier: 1,

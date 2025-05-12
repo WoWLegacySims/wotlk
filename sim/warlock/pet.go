@@ -24,10 +24,11 @@ const PetExpertiseScale = 1.53
 
 func (warlock *Warlock) NewWarlockPet() *WarlockPet {
 	var cfg struct {
-		Name          string
-		PowerModifier float64
-		Stats         stats.Stats
-		AutoAttacks   core.AutoAttackOptions
+		Name            string
+		PowerModifier   float64
+		Stats           stats.Stats
+		PercentageStats stats.Stats
+		AutoAttacks     core.AutoAttackOptions
 	}
 
 	switch warlock.Options.Summon {
@@ -42,8 +43,10 @@ func (warlock *Warlock) NewWarlockPet() *WarlockPet {
 			stats.Intellect: 150,
 			stats.Spirit:    209,
 			stats.Mana:      1559,
-			stats.MeleeCrit: 3.2685 * core.CritRatingPerCritChance,
-			stats.SpellCrit: 3.3355 * core.CritRatingPerCritChance,
+		}
+		cfg.PercentageStats = stats.Stats{
+			stats.MeleeCrit: 3.2685,
+			stats.SpellCrit: 3.3355,
 		}
 		cfg.AutoAttacks = core.AutoAttackOptions{
 			MainHand: core.Weapon{
@@ -65,8 +68,10 @@ func (warlock *Warlock) NewWarlockPet() *WarlockPet {
 			stats.Spirit:    367,
 			stats.Mana:      1174,
 			stats.MP5:       270, // rough guess, unclear if it's affected by other stats
-			stats.MeleeCrit: 3.454 * core.CritRatingPerCritChance,
-			stats.SpellCrit: 0.9075 * core.CritRatingPerCritChance,
+		}
+		cfg.PercentageStats = stats.Stats{
+			stats.MeleeCrit: 3.454,
+			stats.SpellCrit: 0.9075,
 		}
 	case proto.Warlock_Options_Succubus:
 		cfg.Name = "Succubus"
@@ -78,8 +83,10 @@ func (warlock *Warlock) NewWarlockPet() *WarlockPet {
 			stats.Intellect: 150,
 			stats.Spirit:    209,
 			stats.Mana:      1559,
-			stats.MeleeCrit: 3.2685 * core.CritRatingPerCritChance,
-			stats.SpellCrit: 3.3355 * core.CritRatingPerCritChance,
+		}
+		cfg.PercentageStats = stats.Stats{
+			stats.MeleeCrit: 3.2685,
+			stats.SpellCrit: 3.3355,
 		}
 		cfg.AutoAttacks = core.AutoAttackOptions{
 			MainHand: core.Weapon{
@@ -100,8 +107,10 @@ func (warlock *Warlock) NewWarlockPet() *WarlockPet {
 			stats.Intellect: 150,
 			stats.Spirit:    209,
 			stats.Mana:      1559,
-			stats.MeleeCrit: 3.2685 * core.CritRatingPerCritChance,
-			stats.SpellCrit: 3.3355 * core.CritRatingPerCritChance,
+		}
+		cfg.PercentageStats = stats.Stats{
+			stats.MeleeCrit: 3.2685,
+			stats.SpellCrit: 3.3355,
 		}
 		cfg.AutoAttacks = core.AutoAttackOptions{
 			MainHand: core.Weapon{
@@ -115,7 +124,7 @@ func (warlock *Warlock) NewWarlockPet() *WarlockPet {
 	}
 
 	wp := &WarlockPet{
-		Pet:   core.NewPet(cfg.Name, &warlock.Character, cfg.Stats, warlock.makeStatInheritance(), true, false),
+		Pet:   core.NewPet(cfg.Name, &warlock.Character, cfg.Stats, cfg.PercentageStats, warlock.makeStatInheritance(), true, false),
 		owner: warlock,
 	}
 
@@ -125,21 +134,21 @@ func (warlock *Warlock) NewWarlockPet() *WarlockPet {
 	wp.AddStat(stats.AttackPower, -20)
 
 	if warlock.Options.Summon == proto.Warlock_Options_Imp {
-		// imp has a slightly different agi crit scaling coef for some reason
-		wp.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritRatingPerCritChance*1/51.0204)
+		// imps are mages
+		wp.AddStatDependency(stats.Agility, stats.MeleeCrit, wp.CritRatingPerCritChance*core.CritPerAgi[proto.Class_ClassMage][wp.Level])
 	} else {
-		wp.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritRatingPerCritChance*1/52.0833)
+		wp.AddStatDependency(stats.Agility, stats.MeleeCrit, wp.CritRatingPerCritChance*core.CritPerAgi[proto.Class_ClassPaladin][wp.Level])
 	}
 
 	wp.AddStats(stats.Stats{
-		stats.MeleeCrit: float64(warlock.Talents.DemonicTactics) * 2 * core.CritRatingPerCritChance,
-		stats.SpellCrit: float64(warlock.Talents.DemonicTactics) * 2 * core.CritRatingPerCritChance,
+		stats.MeleeCrit: float64(warlock.Talents.DemonicTactics) * 2 * wp.CritRatingPerCritChance,
+		stats.SpellCrit: float64(warlock.Talents.DemonicTactics) * 2 * wp.CritRatingPerCritChance,
 
 		// Fix pet stats resulting from gaining the incorrect amount of stats from suppression/hit debuff
 		// see makeStatInheritance() below for a more details about these values
-		stats.MeleeHit:  -float64(warlock.Talents.Suppression) * core.MeleeHitRatingPerHitChance,
-		stats.SpellHit:  (-5.0 * float64(warlock.Talents.Suppression)) / 12.0 * core.SpellHitRatingPerHitChance,
-		stats.Expertise: -float64(warlock.Talents.Suppression) * PetExpertiseScale * core.ExpertisePerQuarterPercentReduction,
+		stats.MeleeHit:  -float64(warlock.Talents.Suppression) * wp.MeleeHitRatingPerHitChance,
+		stats.SpellHit:  (-5.0 * float64(warlock.Talents.Suppression)) / 12.0 * wp.SpellHitRatingPerHitChance,
+		stats.Expertise: -float64(warlock.Talents.Suppression) * PetExpertiseScale * wp.ExpertisePerQuarterPercentReduction,
 	})
 
 	wp.PseudoStats.DamageDealtMultiplier *= 1.0 + 0.04*float64(warlock.Talents.UnholyPower)
@@ -226,7 +235,7 @@ func (warlock *Warlock) NewWarlockPet() *WarlockPet {
 		mdLockAura := warlock.RegisterAura(md)
 		mdPetAura := wp.RegisterAura(md)
 
-		masterDemonologist := float64(warlock.Talents.MasterDemonologist) * core.CritRatingPerCritChance
+		masterDemonologist := float64(warlock.Talents.MasterDemonologist)
 		masterDemonologistFireCrit := core.TernaryFloat64(warlock.Options.Summon == proto.Warlock_Options_Imp, masterDemonologist, 0)
 		masterDemonologistShadowCrit := core.TernaryFloat64(warlock.Options.Summon == proto.Warlock_Options_Succubus, masterDemonologist, 0)
 
@@ -240,11 +249,11 @@ func (warlock *Warlock) NewWarlockPet() *WarlockPet {
 
 			for _, spell := range spellbook {
 				if spell.SpellSchool.Matches(core.SpellSchoolFire) {
-					spell.BonusCritRating += masterDemonologistFireCrit
+					spell.BonusCrit += masterDemonologistFireCrit
 				}
 
 				if spell.SpellSchool.Matches(core.SpellSchoolShadow) {
-					spell.BonusCritRating += masterDemonologistShadowCrit
+					spell.BonusCrit += masterDemonologistShadowCrit
 				}
 			}
 		}
@@ -259,11 +268,11 @@ func (warlock *Warlock) NewWarlockPet() *WarlockPet {
 
 			for _, spell := range spellbook {
 				if spell.SpellSchool.Matches(core.SpellSchoolFire) {
-					spell.BonusCritRating -= masterDemonologistFireCrit
+					spell.BonusCrit -= masterDemonologistFireCrit
 				}
 
 				if spell.SpellSchool.Matches(core.SpellSchoolShadow) {
-					spell.BonusCritRating -= masterDemonologistShadowCrit
+					spell.BonusCrit -= masterDemonologistShadowCrit
 				}
 			}
 		}
@@ -330,7 +339,7 @@ func (warlock *Warlock) makeStatInheritance() core.PetStatInheritance {
 		// the result and then add the hit percent from suppression/ff
 
 		// does correctly not include ff/misery
-		ownerHitChance := ownerStats[stats.SpellHit] / core.SpellHitRatingPerHitChance
+		ownerHitChance := ownerStats[stats.SpellHit] / warlock.SpellHitRatingPerHitChance
 
 		// TODO: Account for sunfire/soulfrost
 		return stats.Stats{
@@ -342,11 +351,11 @@ func (warlock *Warlock) makeStatInheritance() core.PetStatInheritance {
 			stats.SpellPenetration: ownerStats[stats.SpellPenetration],
 			stats.SpellCrit:        improvedDemonicTactics * 0.1 * ownerStats[stats.SpellCrit],
 			stats.MeleeCrit:        improvedDemonicTactics * 0.1 * ownerStats[stats.SpellCrit],
-			stats.MeleeHit:         ownerHitChance * core.MeleeHitRatingPerHitChance,
+			stats.MeleeHit:         ownerHitChance * warlock.MeleeHitRatingPerHitChance,
 			stats.SpellHit:         math.Floor(ownerStats[stats.SpellHit] / 12.0 * 17.0),
 			// TODO: revisit
-			stats.Expertise: (ownerStats[stats.SpellHit] / core.SpellHitRatingPerHitChance) *
-				PetExpertiseScale * core.ExpertisePerQuarterPercentReduction,
+			stats.Expertise: (ownerStats[stats.SpellHit] / warlock.SpellHitRatingPerHitChance) *
+				PetExpertiseScale * warlock.ExpertisePerQuarterPercentReduction,
 
 			// Resists, 40%
 

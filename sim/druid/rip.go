@@ -40,7 +40,7 @@ func (druid *Druid) registerRipSpell() {
 			return druid.ComboPoints() > 0
 		},
 
-		BonusCritRating:  core.TernaryFloat64(druid.HasSetBonus(ItemSetMalfurionsBattlegear, 4), 5*core.CritRatingPerCritChance, 0.0),
+		BonusCrit:        core.TernaryFloat64(druid.HasSetBonus(ItemSetMalfurionsBattlegear, 4), 5, 0.0),
 		DamageMultiplier: 1 + core.TernaryFloat64(druid.HasSetBonus(ItemSetThunderheartHarness, 4), 0.15, 0),
 		CritMultiplier:   druid.MeleeCritMultiplier(Cat),
 		ThreatMultiplier: 1,

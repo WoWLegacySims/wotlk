@@ -14,18 +14,18 @@ func (shaman *Shaman) ApplyTalents() {
 		shaman.AddStat(stats.SpellPower, 280*0.3)
 	}
 
-	shaman.AddStat(stats.MeleeCrit, core.CritRatingPerCritChance*1*float64(shaman.Talents.ThunderingStrikes))
-	shaman.AddStat(stats.SpellCrit, core.CritRatingPerCritChance*1*float64(shaman.Talents.ThunderingStrikes))
-	shaman.AddStat(stats.Dodge, core.DodgeRatingPerDodgeChance*1*float64(shaman.Talents.Anticipation))
+	shaman.AddStat(stats.MeleeCrit, shaman.CritRatingPerCritChance*1*float64(shaman.Talents.ThunderingStrikes))
+	shaman.AddStat(stats.SpellCrit, shaman.CritRatingPerCritChance*1*float64(shaman.Talents.ThunderingStrikes))
+	shaman.AddStat(stats.Dodge, shaman.DodgeRatingPerDodgeChance*1*float64(shaman.Talents.Anticipation))
 	shaman.PseudoStats.SchoolDamageDealtMultiplier[stats.SchoolIndexPhysical] *= []float64{1, 1.04, 1.07, 1.1}[shaman.Talents.WeaponMastery]
 
-	shaman.AddStat(stats.Expertise, 3*core.ExpertisePerQuarterPercentReduction*float64(shaman.Talents.UnleashedRage))
+	shaman.AddStat(stats.Expertise, 3*shaman.ExpertisePerQuarterPercentReduction*float64(shaman.Talents.UnleashedRage))
 
 	if shaman.Talents.DualWieldSpecialization > 0 && shaman.HasOHWeapon() {
-		shaman.AddStat(stats.MeleeHit, core.MeleeHitRatingPerHitChance*2*float64(shaman.Talents.DualWieldSpecialization))
+		shaman.AddStat(stats.MeleeHit, shaman.MeleeHitRatingPerHitChance*2*float64(shaman.Talents.DualWieldSpecialization))
 	}
 
-	shaman.AddStat(stats.SpellCrit, float64(shaman.Talents.BlessingOfTheEternals)*2*core.CritRatingPerCritChance)
+	shaman.AddStat(stats.SpellCrit, float64(shaman.Talents.BlessingOfTheEternals)*2*shaman.CritRatingPerCritChance)
 	if shaman.Talents.Toughness > 0 {
 		shaman.MultiplyStat(stats.Stamina, 1.0+0.02*float64(shaman.Talents.Toughness))
 	}
@@ -148,7 +148,7 @@ func (shaman *Shaman) applyElementalDevastation() {
 		return
 	}
 
-	critBonus := 3.0 * float64(shaman.Talents.ElementalDevastation) * core.CritRatingPerCritChance
+	critBonus := 3.0 * float64(shaman.Talents.ElementalDevastation) * shaman.CritRatingPerCritChance
 	procAura := shaman.NewTemporaryStatsAura("Elemental Devastation Proc", core.ActionID{SpellID: 30160}, stats.Stats{stats.MeleeCrit: critBonus}, time.Second*10)
 
 	shaman.RegisterAura(core.Aura{

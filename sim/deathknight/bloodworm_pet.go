@@ -2,6 +2,7 @@ package deathknight
 
 import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
@@ -13,7 +14,7 @@ type BloodwormPet struct {
 
 func (dk *Deathknight) NewBloodwormPet(_ int) *BloodwormPet {
 	bloodworm := &BloodwormPet{
-		Pet:     core.NewPet("Bloodworm", &dk.Character, bloodwormPetBaseStats, dk.bloodwormStatInheritance(), false, true),
+		Pet:     core.NewPet("Bloodworm", &dk.Character, stats.Stats{}, bloodwormPetBaseCrit, dk.bloodwormStatInheritance(), false, true),
 		dkOwner: dk,
 	}
 
@@ -36,7 +37,7 @@ func (dk *Deathknight) NewBloodwormPet(_ int) *BloodwormPet {
 	// }
 
 	bloodworm.AddStatDependency(stats.Strength, stats.AttackPower, 1.0+1)
-	bloodworm.AddStatDependency(stats.Agility, stats.MeleeCrit, 1.0+(core.CritRatingPerCritChance/83.3))
+	bloodworm.AddStatDependency(stats.Agility, stats.MeleeCrit, 1.0+(bloodworm.CritRatingPerCritChance*core.CritPerAgi[proto.Class_ClassRogue][bloodworm.Level]))
 
 	bloodworm.OnPetEnable = bloodworm.enable
 	bloodworm.OnPetDisable = bloodworm.disable
@@ -72,8 +73,8 @@ func (bloodworm *BloodwormPet) disable(sim *core.Simulation) {
 	bloodworm.MultiplyMeleeSpeed(sim, 1)
 }
 
-var bloodwormPetBaseStats = stats.Stats{
-	stats.MeleeCrit: 8 * core.CritRatingPerCritChance,
+var bloodwormPetBaseCrit = stats.Stats{
+	stats.MeleeCrit: 8,
 }
 
 func (dk *Deathknight) bloodwormStatInheritance() core.PetStatInheritance {

@@ -23,7 +23,7 @@ func (priest *Priest) RegisterSmiteSpell() {
 			},
 		},
 
-		BonusCritRating:  float64(priest.Talents.HolySpecialization) * 1 * core.CritRatingPerCritChance,
+		BonusCrit:        float64(priest.Talents.HolySpecialization),
 		DamageMultiplier: 1 + 0.05*float64(priest.Talents.SearingLight),
 		CritMultiplier:   priest.DefaultSpellCritMultiplier(),
 		ThreatMultiplier: 1 - []float64{0, .07, .14, .20}[priest.Talents.SilentResolve],

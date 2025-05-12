@@ -36,8 +36,8 @@ func (shaman *Shaman) registerThunderstormSpell() {
 			},
 		},
 
-		BonusHitRating:   float64(shaman.Talents.ElementalPrecision) * core.SpellHitRatingPerHitChance,
-		BonusCritRating:  core.TernaryFloat64(shaman.Talents.CallOfThunder, 5*core.CritRatingPerCritChance, 0),
+		BonusHit:         float64(shaman.Talents.ElementalPrecision),
+		BonusCrit:        core.TernaryFloat64(shaman.Talents.CallOfThunder, 5, 0),
 		DamageMultiplier: 1 + 0.01*float64(shaman.Talents.Concussion),
 		CritMultiplier:   shaman.ElementalCritMultiplier(0),
 		ThreatMultiplier: shaman.spellThreatMultiplier(),

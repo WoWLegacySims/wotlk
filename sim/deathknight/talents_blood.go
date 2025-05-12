@@ -42,8 +42,8 @@ func (dk *Deathknight) ApplyBloodTalents() {
 
 	// Dark Conviction
 	dk.AddStats(stats.Stats{
-		stats.MeleeCrit: core.CritRatingPerCritChance * float64(dk.Talents.DarkConviction),
-		stats.SpellCrit: core.CritRatingPerCritChance * float64(dk.Talents.DarkConviction),
+		stats.MeleeCrit: dk.CritRatingPerCritChance * float64(dk.Talents.DarkConviction),
+		stats.SpellCrit: dk.CritRatingPerCritChance * float64(dk.Talents.DarkConviction),
 	})
 
 	// Death Rune Mastery
@@ -68,7 +68,7 @@ func (dk *Deathknight) ApplyBloodTalents() {
 		expertiseBonus := 2.0 * float64(dk.Talents.VeteranOfTheThirdWar)
 		dk.MultiplyStat(stats.Strength, 1.0+strengthCoeff)
 		dk.MultiplyStat(stats.Stamina, 1.0+staminaCoeff)
-		dk.AddStat(stats.Expertise, expertiseBonus*core.ExpertisePerQuarterPercentReduction)
+		dk.AddStat(stats.Expertise, expertiseBonus*dk.ExpertisePerQuarterPercentReduction)
 	}
 
 	// Mark of Blood

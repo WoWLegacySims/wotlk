@@ -27,8 +27,8 @@ func (rogue *Rogue) registerSinisterStrikeSpell() {
 			IgnoreHaste: true,
 		},
 
-		BonusCritRating: core.TernaryFloat64(rogue.HasSetBonus(Tier9, 4), 5*core.CritRatingPerCritChance, 0) +
-			[]float64{0, 2, 4, 6}[rogue.Talents.TurnTheTables]*core.CritRatingPerCritChance,
+		BonusCrit: core.TernaryFloat64(rogue.HasSetBonus(Tier9, 4), 5, 0) +
+			float64(rogue.Talents.TurnTheTables)*2,
 		DamageMultiplier: 1 +
 			0.02*float64(rogue.Talents.FindWeakness) +
 			0.03*float64(rogue.Talents.Aggression) +

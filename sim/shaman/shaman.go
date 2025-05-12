@@ -40,7 +40,7 @@ func NewShaman(character *core.Character, talents string, totems *proto.ShamanTo
 	// Add Shaman stat dependencies
 	shaman.AddStatDependency(stats.Strength, stats.AttackPower, 1)
 	shaman.AddStatDependency(stats.Agility, stats.AttackPower, 1)
-	shaman.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritPerAgiMaxLevel[character.Class]*core.CritRatingPerCritChance)
+	shaman.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritPerAgi[character.Class][shaman.Level]*shaman.CritRatingPerCritChance)
 	shaman.AddStatDependency(stats.BonusArmor, stats.Armor, 1)
 	// Set proper Melee Haste scaling
 	shaman.PseudoStats.MeleeHasteRatingPerHastePercent /= 1.3
@@ -269,11 +269,11 @@ func (shaman *Shaman) RegisterHealingSpells() {
 			},
 			OnGain: func(aura *core.Aura, sim *core.Simulation) {
 				shaman.HealingWave.CastTimeMultiplier *= 0.7
-				shaman.LesserHealingWave.BonusCritRating += core.CritRatingPerCritChance * 25
+				shaman.LesserHealingWave.BonusCrit += 25
 			},
 			OnExpire: func(aura *core.Aura, sim *core.Simulation) {
 				shaman.HealingWave.CastTimeMultiplier /= 0.7
-				shaman.LesserHealingWave.BonusCritRating -= core.CritRatingPerCritChance * 25
+				shaman.LesserHealingWave.BonusCrit -= 25
 			},
 			MaxStacks: 2,
 		})

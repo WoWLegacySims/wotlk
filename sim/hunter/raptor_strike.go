@@ -25,7 +25,7 @@ func (hunter *Hunter) registerRaptorStrikeSpell() {
 			},
 		},
 
-		BonusCritRating:  float64(hunter.Talents.SavageStrikes) * 10 * core.CritRatingPerCritChance,
+		BonusCrit:        float64(hunter.Talents.SavageStrikes) * 10,
 		DamageMultiplier: 1,
 		CritMultiplier:   hunter.critMultiplier(false, false, false),
 		ThreatMultiplier: 1,

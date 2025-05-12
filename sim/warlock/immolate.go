@@ -32,8 +32,8 @@ func (warlock *Warlock) registerImmolateSpell() {
 			},
 		},
 
-		BonusCritRating: 0 +
-			core.TernaryFloat64(warlock.Talents.Devastation, 5*core.CritRatingPerCritChance, 0),
+		BonusCrit: 0 +
+			core.TernaryFloat64(warlock.Talents.Devastation, 5, 0),
 		DamageMultiplierAdditive: 1 +
 			warlock.GrandFirestoneBonus() +
 			0.03*float64(warlock.Talents.Emberstorm) +

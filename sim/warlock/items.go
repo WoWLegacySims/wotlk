@@ -29,18 +29,18 @@ var ItemSetPlagueheartGarb = core.NewItemSet(core.ItemSet{
 		2: func(agent core.Agent) {
 			warlock := agent.(WarlockAgent).GetWarlock()
 
-			const bonusCrit = 10 * core.CritRatingPerCritChance
+			const bonusCrit = 10
 			warlock.DemonicSoulAura = warlock.RegisterAura(core.Aura{
 				Label:    "Demonic Soul",
 				ActionID: core.ActionID{SpellID: 61595},
 				Duration: time.Second * 10,
 				OnGain: func(aura *core.Aura, sim *core.Simulation) {
-					warlock.ShadowBolt.BonusCritRating += bonusCrit
-					warlock.Incinerate.BonusCritRating += bonusCrit
+					warlock.ShadowBolt.BonusCrit += bonusCrit
+					warlock.Incinerate.BonusCrit += bonusCrit
 				},
 				OnExpire: func(aura *core.Aura, sim *core.Simulation) {
-					warlock.ShadowBolt.BonusCritRating -= bonusCrit
-					warlock.Incinerate.BonusCritRating -= bonusCrit
+					warlock.ShadowBolt.BonusCrit -= bonusCrit
+					warlock.Incinerate.BonusCrit -= bonusCrit
 				},
 				OnCastComplete: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell) {
 					if spell == warlock.ShadowBolt || spell == warlock.Incinerate {
@@ -116,8 +116,8 @@ var ItemSetGuldansRegalia = core.NewItemSet(core.ItemSet{
 			warlock := agent.(WarlockAgent).GetWarlock()
 			if warlock.Pet != nil {
 				warlock.Pet.AddStats(stats.Stats{
-					stats.MeleeCrit: 10 * core.CritRatingPerCritChance,
-					stats.SpellCrit: 10 * core.CritRatingPerCritChance,
+					stats.MeleeCrit: 10 * warlock.Pet.CritRatingPerCritChance,
+					stats.SpellCrit: 10 * warlock.Pet.CritRatingPerCritChance,
 				})
 			}
 		},

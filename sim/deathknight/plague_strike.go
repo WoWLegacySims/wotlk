@@ -26,7 +26,7 @@ func (dk *Deathknight) newPlagueStrikeSpell(isMH bool) *core.Spell {
 			IgnoreHaste: true,
 		},
 
-		BonusCritRating: (dk.annihilationCritBonus() + dk.scourgebornePlateCritBonus() + dk.viciousStrikesCritChanceBonus()) * core.CritRatingPerCritChance,
+		BonusCrit: (dk.annihilationCritBonus() + dk.scourgebornePlateCritBonus() + dk.viciousStrikesCritChanceBonus()),
 		DamageMultiplier: .5 *
 			core.TernaryFloat64(isMH, 1, dk.nervesOfColdSteelBonus()) *
 			(1.0 + 0.1*float64(dk.Talents.Outbreak)) *
@@ -84,7 +84,7 @@ func (dk *Deathknight) registerDrwPlagueStrikeSpell() {
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage,
 
-		BonusCritRating: (dk.annihilationCritBonus() + dk.scourgebornePlateCritBonus() + dk.viciousStrikesCritChanceBonus()) * core.CritRatingPerCritChance,
+		BonusCrit: (dk.annihilationCritBonus() + dk.scourgebornePlateCritBonus() + dk.viciousStrikesCritChanceBonus()),
 		DamageMultiplier: 0.5 *
 			(1.0 + 0.1*float64(dk.Talents.Outbreak)),
 		CritMultiplier:   dk.bonusCritMultiplier(dk.Talents.ViciousStrikes),

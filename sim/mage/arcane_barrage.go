@@ -35,7 +35,7 @@ func (mage *Mage) registerArcaneBarrageSpell() {
 			},
 		},
 
-		BonusHitRating:   float64(mage.Talents.ArcaneFocus) * core.SpellHitRatingPerHitChance,
+		BonusHit:         float64(mage.Talents.ArcaneFocus),
 		DamageMultiplier: 1 + .04*float64(mage.Talents.TormentTheWeak),
 		CritMultiplier:   mage.SpellCritMultiplier(1, mage.bonusCritDamage),
 		ThreatMultiplier: 1 - 0.2*float64(mage.Talents.ArcaneSubtlety),

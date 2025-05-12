@@ -48,9 +48,9 @@ func (hunter *Hunter) makeExplosiveShotSpell(timer *core.Timer, downrank bool) *
 			},
 		},
 
-		BonusCritRating: 0 +
-			2*core.CritRatingPerCritChance*float64(hunter.Talents.SurvivalInstincts) +
-			core.TernaryFloat64(hunter.HasMajorGlyph(proto.HunterMajorGlyph_GlyphOfExplosiveShot), 4*core.CritRatingPerCritChance, 0),
+		BonusCrit: 0 +
+			2*float64(hunter.Talents.SurvivalInstincts) +
+			core.TernaryFloat64(hunter.HasMajorGlyph(proto.HunterMajorGlyph_GlyphOfExplosiveShot), 4, 0),
 		DamageMultiplierAdditive: 1 +
 			.02*float64(hunter.Talents.TNT),
 		DamageMultiplier: 1,

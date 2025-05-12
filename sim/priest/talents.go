@@ -30,7 +30,7 @@ func (priest *Priest) ApplyTalents() {
 	priest.applyImprovedSpiritTap()
 	priest.registerInnerFocus()
 
-	priest.AddStat(stats.SpellCrit, 1*float64(priest.Talents.FocusedWill)*core.CritRatingPerCritChance)
+	priest.AddStat(stats.SpellCrit, 1*float64(priest.Talents.FocusedWill)*priest.CritRatingPerCritChance)
 	priest.PseudoStats.SpiritRegenRateCasting = []float64{0.0, 0.17, 0.33, 0.5}[priest.Talents.Meditation]
 	priest.PseudoStats.SchoolDamageTakenMultiplier[stats.SchoolIndexArcane] *= 1 - .02*float64(priest.Talents.SpellWarding)
 	priest.PseudoStats.SchoolDamageTakenMultiplier[stats.SchoolIndexHoly] *= 1 - .02*float64(priest.Talents.SpellWarding)
@@ -334,24 +334,24 @@ func (priest *Priest) applySurgeOfLight() {
 			if priest.Smite != nil {
 				priest.Smite.CastTimeMultiplier -= 1
 				priest.Smite.CostMultiplier -= 1
-				priest.Smite.BonusCritRating -= 100 * core.CritRatingPerCritChance
+				priest.Smite.BonusCrit -= 100
 			}
 			if priest.FlashHeal != nil {
 				priest.FlashHeal.CastTimeMultiplier -= 1
 				priest.FlashHeal.CostMultiplier -= 1
-				priest.FlashHeal.BonusCritRating -= 100 * core.CritRatingPerCritChance
+				priest.FlashHeal.BonusCrit -= 100
 			}
 		},
 		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
 			if priest.Smite != nil {
 				priest.Smite.CastTimeMultiplier += 1
 				priest.Smite.CostMultiplier += 1
-				priest.Smite.BonusCritRating += 100 * core.CritRatingPerCritChance
+				priest.Smite.BonusCrit += 100
 			}
 			if priest.FlashHeal != nil {
 				priest.FlashHeal.CastTimeMultiplier += 1
 				priest.FlashHeal.CostMultiplier += 1
-				priest.FlashHeal.BonusCritRating += 100 * core.CritRatingPerCritChance
+				priest.FlashHeal.BonusCrit += 100
 			}
 		},
 		OnSpellHitDealt: procHandler,
@@ -475,11 +475,11 @@ func (priest *Priest) registerInnerFocus() {
 		ActionID: actionID,
 		Duration: core.NeverExpires,
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
-			aura.Unit.AddStatDynamic(sim, stats.SpellCrit, 25*core.CritRatingPerCritChance)
+			aura.Unit.AddStatDynamic(sim, stats.SpellCrit, 25*priest.CritRatingPerCritChance)
 			aura.Unit.PseudoStats.CostMultiplier -= 1
 		},
 		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
-			aura.Unit.AddStatDynamic(sim, stats.SpellCrit, -25*core.CritRatingPerCritChance)
+			aura.Unit.AddStatDynamic(sim, stats.SpellCrit, -25*priest.CritRatingPerCritChance)
 			aura.Unit.PseudoStats.CostMultiplier += 1
 		},
 		OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {

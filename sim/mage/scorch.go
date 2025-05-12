@@ -32,9 +32,9 @@ func (mage *Mage) registerScorchSpell() {
 			},
 		},
 
-		BonusCritRating: 0 +
-			float64(mage.Talents.Incineration+mage.Talents.CriticalMass)*2*core.CritRatingPerCritChance +
-			float64(mage.Talents.ImprovedScorch)*1*core.CritRatingPerCritChance,
+		BonusCrit: 0 +
+			float64(mage.Talents.Incineration+mage.Talents.CriticalMass)*2 +
+			float64(mage.Talents.ImprovedScorch)*1,
 		DamageMultiplierAdditive: 1 +
 			.02*float64(mage.Talents.SpellImpact) +
 			.02*float64(mage.Talents.FirePower) +

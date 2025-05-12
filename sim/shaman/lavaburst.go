@@ -66,7 +66,7 @@ func (shaman *Shaman) registerLavaBurstSpell() {
 			},
 		},
 
-		BonusHitRating:   float64(shaman.Talents.ElementalPrecision) * core.SpellHitRatingPerHitChance,
+		BonusHit:         float64(shaman.Talents.ElementalPrecision),
 		DamageMultiplier: 1 + 0.01*float64(shaman.Talents.Concussion) + 0.02*float64(shaman.Talents.CallOfFlame),
 		CritMultiplier:   shaman.ElementalCritMultiplier([]float64{0, 0.06, 0.12, 0.24}[shaman.Talents.LavaFlows] + core.TernaryFloat64(shaman.HasSetBonus(ItemSetEarthShatterGarb, 4), 0.1, 0)),
 		ThreatMultiplier: shaman.spellThreatMultiplier(),

@@ -18,9 +18,9 @@ func (mage *Mage) registerLivingBombSpell() {
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       SpellFlagMage | HotStreakSpells,
 
-		BonusCritRating: 0 +
-			2*float64(mage.Talents.WorldInFlames)*core.CritRatingPerCritChance +
-			2*float64(mage.Talents.CriticalMass)*core.CritRatingPerCritChance,
+		BonusCrit: 0 +
+			2*float64(mage.Talents.WorldInFlames) +
+			2*float64(mage.Talents.CriticalMass),
 		DamageMultiplierAdditive: 1 +
 			.02*float64(mage.Talents.FirePower),
 		CritMultiplier:   mage.SpellCritMultiplier(1, mage.bonusCritDamage),
@@ -60,8 +60,8 @@ func (mage *Mage) registerLivingBombSpell() {
 		},
 
 		// WorldInFlames doesn't apply to DoT component.
-		BonusCritRating: 0 +
-			2*float64(mage.Talents.CriticalMass)*core.CritRatingPerCritChance,
+		BonusCrit: 0 +
+			2*float64(mage.Talents.CriticalMass),
 		DamageMultiplierAdditive: 1 +
 			.02*float64(mage.Talents.FirePower),
 		CritMultiplier:   mage.SpellCritMultiplier(1, mage.bonusCritDamage),

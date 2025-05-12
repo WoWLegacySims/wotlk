@@ -1,8 +1,9 @@
 package mage
 
 import (
-	"github.com/WoWLegacySims/wotlk/sim/core"
 	"time"
+
+	"github.com/WoWLegacySims/wotlk/sim/core"
 )
 
 func (mage *Mage) registerBlastWaveSpell() {
@@ -27,7 +28,7 @@ func (mage *Mage) registerBlastWaveSpell() {
 				Duration: time.Second * 30,
 			},
 		},
-		BonusCritRating: float64(mage.Talents.CriticalMass+mage.Talents.WorldInFlames) * 2 * core.CritRatingPerCritChance,
+		BonusCrit: float64(mage.Talents.CriticalMass+mage.Talents.WorldInFlames) * 2,
 		DamageMultiplierAdditive: 1 +
 			.02*float64(mage.Talents.SpellImpact) +
 			.02*float64(mage.Talents.FirePower),

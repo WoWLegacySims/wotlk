@@ -22,12 +22,12 @@ func (warlock *Warlock) registerDemonicEmpowermentSpell() {
 			Duration: time.Second * 30,
 			OnGain: func(aura *core.Aura, sim *core.Simulation) {
 				warlock.Pet.AddStatsDynamic(sim, stats.Stats{
-					stats.SpellCrit: 20 * core.CritRatingPerCritChance,
+					stats.SpellCrit: 20 * warlock.Pet.CritRatingPerCritChance,
 				})
 			},
 			OnExpire: func(aura *core.Aura, sim *core.Simulation) {
 				warlock.Pet.AddStatsDynamic(sim, stats.Stats{
-					stats.SpellCrit: -20 * core.CritRatingPerCritChance,
+					stats.SpellCrit: -20 * warlock.Pet.CritRatingPerCritChance,
 				})
 			},
 		}

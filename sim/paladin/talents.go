@@ -16,10 +16,10 @@ func (paladin *Paladin) ToughnessArmorMultiplier() float64 {
 }
 
 func (paladin *Paladin) ApplyTalents() {
-	paladin.AddStat(stats.MeleeCrit, float64(paladin.Talents.Conviction)*core.CritRatingPerCritChance)
-	paladin.AddStat(stats.SpellCrit, float64(paladin.Talents.Conviction)*core.CritRatingPerCritChance)
-	paladin.AddStat(stats.MeleeCrit, float64(paladin.Talents.SanctityOfBattle)*core.CritRatingPerCritChance)
-	paladin.AddStat(stats.SpellCrit, float64(paladin.Talents.SanctityOfBattle)*core.CritRatingPerCritChance)
+	paladin.AddStat(stats.MeleeCrit, float64(paladin.Talents.Conviction)*paladin.CritRatingPerCritChance)
+	paladin.AddStat(stats.SpellCrit, float64(paladin.Talents.Conviction)*paladin.CritRatingPerCritChance)
+	paladin.AddStat(stats.MeleeCrit, float64(paladin.Talents.SanctityOfBattle)*paladin.CritRatingPerCritChance)
+	paladin.AddStat(stats.SpellCrit, float64(paladin.Talents.SanctityOfBattle)*paladin.CritRatingPerCritChance)
 
 	paladin.PseudoStats.BaseParry += 0.01 * float64(paladin.Talents.Deflection)
 	paladin.PseudoStats.BaseDodge += 0.01 * float64(paladin.Talents.Anticipation)
@@ -49,9 +49,9 @@ func (paladin *Paladin) ApplyTalents() {
 	}
 
 	if paladin.Talents.CombatExpertise > 0 {
-		paladin.AddStat(stats.Expertise, core.ExpertisePerQuarterPercentReduction*2*float64(paladin.Talents.CombatExpertise))
-		paladin.AddStat(stats.MeleeCrit, core.CritRatingPerCritChance*2*float64(paladin.Talents.CombatExpertise))
-		paladin.AddStat(stats.SpellCrit, core.CritRatingPerCritChance*2*float64(paladin.Talents.CombatExpertise))
+		paladin.AddStat(stats.Expertise, paladin.ExpertisePerQuarterPercentReduction*2*float64(paladin.Talents.CombatExpertise))
+		paladin.AddStat(stats.MeleeCrit, paladin.CritRatingPerCritChance*2*float64(paladin.Talents.CombatExpertise))
+		paladin.AddStat(stats.SpellCrit, paladin.CritRatingPerCritChance*2*float64(paladin.Talents.CombatExpertise))
 		paladin.MultiplyStat(stats.Stamina, 1.0+0.02*float64(paladin.Talents.CombatExpertise))
 	}
 
@@ -134,7 +134,7 @@ func (paladin *Paladin) applyRedoubt() {
 
 	paladin.PseudoStats.BlockValueMultiplier += 0.10 * float64(paladin.Talents.Redoubt)
 
-	bonusBlockRating := 10 * core.BlockRatingPerBlockChance * float64(paladin.Talents.Redoubt)
+	bonusBlockRating := 10 * paladin.BlockRatingPerBlockChance * float64(paladin.Talents.Redoubt)
 
 	procAura := paladin.RegisterAura(core.Aura{
 		Label:     "Redoubt Proc",
@@ -229,7 +229,7 @@ func (paladin *Paladin) applyArdentDefender() {
 	}
 
 	// 540 defense (+140) yields the full heal amount
-	ardentHealAmount := max(1.0, float64(paladin.GetStat(stats.Defense))/core.DefenseRatingPerDefense/140.0) * 0.10 * float64(paladin.Talents.ArdentDefender)
+	ardentHealAmount := max(1.0, float64(paladin.GetStat(stats.Defense))/paladin.DefenseRatingPerDefense/140.0) * 0.10 * float64(paladin.Talents.ArdentDefender)
 
 	// TBD? Buff to mark time spent fully below 35% and attribute absorbs
 	// rangeAura := paladin.RegisterAura(core.Aura{

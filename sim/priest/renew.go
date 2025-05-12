@@ -18,7 +18,7 @@ func (priest *Priest) registerRenewSpell() {
 			ProcMask:    core.ProcMaskSpellHealing,
 			Flags:       core.SpellFlagNoOnCastComplete | core.SpellFlagHelpful,
 
-			BonusCritRating: float64(priest.Talents.HolySpecialization) * 1 * core.CritRatingPerCritChance,
+			BonusCrit: float64(priest.Talents.HolySpecialization),
 			DamageMultiplier: 1 *
 				float64(priest.renewTicks()) *
 				priest.renewHealingMultiplier() *

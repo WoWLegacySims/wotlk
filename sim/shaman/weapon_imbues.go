@@ -145,7 +145,7 @@ func (shaman *Shaman) newFlametongueImbueSpell(weapon *core.Item, isDownranked b
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskWeaponProc,
 
-		BonusHitRating:   float64(shaman.Talents.ElementalPrecision) * core.SpellHitRatingPerHitChance,
+		BonusHit:         float64(shaman.Talents.ElementalPrecision),
 		DamageMultiplier: 1,
 		CritMultiplier:   shaman.ElementalCritMultiplier(0),
 		ThreatMultiplier: 1,
@@ -175,7 +175,7 @@ func (shaman *Shaman) ApplyFlametongueImbueToItem(item *core.Item, isDownranked 
 
 	newStats := stats.Stats{stats.SpellPower: spBonus * spMod}
 	if shaman.HasMajorGlyph(proto.ShamanMajorGlyph_GlyphOfFlametongueWeapon) {
-		newStats = newStats.Add(stats.Stats{stats.SpellCrit: 2 * core.CritRatingPerCritChance})
+		newStats = newStats.Add(stats.Stats{stats.SpellCrit: 2 * shaman.CritRatingPerCritChance})
 	}
 
 	item.Stats = item.Stats.Add(newStats)
@@ -275,7 +275,7 @@ func (shaman *Shaman) newFrostbrandImbueSpell() *core.Spell {
 		SpellSchool: core.SpellSchoolFrost,
 		ProcMask:    core.ProcMaskEmpty,
 
-		BonusHitRating:   float64(shaman.Talents.ElementalPrecision) * core.SpellHitRatingPerHitChance,
+		BonusHit:         float64(shaman.Talents.ElementalPrecision),
 		DamageMultiplier: 1,
 		CritMultiplier:   shaman.ElementalCritMultiplier(0),
 		ThreatMultiplier: 1,

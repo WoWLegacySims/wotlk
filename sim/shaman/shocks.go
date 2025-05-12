@@ -39,7 +39,7 @@ func (shaman *Shaman) newShockSpellConfig(spellID int32, spellSchool core.SpellS
 			},
 		},
 
-		BonusHitRating: float64(shaman.Talents.ElementalPrecision) * core.SpellHitRatingPerHitChance,
+		BonusHit: float64(shaman.Talents.ElementalPrecision),
 		DamageMultiplier: 1 +
 			0.01*float64(shaman.Talents.Concussion) +
 			core.TernaryFloat64(shaman.HasSetBonus(ItemSetThrallsBattlegear, 4), 0.25, 0),
@@ -85,10 +85,10 @@ func (shaman *Shaman) registerFlameShockSpell(shockTimer *core.Timer) {
 		Aura: core.Aura{
 			Label: "FlameShock",
 			OnGain: func(aura *core.Aura, sim *core.Simulation) {
-				shaman.LavaBurst.BonusCritRating += 100 * core.CritRatingPerCritChance
+				shaman.LavaBurst.BonusCrit += 100
 			},
 			OnExpire: func(aura *core.Aura, sim *core.Simulation) {
-				shaman.LavaBurst.BonusCritRating -= 100 * core.CritRatingPerCritChance
+				shaman.LavaBurst.BonusCrit -= 100
 			},
 		},
 		NumberOfTicks:       flameShockBaseNumberOfTicks,

@@ -155,6 +155,18 @@ type Unit struct {
 
 	// The currently-channeled DOT spell, otherwise nil.
 	ChanneledDot *Dot
+
+	ExpertisePerQuarterPercentReduction    float64
+	HasteRatingPerHastePercent             float64
+	CritRatingPerCritChance                float64
+	MeleeHitRatingPerHitChance             float64
+	SpellHitRatingPerHitChance             float64
+	DefenseRatingPerDefense                float64
+	DodgeRatingPerDodgeChance              float64
+	ParryRatingPerParryChance              float64
+	BlockRatingPerBlockChance              float64
+	ResilienceRatingPerCritReductionChance float64
+	CritPerAgi                             float64
 }
 
 // Units can be disabled for several reasons:
@@ -312,7 +324,7 @@ func (unit *Unit) SpellGCD() time.Duration {
 }
 
 func (unit *Unit) updateCastSpeed() {
-	unit.CastSpeed = 1 / (unit.PseudoStats.CastSpeedMultiplier * (1 + (unit.stats[stats.SpellHaste] / (HasteRatingPerHastePercent * 100))))
+	unit.CastSpeed = 1 / (unit.PseudoStats.CastSpeedMultiplier * (1 + (unit.stats[stats.SpellHaste] / (unit.HasteRatingPerHastePercent * 100))))
 }
 func (unit *Unit) MultiplyCastSpeed(amount float64) {
 	unit.PseudoStats.CastSpeedMultiplier *= amount
@@ -343,7 +355,7 @@ func (unit *Unit) ArmorPenetrationPercentage(armorPenRating float64) float64 {
 }
 
 func (unit *Unit) RangedSwingSpeed() float64 {
-	return unit.PseudoStats.RangedSpeedMultiplier * (1 + (unit.stats[stats.MeleeHaste] / (HasteRatingPerHastePercent * 100)))
+	return unit.PseudoStats.RangedSpeedMultiplier * (1 + (unit.stats[stats.MeleeHaste] / (unit.HasteRatingPerHastePercent * 100)))
 }
 
 // MultiplyMeleeSpeed will alter the attack speed multiplier and change swing speed of all autoattack swings in progress.
@@ -375,14 +387,14 @@ func (unit *Unit) MultiplyAttackSpeed(sim *Simulation, amount float64) {
 func (unit *Unit) AddBonusRangedHitRating(amount float64) {
 	unit.OnSpellRegistered(func(spell *Spell) {
 		if spell.ProcMask.Matches(ProcMaskRanged) {
-			spell.BonusHitRating += amount
+			spell.BonusHit += amount / unit.MeleeHitRatingPerHitChance
 		}
 	})
 }
 func (unit *Unit) AddBonusRangedCritRating(amount float64) {
 	unit.OnSpellRegistered(func(spell *Spell) {
 		if spell.ProcMask.Matches(ProcMaskRanged) {
-			spell.BonusCritRating += amount
+			spell.BonusCrit += amount / unit.CritRatingPerCritChance
 		}
 	})
 }

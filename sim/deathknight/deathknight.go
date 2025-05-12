@@ -11,10 +11,18 @@ import (
 )
 
 const (
-	PetSpellHitScale   = 17.0 / 8.0 * core.SpellHitRatingPerHitChance / core.MeleeHitRatingPerHitChance    // 1.7
-	PetExpertiseScale  = 3.25 * core.ExpertisePerQuarterPercentReduction / core.MeleeHitRatingPerHitChance // 0.8125
 	PetSpellHasteScale = 1.3
 )
+
+// 1.7 at 80
+func (dk *Deathknight) GetPetSpellHitScale() float64 {
+	return 17.0 / 8.0 * dk.SpellHitRatingPerHitChance / dk.MeleeHitRatingPerHitChance
+}
+
+// 0.8125 at 80
+func (dk *Deathknight) GetPetExpertiseScale() float64 {
+	return 3.25 * dk.ExpertisePerQuarterPercentReduction / dk.MeleeHitRatingPerHitChance
+}
 
 var TalentTreeSizes = [3]int{28, 29, 31}
 
@@ -379,8 +387,8 @@ func NewDeathknight(character *core.Character, inputs DeathknightInputs, talents
 		nil,
 	)
 
-	dk.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritPerAgiMaxLevel[character.Class]*core.CritRatingPerCritChance)
-	dk.AddStatDependency(stats.Agility, stats.Dodge, core.DodgeRatingPerDodgeChance/84.74576271)
+	dk.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritPerAgi[character.Class][dk.Level]*dk.CritRatingPerCritChance)
+	dk.AddStatDependency(stats.Agility, stats.Dodge, dk.DodgeRatingPerDodgeChance/84.74576271)
 	dk.AddStatDependency(stats.Strength, stats.AttackPower, 2)
 	dk.AddStatDependency(stats.Strength, stats.Parry, 0.25)
 	dk.AddStatDependency(stats.BonusArmor, stats.Armor, 1)

@@ -274,9 +274,9 @@ func New(char *core.Character, form DruidForm, selfBuffs SelfBuffs, talents stri
 
 	druid.AddStatDependency(stats.Strength, stats.AttackPower, 2)
 	druid.AddStatDependency(stats.BonusArmor, stats.Armor, 1)
-	druid.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritPerAgiMaxLevel[char.Class]*core.CritRatingPerCritChance)
+	druid.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritPerAgi[char.Class][char.Level]*druid.CritRatingPerCritChance)
 	// Druid get 0.0209 dodge per agi (before dr), roughly 1 per 47.846
-	druid.AddStatDependency(stats.Agility, stats.Dodge, (0.0209)*core.DodgeRatingPerDodgeChance)
+	druid.AddStatDependency(stats.Agility, stats.Dodge, (0.0209)*druid.DodgeRatingPerDodgeChance)
 
 	// Druids get extra melee haste
 	druid.PseudoStats.MeleeHasteRatingPerHastePercent /= 1.3

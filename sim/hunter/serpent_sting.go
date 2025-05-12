@@ -30,7 +30,7 @@ func (hunter *Hunter) registerSerpentStingSpell() {
 		},
 
 		// Need to specially apply LethalShots here, because this spell uses an empty proc mask
-		BonusCritRating: 1 * core.CritRatingPerCritChance * float64(hunter.Talents.LethalShots),
+		BonusCrit: float64(hunter.Talents.LethalShots),
 
 		DamageMultiplierAdditive: 1 +
 			0.1*float64(hunter.Talents.ImprovedStings) +

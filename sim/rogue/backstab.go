@@ -30,9 +30,9 @@ func (rogue *Rogue) registerBackstabSpell() {
 			return !rogue.PseudoStats.InFrontOfTarget && rogue.HasDagger(core.MainHand)
 		},
 
-		BonusCritRating: core.TernaryFloat64(rogue.HasSetBonus(Tier9, 4), 5*core.CritRatingPerCritChance, 0) +
-			[]float64{0, 2, 4, 6}[rogue.Talents.TurnTheTables]*core.CritRatingPerCritChance +
-			10*core.CritRatingPerCritChance*float64(rogue.Talents.PuncturingWounds),
+		BonusCrit: core.TernaryFloat64(rogue.HasSetBonus(Tier9, 4), 5, 0) +
+			float64(rogue.Talents.TurnTheTables)*2 +
+			10*float64(rogue.Talents.PuncturingWounds),
 		// All of these use "Apply Aura: Modifies Damage/Healing Done", and stack additively (up to 142%).
 		DamageMultiplier: 1.5 * (1 +
 			0.02*float64(rogue.Talents.FindWeakness) +

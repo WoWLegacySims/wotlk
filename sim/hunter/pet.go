@@ -33,7 +33,7 @@ func (hunter *Hunter) NewHunterPet() *HunterPet {
 	petConfig := PetConfigs[hunter.Options.PetType]
 
 	hp := &HunterPet{
-		Pet:         core.NewPet(petConfig.Name, &hunter.Character, hunterPetBaseStats, hunter.makeStatInheritance(), true, false),
+		Pet:         core.NewPet(petConfig.Name, &hunter.Character, hunterPetBaseStats, hunterPetBasePercentageStats, hunter.makeStatInheritance(), true, false),
 		config:      petConfig,
 		hunterOwner: hunter,
 
@@ -64,7 +64,7 @@ func (hunter *Hunter) NewHunterPet() *HunterPet {
 	hp.PseudoStats.SchoolDamageDealtMultiplier[stats.SchoolIndexPhysical] *= 1.05
 
 	hp.AddStatDependency(stats.Strength, stats.AttackPower, 2)
-	hp.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritRatingPerCritChance/62.77)
+	hp.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritPerAgi[proto.Class_ClassWarrior][hp.Level]*hp.CritRatingPerCritChance) //hunter pets are warriors
 	core.ApplyPetConsumeEffects(&hp.Character, hunter.Consumes)
 
 	hunter.AddPet(hp)
@@ -135,9 +135,11 @@ var hunterPetBaseStats = stats.Stats{
 	stats.Agility:     113,
 	stats.Strength:    331,
 	stats.AttackPower: -20, // Apparently pets and warriors have a AP penalty.
+}
 
+var hunterPetBasePercentageStats = stats.Stats{
 	// Add 1.8% because pets aren't affected by that component of crit suppression.
-	stats.MeleeCrit: (3.2 + 1.8) * core.CritRatingPerCritChance,
+	stats.MeleeCrit: (3.2 + 1.8),
 }
 
 const PetExpertiseScale = 3.25
@@ -155,8 +157,8 @@ func (hunter *Hunter) makeStatInheritance() core.PetStatInheritance {
 		// EJ posts claim this value is passed through math.Floor, but in-game testing
 		// shows pets benefit from each point of owner hit rating in WotLK Classic.
 		// https://web.archive.org/web/20120112003252/http://elitistjerks.com/f80/t100099-demonology_releasing_demon_you
-		ownerHitChance := ownerStats[stats.MeleeHit] / core.MeleeHitRatingPerHitChance
-		hitRatingFromOwner := ownerHitChance * core.MeleeHitRatingPerHitChance
+		ownerHitChance := ownerStats[stats.MeleeHit] / hunter.MeleeHitRatingPerHitChance
+		hitRatingFromOwner := ownerHitChance * hunter.MeleeHitRatingPerHitChance
 
 		return stats.Stats{
 			stats.Stamina:     ownerStats[stats.Stamina] * 0.3 * (1 + 0.2*float64(wildHunt)),
@@ -165,7 +167,7 @@ func (hunter *Hunter) makeStatInheritance() core.PetStatInheritance {
 
 			stats.MeleeHit:  hitRatingFromOwner,
 			stats.SpellHit:  hitRatingFromOwner * 2,
-			stats.Expertise: ownerHitChance * PetExpertiseScale * core.ExpertisePerQuarterPercentReduction,
+			stats.Expertise: ownerHitChance * PetExpertiseScale * hunter.ExpertisePerQuarterPercentReduction,
 		}
 	}
 }

@@ -32,7 +32,7 @@ func (paladin *Paladin) registerHammerOfWrathSpell() {
 			return sim.IsExecutePhase20()
 		},
 
-		BonusCritRating: 25 * float64(paladin.Talents.SanctifiedWrath) * core.CritRatingPerCritChance,
+		BonusCrit: 25 * float64(paladin.Talents.SanctifiedWrath),
 		DamageMultiplierAdditive: 1 +
 			paladin.getItemSetLightbringerBattlegearBonus4() +
 			paladin.getItemSetAegisBattlegearBonus2(),

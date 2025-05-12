@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
@@ -62,13 +63,13 @@ type TreantPet struct {
 
 func (druid *Druid) NewTreant() *TreantPet {
 	treant := &TreantPet{
-		Pet: core.NewPet("Treant", &druid.Character, treantBaseStats, func(ownerStats stats.Stats) stats.Stats {
+		Pet: core.NewPet("Treant", &druid.Character, treantBaseStats, treantBasePercentageStats, func(ownerStats stats.Stats) stats.Stats {
 			return stats.Stats{}
 		}, false, false),
 		druidOwner: druid,
 	}
 	treant.AddStatDependency(stats.Strength, stats.AttackPower, 2)
-	treant.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritRatingPerCritChance/83.3)
+	treant.AddStatDependency(stats.Agility, stats.MeleeCrit, treant.CritRatingPerCritChance*core.CritPerAgi[proto.Class_ClassRogue][treant.Level])
 
 	treant.PseudoStats.DamageDealtMultiplier = 1 + 0.05*float64(druid.Talents.Brambles)
 	treant.EnableAutoAttacks(treant, core.AutoAttackOptions{
@@ -118,7 +119,9 @@ var treantBaseStats = stats.Stats{
 	stats.Stamina:   598,
 	stats.Intellect: 281,
 	stats.Spirit:    109,
-	stats.MeleeCrit: 5 * core.CritRatingPerCritChance,
-	stats.MeleeHit:  5 * core.MeleeHitRatingPerHitChance,
-	stats.Expertise: 120,
+}
+var treantBasePercentageStats = stats.Stats{
+	stats.MeleeCrit: 5,
+	stats.MeleeHit:  5,
+	stats.Expertise: 14.6386164751,
 }

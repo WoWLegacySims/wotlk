@@ -66,7 +66,7 @@ type InfernalPet struct {
 
 func (warlock *Warlock) NewInfernal() *InfernalPet {
 	statInheritance := func(ownerStats stats.Stats) stats.Stats {
-		ownerHitChance := math.Floor(ownerStats[stats.SpellHit] / core.SpellHitRatingPerHitChance)
+		ownerHitChance := math.Floor(ownerStats[stats.SpellHit] / warlock.SpellHitRatingPerHitChance)
 
 		// TODO: account for fire spell damage
 		return stats.Stats{
@@ -76,10 +76,10 @@ func (warlock *Warlock) NewInfernal() *InfernalPet {
 			stats.AttackPower:      ownerStats[stats.SpellPower] * 0.57,
 			stats.SpellPower:       ownerStats[stats.SpellPower] * 0.15,
 			stats.SpellPenetration: ownerStats[stats.SpellPenetration],
-			stats.MeleeHit:         ownerHitChance * core.MeleeHitRatingPerHitChance,
-			stats.SpellHit:         ownerHitChance * core.SpellHitRatingPerHitChance,
-			stats.Expertise: (ownerStats[stats.SpellHit] / core.SpellHitRatingPerHitChance) *
-				PetExpertiseScale * core.ExpertisePerQuarterPercentReduction,
+			stats.MeleeHit:         ownerHitChance * warlock.MeleeHitRatingPerHitChance,
+			stats.SpellHit:         ownerHitChance * warlock.SpellHitRatingPerHitChance,
+			stats.Expertise: (ownerStats[stats.SpellHit] / warlock.SpellHitRatingPerHitChance) *
+				PetExpertiseScale * warlock.ExpertisePerQuarterPercentReduction,
 		}
 	}
 
@@ -91,8 +91,7 @@ func (warlock *Warlock) NewInfernal() *InfernalPet {
 			stats.Intellect: 65,
 			stats.Spirit:    109,
 			stats.Mana:      0,
-			stats.MeleeCrit: 3.192 * core.CritRatingPerCritChance,
-		}, statInheritance, false, false),
+		}, stats.Stats{stats.MeleeCrit: 3.192}, statInheritance, false, false),
 		owner: warlock,
 	}
 
@@ -101,7 +100,7 @@ func (warlock *Warlock) NewInfernal() *InfernalPet {
 
 	// infernal is classified as a warrior class, so we assume it gets the
 	// same agi crit coefficient
-	infernal.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritRatingPerCritChance*1/62.5)
+	infernal.AddStatDependency(stats.Agility, stats.MeleeCrit, infernal.CritRatingPerCritChance*core.CritPerAgi[proto.Class_ClassWarrior][infernal.Level])
 
 	// command doesn't apply to infernal
 	if warlock.Race == proto.Race_RaceOrc {

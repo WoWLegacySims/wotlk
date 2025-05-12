@@ -356,7 +356,7 @@ func init() {
 		procMask := character.GetProcMaskForItem(12590)
 		ppmm := character.AutoAttacks.NewPPMManager(1.0, procMask)
 
-		effectAura := character.NewTemporaryStatsAura("Felstriker Proc", core.ActionID{SpellID: 16551}, stats.Stats{stats.MeleeCrit: 100 * core.CritRatingPerCritChance}, time.Second*3)
+		effectAura := character.NewTemporaryStatsAura("Felstriker Proc", core.ActionID{SpellID: 16551}, stats.Stats{stats.MeleeCrit: 100 * character.CritRatingPerCritChance}, time.Second*3)
 
 		character.GetOrRegisterAura(core.Aura{
 			Label:    "Felstriker",

@@ -32,8 +32,8 @@ func (hunter *Hunter) registerKillShotSpell() {
 			return sim.IsExecutePhase20()
 		},
 
-		BonusCritRating: 0 +
-			5*core.CritRatingPerCritChance*float64(hunter.Talents.SniperTraining),
+		BonusCrit: 0 +
+			5*float64(hunter.Talents.SniperTraining),
 		DamageMultiplier: 1 *
 			hunter.markedForDeathMultiplier(),
 		CritMultiplier:   hunter.critMultiplier(true, true, false),

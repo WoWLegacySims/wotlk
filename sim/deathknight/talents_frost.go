@@ -30,7 +30,7 @@ func (dk *Deathknight) ApplyFrostTalents() {
 
 	// Nerves Of Cold Steel
 	if dk.nervesOfColdSteelActive() {
-		dk.AddStat(stats.MeleeHit, core.MeleeHitRatingPerHitChance*float64(dk.Talents.NervesOfColdSteel))
+		dk.AddStat(stats.MeleeHit, dk.MeleeHitRatingPerHitChance*float64(dk.Talents.NervesOfColdSteel))
 		dk.AutoAttacks.OHConfig().DamageMultiplier *= dk.nervesOfColdSteelBonus()
 	}
 
@@ -74,7 +74,7 @@ func (dk *Deathknight) ApplyFrostTalents() {
 	dk.applyRime()
 
 	// Tundra Stalker
-	dk.AddStat(stats.Expertise, 1.0*float64(dk.Talents.TundraStalker)*core.ExpertisePerQuarterPercentReduction)
+	dk.AddStat(stats.Expertise, 1.0*float64(dk.Talents.TundraStalker)*dk.ExpertisePerQuarterPercentReduction)
 	if dk.Talents.TundraStalker > 0 {
 		dk.applyTundaStalker()
 	}
@@ -171,23 +171,23 @@ func (dk *Deathknight) applyKillingMachine() {
 		ActionID: actionID,
 		Duration: time.Second * 30,
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
-			dk.IcyTouch.BonusCritRating += 100 * core.CritRatingPerCritChance
+			dk.IcyTouch.BonusCrit += 100
 			if dk.Talents.FrostStrike {
-				dk.FrostStrikeMhHit.BonusCritRating += 100 * core.CritRatingPerCritChance
-				dk.FrostStrikeOhHit.BonusCritRating += 100 * core.CritRatingPerCritChance
+				dk.FrostStrikeMhHit.BonusCrit += 100
+				dk.FrostStrikeOhHit.BonusCrit += 100
 			}
 			if dk.HowlingBlast != nil {
-				dk.HowlingBlast.BonusCritRating += 100 * core.CritRatingPerCritChance
+				dk.HowlingBlast.BonusCrit += 100
 			}
 		},
 		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
-			dk.IcyTouch.BonusCritRating -= 100 * core.CritRatingPerCritChance
+			dk.IcyTouch.BonusCrit -= 100
 			if dk.Talents.FrostStrike {
-				dk.FrostStrikeMhHit.BonusCritRating -= 100 * core.CritRatingPerCritChance
-				dk.FrostStrikeOhHit.BonusCritRating -= 100 * core.CritRatingPerCritChance
+				dk.FrostStrikeMhHit.BonusCrit -= 100
+				dk.FrostStrikeOhHit.BonusCrit -= 10
 			}
 			if dk.HowlingBlast != nil {
-				dk.HowlingBlast.BonusCritRating -= 100 * core.CritRatingPerCritChance
+				dk.HowlingBlast.BonusCrit -= 100
 			}
 		},
 	})
@@ -242,23 +242,23 @@ func (dk *Deathknight) applyDeathchill() {
 		ActionID: actionID,
 		Duration: time.Second * 30,
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
-			dk.IcyTouch.BonusCritRating += 100 * core.CritRatingPerCritChance
-			dk.FrostStrikeMhHit.BonusCritRating += 100 * core.CritRatingPerCritChance
-			dk.FrostStrikeOhHit.BonusCritRating += 100 * core.CritRatingPerCritChance
-			dk.ObliterateMhHit.BonusCritRating += 100 * core.CritRatingPerCritChance
-			dk.ObliterateOhHit.BonusCritRating += 100 * core.CritRatingPerCritChance
+			dk.IcyTouch.BonusCrit += 100
+			dk.FrostStrikeMhHit.BonusCrit += 100
+			dk.FrostStrikeOhHit.BonusCrit += 100
+			dk.ObliterateMhHit.BonusCrit += 100
+			dk.ObliterateOhHit.BonusCrit += 100
 			if dk.HowlingBlast != nil {
-				dk.HowlingBlast.BonusCritRating += 100 * core.CritRatingPerCritChance
+				dk.HowlingBlast.BonusCrit += 100
 			}
 		},
 		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
-			dk.IcyTouch.BonusCritRating -= 100 * core.CritRatingPerCritChance
-			dk.FrostStrikeMhHit.BonusCritRating -= 100 * core.CritRatingPerCritChance
-			dk.FrostStrikeOhHit.BonusCritRating -= 100 * core.CritRatingPerCritChance
-			dk.ObliterateMhHit.BonusCritRating -= 100 * core.CritRatingPerCritChance
-			dk.ObliterateOhHit.BonusCritRating -= 100 * core.CritRatingPerCritChance
+			dk.IcyTouch.BonusCrit -= 100
+			dk.FrostStrikeMhHit.BonusCrit -= 100
+			dk.FrostStrikeOhHit.BonusCrit -= 100
+			dk.ObliterateMhHit.BonusCrit -= 100
+			dk.ObliterateOhHit.BonusCrit -= 100
 			if dk.HowlingBlast != nil {
-				dk.HowlingBlast.BonusCritRating -= 100 * core.CritRatingPerCritChance
+				dk.HowlingBlast.BonusCrit -= 10
 			}
 		},
 		OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {

@@ -20,8 +20,8 @@ func (mage *Mage) registerArcaneMissilesSpell() {
 		ProcMask:         core.ProcMaskSpellDamage | core.ProcMaskNotInSpellbook,
 		Flags:            SpellFlagMage | core.SpellFlagNoLogs,
 		MissileSpeed:     20,
-		BonusHitRating:   float64(mage.Talents.ArcaneFocus) * core.SpellHitRatingPerHitChance,
-		BonusCritRating:  core.TernaryFloat64(mage.HasSetBonus(ItemSetKhadgarsRegalia, 4), 5*core.CritRatingPerCritChance, 0),
+		BonusHit:         float64(mage.Talents.ArcaneFocus),
+		BonusCrit:        core.TernaryFloat64(mage.HasSetBonus(ItemSetKhadgarsRegalia, 4), 5, 0),
 		DamageMultiplier: 1 + .04*float64(mage.Talents.TormentTheWeak),
 		DamageMultiplierAdditive: 1 +
 			core.TernaryFloat64(mage.HasSetBonus(ItemSetTempestRegalia, 4), .05, 0),
@@ -38,11 +38,11 @@ func (mage *Mage) registerArcaneMissilesSpell() {
 	})
 
 	mage.ArcaneMissiles = mage.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 42846},
-		SpellSchool:    core.SpellSchoolArcane,
-		ProcMask:       core.ProcMaskSpellDamage,
-		Flags:          SpellFlagMage | core.SpellFlagChanneled | core.SpellFlagAPL,
-		BonusHitRating: float64(mage.Talents.ArcaneFocus) * core.SpellHitRatingPerHitChance,
+		ActionID:    core.ActionID{SpellID: 42846},
+		SpellSchool: core.SpellSchoolArcane,
+		ProcMask:    core.ProcMaskSpellDamage,
+		Flags:       SpellFlagMage | core.SpellFlagChanneled | core.SpellFlagAPL,
+		BonusHit:    float64(mage.Talents.ArcaneFocus),
 		ManaCost: core.ManaCostOptions{
 			BaseCost:   0.31,
 			Multiplier: 1 - .01*float64(mage.Talents.ArcaneFocus),

@@ -24,9 +24,9 @@ func (warlock *Warlock) registerSearingPainSpell() {
 				CastTime: 1500 * time.Millisecond,
 			},
 		},
-		BonusCritRating: 0 +
-			core.TernaryFloat64(warlock.Talents.Devastation, 5*core.CritRatingPerCritChance, 0) +
-			[]float64{0, .04, .07, .10}[warlock.Talents.ImprovedSearingPain]*core.CritRatingPerCritChance,
+		BonusCrit: 0 +
+			core.TernaryFloat64(warlock.Talents.Devastation, 5, 0) +
+			[]float64{0, .04, .07, .10}[warlock.Talents.ImprovedSearingPain],
 		DamageMultiplierAdditive: 1 +
 			warlock.GrandFirestoneBonus() +
 			0.03*float64(warlock.Talents.Emberstorm),

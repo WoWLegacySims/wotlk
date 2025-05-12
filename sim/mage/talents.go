@@ -43,15 +43,15 @@ func (mage *Mage) ApplyTalents() {
 		mage.AddStatDependency(stats.Intellect, stats.SpellPower, 0.03*float64(mage.Talents.MindMastery))
 	}
 
-	mage.AddStat(stats.SpellCrit, float64(mage.Talents.ArcaneInstability)*1*core.CritRatingPerCritChance)
+	mage.AddStat(stats.SpellCrit, float64(mage.Talents.ArcaneInstability)*1*mage.CritRatingPerCritChance)
 	mage.PseudoStats.DamageDealtMultiplier *= 1 + .01*float64(mage.Talents.ArcaneInstability)
 	mage.PseudoStats.DamageDealtMultiplier *= 1 + .01*float64(mage.Talents.PlayingWithFire)
 	mage.PseudoStats.CastSpeedMultiplier *= 1 + .02*float64(mage.Talents.NetherwindPresence)
 
-	mage.AddStat(stats.SpellCrit, float64(mage.Talents.Pyromaniac)*core.CritRatingPerCritChance)
+	mage.AddStat(stats.SpellCrit, float64(mage.Talents.Pyromaniac)*mage.CritRatingPerCritChance)
 	mage.PseudoStats.SpiritRegenRateCasting += float64(mage.Talents.Pyromaniac) / 6
 
-	mage.AddStat(stats.SpellHit, float64(mage.Talents.Precision)*core.SpellHitRatingPerHitChance)
+	mage.AddStat(stats.SpellHit, float64(mage.Talents.Precision)*mage.SpellHitRatingPerHitChance)
 	mage.PseudoStats.CostMultiplier *= 1 - .01*float64(mage.Talents.Precision)
 
 	mage.PseudoStats.SchoolDamageDealtMultiplier[stats.SchoolIndexFrost] *= 1 + .02*float64(mage.Talents.PiercingIce)
@@ -139,7 +139,7 @@ func (mage *Mage) applyArcaneConcentration() {
 		return
 	}
 
-	bonusCrit := float64(mage.Talents.ArcanePotency) * 15 * core.CritRatingPerCritChance
+	bonusCrit := float64(mage.Talents.ArcanePotency) * 15 * mage.CritRatingPerCritChance
 
 	// The result that caused the proc. Used to check we don't deactivate from the same proc.
 	var proccedAt time.Duration
@@ -456,7 +456,7 @@ func (mage *Mage) registerCombustionCD() {
 	})
 
 	numCrits := 0
-	const critPerStack = 10 * core.CritRatingPerCritChance
+	const critPerStack = 10
 
 	mage.CombustionAura = mage.RegisterAura(core.Aura{
 		Label:     "Combustion",
@@ -479,7 +479,7 @@ func (mage *Mage) registerCombustionCD() {
 		OnStacksChange: func(aura *core.Aura, sim *core.Simulation, oldStacks int32, newStacks int32) {
 			bonusCrit := critPerStack * float64(newStacks-oldStacks)
 			for _, spell := range fireSpells {
-				spell.BonusCritRating += bonusCrit
+				spell.BonusCrit += bonusCrit
 			}
 		},
 		OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
@@ -655,7 +655,7 @@ func (mage *Mage) applyFingersOfFrost() {
 		return
 	}
 
-	bonusCrit := []float64{0, 17, 34, 50}[mage.Talents.Shatter] * core.CritRatingPerCritChance
+	bonusCrit := []float64{0, 17, 34, 50}[mage.Talents.Shatter] * mage.CritRatingPerCritChance
 	iceLanceMultiplier := core.TernaryFloat64(mage.HasMajorGlyph(proto.MageMajorGlyph_GlyphOfIceLance), 4, 3)
 
 	var proccedAt time.Duration

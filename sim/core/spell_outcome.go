@@ -525,8 +525,8 @@ func (result *SpellResult) applyEnemyAttackTableBlock(spell *Spell, attackTable 
 	}
 
 	blockChance := attackTable.BaseBlockChance +
-		result.Target.stats[stats.Block]/BlockRatingPerBlockChance/100 +
-		result.Target.stats[stats.Defense]*DefenseRatingToChanceReduction
+		result.Target.stats[stats.Block]/result.Target.BlockRatingPerBlockChance/100 +
+		result.Target.stats[stats.Defense]*result.Target.GetDefenseRatingToChanceReduction()
 	*chance += max(0, blockChance)
 
 	if roll < *chance {
@@ -579,10 +579,10 @@ func (result *SpellResult) applyEnemyAttackTableParry(spell *Spell, attackTable 
 
 func (result *SpellResult) applyEnemyAttackTableCrit(spell *Spell, _ *AttackTable, roll float64, chance *float64) bool {
 
-	critRating := spell.Unit.stats[stats.MeleeCrit] + spell.BonusCritRating
-	critChance := critRating / (CritRatingPerCritChance * 100)
-	critChance -= result.Target.stats[stats.Defense] * DefenseRatingToChanceReduction
-	critChance -= result.Target.stats[stats.Resilience] / ResilienceRatingPerCritReductionChance / 100
+	critRating := spell.Unit.stats[stats.MeleeCrit] + spell.BonusCrit*spell.Unit.CritRatingPerCritChance
+	critChance := critRating / (spell.Unit.CritRatingPerCritChance * 100)
+	critChance -= result.Target.stats[stats.Defense] * result.Target.GetDefenseRatingToChanceReduction()
+	critChance -= result.Target.stats[stats.Resilience] / result.Target.ResilienceRatingPerCritReductionChance / 100
 	critChance -= result.Target.PseudoStats.ReducedCritTakenChance
 	*chance += max(0, critChance)
 

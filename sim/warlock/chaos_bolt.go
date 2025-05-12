@@ -38,8 +38,8 @@ func (warlock *Warlock) registerChaosBoltSpell() {
 			},
 		},
 
-		BonusCritRating: 0 +
-			core.TernaryFloat64(warlock.Talents.Devastation, 1, 0)*5*core.CritRatingPerCritChance,
+		BonusCrit: 0 +
+			core.TernaryFloat64(warlock.Talents.Devastation, 1, 0)*5,
 		DamageMultiplierAdditive: 1 +
 			warlock.GrandFirestoneBonus() +
 			0.03*float64(warlock.Talents.Emberstorm),

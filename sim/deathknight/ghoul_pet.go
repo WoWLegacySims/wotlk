@@ -23,10 +23,10 @@ func (dk *Deathknight) NewArmyGhoulPet(_ int) *GhoulPet {
 	// Remove any hit that would be given by NocS as it does not translate to pets
 	var nocsHit float64
 	if dk.nervesOfColdSteelActive() {
-		nocsHit = float64(dk.Talents.NervesOfColdSteel) * core.MeleeHitRatingPerHitChance
+		nocsHit = float64(dk.Talents.NervesOfColdSteel)
 	}
 	if dk.HasDraeneiHitAura {
-		nocsHit += 1 * core.MeleeHitRatingPerHitChance
+		nocsHit += 1
 	}
 
 	armyGhoulPetBaseStats := stats.Stats{
@@ -34,13 +34,15 @@ func (dk *Deathknight) NewArmyGhoulPet(_ int) *GhoulPet {
 		stats.Agility:     856,
 		stats.Strength:    0,
 		stats.AttackPower: -20,
+	}
 
+	armyGhoulPetBasePercentageStats := stats.Stats{
 		stats.MeleeHit:  -nocsHit,
-		stats.Expertise: -nocsHit * PetExpertiseScale,
+		stats.Expertise: -nocsHit * dk.GetPetExpertiseScale(),
 	}
 
 	ghoulPet := &GhoulPet{
-		Pet:     core.NewPet("Army of the Dead", &dk.Character, armyGhoulPetBaseStats, dk.armyGhoulStatInheritance(), false, true),
+		Pet:     core.NewPet("Army of the Dead", &dk.Character, armyGhoulPetBaseStats, armyGhoulPetBasePercentageStats, dk.armyGhoulStatInheritance(), false, true),
 		dkOwner: dk,
 	}
 
@@ -62,7 +64,7 @@ func (dk *Deathknight) NewArmyGhoulPet(_ int) *GhoulPet {
 
 	ghoulPet.AddStatDependency(stats.Strength, stats.AttackPower, 1)
 	ghoulPet.AddStatDependency(stats.Agility, stats.AttackPower, 1)
-	ghoulPet.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritRatingPerCritChance/85.5)
+	ghoulPet.AddStatDependency(stats.Agility, stats.MeleeCrit, ghoulPet.CritRatingPerCritChance*core.CritPerAgi[proto.Class_ClassRogue][ghoulPet.Level])
 
 	// command doesn't apply to army ghoul
 	if dk.Race == proto.Race_RaceOrc {
@@ -76,23 +78,24 @@ func (dk *Deathknight) NewGhoulPet(permanent bool) *GhoulPet {
 	// Remove any hit that would be given by NocS as it does not translate to pets
 	var nocsHit float64
 	if dk.nervesOfColdSteelActive() {
-		nocsHit = float64(dk.Talents.NervesOfColdSteel) * core.MeleeHitRatingPerHitChance
+		nocsHit = float64(dk.Talents.NervesOfColdSteel)
 	}
 	if dk.HasDraeneiHitAura {
-		nocsHit += 1 * core.MeleeHitRatingPerHitChance
+		nocsHit += 1
 	}
 
 	ghoulPetBaseStats := stats.Stats{
 		stats.Agility:     856,
 		stats.Strength:    331,
 		stats.AttackPower: -20,
-
+	}
+	ghoulPetBasePercentageStats := stats.Stats{
 		stats.MeleeHit:  -nocsHit,
-		stats.Expertise: -nocsHit * PetExpertiseScale,
+		stats.Expertise: -nocsHit * dk.GetPetExpertiseScale(),
 	}
 
 	ghoulPet := &GhoulPet{
-		Pet:     core.NewPet("Ghoul", &dk.Character, ghoulPetBaseStats, dk.ghoulStatInheritance(), permanent, !permanent),
+		Pet:     core.NewPet("Ghoul", &dk.Character, ghoulPetBaseStats, ghoulPetBasePercentageStats, dk.ghoulStatInheritance(), permanent, !permanent),
 		dkOwner: dk,
 	}
 
@@ -115,7 +118,7 @@ func (dk *Deathknight) NewGhoulPet(permanent bool) *GhoulPet {
 
 	ghoulPet.AddStatDependency(stats.Strength, stats.AttackPower, 1)
 	ghoulPet.AddStatDependency(stats.Agility, stats.AttackPower, 1)
-	ghoulPet.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritRatingPerCritChance/85.5)
+	ghoulPet.AddStatDependency(stats.Agility, stats.MeleeCrit, ghoulPet.CritRatingPerCritChance*core.CritPerAgi[proto.Class_ClassRogue][ghoulPet.Level])
 
 	if permanent {
 		core.ApplyPetConsumeEffects(&ghoulPet.Character, dk.Consumes)
@@ -200,7 +203,7 @@ func (dk *Deathknight) ghoulStatInheritance() core.PetStatInheritance {
 			stats.Strength: ownerStats[stats.Strength] * baseStatsScale,
 
 			stats.MeleeHit:  ownerStats[stats.MeleeHit],
-			stats.Expertise: ownerStats[stats.MeleeHit] * PetExpertiseScale,
+			stats.Expertise: ownerStats[stats.MeleeHit] * dk.GetPetExpertiseScale(),
 
 			stats.MeleeHaste: ownerStats[stats.MeleeHaste],
 		}
@@ -214,7 +217,7 @@ func (dk *Deathknight) armyGhoulStatInheritance() core.PetStatInheritance {
 			stats.AttackPower: ownerStats[stats.AttackPower] * 0.065,
 
 			stats.MeleeHit:  ownerStats[stats.MeleeHit],
-			stats.Expertise: ownerStats[stats.MeleeHit] * PetExpertiseScale,
+			stats.Expertise: ownerStats[stats.MeleeHit] * dk.GetPetExpertiseScale(),
 
 			stats.MeleeHaste: ownerStats[stats.MeleeHaste],
 		}

@@ -123,27 +123,28 @@ func (dk *Deathknight) NewRuneWeapon() *RuneWeaponPet {
 	// Remove any hit that would be given by NocS as it does not translate to pets
 	var nocsHit float64
 	if dk.nervesOfColdSteelActive() {
-		nocsHit = float64(dk.Talents.NervesOfColdSteel) * core.MeleeHitRatingPerHitChance
+		nocsHit = float64(dk.Talents.NervesOfColdSteel)
 	}
 	if dk.HasDraeneiHitAura {
-		nocsHit += 1 * core.MeleeHitRatingPerHitChance
+		nocsHit += 1
 	}
 
 	runeWeapon := &RuneWeaponPet{
 		Pet: core.NewPet("Rune Weapon", &dk.Character, stats.Stats{
-			stats.Stamina:   100,
+			stats.Stamina: 100,
+		}, stats.Stats{
 			stats.MeleeHit:  -nocsHit,
-			stats.SpellHit:  -nocsHit * PetSpellHitScale,
-			stats.Expertise: -nocsHit * PetExpertiseScale,
+			stats.SpellHit:  -nocsHit * dk.GetPetSpellHitScale(),
+			stats.Expertise: -nocsHit * dk.GetPetExpertiseScale(),
 		}, func(ownerStats stats.Stats) stats.Stats {
 			return stats.Stats{
 				stats.AttackPower: ownerStats[stats.AttackPower],
 				stats.MeleeHaste:  ownerStats[stats.MeleeHaste],
 
 				stats.MeleeHit: ownerStats[stats.MeleeHit],
-				stats.SpellHit: ownerStats[stats.MeleeHit] * PetSpellHitScale,
+				stats.SpellHit: ownerStats[stats.MeleeHit] * dk.GetPetSpellHitScale(),
 
-				stats.Expertise: ownerStats[stats.MeleeHit] * PetExpertiseScale,
+				stats.Expertise: ownerStats[stats.MeleeHit] * dk.GetPetExpertiseScale(),
 
 				stats.MeleeCrit: ownerStats[stats.MeleeCrit],
 				stats.SpellCrit: ownerStats[stats.SpellCrit],

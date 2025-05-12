@@ -35,7 +35,7 @@ func (hunter *Hunter) registerAspectOfTheDragonhawkSpell() {
 		actionID,
 		stats.Stats{
 			stats.RangedAttackPower: core.TernaryFloat64(hunter.Talents.AspectMastery, 390, 300),
-			stats.Dodge:             (18 + 2*float64(hunter.Talents.ImprovedAspectOfTheMonkey)) * core.DodgeRatingPerDodgeChance,
+			stats.Dodge:             (18 + 2*float64(hunter.Talents.ImprovedAspectOfTheMonkey)) * hunter.DodgeRatingPerDodgeChance,
 		},
 		core.NeverExpires,
 		func(aura *core.Aura) {

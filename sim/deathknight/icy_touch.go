@@ -26,7 +26,7 @@ func (dk *Deathknight) registerIcyTouchSpell() {
 			},
 		},
 
-		BonusCritRating:  dk.rimeCritBonus() * core.CritRatingPerCritChance,
+		BonusCrit:        dk.rimeCritBonus(),
 		DamageMultiplier: 1 + 0.05*float64(dk.Talents.ImprovedIcyTouch),
 		CritMultiplier:   dk.DefaultMeleeCritMultiplier(),
 		ThreatMultiplier: 1.0,
@@ -58,7 +58,7 @@ func (dk *Deathknight) registerDrwIcyTouchSpell() {
 		ProcMask:    core.ProcMaskSpellDamage,
 		//Flags:       core.SpellFlagIgnoreAttackerModifiers,
 
-		BonusCritRating:  dk.rimeCritBonus() * core.CritRatingPerCritChance,
+		BonusCrit:        dk.rimeCritBonus(),
 		DamageMultiplier: 1 + 0.05*float64(dk.Talents.ImprovedIcyTouch),
 		CritMultiplier:   dk.DefaultMeleeCritMultiplier(),
 		ThreatMultiplier: 1,

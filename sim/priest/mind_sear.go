@@ -14,10 +14,10 @@ func (priest *Priest) getMindSearMiseryCoefficient() float64 {
 
 func (priest *Priest) getMindSearBaseConfig() core.SpellConfig {
 	return core.SpellConfig{
-		SpellSchool:     core.SpellSchoolShadow,
-		ProcMask:        core.ProcMaskProc,
-		BonusHitRating:  float64(priest.Talents.ShadowFocus) * 1 * core.SpellHitRatingPerHitChance,
-		BonusCritRating: float64(priest.Talents.MindMelt) * 2 * core.CritRatingPerCritChance,
+		SpellSchool: core.SpellSchoolShadow,
+		ProcMask:    core.ProcMaskProc,
+		BonusHit:    float64(priest.Talents.ShadowFocus),
+		BonusCrit:   float64(priest.Talents.MindMelt) * 2,
 		DamageMultiplier: 1 +
 			0.02*float64(priest.Talents.Darkness) +
 			0.01*float64(priest.Talents.TwinDisciplines),

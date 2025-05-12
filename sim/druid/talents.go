@@ -24,8 +24,8 @@ func (druid *Druid) BearArmorMultiplier() float64 {
 }
 
 func (druid *Druid) ApplyTalents() {
-	druid.AddStat(stats.SpellHit, float64(druid.Talents.BalanceOfPower)*2*core.SpellHitRatingPerHitChance)
-	druid.AddStat(stats.SpellCrit, float64(druid.Talents.NaturalPerfection)*1*core.CritRatingPerCritChance)
+	druid.AddStat(stats.SpellHit, float64(druid.Talents.BalanceOfPower)*2*druid.SpellHitRatingPerHitChance)
+	druid.AddStat(stats.SpellCrit, float64(druid.Talents.NaturalPerfection)*1*druid.CritRatingPerCritChance)
 	druid.PseudoStats.CastSpeedMultiplier *= 1 + (float64(druid.Talents.CelestialFocus) * 0.01)
 	druid.PseudoStats.DamageDealtMultiplier *= 1 + (float64(druid.Talents.EarthAndMoon) * 0.02)
 	druid.PseudoStats.SpiritRegenRateCasting = float64(druid.Talents.Intensity) * (0.5 / 3)
@@ -48,7 +48,7 @@ func (druid *Druid) ApplyTalents() {
 	}
 
 	if druid.Talents.ImprovedFaerieFire > 0 && druid.CurrentTarget.HasAuraWithTag(core.FaerieFireAuraTag) {
-		druid.AddStat(stats.SpellCrit, float64(druid.Talents.ImprovedFaerieFire)*1*core.CritRatingPerCritChance)
+		druid.AddStat(stats.SpellCrit, float64(druid.Talents.ImprovedFaerieFire)*1*druid.CritRatingPerCritChance)
 	}
 
 	if druid.Talents.SurvivalOfTheFittest > 0 {
@@ -71,7 +71,7 @@ func (druid *Druid) ApplyTalents() {
 	}
 
 	if druid.Talents.PrimalPrecision > 0 {
-		druid.AddStat(stats.Expertise, 5.0*float64(druid.Talents.PrimalPrecision)*core.ExpertisePerQuarterPercentReduction)
+		druid.AddStat(stats.Expertise, 5.0*float64(druid.Talents.PrimalPrecision)*druid.ExpertisePerQuarterPercentReduction)
 	}
 
 	if druid.Talents.LivingSpirit > 0 {
@@ -274,18 +274,18 @@ func (druid *Druid) applyRendAndTear(aura core.Aura) core.Aura {
 		return aura
 	}
 
-	bonusCrit := 5.0 * float64(druid.Talents.RendAndTear) * core.CritRatingPerCritChance
+	bonusCrit := 5.0 * float64(druid.Talents.RendAndTear)
 
 	aura.ApplyOnGain(func(aura *core.Aura, sim *core.Simulation) {
 		if druid.BleedsActive == 0 {
-			druid.FerociousBite.BonusCritRating += bonusCrit
+			druid.FerociousBite.BonusCrit += bonusCrit
 		}
 		druid.BleedsActive++
 	})
 	aura.ApplyOnExpire(func(aura *core.Aura, sim *core.Simulation) {
 		druid.BleedsActive--
 		if druid.BleedsActive == 0 {
-			druid.FerociousBite.BonusCritRating -= bonusCrit
+			druid.FerociousBite.BonusCrit -= bonusCrit
 		}
 	})
 
@@ -492,7 +492,7 @@ func (druid *Druid) applyEclipse() {
 
 	// Lunar
 	lunarProcChance := 0.2 * float64(druid.Talents.Eclipse)
-	lunarBonusCrit := (40 + core.TernaryFloat64(druid.HasSetBonus(ItemSetNightsongGarb, 2), 7, 0)) * core.CritRatingPerCritChance
+	lunarBonusCrit := (40 + core.TernaryFloat64(druid.HasSetBonus(ItemSetNightsongGarb, 2), 7, 0))
 	druid.LunarICD.Duration = time.Millisecond * 30000
 	druid.LunarEclipseProcAura = druid.RegisterAura(core.Aura{
 		Icd:      &druid.LunarICD,
@@ -500,10 +500,10 @@ func (druid *Druid) applyEclipse() {
 		Duration: eclipseDuration,
 		ActionID: core.ActionID{SpellID: 48518},
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
-			druid.Starfire.BonusCritRating += lunarBonusCrit
+			druid.Starfire.BonusCrit += lunarBonusCrit
 		},
 		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
-			druid.Starfire.BonusCritRating -= lunarBonusCrit
+			druid.Starfire.BonusCrit -= lunarBonusCrit
 		},
 	})
 	druid.RegisterAura(core.Aura{

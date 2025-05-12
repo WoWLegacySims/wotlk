@@ -37,8 +37,8 @@ func (warrior *Warrior) registerDevastateSpell() {
 			return warrior.CanApplySunderAura(target)
 		},
 
-		BonusCritRating: 5*core.CritRatingPerCritChance*float64(warrior.Talents.SwordAndBoard) +
-			core.TernaryFloat64(warrior.HasSetBonus(ItemSetSiegebreakerPlate, 2), 10*core.CritRatingPerCritChance, 0),
+		BonusCrit: 5*float64(warrior.Talents.SwordAndBoard) +
+			core.TernaryFloat64(warrior.HasSetBonus(ItemSetSiegebreakerPlate, 2), 10, 0),
 
 		DamageMultiplier: overallMulti,
 		CritMultiplier:   warrior.critMultiplier(mh),

@@ -33,7 +33,7 @@ func (paladin *Paladin) registerDivineStormSpell() {
 			},
 		},
 
-		BonusCritRating: core.TernaryFloat64(paladin.HasSetBonus(ItemSetAegisBattlegear, 4), 10, 0) * core.CritRatingPerCritChance,
+		BonusCrit: core.TernaryFloat64(paladin.HasSetBonus(ItemSetAegisBattlegear, 4), 10, 0),
 		// base 1.1 multiplier, can be further improved by 10% via taow for a grand total of 1.21. NOTE: Unlike cs, ds tooltip IS NOT updated to reflect this.
 		DamageMultiplierAdditive: 1 +
 			paladin.getTalentTheArtOfWarBonus() +

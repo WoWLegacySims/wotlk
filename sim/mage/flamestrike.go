@@ -40,7 +40,7 @@ func (mage *Mage) registerFlamestrikeSpell(rank8 bool) *core.Spell {
 			},
 		},
 
-		BonusCritRating: float64(mage.Talents.CriticalMass+mage.Talents.WorldInFlames) * 2 * core.CritRatingPerCritChance,
+		BonusCrit: float64(mage.Talents.CriticalMass+mage.Talents.WorldInFlames) * 2,
 		DamageMultiplierAdditive: 1 +
 			.02*float64(mage.Talents.SpellImpact) +
 			.02*float64(mage.Talents.FirePower),

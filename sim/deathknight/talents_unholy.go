@@ -10,7 +10,7 @@ import (
 
 func (dk *Deathknight) ApplyUnholyTalents() {
 	dk.PseudoStats.BaseDodge += 0.01 * float64(dk.Talents.Anticipation)
-	dk.AddStat(stats.SpellHit, core.SpellHitRatingPerHitChance*float64(dk.Talents.Virulence))
+	dk.AddStat(stats.SpellHit, dk.SpellHitRatingPerHitChance*float64(dk.Talents.Virulence))
 
 	if dk.Talents.RavenousDead > 0 {
 		dk.MultiplyStat(stats.Strength, 1.0+0.01*float64(dk.Talents.RavenousDead))
@@ -35,7 +35,7 @@ func (dk *Deathknight) applyRageOfRivendare() {
 		return
 	}
 
-	dk.AddStat(stats.Expertise, float64(dk.Talents.RageOfRivendare)*core.ExpertisePerQuarterPercentReduction)
+	dk.AddStat(stats.Expertise, float64(dk.Talents.RageOfRivendare)*dk.ExpertisePerQuarterPercentReduction)
 
 	bonus := 1.0 + 0.02*float64(dk.Talents.RageOfRivendare)
 	dk.RoRTSBonus = func(target *core.Unit) float64 {
@@ -191,7 +191,7 @@ func (dk *Deathknight) applyEbonPlaguebringerOrCryptFever() {
 		return
 	}
 
-	ebonPlaguebringerBonusCrit := core.CritRatingPerCritChance * float64(dk.Talents.EbonPlaguebringer)
+	ebonPlaguebringerBonusCrit := dk.CritRatingPerCritChance * float64(dk.Talents.EbonPlaguebringer)
 	dk.AddStat(stats.MeleeCrit, ebonPlaguebringerBonusCrit)
 	dk.AddStat(stats.SpellCrit, ebonPlaguebringerBonusCrit)
 

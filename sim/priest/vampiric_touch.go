@@ -26,8 +26,8 @@ func (priest *Priest) registerVampiricTouchSpell() {
 			},
 		},
 
-		BonusHitRating:   float64(priest.Talents.ShadowFocus) * 1 * core.SpellHitRatingPerHitChance,
-		BonusCritRating:  float64(priest.Talents.MindMelt)*3*core.CritRatingPerCritChance + core.TernaryFloat64(priest.HasSetBonus(ItemSetCrimsonAcolyte, 2), 5, 0)*core.CritRatingPerCritChance,
+		BonusHit:         float64(priest.Talents.ShadowFocus),
+		BonusCrit:        float64(priest.Talents.MindMelt)*3 + core.TernaryFloat64(priest.HasSetBonus(ItemSetCrimsonAcolyte, 2), 5, 0),
 		DamageMultiplier: 1 + float64(priest.Talents.Darkness)*0.02,
 		CritMultiplier:   priest.SpellCritMultiplier(1, 1),
 		ThreatMultiplier: 1 - 0.08*float64(priest.Talents.ShadowAffinity),

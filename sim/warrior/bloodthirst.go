@@ -32,7 +32,7 @@ func (warrior *Warrior) registerBloodthirstSpell(cdTimer *core.Timer) {
 			},
 		},
 
-		BonusCritRating:  core.TernaryFloat64(warrior.HasSetBonus(ItemSetSiegebreakerBattlegear, 4), 10, 0) * core.CritRatingPerCritChance,
+		BonusCrit:        core.TernaryFloat64(warrior.HasSetBonus(ItemSetSiegebreakerBattlegear, 4), 10, 0),
 		DamageMultiplier: 1 + 0.02*float64(warrior.Talents.UnendingFury) + core.TernaryFloat64(warrior.HasSetBonus(ItemSetOnslaughtBattlegear, 4), 0.05, 0),
 		CritMultiplier:   warrior.critMultiplier(mh),
 		ThreatMultiplier: 1,

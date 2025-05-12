@@ -46,7 +46,7 @@ func (character *Character) EnableManaBarWithModifier(modifier float64) {
 	character.AddStatDependency(stats.Intellect, stats.Mana, 15*modifier)
 
 	// This conversion is now universal for
-	character.AddStatDependency(stats.Intellect, stats.SpellCrit, CritRatingPerCritChance/166.66667)
+	character.AddStatDependency(stats.Intellect, stats.SpellCrit, character.CritRatingPerCritChance/166.66667)
 
 	// Not a real spell, just holds metrics from mana gain threat.
 	character.RegisterSpell(SpellConfig{

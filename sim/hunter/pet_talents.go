@@ -12,8 +12,8 @@ func (hp *HunterPet) ApplyTalents() {
 	// TODO:
 	// Thunderstomp
 
-	hp.AddStat(stats.MeleeCrit, 3*core.CritRatingPerCritChance*float64(talents.SpidersBite))
-	hp.AddStat(stats.SpellCrit, 3*core.CritRatingPerCritChance*float64(talents.SpidersBite))
+	hp.AddStat(stats.MeleeCrit, 3*hp.CritRatingPerCritChance*float64(talents.SpidersBite))
+	hp.AddStat(stats.SpellCrit, 3*hp.CritRatingPerCritChance*float64(talents.SpidersBite))
 	hp.PseudoStats.DamageDealtMultiplier *= 1 + 0.03*float64(talents.SpikedCollar)
 	hp.PseudoStats.DamageDealtMultiplier *= 1 + 0.03*float64(talents.SharkAttack)
 
@@ -38,7 +38,7 @@ func (hp *HunterPet) ApplyTalents() {
 	}
 
 	if talents.PetBarding != 0 {
-		hp.AddStat(stats.Dodge, 1*core.DodgeRatingPerDodgeChance*float64(talents.PetBarding))
+		hp.AddStat(stats.Dodge, 1*hp.DodgeRatingPerDodgeChance*float64(talents.PetBarding))
 		hp.MultiplyStat(stats.Armor, 1.0+0.05*float64(talents.PetBarding))
 	}
 

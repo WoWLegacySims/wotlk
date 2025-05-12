@@ -126,6 +126,17 @@ func NewCharacter(party *Party, partyIndex int, player *proto.Player) Character 
 		majorCooldownManager: newMajorCooldownManager(player.Cooldowns),
 	}
 
+	character.ExpertisePerQuarterPercentReduction = ExpertisePerQuarterPercentReduction[character.Level]
+	character.HasteRatingPerHastePercent = HasteRatingPerHastePercent[character.Level]
+	character.CritRatingPerCritChance = CritRatingPerCritChance[character.Level]
+	character.MeleeHitRatingPerHitChance = MeleeHitRatingPerHitChance[character.Level]
+	character.SpellHitRatingPerHitChance = SpellHitRatingPerHitChance[character.Level]
+	character.DefenseRatingPerDefense = DefenseRatingPerDefense[character.Level]
+	character.DodgeRatingPerDodgeChance = DodgeRatingPerDodgeChance[character.Level]
+	character.ParryRatingPerParryChance = ParryRatingPerParryChance[character.Level]
+	character.BlockRatingPerBlockChance = BlockRatingPerBlockChance[character.Level]
+	character.ResilienceRatingPerCritReductionChance = ResilienceRatingPerCritReductionChance[character.Level]
+
 	character.GCD = character.NewTimer()
 
 	character.Label = fmt.Sprintf("%s (#%d)", character.Name, character.Index+1)

@@ -29,7 +29,7 @@ func (paladin *Paladin) registerHolyShieldSpell() {
 		},
 	})
 
-	blockBonus := 30*core.BlockRatingPerBlockChance + core.TernaryFloat64(paladin.Ranged().ID == 29388, 42, 0)
+	blockBonus := 30*paladin.BlockRatingPerBlockChance + core.TernaryFloat64(paladin.Ranged().ID == 29388, 42, 0)
 
 	paladin.HolyShieldAura = paladin.RegisterAura(core.Aura{
 		Label:     "Holy Shield",

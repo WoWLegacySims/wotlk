@@ -66,7 +66,7 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 	}
 
 	if raidBuffs.MoonkinAura > 0 || raidBuffs.ElementalOath {
-		character.AddStat(stats.SpellCrit, 5*CritRatingPerCritChance)
+		character.AddStat(stats.SpellCrit, 5*character.CritRatingPerCritChance)
 	}
 
 	if raidBuffs.MoonkinAura == proto.TristateEffect_TristateEffectImproved || raidBuffs.SwiftRetribution {
@@ -78,7 +78,7 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 
 	if raidBuffs.LeaderOfThePack > 0 || raidBuffs.Rampage {
 		character.AddStats(stats.Stats{
-			stats.MeleeCrit: 5 * CritRatingPerCritChance,
+			stats.MeleeCrit: 5 * character.CritRatingPerCritChance,
 		})
 		if raidBuffs.LeaderOfThePack == proto.TristateEffect_TristateEffectImproved {
 			// TODO: healing aura from imp LotP
@@ -103,8 +103,8 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 
 	if partyBuffs.HeroicPresence {
 		character.AddStats(stats.Stats{
-			stats.MeleeHit: 1 * MeleeHitRatingPerHitChance,
-			stats.SpellHit: 1 * SpellHitRatingPerHitChance,
+			stats.MeleeHit: 1 * character.MeleeHitRatingPerHitChance,
+			stats.SpellHit: 1 * character.SpellHitRatingPerHitChance,
 		})
 	}
 
@@ -1474,12 +1474,12 @@ func FocusMagicAura(caster *Unit, target *Unit) (*Aura, *Aura) {
 			Duration: time.Second * 10,
 			OnGain: func(aura *Aura, sim *Simulation) {
 				aura.Unit.AddStatsDynamic(sim, stats.Stats{
-					stats.SpellCrit: 3 * CritRatingPerCritChance,
+					stats.SpellCrit: 3 * aura.Unit.CritRatingPerCritChance,
 				})
 			},
 			OnExpire: func(aura *Aura, sim *Simulation) {
 				aura.Unit.AddStatsDynamic(sim, stats.Stats{
-					stats.SpellCrit: -3 * CritRatingPerCritChance,
+					stats.SpellCrit: -3 * aura.Unit.CritRatingPerCritChance,
 				})
 			},
 		})
@@ -1506,12 +1506,12 @@ func FocusMagicAura(caster *Unit, target *Unit) (*Aura, *Aura) {
 		aura.NewExclusiveEffect("FocusMagic", true, ExclusiveEffect{
 			OnGain: func(ee *ExclusiveEffect, sim *Simulation) {
 				ee.Aura.Unit.AddStatsDynamic(sim, stats.Stats{
-					stats.SpellCrit: 3 * CritRatingPerCritChance,
+					stats.SpellCrit: 3 * aura.Unit.CritRatingPerCritChance,
 				})
 			},
 			OnExpire: func(ee *ExclusiveEffect, sim *Simulation) {
 				ee.Aura.Unit.AddStatsDynamic(sim, stats.Stats{
-					stats.SpellCrit: -3 * CritRatingPerCritChance,
+					stats.SpellCrit: -3 * aura.Unit.CritRatingPerCritChance,
 				})
 			},
 		})

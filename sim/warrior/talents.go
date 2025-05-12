@@ -13,8 +13,8 @@ func (warrior *Warrior) ToughnessArmorMultiplier() float64 {
 }
 
 func (warrior *Warrior) ApplyTalents() {
-	warrior.AddStat(stats.MeleeCrit, core.CritRatingPerCritChance*1*float64(warrior.Talents.Cruelty))
-	warrior.AddStat(stats.MeleeHit, core.MeleeHitRatingPerHitChance*1*float64(warrior.Talents.Precision))
+	warrior.AddStat(stats.MeleeCrit, warrior.CritRatingPerCritChance*1*float64(warrior.Talents.Cruelty))
+	warrior.AddStat(stats.MeleeHit, warrior.MeleeHitRatingPerHitChance*1*float64(warrior.Talents.Precision))
 	warrior.ApplyEquipScaling(stats.Armor, warrior.ToughnessArmorMultiplier())
 	warrior.PseudoStats.BaseDodge += 0.01 * float64(warrior.Talents.Anticipation)
 	warrior.PseudoStats.BaseParry += 0.01 * float64(warrior.Talents.Deflection)
@@ -29,7 +29,7 @@ func (warrior *Warrior) ApplyTalents() {
 	if warrior.Talents.StrengthOfArms > 0 {
 		warrior.MultiplyStat(stats.Strength, 1.0+0.02*float64(warrior.Talents.StrengthOfArms))
 		warrior.MultiplyStat(stats.Stamina, 1.0+0.02*float64(warrior.Talents.StrengthOfArms))
-		warrior.AddStat(stats.Expertise, core.ExpertisePerQuarterPercentReduction*2*float64(warrior.Talents.StrengthOfArms))
+		warrior.AddStat(stats.Expertise, warrior.ExpertisePerQuarterPercentReduction*2*float64(warrior.Talents.StrengthOfArms))
 	}
 
 	// Shield Mastery, Shield Block, Glyph of Blocking, Eternal Earthsiege treated as additive sources
@@ -40,7 +40,7 @@ func (warrior *Warrior) ApplyTalents() {
 	if warrior.Talents.Vitality > 0 {
 		warrior.MultiplyStat(stats.Stamina, 1.0+0.03*float64(warrior.Talents.Vitality))
 		warrior.MultiplyStat(stats.Strength, 1.0+0.02*float64(warrior.Talents.Vitality))
-		warrior.AddStat(stats.Expertise, core.ExpertisePerQuarterPercentReduction*2*float64(warrior.Talents.Vitality))
+		warrior.AddStat(stats.Expertise, warrior.ExpertisePerQuarterPercentReduction*2*float64(warrior.Talents.Vitality))
 	}
 
 	warrior.applyAngerManagement()
@@ -396,18 +396,18 @@ func (warrior *Warrior) applyWeaponSpecializations() {
 		// the default character pane displays critical strike chance for main hand only
 		switch warrior.GetProcMaskForTypes(proto.WeaponType_WeaponTypeAxe, proto.WeaponType_WeaponTypePolearm) {
 		case core.ProcMaskMelee:
-			warrior.AddStat(stats.MeleeCrit, 1*core.CritRatingPerCritChance*float64(pas))
+			warrior.AddStat(stats.MeleeCrit, 1*warrior.CritRatingPerCritChance*float64(pas))
 		case core.ProcMaskMeleeMH:
-			warrior.AddStat(stats.MeleeCrit, 1*core.CritRatingPerCritChance*float64(pas))
+			warrior.AddStat(stats.MeleeCrit, 1*warrior.CritRatingPerCritChance*float64(pas))
 			warrior.OnSpellRegistered(func(spell *core.Spell) {
 				if spell.ProcMask.Matches(core.ProcMaskMeleeOH) {
-					spell.BonusCritRating -= 1 * core.CritRatingPerCritChance * float64(pas)
+					spell.BonusCrit -= 1 * float64(pas)
 				}
 			})
 		case core.ProcMaskMeleeOH:
 			warrior.OnSpellRegistered(func(spell *core.Spell) {
 				if spell.ProcMask.Matches(core.ProcMaskMeleeOH) {
-					spell.BonusCritRating += 1 * core.CritRatingPerCritChance * float64(pas)
+					spell.BonusCrit += 1 * float64(pas)
 				}
 			})
 		}
@@ -662,7 +662,7 @@ func (warrior *Warrior) applyShieldSpecialization() {
 		return
 	}
 
-	warrior.AddStat(stats.Block, core.BlockRatingPerBlockChance*1*float64(warrior.Talents.ShieldSpecialization))
+	warrior.AddStat(stats.Block, warrior.BlockRatingPerBlockChance*1*float64(warrior.Talents.ShieldSpecialization))
 
 	procChance := 0.2 * float64(warrior.Talents.ShieldSpecialization)
 	rageAdded := float64(warrior.Talents.ShieldSpecialization)

@@ -238,7 +238,7 @@ func NewRogue(character *core.Character, options *proto.Player) *Rogue {
 
 	rogue.AddStatDependency(stats.Strength, stats.AttackPower, 1)
 	rogue.AddStatDependency(stats.Agility, stats.AttackPower, 1)
-	rogue.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritPerAgiMaxLevel[character.Class]*core.CritRatingPerCritChance)
+	rogue.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritPerAgi[character.Class][rogue.Level]*rogue.CritRatingPerCritChance)
 
 	return rogue
 }

@@ -29,7 +29,7 @@ func (dk *Deathknight) newBloodStrikeSpell(isMH bool) *core.Spell {
 			IgnoreHaste: true,
 		},
 
-		BonusCritRating: (dk.subversionCritBonus() + dk.annihilationCritBonus()) * core.CritRatingPerCritChance,
+		BonusCrit: dk.subversionCritBonus() + dk.annihilationCritBonus(),
 		DamageMultiplier: 0.4 *
 			core.TernaryFloat64(isMH, 1, dk.nervesOfColdSteelBonus()) *
 			dk.bloodOfTheNorthCoeff() *
@@ -98,7 +98,7 @@ func (dk *Deathknight) registerDrwBloodStrikeSpell() {
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage,
 
-		BonusCritRating: (dk.subversionCritBonus() + dk.annihilationCritBonus()) * core.CritRatingPerCritChance,
+		BonusCrit: dk.subversionCritBonus() + dk.annihilationCritBonus(),
 		DamageMultiplier: 0.4 *
 			dk.bloodOfTheNorthCoeff() *
 			dk.thassariansPlateDamageBonus() *

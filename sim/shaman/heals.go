@@ -54,7 +54,7 @@ func (shaman *Shaman) registerLesserHealingWaveSpell() {
 			},
 		},
 
-		BonusCritRating: float64(shaman.Talents.TidalMastery) * 1 * core.CritRatingPerCritChance,
+		BonusCrit: float64(shaman.Talents.TidalMastery),
 		DamageMultiplier: 1 *
 			(1 + .02*float64(shaman.Talents.Purification)),
 		CritMultiplier:   shaman.DefaultHealingCritMultiplier(),
@@ -120,7 +120,7 @@ func (shaman *Shaman) registerRiptideSpell() {
 			},
 		},
 
-		BonusCritRating: float64(shaman.Talents.TidalMastery) * 1 * core.CritRatingPerCritChance,
+		BonusCrit: float64(shaman.Talents.TidalMastery),
 		DamageMultiplier: 1 *
 			(1 + .02*float64(shaman.Talents.Purification)),
 		CritMultiplier:   shaman.DefaultHealingCritMultiplier(),
@@ -205,7 +205,7 @@ func (shaman *Shaman) registerHealingWaveSpell() {
 			},
 		},
 
-		BonusCritRating: float64(shaman.Talents.TidalMastery) * 1 * core.CritRatingPerCritChance,
+		BonusCrit: float64(shaman.Talents.TidalMastery),
 		DamageMultiplier: 1 *
 			(1 + .02*float64(shaman.Talents.Purification)),
 		CritMultiplier:   shaman.DefaultHealingCritMultiplier(),
@@ -269,7 +269,7 @@ func (shaman *Shaman) registerEarthShieldSpell() {
 			},
 		},
 
-		BonusCritRating:  float64(shaman.Talents.TidalMastery) * 1 * core.CritRatingPerCritChance,
+		BonusCrit:        float64(shaman.Talents.TidalMastery),
 		DamageMultiplier: 1 + 0.05*float64(shaman.Talents.ImprovedShields) + 0.05*float64(shaman.Talents.ImprovedEarthShield) + bonusHeal,
 		ThreatMultiplier: 1,
 		Hot: core.DotConfig{
@@ -339,7 +339,7 @@ func (shaman *Shaman) registerChainHealSpell() {
 				CastTime: time.Millisecond * 1500,
 			},
 		},
-		BonusCritRating:  float64(shaman.Talents.TidalMastery) * 1 * core.CritRatingPerCritChance,
+		BonusCrit:        float64(shaman.Talents.TidalMastery),
 		DamageMultiplier: 1 + .02*float64(shaman.Talents.Purification) + 0.1*float64(shaman.Talents.ImprovedChainHeal),
 		CritMultiplier:   shaman.DefaultHealingCritMultiplier(),
 		ThreatMultiplier: 1 - (float64(shaman.Talents.HealingGrace) * 0.05),

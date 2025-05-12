@@ -75,10 +75,10 @@ func applyRaceEffects(agent Agent) {
 
 		// Gun specialization (+1% ranged crit when using a gun).
 		if character.Ranged().RangedWeaponType == proto.RangedWeaponType_RangedWeaponTypeGun {
-			character.AddBonusRangedCritRating(1 * CritRatingPerCritChance)
+			character.AddBonusRangedCritRating(1 * character.CritRatingPerCritChance)
 		}
 
-		applyWeaponSpecialization(character, 5*ExpertisePerQuarterPercentReduction,
+		applyWeaponSpecialization(character, 5*character.ExpertisePerQuarterPercentReduction,
 			proto.WeaponType_WeaponTypeMace)
 
 		actionID := ActionID{SpellID: 20594}
@@ -116,7 +116,7 @@ func applyRaceEffects(agent Agent) {
 		character.MultiplyStat(stats.Intellect, 1.05)
 	case proto.Race_RaceHuman:
 		character.MultiplyStat(stats.Spirit, 1.03)
-		applyWeaponSpecialization(character, 3*ExpertisePerQuarterPercentReduction,
+		applyWeaponSpecialization(character, 3*character.ExpertisePerQuarterPercentReduction,
 			proto.WeaponType_WeaponTypeMace, proto.WeaponType_WeaponTypeSword)
 	case proto.Race_RaceNightElf:
 		character.PseudoStats.ReducedNatureHitTakenChance += 0.02
@@ -154,7 +154,7 @@ func applyRaceEffects(agent Agent) {
 		})
 
 		// Axe specialization
-		applyWeaponSpecialization(character, 5*ExpertisePerQuarterPercentReduction,
+		applyWeaponSpecialization(character, 5*character.ExpertisePerQuarterPercentReduction,
 			proto.WeaponType_WeaponTypeAxe, proto.WeaponType_WeaponTypeFist)
 	case proto.Race_RaceTauren:
 		character.PseudoStats.ReducedNatureHitTakenChance += 0.02
@@ -162,7 +162,7 @@ func applyRaceEffects(agent Agent) {
 	case proto.Race_RaceTroll:
 		// Bow specialization (+1% ranged crit when using a bow).
 		if character.Ranged().RangedWeaponType == proto.RangedWeaponType_RangedWeaponTypeBow {
-			character.AddBonusRangedCritRating(1 * CritRatingPerCritChance)
+			character.AddBonusRangedCritRating(1 * character.CritRatingPerCritChance)
 		}
 
 		// Beast Slaying (+5% damage to beasts)
@@ -219,7 +219,7 @@ func applyWeaponSpecialization(character *Character, expertiseBonus float64, wea
 	} else {
 		character.OnSpellRegistered(func(spell *Spell) {
 			if spell.ProcMask.Matches(mask) {
-				spell.BonusExpertiseRating += expertiseBonus
+				spell.BonusExpertise += expertiseBonus / character.ExpertisePerQuarterPercentReduction
 			}
 		})
 	}

@@ -30,7 +30,7 @@ func (dk *Deathknight) newHeartStrikeSpell(isMainTarget bool, isDrw bool) *core.
 			IgnoreHaste: true,
 		},
 
-		BonusCritRating: (dk.subversionCritBonus() + dk.annihilationCritBonus()) * core.CritRatingPerCritChance,
+		BonusCrit: (dk.subversionCritBonus() + dk.annihilationCritBonus()),
 		DamageMultiplier: .5 *
 			core.TernaryFloat64(isMainTarget, 1, 0.5) *
 			dk.thassariansPlateDamageBonus() *

@@ -78,20 +78,20 @@ func (dk *Deathknight) NewGargoyle() *GargoylePet {
 	// Remove any hit that would be given by NocS as it does not translate to pets
 	var nocsHit float64
 	if dk.nervesOfColdSteelActive() {
-		nocsHit = float64(dk.Talents.NervesOfColdSteel) * core.MeleeHitRatingPerHitChance
+		nocsHit = float64(dk.Talents.NervesOfColdSteel)
 	}
 	if dk.HasDraeneiHitAura {
-		nocsHit += 1 * core.MeleeHitRatingPerHitChance
+		nocsHit += 1
 	}
 
 	gargoyle := &GargoylePet{
 		Pet: core.NewPet("Gargoyle", &dk.Character, stats.Stats{
 			stats.Stamina:  1000,
-			stats.SpellHit: -nocsHit * PetSpellHitScale,
-		}, func(ownerStats stats.Stats) stats.Stats {
+			stats.SpellHit: -nocsHit * dk.GetPetSpellHitScale(),
+		}, stats.Stats{}, func(ownerStats stats.Stats) stats.Stats {
 			return stats.Stats{
 				stats.AttackPower: ownerStats[stats.AttackPower],
-				stats.SpellHit:    ownerStats[stats.MeleeHit] * PetSpellHitScale,
+				stats.SpellHit:    ownerStats[stats.MeleeHit] * dk.GetPetSpellHitScale(),
 				stats.SpellHaste:  ownerStats[stats.MeleeHaste] * PetSpellHasteScale,
 			}
 		}, false, true),

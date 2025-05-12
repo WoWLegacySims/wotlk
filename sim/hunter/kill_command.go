@@ -12,7 +12,7 @@ func (hunter *Hunter) registerKillCommandCD() {
 	}
 
 	actionID := core.ActionID{SpellID: 34026}
-	bonusPetSpecialCrit := 10 * core.CritRatingPerCritChance * float64(hunter.Talents.FocusedFire)
+	bonusPetSpecialCrit := 10 * float64(hunter.Talents.FocusedFire)
 
 	hunter.pet.KillCommandAura = hunter.pet.RegisterAura(core.Aura{
 		Label:     "Kill Command",
@@ -20,15 +20,15 @@ func (hunter *Hunter) registerKillCommandCD() {
 		Duration:  time.Second * 30,
 		MaxStacks: 3,
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
-			hunter.pet.focusDump.BonusCritRating += bonusPetSpecialCrit
+			hunter.pet.focusDump.BonusCrit += bonusPetSpecialCrit
 			if hunter.pet.specialAbility != nil {
-				hunter.pet.specialAbility.BonusCritRating += bonusPetSpecialCrit
+				hunter.pet.specialAbility.BonusCrit += bonusPetSpecialCrit
 			}
 		},
 		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
-			hunter.pet.focusDump.BonusCritRating -= bonusPetSpecialCrit
+			hunter.pet.focusDump.BonusCrit -= bonusPetSpecialCrit
 			if hunter.pet.specialAbility != nil {
-				hunter.pet.specialAbility.BonusCritRating -= bonusPetSpecialCrit
+				hunter.pet.specialAbility.BonusCrit -= bonusPetSpecialCrit
 			}
 		},
 		OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {

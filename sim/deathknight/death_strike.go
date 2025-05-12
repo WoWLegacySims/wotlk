@@ -37,7 +37,7 @@ func (dk *Deathknight) newDeathStrikeSpell(isMH bool) *core.Spell {
 			IgnoreHaste: true,
 		},
 
-		BonusCritRating: (dk.annihilationCritBonus() + dk.improvedDeathStrikeCritBonus()) * core.CritRatingPerCritChance,
+		BonusCrit: (dk.annihilationCritBonus() + dk.improvedDeathStrikeCritBonus()),
 		DamageMultiplier: .75 *
 			core.TernaryFloat64(isMH, 1, dk.nervesOfColdSteelBonus()) *
 			dk.improvedDeathStrikeDamageBonus(),
@@ -106,7 +106,7 @@ func (dk *Deathknight) registerDrwDeathStrikeSpell() {
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage,
 
-		BonusCritRating:  (dk.annihilationCritBonus() + dk.improvedDeathStrikeCritBonus()) * core.CritRatingPerCritChance,
+		BonusCrit:        (dk.annihilationCritBonus() + dk.improvedDeathStrikeCritBonus()),
 		DamageMultiplier: .75 * dk.improvedDeathStrikeDamageBonus(),
 		CritMultiplier:   dk.bonusCritMultiplier(dk.Talents.MightOfMograine),
 		ThreatMultiplier: 1,

@@ -45,10 +45,10 @@ func (mage *Mage) registerArcaneBlastSpell() {
 			},
 		},
 
-		BonusHitRating: float64(mage.Talents.ArcaneFocus) * core.SpellHitRatingPerHitChance,
-		BonusCritRating: 0 +
-			float64(mage.Talents.Incineration)*2*core.CritRatingPerCritChance +
-			core.TernaryFloat64(mage.HasSetBonus(ItemSetKhadgarsRegalia, 4), 5*core.CritRatingPerCritChance, 0),
+		BonusHit: float64(mage.Talents.ArcaneFocus),
+		BonusCrit: 0 +
+			float64(mage.Talents.Incineration)*2 +
+			core.TernaryFloat64(mage.HasSetBonus(ItemSetKhadgarsRegalia, 4), 5, 0),
 		DamageMultiplier: 1 *
 			(1 + .04*float64(mage.Talents.TormentTheWeak)),
 		DamageMultiplierAdditive: 1 +

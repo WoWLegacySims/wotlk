@@ -50,8 +50,8 @@ func (priest *Priest) registerMindBlastSpell() {
 			},
 		},
 
-		BonusHitRating:  0 + float64(priest.Talents.ShadowFocus)*1*core.SpellHitRatingPerHitChance,
-		BonusCritRating: float64(priest.Talents.MindMelt) * 2 * core.CritRatingPerCritChance,
+		BonusHit:  0 + float64(priest.Talents.ShadowFocus),
+		BonusCrit: float64(priest.Talents.MindMelt) * 2,
 		DamageMultiplier: 1 *
 			(1 + 0.02*float64(priest.Talents.Darkness)) *
 			core.TernaryFloat64(priest.HasSetBonus(ItemSetAbsolution, 4), 1.1, 1),

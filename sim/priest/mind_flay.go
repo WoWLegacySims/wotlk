@@ -17,13 +17,13 @@ func (priest *Priest) getMindFlayTickSpell(numTicks int32) *core.Spell {
 	miseryCoeff := priest.getMiseryCoefficient()
 
 	return priest.GetOrRegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 58381}.WithTag(numTicks),
-		SpellSchool:    core.SpellSchoolShadow,
-		ProcMask:       core.ProcMaskProc | core.ProcMaskNotInSpellbook,
-		BonusHitRating: float64(priest.Talents.ShadowFocus) * 1 * core.SpellHitRatingPerHitChance,
-		BonusCritRating: 0 +
-			float64(priest.Talents.MindMelt)*2*core.CritRatingPerCritChance +
-			core.TernaryFloat64(priest.HasSetBonus(ItemSetZabras, 4), 5, 0)*core.CritRatingPerCritChance,
+		ActionID:    core.ActionID{SpellID: 58381}.WithTag(numTicks),
+		SpellSchool: core.SpellSchoolShadow,
+		ProcMask:    core.ProcMaskProc | core.ProcMaskNotInSpellbook,
+		BonusHit:    float64(priest.Talents.ShadowFocus),
+		BonusCrit: 0 +
+			float64(priest.Talents.MindMelt)*2 +
+			core.TernaryFloat64(priest.HasSetBonus(ItemSetZabras, 4), 5, 0),
 		DamageMultiplier: 1 +
 			0.02*float64(priest.Talents.Darkness) +
 			0.01*float64(priest.Talents.TwinDisciplines),
@@ -94,10 +94,10 @@ func (priest *Priest) newMindFlaySpell(numTicksIdx int32) *core.Spell {
 				GCD: core.GCDDefault,
 			},
 		},
-		BonusHitRating: float64(priest.Talents.ShadowFocus) * 1 * core.SpellHitRatingPerHitChance,
-		BonusCritRating: 0 +
-			float64(priest.Talents.MindMelt)*2*core.CritRatingPerCritChance +
-			core.TernaryFloat64(priest.HasSetBonus(ItemSetZabras, 4), 5, 0)*core.CritRatingPerCritChance,
+		BonusHit: float64(priest.Talents.ShadowFocus),
+		BonusCrit: 0 +
+			float64(priest.Talents.MindMelt)*2 +
+			core.TernaryFloat64(priest.HasSetBonus(ItemSetZabras, 4), 5, 0),
 		DamageMultiplier: 1 +
 			0.02*float64(priest.Talents.Darkness) +
 			0.01*float64(priest.Talents.TwinDisciplines),

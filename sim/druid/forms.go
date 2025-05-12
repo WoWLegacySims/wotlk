@@ -1,10 +1,11 @@
 package druid
 
 import (
+	"math"
+
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
-	"math"
 )
 
 type DruidForm uint8
@@ -71,7 +72,7 @@ func (druid *Druid) GetBearWeapon() core.Weapon {
 func (druid *Druid) GetFormShiftStats() stats.Stats {
 	s := stats.Stats{
 		stats.AttackPower: float64(druid.Talents.PredatoryStrikes) * 0.5 * float64(druid.Level),
-		stats.MeleeCrit:   float64(druid.Talents.SharpenedClaws) * 2 * core.CritRatingPerCritChance,
+		stats.MeleeCrit:   float64(druid.Talents.SharpenedClaws) * 2,
 	}
 
 	if weapon := druid.GetMHWeapon(); weapon != nil {
@@ -108,7 +109,7 @@ func (druid *Druid) registerCatFormSpell() {
 
 	statBonus := druid.GetFormShiftStats().Add(stats.Stats{
 		stats.AttackPower: float64(druid.Level) * 2,
-		stats.MeleeCrit:   2 * float64(druid.Talents.MasterShapeshifter) * core.CritRatingPerCritChance,
+		stats.MeleeCrit:   2 * float64(druid.Talents.MasterShapeshifter),
 	})
 
 	agiApDep := druid.NewDynamicStatDependency(stats.Agility, stats.AttackPower, 1)

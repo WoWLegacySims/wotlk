@@ -51,7 +51,7 @@ type Pet struct {
 	timeoutAction *PendingAction
 }
 
-func NewPet(name string, owner *Character, baseStats stats.Stats, statInheritance PetStatInheritance, enabledOnStart bool, isGuardian bool) Pet {
+func NewPet(name string, owner *Character, baseStats stats.Stats, basePercentageStats stats.Stats, statInheritance PetStatInheritance, enabledOnStart bool, isGuardian bool) Pet {
 	pet := Pet{
 		Character: Character{
 			Unit: Unit{
@@ -75,6 +75,29 @@ func NewPet(name string, owner *Character, baseStats stats.Stats, statInheritanc
 		enabledOnStart:  enabledOnStart,
 		isGuardian:      isGuardian,
 	}
+	pet.ExpertisePerQuarterPercentReduction = ExpertisePerQuarterPercentReduction[pet.Level]
+	pet.HasteRatingPerHastePercent = HasteRatingPerHastePercent[pet.Level]
+	pet.CritRatingPerCritChance = CritRatingPerCritChance[pet.Level]
+	pet.MeleeHitRatingPerHitChance = MeleeHitRatingPerHitChance[pet.Level]
+	pet.SpellHitRatingPerHitChance = SpellHitRatingPerHitChance[pet.Level]
+	pet.DefenseRatingPerDefense = DefenseRatingPerDefense[pet.Level]
+	pet.DodgeRatingPerDodgeChance = DodgeRatingPerDodgeChance[pet.Level]
+	pet.ParryRatingPerParryChance = ParryRatingPerParryChance[pet.Level]
+	pet.BlockRatingPerBlockChance = BlockRatingPerBlockChance[pet.Level]
+	pet.ResilienceRatingPerCritReductionChance = ResilienceRatingPerCritReductionChance[pet.Level]
+	var statMultiplier = stats.Stats{
+		stats.Expertise:  pet.ExpertisePerQuarterPercentReduction,
+		stats.MeleeHaste: pet.HasteRatingPerHastePercent,
+		stats.MeleeCrit:  pet.CritRatingPerCritChance,
+		stats.SpellCrit:  pet.CritRatingPerCritChance,
+		stats.SpellHit:   pet.SpellHitRatingPerHitChance,
+		stats.Defense:    pet.DefenseRatingPerDefense,
+		stats.Dodge:      pet.DodgeRatingPerDodgeChance,
+		stats.Parry:      pet.ParryRatingPerParryChance,
+		stats.Block:      pet.BlockRatingPerBlockChance,
+		stats.Resilience: pet.ResilienceRatingPerCritReductionChance,
+	}
+	pet.baseStats.Add(basePercentageStats.DotProduct(statMultiplier))
 	pet.GCD = pet.NewTimer()
 
 	pet.AddStats(baseStats)

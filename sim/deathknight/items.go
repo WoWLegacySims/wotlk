@@ -447,7 +447,7 @@ func (dk *Deathknight) registerItems() {
 	addEnchantEffect(3883, func(agent core.Agent) {
 		character := agent.GetCharacter()
 
-		character.AddStat(stats.Defense, 13*core.DefenseRatingPerDefense)
+		character.AddStat(stats.Defense, 13*character.DefenseRatingPerDefense)
 		character.MultiplyStat(stats.Stamina, 1.01)
 	})
 
@@ -455,7 +455,7 @@ func (dk *Deathknight) registerItems() {
 	addEnchantEffect(3847, func(agent core.Agent) {
 		character := agent.GetCharacter()
 
-		character.AddStat(stats.Defense, 25*core.DefenseRatingPerDefense)
+		character.AddStat(stats.Defense, 25*character.DefenseRatingPerDefense)
 		character.MultiplyStat(stats.Stamina, 1.02)
 	})
 
@@ -463,14 +463,14 @@ func (dk *Deathknight) registerItems() {
 	addEnchantEffect(3594, func(agent core.Agent) {
 		character := agent.GetCharacter()
 
-		character.AddStat(stats.Parry, 2*core.ParryRatingPerParryChance)
+		character.AddStat(stats.Parry, 2*character.ParryRatingPerParryChance)
 	})
 
 	// Rune of Swordshattering
 	addEnchantEffect(3365, func(agent core.Agent) {
 		character := agent.GetCharacter()
 
-		character.AddStat(stats.Parry, 4*core.ParryRatingPerParryChance)
+		character.AddStat(stats.Parry, 4*character.ParryRatingPerParryChance)
 	})
 
 	// Rune of the Spellbreaking
@@ -577,7 +577,7 @@ func (dk *Deathknight) registerItems() {
 
 	addItemEffect(40714, func(agent core.Agent) {
 		dk := agent.(DeathKnightAgent).GetDeathKnight()
-		procAura := dk.NewTemporaryStatsAura("Sigil of the Unfaltering Knight Proc", core.ActionID{SpellID: 62146}, stats.Stats{stats.Defense: 53.0 / core.DefenseRatingPerDefense}, time.Second*30)
+		procAura := dk.NewTemporaryStatsAura("Sigil of the Unfaltering Knight Proc", core.ActionID{SpellID: 62146}, stats.Stats{stats.Defense: 53.0 / dk.DefenseRatingPerDefense}, time.Second*30)
 
 		core.MakePermanent(dk.GetOrRegisterAura(core.Aura{
 			Label: "Sigil of the Unfaltering Knight",
