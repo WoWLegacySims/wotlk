@@ -1,5 +1,5 @@
 import { getLanguageCode } from './constants/lang.js';
-import { MAX_LEVEL, MIN_LEVEL } from './constants/mechanics.js';
+import { MAX_LEVEL, MIN_LEVEL, MIN_LEVEL_DK } from './constants/mechanics.js';
 import * as Ratings from './constants/ratings.js';
 import { MAX_PARTY_SIZE,Party } from './party.js';
 import {
@@ -523,7 +523,8 @@ export class Player<SpecType extends Spec> {
 		return this.level
 	}
 	setLevel(eventID: EventID, newLevel: number) {
-		newLevel = Math.min(Math.max(newLevel, MIN_LEVEL), MAX_LEVEL);
+		minLevel = this.isClass(Class.ClassDeathknight) ? MIN_LEVEL_DK : MIN_LEVEL;
+		newLevel = Math.min(Math.max(newLevel, minLevel), MAX_LEVEL);
 		if (newLevel != this.level) {
 			this.level = newLevel;
 			this.levelChangeEmitter.emit(eventID);
