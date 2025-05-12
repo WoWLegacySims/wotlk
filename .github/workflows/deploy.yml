@@ -41,6 +41,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
           branch: main
+          single-commit: true
           folder: dist/sims/wotlk/80
           repository-name: WoWLegacySims/sims
           token: ${{ secrets.WOWSIMS_TOKEN }}
