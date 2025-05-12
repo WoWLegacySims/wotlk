@@ -89,6 +89,7 @@ func NewPet(name string, owner *Character, baseStats stats.Stats, basePercentage
 		stats.Expertise:  pet.ExpertisePerQuarterPercentReduction,
 		stats.MeleeHaste: pet.HasteRatingPerHastePercent,
 		stats.MeleeCrit:  pet.CritRatingPerCritChance,
+		stats.MeleeHit:   pet.MeleeHitRatingPerHitChance,
 		stats.SpellCrit:  pet.CritRatingPerCritChance,
 		stats.SpellHit:   pet.SpellHitRatingPerHitChance,
 		stats.Defense:    pet.DefenseRatingPerDefense,
@@ -97,10 +98,11 @@ func NewPet(name string, owner *Character, baseStats stats.Stats, basePercentage
 		stats.Block:      pet.BlockRatingPerBlockChance,
 		stats.Resilience: pet.ResilienceRatingPerCritReductionChance,
 	}
-	baseStats.Add(basePercentageStats.DotProduct(statMultiplier))
+	baseStats = baseStats.Add(basePercentageStats.DotProduct(statMultiplier))
 	pet.GCD = pet.NewTimer()
 
 	pet.AddStats(baseStats)
+
 	pet.addUniversalStatDependencies()
 	pet.PseudoStats.InFrontOfTarget = owner.PseudoStats.InFrontOfTarget
 

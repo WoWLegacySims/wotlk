@@ -184,7 +184,7 @@ func (dk *Deathknight) applyKillingMachine() {
 			dk.IcyTouch.BonusCrit -= 100
 			if dk.Talents.FrostStrike {
 				dk.FrostStrikeMhHit.BonusCrit -= 100
-				dk.FrostStrikeOhHit.BonusCrit -= 10
+				dk.FrostStrikeOhHit.BonusCrit -= 100
 			}
 			if dk.HowlingBlast != nil {
 				dk.HowlingBlast.BonusCrit -= 100
@@ -258,7 +258,7 @@ func (dk *Deathknight) applyDeathchill() {
 			dk.ObliterateMhHit.BonusCrit -= 100
 			dk.ObliterateOhHit.BonusCrit -= 100
 			if dk.HowlingBlast != nil {
-				dk.HowlingBlast.BonusCrit -= 10
+				dk.HowlingBlast.BonusCrit -= 100
 			}
 		},
 		OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
