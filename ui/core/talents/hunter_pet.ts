@@ -209,9 +209,7 @@ export class HunterPetTalentsPicker extends Component {
 		const updateTalentPoints = () => {
 			pickers.forEach(picker => picker.setMaxPoints(player.getMaxPetTalentPoints()));
 		};
-		TypedEvent.onAny([player.talentsChangeEmitter, player.levelChangeEmitter]).on(() => {
-			updateTalentPoints();
-		});
+		TypedEvent.onAny([player.talentsChangeEmitter, player.levelChangeEmitter]).on(updateTalentPoints);
 		updateTalentPoints();
 	}
 
