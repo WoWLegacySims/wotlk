@@ -5,7 +5,7 @@ character_stats_results: {
   final_stats: 1403.3976
   final_stats: 1669.21062
   final_stats: 385.33968
-  final_stats: 394.85424
+  final_stats: 375.82512
   final_stats: 500
   final_stats: 125
   final_stats: 255
@@ -534,7 +534,7 @@ dps_results: {
  key: "TestFeral-AllItems-LasherweaveRegalia"
  value: {
   dps: 5487.38317
-  tps: 4008.59752
+  tps: 4008.73993
  }
 }
 dps_results: {
@@ -576,7 +576,7 @@ dps_results: {
  key: "TestFeral-AllItems-Malfurion'sRegalia"
  value: {
   dps: 5071.97142
-  tps: 3706.07137
+  tps: 3706.17956
  }
 }
 dps_results: {
