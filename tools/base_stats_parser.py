@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
 import csv
+import mysql.connector
+from typing import List
 
 # Generates go/ts baes stats files from assets/db_inputs/basestats
 
@@ -63,6 +65,20 @@ class ClassStats:
     SCritBase : dict
     CombatRatings : dict
 
+class ClassLevelStats:
+    Class: int
+    Level: int
+    BaseHP: int
+    BaseMana: int
+    Strength: int
+    Agility: int
+    Stamina: int
+    Intellect: int
+    Spirit: int
+
+def GetClass(Class: int):
+    return ["Warrior","Paladin","Hunter","Rogue","Priest","Deathknight","Shaman","Mage","Warlock","","Druid"][Class-1]
+
 def GenGORatingPerLevel(rating: dict, variable: str, key: str):
     output = f"var {variable} = map[int32]float64{{"
     for i in range(1,81):
@@ -70,7 +86,7 @@ def GenGORatingPerLevel(rating: dict, variable: str, key: str):
     output += '''}\n'''
     return output
 
-def GenExtraStatsGoFile(cs: ClassStats):
+def GenExtraStatsGoFile(cs: ClassStats, ls: List[ClassLevelStats]):
     header = '''
 package core
 
@@ -128,6 +144,16 @@ proto.Class_ClassUnknown: {},'''
         output += f"\n stats.MeleeCrit: {mcb:.4f},"
         output += "\n},"
     output += "\n}\n"
+
+    output += '''var ClassBaseStats = map[proto.Class]map[int32]stats.Stats{\nproto.Class_ClassUnknown: {'''
+    currentClass = 0
+    for l in ls:
+        if (currentClass != l.Class):
+            currentClass = l.Class
+            output += f"}},\nproto.Class_Class{GetClass(l.Class)}: {{\n"
+        output += f"{l.Level}: {{stats.Health: {l.BaseHP}, stats.Mana: {l.BaseMana}, stats.Strength: {l.Strength}, stats.Agility: {l.Agility}, stats.Stamina: {l.Stamina}, stats.Intellect: {l.Intellect}, stats.Spirit: {l.Spirit}}},\n"
+    output += "\n},\n}\n"
+
     return output
 
 def GenTSRatingPerLevel(rating: dict, variable: str, key: str):
@@ -166,6 +192,25 @@ interface Stat {
 
 
 if __name__ == "__main__":
+    db = mysql.connector.connect(host="localhost", user="root", password="root", database="acore_world")
+
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM player_class_stats")
+    results = cursor.fetchall()
+    stats = []
+    for x in results:
+        level = ClassLevelStats()
+        level.Class = x[0]
+        level.Level = x[1]
+        level.BaseHP = x[2]
+        level.BaseMana = x[3]
+        level.Strength = x[4]
+        level.Agility = x[5]
+        level.Stamina = x[6]
+        level.Intellect = x[7]
+        level.Spirit = x[7]
+        stats.append(level)
+
     args = ClassStats()
     args.MCrit = GenIndexedDb(BASE_DIR + DIR_PATH + MELEE_CRIT)
     args.SCrit = GenIndexedDb(BASE_DIR + DIR_PATH + SPELL_CRIT)
@@ -173,7 +218,7 @@ if __name__ == "__main__":
     args.SCritBase = GenIndexedDb(BASE_DIR + DIR_PATH + SPELL_CRIT_BASE)
     args.CombatRatings = GenRowIndexedDb(BASE_DIR + DIR_PATH + COMBAT_RATINGS)
 
-    output = GenExtraStatsGoFile(args)
+    output = GenExtraStatsGoFile(args, stats)
     fname = BASE_DIR + GO_OUTPUT_PATH
     print(f"Writing stats to: {fname}")
     f = open(fname, "w")

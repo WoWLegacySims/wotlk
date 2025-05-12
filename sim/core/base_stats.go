@@ -123,40 +123,6 @@ var ApScaling = map[proto.Class]stats.Stats{
 	proto.Class_ClassDruid:       {},
 }
 
-var ClassBaseStats = map[proto.Class]map[int32]stats.Stats{
-	proto.Class_ClassUnknown: {},
-	proto.Class_ClassWarrior: {
-		80: {stats.Health: 8121, stats.Agility: 113, stats.Strength: 174, stats.Intellect: 36, stats.Spirit: 60, stats.Stamina: 159},
-	},
-	proto.Class_ClassPaladin: {
-		80: {stats.Health: 6934, stats.Agility: 90, stats.Strength: 151, stats.Intellect: 98, stats.Spirit: 105, stats.Stamina: 143, stats.Mana: 4394},
-	},
-	proto.Class_ClassHunter: {
-		80: {stats.Health: 7324, stats.Agility: 181, stats.Strength: 74, stats.Intellect: 90, stats.Spirit: 97, stats.Stamina: 128, stats.Mana: 5046},
-	},
-	proto.Class_ClassRogue: {
-		80: {stats.Health: 7604, stats.Agility: 189, stats.Strength: 113, stats.Intellect: 43, stats.Spirit: 67, stats.Stamina: 105},
-	},
-	proto.Class_ClassPriest: {
-		80: {stats.Health: 6960, stats.Agility: 51, stats.Strength: 43, stats.Intellect: 174, stats.Spirit: 181, stats.Stamina: 67, stats.Mana: 3863},
-	},
-	proto.Class_ClassDeathknight: {
-		80: {stats.Health: 8121, stats.Agility: 112, stats.Strength: 175, stats.Intellect: 35, stats.Spirit: 59, stats.Stamina: 160},
-	},
-	proto.Class_ClassShaman: {
-		80: {stats.Health: 6939, stats.Agility: 74, stats.Strength: 120, stats.Intellect: 128, stats.Spirit: 143, stats.Stamina: 136, stats.Mana: 4396},
-	},
-	proto.Class_ClassMage: {
-		80: {stats.Health: 6963, stats.Agility: 43, stats.Strength: 36, stats.Intellect: 181, stats.Spirit: 174, stats.Stamina: 59, stats.Mana: 3268},
-	},
-	proto.Class_ClassWarlock: {
-		80: {stats.Health: 7136, stats.Agility: 67, stats.Strength: 59, stats.Intellect: 159, stats.Spirit: 166, stats.Stamina: 89, stats.Mana: 3856},
-	},
-	proto.Class_ClassDruid: {
-		80: {stats.Health: 7417, stats.Agility: 82, stats.Strength: 89, stats.Intellect: 143, stats.Spirit: 159, stats.Stamina: 98, stats.Mana: 3496},
-	},
-}
-
 func MakeBaseStats(r proto.Race, c proto.Class, l int32) stats.Stats {
 	return ClassBaseStats[c][l].Add(RaceOffsets[r]).Add(BaseCrit[c].Multiply(CritRatingPerCritChance[l])).Add(ApBonus[c]).Add(ApScaling[c].Multiply(float64(l)))
 }
