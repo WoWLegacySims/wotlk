@@ -129,11 +129,11 @@ export class ActionId {
 		}
 	}
 
-	static makeItemUrl(id: number): string {
-		return `https://wowgaming.altervista.org/aowow/?item=${id}`;
+	static makeItemUrl(id: number, level?: number): string {
+		return `https://wowgaming.altervista.org/aowow/?item=${id}${level ? `&level=${level}` : `` }`;
 	}
-	static makeSpellUrl(id: number): string {
-		return `https://wowgaming.altervista.org/aowow/?spell=${id}`;
+	static makeSpellUrl(id: number, level?: number): string {
+		return `https://wowgaming.altervista.org/aowow/?spell=${id}${level ? `&level=${level}` : `` }`;
 	}
 	static makeQuestUrl(id: number): string {
 		return `https://wowgaming.altervista.org/aowow/?quest=${id}`;
@@ -145,23 +145,23 @@ export class ActionId {
 		return `https://wowgaming.altervista.org/aowow/?zone=${id}`;
 	}
 
-	setWowheadHref(elem: HTMLAnchorElement) {
+	setWowheadHref(elem: HTMLAnchorElement, level?: number) {
 		if (this.itemId) {
-			elem.href = ActionId.makeItemUrl(this.itemId);
+			elem.href = ActionId.makeItemUrl(this.itemId, level);
 		} else if (this.spellId) {
-			elem.href = ActionId.makeSpellUrl(this.spellId);
+			elem.href = ActionId.makeSpellUrl(this.spellId, level);
 		}
 	}
 
-	setBackgroundAndHref(elem: HTMLAnchorElement) {
+	setBackgroundAndHref(elem: HTMLAnchorElement, level?: number) {
 		this.setBackground(elem);
-		this.setWowheadHref(elem);
+		this.setWowheadHref(elem, level);
 	}
 
-	async fillAndSet(elem: HTMLAnchorElement, setHref: boolean, setBackground: boolean): Promise<ActionId> {
+	async fillAndSet(elem: HTMLAnchorElement, setHref: boolean, setBackground: boolean, level?: number): Promise<ActionId> {
 		const filled = await this.fill();
 		if (setHref) {
-			filled.setWowheadHref(elem);
+			filled.setWowheadHref(elem, level);
 		}
 		if (setBackground) {
 			filled.setBackground(elem);

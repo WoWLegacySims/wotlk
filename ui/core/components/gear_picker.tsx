@@ -173,8 +173,8 @@ export class ItemRenderer extends Component {
 			.asActionId()
 			.fill()
 			.then(filledId => {
-				filledId.setBackgroundAndHref(this.iconElem);
-				filledId.setWowheadHref(this.nameElem);
+				filledId.setBackgroundAndHref(this.iconElem, this.player.getLevel());
+				filledId.setWowheadHref(this.nameElem, this.player.getLevel());
 			});
 
 		if (newItem.enchant) {
@@ -183,10 +183,10 @@ export class ItemRenderer extends Component {
 			});
 			// Make enchant text hover have a tooltip.
 			if (newItem.enchant.spellId) {
-				this.enchantElem.href = ActionId.makeSpellUrl(newItem.enchant.spellId);
+				this.enchantElem.href = ActionId.makeSpellUrl(newItem.enchant.spellId, this.player.getLevel());
 				this.enchantElem.dataset.wowhead = `domain=wotlk&spell=${newItem.enchant.spellId}`;
 			} else {
-				this.enchantElem.href = ActionId.makeItemUrl(newItem.enchant.itemId);
+				this.enchantElem.href = ActionId.makeItemUrl(newItem.enchant.itemId, this.player.getLevel());
 				this.enchantElem.dataset.wowhead = `domain=wotlk&item=${newItem.enchant.itemId}`;
 			}
 			this.enchantElem.dataset.whtticon = 'false';
@@ -358,7 +358,7 @@ export class IconItemSwapPicker extends Component {
 		if (newItem) {
 			this.iconAnchor.classList.add('active');
 
-			newItem.asActionId().fillAndSet(this.iconAnchor, true, true);
+			newItem.asActionId().fillAndSet(this.iconAnchor, true, true, this.player.getLevel());
 			this.player.setWowheadData(newItem, this.iconAnchor);
 
 			newItem.allSocketColors().forEach((socketColor, gemIdx) => {
@@ -1153,7 +1153,7 @@ export class ItemList<T> {
 		});
 
 		itemData.actionId.fill().then(filledId => {
-			filledId.setWowheadHref(anchorElem.value!);
+			filledId.setWowheadHref(anchorElem.value!, this.player.getLevel());
 			iconElem.value!.src = filledId.iconUrl;
 		});
 
@@ -1244,9 +1244,9 @@ export class ItemList<T> {
 			const src = source.source.crafted;
 
 			if (src.spellId) {
-				return makeAnchor(ActionId.makeSpellUrl(src.spellId), professionNames.get(src.profession) ?? 'Unknown');
+				return makeAnchor(ActionId.makeSpellUrl(src.spellId, this.player.getLevel()), professionNames.get(src.profession) ?? 'Unknown');
 			}
-			return makeAnchor(ActionId.makeItemUrl(item.id), professionNames.get(src.profession) ?? 'Unknown');
+			return makeAnchor(ActionId.makeItemUrl(item.id, this.player.getLevel()), professionNames.get(src.profession) ?? 'Unknown');
 		} else if (source.source.oneofKind == 'drop') {
 			const src = source.source.drop;
 			const zone = sim.db.getZone(src.zoneId);
@@ -1300,7 +1300,7 @@ export class ItemList<T> {
 				);
 			const src = source.source.rep;
 			return makeAnchor(
-				ActionId.makeItemUrl(item.id),
+				ActionId.makeItemUrl(item.id, this.player.getLevel()),
 				<>
 					{factionNames.map(name => (
 						<span>

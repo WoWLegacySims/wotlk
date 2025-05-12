@@ -1,12 +1,12 @@
-import { ActionMetrics, UnitMetrics, SimResult, SimResultFilter } from '../../proto_utils/sim_result.js';
-import { ActionId } from '../../proto_utils/action_id.js';
-import { EventID, TypedEvent } from '../../typed_event.js';
-
-import { ResultComponent, ResultComponentConfig, SimResultData } from './result_component.js';
 import tippy from 'tippy.js'
 import { element, fragment, ref } from 'tsx-vanilla'
 
-declare var $: any;
+import { ActionId } from '../../proto_utils/action_id.js';
+import { ActionMetrics, SimResult, SimResultFilter,UnitMetrics } from '../../proto_utils/sim_result.js';
+import { EventID, TypedEvent } from '../../typed_event.js';
+import { ResultComponent, ResultComponentConfig, SimResultData } from './result_component.js';
+
+declare let $: any;
 
 export enum ColumnSortType {
 	None,

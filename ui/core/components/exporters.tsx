@@ -234,7 +234,7 @@ export class IndividualWowheadGearPlannerExporter<SpecType extends Spec> extends
 		let bytes: Array<number> = [];
 		bytes.push(6);
 		bytes.push(0);
-		bytes.push(Mechanics.CHARACTER_LEVEL);
+		bytes.push(player.getLevel());
 
 		let talentsStr = player.getTalentsString().replaceAll('-', 'f') + 'f';
 		if (talentsStr.length % 2 == 1) {
