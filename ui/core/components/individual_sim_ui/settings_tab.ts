@@ -105,7 +105,7 @@ export class SettingsTab extends SimTab {
 
 		new NumberPicker(contentBlock.bodyElement, this.simUI.player, {
 			label: 'Level',
-			labelTooltip: 'The fight length for each sim iteration, in seconds.',
+			labelTooltip: 'Character level.',
 			changedEvent: sim => sim.levelChangeEmitter,
 			getValue: sim => sim.getLevel(),
 			setValue: (eventID, sim, newValue) => sim.setLevel(eventID, newValue),
