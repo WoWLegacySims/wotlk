@@ -95,7 +95,7 @@ func NewCharacter(party *Party, partyIndex int, player *proto.Player) Character 
 		Unit: Unit{
 			Type:        PlayerUnit,
 			Index:       int32(party.Index*5 + partyIndex),
-			Level:       CharacterLevel,
+			Level:       player.Level,
 			auraTracker: newAuraTracker(),
 			PseudoStats: stats.NewPseudoStats(),
 			Metrics:     NewUnitMetrics(),

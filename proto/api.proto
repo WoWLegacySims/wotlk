@@ -25,6 +25,7 @@ message Player {
 
 	EquipmentSpec equipment = 3;
 	Consumes consumes = 4;
+	int32 level = 5;
 	UnitStats bonus_stats = 36;
 
 	bool enable_item_swap = 46;
@@ -90,7 +91,7 @@ message Party {
 }
 
 message Raid {
-	repeated Party parties = 1; 
+	repeated Party parties = 1;
 
 	// The number of parties in the raid who participate in the sim, e.g.
 	// 10-man vs 25-man raids. The remaining parties are unused but can hold
@@ -247,7 +248,7 @@ message UnitMetrics {
 	DistributionMetrics tto = 15; // Time To OOM, in seconds.
 
 	// average seconds spent oom per iteration
-	double seconds_oom_avg = 3; 
+	double seconds_oom_avg = 3;
 
 	// Chance (0-1) representing probability of death. Used for tank sims.
 	double chance_of_death = 12;
@@ -405,7 +406,7 @@ message StatWeightValues {
 
 message AsyncAPIResult {
   string progress_id = 1;
-} 
+}
 
 // ProgressMetrics are used by all async APIs
 message ProgressMetrics {
@@ -415,7 +416,7 @@ message ProgressMetrics {
 	int32 total_sims = 4;
 	bool presim_running = 8;
 
-	// Partial Results 
+	// Partial Results
 	double dps = 5;
 	double hps = 9;
 

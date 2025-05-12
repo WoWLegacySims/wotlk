@@ -103,6 +103,14 @@ export class SettingsTab extends SimTab {
 			true,
 		);
 
+		new NumberPicker(contentBlock.bodyElement, this.simUI.player, {
+			label: 'Level',
+			labelTooltip: 'The fight length for each sim iteration, in seconds.',
+			changedEvent: sim => sim.levelChangeEmitter,
+			getValue: sim => sim.getLevel(),
+			setValue: (eventID, sim, newValue) => sim.setLevel(eventID, newValue),
+		});
+
 		const races = specToEligibleRaces[this.simUI.player.spec];
 		const _racePicker = new EnumPicker(contentBlock.bodyElement, this.simUI.player, {
 			label: 'Race',

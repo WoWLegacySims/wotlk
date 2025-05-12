@@ -11,6 +11,27 @@ type ApplySpellResults func(sim *Simulation, target *Unit, spell *Spell)
 type ExpectedDamageCalculator func(sim *Simulation, target *Unit, spell *Spell, useSnapshot bool) *SpellResult
 type CanCastCondition func(sim *Simulation, target *Unit) bool
 
+type SpellRank struct {
+	ActionID
+	MinLevel            int32
+	Downrank            int32
+	MinEffect           float64
+	MaxEffect           float64
+	MinEffectExtra      float64
+	MaxEffectExtra      float64
+	OverTime            float64
+	Ticks               int32
+	OverTimeCoefficient float64
+	CastTime            time.Duration
+	LevelScaling        float64
+	BaseCost            float64
+	Coefficient         float64
+}
+
+type SpellRanks struct {
+	Ranks []*SpellRank
+}
+
 type SpellConfig struct {
 	// See definition of Spell (below) for comments on these.
 	ActionID
@@ -56,6 +77,10 @@ type SpellConfig struct {
 	Shield ShieldConfig
 
 	RelatedAuras []AuraArray
+}
+
+type RankedSpells struct {
+	Spells map[int]*Spell
 }
 
 type Spell struct {
@@ -143,6 +168,35 @@ type Spell struct {
 
 	// Per-target auras that are related to this spell, usually buffs or debuffs applied by the spell.
 	RelatedAuras []AuraArray
+}
+
+func (spellRanks *SpellRanks) FindMaxRank(level int32) *SpellRank {
+	var rank *SpellRank
+	for _, s := range spellRanks.Ranks {
+		if level >= s.MinLevel {
+			if rank == nil || rank.MinLevel < s.MinLevel {
+				rank = s
+			}
+		}
+	}
+	return rank
+}
+
+func (spellRanks *SpellRanks) FindDownRank(level int32) *SpellRank {
+	var rank *SpellRank
+	var downRankIndex int
+	for i, s := range spellRanks.Ranks {
+		if level >= s.MinLevel {
+			if rank == nil || rank.MinLevel < s.MinLevel {
+				rank = s
+				downRankIndex = i
+			}
+		}
+	}
+	if downRankIndex > 0 {
+		return spellRanks.Ranks[downRankIndex-1]
+	}
+	return nil
 }
 
 func (unit *Unit) OnSpellRegistered(handler SpellRegisteredHandler) {
