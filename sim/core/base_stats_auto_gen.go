@@ -1,3 +1,4 @@
+
 package core
 
 // **************************************
@@ -19,70 +20,84 @@ const DodgeRatingPerDodgeChance = 45.250187
 const ParryRatingPerParryChance = 45.250187
 const BlockRatingPerBlockChance = 16.394995
 const ResilienceRatingPerCritReductionChance = 94.271225
-
+const ArmorPenPerPercentArmor = 13.995727272727272
+const MPPerSpirit = 0.003345
 var CritPerAgiMaxLevel = map[proto.Class]float64{
-	proto.Class_ClassUnknown:     0.0,
-	proto.Class_ClassWarrior:     0.0160,
-	proto.Class_ClassPaladin:     0.0192,
-	proto.Class_ClassHunter:      0.0120,
-	proto.Class_ClassRogue:       0.0120,
-	proto.Class_ClassPriest:      0.0192,
-	proto.Class_ClassDeathknight: 0.0160,
-	proto.Class_ClassShaman:      0.0120,
-	proto.Class_ClassMage:        0.0196,
-	proto.Class_ClassWarlock:     0.0198,
-	proto.Class_ClassDruid:       0.0120,
+proto.Class_ClassUnknown: 0.0,
+proto.Class_ClassWarrior: 0.016,
+proto.Class_ClassPaladin: 0.0192,
+proto.Class_ClassHunter: 0.012,
+proto.Class_ClassRogue: 0.012,
+proto.Class_ClassPriest: 0.0192,
+proto.Class_ClassDeathknight: 0.016,
+proto.Class_ClassShaman: 0.012,
+proto.Class_ClassMage: 0.0196,
+proto.Class_ClassWarlock: 0.0198,
+proto.Class_ClassDruid: 0.012,
+}
+var CritPerIntMaxLevel = map[proto.Class]float64{
+proto.Class_ClassUnknown: 0.0,
+proto.Class_ClassWarrior: 0.0,
+proto.Class_ClassPaladin: 0.006,
+proto.Class_ClassHunter: 0.006,
+proto.Class_ClassRogue: 0.0,
+proto.Class_ClassPriest: 0.006,
+proto.Class_ClassDeathknight: 0.0,
+proto.Class_ClassShaman: 0.006,
+proto.Class_ClassMage: 0.006,
+proto.Class_ClassWarlock: 0.006,
+proto.Class_ClassDruid: 0.006,
 }
 var ExtraClassBaseStats = map[proto.Class]stats.Stats{
-	proto.Class_ClassUnknown: {},
-	proto.Class_ClassWarrior: {
-		stats.Mana:      0.0000,
-		stats.SpellCrit: 0.0000 * CritRatingPerCritChance,
-		stats.MeleeCrit: 3.1891 * CritRatingPerCritChance,
-	},
-	proto.Class_ClassPaladin: {
-		stats.Mana:      4394.0000,
-		stats.SpellCrit: 3.3355 * CritRatingPerCritChance,
-		stats.MeleeCrit: 3.2685 * CritRatingPerCritChance,
-	},
-	proto.Class_ClassHunter: {
-		stats.Mana:      5046.0000,
-		stats.SpellCrit: 3.6020 * CritRatingPerCritChance,
-		stats.MeleeCrit: -1.5320 * CritRatingPerCritChance,
-	},
-	proto.Class_ClassRogue: {
-		stats.Mana:      0.0000,
-		stats.SpellCrit: 0.0000 * CritRatingPerCritChance,
-		stats.MeleeCrit: -0.2950 * CritRatingPerCritChance,
-	},
-	proto.Class_ClassPriest: {
-		stats.Mana:      3863.0000,
-		stats.SpellCrit: 1.2375 * CritRatingPerCritChance,
-		stats.MeleeCrit: 3.1765 * CritRatingPerCritChance,
-	},
-	proto.Class_ClassDeathknight: {
-		stats.Mana:      1000.0000,
-		stats.SpellCrit: 0.0000 * CritRatingPerCritChance,
-		stats.MeleeCrit: 3.1891 * CritRatingPerCritChance,
-	},
-	proto.Class_ClassShaman: {
-		stats.Mana:      4396.0000,
-		stats.SpellCrit: 2.2010 * CritRatingPerCritChance,
-		stats.MeleeCrit: 2.9220 * CritRatingPerCritChance,
-	},
-	proto.Class_ClassMage: {
-		stats.Mana:      3268.0000,
-		stats.SpellCrit: 0.9075 * CritRatingPerCritChance,
-		stats.MeleeCrit: 3.4540 * CritRatingPerCritChance,
-	},
-	proto.Class_ClassWarlock: {
-		stats.Mana:      3856.0000,
-		stats.SpellCrit: 1.7000 * CritRatingPerCritChance,
-		stats.MeleeCrit: 2.6220 * CritRatingPerCritChance,
-	},
-	proto.Class_ClassDruid: {
-		stats.Mana:      3496.0000,
-		stats.SpellCrit: 1.8515 * CritRatingPerCritChance,
-		stats.MeleeCrit: 7.4755 * CritRatingPerCritChance,
-	},
+proto.Class_ClassUnknown: {},
+proto.Class_ClassWarrior: {
+ stats.Mana: 0.0,
+ stats.SpellCrit: 0.0*CritRatingPerCritChance,
+ stats.MeleeCrit: 3.1891*CritRatingPerCritChance,
+},
+proto.Class_ClassPaladin: {
+ stats.Mana: 4394.0,
+ stats.SpellCrit: 3.3355*CritRatingPerCritChance,
+ stats.MeleeCrit: 3.2685*CritRatingPerCritChance,
+},
+proto.Class_ClassHunter: {
+ stats.Mana: 5046.0,
+ stats.SpellCrit: 3.602*CritRatingPerCritChance,
+ stats.MeleeCrit: -1.532*CritRatingPerCritChance,
+},
+proto.Class_ClassRogue: {
+ stats.Mana: 0.0,
+ stats.SpellCrit: 0.0*CritRatingPerCritChance,
+ stats.MeleeCrit: -0.295*CritRatingPerCritChance,
+},
+proto.Class_ClassPriest: {
+ stats.Mana: 3863.0,
+ stats.SpellCrit: 1.2375*CritRatingPerCritChance,
+ stats.MeleeCrit: 3.1765*CritRatingPerCritChance,
+},
+proto.Class_ClassDeathknight: {
+ stats.Mana: 1000.0,
+ stats.SpellCrit: 0.0*CritRatingPerCritChance,
+ stats.MeleeCrit: 3.1891*CritRatingPerCritChance,
+},
+proto.Class_ClassShaman: {
+ stats.Mana: 4396.0,
+ stats.SpellCrit: 2.201*CritRatingPerCritChance,
+ stats.MeleeCrit: 2.922*CritRatingPerCritChance,
+},
+proto.Class_ClassMage: {
+ stats.Mana: 3268.0,
+ stats.SpellCrit: 0.9075*CritRatingPerCritChance,
+ stats.MeleeCrit: 3.454*CritRatingPerCritChance,
+},
+proto.Class_ClassWarlock: {
+ stats.Mana: 3856.0,
+ stats.SpellCrit: 1.7*CritRatingPerCritChance,
+ stats.MeleeCrit: 2.622*CritRatingPerCritChance,
+},
+proto.Class_ClassDruid: {
+ stats.Mana: 3496.0,
+ stats.SpellCrit: 1.8515*CritRatingPerCritChance,
+ stats.MeleeCrit: 7.4755*CritRatingPerCritChance,
+},
 }

@@ -15,7 +15,7 @@ MELEE_CRIT_BASE = "chancetomeleecritbase.txt"
 SPELL_CRIT = "chancetospellcrit.txt"
 SPELL_CRIT_BASE = "chancetospellcritbase.txt"
 COMBAT_RATINGS = "combatratings.txt"
-RATING_SCALAR = "octclasscombatratingscalar.txt"
+MP_PER_SPIRIT = "GtRegenMPPerSpt.csv"
 
 BASE_LEVEL = 80
 
@@ -63,6 +63,7 @@ class ClassStats:
     MCritBase : dict
     SCritBase : dict
     CombatRatings : dict
+    MpPerSpirit : dict
 
 def GenExtraStatsGoFile(cs: ClassStats):
     header = '''
@@ -79,7 +80,7 @@ import (
 
 '''
     output = header
-    output += f"const ExpertisePerQuarterPercentReduction = {cs.CombatRatings['weapon skill'][BASE_LEVEL-1]}\n"
+    output += f"const ExpertisePerQuarterPercentReduction = {cs.CombatRatings['expertise'][BASE_LEVEL-1]}\n"
     output += f"const HasteRatingPerHastePercent = {cs.CombatRatings['haste melee'][BASE_LEVEL-1]}\n"
     output += f"const CritRatingPerCritChance = {cs.CombatRatings['crit melee'][BASE_LEVEL-1]}\n"
     output += f"const MeleeHitRatingPerHitChance = {cs.CombatRatings['hit melee'][BASE_LEVEL-1]}\n"
@@ -89,6 +90,8 @@ import (
     output += f"const ParryRatingPerParryChance = {cs.CombatRatings['parry'][BASE_LEVEL-1]}\n"
     output += f"const BlockRatingPerBlockChance = {cs.CombatRatings['block'][BASE_LEVEL-1]}\n"
     output += f"const ResilienceRatingPerCritReductionChance = {cs.CombatRatings['crit taken melee'][BASE_LEVEL-1]}\n"
+    output += f"const ArmorPenPerPercentArmor = {float(cs.CombatRatings['armor pen'][BASE_LEVEL-1])/1.1}\n"
+    output += f"const MPPerSpirit = {float(cs.MpPerSpirit['Paladin'][BASE_LEVEL-1])}\n"
 
     output += '''var CritPerAgiMaxLevel = map[proto.Class]float64{
 proto.Class_ClassUnknown: 0.0,'''
@@ -98,7 +101,18 @@ proto.Class_ClassUnknown: 0.0,'''
             cName[1] = cName[1].lower()
         cName = ''.join(cName)
         mc = float(cs.MCrit[str(BASE_LEVEL)][Offs[c]])*100
-        output += f"\nproto.Class_Class{cName}: {mc:.4f},"
+        output += f"\nproto.Class_Class{cName}: {mc:.6},"
+    output += "\n}\n"
+
+    output += '''var CritPerIntMaxLevel = map[proto.Class]float64{
+proto.Class_ClassUnknown: 0.0,'''
+    for c in ["Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Death Knight", "Shaman", "Mage", "Warlock", "Druid"]:
+        cName = c.split()
+        if len(cName) > 1:
+            cName[1] = cName[1].lower()
+        cName = ''.join(cName)
+        sc = float(cs.SCrit[str(BASE_LEVEL)][Offs[c]])*100
+        output += f"\nproto.Class_Class{cName}: {sc:.6},"
     output += "\n}\n"
 
     output += '''var ExtraClassBaseStats = map[proto.Class]stats.Stats{
@@ -112,9 +126,9 @@ proto.Class_ClassUnknown: {},'''
         mp = float(cs.BaseMp[str(BASE_LEVEL)][Offs[c]])
         scb = float(cs.SCritBase["1"][Offs[c]])*100
         mcb = float(cs.MCritBase["1"][Offs[c]])*100
-        output += f"\n stats.Mana: {mp:.4f},"
-        output += f"\n stats.SpellCrit: {scb:.4f}*CritRatingPerCritChance,"
-        output += f"\n stats.MeleeCrit: {mcb:.4f}*CritRatingPerCritChance,"
+        output += f"\n stats.Mana: {mp:.6},"
+        output += f"\n stats.SpellCrit: {scb:.6}*CritRatingPerCritChance,"
+        output += f"\n stats.MeleeCrit: {mcb:.6}*CritRatingPerCritChance,"
         output += "\n},"
     output += "\n}\n"
     return output
@@ -128,6 +142,7 @@ if __name__ == "__main__":
     args.MCritBase = GenIndexedDb(BASE_DIR + DIR_PATH + MELEE_CRIT_BASE)
     args.SCritBase = GenIndexedDb(BASE_DIR + DIR_PATH + SPELL_CRIT_BASE)
     args.CombatRatings = GenRowIndexedDb(BASE_DIR + DIR_PATH + COMBAT_RATINGS)
+    args.MpPerSpirit = GenRowIndexedDb(BASE_DIR + DIR_PATH + MP_PER_SPIRIT)
 
     output = GenExtraStatsGoFile(args)
     fname = BASE_DIR + OUTPUT_PATH + "base_stats_auto_gen.go"
