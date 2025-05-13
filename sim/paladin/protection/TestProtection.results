@@ -224,15 +224,15 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-Deathbringer'sWill-50362"
  value: {
-  dps: 3318.26847
-  tps: 7935.39908
+  dps: 3318.25891
+  tps: 7935.38541
  }
 }
 dps_results: {
  key: "TestProtection-AllItems-Deathbringer'sWill-50363"
  value: {
-  dps: 3326.98732
-  tps: 7946.21167
+  dps: 3326.97681
+  tps: 7946.19664
  }
 }
 dps_results: {
@@ -434,8 +434,8 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-IncisorFragment-37723"
  value: {
-  dps: 3226.06409
-  tps: 7733.59629
+  dps: 3226.06029
+  tps: 7733.59085
  }
 }
 dps_results: {
@@ -862,8 +862,8 @@ dps_results: {
 dps_results: {
  key: "TestProtection-AllItems-Turalyon'sBattlegear"
  value: {
-  dps: 3450.56276
-  tps: 8224.77269
+  dps: 3450.5581
+  tps: 8224.76602
  }
 }
 dps_results: {

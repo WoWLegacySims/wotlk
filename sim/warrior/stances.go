@@ -65,7 +65,7 @@ func (warrior *Warrior) registerBattleStanceAura() {
 	const threatMult = 0.8
 
 	actionID := core.ActionID{SpellID: 2457}
-	armorPenBonus := core.ArmorPenPerPercentArmor * (10 + core.TernaryFloat64(warrior.HasSetBonus(ItemSetWrynnsBattlegear, 2), 6, 0))
+	armorPenBonus := warrior.ArmorPenPerPercentArmor * (10 + core.TernaryFloat64(warrior.HasSetBonus(ItemSetWrynnsBattlegear, 2), 6, 0))
 
 	warrior.BattleStanceAura = warrior.GetOrRegisterAura(core.Aura{
 		Label:    "Battle Stance",

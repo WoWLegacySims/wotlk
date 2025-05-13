@@ -9,17 +9,6 @@ import {
 	APLPrepullAction,
 	APLRotation,
 } from '../core/proto/apl.js';
-import * as BuffDebuffInputs from '../core/components/inputs/buffs_debuffs.js';
-import * as OtherInputs from '../core/components/other_inputs.js';
-import * as Ratings from '../core/constants/ratings.js';
-import { IndividualSimUI, registerSpecConfig } from '../core/individual_sim_ui.js';
-import { Player } from '../core/player.js';
-import {
-	APLAction,
-	APLListItem,
-	APLPrepullAction,
-	APLRotation,
-} from '../core/proto/apl.js';
 import {
 	Class,
 	Cooldowns,
@@ -28,15 +17,12 @@ import {
 	IndividualBuffs,
 	PartyBuffs,
 PseudoStat,
-PseudoStat,
 	Race,
 	RaidBuffs,
 	Spec,
-	Stat, 	TristateEffect,
-	Stat, 	TristateEffect,
+	Stat,
+TristateEffect,
 } from '../core/proto/common.js';
-import { PaladinMajorGlyph, PaladinSeal, ProtectionPaladin_Rotation as ProtectionPaladinRotation } from '../core/proto/paladin.js';
-import * as AplUtils from '../core/proto_utils/apl_utils.js';
 import { PaladinMajorGlyph, PaladinSeal, ProtectionPaladin_Rotation as ProtectionPaladinRotation } from '../core/proto/paladin.js';
 import * as AplUtils from '../core/proto_utils/apl_utils.js';
 import { Stats } from '../core/proto_utils/stats.js';
@@ -254,7 +240,6 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecProtectionPaladin, {
 	},
 
 	simpleRotation: (player: Player<Spec.SpecProtectionPaladin>, simple: ProtectionPaladinRotation, cooldowns: Cooldowns): APLRotation => {
-		const [prepullActions, actions] = AplUtils.standardCooldownDefaults(cooldowns);
 		const [prepullActions, actions] = AplUtils.standardCooldownDefaults(cooldowns);
 
 		const holyShieldPrepull = APLPrepullAction.fromJsonString(`{"action":{"castSpell":{"spellId":{"spellId":48952}}},"doAtValue":{"const":{"val":"-3s"}}}`);

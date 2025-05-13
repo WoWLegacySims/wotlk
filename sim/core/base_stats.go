@@ -124,5 +124,5 @@ var ApScaling = map[proto.Class]stats.Stats{
 }
 
 func MakeBaseStats(r proto.Race, c proto.Class, l int32) stats.Stats {
-	return ClassBaseStats[c][l].Add(RaceOffsets[r]).Add(BaseCrit[c].Multiply(CritRatingPerCritChance[l])).Add(ApBonus[c]).Add(ApScaling[c].Multiply(float64(l)))
+	return ClassBaseStats[c][l].Add(RaceOffsets[r]).Add(BaseCrit[c][l].Multiply(CritRatingPerCritChance[l])).Add(ApBonus[c]).Add(ApScaling[c].Multiply(float64(l)))
 }

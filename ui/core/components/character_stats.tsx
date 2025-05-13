@@ -3,11 +3,6 @@ import { element, fragment } from 'tsx-vanilla';
 
 import { Player } from '..//player.js';
 import { Class, PseudoStat, Spec,Stat , TristateEffect } from '..//proto/common.js';
-import { Popover, Tooltip } from 'bootstrap';
-import { element, fragment } from 'tsx-vanilla';
-
-import { Player } from '..//player.js';
-import { Class, PseudoStat, Spec,Stat , TristateEffect } from '..//proto/common.js';
 import { getClassStatName, statOrder } from '..//proto_utils/names.js';
 import { Stats } from '..//proto_utils/stats.js';
 import { EventID, TypedEvent } from '..//typed_event.js';
@@ -43,7 +38,6 @@ export class CharacterStats extends Component {
 
 		this.valueElems = [];
 		this.stats.forEach(stat => {
-			const statName = getClassStatName(stat, player.getClass());
 			const statName = getClassStatName(stat, player.getClass());
 
 			const row = (
@@ -108,7 +102,6 @@ export class CharacterStats extends Component {
 
 		this.stats.forEach((stat, idx) => {
 			const valueElem = (
-			const valueElem = (
 				<a
 					href="javascript:void(0)"
 					className="stat-value-link"
@@ -121,7 +114,6 @@ export class CharacterStats extends Component {
 			this.valueElems[idx].prepend(valueElem);
 
 			const bonusStatValue = bonusStats.getStat(stat);
-			const bonusStatValue = bonusStats.getStat(stat);
 
 			if (bonusStatValue == 0) {
 				valueElem.classList.add('text-white');
@@ -131,7 +123,6 @@ export class CharacterStats extends Component {
 				valueElem.classList.add('text-danger');
 			}
 
-			const tooltipContent =
 			const tooltipContent =
 			<div>
 				<div className="character-stats-tooltip-row">
@@ -274,7 +265,7 @@ export class CharacterStats extends Component {
 		} else if (stat == Stat.StatSpellHaste) {
 			displayStr += ` (${(rawValue / Ratings.GET_HASTE_RATING_PER_HASTE_PERCENT(level)).toFixed(2)}%)`;
 		} else if (stat == Stat.StatArmorPenetration) {
-			displayStr += ` (${(rawValue / Ratings.ARMOR_PEN_PER_PERCENT_ARMOR).toFixed(2)}%)`;
+			displayStr += ` (${(rawValue / Ratings.GET_ARMOR_PEN_PER_PERCENT_ARMOR(level)).toFixed(2)}%)`;
 		} else if (stat == Stat.StatExpertise) {
 			// As of 06/20, Blizzard has changed Expertise to no longer truncate at quarter percent intervals. Note that
 			// in-game character sheet tooltips will still display the truncated values, but it has been tested to behave
@@ -320,9 +311,7 @@ export class CharacterStats extends Component {
 
 	private bonusStatsLink(stat: Stat): HTMLElement {
 		const statName = getClassStatName(stat, this.player.getClass());
-		const statName = getClassStatName(stat, this.player.getClass());
 
-		const link = (
 		const link = (
 			<a
 				href="javascript:void(0)"
@@ -336,7 +325,6 @@ export class CharacterStats extends Component {
 
 		let popover: Popover | null = null;
 
-		const picker = new NumberPicker(null, this.player, {
 		const picker = new NumberPicker(null, this.player, {
 			label: `Bonus ${statName}`,
 			extraCssClasses: ['mb-0'],

@@ -64,6 +64,7 @@ class ClassStats:
     MCritBase : dict
     SCritBase : dict
     CombatRatings : dict
+    MpPerSpirit : dict
 
 class ClassLevelStats:
     Class: int
@@ -81,8 +82,15 @@ def GetClass(Class: int):
 
 def GenGORatingPerLevel(rating: dict, variable: str, key: str):
     output = f"var {variable} = map[int32]float64{{"
-    for i in range(1,81):
+    for i in range(1,84):
         output += f"{i}:{rating[key][i-1]},"
+    output += '''}\n'''
+    return output
+
+def GenGOArmorPen(rating: dict):
+    output = f"var {"ArmorPenPerPercentArmor"} = map[int32]float64{{"
+    for i in range(1,84):
+        output += f"{i}:{float(rating["armor pen"][i-1])/1.1},"
     output += '''}\n'''
     return output
 
@@ -101,7 +109,7 @@ import (
 
 '''
     output = header
-    output += GenGORatingPerLevel(cs.CombatRatings,"ExpertisePerQuarterPercentReduction","weapon skill")
+    output += GenGORatingPerLevel(cs.CombatRatings,"ExpertisePerQuarterPercentReduction","expertise")
     output += GenGORatingPerLevel(cs.CombatRatings,"HasteRatingPerHastePercent","haste melee")
     output += GenGORatingPerLevel(cs.CombatRatings,"CritRatingPerCritChance","crit melee")
     output += GenGORatingPerLevel(cs.CombatRatings,"MeleeHitRatingPerHitChance","hit melee")
@@ -111,12 +119,11 @@ import (
     output += GenGORatingPerLevel(cs.CombatRatings,"ParryRatingPerParryChance","parry")
     output += GenGORatingPerLevel(cs.CombatRatings,"BlockRatingPerBlockChance","block")
     output += GenGORatingPerLevel(cs.CombatRatings,"ResilienceRatingPerCritReductionChance","crit taken melee")
+    output += GenGOArmorPen(cs.CombatRatings)
+    output += GenGORatingPerLevel(cs.MpPerSpirit,"MPPerSpirit","Paladin")
 
     output += '''\nvar CritPerAgi = map[proto.Class]map[int32]float64{
-proto.Class_ClassUnknown:{'''
-    for i in range(1,81):
-        output += f"{i}:0.0,"
-    output += '''},'''
+proto.Class_ClassUnknown:{},'''
 
     for c in ["Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Death Knight", "Shaman", "Mage", "Warlock", "Druid"]:
         cName = c.split()
@@ -124,25 +131,41 @@ proto.Class_ClassUnknown:{'''
             cName[1] = cName[1].lower()
         cName = ''.join(cName)
         output += f"\nproto.Class_Class{cName}: {{"
-        for i in range(1,81):
+        for i in range(1,84):
             mc = float(cs.MCrit[str(i)][Offs[c]])*100
-            output += f"{i}:{mc:.4f},"
+            output += f"{i}:{mc:.6f},"
         output += '''},'''
     output += "\n}\n"
 
-    output += '''var BaseCrit = map[proto.Class]stats.Stats{
-proto.Class_ClassUnknown: {},'''
+    output += '''\nvar SpellCritPerInt = map[proto.Class]map[int32]float64{
+proto.Class_ClassUnknown:{},'''
+
     for c in ["Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Death Knight", "Shaman", "Mage", "Warlock", "Druid"]:
         cName = c.split()
         if len(cName) > 1:
             cName[1] = cName[1].lower()
         cName = ''.join(cName)
         output += f"\nproto.Class_Class{cName}: {{"
-        scb = float(cs.SCritBase["1"][Offs[c]])*100
-        mcb = float(cs.MCritBase["1"][Offs[c]])*100
-        output += f"\n stats.SpellCrit: {scb:.4f},"
-        output += f"\n stats.MeleeCrit: {mcb:.4f},"
-        output += "\n},"
+        for i in range(1,84):
+            mc = float(cs.SCrit[str(i)][Offs[c]])*100
+            output += f"{i}:{mc:.6f},"
+        output += '''},'''
+    output += "\n}\n"
+
+    output += '''var BaseCrit = map[proto.Class]map[int32]stats.Stats{
+proto.Class_ClassUnknown: {},'''
+
+    for c in ["Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Death Knight", "Shaman", "Mage", "Warlock", "Druid"]:
+        cName = c.split()
+        if len(cName) > 1:
+            cName[1] = cName[1].lower()
+        cName = ''.join(cName)
+        output += f"\nproto.Class_Class{cName}: {{"
+        for i in range(1,84):
+            scb = float(cs.SCritBase["1"][Offs[c]])*100
+            mcb = float(cs.MCritBase["1"][Offs[c]])*100
+            output += f"{i}: {{stats.SpellCrit: {scb:.6f}, stats.MeleeCrit: {mcb:.6f}}},"
+        output += "},"
     output += "\n}\n"
 
     output += '''var ClassBaseStats = map[proto.Class]map[int32]stats.Stats{\nproto.Class_ClassUnknown: {'''
@@ -158,10 +181,18 @@ proto.Class_ClassUnknown: {},'''
 
 def GenTSRatingPerLevel(rating: dict, variable: str, key: str):
     output = f"const {variable}: Stat = {{"
-    for i in range(1,81):
+    for i in range(1,84):
         output += f"{i}:{rating[key][i-1]},"
     output += '''}\n'''
     output += f"export function GET_{variable}(level: number): number{{ return {variable}[level];}}\n"
+    return output
+
+def GenTSArmorPen(rating: dict):
+    output = f"const {"ARMOR_PEN_PER_PERCENT_ARMOR"}: Stat = {{"
+    for i in range(1,84):
+        output += f"{i}:{float(rating["armor pen"][i-1])/1.1},"
+    output += '''}\n'''
+    output += f"export function GET_{"ARMOR_PEN_PER_PERCENT_ARMOR"}(level: number): number{{ return {"ARMOR_PEN_PER_PERCENT_ARMOR"}[level];}}\n"
     return output
 
 def GenExtraStatsTSFile(cs: ClassStats):
@@ -187,6 +218,7 @@ interface Stat {
     output += GenTSRatingPerLevel(cs.CombatRatings,"PARRY_RATING_PER_PARRY_CHANCE","parry")
     output += GenTSRatingPerLevel(cs.CombatRatings,"BLOCK_RATING_PER_BLOCK_CHANCE","block")
     output += GenTSRatingPerLevel(cs.CombatRatings,"RESILIENCE_RATING_PER_CRIT_REDUCTION_CHANCE","crit taken melee")
+    output += GenTSArmorPen(cs.CombatRatings)
     return output
 
 

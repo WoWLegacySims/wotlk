@@ -85,6 +85,7 @@ func NewPet(name string, owner *Character, baseStats stats.Stats, basePercentage
 	pet.ParryRatingPerParryChance = ParryRatingPerParryChance[pet.Level]
 	pet.BlockRatingPerBlockChance = BlockRatingPerBlockChance[pet.Level]
 	pet.ResilienceRatingPerCritReductionChance = ResilienceRatingPerCritReductionChance[pet.Level]
+	pet.ArmorPenPerPercentArmor = ArmorPenPerPercentArmor[pet.Level]
 	var statMultiplier = stats.Stats{
 		stats.Expertise:  pet.ExpertisePerQuarterPercentReduction,
 		stats.MeleeHaste: pet.HasteRatingPerHastePercent,

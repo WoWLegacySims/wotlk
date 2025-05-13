@@ -32,6 +32,7 @@ func (shaman *Shaman) NewFireElemental(bonusSpellPower float64) *FireElemental {
 		Pet:         core.NewPet("Greater Fire Elemental", &shaman.Character, fireElementalPetBaseStats, fireElementalPetBasePercentageStats, shaman.fireElementalStatInheritance(), false, true),
 		shamanOwner: shaman,
 	}
+	fireElemental.Class = proto.Class_ClassPaladin
 	fireElemental.EnableManaBar()
 	fireElemental.EnableAutoAttacks(fireElemental, core.AutoAttackOptions{
 		MainHand: core.Weapon{

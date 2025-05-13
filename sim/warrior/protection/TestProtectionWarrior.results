@@ -269,15 +269,15 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-Deathbringer'sWill-50362"
  value: {
-  dps: 1550.72349
-  tps: 4003.56481
+  dps: 1549.08995
+  tps: 3999.14385
  }
 }
 dps_results: {
  key: "TestProtectionWarrior-AllItems-Deathbringer'sWill-50363"
  value: {
-  dps: 1559.26933
-  tps: 4021.26044
+  dps: 1559.24518
+  tps: 4021.20319
  }
 }
 dps_results: {
@@ -304,8 +304,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-DreadnaughtBattlegear"
  value: {
-  dps: 1474.02677
-  tps: 3793.84899
+  dps: 1473.08753
+  tps: 3791.42099
  }
 }
 dps_results: {
@@ -493,8 +493,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-IncisorFragment-37723"
  value: {
-  dps: 1477.31363
-  tps: 3830.89904
+  dps: 1477.30342
+  tps: 3830.87479
  }
 }
 dps_results: {
@@ -571,8 +571,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-OnslaughtBattlegear"
  value: {
-  dps: 1212.73705
-  tps: 3132.14296
+  dps: 1211.90744
+  tps: 3129.95786
  }
 }
 dps_results: {
@@ -690,8 +690,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-SiegebreakerBattlegear"
  value: {
-  dps: 1502.66013
-  tps: 3866.08064
+  dps: 1501.79742
+  tps: 3864.26127
  }
 }
 dps_results: {
@@ -893,8 +893,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-Wrynn'sBattlegear"
  value: {
-  dps: 1715.22713
-  tps: 4343.02026
+  dps: 1710.22032
+  tps: 4328.92178
  }
 }
 dps_results: {
@@ -907,8 +907,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-YmirjarLord'sBattlegear"
  value: {
-  dps: 1915.35055
-  tps: 4811.31977
+  dps: 1913.27829
+  tps: 4803.10402
  }
 }
 dps_results: {

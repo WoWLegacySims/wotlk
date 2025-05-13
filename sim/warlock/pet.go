@@ -128,17 +128,17 @@ func (warlock *Warlock) NewWarlockPet() *WarlockPet {
 		owner: warlock,
 	}
 
-	wp.EnableManaBarWithModifier(cfg.PowerModifier)
-
 	wp.AddStatDependency(stats.Strength, stats.AttackPower, 2)
 	wp.AddStat(stats.AttackPower, -20)
 
 	if warlock.Options.Summon == proto.Warlock_Options_Imp {
 		// imps are mages
-		wp.AddStatDependency(stats.Agility, stats.MeleeCrit, wp.CritRatingPerCritChance*core.CritPerAgi[proto.Class_ClassMage][wp.Level])
+		wp.Class = proto.Class_ClassMage
 	} else {
-		wp.AddStatDependency(stats.Agility, stats.MeleeCrit, wp.CritRatingPerCritChance*core.CritPerAgi[proto.Class_ClassPaladin][wp.Level])
+		wp.Class = proto.Class_ClassPaladin
 	}
+	wp.AddStatDependency(stats.Agility, stats.MeleeCrit, wp.CritRatingPerCritChance*core.CritPerAgi[wp.Class][wp.Level])
+	wp.EnableManaBarWithModifier(cfg.PowerModifier)
 
 	wp.AddStats(stats.Stats{
 		stats.MeleeCrit: float64(warlock.Talents.DemonicTactics) * 2 * wp.CritRatingPerCritChance,

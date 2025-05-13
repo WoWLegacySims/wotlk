@@ -196,8 +196,8 @@ dps_results: {
 dps_results: {
  key: "TestBloodTank-AllItems-DarkrunedBattlegear"
  value: {
-  dps: 2349.9651
-  tps: 7253.47954
+  dps: 2349.9588
+  tps: 7253.46647
  }
 }
 dps_results: {
@@ -224,15 +224,15 @@ dps_results: {
 dps_results: {
  key: "TestBloodTank-AllItems-Deathbringer'sWill-50362"
  value: {
-  dps: 2229.44709
-  tps: 6815.03978
+  dps: 2229.42751
+  tps: 6814.99918
  }
 }
 dps_results: {
  key: "TestBloodTank-AllItems-Deathbringer'sWill-50363"
  value: {
-  dps: 2251.13983
-  tps: 6838.055
+  dps: 2251.11829
+  tps: 6838.01034
  }
 }
 dps_results: {
@@ -420,8 +420,8 @@ dps_results: {
 dps_results: {
  key: "TestBloodTank-AllItems-IncisorFragment-37723"
  value: {
-  dps: 2150.00531
-  tps: 6572.0285
+  dps: 2149.99694
+  tps: 6572.01115
  }
 }
 dps_results: {
@@ -596,8 +596,8 @@ dps_results: {
 dps_results: {
  key: "TestBloodTank-AllItems-Scourgelord'sBattlegear"
  value: {
-  dps: 2792.19538
-  tps: 8676.60677
+  dps: 2792.14578
+  tps: 8676.50393
  }
 }
 dps_results: {
@@ -617,8 +617,8 @@ dps_results: {
 dps_results: {
  key: "TestBloodTank-AllItems-Shadowmourne-49623"
  value: {
-  dps: 2843.95748
-  tps: 8416.1353
+  dps: 2843.93857
+  tps: 8416.09608
  }
 }
 dps_results: {
@@ -722,8 +722,8 @@ dps_results: {
 dps_results: {
  key: "TestBloodTank-AllItems-Thassarian'sBattlegear"
  value: {
-  dps: 2454.66742
-  tps: 7504.81505
+  dps: 2454.65771
+  tps: 7504.79492
  }
 }
 dps_results: {

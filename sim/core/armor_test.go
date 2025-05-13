@@ -192,8 +192,9 @@ func TestDamageReductionFromArmor(t *testing.T) {
 		Metrics:      NewUnitMetrics(),
 	}
 	attacker := Unit{
-		Type:  PlayerUnit,
-		Level: 80,
+		Type:                    PlayerUnit,
+		Level:                   80,
+		ArmorPenPerPercentArmor: ArmorPenPerPercentArmor[80],
 	}
 	spell := &Spell{}
 	target.stats = target.initialStats

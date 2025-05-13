@@ -72,6 +72,7 @@ func (mage *Mage) NewMirrorImage() *MirrorImage {
 		Pet:       core.NewPet("Mirror Image", &mage.Character, mirrorImageBaseStats, mirrorImageBasePercentageStats, createMirrorImageInheritance(mage), false, true),
 		mageOwner: mage,
 	}
+	mirrorImage.Class = proto.Class_ClassMage
 	mirrorImage.EnableManaBar()
 
 	mage.AddPet(mirrorImage)

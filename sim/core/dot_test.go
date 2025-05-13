@@ -60,6 +60,7 @@ func NewFakeElementalShaman(char *Character, _ *proto.Player) Agent {
 	fa.BlockRatingPerBlockChance = BlockRatingPerBlockChance[fa.Level]
 	fa.ResilienceRatingPerCritReductionChance = ResilienceRatingPerCritReductionChance[fa.Level]
 	fa.CritPerAgi = CritPerAgi[proto.Class_ClassShaman][fa.Level]
+	fa.ArmorPenPerPercentArmor = ArmorPenPerPercentArmor[fa.Level]
 
 	fa.Init = func() {
 		fa.Spell = fa.RegisterSpell(SpellConfig{

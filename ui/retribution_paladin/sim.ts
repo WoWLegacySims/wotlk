@@ -6,14 +6,6 @@ import { Player } from '../core/player.js';
 import {
 	APLRotation,
 } from '../core/proto/apl.js';
-import * as BuffDebuffInputs from '../core/components/inputs/buffs_debuffs.js';
-import * as OtherInputs from '../core/components/other_inputs.js';
-import * as Ratings from '../core/constants/ratings.js';
-import { IndividualSimUI, registerSpecConfig } from '../core/individual_sim_ui.js';
-import { Player } from '../core/player.js';
-import {
-	APLRotation,
-} from '../core/proto/apl.js';
 import {
 	Class,
 	Debuffs,
@@ -21,14 +13,12 @@ import {
 	IndividualBuffs,
 	PartyBuffs,
 PseudoStat,
-PseudoStat,
 	Race,
 	RaidBuffs,
 	Spec,
-	Stat, 	TristateEffect,
-	Stat, 	TristateEffect,
+	Stat,
+TristateEffect,
 } from '../core/proto/common.js';
-import { PaladinMajorGlyph, PaladinSeal } from '../core/proto/paladin.js';
 import { PaladinMajorGlyph, PaladinSeal } from '../core/proto/paladin.js';
 import { Stats } from '../core/proto_utils/stats.js';
 import { getSpecIcon } from '../core/proto_utils/utils.js';

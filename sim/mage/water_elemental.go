@@ -69,6 +69,7 @@ func (mage *Mage) NewWaterElemental(disobeyChance float64) *WaterElemental {
 		Pet:           core.NewPet("Water Elemental", &mage.Character, waterElementalBaseStats, stats.Stats{}, waterElementalStatInheritance, mage.HasMajorGlyph(proto.MageMajorGlyph_GlyphOfEternalWater), true),
 		disobeyChance: disobeyChance,
 	}
+	waterElemental.Class = proto.Class_ClassMage
 	waterElemental.EnableManaBarWithModifier(0.333)
 
 	mage.AddPet(waterElemental)

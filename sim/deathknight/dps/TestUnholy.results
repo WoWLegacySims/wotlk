@@ -214,8 +214,8 @@ dps_results: {
 dps_results: {
  key: "TestUnholy-AllItems-DarkrunedBattlegear"
  value: {
-  dps: 7955.14304
-  tps: 4647.96928
+  dps: 7955.12558
+  tps: 4647.95446
   hps: 37.56575
  }
 }
@@ -246,16 +246,16 @@ dps_results: {
 dps_results: {
  key: "TestUnholy-AllItems-Deathbringer'sWill-50362"
  value: {
-  dps: 9842.05498
-  tps: 5966.18431
+  dps: 9841.98421
+  tps: 5966.12385
   hps: 41.44646
  }
 }
 dps_results: {
  key: "TestUnholy-AllItems-Deathbringer'sWill-50363"
  value: {
-  dps: 9897.66742
-  tps: 6044.42119
+  dps: 9897.59041
+  tps: 6044.35507
   hps: 41.44646
  }
 }
@@ -486,8 +486,8 @@ dps_results: {
 dps_results: {
  key: "TestUnholy-AllItems-IncisorFragment-37723"
  value: {
-  dps: 9495.56173
-  tps: 5751.17873
+  dps: 9495.53305
+  tps: 5751.15369
   hps: 41.44646
  }
 }
@@ -702,8 +702,8 @@ dps_results: {
 dps_results: {
  key: "TestUnholy-AllItems-Scourgelord'sBattlegear"
  value: {
-  dps: 8924.94793
-  tps: 5324.5361
+  dps: 8924.81922
+  tps: 5324.42667
   hps: 43.92938
  }
 }
@@ -894,8 +894,8 @@ dps_results: {
 dps_results: {
  key: "TestUnholy-AllItems-Thassarian'sBattlegear"
  value: {
-  dps: 8293.45372
-  tps: 4888.36111
+  dps: 8293.42741
+  tps: 4888.33878
   hps: 38.00716
  }
 }

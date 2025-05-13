@@ -136,6 +136,7 @@ func NewCharacter(party *Party, partyIndex int, player *proto.Player) Character 
 	character.ParryRatingPerParryChance = ParryRatingPerParryChance[character.Level]
 	character.BlockRatingPerBlockChance = BlockRatingPerBlockChance[character.Level]
 	character.ResilienceRatingPerCritReductionChance = ResilienceRatingPerCritReductionChance[character.Level]
+	character.ArmorPenPerPercentArmor = ArmorPenPerPercentArmor[character.Level]
 
 	character.GCD = character.NewTimer()
 

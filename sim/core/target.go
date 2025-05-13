@@ -146,6 +146,7 @@ func NewTarget(options *proto.Target, targetIndex int32) *Target {
 	target.ParryRatingPerParryChance = ParryRatingPerParryChance[target.Level]
 	target.BlockRatingPerBlockChance = BlockRatingPerBlockChance[target.Level]
 	target.ResilienceRatingPerCritReductionChance = ResilienceRatingPerCritReductionChance[target.Level]
+	target.ArmorPenPerPercentArmor = ArmorPenPerPercentArmor[target.Level]
 
 	if target.stats[stats.MeleeCrit] == 0 {
 		// Treat any % crit buff an enemy would gain as though it was scaled with level 80 ratings

@@ -231,15 +231,15 @@ dps_results: {
 dps_results: {
  key: "TestEnhancement-AllItems-Deathbringer'sWill-50362"
  value: {
-  dps: 7648.23056
-  tps: 4614.23694
+  dps: 7648.19647
+  tps: 4614.21307
  }
 }
 dps_results: {
  key: "TestEnhancement-AllItems-Deathbringer'sWill-50363"
  value: {
-  dps: 7659.60054
-  tps: 4620.73433
+  dps: 7659.5633
+  tps: 4620.70826
  }
 }
 dps_results: {
@@ -497,8 +497,8 @@ dps_results: {
 dps_results: {
  key: "TestEnhancement-AllItems-IncisorFragment-37723"
  value: {
-  dps: 7438.13398
-  tps: 4474.305
+  dps: 7438.11898
+  tps: 4474.2945
  }
 }
 dps_results: {

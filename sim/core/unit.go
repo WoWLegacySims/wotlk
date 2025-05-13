@@ -167,6 +167,7 @@ type Unit struct {
 	BlockRatingPerBlockChance              float64
 	ResilienceRatingPerCritReductionChance float64
 	CritPerAgi                             float64
+	ArmorPenPerPercentArmor                float64
 }
 
 // Units can be disabled for several reasons:
@@ -351,7 +352,7 @@ func (unit *Unit) BlockValue() float64 {
 }
 
 func (unit *Unit) ArmorPenetrationPercentage(armorPenRating float64) float64 {
-	return max(min(armorPenRating/ArmorPenPerPercentArmor, 100.0)*0.01, 0.0)
+	return max(min(armorPenRating/unit.ArmorPenPerPercentArmor, 100.0)*0.01, 0.0)
 }
 
 func (unit *Unit) RangedSwingSpeed() float64 {
