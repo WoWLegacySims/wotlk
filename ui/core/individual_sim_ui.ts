@@ -75,6 +75,7 @@ export interface OtherDefaults {
 	distanceFromTarget?: number;
 	channelClipDelay?: number;
 	nibelungAverageCasts?: number;
+	level?: number;
 }
 
 export interface RaidSimPreset<SpecType extends Spec> {
@@ -518,6 +519,7 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 				eventID,
 				this.individualConfig.defaults.other?.profession2 || Profession.Jewelcrafting,
 			);
+			this.player.setLevel(eventID, this.individualConfig.defaults.other?.level || Mechanics.MAX_LEVEL);
 			this.player.setDistanceFromTarget(
 				eventID,
 				this.individualConfig.defaults.other?.distanceFromTarget || 0,

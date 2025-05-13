@@ -233,7 +233,7 @@ export class Player<SpecType extends Spec> {
 	private enableItemSwap = false;
 	private itemSwapGear: ItemSwapGear = new ItemSwapGear({});
 	private race: Race;
-	private level: number;
+	private level = 80;
 	private profession1: Profession = 0;
 	private profession2: Profession = 0;
 	aplRotation: APLRotation = APLRotation.create();
@@ -299,7 +299,7 @@ export class Player<SpecType extends Spec> {
 
 		this.spec = spec;
 		this.race = specToEligibleRaces[this.spec][0];
-		this.level = 80;
+
 		this.specTypeFunctions = specTypeFunctions[this.spec] as SpecTypeFunctions<SpecType>;
 		this.specOptions = this.specTypeFunctions.optionsCreate();
 
@@ -526,6 +526,9 @@ export class Player<SpecType extends Spec> {
 		const minLevel = this.isClass(Class.ClassDeathknight) ? MIN_LEVEL_DK : MIN_LEVEL;
 		newLevel = Math.min(Math.max(newLevel, minLevel), MAX_LEVEL);
 		if (newLevel != this.level) {
+			this.sim.encounter.targets.forEach(t => {
+				t.level = t.level - this.level + newLevel;
+			});
 			this.level = newLevel;
 			this.levelChangeEmitter.emit(eventID);
 		}
@@ -1432,6 +1435,7 @@ export class Player<SpecType extends Spec> {
 				this.setRace(eventID, proto.race);
 				this.setProfession1(eventID, proto.profession1);
 				this.setProfession2(eventID, proto.profession2);
+				this.setLevel(eventID, proto.level);
 				this.setReactionTime(eventID, proto.reactionTimeMs);
 				this.setChannelClipDelay(eventID, proto.channelClipDelayMs);
 				this.setInFrontOfTarget(eventID, proto.inFrontOfTarget);

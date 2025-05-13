@@ -1,10 +1,11 @@
 import { BooleanPicker } from '../components/boolean_picker.js';
-import { EnumPicker } from '../components/enum_picker.js';
+import { EnumPicker, EnumValueConfig } from '../components/enum_picker.js';
 import { ListItemPickerConfig, ListPicker } from '../components/list_picker.js';
 import { NumberPicker } from '../components/number_picker.js';
 import * as Mechanics from '../constants/mechanics.js';
 import { Encounter } from '../encounter.js';
 import { IndividualSimUI } from '../individual_sim_ui.js';
+import { Player } from '../player.js';
 import { InputType, MobType, SpellSchool, Stat, Target, Target as TargetProto, TargetInput } from '../proto/common.js';
 import { statNames } from '../proto_utils/names.js';
 import { Stats } from '../proto_utils/stats.js';
@@ -185,7 +186,7 @@ class AdvancedEncounterModal extends BaseModal {
 				listPicker: ListPicker<Encounter, TargetProto>,
 				index: number,
 				config: ListItemPickerConfig<Encounter, TargetProto>,
-			) => new TargetPicker(parent, encounter, index, config),
+			) => new TargetPicker(parent, encounter, index, config, simUI),
 		});
 	}
 
@@ -217,9 +218,10 @@ class AdvancedEncounterModal extends BaseModal {
 class TargetPicker extends Input<Encounter, TargetProto> {
 	private readonly encounter: Encounter;
 	private readonly targetIndex: number;
+	private readonly simUi: SimUI;
 
 	private readonly aiPicker: Input<null, number>;
-	private readonly levelPicker: Input<null, number>;
+	private readonly levelPicker: EnumPicker<null>
 	private readonly mobTypePicker: Input<null, number>;
 	private readonly tankIndexPicker: Input<null, number>;
 	private readonly statPickers: Array<Input<null, number>>;
@@ -237,10 +239,11 @@ class TargetPicker extends Input<Encounter, TargetProto> {
 		return this.encounter.targets[this.targetIndex] || Target.create();
 	}
 
-	constructor(parent: HTMLElement, encounter: Encounter, targetIndex: number, config: ListItemPickerConfig<Encounter, TargetProto>) {
+	constructor(parent: HTMLElement, encounter: Encounter, targetIndex: number, config: ListItemPickerConfig<Encounter, TargetProto>, simUi: SimUI) {
 		super(parent, 'target-picker-root', encounter, config);
 		this.encounter = encounter;
 		this.targetIndex = targetIndex;
+		this.simUi = simUi;
 
 		this.rootElem.innerHTML = `
 			<div class="target-picker-section target-picker-section1"></div>
@@ -303,14 +306,11 @@ class TargetPicker extends Input<Encounter, TargetProto> {
 			},
 		});
 
+		const player = this.simUi.isIndividualSim() ? (this.simUi as IndividualSimUI<any>).player : null;
+
 		this.levelPicker = new EnumPicker<null>(section1, null, {
 			label: 'Level',
-			values: [
-				{ name: '83', value: 83 },
-				{ name: '82', value: 82 },
-				{ name: '81', value: 81 },
-				{ name: '80', value: 80 },
-			],
+			values: this.genLevels(player),
 			changedEvent: () => encounter.targetsChangeEmitter,
 			getValue: () => this.getTarget().level,
 			setValue: (eventID: EventID, _: null, newValue: number) => {
@@ -318,6 +318,7 @@ class TargetPicker extends Input<Encounter, TargetProto> {
 				encounter.targetsChangeEmitter.emit(eventID);
 			},
 		});
+
 		this.mobTypePicker = new EnumPicker(section1, null, {
 			label: 'Mob Type',
 			values: mobTypeEnumValues,
@@ -470,6 +471,15 @@ class TargetPicker extends Input<Encounter, TargetProto> {
 		});
 
 		this.init();
+	}
+
+	private genLevels(player: Player<any>|null): Array<EnumValueConfig> {
+		const level = player ? player.getLevel(): Mechanics.MAX_LEVEL;
+		const ret = new Array<EnumValueConfig>();
+		for (let i = level + 3; i >= level; i--){
+			ret.push({ name: i.toString(), value: i});
+		}
+		return ret;
 	}
 
 	getInputElem(): HTMLElement | null {

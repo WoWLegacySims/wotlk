@@ -150,7 +150,7 @@ func NewTarget(options *proto.Target, targetIndex int32) *Target {
 
 	if target.stats[stats.MeleeCrit] == 0 {
 		// Treat any % crit buff an enemy would gain as though it was scaled with level 80 ratings
-		target.stats[stats.MeleeCrit] = UnitLevelFloat64(target.Level, 5.0, 5.2, 5.4, 5.6) * target.CritRatingPerCritChance
+		target.stats[stats.MeleeCrit] = UnitLevelFloat64(target.Level, target.Level+3, 5.0, 5.2, 5.4, 5.6) * target.CritRatingPerCritChance
 	}
 
 	if target.Level == defaultRaidBossLevel && options.SuppressDodge {
@@ -233,24 +233,22 @@ func NewAttackTable(attacker *Unit, defender *Unit) *AttackTable {
 	}
 
 	if defender.Type == EnemyUnit {
-		// Assumes attacker (the Player) is level 80.
-		table.BaseSpellMissChance = UnitLevelFloat64(defender.Level, 0.04, 0.05, 0.06, 0.17)
-		table.BaseMissChance = UnitLevelFloat64(defender.Level, 0.05, 0.055, 0.06, 0.08)
+		table.BaseSpellMissChance = UnitLevelFloat64(defender.Level, attacker.Level, 0.04, 0.05, 0.06, 0.17)
+		table.BaseMissChance = UnitLevelFloat64(defender.Level, attacker.Level, 0.05, 0.055, 0.06, 0.08)
 		table.BaseBlockChance = 0.05
-		table.BaseDodgeChance = UnitLevelFloat64(defender.Level, 0.05, 0.055, 0.06, 0.065)
-		table.BaseParryChance = UnitLevelFloat64(defender.Level, 0.05, 0.055, 0.06, 0.14)
-		table.BaseGlanceChance = UnitLevelFloat64(defender.Level, 0.06, 0.12, 0.18, 0.24)
+		table.BaseDodgeChance = UnitLevelFloat64(defender.Level, attacker.Level, 0.05, 0.055, 0.06, 0.065)
+		table.BaseParryChance = UnitLevelFloat64(defender.Level, attacker.Level, 0.05, 0.055, 0.06, 0.14)
+		table.BaseGlanceChance = UnitLevelFloat64(defender.Level, attacker.Level, 0.06, 0.12, 0.18, 0.24)
 
-		table.GlanceMultiplier = UnitLevelFloat64(defender.Level, 0.95, 0.95, 0.85, 0.75)
-		table.MeleeCritSuppression = UnitLevelFloat64(defender.Level, 0, 0.01, 0.02, 0.048)
-		table.SpellCritSuppression = UnitLevelFloat64(defender.Level, 0, 0, 0.003, 0.021)
+		table.GlanceMultiplier = UnitLevelFloat64(defender.Level, attacker.Level, 0.95, 0.95, 0.85, 0.75)
+		table.MeleeCritSuppression = UnitLevelFloat64(defender.Level, attacker.Level, 0, 0.01, 0.02, 0.048)
+		table.SpellCritSuppression = UnitLevelFloat64(defender.Level, attacker.Level, 0, 0, 0.003, 0.021)
 	} else {
-		// Assumes defender (the Player) is level 80.
 		table.BaseSpellMissChance = 0.05
-		table.BaseMissChance = UnitLevelFloat64(attacker.Level, 0.05, 0.048, 0.046, 0.044)
-		table.BaseBlockChance = UnitLevelFloat64(attacker.Level, 0.05, 0.048, 0.046, 0.044)
-		table.BaseDodgeChance = UnitLevelFloat64(attacker.Level, 0, -0.002, -0.004, -0.006)
-		table.BaseParryChance = UnitLevelFloat64(attacker.Level, 0, -0.002, -0.004, -0.006)
+		table.BaseMissChance = UnitLevelFloat64(attacker.Level, defender.Level, 0.05, 0.048, 0.046, 0.044)
+		table.BaseBlockChance = UnitLevelFloat64(attacker.Level, defender.Level, 0.05, 0.048, 0.046, 0.044)
+		table.BaseDodgeChance = UnitLevelFloat64(attacker.Level, defender.Level, 0, -0.002, -0.004, -0.006)
+		table.BaseParryChance = UnitLevelFloat64(attacker.Level, defender.Level, 0, -0.002, -0.004, -0.006)
 	}
 
 	return table
