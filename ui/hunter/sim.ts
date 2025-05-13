@@ -10,6 +10,18 @@ import {
 	APLListItem,
 	APLRotation,
 } from '../core/proto/apl.js';
+import * as BuffDebuffInputs from '../core/components/inputs/buffs_debuffs.js';
+import * as ConsumablesInputs from '../core/components/inputs/consumables.js';
+import * as OtherInputs from '../core/components/other_inputs.js';
+import { PhysicalDPSGemOptimizer } from '../core/components/suggest_gems_action.js';
+import * as Ratings from '../core/constants/ratings.js';
+import { IndividualSimUI, registerSpecConfig } from '../core/individual_sim_ui.js';
+import { Player } from '../core/player.js';
+import {
+	APLAction,
+	APLListItem,
+	APLRotation,
+} from '../core/proto/apl.js';
 import {
 	Class,
 	Cooldowns,
@@ -19,20 +31,30 @@ import {
 	ItemSlot,
 	PartyBuffs,
 PseudoStat,
+PseudoStat,
 	Race,
 	RaidBuffs,
 	RangedWeaponType,
 	Spec,
 	Stat, 	TristateEffect,
+	Stat, 	TristateEffect,
 } from '../core/proto/common.js';
 import {
 	Hunter_Options_PetType as PetType,
+	Hunter_Options_PetType as PetType,
 	Hunter_Rotation as HunterRotation,
+	Hunter_Rotation_RotationType,
 	Hunter_Rotation_RotationType,
 	Hunter_Rotation_StingType as StingType,
 	HunterPetTalents,
 } from '../core/proto/hunter.js';
 import * as AplUtils from '../core/proto_utils/apl_utils.js';
+import { Gear } from '../core/proto_utils/gear.js';
+import { Stats } from '../core/proto_utils/stats.js';
+import { getSpecIcon,getTalentPoints } from '../core/proto_utils/utils.js';
+import { protoToTalentString } from '../core/talents/factory.js';
+import { getPetTalentsConfig } from '../core/talents/hunter_pet.js';
+import { TypedEvent } from '../core/typed_event.js';
 import { Gear } from '../core/proto_utils/gear.js';
 import { Stats } from '../core/proto_utils/stats.js';
 import { getSpecIcon,getTalentPoints } from '../core/proto_utils/utils.js';
@@ -287,6 +309,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecHunter, {
 
 	simpleRotation: (player: Player<Spec.SpecHunter>, simple: HunterRotation, cooldowns: Cooldowns): APLRotation => {
 		const [prepullActions, actions] = AplUtils.standardCooldownDefaults(cooldowns);
+		const [prepullActions, actions] = AplUtils.standardCooldownDefaults(cooldowns);
 
 		const serpentSting = APLAction.fromJsonString(`{"condition":{"cmp":{"op":"OpGt","lhs":{"remainingTime":{}},"rhs":{"const":{"val":"6s"}}}},"multidot":{"spellId":{"spellId":49001},"maxDots":${simple.multiDotSerpentSting ? 3 : 1},"maxOverlap":{"const":{"val":"0ms"}}}}`);
 		const scorpidSting = APLAction.fromJsonString(`{"condition":{"auraShouldRefresh":{"auraId":{"spellId":3043},"maxOverlap":{"const":{"val":"0ms"}}}},"castSpell":{"spellId":{"spellId":3043}}}`);
@@ -466,6 +489,8 @@ export class HunterSimUI extends IndividualSimUI<Spec.SpecHunter> {
 
 class HunterGemOptimizer extends PhysicalDPSGemOptimizer {
 	readonly player: Player<Spec.SpecHunter>;
+	arpSlop = 4;
+	hitSlop = 11;
 	arpSlop = 4;
 	hitSlop = 11;
 

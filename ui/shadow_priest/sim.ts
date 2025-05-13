@@ -6,6 +6,14 @@ import { Player } from '../core/player.js';
 import {
 	APLRotation,
 } from '../core/proto/apl.js';
+import * as BuffDebuffInputs from '../core/components/inputs/buffs_debuffs.js';
+import * as OtherInputs from '../core/components/other_inputs.js';
+import * as Ratings from '../core/constants/ratings.js';
+import { IndividualSimUI, registerSpecConfig } from '../core/individual_sim_ui.js';
+import { Player } from '../core/player.js';
+import {
+	APLRotation,
+} from '../core/proto/apl.js';
 import {
 	Class,
 	Faction,

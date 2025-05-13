@@ -29,6 +29,7 @@ import {
 	Spec,
 	Stat,
 	UnitReference,
+	UnitReference,
 	UnitStats,
 } from './proto/common.js';
 import {
@@ -43,10 +44,12 @@ import {
 } from './proto/ui.js';
 import { ActionId } from './proto_utils/action_id.js';
 import { Database } from './proto_utils/database.js';
+import { Database } from './proto_utils/database.js';
 import { EquippedItem, getWeaponDPS } from './proto_utils/equipped_item.js';
 import { Gear, ItemSwapGear } from './proto_utils/gear.js';
 import {
 	gemMatchesSocket,
+	isUnrestrictedGem,
 	isUnrestrictedGem,
 } from './proto_utils/gems.js';
 import { Stats } from './proto_utils/stats.js';
@@ -56,8 +59,10 @@ import {
 	canEquipItem,
 	classColors,
 	ClassSpecs,
+	ClassSpecs,
 	emptyUnitReference,
 	enchantAppliesToItem,
+	getMetaGemEffectEP,
 	getMetaGemEffectEP,
 	getTalentTree,
 	getTalentTreeIcon,
@@ -68,14 +73,20 @@ import {
 	SpecOptions,
 	SpecRotation,
 	SpecTalents,
+	SpecOptions,
+	SpecRotation,
+	SpecTalents,
 	specToClass,
 	specToEligibleRaces,
+	SpecTypeFunctions,
 	SpecTypeFunctions,
 	specTypeFunctions,
 	withSpecProto,
 } from './proto_utils/utils.js';
 import { Raid } from './raid.js';
 import { Sim, SimSettingCategories } from './sim.js';
+import { playerTalentStringToProto } from './talents/factory.js';
+import { EventID, TypedEvent } from './typed_event.js';
 import { playerTalentStringToProto } from './talents/factory.js';
 import { EventID, TypedEvent } from './typed_event.js';
 import { stringComparator, sum } from './utils.js';
@@ -225,11 +236,13 @@ export class Player<SpecType extends Spec> {
 
 	readonly spec: Spec;
 	private name = '';
+	private name = '';
 	private buffs: IndividualBuffs = IndividualBuffs.create();
 	private consumes: Consumes = Consumes.create();
 	private bonusStats: Stats = new Stats();
 	private gear: Gear = new Gear({});
 	//private bulkEquipmentSpec: BulkEquipmentSpec = BulkEquipmentSpec.create();
+	private enableItemSwap = false;
 	private enableItemSwap = false;
 	private itemSwapGear: ItemSwapGear = new ItemSwapGear({});
 	private race: Race;
@@ -237,6 +250,7 @@ export class Player<SpecType extends Spec> {
 	private profession1: Profession = 0;
 	private profession2: Profession = 0;
 	aplRotation: APLRotation = APLRotation.create();
+	private talentsString = '';
 	private talentsString = '';
 	private glyphs: Glyphs = Glyphs.create();
 	private specOptions: SpecOptions<SpecType>;
@@ -246,7 +260,14 @@ export class Player<SpecType extends Spec> {
 	private distanceFromTarget = 0;
 	private nibelungAverageCasts = 11;
 	private nibelungAverageCastsSet = false;
+	private reactionTime = 0;
+	private channelClipDelay = 0;
+	private inFrontOfTarget = false;
+	private distanceFromTarget = 0;
+	private nibelungAverageCasts = 11;
+	private nibelungAverageCastsSet = false;
 	private healingModel: HealingModel = HealingModel.create();
+	private healingEnabled = false;
 	private healingEnabled = false;
 
 	private readonly autoRotationGenerator: AutoRotationGenerator<SpecType> | null = null;
@@ -982,6 +1003,8 @@ export class Player<SpecType extends Spec> {
 	setDefaultHealingParams(hm: HealingModel) {
 		const boss = this.sim.encounter.primaryTarget;
 		const dualWield = boss.dualWield;
+		const boss = this.sim.encounter.primaryTarget;
+		const dualWield = boss.dualWield;
 		if (hm.cadenceSeconds == 0) {
 			hm.cadenceSeconds = 1.5 * boss.swingSpeed;
 			if (dualWield) {
@@ -998,6 +1021,7 @@ export class Player<SpecType extends Spec> {
 
 	enableHealing() {
 		this.healingEnabled = true;
+		const hm = this.getHealingModel();
 		const hm = this.getHealingModel();
 		if (hm.cadenceSeconds == 0 || hm.hps == 0) {
 			this.setDefaultHealingParams(hm)
@@ -1044,6 +1068,7 @@ export class Player<SpecType extends Spec> {
 		}
 
 		const ep = epFromStats + epFromEffect + bonusEP;
+		const ep = epFromStats + epFromEffect + bonusEP;
 		this.gemEPCache.set(gem.id, ep);
 		return ep;
 	}
@@ -1054,6 +1079,7 @@ export class Player<SpecType extends Spec> {
 		}
 
 		const ep = this.computeStatsEP(new Stats(enchant.stats));
+		const ep = this.computeStatsEP(new Stats(enchant.stats));
 		this.enchantEPCache.set(enchant.effectId, ep);
 		return ep
 	}
@@ -1062,6 +1088,7 @@ export class Player<SpecType extends Spec> {
 		if (item == null)
 			return 0;
 
+		const cached = this.itemEPCache[slot].get(item.id);
 		const cached = this.itemEPCache[slot].get(item.id);
 		if (cached !== undefined)
 			return cached;

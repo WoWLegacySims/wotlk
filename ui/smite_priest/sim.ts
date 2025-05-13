@@ -5,6 +5,13 @@ import { Player } from '../core/player.js';
 import {
 	APLRotation,
 } from '../core/proto/apl.js';
+import * as OtherInputs from '../core/components/other_inputs.js';
+import * as Ratings from '../core/constants/ratings.js';
+import { IndividualSimUI, registerSpecConfig } from '../core/individual_sim_ui.js';
+import { Player } from '../core/player.js';
+import {
+	APLRotation,
+} from '../core/proto/apl.js';
 import {
 	Class,
 	Faction,
@@ -16,6 +23,7 @@ import {
 import { Stats } from '../core/proto_utils/stats.js';
 import { getSpecIcon, specNames } from '../core/proto_utils/utils.js';
 import * as ShadowPresets from '../shadow_priest/presets.js';
+import * as SmitePriestInputs from './inputs.js';
 import * as SmitePriestInputs from './inputs.js';
 import * as Presets from './presets.js';
 

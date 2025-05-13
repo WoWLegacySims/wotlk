@@ -10,7 +10,6 @@ const GCDMin = time.Second * 1
 const GCDDefault = time.Millisecond * 1500
 
 const DefaultAttackPowerPerDPS = 14.0
-const ArmorPenPerPercentArmor = 13.99
 
 const MissDodgeParryBlockCritChancePerDefense = 0.04
 

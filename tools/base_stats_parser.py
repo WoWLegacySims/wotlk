@@ -17,7 +17,7 @@ MELEE_CRIT_BASE = "chancetomeleecritbase.txt"
 SPELL_CRIT = "chancetospellcrit.txt"
 SPELL_CRIT_BASE = "chancetospellcritbase.txt"
 COMBAT_RATINGS = "combatratings.txt"
-RATING_SCALAR = "octclasscombatratingscalar.txt"
+MP_PER_SPIRIT = "GtRegenMPPerSpt.csv"
 
 BASE_LEVEL = 80
 
@@ -190,7 +190,6 @@ interface Stat {
     return output
 
 
-
 if __name__ == "__main__":
     db = mysql.connector.connect(host="localhost", user="root", password="root", database="acore_world")
 
@@ -217,6 +216,7 @@ if __name__ == "__main__":
     args.MCritBase = GenIndexedDb(BASE_DIR + DIR_PATH + MELEE_CRIT_BASE)
     args.SCritBase = GenIndexedDb(BASE_DIR + DIR_PATH + SPELL_CRIT_BASE)
     args.CombatRatings = GenRowIndexedDb(BASE_DIR + DIR_PATH + COMBAT_RATINGS)
+    args.MpPerSpirit = GenRowIndexedDb(BASE_DIR + DIR_PATH + MP_PER_SPIRIT)
 
     output = GenExtraStatsGoFile(args, stats)
     fname = BASE_DIR + GO_OUTPUT_PATH
