@@ -44,8 +44,6 @@ func (shaman *Shaman) NewFireElemental(bonusSpellPower float64) *FireElemental {
 		},
 		AutoSwingMelee: true,
 	})
-	// @todo
-	fireElemental.AddStatDependency(stats.Intellect, stats.SpellCrit, shaman.CritRatingPerCritChance/212)
 
 	if bonusSpellPower > 0 {
 		fireElemental.AddStat(stats.SpellPower, float64(bonusSpellPower)*0.5218)
