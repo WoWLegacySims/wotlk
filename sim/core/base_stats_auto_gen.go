@@ -1,3 +1,4 @@
+
 package core
 
 // **************************************
@@ -19,70 +20,96 @@ const DodgeRatingPerDodgeChance = 45.250187
 const ParryRatingPerParryChance = 45.250187
 const BlockRatingPerBlockChance = 16.394995
 const ResilienceRatingPerCritReductionChance = 94.271225
-
+const ArmorPenPerPercentArmor = 13.995727272727272
+const MPPerSpirit = 0.003345
+const CritPerInt = 0.006
 var CritPerAgiMaxLevel = map[proto.Class]float64{
-	proto.Class_ClassUnknown:     0.0,
-	proto.Class_ClassWarrior:     0.0160,
-	proto.Class_ClassPaladin:     0.0192,
-	proto.Class_ClassHunter:      0.0120,
-	proto.Class_ClassRogue:       0.0120,
-	proto.Class_ClassPriest:      0.0192,
-	proto.Class_ClassDeathknight: 0.0160,
-	proto.Class_ClassShaman:      0.0120,
-	proto.Class_ClassMage:        0.0196,
-	proto.Class_ClassWarlock:     0.0198,
-	proto.Class_ClassDruid:       0.0120,
+proto.Class_ClassUnknown: 0.0,
+proto.Class_ClassWarrior: 0.016,
+proto.Class_ClassPaladin: 0.0192,
+proto.Class_ClassHunter: 0.012,
+proto.Class_ClassRogue: 0.012,
+proto.Class_ClassPriest: 0.0192,
+proto.Class_ClassDeathknight: 0.016,
+proto.Class_ClassShaman: 0.012,
+proto.Class_ClassMage: 0.0196,
+proto.Class_ClassWarlock: 0.0198,
+proto.Class_ClassDruid: 0.012,
 }
-var ExtraClassBaseStats = map[proto.Class]stats.Stats{
-	proto.Class_ClassUnknown: {},
-	proto.Class_ClassWarrior: {
-		stats.Mana:      0.0000,
-		stats.SpellCrit: 0.0000 * CritRatingPerCritChance,
-		stats.MeleeCrit: 3.1891 * CritRatingPerCritChance,
-	},
-	proto.Class_ClassPaladin: {
-		stats.Mana:      4394.0000,
-		stats.SpellCrit: 3.3355 * CritRatingPerCritChance,
-		stats.MeleeCrit: 3.2685 * CritRatingPerCritChance,
-	},
-	proto.Class_ClassHunter: {
-		stats.Mana:      5046.0000,
-		stats.SpellCrit: 3.6020 * CritRatingPerCritChance,
-		stats.MeleeCrit: -1.5320 * CritRatingPerCritChance,
-	},
-	proto.Class_ClassRogue: {
-		stats.Mana:      0.0000,
-		stats.SpellCrit: 0.0000 * CritRatingPerCritChance,
-		stats.MeleeCrit: -0.2950 * CritRatingPerCritChance,
-	},
-	proto.Class_ClassPriest: {
-		stats.Mana:      3863.0000,
-		stats.SpellCrit: 1.2375 * CritRatingPerCritChance,
-		stats.MeleeCrit: 3.1765 * CritRatingPerCritChance,
-	},
-	proto.Class_ClassDeathknight: {
-		stats.Mana:      1000.0000,
-		stats.SpellCrit: 0.0000 * CritRatingPerCritChance,
-		stats.MeleeCrit: 3.1891 * CritRatingPerCritChance,
-	},
-	proto.Class_ClassShaman: {
-		stats.Mana:      4396.0000,
-		stats.SpellCrit: 2.2010 * CritRatingPerCritChance,
-		stats.MeleeCrit: 2.9220 * CritRatingPerCritChance,
-	},
-	proto.Class_ClassMage: {
-		stats.Mana:      3268.0000,
-		stats.SpellCrit: 0.9075 * CritRatingPerCritChance,
-		stats.MeleeCrit: 3.4540 * CritRatingPerCritChance,
-	},
-	proto.Class_ClassWarlock: {
-		stats.Mana:      3856.0000,
-		stats.SpellCrit: 1.7000 * CritRatingPerCritChance,
-		stats.MeleeCrit: 2.6220 * CritRatingPerCritChance,
-	},
-	proto.Class_ClassDruid: {
-		stats.Mana:      3496.0000,
-		stats.SpellCrit: 1.8515 * CritRatingPerCritChance,
-		stats.MeleeCrit: 7.4755 * CritRatingPerCritChance,
-	},
+var BaseCrit = map[proto.Class]stats.Stats{
+proto.Class_ClassUnknown: {},
+proto.Class_ClassWarrior: {
+ stats.SpellCrit: 0.0*CritRatingPerCritChance,
+ stats.MeleeCrit: 3.1891*CritRatingPerCritChance,
+},
+proto.Class_ClassPaladin: {
+ stats.SpellCrit: 3.3355*CritRatingPerCritChance,
+ stats.MeleeCrit: 3.2685*CritRatingPerCritChance,
+},
+proto.Class_ClassHunter: {
+ stats.SpellCrit: 3.602*CritRatingPerCritChance,
+ stats.MeleeCrit: -1.532*CritRatingPerCritChance,
+},
+proto.Class_ClassRogue: {
+ stats.SpellCrit: 0.0*CritRatingPerCritChance,
+ stats.MeleeCrit: -0.295*CritRatingPerCritChance,
+},
+proto.Class_ClassPriest: {
+ stats.SpellCrit: 1.2375*CritRatingPerCritChance,
+ stats.MeleeCrit: 3.1765*CritRatingPerCritChance,
+},
+proto.Class_ClassDeathknight: {
+ stats.SpellCrit: 0.0*CritRatingPerCritChance,
+ stats.MeleeCrit: 3.1891*CritRatingPerCritChance,
+},
+proto.Class_ClassShaman: {
+ stats.SpellCrit: 2.201*CritRatingPerCritChance,
+ stats.MeleeCrit: 2.922*CritRatingPerCritChance,
+},
+proto.Class_ClassMage: {
+ stats.SpellCrit: 0.9075*CritRatingPerCritChance,
+ stats.MeleeCrit: 3.454*CritRatingPerCritChance,
+},
+proto.Class_ClassWarlock: {
+ stats.SpellCrit: 1.7*CritRatingPerCritChance,
+ stats.MeleeCrit: 2.622*CritRatingPerCritChance,
+},
+proto.Class_ClassDruid: {
+ stats.SpellCrit: 1.8515*CritRatingPerCritChance,
+ stats.MeleeCrit: 7.4755*CritRatingPerCritChance,
+},
+}
+var ClassBaseStats = map[proto.Class]stats.Stats{
+proto.Class_ClassUnknown: {},
+proto.Class_ClassWarrior: {
+stats.Health: 8121, stats.Mana: 0, stats.Strength: 174, stats.Agility: 113, stats.Stamina: 159, stats.Intellect: 36, stats.Spirit: 36,
+},
+proto.Class_ClassPaladin: {
+stats.Health: 6934, stats.Mana: 4394, stats.Strength: 151, stats.Agility: 90, stats.Stamina: 143, stats.Intellect: 98, stats.Spirit: 98,
+},
+proto.Class_ClassHunter: {
+stats.Health: 7324, stats.Mana: 5046, stats.Strength: 74, stats.Agility: 181, stats.Stamina: 128, stats.Intellect: 90, stats.Spirit: 90,
+},
+proto.Class_ClassRogue: {
+stats.Health: 7604, stats.Mana: 0, stats.Strength: 113, stats.Agility: 189, stats.Stamina: 105, stats.Intellect: 43, stats.Spirit: 43,
+},
+proto.Class_ClassPriest: {
+stats.Health: 6960, stats.Mana: 3863, stats.Strength: 43, stats.Agility: 51, stats.Stamina: 67, stats.Intellect: 174, stats.Spirit: 174,
+},
+proto.Class_ClassDeathknight: {
+stats.Health: 8121, stats.Mana: 0, stats.Strength: 175, stats.Agility: 112, stats.Stamina: 160, stats.Intellect: 35, stats.Spirit: 35,
+},
+proto.Class_ClassShaman: {
+stats.Health: 6939, stats.Mana: 4396, stats.Strength: 120, stats.Agility: 74, stats.Stamina: 136, stats.Intellect: 128, stats.Spirit: 128,
+},
+proto.Class_ClassMage: {
+stats.Health: 6963, stats.Mana: 3268, stats.Strength: 36, stats.Agility: 43, stats.Stamina: 59, stats.Intellect: 181, stats.Spirit: 181,
+},
+proto.Class_ClassWarlock: {
+stats.Health: 7136, stats.Mana: 3856, stats.Strength: 59, stats.Agility: 67, stats.Stamina: 89, stats.Intellect: 159, stats.Spirit: 159,
+},
+proto.Class_ClassDruid: {
+stats.Health: 7417, stats.Mana: 3496, stats.Strength: 89, stats.Agility: 82, stats.Stamina: 98, stats.Intellect: 143, stats.Spirit: 143,
+
+},
 }

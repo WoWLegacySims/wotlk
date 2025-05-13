@@ -1,5 +1,5 @@
 import * as OtherInputs from '../core/components/other_inputs.js';
-import * as Mechanics from '../core/constants/mechanics.js';
+import * as Ratings from '../core/constants/ratings.js';
 import {IndividualSimUI, registerSpecConfig} from '../core/individual_sim_ui.js';
 import {Player} from '../core/player.js';
 import {APLAction, APLListItem, APLPrepullAction, APLRotation} from '../core/proto/apl.js';
@@ -50,7 +50,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecMage, {
 		let stats = new Stats();
 
 		if (player.getTalentTree() === 0) {
-			stats = stats.addStat(Stat.StatSpellHit, player.getTalents().arcaneFocus * 1 * Mechanics.SPELL_HIT_RATING_PER_HIT_CHANCE);
+			stats = stats.addStat(Stat.StatSpellHit, player.getTalents().arcaneFocus * 1 * Ratings.SPELL_HIT_RATING_PER_HIT_CHANCE);
 		}
 
 		return {

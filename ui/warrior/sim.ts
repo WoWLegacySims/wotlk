@@ -1,7 +1,7 @@
 import * as BuffDebuffInputs from '../core/components/inputs/buffs_debuffs.js';
 import * as OtherInputs from '../core/components/other_inputs.js';
 import { PhysicalDPSGemOptimizer } from '../core/components/suggest_gems_action.js';
-import * as Mechanics from '../core/constants/mechanics.js';
+import * as Ratings from '../core/constants/ratings.js';
 import { IndividualSimUI, registerSpecConfig } from '../core/individual_sim_ui.js';
 import { Player } from '../core/player.js';
 import {
@@ -71,7 +71,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecWarrior, {
 		let stats = new Stats();
 		if (!player.getInFrontOfTarget()) {
 			// When behind target, dodge is the only outcome affected by Expertise.
-			stats = stats.addStat(Stat.StatExpertise, player.getTalents().weaponMastery * 4 * Mechanics.EXPERTISE_PER_QUARTER_PERCENT_REDUCTION);
+			stats = stats.addStat(Stat.StatExpertise, player.getTalents().weaponMastery * 4 * Ratings.EXPERTISE_PER_QUARTER_PERCENT_REDUCTION);
 		}
 		return {
 			talents: stats,
@@ -296,7 +296,7 @@ class WarriorGemOptimizer extends PhysicalDPSGemOptimizer {
 		const hasWeaponMasteryTalent = !!weaponMastery;
 
 		if (hasWeaponMasteryTalent) {
-			expTarget -= weaponMastery * 4 * Mechanics.EXPERTISE_PER_QUARTER_PERCENT_REDUCTION;
+			expTarget -= weaponMastery * 4 * Ratings.EXPERTISE_PER_QUARTER_PERCENT_REDUCTION;
 		}
 
 		return expTarget;
