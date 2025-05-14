@@ -96,8 +96,7 @@ func (dk *Deathknight) registerFrostFever() {
 			NumberOfTicks: 5 + dk.Talents.Epidemic,
 			TickLength:    time.Second * 3,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				// 80.0 * 0.32 * 1.15 base, 0.055 * 1.15
-				dot.SnapshotBaseDamage = 29.44 + 0.06325*dk.getImpurityBonus(dot.Spell)
+				dot.SnapshotBaseDamage = 25.6 + 0.06325*dk.getImpurityBonus(dot.Spell)
 
 				if !isRollover {
 					dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(dot.Spell.Unit.AttackTables[target.UnitIndex])
@@ -160,8 +159,7 @@ func (dk *Deathknight) registerBloodPlague() {
 			TickLength:    time.Second * 3,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				// 80.0 * 0.394 * 1.15 for base, 0.055 * 1.15 for ap coeff
-				dot.SnapshotBaseDamage = 36.248 + 0.06325*dk.getImpurityBonus(dot.Spell)
+				dot.SnapshotBaseDamage = 31.52 + 0.06325*dk.getImpurityBonus(dot.Spell)
 
 				if !isRollover {
 					dot.SnapshotCritChance = dot.Spell.SpellCritChance(target)
@@ -208,8 +206,7 @@ func (dk *Deathknight) registerDrwFrostFever() {
 			NumberOfTicks: 5 + dk.Talents.Epidemic,
 			TickLength:    time.Second * 3,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				// 80.0 * 0.32 * 1.15 base, 0.055 * 1.15
-				dot.SnapshotBaseDamage = 29.44 + 0.06325*dk.getImpurityBonus(dot.Spell)
+				dot.SnapshotBaseDamage = 25.6 + 0.0633*dk.getImpurityBonus(dot.Spell)
 
 				if !isRollover {
 					dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(dot.Spell.Unit.AttackTables[target.UnitIndex])
@@ -248,8 +245,7 @@ func (dk *Deathknight) registerDrwBloodPlague() {
 			TickLength:    time.Second * 3,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				// 80.0 * 0.394 * 1.15 for base, 0.055 * 1.15 for ap coeff
-				dot.SnapshotBaseDamage = 36.248 + 0.06325*dk.getImpurityBonus(dot.Spell)
+				dot.SnapshotBaseDamage = 31.52 + 0.0633*dk.getImpurityBonus(dot.Spell)
 
 				if !isRollover {
 					dot.SnapshotCritChance = dot.Spell.SpellCritChance(target)
