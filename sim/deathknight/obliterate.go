@@ -6,16 +6,21 @@ import (
 )
 
 // TODO: Cleanup obliterate the same way we did for plague strike
-var ObliterateActionID = core.ActionID{SpellID: 51425}
-
 func (dk *Deathknight) newObliterateHitSpell(isMH bool) *core.Spell {
+	dbc := core.FindMaxRank(ObliterateInfos, dk.Level)
+	if dbc == nil {
+		return nil
+	}
+	damage := dbc.Effects[0].BasePoints + 1
+	actionID := core.ActionID{SpellID: dbc.SpellID}
+
 	bonusBaseDamage := dk.sigilOfAwarenessBonus()
 	diseaseMulti := dk.dkDiseaseMultiplier(0.125)
 	diseaseConsumptionChance := []float64{1.0, 0.67, 0.34, 0.0}[dk.Talents.Annihilation]
 	deathConvertChance := float64(dk.Talents.DeathRuneMastery) / 3
 
 	conf := core.SpellConfig{
-		ActionID:    ObliterateActionID.WithTag(core.TernaryInt32(isMH, 1, 2)),
+		ActionID:    actionID.WithTag(core.TernaryInt32(isMH, 1, 2)),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    dk.threatOfThassarianProcMask(isMH),
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage,
@@ -44,13 +49,13 @@ func (dk *Deathknight) newObliterateHitSpell(isMH bool) *core.Spell {
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			var baseDamage float64
 			if isMH {
-				baseDamage = 584 +
+				baseDamage = damage +
 					bonusBaseDamage +
 					spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
 					spell.BonusWeaponDamage()
 			} else {
 				// SpellID 66974
-				baseDamage = 292 +
+				baseDamage = damage/2 +
 					bonusBaseDamage +
 					spell.Unit.OHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
 					spell.BonusWeaponDamage()

@@ -7,18 +7,25 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 )
 
-var HowlingBlastActionID = core.ActionID{SpellID: 51411}
-
 func (dk *Deathknight) registerHowlingBlastSpell() {
 	if !dk.Talents.HowlingBlast {
 		return
 	}
 
+	dbc := core.FindMaxRank(HowlingBlastInfos, dk.Level)
+	if dbc == nil {
+		return
+	}
+	minDamage := dbc.Effects[1].BasePoints
+	maxDamage := minDamage + dbc.Effects[1].Die
+	minDamage += 1
+	actionID := core.ActionID{SpellID: dbc.SpellID}
+
 	rpBonus := 2.5 * float64(dk.Talents.ChillOfTheGrave)
 	hasGlyph := dk.HasMajorGlyph(proto.DeathknightMajorGlyph_GlyphOfHowlingBlast)
 
 	dk.HowlingBlast = dk.RegisterSpell(core.SpellConfig{
-		ActionID:    HowlingBlastActionID,
+		ActionID:    actionID,
 		Flags:       core.SpellFlagAPL,
 		SpellSchool: core.SpellSchoolFrost,
 		ProcMask:    core.ProcMaskSpellDamage,
@@ -45,7 +52,7 @@ func (dk *Deathknight) registerHowlingBlastSpell() {
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			for _, aoeTarget := range sim.Encounter.TargetUnits {
-				baseDamage := (sim.Roll(518, 562) + 0.2*dk.getImpurityBonus(spell)) *
+				baseDamage := (sim.Roll(minDamage, maxDamage) + 0.2*dk.getImpurityBonus(spell)) *
 					dk.glacielRotBonus(aoeTarget) *
 					dk.RoRTSBonus(aoeTarget) *
 					dk.mercilessCombatBonus(sim) *

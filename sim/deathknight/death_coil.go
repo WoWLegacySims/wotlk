@@ -5,12 +5,18 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 )
 
-var DeathCoilActionID = core.ActionID{SpellID: 49895}
-
 func (dk *Deathknight) registerDeathCoilSpell() {
-	bonusFlatDamage := 443 + dk.sigilOfTheWildBuckBonus() + dk.sigilOfTheVengefulHeartDeathCoil()
+	dbc := core.FindMaxRank(DeathCoilInfos, dk.Level)
+	if dbc == nil {
+		return
+	}
+	damage := dbc.Effects[0].BasePoints + 1
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
+
+	bonusFlatDamage := damage + dk.sigilOfTheWildBuckBonus() + dk.sigilOfTheVengefulHeartDeathCoil()
 	dk.DeathCoil = dk.RegisterSpell(core.SpellConfig{
-		ActionID:    DeathCoilActionID,
+		ActionID:    actionID,
 		Flags:       core.SpellFlagAPL,
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
@@ -42,10 +48,18 @@ func (dk *Deathknight) registerDeathCoilSpell() {
 }
 
 func (dk *Deathknight) registerDrwDeathCoilSpell() {
-	bonusFlatDamage := 443 + dk.sigilOfTheWildBuckBonus() + dk.sigilOfTheVengefulHeartDeathCoil()
+	dbc := core.FindMaxRank(DeathCoilInfos, dk.Level)
+	if dbc == nil {
+		return
+	}
+	damage := dbc.Effects[0].BasePoints + 1
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
+
+	bonusFlatDamage := damage + dk.sigilOfTheWildBuckBonus() + dk.sigilOfTheVengefulHeartDeathCoil()
 
 	dk.RuneWeapon.DeathCoil = dk.RuneWeapon.RegisterSpell(core.SpellConfig{
-		ActionID:    DeathCoilActionID,
+		ActionID:    actionID,
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
 

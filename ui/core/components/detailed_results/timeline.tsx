@@ -1309,7 +1309,7 @@ const idToCategoryMap: Record<number, number> = {
 	[63560]: MELEE_ACTION_CATEGORY + 0.25, // Ghoul Frenzy
 	[50536]: MELEE_ACTION_CATEGORY + 0.25, // Unholy Blight
 	[57623]: MELEE_ACTION_CATEGORY + 0.25, // HoW
-	[59131]: MELEE_ACTION_CATEGORY + 0.3, // Icy touch
+	[49909]: MELEE_ACTION_CATEGORY + 0.3, // Icy touch
 	[49921]: MELEE_ACTION_CATEGORY + 0.3, // Plague strike
 	[51271]: MELEE_ACTION_CATEGORY + 0.35, // UA
 	[45529]: MELEE_ACTION_CATEGORY + 0.35, // BT

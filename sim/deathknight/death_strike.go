@@ -6,20 +6,27 @@ import (
 )
 
 // TODO: Cleanup death strike the same way we did for plague strike
-var DeathStrikeActionID = core.ActionID{SpellID: 49924}
 
 func (dk *Deathknight) newDeathStrikeSpell(isMH bool) *core.Spell {
+	dbc := core.FindMaxRank(DeathStrikeInfos, dk.Level)
+	if dbc == nil {
+		return nil
+	}
+	damage := dbc.Effects[0].BasePoints + 1
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
+
 	bonusBaseDamage := dk.sigilOfAwarenessBonus()
 	hasGlyph := dk.HasMajorGlyph(proto.DeathknightMajorGlyph_GlyphOfDeathStrike)
 	deathConvertChance := float64(dk.Talents.DeathRuneMastery) / 3
 
 	var healthMetrics *core.ResourceMetrics
 	if isMH {
-		healthMetrics = dk.NewHealthMetrics(DeathStrikeActionID)
+		healthMetrics = dk.NewHealthMetrics(actionID)
 	}
 
 	conf := core.SpellConfig{
-		ActionID:    DeathStrikeActionID.WithTag(core.TernaryInt32(isMH, 1, 2)),
+		ActionID:    actionID.WithTag(core.TernaryInt32(isMH, 1, 2)),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    dk.threatOfThassarianProcMask(isMH),
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage,
@@ -47,12 +54,12 @@ func (dk *Deathknight) newDeathStrikeSpell(isMH bool) *core.Spell {
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			var baseDamage float64
 			if isMH {
-				baseDamage = 297 +
+				baseDamage = damage +
 					bonusBaseDamage +
 					spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
 					spell.BonusWeaponDamage()
 			} else {
-				baseDamage = 148 +
+				baseDamage = damage/2 +
 					bonusBaseDamage +
 					spell.Unit.OHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
 					spell.BonusWeaponDamage()
@@ -97,11 +104,19 @@ func (dk *Deathknight) registerDeathStrikeSpell() {
 }
 
 func (dk *Deathknight) registerDrwDeathStrikeSpell() {
+	dbc := core.FindMaxRank(DeathStrikeInfos, dk.Level)
+	if dbc == nil {
+		return
+	}
+	damage := dbc.Effects[0].BasePoints + 1
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
+
 	bonusBaseDamage := dk.sigilOfAwarenessBonus()
 	hasGlyph := dk.HasMajorGlyph(proto.DeathknightMajorGlyph_GlyphOfDeathStrike)
 
 	dk.RuneWeapon.DeathStrike = dk.RuneWeapon.RegisterSpell(core.SpellConfig{
-		ActionID:    DeathStrikeActionID.WithTag(1),
+		ActionID:    actionID.WithTag(1),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage,
@@ -112,7 +127,7 @@ func (dk *Deathknight) registerDrwDeathStrikeSpell() {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 297 + bonusBaseDamage + dk.DrwWeaponDamage(sim, spell)
+			baseDamage := damage + bonusBaseDamage + dk.DrwWeaponDamage(sim, spell)
 
 			if hasGlyph {
 				baseDamage *= 1 + 0.01*min(dk.CurrentRunicPower(), 25)

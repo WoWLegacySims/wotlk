@@ -5,16 +5,20 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 )
 
-var frostStrikeActionID = core.ActionID{SpellID: 55268}
-var FrostStrikeMHActionID = frostStrikeActionID.WithTag(1)
-var FrostStrikeOHActionID = frostStrikeActionID.WithTag(2)
-
 func (dk *Deathknight) newFrostStrikeHitSpell(isMH bool) *core.Spell {
+	dbc := core.FindMaxRank(FrostStrikeInfos, dk.Level)
+	if dbc == nil {
+		return nil
+	}
+	damage := dbc.Effects[0].BasePoints + 1
+
+	baseActionID := core.ActionID{SpellID: dbc.SpellID}
+
 	bonusBaseDamage := dk.sigilOfTheVengefulHeartFrostStrike()
 
-	actionID := FrostStrikeMHActionID
+	actionID := baseActionID.WithTag(1)
 	if !isMH {
-		actionID = FrostStrikeOHActionID
+		actionID = baseActionID.WithTag(2)
 	}
 
 	conf := core.SpellConfig{
@@ -44,13 +48,13 @@ func (dk *Deathknight) newFrostStrikeHitSpell(isMH bool) *core.Spell {
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			var baseDamage float64
 			if isMH {
-				baseDamage = 250 +
+				baseDamage = damage +
 					bonusBaseDamage +
 					spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
 					spell.BonusWeaponDamage()
 			} else {
 				// SpellID 66962
-				baseDamage = 125 +
+				baseDamage = damage/2 +
 					bonusBaseDamage +
 					spell.Unit.OHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
 					spell.BonusWeaponDamage()

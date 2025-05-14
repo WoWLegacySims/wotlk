@@ -7,12 +7,20 @@ import (
 var BloodStrikeActionID = core.ActionID{SpellID: 49930}
 
 func (dk *Deathknight) newBloodStrikeSpell(isMH bool) *core.Spell {
+	dbc := core.FindMaxRank(BloodStrikeInfos, dk.Level)
+	if dbc == nil {
+		return nil
+	}
+	damage := dbc.Effects[0].BasePoints + 1
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
+
 	bonusBaseDamage := dk.sigilOfTheDarkRiderBonus()
 	diseaseMulti := dk.dkDiseaseMultiplier(0.125)
 	deathConvertChance := float64(dk.Talents.BloodOfTheNorth+dk.Talents.Reaping) / 3
 
 	conf := core.SpellConfig{
-		ActionID:    BloodStrikeActionID.WithTag(core.TernaryInt32(isMH, 1, 2)),
+		ActionID:    actionID.WithTag(core.TernaryInt32(isMH, 1, 2)),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    dk.threatOfThassarianProcMask(isMH),
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage,
@@ -41,13 +49,13 @@ func (dk *Deathknight) newBloodStrikeSpell(isMH bool) *core.Spell {
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			var baseDamage float64
 			if isMH {
-				baseDamage = 764 +
+				baseDamage = damage +
 					bonusBaseDamage +
 					spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
 					spell.BonusWeaponDamage()
 			} else {
 				// SpellID 66979
-				baseDamage = 382 +
+				baseDamage = damage/2 +
 					bonusBaseDamage +
 					spell.Unit.OHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
 					spell.BonusWeaponDamage()
@@ -89,11 +97,19 @@ func (dk *Deathknight) registerBloodStrikeSpell() {
 }
 
 func (dk *Deathknight) registerDrwBloodStrikeSpell() {
+	dbc := core.FindMaxRank(BloodStrikeInfos, dk.Level)
+	if dbc == nil {
+		return
+	}
+	damage := dbc.Effects[0].BasePoints + 1
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
+
 	bonusBaseDamage := dk.sigilOfTheDarkRiderBonus()
 	diseaseMulti := dk.dkDiseaseMultiplier(0.125)
 
 	dk.RuneWeapon.BloodStrike = dk.RuneWeapon.RegisterSpell(core.SpellConfig{
-		ActionID:    BloodStrikeActionID.WithTag(1),
+		ActionID:    actionID.WithTag(1),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage,
@@ -107,7 +123,7 @@ func (dk *Deathknight) registerDrwBloodStrikeSpell() {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 764 + bonusBaseDamage + dk.DrwWeaponDamage(sim, spell)
+			baseDamage := damage + bonusBaseDamage + dk.DrwWeaponDamage(sim, spell)
 
 			baseDamage *= dk.RoRTSBonus(target) *
 				(1.0 + dk.drwCountActiveDiseases(target)*diseaseMulti)

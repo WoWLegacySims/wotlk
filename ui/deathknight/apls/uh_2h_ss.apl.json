@@ -9,7 +9,7 @@
     ],
     "priorityList": [
       {"action":{"autocastOtherCooldowns":{}}},
-      {"action":{"condition":{"and":{"vals":[{"cmp":{"op":"OpLe","lhs":{"dotRemainingTime":{"spellId":{"spellId":55095}}},"rhs":{"nextRuneCooldown":{"runeType":"RuneFrost"}}}},{"cmp":{"op":"OpGe","lhs":{"remainingTime":{}},"rhs":{"const":{"val":"8s"}}}}]}},"castSpell":{"spellId":{"spellId":59131}}}},
+      {"action":{"condition":{"and":{"vals":[{"cmp":{"op":"OpLe","lhs":{"dotRemainingTime":{"spellId":{"spellId":55095}}},"rhs":{"nextRuneCooldown":{"runeType":"RuneFrost"}}}},{"cmp":{"op":"OpGe","lhs":{"remainingTime":{}},"rhs":{"const":{"val":"8s"}}}}]}},"castSpell":{"spellId":{"spellId":49909}}}},
       {"action":{"condition":{"and":{"vals":[{"cmp":{"op":"OpLe","lhs":{"dotRemainingTime":{"spellId":{"spellId":55078}}},"rhs":{"nextRuneCooldown":{"runeType":"RuneUnholy"}}}},{"cmp":{"op":"OpGe","lhs":{"remainingTime":{}},"rhs":{"const":{"val":"8s"}}}}]}},"castSpell":{"spellId":{"spellId":49921,"tag":1}}}},
       {"action":{"condition":{"not":{"val":{"auraIsActive":{"auraId":{"spellId":66803}}}}},"castSpell":{"spellId":{"spellId":49930,"tag":1}}}},
       {"action":{"condition":{"auraIsActive":{"auraId":{"spellId":49206}}},"castSpell":{"spellId":{"spellId":26297}}}},

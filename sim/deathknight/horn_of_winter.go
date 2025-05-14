@@ -7,7 +7,11 @@ import (
 )
 
 func (dk *Deathknight) registerHornOfWinterSpell() {
-	actionID := core.ActionID{SpellID: 57623}
+	dbc := core.FindMaxRank(HornofWinterInfos, dk.Level)
+	if dbc == nil {
+		return
+	}
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 	rpMetrics := dk.NewRunicPowerMetrics(actionID)
 
 	dk.HornOfWinter = dk.RegisterSpell(core.SpellConfig{

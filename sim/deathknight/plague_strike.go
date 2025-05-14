@@ -8,8 +8,15 @@ import (
 var PlagueStrikeActionID = core.ActionID{SpellID: 49921}
 
 func (dk *Deathknight) newPlagueStrikeSpell(isMH bool) *core.Spell {
+	dbc := core.FindMaxRank(PlagueStrikeInfos, dk.Level)
+	if dbc == nil {
+		return nil
+	}
+	damage := dbc.Effects[0].BasePoints + 1
+	actionID := core.ActionID{SpellID: dbc.SpellID}
+
 	conf := core.SpellConfig{
-		ActionID:    PlagueStrikeActionID.WithTag(core.TernaryInt32(isMH, 1, 2)),
+		ActionID:    actionID.WithTag(core.TernaryInt32(isMH, 1, 2)),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    dk.threatOfThassarianProcMask(isMH),
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage,
@@ -37,12 +44,12 @@ func (dk *Deathknight) newPlagueStrikeSpell(isMH bool) *core.Spell {
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			var baseDamage float64
 			if isMH {
-				baseDamage = 378 +
+				baseDamage = damage +
 					spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
 					spell.BonusWeaponDamage()
 			} else {
 				// SpellID 66992
-				baseDamage = 189 +
+				baseDamage = damage/2 +
 					spell.Unit.OHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
 					spell.BonusWeaponDamage()
 			}

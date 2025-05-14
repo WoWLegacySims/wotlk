@@ -4,16 +4,21 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
 )
 
-var HeartStrikeActionID = core.ActionID{SpellID: 55262}
-
 func (dk *Deathknight) newHeartStrikeSpell(isMainTarget bool, isDrw bool) *core.Spell {
+	dbc := core.FindMaxRank(HeartStrikeInfos, dk.Level)
+	if dbc == nil {
+		return nil
+	}
+	damage := dbc.Effects[0].BasePoints + 1
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 	bonusBaseDamage := dk.sigilOfTheDarkRiderBonus()
 	diseaseMulti := dk.dkDiseaseMultiplier(0.1)
 
 	critMultiplier := dk.bonusCritMultiplier(dk.Talents.MightOfMograine)
 
 	conf := core.SpellConfig{
-		ActionID:    HeartStrikeActionID.WithTag(core.TernaryInt32(isMainTarget, 1, 2)),
+		ActionID:    actionID.WithTag(core.TernaryInt32(isMainTarget, 1, 2)),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage,
@@ -40,7 +45,7 @@ func (dk *Deathknight) newHeartStrikeSpell(isMainTarget bool, isDrw bool) *core.
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 736 + bonusBaseDamage
+			baseDamage := damage + bonusBaseDamage
 
 			if isDrw {
 				baseDamage += dk.DrwWeaponDamage(sim, spell)

@@ -4,13 +4,20 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
 )
 
-var IcyTouchActionID = core.ActionID{SpellID: 59131}
-
 func (dk *Deathknight) registerIcyTouchSpell() {
+	dbc := core.FindMaxRank(IcyTouchInfos, dk.Level)
+	if dbc == nil {
+		return
+	}
+	minDamage := dbc.Effects[0].BasePoints
+	maxDamage := minDamage + dbc.Effects[0].Die
+	minDamage += 1
+	actionID := core.ActionID{SpellID: dbc.SpellID}
+
 	sigilBonus := dk.sigilOfTheFrozenConscienceBonus()
 
 	dk.IcyTouch = dk.RegisterSpell(core.SpellConfig{
-		ActionID:    IcyTouchActionID,
+		ActionID:    actionID,
 		Flags:       core.SpellFlagAPL,
 		SpellSchool: core.SpellSchoolFrost,
 		ProcMask:    core.ProcMaskSpellDamage,
@@ -32,7 +39,7 @@ func (dk *Deathknight) registerIcyTouchSpell() {
 		ThreatMultiplier: 1.0,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := (sim.Roll(227, 245) + sigilBonus + 0.1*dk.getImpurityBonus(spell)) *
+			baseDamage := (sim.Roll(minDamage, maxDamage) + sigilBonus + 0.1*dk.getImpurityBonus(spell)) *
 				dk.glacielRotBonus(target) *
 				dk.RoRTSBonus(target) *
 				dk.mercilessCombatBonus(sim)
@@ -50,10 +57,18 @@ func (dk *Deathknight) registerIcyTouchSpell() {
 	})
 }
 func (dk *Deathknight) registerDrwIcyTouchSpell() {
+	dbc := core.FindMaxRank(IcyTouchInfos, dk.Level)
+	if dbc == nil {
+		return
+	}
+	minDamage := dbc.Effects[0].BasePoints
+	maxDamage := minDamage + dbc.Effects[0].Die
+	minDamage += 1
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 	sigilBonus := dk.sigilOfTheFrozenConscienceBonus()
 
 	dk.RuneWeapon.IcyTouch = dk.RuneWeapon.RegisterSpell(core.SpellConfig{
-		ActionID:    IcyTouchActionID,
+		ActionID:    actionID,
 		SpellSchool: core.SpellSchoolFrost,
 		ProcMask:    core.ProcMaskSpellDamage,
 		//Flags:       core.SpellFlagIgnoreAttackerModifiers,
@@ -64,7 +79,7 @@ func (dk *Deathknight) registerDrwIcyTouchSpell() {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(227, 245) + sigilBonus + 0.1*dk.RuneWeapon.getImpurityBonus(spell)
+			baseDamage := sim.Roll(minDamage, maxDamage) + sigilBonus + 0.1*dk.RuneWeapon.getImpurityBonus(spell)
 
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 			if result.Landed() {
