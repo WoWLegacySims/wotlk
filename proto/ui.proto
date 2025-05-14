@@ -85,13 +85,6 @@ message UIItem {
 	FactionRestriction faction_restriction = 25;
 }
 
-enum Expansion {
-	ExpansionUnknown = 0;
-	ExpansionVanilla = 1;
-	ExpansionTbc = 2;
-	ExpansionWotlk = 3;
-}
-
 enum DungeonDifficulty {
 	DifficultyUnknown = 0;
 	DifficultyNormal = 1;

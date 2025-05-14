@@ -26,6 +26,7 @@ message Player {
 	EquipmentSpec equipment = 3;
 	Consumes consumes = 4;
 	int32 level = 5;
+	Expansion expansion = 24;
 	UnitStats bonus_stats = 36;
 
 	bool enable_item_swap = 46;

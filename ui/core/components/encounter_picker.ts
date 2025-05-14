@@ -474,7 +474,7 @@ class TargetPicker extends Input<Encounter, TargetProto> {
 	}
 
 	private genLevels(player: Player<any>|null): Array<EnumValueConfig> {
-		const level = player ? player.getLevel(): Mechanics.MAX_LEVEL;
+		const level = player ? player.getLevel(): Mechanics.MAX_LEVEL_WOTLK;
 		const ret = new Array<EnumValueConfig>();
 		for (let i = level + 3; i >= level; i--){
 			ret.push({ name: i.toString(), value: i});

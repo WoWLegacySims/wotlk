@@ -25,6 +25,7 @@ import {
 	Debuffs,
 	Encounter as EncounterProto,
 	EquipmentSpec,
+	Expansion,
 	Faction,
 	Glyphs,
 	HandType,
@@ -76,6 +77,7 @@ export interface OtherDefaults {
 	channelClipDelay?: number;
 	nibelungAverageCasts?: number;
 	level?: number;
+	expansion?: Expansion
 }
 
 export interface RaidSimPreset<SpecType extends Spec> {
@@ -519,7 +521,8 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 				eventID,
 				this.individualConfig.defaults.other?.profession2 || Profession.Jewelcrafting,
 			);
-			this.player.setLevel(eventID, this.individualConfig.defaults.other?.level || Mechanics.MAX_LEVEL);
+			this.player.setExpansion(eventID, this.individualConfig.defaults.other?.expansion || Expansion.ExpansionWotlk)
+			this.player.setLevel(eventID, this.individualConfig.defaults.other?.level || this.player.getMaxLevel());
 			this.player.setDistanceFromTarget(
 				eventID,
 				this.individualConfig.defaults.other?.distanceFromTarget || 0,

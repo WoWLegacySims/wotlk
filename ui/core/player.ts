@@ -1,5 +1,5 @@
 import { getLanguageCode } from './constants/lang.js';
-import { MAX_LEVEL, MIN_LEVEL, MIN_LEVEL_DK } from './constants/mechanics.js';
+import { MAX_LEVEL_TBC, MAX_LEVEL_VANILLA, MAX_LEVEL_WOTLK, MIN_LEVEL, MIN_LEVEL_DK } from './constants/mechanics.js';
 import * as Ratings from './constants/ratings.js';
 import { MAX_PARTY_SIZE,Party } from './party.js';
 import {
@@ -15,6 +15,7 @@ import {
 	Class,
 	Consumes,
 	Cooldowns,
+	Expansion,
 	Faction,
 	GemColor,
 	Glyphs,
@@ -33,7 +34,6 @@ import {
 } from './proto/common.js';
 import {
 	DungeonDifficulty,
-	Expansion,
 	RaidFilterOption,
 	SourceFilterOption,
 	UIEnchant as Enchant,
@@ -234,6 +234,7 @@ export class Player<SpecType extends Spec> {
 	private itemSwapGear: ItemSwapGear = new ItemSwapGear({});
 	private race: Race;
 	private level = 80;
+	private expansion = Expansion.ExpansionWotlk
 	private profession1: Profession = 0;
 	private profession2: Profession = 0;
 	aplRotation: APLRotation = APLRotation.create();
@@ -275,6 +276,7 @@ export class Player<SpecType extends Spec> {
 	readonly professionChangeEmitter = new TypedEvent<void>('PlayerProfession');
 	readonly raceChangeEmitter = new TypedEvent<void>('PlayerRace');
 	readonly levelChangeEmitter = new TypedEvent<void>('PlayerLevel');
+	readonly expansionChangeEmitter = new TypedEvent<void>('PlayerExpansion');
 	readonly rotationChangeEmitter = new TypedEvent<void>('PlayerRotation');
 	readonly talentsChangeEmitter = new TypedEvent<void>('PlayerTalents');
 	readonly glyphsChangeEmitter = new TypedEvent<void>('PlayerGlyphs');
@@ -328,6 +330,7 @@ export class Player<SpecType extends Spec> {
 			this.professionChangeEmitter,
 			this.raceChangeEmitter,
 			this.levelChangeEmitter,
+			this.expansionChangeEmitter,
 			this.rotationChangeEmitter,
 			this.talentsChangeEmitter,
 			this.glyphsChangeEmitter,
@@ -524,13 +527,34 @@ export class Player<SpecType extends Spec> {
 	}
 	setLevel(eventID: EventID, newLevel: number) {
 		const minLevel = this.isClass(Class.ClassDeathknight) ? MIN_LEVEL_DK : MIN_LEVEL;
-		newLevel = Math.min(Math.max(newLevel, minLevel), MAX_LEVEL);
+		newLevel = Math.min(Math.max(newLevel, minLevel), this.getMaxLevel());
 		if (newLevel != this.level) {
 			this.sim.encounter.targets.forEach(t => {
 				t.level = t.level - this.level + newLevel;
 			});
 			this.level = newLevel;
 			this.levelChangeEmitter.emit(eventID);
+		}
+	}
+
+	getExpansion(): Expansion {
+		return this.expansion
+	}
+	setExpansion(eventID: EventID, newExpansion: Expansion) {
+		if (newExpansion != this.expansion) {
+			this.expansion = newExpansion;
+			this.expansionChangeEmitter.emit(eventID);
+			const maxLevel = this.getMaxLevel();
+			if (this.level > maxLevel) this.setLevel(eventID,maxLevel);
+		}
+	}
+
+	getMaxLevel(): number {
+		switch (this.expansion) {
+			case (Expansion.ExpansionWotlk): return MAX_LEVEL_WOTLK;
+			case (Expansion.ExpansionTbc): return MAX_LEVEL_TBC;
+			case (Expansion.ExpansionVanilla): return MAX_LEVEL_VANILLA;
+			default: return MAX_LEVEL_WOTLK;
 		}
 	}
 
@@ -1373,6 +1397,7 @@ export class Player<SpecType extends Spec> {
 			PlayerProto.mergePartial(player, {
 				name: this.getName(),
 				race: this.getRace(),
+				expansion: this.getExpansion(),
 				level: this.getLevel(),
 				profession1: this.getProfession1(),
 				profession2: this.getProfession2(),
@@ -1435,6 +1460,7 @@ export class Player<SpecType extends Spec> {
 				this.setRace(eventID, proto.race);
 				this.setProfession1(eventID, proto.profession1);
 				this.setProfession2(eventID, proto.profession2);
+				this.setExpansion(eventID, proto.expansion);
 				this.setLevel(eventID, proto.level);
 				this.setReactionTime(eventID, proto.reactionTimeMs);
 				this.setChannelClipDelay(eventID, proto.channelClipDelayMs);

@@ -8,18 +8,28 @@ import (
 )
 
 func (character *Character) GetMaxProfessionRank() int32 {
+	var rank int32
 	switch {
 	case character.Level >= 55:
-		return 5
+		rank = 5
 	case character.Level >= 40:
-		return 4
+		rank = 4
 	case character.Level >= 25:
-		return 3
+		rank = 3
 	case character.Level >= 10:
-		return 2
+		rank = 2
 	default:
-		return 1
+		rank = 1
 	}
+
+	switch {
+	case character.Expansion == proto.Expansion_ExpansionTbc:
+		rank = min(rank, 4)
+	case character.Expansion == proto.Expansion_ExpansionVanilla:
+		rank = min(rank, 3)
+	}
+
+	return rank
 }
 
 // This is just the static bonuses. Most professions are handled elsewhere.

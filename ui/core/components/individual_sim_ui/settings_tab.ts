@@ -1,7 +1,7 @@
 import * as Tooltips from '../../constants/tooltips.js';
 import { Encounter } from '../../encounter';
 import { IndividualSimUI, InputSection } from '../../individual_sim_ui';
-import { Consumes, Debuffs, HealingModel, IndividualBuffs, ItemSwap, PartyBuffs, Profession, RaidBuffs, Spec } from '../../proto/common';
+import { Consumes, Debuffs, Expansion, HealingModel, IndividualBuffs, ItemSwap, PartyBuffs, Profession, RaidBuffs, Spec } from '../../proto/common';
 import { SavedEncounter, SavedSettings } from '../../proto/ui';
 import { professionNames, raceNames } from '../../proto_utils/names';
 import { specToEligibleRaces } from '../../proto_utils/utils';
@@ -109,6 +109,14 @@ export class SettingsTab extends SimTab {
 			changedEvent: sim => sim.levelChangeEmitter,
 			getValue: sim => sim.getLevel(),
 			setValue: (eventID, sim, newValue) => sim.setLevel(eventID, newValue),
+		});
+
+		new EnumPicker(contentBlock.bodyElement, this.simUI.player, {
+			label: 'Expansion',
+			values: [{name: "WOTLK", value: Expansion.ExpansionWotlk}, {name: "TBC", value: Expansion.ExpansionTbc},{name: "Vanilla", value: Expansion.ExpansionVanilla}],
+			changedEvent: sim => sim.expansionChangeEmitter,
+			getValue: sim => sim.getExpansion(),
+			setValue: (eventID, sim, newValue) => sim.setExpansion(eventID, newValue),
 		});
 
 		const races = specToEligibleRaces[this.simUI.player.spec];
