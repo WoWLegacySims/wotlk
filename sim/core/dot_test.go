@@ -49,6 +49,7 @@ func NewFakeElementalShaman(char *Character, _ *proto.Player) Agent {
 		Character: *char,
 	}
 	fa.Level = 80
+	fa.Expansion = proto.Expansion_ExpansionWotlk
 	fa.ExpertisePerQuarterPercentReduction = ExpertisePerQuarterPercentReduction[fa.Level]
 	fa.HasteRatingPerHastePercent = HasteRatingPerHastePercent[fa.Level]
 	fa.CritRatingPerCritChance = CritRatingPerCritChance[fa.Level]
