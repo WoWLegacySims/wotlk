@@ -77,6 +77,34 @@ class ClassLevelStats:
     Intellect: int
     Spirit: int
 
+class PetLevelStats:
+    ID: int
+    Level: int
+    BaseHP: int
+    BaseMana: int
+    Armor: int
+    Strength: int
+    Agility: int
+    Stamina: int
+    Intellect: int
+    Spirit: int
+    Min_dmg: int
+    Max_dmg: int
+
+Pets = {
+    89: "Infernal",
+    416: "Imp",
+    417: "Felhunter",
+    510: "WaterElementalTemp",
+    1860: "Voidwalker",
+    1863: "Succubus",
+    15438: "GreaterFireElemental",
+    17252: "Felguard",
+    19668: "Shadowfiend",
+    26125: "RisenGhoul",
+    37994: "WaterElementalPerm"
+}
+
 def GetClass(Class: int):
     return ["Warrior","Paladin","Hunter","Rogue","Priest","Deathknight","Shaman","Mage","Warlock","","Druid"][Class-1]
 
@@ -94,7 +122,7 @@ def GenGOArmorPen(rating: dict):
     output += '''}\n'''
     return output
 
-def GenExtraStatsGoFile(cs: ClassStats, ls: List[ClassLevelStats]):
+def GenExtraStatsGoFile(cs: ClassStats, ls: List[ClassLevelStats], pets: List[PetLevelStats]):
     header = '''
 package core
 
@@ -177,6 +205,15 @@ proto.Class_ClassUnknown: {},'''
         output += f"{l.Level}: {{stats.Health: {l.BaseHP}, stats.Mana: {l.BaseMana}, stats.Strength: {l.Strength}, stats.Agility: {l.Agility}, stats.Stamina: {l.Stamina}, stats.Intellect: {l.Intellect}, stats.Spirit: {l.Spirit}}},\n"
     output += "\n},\n}\n"
 
+    output += '''var PetBaseStats = map[int32]map[int32]PetStat{\nPet_Unknown: { 1: {Stats: stats.Stats{stats.Strength: 22, stats.Agility: 22, stats.Stamina: 25, stats.Intellect: 28, stats.Spirit: 27}}'''
+    currentPet = 0
+    for p in pets:
+        if (currentPet != p.ID):
+            currentPet = p.ID
+            output += f"}},\nPet_{Pets[p.ID]}: {{\n"
+        output += f"{p.Level}: {{Min_dmg: {p.Min_dmg}, Max_dmg: {p.Max_dmg} ,Stats: stats.Stats{{stats.Health: {p.BaseHP}, stats.Mana: {p.BaseMana}, stats.Armor: {p.Armor}, stats.Strength: {p.Strength}, stats.Agility: {p.Agility}, stats.Stamina: {p.Stamina}, stats.Intellect: {p.Intellect}, stats.Spirit: {p.Spirit}}}}},\n"
+    output += "\n},\n}\n"
+
     return output
 
 def GenTSRatingPerLevel(rating: dict, variable: str, key: str):
@@ -242,6 +279,25 @@ if __name__ == "__main__":
         level.Spirit = x[7]
         stats.append(level)
 
+    cursor.execute("SELECT * FROM pet_levelstats WHERE pet_levelstats.creature_entry IN (89,416,417,510,1860,1863,15438,17252,19668,26125,37994)")
+    results = cursor.fetchall()
+    pets = []
+    for x in results:
+        pet = PetLevelStats()
+        pet.ID = x[0]
+        pet.Level = x[1]
+        pet.BaseHP = x[2]
+        pet.BaseMana = x[3]
+        pet.Armor = x[4]
+        pet.Strength = x[5]
+        pet.Agility = x[6]
+        pet.Stamina = x[7]
+        pet.Intellect = x[8]
+        pet.Spirit = x[9]
+        pet.Min_dmg = x[10]
+        pet.Max_dmg = x[11]
+        pets.append(pet)
+
     args = ClassStats()
     args.MCrit = GenIndexedDb(BASE_DIR + DIR_PATH + MELEE_CRIT)
     args.SCrit = GenIndexedDb(BASE_DIR + DIR_PATH + SPELL_CRIT)
@@ -250,7 +306,7 @@ if __name__ == "__main__":
     args.CombatRatings = GenRowIndexedDb(BASE_DIR + DIR_PATH + COMBAT_RATINGS)
     args.MpPerSpirit = GenRowIndexedDb(BASE_DIR + DIR_PATH + MP_PER_SPIRIT)
 
-    output = GenExtraStatsGoFile(args, stats)
+    output = GenExtraStatsGoFile(args, stats, pets)
     fname = BASE_DIR + GO_OUTPUT_PATH
     print(f"Writing stats to: {fname}")
     f = open(fname, "w")

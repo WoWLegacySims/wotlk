@@ -84,11 +84,10 @@ func (dk *Deathknight) NewGargoyle() *GargoylePet {
 		nocsHit += 1 * dk.MeleeHitRatingPerHitChance
 	}
 
+	gargoyleStats := core.PetBaseStats[core.Pet_Unknown][1].Stats.Add(stats.Stats{stats.Mana: 28 + 10*float64(dk.Level), stats.Health: 28 + 30*float64(dk.Level), stats.SpellHit: -nocsHit * dk.GetPetSpellHitScale()})
+
 	gargoyle := &GargoylePet{
-		Pet: core.NewPet("Gargoyle", &dk.Character, stats.Stats{
-			stats.Stamina:  1000,
-			stats.SpellHit: -nocsHit * dk.GetPetSpellHitScale(),
-		}, stats.Stats{}, func(ownerStats stats.Stats) stats.Stats {
+		Pet: core.NewPet("Gargoyle", &dk.Character, gargoyleStats, stats.Stats{stats.SpellCrit: 5}, func(ownerStats stats.Stats) stats.Stats {
 			return stats.Stats{
 				stats.AttackPower: ownerStats[stats.AttackPower],
 				stats.SpellHit:    ownerStats[stats.MeleeHit] * dk.GetPetSpellHitScale(),

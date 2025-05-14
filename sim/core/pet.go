@@ -9,6 +9,31 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
+const (
+	Pet_Unknown              int32 = 0
+	Pet_Infernal             int32 = 89
+	Pet_Imp                  int32 = 416
+	Pet_Felhunter            int32 = 417
+	Pet_WaterElementalTemp   int32 = 510
+	Pet_Voidwalker           int32 = 1860
+	Pet_Succubus             int32 = 1863
+	Pet_GreaterFireElemental int32 = 15438
+	Pet_Felguard             int32 = 17252
+	Pet_Shadowfiend          int32 = 19668
+	Pet_RisenGhoul           int32 = 26125
+	Pet_WaterElementalPerm   int32 = 37994
+)
+
+type PetStat struct {
+	stats.Stats
+	Min_dmg int32
+	Max_dmg int32
+}
+
+var x = PetStat{
+	Stats: stats.Stats{stats.Agility: 5},
+}
+
 // Extension of Agent interface, for Pets.
 type PetAgent interface {
 	Agent
