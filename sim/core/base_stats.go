@@ -94,8 +94,22 @@ var RaceOffsets = map[proto.Race]stats.Stats{
 	},
 }
 
+var BaseAp = map[proto.Class]stats.Stats{
+	proto.Class_ClassUnknown:     {},
+	proto.Class_ClassWarrior:     {stats.AttackPower: 220.0},
+	proto.Class_ClassPaladin:     {stats.AttackPower: 220.0},
+	proto.Class_ClassHunter:      {stats.AttackPower: 140.0, stats.RangedAttackPower: 150.0},
+	proto.Class_ClassRogue:       {stats.AttackPower: 140.0},
+	proto.Class_ClassPriest:      {},
+	proto.Class_ClassDeathknight: {stats.AttackPower: 220.0},
+	proto.Class_ClassShaman:      {stats.AttackPower: 140.0},
+	proto.Class_ClassMage:        {},
+	proto.Class_ClassWarlock:     {stats.AttackPower: -10},
+	proto.Class_ClassDruid:       {stats.AttackPower: -20},
+}
+
 func AddBaseStatsCombo(r proto.Race, c proto.Class) {
-	BaseStats[BaseStatsKey{Race: r, Class: c}] = ClassBaseStats[c].Add(RaceOffsets[r]).Add(BaseCrit[c])
+	BaseStats[BaseStatsKey{Race: r, Class: c}] = ClassBaseStats[c].Add(RaceOffsets[r]).Add(BaseCrit[c]).Add(BaseAp[c])
 }
 
 func init() {
