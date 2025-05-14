@@ -8,7 +8,7 @@ import (
 
 func (fireElemental *FireElemental) registerFireBlast() {
 	fireElemental.FireBlast = fireElemental.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 13339},
+		ActionID:    core.ActionID{SpellID: 57984},
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
 
@@ -32,7 +32,7 @@ func (fireElemental *FireElemental) registerFireBlast() {
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			// TODO these are approximation, from base SP
-			baseDamage := sim.Roll(714, 844) + 0.429*spell.SpellPower()
+			baseDamage := sim.Roll(110, 130) + 0.429*spell.SpellPower()
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 		},
 	})
@@ -65,7 +65,7 @@ func (fireElemental *FireElemental) registerFireNova() {
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			for _, aoeTarget := range sim.Encounter.TargetUnits {
-				baseDamage := sim.Roll(955, 1098) + spell.SpellPower()
+				baseDamage := sim.Roll(148, 170) + spell.SpellPower()
 				baseDamage *= sim.Encounter.AOECapMultiplier()
 				spell.CalcAndDealDamage(sim, aoeTarget, baseDamage, spell.OutcomeMagicHitAndCrit)
 			}
@@ -74,7 +74,7 @@ func (fireElemental *FireElemental) registerFireNova() {
 }
 
 func (fireElemental *FireElemental) registerFireShieldAura() {
-	actionID := core.ActionID{SpellID: 11350}
+	actionID := core.ActionID{SpellID: 13376}
 
 	//dummy spell
 	spell := fireElemental.RegisterSpell(core.SpellConfig{
@@ -99,7 +99,7 @@ func (fireElemental *FireElemental) registerFireShieldAura() {
 				// TODO these are approximation, from base SP
 				dmgFromSP := 0.032 * dot.Spell.SpellPower()
 				for _, aoeTarget := range sim.Encounter.TargetUnits {
-					baseDamage := sim.Roll(95, 97) + dmgFromSP
+					baseDamage := 97 + dmgFromSP
 					//baseDamage *= sim.Encounter.AOECapMultiplier()
 					dot.Spell.CalcAndDealDamage(sim, aoeTarget, baseDamage, dot.Spell.OutcomeMagicCrit)
 				}
