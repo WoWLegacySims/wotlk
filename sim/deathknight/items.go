@@ -3,6 +3,8 @@ package deathknight
 import (
 	"time"
 
+	"slices"
+
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
@@ -487,12 +489,21 @@ func (dk *Deathknight) registerItems() {
 
 	cinderBonusCoeff := 1.2
 
-	consumeSpells := [5]core.ActionID{
-		BloodBoilActionID,
-		DeathCoilActionID,
-		FrostStrikeMHActionID,
-		HowlingBlastActionID,
-		IcyTouchActionID,
+	consumeSpells := []int32{}
+	for _, i := range BloodBoilInfos {
+		consumeSpells = append(consumeSpells, i.SpellID)
+	}
+	for _, i := range DeathCoilInfos {
+		consumeSpells = append(consumeSpells, i.SpellID)
+	}
+	for _, i := range FrostStrikeInfos {
+		consumeSpells = append(consumeSpells, i.SpellID)
+	}
+	for _, i := range HowlingBlastInfos {
+		consumeSpells = append(consumeSpells, i.SpellID)
+	}
+	for _, i := range IcyTouchInfos {
+		consumeSpells = append(consumeSpells, i.SpellID)
 	}
 
 	targetsHit := 0
@@ -514,7 +525,7 @@ func (dk *Deathknight) registerItems() {
 			dk.modifyShadowDamageModifier(-0.2)
 		},
 		OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-			if spell.ActionID == HowlingBlastActionID || spell.ActionID == BloodBoilActionID {
+			if spell.ActionID == HowlingBlastActionID || spell == dk.BloodBoil || spell == dk.RuneWeapon.BloodBoil {
 				if result.Target.Index == 0 {
 					targetsHit = 0
 				}
@@ -536,13 +547,7 @@ func (dk *Deathknight) registerItems() {
 				return
 			}
 
-			shouldConsume := false
-			for _, consumeSpell := range consumeSpells {
-				if spell.ActionID == consumeSpell {
-					shouldConsume = true
-					break
-				}
-			}
+			shouldConsume := slices.Contains(consumeSpells, spell.ActionID.SpellID)
 
 			if shouldConsume {
 				aura.RemoveStack(sim)

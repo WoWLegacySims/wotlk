@@ -30,6 +30,8 @@ func (shaman *Shaman) RegisterOnItemSwapWithImbue(effectID int32, procMask *core
 	})
 }
 
+var WindfuryBonuses = []float64{46, 119, 249, 333, 445, 835, 1090, 1250}
+
 func (shaman *Shaman) newWindfuryImbueSpell(isMH bool) *core.Spell {
 	apBonus := 1250.0
 	if shaman.Ranged().ID == TotemOfTheAstralWinds {

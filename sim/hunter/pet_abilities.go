@@ -411,8 +411,8 @@ func (hp *HunterPet) newLightningBreath() *core.Spell {
 
 func (hp *HunterPet) newMonstrousBite() *core.Spell {
 	procAura := hp.RegisterAura(core.Aura{
-		Label:     "Monstrous Bite",
-		ActionID:  core.ActionID{SpellID: 55499},
+		Label:     "Monstrous Strength",
+		ActionID:  core.ActionID{SpellID: 54681},
 		Duration:  time.Second * 12,
 		MaxStacks: 3,
 		OnStacksChange: func(aura *core.Aura, sim *core.Simulation, oldStacks int32, newStacks int32) {

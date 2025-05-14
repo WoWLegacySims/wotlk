@@ -11,25 +11,22 @@ type ApplySpellResults func(sim *Simulation, target *Unit, spell *Spell)
 type ExpectedDamageCalculator func(sim *Simulation, target *Unit, spell *Spell, useSnapshot bool) *SpellResult
 type CanCastCondition func(sim *Simulation, target *Unit) bool
 
-type SpellRank struct {
-	ActionID
-	MinLevel            int32
-	Downrank            int32
-	MinEffect           float64
-	MaxEffect           float64
-	MinEffectExtra      float64
-	MaxEffectExtra      float64
-	OverTime            float64
-	Ticks               int32
-	OverTimeCoefficient float64
-	CastTime            time.Duration
-	LevelScaling        float64
-	BaseCost            float64
-	Coefficient         float64
+type SpellEffect struct {
+	BasePoints   float64
+	Die          float64
+	LevelScaling float64
+	Coefficient  float64
 }
 
-type SpellRanks struct {
-	Ranks []*SpellRank
+type SpellInfo struct {
+	SpellID  int32
+	MinLevel int32
+	MaxLevel int32
+	Duration int32
+	Period   int32
+	CastTime time.Duration
+	BaseCost float64
+	Effects  [3]SpellEffect
 }
 
 type SpellConfig struct {
@@ -170,31 +167,31 @@ type Spell struct {
 	RelatedAuras []AuraArray
 }
 
-func (spellRanks *SpellRanks) FindMaxRank(level int32) *SpellRank {
-	var rank *SpellRank
-	for _, s := range spellRanks.Ranks {
+func FindMaxRank(spellInfos []*SpellInfo, level int32) *SpellInfo {
+	var info *SpellInfo
+	for _, s := range spellInfos {
 		if level >= s.MinLevel {
-			if rank == nil || rank.MinLevel < s.MinLevel {
-				rank = s
+			if info == nil || info.MinLevel < s.MinLevel {
+				info = s
 			}
 		}
 	}
-	return rank
+	return info
 }
 
-func (spellRanks *SpellRanks) FindDownRank(level int32) *SpellRank {
-	var rank *SpellRank
+func FindDownRank(spellInfos []*SpellInfo, level int32) *SpellInfo {
+	var info *SpellInfo
 	var downRankIndex int
-	for i, s := range spellRanks.Ranks {
+	for i, s := range spellInfos {
 		if level >= s.MinLevel {
-			if rank == nil || rank.MinLevel < s.MinLevel {
-				rank = s
+			if info == nil || info.MinLevel < s.MinLevel {
+				info = s
 				downRankIndex = i
 			}
 		}
 	}
 	if downRankIndex > 0 {
-		return spellRanks.Ranks[downRankIndex-1]
+		return spellInfos[downRankIndex-1]
 	}
 	return nil
 }
