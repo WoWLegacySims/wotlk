@@ -5,10 +5,11 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/deathknightinfo"
 )
 
 func (dk *Deathknight) registerDeathAndDecaySpell() {
-	dbc := core.FindMaxRank(DeathandDecayInfos, dk.Level)
+	dbc := deathknightinfo.DeathandDecayInfos.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}

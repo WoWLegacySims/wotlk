@@ -5,14 +5,14 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/deathknightinfo"
 )
 
 func (dk *Deathknight) registerHowlingBlastSpell() {
 	if !dk.Talents.HowlingBlast {
 		return
 	}
-
-	dbc := core.FindMaxRank(HowlingBlastInfos, dk.Level)
+	dbc := deathknightinfo.HowlingBlastInfos.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}

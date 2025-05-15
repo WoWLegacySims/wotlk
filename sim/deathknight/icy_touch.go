@@ -2,10 +2,11 @@ package deathknight
 
 import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/deathknightinfo"
 )
 
 func (dk *Deathknight) registerIcyTouchSpell() {
-	dbc := core.FindMaxRank(IcyTouchInfos, dk.Level)
+	dbc := deathknightinfo.IcyTouchInfos.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}
@@ -57,7 +58,7 @@ func (dk *Deathknight) registerIcyTouchSpell() {
 	})
 }
 func (dk *Deathknight) registerDrwIcyTouchSpell() {
-	dbc := core.FindMaxRank(IcyTouchInfos, dk.Level)
+	dbc := deathknightinfo.IcyTouchInfos.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}

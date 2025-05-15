@@ -11,24 +11,6 @@ type ApplySpellResults func(sim *Simulation, target *Unit, spell *Spell)
 type ExpectedDamageCalculator func(sim *Simulation, target *Unit, spell *Spell, useSnapshot bool) *SpellResult
 type CanCastCondition func(sim *Simulation, target *Unit) bool
 
-type SpellEffect struct {
-	BasePoints   float64
-	Die          float64
-	LevelScaling float64
-	Coefficient  float64
-}
-
-type SpellInfo struct {
-	SpellID  int32
-	MinLevel int32
-	MaxLevel int32
-	Duration int32
-	Period   int32
-	CastTime time.Duration
-	BaseCost float64
-	Effects  [3]SpellEffect
-}
-
 type SpellConfig struct {
 	// See definition of Spell (below) for comments on these.
 	ActionID
@@ -165,35 +147,6 @@ type Spell struct {
 
 	// Per-target auras that are related to this spell, usually buffs or debuffs applied by the spell.
 	RelatedAuras []AuraArray
-}
-
-func FindMaxRank(spellInfos []*SpellInfo, level int32) *SpellInfo {
-	var info *SpellInfo
-	for _, s := range spellInfos {
-		if level >= s.MinLevel {
-			if info == nil || info.MinLevel < s.MinLevel {
-				info = s
-			}
-		}
-	}
-	return info
-}
-
-func FindDownRank(spellInfos []*SpellInfo, level int32) *SpellInfo {
-	var info *SpellInfo
-	var downRankIndex int
-	for i, s := range spellInfos {
-		if level >= s.MinLevel {
-			if info == nil || info.MinLevel < s.MinLevel {
-				info = s
-				downRankIndex = i
-			}
-		}
-	}
-	if downRankIndex > 0 {
-		return spellInfos[downRankIndex-1]
-	}
-	return nil
 }
 
 func (unit *Unit) OnSpellRegistered(handler SpellRegisteredHandler) {

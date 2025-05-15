@@ -3,10 +3,11 @@ package deathknight
 import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/deathknightinfo"
 )
 
 func (dk *Deathknight) newFrostStrikeHitSpell(isMH bool) *core.Spell {
-	dbc := core.FindMaxRank(FrostStrikeInfos, dk.Level)
+	dbc := deathknightinfo.FrostStrikeInfos.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return nil
 	}

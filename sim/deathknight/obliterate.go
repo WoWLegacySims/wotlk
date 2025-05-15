@@ -3,11 +3,12 @@ package deathknight
 import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/deathknightinfo"
 )
 
 // TODO: Cleanup obliterate the same way we did for plague strike
 func (dk *Deathknight) newObliterateHitSpell(isMH bool) *core.Spell {
-	dbc := core.FindMaxRank(ObliterateInfos, dk.Level)
+	dbc := deathknightinfo.ObliterateInfos.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return nil
 	}

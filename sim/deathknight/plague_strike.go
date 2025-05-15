@@ -3,12 +3,11 @@ package deathknight
 import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/deathknightinfo"
 )
 
-var PlagueStrikeActionID = core.ActionID{SpellID: 49921}
-
 func (dk *Deathknight) newPlagueStrikeSpell(isMH bool) *core.Spell {
-	dbc := core.FindMaxRank(PlagueStrikeInfos, dk.Level)
+	dbc := deathknightinfo.PlagueStrikeInfos.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return nil
 	}
@@ -85,8 +84,15 @@ func (dk *Deathknight) registerPlagueStrikeSpell() {
 	dk.PlagueStrike = dk.PlagueStrikeMhHit
 }
 func (dk *Deathknight) registerDrwPlagueStrikeSpell() {
+	dbc := deathknightinfo.PlagueStrikeInfos.FindMaxRank(dk.Level)
+	if dbc == nil {
+		return
+	}
+	damage := dbc.Effects[0].BasePoints + 1
+	actionID := core.ActionID{SpellID: dbc.SpellID}
+
 	dk.RuneWeapon.PlagueStrike = dk.RuneWeapon.RegisterSpell(core.SpellConfig{
-		ActionID:    PlagueStrikeActionID.WithTag(1),
+		ActionID:    actionID.WithTag(1),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage,
@@ -98,7 +104,7 @@ func (dk *Deathknight) registerDrwPlagueStrikeSpell() {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 378 + dk.DrwWeaponDamage(sim, spell)
+			baseDamage := damage + dk.DrwWeaponDamage(sim, spell)
 
 			result := spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeWeaponSpecialHitAndCrit)
 

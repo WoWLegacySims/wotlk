@@ -3,12 +3,13 @@ package deathknight
 import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/deathknightinfo"
 )
 
 // TODO: Cleanup death strike the same way we did for plague strike
 
 func (dk *Deathknight) newDeathStrikeSpell(isMH bool) *core.Spell {
-	dbc := core.FindMaxRank(DeathStrikeInfos, dk.Level)
+	dbc := deathknightinfo.DeathStrikeInfos.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return nil
 	}
@@ -104,7 +105,7 @@ func (dk *Deathknight) registerDeathStrikeSpell() {
 }
 
 func (dk *Deathknight) registerDrwDeathStrikeSpell() {
-	dbc := core.FindMaxRank(DeathStrikeInfos, dk.Level)
+	dbc := deathknightinfo.DeathStrikeInfos.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}

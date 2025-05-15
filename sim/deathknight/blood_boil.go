@@ -2,10 +2,11 @@ package deathknight
 
 import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/deathknightinfo"
 )
 
 func (dk *Deathknight) registerBloodBoilSpell() {
-	dbc := core.FindMaxRank(BloodBoilInfos, dk.Level)
+	dbc := deathknightinfo.BloodBoilInfos.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}
@@ -53,7 +54,7 @@ func (dk *Deathknight) registerBloodBoilSpell() {
 }
 
 func (dk *Deathknight) registerDrwBloodBoilSpell() {
-	dbc := core.FindMaxRank(BloodBoilInfos, dk.Level)
+	dbc := deathknightinfo.BloodBoilInfos.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}

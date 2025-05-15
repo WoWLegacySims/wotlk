@@ -30,10 +30,6 @@ type PetStat struct {
 	Max_dmg int32
 }
 
-var x = PetStat{
-	Stats: stats.Stats{stats.Agility: 5},
-}
-
 // Extension of Agent interface, for Pets.
 type PetAgent interface {
 	Agent

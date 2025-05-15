@@ -2,10 +2,11 @@ package deathknight
 
 import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/deathknightinfo"
 )
 
 func (dk *Deathknight) newHeartStrikeSpell(isMainTarget bool, isDrw bool) *core.Spell {
-	dbc := core.FindMaxRank(HeartStrikeInfos, dk.Level)
+	dbc := deathknightinfo.HeartStrikeInfos.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return nil
 	}

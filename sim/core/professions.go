@@ -5,6 +5,7 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/coreinfo"
 )
 
 func (character *Character) GetMaxProfessionRank() int32 {
@@ -45,7 +46,7 @@ func (character *Character) applyProfessionEffects() {
 	}
 
 	if character.HasProfession(proto.Profession_Herbalism) {
-		dbc := LifebloodInfos[character.GetMaxProfessionRank()]
+		dbc := coreinfo.LifebloodInfos.SpellInfos[character.GetMaxProfessionRank()]
 		heal := dbc.Effects[0].BasePoints + 1
 		actionID := ActionID{SpellID: dbc.SpellID}
 		healthMetrics := character.NewHealthMetrics(actionID)

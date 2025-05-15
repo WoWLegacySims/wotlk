@@ -5,10 +5,11 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/mageinfo"
 )
 
 func (mage *Mage) registerFireballSpell() {
-	dbc := core.FindMaxRank(FireballInfos, mage.Level)
+	dbc := mageinfo.FireballInfos.FindMaxRank(mage.Level)
 
 	if dbc == nil {
 		return

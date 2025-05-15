@@ -5,11 +5,12 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/deathknightinfo"
 )
 
 // this is just a simple spell because it has no rune costs and is really just a wrapper.
 func (dk *Deathknight) registerScourgeStrikeShadowDamageSpell() *core.Spell {
-	dbc := core.FindMaxRank(ScourgeStrikeInfos, dk.Level)
+	dbc := deathknightinfo.ScourgeStrikeInfos.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return nil
 	}
@@ -43,7 +44,7 @@ func (dk *Deathknight) registerScourgeStrikeSpell() {
 	if !dk.Talents.ScourgeStrike {
 		return
 	}
-	dbc := core.FindMaxRank(PlagueStrikeInfos, dk.Level)
+	dbc := deathknightinfo.ScourgeStrikeInfos.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}

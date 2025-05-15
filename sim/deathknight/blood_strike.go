@@ -2,12 +2,13 @@ package deathknight
 
 import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/deathknightinfo"
 )
 
 var BloodStrikeActionID = core.ActionID{SpellID: 49930}
 
 func (dk *Deathknight) newBloodStrikeSpell(isMH bool) *core.Spell {
-	dbc := core.FindMaxRank(BloodStrikeInfos, dk.Level)
+	dbc := deathknightinfo.BloodStrikeInfos.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return nil
 	}
@@ -97,7 +98,7 @@ func (dk *Deathknight) registerBloodStrikeSpell() {
 }
 
 func (dk *Deathknight) registerDrwBloodStrikeSpell() {
-	dbc := core.FindMaxRank(BloodStrikeInfos, dk.Level)
+	dbc := deathknightinfo.BloodStrikeInfos.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}

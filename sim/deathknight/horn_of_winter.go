@@ -4,10 +4,11 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/deathknightinfo"
 )
 
 func (dk *Deathknight) registerHornOfWinterSpell() {
-	dbc := core.FindMaxRank(HornofWinterInfos, dk.Level)
+	dbc := deathknightinfo.HornofWinterInfos.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}
