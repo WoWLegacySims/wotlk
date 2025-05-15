@@ -9,7 +9,7 @@ import (
 )
 
 func (mage *Mage) registerFireballSpell() {
-	dbc := mageinfo.FireballInfos.FindMaxRank(mage.Level)
+	dbc := mageinfo.Fireball.FindMaxRank(mage.Level)
 
 	if dbc == nil {
 		return

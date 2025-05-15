@@ -12,7 +12,7 @@ func (dk *Deathknight) registerHowlingBlastSpell() {
 	if !dk.Talents.HowlingBlast {
 		return
 	}
-	dbc := deathknightinfo.HowlingBlastInfos.FindMaxRank(dk.Level)
+	dbc := deathknightinfo.HowlingBlast.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}

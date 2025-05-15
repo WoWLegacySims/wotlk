@@ -196,6 +196,14 @@ func (stats Stats) Add(other Stats) Stats {
 	return stats
 }
 
+// Adds two Stats exclusively together, in-place.
+func (stats Stats) AddExclusive(other Stats) Stats {
+	for k := range stats {
+		stats[k] = max(stats[k], other[k])
+	}
+	return stats
+}
+
 // Adds another to Stats to this, in-place. For performance, only.
 func (stats *Stats) AddInplace(other *Stats) {
 	for k := range stats {

@@ -7,7 +7,7 @@ import (
 )
 
 func (dk *Deathknight) newPlagueStrikeSpell(isMH bool) *core.Spell {
-	dbc := deathknightinfo.PlagueStrikeInfos.FindMaxRank(dk.Level)
+	dbc := deathknightinfo.PlagueStrike.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return nil
 	}
@@ -84,7 +84,7 @@ func (dk *Deathknight) registerPlagueStrikeSpell() {
 	dk.PlagueStrike = dk.PlagueStrikeMhHit
 }
 func (dk *Deathknight) registerDrwPlagueStrikeSpell() {
-	dbc := deathknightinfo.PlagueStrikeInfos.FindMaxRank(dk.Level)
+	dbc := deathknightinfo.PlagueStrike.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}

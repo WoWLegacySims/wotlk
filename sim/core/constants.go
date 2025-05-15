@@ -22,6 +22,8 @@ const AverageMagicPartialResistMultiplier = 0.94
 const (
 	ItemIDAtieshMage            = 22589
 	ItemIDAtieshWarlock         = 22630
+	ItemIDAtieshDruid           = 22631
+	ItemIDAtieshPriest          = 22632
 	ItemIDBraidedEterniumChain  = 24114
 	ItemIDChainOfTheTwilightOwl = 24121
 	ItemIDEyeOfTheNight         = 24116

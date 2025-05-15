@@ -8,7 +8,7 @@ import (
 	"time"
     "github.com/WoWLegacySims/wotlk/sim/spellinfo"
     )
-var AimedShotInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var AimedShot = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:19434,MinLevel:20,MaxLevel:0,Duration:10000,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 8,Effects: [3]spellinfo.SpellEffect{{BasePoints: 4,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: -51,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:20900,MinLevel:28,MaxLevel:0,Duration:10000,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 8,Effects: [3]spellinfo.SpellEffect{{BasePoints: 34,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: -51,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:20901,MinLevel:36,MaxLevel:0,Duration:10000,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 8,Effects: [3]spellinfo.SpellEffect{{BasePoints: 54,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: -51,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -19,7 +19,7 @@ var AimedShotInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:49049,MinLevel:75,MaxLevel:0,Duration:10000,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 8,Effects: [3]spellinfo.SpellEffect{{BasePoints: 344,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: -51,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:49050,MinLevel:80,MaxLevel:0,Duration:10000,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 8,Effects: [3]spellinfo.SpellEffect{{BasePoints: 407,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: -51,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var ArcaneShotInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var ArcaneShot = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:3044,MinLevel:6,MaxLevel:11,Duration:0,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 5,Effects: [3]spellinfo.SpellEffect{{BasePoints: 14,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:14281,MinLevel:12,MaxLevel:19,Duration:0,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 5,Effects: [3]spellinfo.SpellEffect{{BasePoints: 22,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:14282,MinLevel:20,MaxLevel:27,Duration:0,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 5,Effects: [3]spellinfo.SpellEffect{{BasePoints: 35,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -32,11 +32,11 @@ var ArcaneShotInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:49044,MinLevel:73,MaxLevel:77,Duration:0,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 5,Effects: [3]spellinfo.SpellEffect{{BasePoints: 401,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:49045,MinLevel:79,MaxLevel:83,Duration:0,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 5,Effects: [3]spellinfo.SpellEffect{{BasePoints: 491,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var AspectoftheDragonhawkInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var AspectoftheDragonhawk = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:61846,MinLevel:74,MaxLevel:0,Duration:-1,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 229,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 17,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:61847,MinLevel:80,MaxLevel:0,Duration:-1,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 299,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 17,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var AspectoftheHawkInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var AspectoftheHawk = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:13165,MinLevel:10,MaxLevel:0,Duration:-1,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 19,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:14318,MinLevel:18,MaxLevel:0,Duration:-1,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 34,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:14319,MinLevel:28,MaxLevel:0,Duration:-1,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 49,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -46,13 +46,13 @@ var AspectoftheHawkInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:25296,MinLevel:60,MaxLevel:0,Duration:-1,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 119,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:27044,MinLevel:68,MaxLevel:0,Duration:-1,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 154,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var AspectoftheWildInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var AspectoftheWild = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:20043,MinLevel:46,MaxLevel:0,Duration:-1,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 44,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:20190,MinLevel:56,MaxLevel:0,Duration:-1,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 59,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:27045,MinLevel:68,MaxLevel:0,Duration:-1,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 69,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:49071,MinLevel:76,MaxLevel:0,Duration:-1,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 129,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var BlackArrowInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var BlackArrow = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:3674,MinLevel:50,MaxLevel:0,Duration:15000,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 6,Effects: [3]spellinfo.SpellEffect{{BasePoints: 156,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 5,Die: 1,LevelScaling: 0,Coefficient: 0.1,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:63668,MinLevel:57,MaxLevel:0,Duration:15000,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 6,Effects: [3]spellinfo.SpellEffect{{BasePoints: 187,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 5,Die: 1,LevelScaling: 0,Coefficient: 0.1,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:63669,MinLevel:63,MaxLevel:0,Duration:15000,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 6,Effects: [3]spellinfo.SpellEffect{{BasePoints: 240,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 5,Die: 1,LevelScaling: 0,Coefficient: 0.1,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
@@ -60,13 +60,13 @@ var BlackArrowInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:63671,MinLevel:75,MaxLevel:0,Duration:15000,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 6,Effects: [3]spellinfo.SpellEffect{{BasePoints: 447,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 5,Die: 1,LevelScaling: 0,Coefficient: 0.1,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:63672,MinLevel:80,MaxLevel:0,Duration:15000,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 6,Effects: [3]spellinfo.SpellEffect{{BasePoints: 552,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 5,Die: 1,LevelScaling: 0,Coefficient: 0.1,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var ExplosiveShotInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var ExplosiveShot = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:53301,MinLevel:60,MaxLevel:0,Duration:2000,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 7,Effects: [3]spellinfo.SpellEffect{{BasePoints: 143,Die: 29,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:60051,MinLevel:70,MaxLevel:0,Duration:2000,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 7,Effects: [3]spellinfo.SpellEffect{{BasePoints: 220,Die: 45,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:60052,MinLevel:75,MaxLevel:0,Duration:2000,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 7,Effects: [3]spellinfo.SpellEffect{{BasePoints: 324,Die: 67,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:60053,MinLevel:80,MaxLevel:0,Duration:2000,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 7,Effects: [3]spellinfo.SpellEffect{{BasePoints: 385,Die: 79,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var ExplosiveTrapInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var ExplosiveTrap = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:13813,MinLevel:34,MaxLevel:40,Duration:30000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 19,Effects: [3]spellinfo.SpellEffect{{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:14316,MinLevel:44,MaxLevel:50,Duration:30000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 19,Effects: [3]spellinfo.SpellEffect{{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:14317,MinLevel:54,MaxLevel:60,Duration:30000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 19,Effects: [3]spellinfo.SpellEffect{{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -74,7 +74,7 @@ var ExplosiveTrapInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:49066,MinLevel:71,MaxLevel:75,Duration:30000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 19,Effects: [3]spellinfo.SpellEffect{{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:49067,MinLevel:77,MaxLevel:81,Duration:30000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 19,Effects: [3]spellinfo.SpellEffect{{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var ExplosiveTrapEffectInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var ExplosiveTrapEffect = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:13812,MinLevel:34,MaxLevel:40,Duration:20000,Period:2000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 99,Die: 31,LevelScaling: 0.8,Coefficient: 0,},{BasePoints: 14,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:14314,MinLevel:44,MaxLevel:50,Duration:20000,Period:2000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 138,Die: 49,LevelScaling: 1,Coefficient: 0,},{BasePoints: 23,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:14315,MinLevel:54,MaxLevel:60,Duration:20000,Period:2000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 200,Die: 57,LevelScaling: 1.2,Coefficient: 0,},{BasePoints: 32,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -82,19 +82,19 @@ var ExplosiveTrapEffectInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInf
 {SpellID:49064,MinLevel:71,MaxLevel:75,Duration:20000,Period:2000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 433,Die: 123,LevelScaling: 2,Coefficient: 0,},{BasePoints: 73,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:49065,MinLevel:77,MaxLevel:81,Duration:20000,Period:2000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 522,Die: 149,LevelScaling: 3,Coefficient: 0,},{BasePoints: 89,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var HuntersMarkInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var HuntersMark = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:1130,MinLevel:6,MaxLevel:0,Duration:300000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 2,Effects: [3]spellinfo.SpellEffect{{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 19,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:14323,MinLevel:22,MaxLevel:0,Duration:300000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 2,Effects: [3]spellinfo.SpellEffect{{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 44,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:14324,MinLevel:40,MaxLevel:0,Duration:300000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 2,Effects: [3]spellinfo.SpellEffect{{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 74,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:14325,MinLevel:58,MaxLevel:0,Duration:300000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 2,Effects: [3]spellinfo.SpellEffect{{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 109,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53338,MinLevel:76,MaxLevel:0,Duration:300000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 2,Effects: [3]spellinfo.SpellEffect{{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 499,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var KillShotInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var KillShot = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:53351,MinLevel:71,MaxLevel:0,Duration:0,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 7,Effects: [3]spellinfo.SpellEffect{{BasePoints: 204,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 199,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:61005,MinLevel:75,MaxLevel:0,Duration:0,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 7,Effects: [3]spellinfo.SpellEffect{{BasePoints: 249,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 199,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:61006,MinLevel:80,MaxLevel:0,Duration:0,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 7,Effects: [3]spellinfo.SpellEffect{{BasePoints: 324,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 199,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var MongooseBiteInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var MongooseBite = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:1495,MinLevel:16,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 3,Effects: [3]spellinfo.SpellEffect{{BasePoints: 24,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:14269,MinLevel:30,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 3,Effects: [3]spellinfo.SpellEffect{{BasePoints: 44,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:14270,MinLevel:44,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 3,Effects: [3]spellinfo.SpellEffect{{BasePoints: 74,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -102,7 +102,7 @@ var MongooseBiteInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:36916,MinLevel:70,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 3,Effects: [3]spellinfo.SpellEffect{{BasePoints: 149,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53339,MinLevel:80,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 3,Effects: [3]spellinfo.SpellEffect{{BasePoints: 279,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var MultiShotInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var MultiShot = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:2643,MinLevel:18,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 9,Effects: [3]spellinfo.SpellEffect{{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:14288,MinLevel:30,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 9,Effects: [3]spellinfo.SpellEffect{{BasePoints: 39,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:14289,MinLevel:42,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 9,Effects: [3]spellinfo.SpellEffect{{BasePoints: 79,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -112,7 +112,7 @@ var MultiShotInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:49047,MinLevel:74,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 9,Effects: [3]spellinfo.SpellEffect{{BasePoints: 332,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:49048,MinLevel:80,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 9,Effects: [3]spellinfo.SpellEffect{{BasePoints: 407,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var RaptorStrikeInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var RaptorStrike = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:2973,MinLevel:1,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 4,Effects: [3]spellinfo.SpellEffect{{BasePoints: 4,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:14260,MinLevel:8,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 4,Effects: [3]spellinfo.SpellEffect{{BasePoints: 10,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:14261,MinLevel:16,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 4,Effects: [3]spellinfo.SpellEffect{{BasePoints: 20,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -125,7 +125,7 @@ var RaptorStrikeInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:48995,MinLevel:71,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 4,Effects: [3]spellinfo.SpellEffect{{BasePoints: 274,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:48996,MinLevel:77,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 4,Effects: [3]spellinfo.SpellEffect{{BasePoints: 334,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var SerpentStingInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var SerpentSting = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:1978,MinLevel:4,MaxLevel:9,Duration:15000,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 9,Effects: [3]spellinfo.SpellEffect{{BasePoints: 3,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:13549,MinLevel:10,MaxLevel:17,Duration:15000,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 9,Effects: [3]spellinfo.SpellEffect{{BasePoints: 7,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:13550,MinLevel:18,MaxLevel:25,Duration:15000,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 9,Effects: [3]spellinfo.SpellEffect{{BasePoints: 15,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -139,13 +139,13 @@ var SerpentStingInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:49000,MinLevel:73,MaxLevel:78,Duration:15000,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 9,Effects: [3]spellinfo.SpellEffect{{BasePoints: 197,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:49001,MinLevel:79,MaxLevel:83,Duration:15000,Period:0,CastTime: -1000000 * time.Millisecond,BaseCost: 9,Effects: [3]spellinfo.SpellEffect{{BasePoints: 241,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var SteadyShotInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var SteadyShot = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:56641,MinLevel:50,MaxLevel:0,Duration:0,Period:0,CastTime: 1500 * time.Millisecond,BaseCost: 5,Effects: [3]spellinfo.SpellEffect{{BasePoints: 44,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 174,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:34120,MinLevel:62,MaxLevel:0,Duration:0,Period:0,CastTime: 1500 * time.Millisecond,BaseCost: 5,Effects: [3]spellinfo.SpellEffect{{BasePoints: 107,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 174,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:49051,MinLevel:71,MaxLevel:0,Duration:0,Period:0,CastTime: 1500 * time.Millisecond,BaseCost: 5,Effects: [3]spellinfo.SpellEffect{{BasePoints: 197,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 174,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:49052,MinLevel:77,MaxLevel:0,Duration:0,Period:0,CastTime: 1500 * time.Millisecond,BaseCost: 5,Effects: [3]spellinfo.SpellEffect{{BasePoints: 251,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 174,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var VolleyInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var Volley = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:1510,MinLevel:40,MaxLevel:0,Duration:6000,Period:1000,CastTime: -1000000 * time.Millisecond,BaseCost: 17,Effects: [3]spellinfo.SpellEffect{{BasePoints: 49,Die: 1,LevelScaling: 0,Coefficient: 0.143,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:14294,MinLevel:50,MaxLevel:0,Duration:6000,Period:1000,CastTime: -1000000 * time.Millisecond,BaseCost: 17,Effects: [3]spellinfo.SpellEffect{{BasePoints: 64,Die: 1,LevelScaling: 0,Coefficient: 0.143,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:14295,MinLevel:58,MaxLevel:0,Duration:6000,Period:1000,CastTime: -1000000 * time.Millisecond,BaseCost: 17,Effects: [3]spellinfo.SpellEffect{{BasePoints: 79,Die: 1,LevelScaling: 0,Coefficient: 0.143,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -153,7 +153,7 @@ var VolleyInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:58431,MinLevel:74,MaxLevel:0,Duration:6000,Period:1000,CastTime: -1000000 * time.Millisecond,BaseCost: 17,Effects: [3]spellinfo.SpellEffect{{BasePoints: 104,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:58434,MinLevel:80,MaxLevel:0,Duration:6000,Period:1000,CastTime: -1000000 * time.Millisecond,BaseCost: 17,Effects: [3]spellinfo.SpellEffect{{BasePoints: 104,Die: 1,LevelScaling: 0,Coefficient: 0.143,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var BiteInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var Bite = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:17253,MinLevel:1,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 3,Die: 3,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:17255,MinLevel:8,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 7,Die: 5,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:17256,MinLevel:16,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 11,Die: 5,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -166,7 +166,7 @@ var BiteInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:52473,MinLevel:72,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 90,Die: 39,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:52474,MinLevel:80,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 117,Die: 51,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var ClawInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var Claw = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:16827,MinLevel:1,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 3,Die: 3,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:16828,MinLevel:8,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 7,Die: 5,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:16829,MinLevel:16,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 11,Die: 5,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -179,7 +179,7 @@ var ClawInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:52471,MinLevel:72,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 90,Die: 39,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:52472,MinLevel:80,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 117,Die: 51,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var SmackInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var Smack = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:49966,MinLevel:1,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 3,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:49967,MinLevel:8,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 7,Die: 5,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:49968,MinLevel:16,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 11,Die: 5,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -192,7 +192,7 @@ var SmackInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:52475,MinLevel:72,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 90,Die: 39,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:52476,MinLevel:80,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 117,Die: 51,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var AcidSpitInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var AcidSpit = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:55749,MinLevel:1,MaxLevel:0,Duration:30000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 7,Die: 5,LevelScaling: 0,Coefficient: 0,},{BasePoints: -11,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:55750,MinLevel:16,MaxLevel:0,Duration:30000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 16,Die: 7,LevelScaling: 0,Coefficient: 0,},{BasePoints: -11,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:55751,MinLevel:32,MaxLevel:0,Duration:30000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 23,Die: 9,LevelScaling: 0,Coefficient: 0,},{BasePoints: -11,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -200,7 +200,7 @@ var AcidSpitInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:55753,MinLevel:64,MaxLevel:0,Duration:30000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 57,Die: 25,LevelScaling: 0,Coefficient: 0,},{BasePoints: -11,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:55754,MinLevel:80,MaxLevel:0,Duration:30000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 123,Die: 53,LevelScaling: 0,Coefficient: 0,},{BasePoints: -11,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var DemoralizingScreechInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var DemoralizingScreech = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:24423,MinLevel:1,MaxLevel:0,Duration:10000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 6,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: -36,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:24577,MinLevel:16,MaxLevel:0,Duration:10000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 11,Die: 5,LevelScaling: 0,Coefficient: 0,},{BasePoints: -64,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:24578,MinLevel:32,MaxLevel:0,Duration:10000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 16,Die: 7,LevelScaling: 0,Coefficient: 0,},{BasePoints: -99,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -208,7 +208,7 @@ var DemoralizingScreechInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInf
 {SpellID:27051,MinLevel:64,MaxLevel:0,Duration:10000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 41,Die: 17,LevelScaling: 0,Coefficient: 0,},{BasePoints: -295,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:55487,MinLevel:80,MaxLevel:0,Duration:10000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 84,Die: 45,LevelScaling: 0,Coefficient: 0,},{BasePoints: -575,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var FireBreathInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var FireBreath = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:34889,MinLevel:1,MaxLevel:0,Duration:2000,Period:1000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 2,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:35323,MinLevel:16,MaxLevel:0,Duration:2000,Period:1000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 5,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 2,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:55482,MinLevel:32,MaxLevel:0,Duration:2000,Period:1000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 7,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 3,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -216,7 +216,7 @@ var FireBreathInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:55484,MinLevel:64,MaxLevel:0,Duration:2000,Period:1000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 19,Die: 7,LevelScaling: 0,Coefficient: 0,},{BasePoints: 10,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:55485,MinLevel:80,MaxLevel:0,Duration:2000,Period:1000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 42,Die: 15,LevelScaling: 0,Coefficient: 0,},{BasePoints: 21,Die: 7,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var FroststormBreathInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var FroststormBreath = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:54644,MinLevel:1,MaxLevel:0,Duration:5000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 6,Die: 7,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: -51,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:55488,MinLevel:16,MaxLevel:0,Duration:5000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 16,Die: 7,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: -51,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:55489,MinLevel:32,MaxLevel:0,Duration:5000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 23,Die: 9,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: -51,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
@@ -224,7 +224,7 @@ var FroststormBreathInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:55491,MinLevel:64,MaxLevel:0,Duration:5000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 58,Die: 23,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: -51,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:55492,MinLevel:80,MaxLevel:0,Duration:5000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 127,Die: 45,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: -51,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var FuriousHowlInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var FuriousHowl = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:24604,MinLevel:1,MaxLevel:0,Duration:20000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 17,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 17,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:64491,MinLevel:16,MaxLevel:0,Duration:20000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 42,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 42,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:64492,MinLevel:32,MaxLevel:0,Duration:20000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 69,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 69,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -232,7 +232,7 @@ var FuriousHowlInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:64494,MinLevel:64,MaxLevel:0,Duration:20000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 203,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 203,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:64495,MinLevel:80,MaxLevel:0,Duration:20000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 319,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 319,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var GoreInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var Gore = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:35290,MinLevel:1,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 8,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:35291,MinLevel:16,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 16,Die: 5,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:35292,MinLevel:32,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 22,Die: 7,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -240,7 +240,7 @@ var GoreInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:35294,MinLevel:64,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 56,Die: 19,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:35295,MinLevel:80,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 121,Die: 43,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var LavaBreathInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var LavaBreath = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:58604,MinLevel:1,MaxLevel:0,Duration:10000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 6,Die: 7,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: -26,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:58607,MinLevel:16,MaxLevel:0,Duration:10000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 16,Die: 7,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: -26,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:58608,MinLevel:32,MaxLevel:0,Duration:10000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 23,Die: 9,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: -26,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
@@ -248,7 +248,7 @@ var LavaBreathInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:58610,MinLevel:64,MaxLevel:0,Duration:10000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 59,Die: 21,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: -26,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:58611,MinLevel:80,MaxLevel:0,Duration:10000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 127,Die: 45,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: -26,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var LightningBreathInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var LightningBreath = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:24844,MinLevel:1,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 5,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:25008,MinLevel:16,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 11,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:25009,MinLevel:32,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 15,Die: 5,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -256,7 +256,7 @@ var LightningBreathInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:25011,MinLevel:64,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 39,Die: 13,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:25012,MinLevel:80,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 79,Die: 41,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 1,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var MonstrousBiteInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var MonstrousBite = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:54680,MinLevel:1,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 6,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:55495,MinLevel:16,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 11,Die: 5,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:55496,MinLevel:32,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 16,Die: 7,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -264,7 +264,7 @@ var MonstrousBiteInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:55498,MinLevel:64,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 42,Die: 15,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:55499,MinLevel:80,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 90,Die: 33,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var NetherShockInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var NetherShock = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:50479,MinLevel:1,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 3,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53584,MinLevel:16,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 8,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53586,MinLevel:32,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 11,Die: 5,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -272,7 +272,7 @@ var NetherShockInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:53588,MinLevel:64,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 29,Die: 11,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53589,MinLevel:80,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 63,Die: 23,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var PinInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var Pin = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:50245,MinLevel:1,MaxLevel:0,Duration:4000,Period:1000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 1,},},},
 {SpellID:53544,MinLevel:16,MaxLevel:0,Duration:4000,Period:1000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 3,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 1,},},},
 {SpellID:53545,MinLevel:32,MaxLevel:0,Duration:4000,Period:1000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 4,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 1,},},},
@@ -280,7 +280,7 @@ var PinInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:53547,MinLevel:64,MaxLevel:0,Duration:4000,Period:1000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 13,Die: 5,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 1,},},},
 {SpellID:53548,MinLevel:80,MaxLevel:0,Duration:4000,Period:1000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 27,Die: 9,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 1,},},},
 }}
-var PoisonSpitInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var PoisonSpit = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:35387,MinLevel:1,MaxLevel:0,Duration:8000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 0,Die: 3,LevelScaling: 0.2,Coefficient: 0,},{BasePoints: -26,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:35389,MinLevel:16,MaxLevel:0,Duration:8000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 2,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: -26,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:35392,MinLevel:32,MaxLevel:0,Duration:8000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 3,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: -26,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -288,7 +288,7 @@ var PoisonSpitInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:55556,MinLevel:64,MaxLevel:0,Duration:8000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 11,Die: 5,LevelScaling: 0,Coefficient: 0,},{BasePoints: -26,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:55557,MinLevel:80,MaxLevel:0,Duration:8000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 25,Die: 9,LevelScaling: 0,Coefficient: 0,},{BasePoints: -26,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var RakeInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var Rake = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:59881,MinLevel:1,MaxLevel:0,Duration:9000,Period:3000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 0,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:59882,MinLevel:16,MaxLevel:0,Duration:9000,Period:3000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 3,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:59883,MinLevel:32,MaxLevel:0,Duration:9000,Period:3000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 7,Die: 5,LevelScaling: 0,Coefficient: 0,},{BasePoints: 1,Die: 5,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -296,7 +296,7 @@ var RakeInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:59885,MinLevel:64,MaxLevel:0,Duration:9000,Period:3000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 21,Die: 9,LevelScaling: 0,Coefficient: 0,},{BasePoints: 6,Die: 7,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:59886,MinLevel:80,MaxLevel:0,Duration:9000,Period:3000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 46,Die: 21,LevelScaling: 0,Coefficient: 0,},{BasePoints: 18,Die: 7,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var RavageInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var Ravage = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:50518,MinLevel:1,MaxLevel:0,Duration:2000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 7,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53558,MinLevel:16,MaxLevel:0,Duration:2000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 14,Die: 5,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53559,MinLevel:32,MaxLevel:0,Duration:2000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 20,Die: 7,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -304,7 +304,7 @@ var RavageInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:53561,MinLevel:64,MaxLevel:0,Duration:2000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 49,Die: 21,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53562,MinLevel:80,MaxLevel:0,Duration:2000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 105,Die: 45,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var SavageRendInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var SavageRend = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:50498,MinLevel:1,MaxLevel:0,Duration:15000,Period:5000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 4,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53578,MinLevel:16,MaxLevel:0,Duration:15000,Period:5000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 7,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 1,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53579,MinLevel:32,MaxLevel:0,Duration:15000,Period:5000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 10,Die: 5,LevelScaling: 0,Coefficient: 0,},{BasePoints: 2,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -312,7 +312,7 @@ var SavageRendInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:53581,MinLevel:64,MaxLevel:0,Duration:15000,Period:5000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 27,Die: 11,LevelScaling: 0,Coefficient: 0,},{BasePoints: 9,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53582,MinLevel:80,MaxLevel:0,Duration:15000,Period:5000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 58,Die: 25,LevelScaling: 0,Coefficient: 0,},{BasePoints: 20,Die: 7,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var ScorpidPoisonInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var ScorpidPoison = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:24640,MinLevel:1,MaxLevel:0,Duration:10000,Period:2000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 4,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:24583,MinLevel:16,MaxLevel:0,Duration:10000,Period:2000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 4,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:24586,MinLevel:32,MaxLevel:0,Duration:10000,Period:2000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 4,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 1,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -320,7 +320,7 @@ var ScorpidPoisonInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:27060,MinLevel:64,MaxLevel:0,Duration:10000,Period:2000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 1,},{BasePoints: 6,Die: 7,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:55728,MinLevel:80,MaxLevel:0,Duration:10000,Period:2000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 1,},{BasePoints: 19,Die: 7,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var SnatchInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var Snatch = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:50541,MinLevel:1,MaxLevel:0,Duration:6000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 6,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53537,MinLevel:16,MaxLevel:0,Duration:6000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 11,Die: 5,LevelScaling: 0,Coefficient: 0,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53538,MinLevel:32,MaxLevel:0,Duration:6000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 16,Die: 7,LevelScaling: 0,Coefficient: 0,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -328,7 +328,7 @@ var SnatchInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:53542,MinLevel:64,MaxLevel:0,Duration:6000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 41,Die: 17,LevelScaling: 0,Coefficient: 0,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53543,MinLevel:80,MaxLevel:0,Duration:6000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 88,Die: 37,LevelScaling: 0,Coefficient: 0,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var SonicBlastInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var SonicBlast = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:50519,MinLevel:1,MaxLevel:0,Duration:2000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 3,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53564,MinLevel:16,MaxLevel:0,Duration:2000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 8,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53565,MinLevel:32,MaxLevel:0,Duration:2000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 11,Die: 5,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -336,7 +336,7 @@ var SonicBlastInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:53567,MinLevel:64,MaxLevel:0,Duration:2000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 28,Die: 13,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53568,MinLevel:80,MaxLevel:0,Duration:2000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 61,Die: 27,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var SpiritStrikeInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var SpiritStrike = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:61193,MinLevel:1,MaxLevel:0,Duration:6000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 6,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 6,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:61194,MinLevel:16,MaxLevel:0,Duration:6000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 6,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 6,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:61195,MinLevel:32,MaxLevel:0,Duration:6000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 8,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 8,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -344,7 +344,7 @@ var SpiritStrikeInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:61197,MinLevel:64,MaxLevel:0,Duration:6000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 22,Die: 7,LevelScaling: 0,Coefficient: 0,},{BasePoints: 22,Die: 7,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:61198,MinLevel:80,MaxLevel:0,Duration:6000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 48,Die: 17,LevelScaling: 0,Coefficient: 0,},{BasePoints: 48,Die: 17,LevelScaling: 0,Coefficient: 0,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var SporeCloudInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var SporeCloud = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:50274,MinLevel:1,MaxLevel:0,Duration:9000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 0,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: -4,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53593,MinLevel:16,MaxLevel:0,Duration:9000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 1,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: -4,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53594,MinLevel:32,MaxLevel:0,Duration:9000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 3,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: -4,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -352,7 +352,7 @@ var SporeCloudInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:53597,MinLevel:64,MaxLevel:0,Duration:9000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 10,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: -4,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53598,MinLevel:80,MaxLevel:0,Duration:9000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 21,Die: 7,LevelScaling: 0,Coefficient: 0,},{BasePoints: -4,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var StampedeInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var Stampede = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:57386,MinLevel:1,MaxLevel:0,Duration:60000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 13,Die: 5,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 24,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:57389,MinLevel:16,MaxLevel:0,Duration:60000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 23,Die: 9,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 24,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:57390,MinLevel:32,MaxLevel:0,Duration:60000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 33,Die: 13,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 24,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
@@ -360,7 +360,7 @@ var StampedeInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:57392,MinLevel:64,MaxLevel:0,Duration:60000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 84,Die: 31,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 24,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:57393,MinLevel:80,MaxLevel:0,Duration:12000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 181,Die: 65,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 24,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var StingInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var Sting = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:56626,MinLevel:1,MaxLevel:0,Duration:20000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 3,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: -6,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:56627,MinLevel:16,MaxLevel:0,Duration:20000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 8,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: -6,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:56628,MinLevel:32,MaxLevel:0,Duration:20000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 11,Die: 5,LevelScaling: 0,Coefficient: 0,},{BasePoints: -6,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -368,7 +368,7 @@ var StingInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:56630,MinLevel:64,MaxLevel:0,Duration:20000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 29,Die: 11,LevelScaling: 0,Coefficient: 0,},{BasePoints: -6,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:56631,MinLevel:80,MaxLevel:0,Duration:20000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 63,Die: 23,LevelScaling: 0,Coefficient: 0,},{BasePoints: -6,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var SwipeInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var Swipe = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:50256,MinLevel:1,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 5,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53526,MinLevel:16,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 12,Die: 5,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53528,MinLevel:32,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 16,Die: 7,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -376,7 +376,7 @@ var SwipeInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:53532,MinLevel:64,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 41,Die: 17,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53533,MinLevel:80,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 89,Die: 37,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var TendonRipInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var TendonRip = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:50271,MinLevel:1,MaxLevel:46,Duration:6000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: -51,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 1,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53571,MinLevel:16,MaxLevel:0,Duration:6000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: -51,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 6,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53572,MinLevel:32,MaxLevel:0,Duration:6000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: -51,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 12,Die: 5,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
@@ -384,7 +384,7 @@ var TendonRipInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:53574,MinLevel:64,MaxLevel:0,Duration:6000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: -51,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 32,Die: 13,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:53575,MinLevel:80,MaxLevel:0,Duration:6000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: -51,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 48,Die: 21,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
-var VenomWebSprayInfos = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
+var VenomWebSpray = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:54706,MinLevel:0,MaxLevel:0,Duration:4000,Period:1000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:55505,MinLevel:16,MaxLevel:0,Duration:4000,Period:1000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 6,Die: 3,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:55506,MinLevel:32,MaxLevel:0,Duration:4000,Period:1000,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 12,Die: 5,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},

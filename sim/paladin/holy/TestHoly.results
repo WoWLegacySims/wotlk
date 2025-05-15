@@ -1,39 +1,39 @@
 character_stats_results: {
  key: "TestHoly-CharacterStats-Default"
  value: {
-  final_stats: 469.7
-  final_stats: 364.1
-  final_stats: 1395.35
-  final_stats: 1635.92
-  final_stats: 260.7
+  final_stats: 470.855
+  final_stats: 365.255
+  final_stats: 1396.23
+  final_stats: 1636.888
+  final_stats: 261.58
   final_stats: 2250
-  final_stats: 212
+  final_stats: 213.4
   final_stats: 0
-  final_stats: 1258.24049
+  final_stats: 1258.50711
   final_stats: 620
   final_stats: 0
-  final_stats: 2031.04
+  final_stats: 2033.581
   final_stats: 0
-  final_stats: 1125.48955
+  final_stats: 1126.50757
   final_stats: 620
   final_stats: 0
   final_stats: 0
-  final_stats: 28652.8
+  final_stats: 28667.32
   final_stats: 0
   final_stats: 0
-  final_stats: 25305.58
+  final_stats: 25307.89
   final_stats: 755.7
   final_stats: 0
   final_stats: 0
-  final_stats: 455.85
-  final_stats: 275.14351
+  final_stats: 456.4275
+  final_stats: 276.01632
   final_stats: 0
   final_stats: 0
-  final_stats: 22007.5
-  final_stats: 75
-  final_stats: 75
-  final_stats: 75
-  final_stats: 75
+  final_stats: 22016.3
+  final_stats: 75.6
+  final_stats: 75.6
+  final_stats: 75.6
+  final_stats: 75.6
   final_stats: 130
   final_stats: 0
   final_stats: 0
@@ -74,14 +74,14 @@ dps_results: {
 dps_results: {
  key: "TestHoly-AllItems-BaubleofTrueBlood-50354"
  value: {
-  tps: 5.35816
+  tps: 5.35975
   hps: 90.47701
  }
 }
 dps_results: {
  key: "TestHoly-AllItems-BaubleofTrueBlood-50726"
  value: {
-  tps: 5.35816
+  tps: 5.35975
   hps: 90.47701
  }
 }

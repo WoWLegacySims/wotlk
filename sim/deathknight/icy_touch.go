@@ -6,7 +6,7 @@ import (
 )
 
 func (dk *Deathknight) registerIcyTouchSpell() {
-	dbc := deathknightinfo.IcyTouchInfos.FindMaxRank(dk.Level)
+	dbc := deathknightinfo.IcyTouch.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}
@@ -58,7 +58,7 @@ func (dk *Deathknight) registerIcyTouchSpell() {
 	})
 }
 func (dk *Deathknight) registerDrwIcyTouchSpell() {
-	dbc := deathknightinfo.IcyTouchInfos.FindMaxRank(dk.Level)
+	dbc := deathknightinfo.IcyTouch.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}

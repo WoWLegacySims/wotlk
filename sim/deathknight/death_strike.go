@@ -9,7 +9,7 @@ import (
 // TODO: Cleanup death strike the same way we did for plague strike
 
 func (dk *Deathknight) newDeathStrikeSpell(isMH bool) *core.Spell {
-	dbc := deathknightinfo.DeathStrikeInfos.FindMaxRank(dk.Level)
+	dbc := deathknightinfo.DeathStrike.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return nil
 	}
@@ -105,7 +105,7 @@ func (dk *Deathknight) registerDeathStrikeSpell() {
 }
 
 func (dk *Deathknight) registerDrwDeathStrikeSpell() {
-	dbc := deathknightinfo.DeathStrikeInfos.FindMaxRank(dk.Level)
+	dbc := deathknightinfo.DeathStrike.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}

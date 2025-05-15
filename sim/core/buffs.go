@@ -11,53 +11,256 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/commoninfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/deathknightinfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/druidinfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/hunterinfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/mageinfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/paladininfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/priestinfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/shamaninfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warlockinfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warriorinfo"
 )
+
+type Buff int
+
+const (
+	HornOfWinter Buff = iota
+	MarkoftheWild
+	AspectOfTheWild
+	ArcaneIntellect
+	BlessingOfWisdom
+	DevotionAura
+	FireResistanceAura
+	FrostResistanceAura
+	ShadowResistanceAura
+	PowerWordFortitude
+	DivineSpirit
+	ShadowProtection
+	FireResistanceTotem
+	FrostResistanceTotem
+	NatureResistanceTotem
+	StoneskinTotem
+	ManaSpringTotem
+	StrengthOfEarthTotem
+	FelIntelligence
+	ScrollOfAgility
+	ScrollOfIntellect
+	ScrollOfProtection
+	ScrollOfSpirit
+	ScrollOfStamina
+	ScrollOfStrength
+	BuffLen
+)
+
+var Buffs = map[Buff]map[int32]stats.Stats{}
+
+func init() {
+	for i := Buff(0); i < BuffLen; i++ {
+		Buffs[i] = map[int32]stats.Stats{}
+	}
+	Buffs[HornOfWinter] = map[int32]stats.Stats{}
+	for _, buff := range deathknightinfo.HornofWinter.SpellInfos {
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[HornOfWinter][buff.MinLevel] = stats.Stats{stats.Strength: value, stats.Agility: value}
+	}
+	for _, buff := range druidinfo.MarkoftheWild.SpellInfos {
+		armor := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		stat := buff.Effects[1].BasePoints + buff.Effects[1].Die
+		res := buff.Effects[2].BasePoints + buff.Effects[2].Die
+		Buffs[MarkoftheWild][buff.MinLevel] = stats.Stats{
+			stats.Armor:            armor,
+			stats.Stamina:          stat,
+			stats.Agility:          stat,
+			stats.Strength:         stat,
+			stats.Intellect:        stat,
+			stats.Spirit:           stat,
+			stats.ArcaneResistance: res,
+			stats.ShadowResistance: res,
+			stats.NatureResistance: res,
+			stats.FireResistance:   res,
+			stats.FrostResistance:  res,
+		}
+	}
+	for _, buff := range hunterinfo.AspectoftheWild.SpellInfos {
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[AspectOfTheWild][buff.MinLevel] = stats.Stats{stats.NatureResistance: value}
+	}
+
+	for _, buff := range mageinfo.ArcaneIntellect.SpellInfos {
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[ArcaneIntellect][buff.MinLevel] = stats.Stats{stats.Intellect: value}
+	}
+
+	for _, buff := range paladininfo.BlessingofWisdom.SpellInfos {
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[BlessingOfWisdom][buff.MinLevel] = stats.Stats{stats.MP5: value}
+	}
+	for _, buff := range paladininfo.DevotionAura.SpellInfos {
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[DevotionAura][buff.MinLevel] = stats.Stats{stats.Armor: value}
+	}
+	for _, buff := range paladininfo.FireResistanceAura.SpellInfos {
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[FireResistanceAura][buff.MinLevel] = stats.Stats{stats.FireResistance: value}
+	}
+	for _, buff := range paladininfo.FrostResistanceAura.SpellInfos {
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[FrostResistanceAura][buff.MinLevel] = stats.Stats{stats.FrostResistance: value}
+	}
+	for _, buff := range paladininfo.ShadowResistanceAura.SpellInfos {
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[ShadowResistanceAura][buff.MinLevel] = stats.Stats{stats.ShadowResistance: value}
+	}
+
+	for _, buff := range priestinfo.ShadowProtection.SpellInfos {
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[ShadowProtection][buff.MinLevel] = stats.Stats{stats.ShadowResistance: value}
+	}
+	for _, buff := range priestinfo.PowerWordFortitude.SpellInfos {
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[PowerWordFortitude][buff.MinLevel] = stats.Stats{stats.Stamina: value}
+	}
+	for _, buff := range priestinfo.DivineSpirit.SpellInfos {
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[DivineSpirit][buff.MinLevel] = stats.Stats{stats.Spirit: value}
+	}
+
+	for i, buff := range shamaninfo.NatureResistance.SpellInfos {
+		level := shamaninfo.NatureResistanceTotem.SpellInfos[i].MinLevel
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[NatureResistanceTotem][level] = stats.Stats{stats.NatureResistance: value}
+	}
+	for _, buff := range shamaninfo.FrostResistance.SpellInfos {
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[FrostResistanceTotem][buff.MinLevel] = stats.Stats{stats.FrostResistance: value}
+	}
+	for _, buff := range shamaninfo.FireResistance.SpellInfos {
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[FireResistanceTotem][buff.MinLevel] = stats.Stats{stats.FireResistance: value}
+	}
+	for _, buff := range shamaninfo.Stoneskin.SpellInfos {
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[StoneskinTotem][buff.MinLevel] = stats.Stats{stats.Armor: value}
+	}
+	for _, buff := range shamaninfo.StrengthofEarth.SpellInfos {
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[StrengthOfEarthTotem][buff.MinLevel] = stats.Stats{stats.Strength: value, stats.Agility: value}
+	}
+	for _, buff := range shamaninfo.ManaSpring.SpellInfos {
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[ManaSpringTotem][buff.MinLevel] = stats.Stats{stats.MP5: value}
+	}
+
+	for _, buff := range warlockinfo.FelIntelligence.SpellInfos {
+		intel := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		spirit := buff.Effects[1].BasePoints + buff.Effects[1].Die
+		Buffs[FelIntelligence][buff.MinLevel] = stats.Stats{stats.Intellect: intel, stats.Spirit: spirit}
+	}
+
+	for _, buff := range commoninfo.Agility.SpellInfos {
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[ScrollOfAgility][buff.MinLevel-10] = stats.Stats{stats.Agility: value}
+	}
+	for _, buff := range commoninfo.Armor.SpellInfos {
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[ScrollOfProtection][buff.MinLevel-10] = stats.Stats{stats.Armor: value}
+	}
+	for _, buff := range commoninfo.Intellect.SpellInfos {
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[ScrollOfIntellect][buff.MinLevel-10] = stats.Stats{stats.Intellect: value}
+	}
+	for _, buff := range commoninfo.Spirit.SpellInfos {
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[ScrollOfSpirit][buff.MinLevel-10] = stats.Stats{stats.Spirit: value}
+	}
+	for _, buff := range commoninfo.Stamina.SpellInfos {
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[ScrollOfStamina][buff.MinLevel-10] = stats.Stats{stats.Stamina: value}
+	}
+	for _, buff := range commoninfo.Strength.SpellInfos {
+		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
+		Buffs[ScrollOfStrength][buff.MinLevel-10] = stats.Stats{stats.Strength: value}
+	}
+}
+
+func GetMaxBuff(buff Buff, level int32) stats.Stats {
+	var current int32 = -50
+	value := stats.Stats{}
+	for i, s := range Buffs[buff] {
+		if level >= i && i > current {
+			current = i
+			value = s
+		}
+	}
+	return value
+}
+
+func AddBuffIfPresent(stats stats.Stats, raidbuff bool, buff Buff, level int32) stats.Stats {
+	if raidbuff {
+		return stats.AddExclusive(GetMaxBuff(buff, level))
+	}
+	return stats
+}
+
+func AddBuffIfPresentTristate(stats stats.Stats, raidbuff proto.TristateEffect, buff Buff, level int32, regularValue float64, impValue float64) stats.Stats {
+	if raidbuff != proto.TristateEffect_TristateEffectMissing {
+		return stats.AddExclusive(GetMaxBuff(buff, level).Multiply(GetTristateValueFloat(raidbuff, regularValue, impValue)))
+	}
+	return stats
+}
 
 // Applies buffs that affect individual players.
 func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto.PartyBuffs, individualBuffs *proto.IndividualBuffs) {
 	character := agent.GetCharacter()
+	level := character.Level
 
-	if raidBuffs.ArcaneBrilliance || raidBuffs.FelIntelligence > 0 {
-		val := GetTristateValueFloat(raidBuffs.FelIntelligence, 48.0, 48.0*1.1)
-		if raidBuffs.ArcaneBrilliance {
-			val = 60.0
-		}
-		character.AddStat(stats.Intellect, val)
-	} else if raidBuffs.ScrollOfIntellect {
-		character.AddStats(stats.Stats{
-			stats.Intellect: 48,
-		})
-	}
+	buffs := stats.Stats{}
 
-	if raidBuffs.DrumsOfTheWild {
+	if raidBuffs.DrumsOfTheWild && level == 80 {
 		raidBuffs.GiftOfTheWild = max(raidBuffs.GiftOfTheWild, proto.TristateEffect_TristateEffectRegular)
 	}
-	gotwAmount := GetTristateValueFloat(raidBuffs.GiftOfTheWild, 37, 51)
-	gotwArmorAmount := GetTristateValueFloat(raidBuffs.GiftOfTheWild, 750, 1050)
-	gotwResistAmount := GetTristateValueFloat(raidBuffs.GiftOfTheWild, 54, 75)
-	if gotwAmount > 0 {
-		character.AddStats(stats.Stats{
-			stats.Armor:            gotwArmorAmount,
-			stats.Stamina:          gotwAmount,
-			stats.Agility:          gotwAmount,
-			stats.Strength:         gotwAmount,
-			stats.Intellect:        gotwAmount,
-			stats.Spirit:           gotwAmount,
-			stats.ArcaneResistance: gotwResistAmount,
-			stats.ShadowResistance: gotwResistAmount,
-			stats.NatureResistance: gotwResistAmount,
-			stats.FireResistance:   gotwResistAmount,
-			stats.FrostResistance:  gotwResistAmount,
-		})
-	}
 
-	if raidBuffs.NatureResistanceTotem || raidBuffs.AspectOfTheWild {
-		character.AddStat(stats.NatureResistance, 130-gotwResistAmount)
-	}
+	motw := AddBuffIfPresentTristate(stats.Stats{}, raidBuffs.GiftOfTheWild, MarkoftheWild, level, 1, 1.4)
+	motw = AddBuffIfPresent(motw, raidBuffs.NatureResistanceTotem, NatureResistanceTotem, level)
+	motw = AddBuffIfPresent(motw, raidBuffs.FrostResistanceTotem, FrostResistanceTotem, level)
+	motw = AddBuffIfPresent(motw, raidBuffs.FireResistanceTotem, FireResistanceTotem, level)
+	motw = AddBuffIfPresent(motw, raidBuffs.ShadowResistanceAura, ShadowResistanceAura, level)
+	motw = AddBuffIfPresent(motw, raidBuffs.FireResistanceAura, FireResistanceAura, level)
+	motw = AddBuffIfPresent(motw, raidBuffs.FrostResistanceAura, FrostResistanceAura, level)
+	motw = AddBuffIfPresent(motw, raidBuffs.ShadowProtection, ShadowProtection, level)
+	motw = AddBuffIfPresent(motw, raidBuffs.AspectOfTheWild, AspectOfTheWild, level)
 
-	if raidBuffs.FrostResistanceAura || raidBuffs.FrostResistanceTotem {
-		character.AddStat(stats.FrostResistance, 130-gotwResistAmount)
-	}
+	character.AddStats(motw)
+
+	buffs = AddBuffIfPresent(buffs, raidBuffs.ArcaneBrilliance, ArcaneIntellect, level)
+	buffs = AddBuffIfPresentTristate(buffs, raidBuffs.FelIntelligence, FelIntelligence, level, 1, 1.1)
+	buffs = AddBuffIfPresentTristate(buffs, raidBuffs.PowerWordFortitude, PowerWordFortitude, level, 1, 1.3)
+	buffs = AddBuffIfPresent(buffs, raidBuffs.DivineSpirit, DivineSpirit, level)
+
+	buffs = AddBuffIfPresent(buffs, raidBuffs.HornOfWinter, HornOfWinter, level)
+	buffs = AddBuffIfPresentTristate(buffs, raidBuffs.StrengthOfEarthTotem, StrengthOfEarthTotem, level, 1, 1.15)
+
+	buffs = AddBuffIfPresentTristate(buffs, raidBuffs.ManaSpringTotem, ManaSpringTotem, level, 1, 1.2)
+	buffs = AddBuffIfPresentTristate(buffs, individualBuffs.BlessingOfWisdom, BlessingOfWisdom, level, 1, 1.2)
+
+	buffs = AddBuffIfPresent(buffs, raidBuffs.ScrollOfAgility, ScrollOfAgility, level)
+	buffs = AddBuffIfPresent(buffs, raidBuffs.ScrollOfIntellect, ScrollOfIntellect, level)
+	buffs = AddBuffIfPresent(buffs, raidBuffs.ScrollOfSpirit, ScrollOfSpirit, level)
+	buffs = AddBuffIfPresent(buffs, raidBuffs.ScrollOfStamina, ScrollOfStamina, level)
+	buffs = AddBuffIfPresent(buffs, raidBuffs.ScrollOfStrength, ScrollOfStrength, level)
+
+	character.AddStats(buffs)
+
+	// check exclusitivity
+	devo := AddBuffIfPresentTristate(stats.Stats{}, raidBuffs.DevotionAura, DevotionAura, level, 1, 1.5)
+	stone := AddBuffIfPresentTristate(stats.Stats{}, raidBuffs.StoneskinTotem, StoneskinTotem, level, 1, 1.2)
+	scroll := AddBuffIfPresent(stats.Stats{}, raidBuffs.ScrollOfProtection, ScrollOfProtection, level)
+
+	character.AddStats(devo)
+	character.AddStats(stone)
+	character.AddStats(scroll)
 
 	if raidBuffs.Thorns == proto.TristateEffect_TristateEffectImproved {
 		ThornsAura(character, 3)
@@ -69,14 +272,14 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 		character.AddStat(stats.SpellCrit, 5*character.CritRatingPerCritChance)
 	}
 
-	if raidBuffs.MoonkinAura == proto.TristateEffect_TristateEffectImproved || raidBuffs.SwiftRetribution {
+	if (raidBuffs.MoonkinAura == proto.TristateEffect_TristateEffectImproved && level >= 42) || (raidBuffs.SwiftRetribution && level >= 52) {
 		// For now, we assume Improved Moonkin Form is maxed-out
 		character.PseudoStats.CastSpeedMultiplier *= 1.03
 		character.PseudoStats.MeleeSpeedMultiplier *= 1.03
 		character.PseudoStats.RangedSpeedMultiplier *= 1.03
 	}
 
-	if raidBuffs.LeaderOfThePack > 0 || raidBuffs.Rampage {
+	if (raidBuffs.LeaderOfThePack > 0 && level >= 40) || (raidBuffs.Rampage && level >= 50) {
 		character.AddStats(stats.Stats{
 			stats.MeleeCrit: 5 * character.CritRatingPerCritChance,
 		})
@@ -85,19 +288,19 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 		}
 	}
 
-	if raidBuffs.TrueshotAura || raidBuffs.AbominationsMight || raidBuffs.UnleashedRage {
+	if (raidBuffs.TrueshotAura && level >= 40) || (raidBuffs.AbominationsMight && level >= 58) || (raidBuffs.UnleashedRage && level >= 37) {
 		// Increases AP by 10%
 		character.MultiplyStat(stats.AttackPower, 1.1)
 		character.MultiplyStat(stats.RangedAttackPower, 1.1)
 	}
 
-	if raidBuffs.StrengthOfWrynn {
+	if raidBuffs.StrengthOfWrynn && level >= 80 {
 		character.MultiplyStat(stats.Health, 1.30)
 		character.PseudoStats.DamageDealtMultiplier *= 1.30
 		character.PseudoStats.HealingTakenMultiplier *= 1.30
 	}
 
-	if raidBuffs.ArcaneEmpowerment || raidBuffs.FerociousInspiration || raidBuffs.SanctifiedRetribution {
+	if (raidBuffs.ArcaneEmpowerment && level >= 42) || (raidBuffs.FerociousInspiration && level >= 42) || (raidBuffs.SanctifiedRetribution && level >= 30) {
 		character.PseudoStats.DamageDealtMultiplier *= 1.03
 	}
 
@@ -115,44 +318,16 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 		MakePermanent(BloodPactAura(&character.Unit, GetTristateValueInt32(raidBuffs.BloodPact, 0, 3)))
 	}
 
-	if raidBuffs.PowerWordFortitude != proto.TristateEffect_TristateEffectMissing {
-		character.AddStats(stats.Stats{
-			stats.Stamina: GetTristateValueFloat(raidBuffs.PowerWordFortitude, 165, 165*1.3),
-		})
-	} else if raidBuffs.ScrollOfStamina {
-		character.AddStats(stats.Stats{
-			stats.Stamina: 132,
-		})
-	}
-	if raidBuffs.ShadowProtection {
-		character.AddStats(stats.Stats{
-			stats.ShadowResistance: 130 - gotwResistAmount,
-		})
-	}
-	if raidBuffs.DivineSpirit || raidBuffs.FelIntelligence > 0 {
-		v := GetTristateValueFloat(raidBuffs.FelIntelligence, 64.0, 64.0*1.1)
-		if raidBuffs.DivineSpirit {
-			v = 80.0
-		}
-		character.AddStats(stats.Stats{
-			stats.Spirit: v,
-		})
-	} else if raidBuffs.ScrollOfSpirit {
-		character.AddStats(stats.Stats{
-			stats.Spirit: 64,
-		})
-	}
-
 	var replenishmentActionID ActionID
-	if individualBuffs.VampiricTouch {
+	if individualBuffs.VampiricTouch && level >= 50 {
 		replenishmentActionID.SpellID = 48160
-	} else if individualBuffs.HuntingParty {
+	} else if individualBuffs.HuntingParty && level >= 55 {
 		replenishmentActionID.SpellID = 53292
-	} else if individualBuffs.JudgementsOfTheWise {
+	} else if individualBuffs.JudgementsOfTheWise && level >= 40 {
 		replenishmentActionID.SpellID = 31878
-	} else if individualBuffs.ImprovedSoulLeech {
+	} else if individualBuffs.ImprovedSoulLeech && level >= 45 {
 		replenishmentActionID.SpellID = 54118
-	} else if individualBuffs.EnduringWinter {
+	} else if individualBuffs.EnduringWinter && level >= 50 {
 		replenishmentActionID.SpellID = 44561
 	}
 	if !(replenishmentActionID.IsEmptyAction()) {
@@ -161,13 +336,19 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 
 	kingsAgiIntSpiAmount := 1.0
 	kingsStrStamAmount := 1.0
-	if individualBuffs.BlessingOfSanctuary {
+
+	if individualBuffs.BlessingOfSanctuary && level >= 30 {
 		kingsStrStamAmount = 1.1
+		character.PseudoStats.DamageTakenMultiplier *= 0.97
+		BlessingOfSanctuaryAura(character)
+	} else if (individualBuffs.Vigilance && level >= 40) || (individualBuffs.RenewedHope && level >= 45) {
+		character.PseudoStats.DamageTakenMultiplier *= 0.97
 	}
-	if individualBuffs.BlessingOfKings {
+
+	if individualBuffs.BlessingOfKings && level >= 20 {
 		kingsAgiIntSpiAmount = 1.1
 		kingsStrStamAmount = 1.1
-	} else if raidBuffs.DrumsOfForgottenKings {
+	} else if raidBuffs.DrumsOfForgottenKings && level >= 80 {
 		kingsAgiIntSpiAmount = 1.08
 		kingsStrStamAmount = max(kingsStrStamAmount, 1.08)
 	}
@@ -179,32 +360,6 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 		character.MultiplyStat(stats.Agility, kingsAgiIntSpiAmount)
 		character.MultiplyStat(stats.Intellect, kingsAgiIntSpiAmount)
 		character.MultiplyStat(stats.Spirit, kingsAgiIntSpiAmount)
-	}
-
-	if individualBuffs.BlessingOfSanctuary {
-		character.PseudoStats.DamageTakenMultiplier *= 0.97
-		BlessingOfSanctuaryAura(character)
-	} else if individualBuffs.Vigilance || individualBuffs.RenewedHope {
-		character.PseudoStats.DamageTakenMultiplier *= 0.97
-	}
-
-	// TODO: Is scroll exclusive to totem?
-	if raidBuffs.StoneskinTotem != proto.TristateEffect_TristateEffectMissing {
-		character.AddStats(stats.Stats{
-			stats.Armor: GetTristateValueFloat(raidBuffs.StoneskinTotem, 1150, 1380),
-		})
-	}
-
-	if raidBuffs.DevotionAura != proto.TristateEffect_TristateEffectMissing {
-		character.AddStats(stats.Stats{
-			stats.Armor: GetTristateValueFloat(raidBuffs.DevotionAura, 1205, 1807.5),
-		})
-	}
-
-	if raidBuffs.ScrollOfProtection && raidBuffs.DevotionAura == proto.TristateEffect_TristateEffectMissing {
-		character.AddStats(stats.Stats{
-			stats.Armor: 750,
-		})
 	}
 
 	if raidBuffs.RetributionAura {
@@ -224,49 +379,24 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 	if raidBuffs.TotemOfWrath {
 		MakePermanent(TotemOfWrathAura(character))
 	}
-	if raidBuffs.DemonicPactSp > 0 {
+	if raidBuffs.DemonicPactSp > 0 && level >= 55 {
 		power := raidBuffs.DemonicPactSp
 		dpAura := DemonicPactAura(character)
 		dpAura.ExclusiveEffects[0].Priority = float64(power)
 		MakePermanent(dpAura)
 	}
 
-	if raidBuffs.WrathOfAirTotem {
+	if raidBuffs.WrathOfAirTotem && level >= 64 {
 		character.PseudoStats.CastSpeedMultiplier *= 1.05
 	}
-	if raidBuffs.StrengthOfEarthTotem > 0 || raidBuffs.HornOfWinter {
-		val := max(proto.TristateEffect_TristateEffectRegular, raidBuffs.StrengthOfEarthTotem)
-		bonus := GetTristateValueFloat(val, 155, 178)
-		character.AddStats(stats.Stats{
-			stats.Strength: bonus,
-			stats.Agility:  bonus,
-		})
-	} else {
-		if raidBuffs.ScrollOfStrength {
-			character.AddStats(stats.Stats{
-				stats.Strength: 30,
-			})
-		}
-		if raidBuffs.ScrollOfAgility {
-			character.AddStats(stats.Stats{
-				stats.Agility: 30,
-			})
-		}
-	}
 
-	if individualBuffs.BlessingOfWisdom > 0 || raidBuffs.ManaSpringTotem > 0 {
-		character.AddStats(stats.Stats{
-			stats.MP5: GetTristateValueFloat(max(individualBuffs.BlessingOfWisdom, raidBuffs.ManaSpringTotem), 91, 109),
-		})
-	}
-
-	if raidBuffs.IcyTalons {
+	if raidBuffs.IcyTalons && level >= 58 {
 		character.PseudoStats.MeleeSpeedMultiplier *= 1.2
-	} else if raidBuffs.WindfuryTotem > 0 {
+	} else if raidBuffs.WindfuryTotem > 0 && level >= 32 {
 		character.PseudoStats.MeleeSpeedMultiplier *= GetTristateValueFloat(raidBuffs.WindfuryTotem, 1.16, 1.20)
 	}
 
-	if raidBuffs.Bloodlust {
+	if raidBuffs.Bloodlust && level >= 70 {
 		registerBloodlustCD(agent)
 	}
 
@@ -284,23 +414,29 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 	registerPainSuppressionCD(agent, individualBuffs.PainSuppressions)
 	registerGuardianSpiritCD(agent, individualBuffs.GuardianSpirits)
 
-	character.AddStats(stats.Stats{
-		stats.SpellCrit: 28 * float64(partyBuffs.AtieshMage),
-	})
-	character.AddStats(stats.Stats{
-		stats.SpellPower: 33 * float64(partyBuffs.AtieshWarlock),
-	})
+	if partyBuffs.AtieshMage && level >= 60 {
+		character.AddStat(stats.SpellCrit, 28)
+	}
+	if partyBuffs.AtieshWarlock && level >= 60 {
+		character.AddStat(stats.SpellPower, 33)
+	}
+	if partyBuffs.AtieshPriest && level >= 60 {
+		character.AddStat(stats.SpellPower, 33)
+	}
+	if partyBuffs.AtieshDruid && level >= 60 {
+		character.AddStat(stats.MP5, 14)
+	}
 
-	if partyBuffs.BraidedEterniumChain {
+	if partyBuffs.BraidedEterniumChain && level >= 70 {
 		character.AddStats(stats.Stats{stats.MeleeCrit: 28, stats.SpellCrit: 28})
 	}
-	if partyBuffs.EyeOfTheNight {
+	if partyBuffs.EyeOfTheNight && level >= 70 {
 		character.AddStats(stats.Stats{stats.SpellPower: 34})
 	}
-	if partyBuffs.ChainOfTheTwilightOwl {
+	if partyBuffs.ChainOfTheTwilightOwl && level >= 70 {
 		character.AddStats(stats.Stats{stats.MeleeCrit: 45, stats.SpellCrit: 45})
 	}
-	if individualBuffs.FocusMagic {
+	if individualBuffs.FocusMagic && level >= 20 {
 		FocusMagicAura(nil, &character.Unit)
 	}
 }
@@ -386,9 +522,13 @@ func ApplyInspiration(character *Character, uptime float64) {
 }
 
 func RetributionAura(character *Character, sanctifiedRetribution bool) *Aura {
-	actionID := ActionID{SpellID: 54043}
+	dbc := paladininfo.RetributionAura.FindMaxRank(character.Level)
+	if dbc == nil {
+		return nil
+	}
+	baseDamage := dbc.Effects[0].BasePoints + 1
+	actionID := ActionID{SpellID: dbc.SpellID}
 
-	baseDamage := 112.0
 	if sanctifiedRetribution {
 		baseDamage *= 1.5
 	}
@@ -423,8 +563,13 @@ func RetributionAura(character *Character, sanctifiedRetribution bool) *Aura {
 }
 
 func ThornsAura(character *Character, points int32) *Aura {
-	actionID := ActionID{SpellID: 53307}
-	baseDamage := 73 * (1 + 0.25*float64(points))
+	dbc := druidinfo.Thorns.FindMaxRank(character.Level)
+	if dbc == nil {
+		return nil
+	}
+	value := dbc.Effects[0].BasePoints + 1
+	actionID := ActionID{SpellID: dbc.SpellID}
+	baseDamage := value * (1 + 0.25*float64(points))
 
 	procSpell := character.RegisterSpell(SpellConfig{
 		ActionID:    actionID,
@@ -635,7 +780,7 @@ const PowerInfusionDuration = time.Second * 15
 const PowerInfusionCD = time.Minute * 2
 
 func registerPowerInfusionCD(agent Agent, numPowerInfusions int32) {
-	if numPowerInfusions == 0 {
+	if numPowerInfusions == 0 || agent.GetCharacter().Level < 40 {
 		return
 	}
 
@@ -699,7 +844,7 @@ var TricksOfTheTradeAuraTag = "TricksOfTheTrade"
 const TricksOfTheTradeCD = time.Second * 3600 // CD is 30s from the time buff ends (so 40s with glyph) but that's in order to be able to set the number of TotT you'll have during the fight
 
 func registerTricksOfTheTradeCD(agent Agent, numTricksOfTheTrades int32) {
-	if numTricksOfTheTrades == 0 {
+	if numTricksOfTheTrades == 0 || agent.GetCharacter().Level < 75 {
 		return
 	}
 
@@ -750,7 +895,7 @@ const UnholyFrenzyDuration = time.Second * 30
 const UnholyFrenzyCD = time.Minute * 3
 
 func registerUnholyFrenzyCD(agent Agent, numUnholyFrenzy int32) {
-	if numUnholyFrenzy == 0 {
+	if numUnholyFrenzy == 0 || agent.GetCharacter().Level < 58 {
 		return
 	}
 
@@ -806,7 +951,7 @@ const DivineGuardianDuration = time.Second * 6
 const DivineGuardianCD = time.Minute * 2
 
 func registerDivineGuardianCD(agent Agent, numDivineGuardians int32) {
-	if numDivineGuardians == 0 {
+	if numDivineGuardians == 0 || agent.GetCharacter().Level < 26 {
 		return
 	}
 
@@ -853,7 +998,7 @@ const HandOfSacrificeDuration = time.Millisecond * 10500 // subtract Divine Shie
 const HandOfSacrificeCD = time.Minute * 5                // use Divine Shield CD here
 
 func registerHandOfSacrificeCD(agent Agent, numSacs int32) {
-	if numSacs == 0 {
+	if numSacs == 0 || agent.GetCharacter().Level < 46 {
 		return
 	}
 
@@ -902,7 +1047,7 @@ const PainSuppressionDuration = time.Second * 8
 const PainSuppressionCD = time.Minute * 3
 
 func registerPainSuppressionCD(agent Agent, numPainSuppressions int32) {
-	if numPainSuppressions == 0 {
+	if numPainSuppressions == 0 || agent.GetCharacter().Level < 50 {
 		return
 	}
 
@@ -949,7 +1094,7 @@ const GuardianSpiritDuration = time.Second * 10
 const GuardianSpiritCD = time.Minute * 3
 
 func registerGuardianSpiritCD(agent Agent, numGuardianSpirits int32) {
-	if numGuardianSpirits == 0 {
+	if numGuardianSpirits == 0 || agent.GetCharacter().Level < 60 {
 		return
 	}
 
@@ -1003,7 +1148,7 @@ func GuardianSpiritAura(character *Character, actionTag int32) *Aura {
 }
 
 func registerRevitalizeHotCD(agent Agent, label string, hotID ActionID, ticks int, tickPeriod time.Duration, uptimeCount int32) {
-	if uptimeCount == 0 {
+	if uptimeCount == 0 || agent.GetCharacter().Level < 60 {
 		return
 	}
 
@@ -1052,7 +1197,7 @@ func registerRevitalizeHotCD(agent Agent, label string, hotID ActionID, ticks in
 const ShatteringThrowCD = time.Minute * 5
 
 func registerShatteringThrowCD(agent Agent, numShatteringThrows int32) {
-	if numShatteringThrows == 0 {
+	if numShatteringThrows == 0 || agent.GetCharacter().Level < 71 {
 		return
 	}
 
@@ -1091,7 +1236,7 @@ func InnervateManaThreshold(character *Character) float64 {
 }
 
 func registerInnervateCD(agent Agent, numInnervates int32) {
-	if numInnervates == 0 {
+	if numInnervates == 0 || agent.GetCharacter().Level < 40 {
 		return
 	}
 
@@ -1152,7 +1297,7 @@ const ManaTideTotemDuration = time.Second * 12
 const ManaTideTotemCD = time.Minute * 5
 
 func registerManaTideTotemCD(agent Agent, numManaTideTotems int32) {
-	if numManaTideTotems == 0 {
+	if numManaTideTotems == 0 || agent.GetCharacter().Level < 40 {
 		return
 	}
 
@@ -1322,30 +1467,40 @@ func (raid *Raid) ProcReplenishment(sim *Simulation, src ReplenishmentSource) {
 }
 
 func TotemOfWrathAura(character *Character) *Aura {
+	dbc := shamaninfo.TotemofWrathEffect.FindMaxRank(character.Level)
+	if dbc == nil {
+		return nil
+	}
+	value := dbc.Effects[0].BasePoints + 1
 	aura := character.GetOrRegisterAura(Aura{
 		Label:      "Totem of Wrath",
-		ActionID:   ActionID{SpellID: 57722},
+		ActionID:   ActionID{SpellID: dbc.SpellID},
 		Duration:   NeverExpires,
 		BuildPhase: CharacterBuildPhaseBuffs,
 		OnReset: func(aura *Aura, sim *Simulation) {
 			aura.Activate(sim)
 		},
 	})
-	spellPowerBonusEffect(aura, 280)
+	spellPowerBonusEffect(aura, value)
 	return aura
 }
 
 func FlametongueTotemAura(character *Character) *Aura {
+	dbc := shamaninfo.FlametongeTotemEffect.FindMaxRank(character.Level)
+	if dbc == nil {
+		return nil
+	}
+	value := dbc.Effects[0].BasePoints + 1
 	aura := character.GetOrRegisterAura(Aura{
 		Label:      "Flametongue Totem",
-		ActionID:   ActionID{SpellID: 58656},
+		ActionID:   ActionID{SpellID: dbc.SpellID},
 		Duration:   NeverExpires,
 		BuildPhase: CharacterBuildPhaseBuffs,
 		OnReset: func(aura *Aura, sim *Simulation) {
 			aura.Activate(sim)
 		},
 	})
-	spellPowerBonusEffect(aura, 144)
+	spellPowerBonusEffect(aura, value)
 	return aura
 }
 
@@ -1377,27 +1532,37 @@ func spellPowerBonusEffect(aura *Aura, spellPowerBonus float64) *ExclusiveEffect
 }
 
 func BattleShoutAura(unit *Unit, commandingPresencePts int32, boomingVoicePts int32, minorGlyph bool) *Aura {
+	dbc := warriorinfo.BattleShout.FindMaxRank(unit.Level)
+	if dbc == nil {
+		return nil
+	}
+	value := dbc.Effects[0].BasePoints + 1
 	aura := unit.GetOrRegisterAura(Aura{
 		Label:      "Battle Shout",
-		ActionID:   ActionID{SpellID: 47436},
+		ActionID:   ActionID{SpellID: dbc.SpellID},
 		Duration:   time.Duration(float64(time.Minute*2)*(1+0.25*float64(boomingVoicePts))) + TernaryDuration(minorGlyph, 2*time.Minute, 0),
 		BuildPhase: CharacterBuildPhaseBuffs,
 	})
-	attackPowerBonusEffect(aura, math.Floor(550*(1+0.05*float64(commandingPresencePts))))
+	attackPowerBonusEffect(aura, math.Floor(value*(1+0.05*float64(commandingPresencePts))))
 	return aura
 }
 
 func BlessingOfMightAura(unit *Unit, impBomPts int32) *Aura {
+	dbc := paladininfo.BlessingofMight.FindMaxRank(unit.Level)
+	if dbc == nil {
+		return nil
+	}
+	value := dbc.Effects[0].BasePoints + 1
 	aura := unit.GetOrRegisterAura(Aura{
 		Label:      "Blessing of Might",
-		ActionID:   ActionID{SpellID: 48932},
+		ActionID:   ActionID{SpellID: dbc.SpellID},
 		Duration:   NeverExpires,
 		BuildPhase: CharacterBuildPhaseBuffs,
 		OnReset: func(aura *Aura, sim *Simulation) {
 			aura.Activate(sim)
 		},
 	})
-	attackPowerBonusEffect(aura, math.Floor(550*(1+GetTristateValueFloat(proto.TristateEffect(impBomPts), 0.12, 0.25))))
+	attackPowerBonusEffect(aura, math.Floor(value*(1+GetTristateValueFloat(proto.TristateEffect(impBomPts), 0.12, 0.25))))
 	return aura
 }
 
@@ -1420,27 +1585,37 @@ func attackPowerBonusEffect(aura *Aura, apBonus float64) *ExclusiveEffect {
 }
 
 func CommandingShoutAura(unit *Unit, commandingPresencePts int32, boomingVoicePts int32, minorGlyph bool) *Aura {
+	dbc := warriorinfo.CommandingShout.FindMaxRank(unit.Level)
+	if dbc == nil {
+		return nil
+	}
+	value := dbc.Effects[0].BasePoints + 1
 	aura := unit.GetOrRegisterAura(Aura{
 		Label:      "Commanding Shout",
-		ActionID:   ActionID{SpellID: 47440},
+		ActionID:   ActionID{SpellID: dbc.SpellID},
 		Duration:   time.Duration(float64(time.Minute*2)*(1+0.25*float64(boomingVoicePts))) + TernaryDuration(minorGlyph, 2*time.Minute, 0),
 		BuildPhase: CharacterBuildPhaseBuffs,
 	})
-	healthBonusEffect(aura, 2255*(1+0.05*float64(commandingPresencePts)))
+	healthBonusEffect(aura, value*(1+0.05*float64(commandingPresencePts)))
 	return aura
 }
 
 func BloodPactAura(unit *Unit, impImpPts int32) *Aura {
+	dbc := warlockinfo.BloodPact.FindMaxRank(unit.Level)
+	if dbc == nil {
+		return nil
+	}
+	value := dbc.Effects[0].BasePoints + 1
 	aura := unit.GetOrRegisterAura(Aura{
 		Label:      "Blood Pact",
-		ActionID:   ActionID{SpellID: 47982},
+		ActionID:   ActionID{SpellID: dbc.SpellID},
 		Duration:   NeverExpires,
 		BuildPhase: CharacterBuildPhaseBuffs,
 		OnReset: func(aura *Aura, sim *Simulation) {
 			aura.Activate(sim)
 		},
 	})
-	healthBonusEffect(aura, 1330*(1+0.1*float64(impImpPts)))
+	healthBonusEffect(aura, value*(1+0.1*float64(impImpPts)))
 	return aura
 }
 

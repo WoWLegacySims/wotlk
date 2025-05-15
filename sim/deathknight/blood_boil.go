@@ -6,7 +6,7 @@ import (
 )
 
 func (dk *Deathknight) registerBloodBoilSpell() {
-	dbc := deathknightinfo.BloodBoilInfos.FindMaxRank(dk.Level)
+	dbc := deathknightinfo.BloodBoil.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}
@@ -54,7 +54,7 @@ func (dk *Deathknight) registerBloodBoilSpell() {
 }
 
 func (dk *Deathknight) registerDrwBloodBoilSpell() {
-	dbc := deathknightinfo.BloodBoilInfos.FindMaxRank(dk.Level)
+	dbc := deathknightinfo.BloodBoil.FindMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}

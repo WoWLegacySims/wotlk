@@ -462,6 +462,9 @@ message RaidBuffs {
 	bool aspect_of_the_wild = 46;
 	bool frost_resistance_aura = 47;
 	bool frost_resistance_totem = 48;
+	bool fire_resistance_totem = 50;
+	bool fire_resistance_aura = 51;
+	bool shadow_resistance_aura = 52;
 
 	// Miscellaneous
 	bool bloodlust = 29;
@@ -487,16 +490,18 @@ message RaidBuffs {
 // Buffs that affect a single party.
 message PartyBuffs {
 	// Item Buffs
-	int32 atiesh_mage = 1;
-	int32 atiesh_warlock = 2;
+	bool atiesh_mage = 1;
+	bool atiesh_warlock = 2;
+	bool atiesh_priest = 3;
+	bool atiesh_druid = 4;
 
-	bool braided_eternium_chain = 3;
-	bool eye_of_the_night = 4;
-	bool chain_of_the_twilight_owl = 5;
+	bool braided_eternium_chain = 5;
+	bool eye_of_the_night = 6;
+	bool chain_of_the_twilight_owl = 7;
 
 	// Group buffs
-	int32 mana_tide_totems = 6;
-	bool heroic_presence = 7;
+	int32 mana_tide_totems = 8;
+	bool heroic_presence = 9;
 }
 
 // These are usually individual actions taken by other Characters.

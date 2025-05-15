@@ -410,9 +410,13 @@ func (character *Character) AddPartyBuffs(partyBuffs *proto.PartyBuffs) {
 
 	switch character.MainHand().ID {
 	case ItemIDAtieshMage:
-		partyBuffs.AtieshMage += 1
+		partyBuffs.AtieshMage = true
 	case ItemIDAtieshWarlock:
-		partyBuffs.AtieshWarlock += 1
+		partyBuffs.AtieshWarlock = true
+	case ItemIDAtieshDruid:
+		partyBuffs.AtieshDruid = true
+	case ItemIDAtieshPriest:
+		partyBuffs.AtieshPriest = true
 	}
 
 	switch character.Neck().ID {
