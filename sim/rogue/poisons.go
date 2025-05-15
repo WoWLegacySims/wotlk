@@ -16,12 +16,12 @@ func (rogue *Rogue) applyPoisons() {
 
 func (rogue *Rogue) registerPoisonAuras() {
 	if rogue.Talents.SavageCombat > 0 {
-		rogue.savageCombatDebuffAuras = rogue.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+		rogue.savageCombatDebuffAuras = rogue.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 			return core.SavageCombatAura(target, rogue.Talents.SavageCombat)
 		})
 	}
 	if rogue.Talents.MasterPoisoner > 0 {
-		rogue.masterPoisonerDebuffAuras = rogue.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+		rogue.masterPoisonerDebuffAuras = rogue.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 			aura := core.MasterPoisonerDebuff(target, rogue.Talents.MasterPoisoner)
 			aura.Duration = core.NeverExpires
 			return aura
@@ -278,7 +278,7 @@ func (rogue *Rogue) registerWoundPoisonSpell() {
 		},
 	}
 
-	rogue.woundPoisonDebuffAuras = rogue.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+	rogue.woundPoisonDebuffAuras = rogue.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 		return target.RegisterAura(woundPoisonDebuffAura)
 	})
 	rogue.WoundPoison = [3]*core.Spell{

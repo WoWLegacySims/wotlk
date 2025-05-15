@@ -33,7 +33,7 @@ func (druid *Druid) registerFaerieFireSpell() {
 	}
 	flags |= core.SpellFlagAPL
 
-	druid.FaerieFireAuras = druid.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+	druid.FaerieFireAuras = druid.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 		return core.FaerieFireAura(target, druid.Talents.ImprovedFaerieFire)
 	})
 

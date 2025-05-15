@@ -12,7 +12,7 @@ var StormstrikeActionID = core.ActionID{SpellID: 17364}
 var TotemOfTheDancingFlame int32 = 45169
 var TotemOfDueling int32 = 40322
 
-func (shaman *Shaman) StormstrikeDebuffAura(target *core.Unit) *core.Aura {
+func (shaman *Shaman) StormstrikeDebuffAura(target *core.Unit, _ int32) *core.Aura {
 	return target.GetOrRegisterAura(core.Aura{
 		Label:     "Stormstrike-" + shaman.Label,
 		ActionID:  StormstrikeActionID,

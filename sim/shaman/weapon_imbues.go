@@ -242,7 +242,7 @@ func (shaman *Shaman) RegisterFlametongueImbue(procMask core.ProcMask, isDownran
 	shaman.RegisterOnItemSwapWithImbue(int32(enchantID), &procMask, aura)
 }
 
-func (shaman *Shaman) FrostbrandDebuffAura(target *core.Unit) *core.Aura {
+func (shaman *Shaman) FrostbrandDebuffAura(target *core.Unit, _ int32) *core.Aura {
 	multiplier := 1 + 0.05*float64(shaman.Talents.FrozenPower)
 	return target.GetOrRegisterAura(core.Aura{
 		Label:    "Frostbrand Attack-" + shaman.Label,

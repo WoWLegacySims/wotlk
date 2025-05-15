@@ -31,7 +31,7 @@ func (rogue *Rogue) registerHemorrhageSpell() {
 			bonusDamage *= 1.4
 		}
 
-		hemoAuras = rogue.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+		hemoAuras = rogue.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 			return target.GetOrRegisterAura(core.Aura{
 				Label:     "Hemorrhage",
 				ActionID:  actionID,

@@ -41,8 +41,8 @@ func (warlock *Warlock) registerCurseOfElementsSpell() {
 }
 
 func (warlock *Warlock) registerCurseOfWeaknessSpell() {
-	warlock.CurseOfWeaknessAuras = warlock.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
-		return core.CurseOfWeaknessAura(target, warlock.Talents.ImprovedCurseOfWeakness)
+	warlock.CurseOfWeaknessAuras = warlock.NewEnemyAuraArray(func(target *core.Unit, level int32) *core.Aura {
+		return core.CurseOfWeaknessAura(target, warlock.Talents.ImprovedCurseOfWeakness, level)
 	})
 
 	warlock.CurseOfWeakness = warlock.RegisterSpell(core.SpellConfig{
@@ -79,7 +79,7 @@ func (warlock *Warlock) registerCurseOfTonguesSpell() {
 	actionID := core.ActionID{SpellID: 11719}
 
 	// Empty aura so we can simulate cost/time to keep tongues up
-	warlock.CurseOfTonguesAuras = warlock.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+	warlock.CurseOfTonguesAuras = warlock.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 		return target.GetOrRegisterAura(core.Aura{
 			Label:    "Curse of Tongues",
 			ActionID: actionID,

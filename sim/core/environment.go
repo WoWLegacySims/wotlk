@@ -73,6 +73,11 @@ func (env *Environment) construct(raidProto *proto.Raid, encounterProto *proto.E
 	env.Raid = NewRaid(raidProto)
 
 	env.Raid.updatePlayersAndPets()
+	if env.Raid.Level <= 0 && len(env.Raid.AllPlayerUnits) > 0 {
+		env.Raid.Level = env.Raid.AllPlayerUnits[0].Level
+	} else {
+		env.Raid.Level = 80
+	}
 
 	env.AllUnits = append(env.Encounter.TargetUnits, env.Raid.AllUnits...)
 
@@ -88,7 +93,7 @@ func (env *Environment) construct(raidProto *proto.Raid, encounterProto *proto.E
 	// Apply extra debuffs from raid.
 	if raidProto.Debuffs != nil && len(env.Encounter.TargetUnits) > 0 {
 		for targetIdx, targetUnit := range env.Encounter.TargetUnits {
-			applyDebuffEffects(targetUnit, targetIdx, raidProto.Debuffs, raidProto)
+			applyDebuffEffects(targetUnit, targetIdx, raidProto.Debuffs, raidProto, env.Raid.Level)
 		}
 	}
 

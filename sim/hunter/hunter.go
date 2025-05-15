@@ -136,7 +136,7 @@ func (hunter *Hunter) Initialize() {
 
 	if hunter.Options.UseHuntersMark {
 		hunter.RegisterPrepullAction(0, func(sim *core.Simulation) {
-			huntersMarkAura := core.HuntersMarkAura(hunter.CurrentTarget, hunter.Talents.ImprovedHuntersMark, hunter.HasMajorGlyph(proto.HunterMajorGlyph_GlyphOfHuntersMark))
+			huntersMarkAura := core.HuntersMarkAura(hunter.CurrentTarget, hunter.Talents.ImprovedHuntersMark, hunter.HasMajorGlyph(proto.HunterMajorGlyph_GlyphOfHuntersMark), hunter.Level)
 			huntersMarkAura.Activate(sim)
 		})
 	}

@@ -24,7 +24,7 @@ func TestSunderArmorStacks(t *testing.T) {
 		t.Fatalf("Armor value for target should be %f but found %f", 10643.0, target.Armor())
 	}
 	stacks := int32(1)
-	sunderAura := SunderArmorAura(&target)
+	sunderAura := SunderArmorAura(&target, 80)
 	sunderAura.Activate(&sim)
 	sunderAura.SetStacks(&sim, stacks)
 	tolerance := 0.001
@@ -56,7 +56,7 @@ func TestAcidSpitStacks(t *testing.T) {
 		t.Fatalf("Armor value for target should be %f but found %f", 10643.0, target.Armor())
 	}
 	stacks := int32(1)
-	acidSpitAura := AcidSpitAura(&target)
+	acidSpitAura := AcidSpitAura(&target, 80)
 	acidSpitAura.Activate(&sim)
 	acidSpitAura.SetStacks(&sim, stacks)
 	tolerance := 0.001
@@ -114,7 +114,7 @@ func TestMajorArmorReductionAurasDoNotStack(t *testing.T) {
 		t.Fatalf("Armor value for target should be %f but found %f", 10643.0, target.Armor())
 	}
 	stacks := int32(1)
-	acidSpitAura := AcidSpitAura(&target)
+	acidSpitAura := AcidSpitAura(&target, 80)
 	acidSpitAura.Activate(&sim)
 	acidSpitAura.SetStacks(&sim, stacks)
 	tolerance := 0.001
@@ -148,7 +148,7 @@ func TestMajorAndMinorArmorReductionsApplyMultiplicatively(t *testing.T) {
 		t.Fatalf("Armor value for target should be %f but found %f", 10643.0, target.Armor())
 	}
 	stacks := int32(2)
-	acidSpitAura := AcidSpitAura(&target)
+	acidSpitAura := AcidSpitAura(&target, 80)
 	acidSpitAura.Activate(&sim)
 	acidSpitAura.SetStacks(&sim, stacks)
 	tolerance := 0.001
@@ -206,7 +206,7 @@ func TestDamageReductionFromArmor(t *testing.T) {
 	}
 
 	// Major
-	acidSpitAura := AcidSpitAura(&target)
+	acidSpitAura := AcidSpitAura(&target, 80)
 	acidSpitAura.Activate(&sim)
 	acidSpitAura.SetStacks(&sim, 2)
 	expectedDamageReduction = 0.3585
@@ -223,7 +223,7 @@ func TestDamageReductionFromArmor(t *testing.T) {
 	}
 
 	// Major + Minor + Spore
-	sporeCloudAura := SporeCloudAura(&target)
+	sporeCloudAura := SporeCloudAura(&target, 80)
 	sporeCloudAura.Activate(&sim)
 	expectedDamageReduction = 0.3468
 	if !WithinToleranceFloat64(1-expectedDamageReduction, attackTable.GetArmorDamageModifier(spell), tolerance) {
@@ -231,7 +231,7 @@ func TestDamageReductionFromArmor(t *testing.T) {
 	}
 
 	// Major + Minor + Spore + Throw
-	shatteringThrowAura := ShatteringThrowAura(&target)
+	shatteringThrowAura := ShatteringThrowAura(&target, 80)
 	shatteringThrowAura.Activate(&sim)
 	expectedDamageReduction = 0.2981
 	if !WithinToleranceFloat64(1-expectedDamageReduction, attackTable.GetArmorDamageModifier(spell), tolerance) {

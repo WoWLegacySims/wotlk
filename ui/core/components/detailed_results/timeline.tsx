@@ -1283,7 +1283,7 @@ const idToCategoryMap: Record<number, number> = {
 	[47486]: MELEE_ACTION_CATEGORY + 0.1, // Mortal Strike
 	[30356]: MELEE_ACTION_CATEGORY + 0.1, // Shield Slam
 	[47498]: MELEE_ACTION_CATEGORY + 0.21, // Devastate
-	[47467]: MELEE_ACTION_CATEGORY + 0.22, // Sunder Armor
+	[7386]: MELEE_ACTION_CATEGORY + 0.22, // Sunder Armor
 	[57823]: MELEE_ACTION_CATEGORY + 0.23, // Revenge
 	[1680]: MELEE_ACTION_CATEGORY + 0.24, // Whirlwind
 	[7384]: MELEE_ACTION_CATEGORY + 0.25, // Overpower

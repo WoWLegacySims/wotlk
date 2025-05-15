@@ -272,7 +272,7 @@ func (warlock *Warlock) setupEradication() {
 	})
 }
 
-func (warlock *Warlock) ShadowEmbraceDebuffAura(target *core.Unit) *core.Aura {
+func (warlock *Warlock) ShadowEmbraceDebuffAura(target *core.Unit, _ int32) *core.Aura {
 	shadowEmbraceBonus := 0.01 * float64(warlock.Talents.ShadowEmbrace)
 
 	return target.GetOrRegisterAura(core.Aura{

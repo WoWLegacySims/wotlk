@@ -67,7 +67,7 @@ func (dk *Deathknight) registerDiseaseDots() {
 }
 
 func (dk *Deathknight) registerFrostFever() {
-	dk.FrostFeverDebuffAura = dk.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+	dk.FrostFeverDebuffAura = dk.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 		return core.FrostFeverAura(target, dk.Talents.ImprovedIcyTouch, dk.Talents.Epidemic)
 	})
 

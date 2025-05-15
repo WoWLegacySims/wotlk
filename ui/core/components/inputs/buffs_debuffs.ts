@@ -1,6 +1,5 @@
 import { Stat, TristateEffect } from "../../proto/common";
 import { ActionId } from "../../proto_utils/action_id";
-
 import {
   makeBooleanDebuffInput,
   makeBooleanIndividualBuffInput,
@@ -17,11 +16,9 @@ import {
   withLabel,
 } from "../icon_inputs";
 import { IconPicker } from "../icon_picker";
-import { MultiIconPicker } from "../multi_icon_picker";
-
-import { IconPickerStatOption, PickerStatOptions } from "./stat_options";
-
 import * as InputHelpers from '../input_helpers';
+import { MultiIconPicker } from "../multi_icon_picker";
+import { IconPickerStatOption, PickerStatOptions } from "./stat_options";
 
 ///////////////////////////////////////////////////////////////////////////
 //                                 RAID BUFFS
@@ -185,7 +182,7 @@ export const UnholyFrenzy = makeMultistateIndividualBuffInput({actionId: ActionI
 ///////////////////////////////////////////////////////////////////////////
 
 export const MajorArmorDebuff = InputHelpers.makeMultiIconInput([
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(47467), fieldName: 'sunderArmor'}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(7386), fieldName: 'sunderArmor'}),
 	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(8647), fieldName: 'exposeArmor'}),
 	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(55754), fieldName: 'acidSpit'}),
 ], 'Major ArP');

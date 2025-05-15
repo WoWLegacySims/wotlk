@@ -115,6 +115,8 @@ message Raid {
 
 	// Extra fake players to add. Currently only used by healing sims.
 	int32 target_dummies = 6;
+
+	int32 level = 8;
 }
 
 message SimOptions {

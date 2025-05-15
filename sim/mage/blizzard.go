@@ -9,7 +9,7 @@ import (
 func (mage *Mage) registerBlizzardSpell() {
 	var improvedBlizzardProcApplication *core.Spell
 	if mage.Talents.ImprovedBlizzard > 0 {
-		auras := mage.NewEnemyAuraArray(func(unit *core.Unit) *core.Aura {
+		auras := mage.NewEnemyAuraArray(func(unit *core.Unit, _ int32) *core.Aura {
 			return unit.GetOrRegisterAura(core.Aura{
 				ActionID: core.ActionID{SpellID: 12488},
 				Label:    "Improved Blizzard",

@@ -8,7 +8,7 @@ import (
 )
 
 func (warrior *Warrior) registerThunderClapSpell() {
-	warrior.ThunderClapAuras = warrior.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+	warrior.ThunderClapAuras = warrior.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 		return core.ThunderClapAura(target, warrior.Talents.ImprovedThunderClap)
 	})
 

@@ -1201,7 +1201,7 @@ func registerShatteringThrowCD(agent Agent, numShatteringThrows int32) {
 		return
 	}
 
-	stAura := ShatteringThrowAura(agent.GetCharacter().Env.Encounter.TargetUnits[0])
+	stAura := ShatteringThrowAura(agent.GetCharacter().Env.Encounter.TargetUnits[0], agent.GetCharacter().Level)
 
 	registerExternalConsecutiveCDApproximation(
 		agent,

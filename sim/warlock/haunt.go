@@ -15,7 +15,7 @@ func (warlock *Warlock) registerHauntSpell() {
 	actionID := core.ActionID{SpellID: 59164}
 	debuffMult := core.TernaryFloat64(warlock.HasMajorGlyph(proto.WarlockMajorGlyph_GlyphOfHaunt), 1.23, 1.2)
 
-	warlock.HauntDebuffAuras = warlock.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+	warlock.HauntDebuffAuras = warlock.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 		return target.GetOrRegisterAura(core.Aura{
 			Label:    "Haunt-" + warlock.Label,
 			ActionID: actionID,

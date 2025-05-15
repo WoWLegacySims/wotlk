@@ -190,7 +190,7 @@ func (warrior *Warrior) applyTrauma() {
 		return
 	}
 
-	traumaAuras := warrior.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+	traumaAuras := warrior.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 		return core.TraumaAura(target, int(warrior.Talents.Trauma))
 	})
 
@@ -316,7 +316,7 @@ func (warrior *Warrior) applyBloodFrenzy() {
 
 	warrior.PseudoStats.MeleeSpeedMultiplier *= 1 + 0.05*float64(warrior.Talents.BloodFrenzy)
 
-	bfAuras := warrior.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+	bfAuras := warrior.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 		return core.BloodFrenzyAura(target, warrior.Talents.BloodFrenzy)
 	})
 	warrior.Env.RegisterPreFinalizeEffect(func() {

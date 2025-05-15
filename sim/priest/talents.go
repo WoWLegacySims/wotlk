@@ -388,7 +388,7 @@ func (priest *Priest) applyMisery() {
 		return
 	}
 
-	miseryAuras := priest.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+	miseryAuras := priest.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 		return core.MiseryAura(target, priest.Talents.Misery)
 	})
 	priest.Env.RegisterPreFinalizeEffect(func() {

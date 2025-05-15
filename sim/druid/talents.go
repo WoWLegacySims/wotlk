@@ -197,7 +197,7 @@ func (druid *Druid) applyEarthAndMoon() {
 		return
 	}
 
-	eamAuras := druid.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+	eamAuras := druid.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 		return core.EarthAndMoonAura(target, druid.Talents.EarthAndMoon)
 	})
 	druid.Env.RegisterPreFinalizeEffect(func() {
@@ -641,7 +641,7 @@ func (druid *Druid) applyInfectedWounds() {
 		return
 	}
 
-	iwAuras := druid.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+	iwAuras := druid.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 		return core.InfectedWoundsAura(target, druid.Talents.InfectedWounds)
 	})
 	druid.Env.RegisterPreFinalizeEffect(func() {

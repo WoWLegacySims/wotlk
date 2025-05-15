@@ -195,7 +195,7 @@ func (dk *Deathknight) applyEbonPlaguebringerOrCryptFever() {
 	dk.AddStat(stats.MeleeCrit, ebonPlaguebringerBonusCrit)
 	dk.AddStat(stats.SpellCrit, ebonPlaguebringerBonusCrit)
 
-	dk.EbonPlagueOrCryptFeverAura = dk.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+	dk.EbonPlagueOrCryptFeverAura = dk.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 		return core.EbonPlaguebringerOrCryptFeverAura(dk.GetCharacter(), target, dk.Talents.Epidemic, dk.Talents.CryptFever, dk.Talents.EbonPlaguebringer)
 	})
 	dk.Env.RegisterPreFinalizeEffect(func() {

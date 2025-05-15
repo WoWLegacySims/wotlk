@@ -6,67 +6,71 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/druidinfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/hunterinfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warlockinfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warriorinfo"
 )
 
-func applyDebuffEffects(target *Unit, targetIdx int, debuffs *proto.Debuffs, raid *proto.Raid) {
-	if debuffs.Misery && targetIdx == 0 {
-		MakePermanent(MiseryAura(target, 3))
+func applyDebuffEffects(target *Unit, targetIdx int, debuffs *proto.Debuffs, raid *proto.Raid, level int32) {
+	if debuffs.Misery && targetIdx == 0 && level >= 45 {
+		MakePermanent(MiseryAura(target, min(3, level-44)))
 	}
 
-	if debuffs.JudgementOfWisdom && targetIdx == 0 {
-		MakePermanent(JudgementOfWisdomAura(target))
+	if debuffs.JudgementOfWisdom && targetIdx == 0 && level >= 38 {
+		MakePermanent(JudgementOfWisdomAura(target, level))
 	}
-	if debuffs.JudgementOfLight && targetIdx == 0 {
-		MakePermanent(JudgementOfLightAura(target))
+	if debuffs.JudgementOfLight && targetIdx == 0 && level >= 30 {
+		MakePermanent(JudgementOfLightAura(target, level))
 	}
 
 	if debuffs.CurseOfElements {
-		MakePermanent(CurseOfElementsAura(target))
+		MakePermanent(CurseOfElementsAura(target, level))
 	}
-	if debuffs.EbonPlaguebringer {
+	if debuffs.EbonPlaguebringer && level >= 58 {
 		MakePermanent(EbonPlaguebringerOrCryptFeverAura(nil, target, 2, 3, 3))
 	}
-	if debuffs.EarthAndMoon && targetIdx == 0 {
-		MakePermanent(EarthAndMoonAura(target, 3))
+	if debuffs.EarthAndMoon && targetIdx == 0 && level >= 55 {
+		MakePermanent(EarthAndMoonAura(target, min(3, level-54)))
 	}
 
-	if debuffs.ShadowMastery && targetIdx == 0 {
-		MakePermanent(ShadowMasteryAura(target))
+	if debuffs.ShadowMastery && targetIdx == 0 && level >= 10 {
+		MakePermanent(ShadowMasteryAura(target, level))
 	}
 
-	if debuffs.ImprovedScorch && targetIdx == 0 {
-		MakePermanent(ImprovedScorchAura(target))
+	if debuffs.ImprovedScorch && targetIdx == 0 && level >= 25 {
+		MakePermanent(ImprovedScorchAura(target, level))
 	}
 
-	if debuffs.WintersChill && targetIdx == 0 {
+	if debuffs.WintersChill && targetIdx == 0 && level >= 35 {
 		MakePermanent(WintersChillAura(target, 5))
 	}
 
-	if debuffs.BloodFrenzy && targetIdx < 4 {
+	if debuffs.BloodFrenzy && targetIdx < 4 && level >= 51 {
 		MakePermanent(BloodFrenzyAura(target, 2))
 	}
-	if debuffs.SavageCombat {
+	if debuffs.SavageCombat && level >= 51 {
 		MakePermanent(SavageCombatAura(target, 2))
 	}
 
-	if debuffs.GiftOfArthas {
-		MakePermanent(GiftOfArthasAura(target))
+	if debuffs.GiftOfArthas && level >= 38 {
+		MakePermanent(GiftOfArthasAura(target, 0))
 	}
 
 	if debuffs.SporeCloud {
-		MakePermanent(SporeCloudAura(target))
+		MakePermanent(SporeCloudAura(target, level))
 	}
 
-	if debuffs.CrystalYield {
+	if debuffs.CrystalYield && level >= 47 {
 		MakePermanent(CrystalYieldAura(target))
 	}
 
-	if debuffs.Mangle && targetIdx == 0 {
-		MakePermanent(MangleAura(target))
-	} else if debuffs.Trauma && targetIdx == 0 {
+	if debuffs.Mangle && targetIdx == 0 && level >= 50 {
+		MakePermanent(MangleAura(target, level))
+	} else if debuffs.Trauma && targetIdx == 0 && level >= 36 {
 		MakePermanent(TraumaAura(target, 2))
-	} else if debuffs.Stampede && targetIdx == 0 {
-		stampedeAura := StampedeAura(target)
+	} else if debuffs.Stampede && targetIdx == 0 && level >= 60 {
+		stampedeAura := StampedeAura(target, level)
 		target.RegisterResetEffect(func(sim *Simulation) {
 			StartPeriodicAction(sim, PeriodicActionOptions{
 				Period: time.Second * 60,
@@ -77,7 +81,7 @@ func applyDebuffEffects(target *Unit, targetIdx int, debuffs *proto.Debuffs, rai
 		})
 	}
 
-	if debuffs.ExposeArmor && targetIdx == 0 {
+	if debuffs.ExposeArmor && targetIdx == 0 && level >= 14 {
 		aura := ExposeArmorAura(target, false)
 		ScheduledMajorArmorAura(aura, PeriodicActionOptions{
 			Period:   time.Second * 3,
@@ -88,8 +92,8 @@ func applyDebuffEffects(target *Unit, targetIdx int, debuffs *proto.Debuffs, rai
 		}, raid)
 	}
 
-	if debuffs.SunderArmor && targetIdx == 0 {
-		aura := SunderArmorAura(target)
+	if debuffs.SunderArmor && targetIdx == 0 && level >= 10 {
+		aura := SunderArmorAura(target, level)
 		ScheduledMajorArmorAura(aura, PeriodicActionOptions{
 			Period:          time.Millisecond * 1500,
 			NumTicks:        5,
@@ -104,8 +108,8 @@ func applyDebuffEffects(target *Unit, targetIdx int, debuffs *proto.Debuffs, rai
 		}, raid)
 	}
 
-	if debuffs.AcidSpit && targetIdx == 0 {
-		aura := AcidSpitAura(target)
+	if debuffs.AcidSpit && targetIdx == 0 && level >= 60 {
+		aura := AcidSpitAura(target, level)
 		ScheduledMajorArmorAura(aura, PeriodicActionOptions{
 			Period:          time.Second * 10,
 			NumTicks:        2,
@@ -120,61 +124,61 @@ func applyDebuffEffects(target *Unit, targetIdx int, debuffs *proto.Debuffs, rai
 	}
 
 	if debuffs.CurseOfWeakness != proto.TristateEffect_TristateEffectMissing {
-		MakePermanent(CurseOfWeaknessAura(target, GetTristateValueInt32(debuffs.CurseOfWeakness, 1, 2)))
+		MakePermanent(CurseOfWeaknessAura(target, GetTristateValueInt32(debuffs.CurseOfWeakness, 1, 2), level))
 	}
 	if debuffs.Sting && targetIdx == 0 {
-		MakePermanent(StingAura(target))
+		MakePermanent(StingAura(target, level))
 	}
 
-	if debuffs.FaerieFire != proto.TristateEffect_TristateEffectMissing {
+	if debuffs.FaerieFire != proto.TristateEffect_TristateEffectMissing && level >= 18 {
 		MakePermanent(FaerieFireAura(target, GetTristateValueInt32(debuffs.FaerieFire, 0, 3)))
 	}
 
 	if debuffs.DemoralizingRoar != proto.TristateEffect_TristateEffectMissing {
-		MakePermanent(DemoralizingRoarAura(target, GetTristateValueInt32(debuffs.DemoralizingRoar, 0, 5)))
+		MakePermanent(DemoralizingRoarAura(target, GetTristateValueInt32(debuffs.DemoralizingRoar, 0, 5), level))
 	}
 	if debuffs.DemoralizingShout != proto.TristateEffect_TristateEffectMissing {
-		MakePermanent(DemoralizingShoutAura(target, 0, GetTristateValueInt32(debuffs.DemoralizingShout, 0, 5)))
+		MakePermanent(DemoralizingShoutAura(target, 0, GetTristateValueInt32(debuffs.DemoralizingShout, 0, 5), level))
 	}
-	if debuffs.Vindication && targetIdx == 0 {
-		MakePermanent(VindicationAura(target, 2))
+	if debuffs.Vindication && targetIdx == 0 && level >= 20 {
+		MakePermanent(VindicationAura(target, min(2, level-19), level))
 	}
 	if debuffs.DemoralizingScreech {
-		MakePermanent(DemoralizingScreechAura(target))
+		MakePermanent(DemoralizingScreechAura(target, level))
 	}
 
 	// Atk spd reduction
-	if debuffs.ThunderClap != proto.TristateEffect_TristateEffectMissing {
+	if debuffs.ThunderClap != proto.TristateEffect_TristateEffectMissing && level >= 6 {
 		MakePermanent(ThunderClapAura(target, GetTristateValueInt32(debuffs.ThunderClap, 0, 3)))
 	}
-	if debuffs.FrostFever != proto.TristateEffect_TristateEffectMissing {
+	if debuffs.FrostFever != proto.TristateEffect_TristateEffectMissing && level >= 58 {
 		MakePermanent(FrostFeverAura(target, GetTristateValueInt32(debuffs.FrostFever, 0, 3), 0))
 	}
-	if debuffs.InfectedWounds && targetIdx == 0 {
-		MakePermanent(InfectedWoundsAura(target, 3))
+	if debuffs.InfectedWounds && targetIdx == 0 && level >= 45 {
+		MakePermanent(InfectedWoundsAura(target, min(3, level-44)))
 	}
-	if debuffs.JudgementsOfTheJust && targetIdx == 0 {
-		MakePermanent(JudgementsOfTheJustAura(target, 2))
+	if debuffs.JudgementsOfTheJust && targetIdx == 0 && level >= 55 {
+		MakePermanent(JudgementsOfTheJustAura(target, min(2, level-54)))
 	}
 
 	// Miss
-	if debuffs.InsectSwarm && targetIdx == 0 {
-		MakePermanent(InsectSwarmAura(target))
+	if debuffs.InsectSwarm && targetIdx == 0 && level >= 30 {
+		MakePermanent(InsectSwarmAura(target, level))
 	}
-	if debuffs.ScorpidSting && targetIdx == 0 {
-		MakePermanent(ScorpidStingAura(target))
+	if debuffs.ScorpidSting && targetIdx == 0 && level >= 22 {
+		MakePermanent(ScorpidStingAura(target, level))
 	}
 
-	if debuffs.TotemOfWrath {
+	if debuffs.TotemOfWrath && level >= 50 {
 		MakePermanent(TotemOfWrathDebuff(target))
 	}
 
-	if debuffs.MasterPoisoner {
-		MakePermanent(MasterPoisonerDebuff(target, 3))
+	if debuffs.MasterPoisoner && level >= 50 {
+		MakePermanent(MasterPoisonerDebuff(target, min(3, level-49)))
 	}
 
-	if debuffs.HeartOfTheCrusader && targetIdx == 0 {
-		MakePermanent(HeartOfTheCrusaderDebuff(target, 3))
+	if debuffs.HeartOfTheCrusader && targetIdx == 0 && level >= 15 {
+		MakePermanent(HeartOfTheCrusaderDebuff(target, min(3, level-14)))
 	}
 
 	if debuffs.HuntersMark > 0 && targetIdx == 0 {
@@ -186,7 +190,7 @@ func applyDebuffEffects(target *Unit, targetIdx int, debuffs *proto.Debuffs, rai
 				glyphed = true
 			}
 		}
-		MakePermanent(HuntersMarkAura(target, points, glyphed))
+		MakePermanent(HuntersMarkAura(target, points, glyphed, level))
 	}
 }
 
@@ -199,7 +203,7 @@ func ScheduledMajorArmorAura(aura *Aura, options PeriodicActionOptions, raid *pr
 
 var JudgementOfWisdomAuraLabel = "Judgement of Wisdom"
 
-func JudgementOfWisdomAura(target *Unit) *Aura {
+func JudgementOfWisdomAura(target *Unit, _ int32) *Aura {
 	actionID := ActionID{SpellID: 53408}
 
 	return target.GetOrRegisterAura(Aura{
@@ -249,7 +253,7 @@ func JudgementOfWisdomAura(target *Unit) *Aura {
 
 var JudgementOfLightAuraLabel = "Judgement of Light"
 
-func JudgementOfLightAura(target *Unit) *Aura {
+func JudgementOfLightAura(target *Unit, _ int32) *Aura {
 	actionID := ActionID{SpellID: 20271}
 
 	return target.GetOrRegisterAura(Aura{
@@ -264,19 +268,25 @@ func JudgementOfLightAura(target *Unit) *Aura {
 	})
 }
 
-func CurseOfElementsAura(target *Unit) *Aura {
+func CurseOfElementsAura(target *Unit, level int32) *Aura {
+	dbc := warlockinfo.CurseoftheElements.FindMaxRank(level)
+	if dbc == nil {
+		return nil
+	}
+	res := dbc.Effects[0].BasePoints + 1
+	dmg := 1 + (dbc.Effects[1].BasePoints+1)/100
 	aura := target.GetOrRegisterAura(Aura{
 		Label:    "Curse of Elements",
-		ActionID: ActionID{SpellID: 47865},
+		ActionID: ActionID{SpellID: dbc.SpellID},
 		Duration: time.Minute * 5,
 		OnGain: func(aura *Aura, sim *Simulation) {
-			aura.Unit.AddStatsDynamic(sim, stats.Stats{stats.ArcaneResistance: -165, stats.FireResistance: -165, stats.FrostResistance: -165, stats.ShadowResistance: -165, stats.NatureResistance: -165})
+			aura.Unit.AddStatsDynamic(sim, stats.Stats{stats.ArcaneResistance: res, stats.FireResistance: res, stats.FrostResistance: res, stats.ShadowResistance: res, stats.NatureResistance: res})
 		},
 		OnExpire: func(aura *Aura, sim *Simulation) {
-			aura.Unit.AddStatsDynamic(sim, stats.Stats{stats.ArcaneResistance: 165, stats.FireResistance: 165, stats.FrostResistance: 165, stats.ShadowResistance: 165, stats.NatureResistance: 165})
+			aura.Unit.AddStatsDynamic(sim, stats.Stats{stats.ArcaneResistance: -res, stats.FireResistance: -res, stats.FrostResistance: -res, stats.ShadowResistance: -res, stats.NatureResistance: -res})
 		},
 	})
-	spellDamageEffect(aura, 1.13)
+	spellDamageEffect(aura, dmg)
 	return aura
 }
 
@@ -397,7 +407,7 @@ func bloodFrenzySavageCombatAura(target *Unit, label string, id ActionID, points
 	return aura
 }
 
-func GiftOfArthasAura(target *Unit) *Aura {
+func GiftOfArthasAura(target *Unit, _ int32) *Aura {
 	return target.GetOrRegisterAura(Aura{
 		Label:    "Gift of Arthas",
 		ActionID: ActionID{SpellID: 11374},
@@ -411,7 +421,7 @@ func GiftOfArthasAura(target *Unit) *Aura {
 	})
 }
 
-func MangleAura(target *Unit) *Aura {
+func MangleAura(target *Unit, _ int32) *Aura {
 	return bleedDamageAura(target, Aura{
 		Label:    "Mangle",
 		ActionID: ActionID{SpellID: 48566},
@@ -427,7 +437,7 @@ func TraumaAura(target *Unit, points int) *Aura {
 	}, 1+0.15*float64(points))
 }
 
-func StampedeAura(target *Unit) *Aura {
+func StampedeAura(target *Unit, _ int32) *Aura {
 	return bleedDamageAura(target, Aura{
 		Label:    "Stampede",
 		ActionID: ActionID{SpellID: 57393},
@@ -452,11 +462,11 @@ func bleedDamageAura(target *Unit, config Aura, multiplier float64) *Aura {
 	return aura
 }
 
-func ShadowMasteryAura(target *Unit) *Aura {
+func ShadowMasteryAura(target *Unit, _ int32) *Aura {
 	return majorSpellCritDebuffAura(target, "Shadow Mastery", ActionID{SpellID: 17800}, 5)
 }
 
-func ImprovedScorchAura(target *Unit) *Aura {
+func ImprovedScorchAura(target *Unit, _ int32) *Aura {
 	return majorSpellCritDebuffAura(target, "Improved Scorch", ActionID{SpellID: 12873}, 5)
 }
 
@@ -552,11 +562,11 @@ func spellHitBonusEffect(aura *Aura, spellHitBonus float64) *ExclusiveEffect {
 
 var majorArmorReductionEffectCategory = "MajorArmorReduction"
 
-func SunderArmorAura(target *Unit) *Aura {
+func SunderArmorAura(target *Unit, _ int32) *Aura {
 	var effect *ExclusiveEffect
 	aura := target.GetOrRegisterAura(Aura{
 		Label:     "Sunder Armor",
-		ActionID:  ActionID{SpellID: 47467},
+		ActionID:  ActionID{SpellID: 7386},
 		Duration:  time.Second * 30,
 		MaxStacks: 5,
 		OnStacksChange: func(aura *Aura, sim *Simulation, oldStacks int32, newStacks int32) {
@@ -577,7 +587,7 @@ func SunderArmorAura(target *Unit) *Aura {
 	return aura
 }
 
-func AcidSpitAura(target *Unit) *Aura {
+func AcidSpitAura(target *Unit, _ int32) *Aura {
 	var effect *ExclusiveEffect
 	aura := target.GetOrRegisterAura(Aura{
 		Label:     "Acid Spit",
@@ -623,18 +633,23 @@ func ExposeArmorAura(target *Unit, hasGlyph bool) *Aura {
 	return aura
 }
 
-func CurseOfWeaknessAura(target *Unit, points int32) *Aura {
+func CurseOfWeaknessAura(target *Unit, points int32, level int32) *Aura {
+	dbc := warlockinfo.CurseofWeakness.FindMaxRank(level)
+	if dbc == nil {
+		return nil
+	}
+	ap := dbc.Effects[0].BasePoints + 1
 	aura := target.GetOrRegisterAura(Aura{
 		Label:    "Curse of Weakness" + strconv.Itoa(int(points)),
-		ActionID: ActionID{SpellID: 50511},
+		ActionID: ActionID{SpellID: dbc.SpellID},
 		Duration: time.Minute * 2,
 	})
 	minorArmorReductionEffect(aura, 0.05)
-	apReductionEffect(aura, 478*(1+0.1*float64(points)))
+	apReductionEffect(aura, -ap*(1+0.1*float64(points)))
 	return aura
 }
 
-func StingAura(target *Unit) *Aura {
+func StingAura(target *Unit, _ int32) *Aura {
 	aura := target.GetOrRegisterAura(Aura{
 		Label:    "Sting",
 		ActionID: ActionID{SpellID: 56631},
@@ -644,7 +659,7 @@ func StingAura(target *Unit) *Aura {
 	return aura
 }
 
-func SporeCloudAura(target *Unit) *Aura {
+func SporeCloudAura(target *Unit, _ int32) *Aura {
 	aura := target.GetOrRegisterAura(Aura{
 		Label:    "Spore Cloud",
 		ActionID: ActionID{SpellID: 53598},
@@ -671,7 +686,7 @@ var ShatteringThrowAuraTag = "ShatteringThrow"
 
 var ShatteringThrowDuration = time.Second * 10
 
-func ShatteringThrowAura(target *Unit) *Aura {
+func ShatteringThrowAura(target *Unit, _ int32) *Aura {
 	armorReduction := 0.2
 
 	return target.GetOrRegisterAura(Aura{
@@ -690,13 +705,18 @@ func ShatteringThrowAura(target *Unit) *Aura {
 
 const HuntersMarkAuraTag = "HuntersMark"
 
-func HuntersMarkAura(target *Unit, points int32, glyphed bool) *Aura {
-	bonus := 500.0 * (1 + 0.1*float64(points) + TernaryFloat64(glyphed, 0.2, 0))
+func HuntersMarkAura(target *Unit, points int32, glyphed bool, level int32) *Aura {
+	dbc := hunterinfo.HuntersMark.FindMaxRank(level)
+	if dbc == nil {
+		return nil
+	}
+
+	bonus := (1 + dbc.Effects[1].BasePoints) * (1 + 0.1*float64(points) + TernaryFloat64(glyphed, 0.2, 0))
 
 	aura := target.GetOrRegisterAura(Aura{
 		Label:    "HuntersMark-" + strconv.Itoa(int(bonus)),
 		Tag:      HuntersMarkAuraTag,
-		ActionID: ActionID{SpellID: 53338},
+		ActionID: ActionID{SpellID: dbc.SpellID},
 		Duration: NeverExpires,
 	})
 
@@ -713,43 +733,58 @@ func HuntersMarkAura(target *Unit, points int32, glyphed bool) *Aura {
 	return aura
 }
 
-func DemoralizingRoarAura(target *Unit, points int32) *Aura {
+func DemoralizingRoarAura(target *Unit, points int32, level int32) *Aura {
+	dbc := druidinfo.DemoralizingRoar.FindMaxRank(level)
+	if dbc == nil {
+		return nil
+	}
+	ap := dbc.Effects[0].BasePoints + 1 - float64(min(dbc.MaxLevel, level)-dbc.MinLevel)
 	aura := target.GetOrRegisterAura(Aura{
 		Label:    "DemoralizingRoar-" + strconv.Itoa(int(points)),
-		ActionID: ActionID{SpellID: 48560},
+		ActionID: ActionID{SpellID: dbc.SpellID},
 		Duration: time.Second * 30,
 	})
-	apReductionEffect(aura, 411*(1+0.08*float64(points)))
+	apReductionEffect(aura, -ap*(1+0.08*float64(points)))
 	return aura
 }
 
-func DemoralizingShoutAura(target *Unit, boomingVoicePts int32, impDemoShoutPts int32) *Aura {
+func DemoralizingShoutAura(target *Unit, boomingVoicePts int32, impDemoShoutPts int32, level int32) *Aura {
+	dbc := warriorinfo.DemoralizingShout.FindMaxRank(level)
+	if dbc == nil {
+		return nil
+	}
+	ap := dbc.Effects[0].BasePoints + 1 - float64(min(dbc.MaxLevel, level)-dbc.MinLevel)
 	aura := target.GetOrRegisterAura(Aura{
 		Label:    "DemoralizingShout-" + strconv.Itoa(int(impDemoShoutPts)),
-		ActionID: ActionID{SpellID: 47437},
+		ActionID: ActionID{SpellID: dbc.SpellID},
 		Duration: time.Duration(float64(time.Second*30) * (1 + 0.1*float64(boomingVoicePts))),
 	})
-	apReductionEffect(aura, 411*(1+0.08*float64(impDemoShoutPts)))
+	apReductionEffect(aura, -ap*(1+0.08*float64(impDemoShoutPts)))
 	return aura
 }
 
-func VindicationAura(target *Unit, points int32) *Aura {
+func VindicationAura(target *Unit, points int32, level int32) *Aura {
 	aura := target.GetOrRegisterAura(Aura{
 		Label:    "Vindication",
 		ActionID: ActionID{SpellID: 26016},
 		Duration: time.Second * 10,
 	})
-	apReductionEffect(aura, 287*float64(points))
+	apReductionEffect(aura, ((4.4*float64(level-20))+23)*float64(points))
 	return aura
 }
 
-func DemoralizingScreechAura(target *Unit) *Aura {
+func DemoralizingScreechAura(target *Unit, level int32) *Aura {
+	dbc := hunterinfo.DemoralizingScreech.FindMaxRank(level)
+	if dbc == nil {
+		return nil
+	}
+	ap := dbc.Effects[1].BasePoints + 1
 	aura := target.GetOrRegisterAura(Aura{
 		Label:    "DemoralizingScreech",
-		ActionID: ActionID{SpellID: 55487},
+		ActionID: ActionID{SpellID: dbc.SpellID},
 		Duration: time.Second * 4,
 	})
-	apReductionEffect(aura, 576)
+	apReductionEffect(aura, -ap)
 	return aura
 }
 
@@ -860,7 +895,7 @@ func MarkOfBloodAura(target *Unit) *Aura {
 	return aura
 }
 
-func RuneOfRazoriceVulnerabilityAura(target *Unit) *Aura {
+func RuneOfRazoriceVulnerabilityAura(target *Unit, _ int32) *Aura {
 	frostVulnPerStack := 0.02
 	aura := target.GetOrRegisterAura(Aura{
 		Label:     "RuneOfRazoriceVulnerability",
@@ -876,7 +911,7 @@ func RuneOfRazoriceVulnerabilityAura(target *Unit) *Aura {
 	return aura
 }
 
-func InsectSwarmAura(target *Unit) *Aura {
+func InsectSwarmAura(target *Unit, _ int32) *Aura {
 	aura := target.GetOrRegisterAura(Aura{
 		Label:    "InsectSwarmMiss",
 		ActionID: ActionID{SpellID: 27013},
@@ -886,7 +921,7 @@ func InsectSwarmAura(target *Unit) *Aura {
 	return aura
 }
 
-func ScorpidStingAura(target *Unit) *Aura {
+func ScorpidStingAura(target *Unit, _ int32) *Aura {
 	aura := target.GetOrRegisterAura(Aura{
 		Label:    "Scorpid Sting",
 		ActionID: ActionID{SpellID: 3043},

@@ -415,7 +415,7 @@ func (paladin *Paladin) applyHeartOfTheCrusader() {
 		return
 	}
 
-	hotcAuras := paladin.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+	hotcAuras := paladin.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 		return core.HeartOfTheCrusaderDebuff(target, paladin.Talents.HeartOfTheCrusader)
 	})
 
@@ -438,8 +438,8 @@ func (paladin *Paladin) applyVindication() {
 		return
 	}
 
-	vindicationAuras := paladin.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
-		return core.VindicationAura(target, paladin.Talents.Vindication)
+	vindicationAuras := paladin.NewEnemyAuraArray(func(target *core.Unit, level int32) *core.Aura {
+		return core.VindicationAura(target, paladin.Talents.Vindication, level)
 	})
 	paladin.RegisterAura(core.Aura{
 		Label:    "Vindication Talent",
@@ -508,7 +508,7 @@ func (paladin *Paladin) applyJudgementsOfTheJust() {
 		return
 	}
 
-	jojAuras := paladin.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+	jojAuras := paladin.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 		return core.JudgementsOfTheJustAura(target, paladin.Talents.JudgementsOfTheJust)
 	})
 	// This application can proc stuff
