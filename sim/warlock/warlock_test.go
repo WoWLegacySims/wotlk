@@ -136,7 +136,7 @@ var defaultDemonologyOptions = &proto.Warlock_Options{
 // ---------------------------------------------------------
 
 var FullConsumes = &proto.Consumes{
-	Flask:         proto.Flask_FlaskOfTheFrostWyrm,
+	Flask:         proto.Flask_FlaskoftheFrostWyrm,
 	DefaultPotion: proto.Potions_PotionOfWildMagic,
 	PrepopPotion:  proto.Potions_PotionOfWildMagic,
 	Food:          proto.Food_FoodFishFeast,

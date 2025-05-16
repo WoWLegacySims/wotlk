@@ -444,10 +444,10 @@ def CleanName(name: str):
     remove = "()'-:"
     for c in remove:
         name = name.replace(c,"")
-    return name
+    return ''.join(name.split())
 
 def GenSpellInfo(name: str, ids: List[int]):
-    output = f"var {''.join(CleanName(name).split())} = spellinfo.Spell{{SpellInfos: []*spellinfo.SpellInfo{{\n"
+    output = f"var {CleanName(name)} = spellinfo.Spell{{SpellInfos: []*spellinfo.SpellInfo{{\n"
     for id in ids:
         output += "{"
         dbc = GetDBC(id)

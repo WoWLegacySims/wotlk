@@ -55,7 +55,7 @@ var DefaultGlyphs = &proto.Glyphs{
 }
 
 var FullConsumes = &proto.Consumes{
-	Flask:           proto.Flask_FlaskOfPureDeath,
+	Flask:           proto.Flask_FlaskofPureDeath,
 	Food:            proto.Food_FoodBlackenedBasilisk,
 	DefaultPotion:   proto.Potions_SuperManaPotion,
 	PrepopPotion:    proto.Potions_PotionOfWildMagic,

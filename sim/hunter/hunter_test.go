@@ -118,7 +118,7 @@ func BenchmarkSimulate(b *testing.B) {
 }
 
 var FullConsumes = &proto.Consumes{
-	Flask:           proto.Flask_FlaskOfRelentlessAssault,
+	Flask:           proto.Flask_FlaskofRelentlessAssault,
 	DefaultPotion:   proto.Potions_HastePotion,
 	DefaultConjured: proto.Conjured_ConjuredFlameCap,
 	PetFood:         proto.PetFood_PetFoodKiblersBits,

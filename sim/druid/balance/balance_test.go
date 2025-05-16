@@ -74,7 +74,7 @@ var StandardGlyphs = &proto.Glyphs{
 }
 
 var FullConsumes = &proto.Consumes{
-	Flask:         proto.Flask_FlaskOfTheFrostWyrm,
+	Flask:         proto.Flask_FlaskoftheFrostWyrm,
 	Food:          proto.Food_FoodFishFeast,
 	DefaultPotion: proto.Potions_PotionOfSpeed,
 	PrepopPotion:  proto.Potions_PotionOfWildMagic,

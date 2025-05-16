@@ -331,6 +331,13 @@ type PseudoStats struct {
 	MobTypeAttackPower float64 // Bonus AP against mobs of the current type.
 	MobTypeSpellPower  float64 // Bonus SP against mobs of the current type.
 
+	FireSpellPower   float64
+	ArcaneSpellPower float64
+	ShadowSpellPower float64
+	FrostSpellPower  float64
+	HolySpellPower   float64
+	NatureSpellPower float64
+
 	ThreatMultiplier float64 // Modulates the threat generated. Affected by things like salv.
 
 	DamageDealtMultiplier       float64            // All damage
@@ -369,6 +376,7 @@ type PseudoStats struct {
 	BonusSpellHitTaken          float64 // Imp FF
 
 	BonusPhysicalDamageTaken float64 // Hemo, Gift of Arthas, etc
+	BonusSpellDamageTaken    float64 // Hemo, Gift of Arthas, etc
 	BonusHealingTaken        float64 // Talisman of Troll Divinity
 
 	DamageTakenMultiplier       float64            // All damage

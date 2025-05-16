@@ -1,13 +1,11 @@
 import { Player } from "../../player";
+import {BattleElixir, Flask, GuardianElixir} from "../../proto/alchemy"
 import {
-	BattleElixir,
 	Class,
 	Conjured,
 	Consumes,
 	Explosive,
-	Flask,
 	Food,
-	GuardianElixir,
 	PetFood,
 	Potions,
 	Spec,
@@ -15,13 +13,10 @@ import {
 } from "../../proto/common";
 import { ActionId } from "../../proto_utils/action_id";
 import { EventID, TypedEvent } from "../../typed_event";
-
 import { IconEnumValueConfig } from "../icon_enum_picker";
 import { makeBooleanConsumeInput } from "../icon_inputs";
-
-import { ActionInputConfig, ItemStatOption } from "./stat_options";
-
 import * as InputHelpers from '../input_helpers';
+import { ActionInputConfig, ItemStatOption } from "./stat_options";
 
 export interface ConsumableInputConfig<T> extends ActionInputConfig<T> {
 	value: T,
@@ -58,7 +53,7 @@ function makeConsumeInputFactory<T extends number>(args: ConsumeInputFactoryArgs
 				return rtn
 			})),
 			equals: (a: T, b: T) => a == b,
-			zeroValue: 0 as T,	
+			zeroValue: 0 as T,
 			changedEvent: (player: Player<any>) => TypedEvent.onAny([player.consumesChangeEmitter, player.gearChangeEmitter]),
 			showWhen: (player: Player<any>) => !args.showWhen || args.showWhen(player),
 			getValue: (player: Player<any>) => player.getConsumes()[args.consumesFieldName] as T,

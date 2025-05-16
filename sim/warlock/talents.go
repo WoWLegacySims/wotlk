@@ -584,7 +584,7 @@ func (warlock *Warlock) setupDemonicPact() {
 			if warlock.DemonicPactAura.IsActive() {
 				lastBonus = warlock.DemonicPactAura.ExclusiveEffects[0].Priority
 			}
-			newSPBonus := math.Round(dpMult * (warlock.GetStat(stats.SpellPower) - lastBonus))
+			newSPBonus := math.Round(dpMult * (warlock.GetStat(stats.SpellPower) + max(spell.Unit.PseudoStats.ArcaneSpellPower, spell.Unit.PseudoStats.FireSpellPower, spell.Unit.PseudoStats.ShadowSpellPower, spell.Unit.PseudoStats.NatureSpellPower, spell.Unit.PseudoStats.FrostSpellPower) - lastBonus))
 
 			warlock.updateDPASP(sim)
 			for _, dpAura := range demonicPactAuras {

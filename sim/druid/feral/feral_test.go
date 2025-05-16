@@ -185,8 +185,8 @@ var PlayerOptionsFlowerCatAoe = &proto.Player_FeralDruid{
 }
 
 var FullConsumes = &proto.Consumes{
-	BattleElixir:    proto.BattleElixir_ElixirOfMajorAgility,
-	GuardianElixir:  proto.GuardianElixir_ElixirOfMajorMageblood,
+	BattleElixir:    proto.BattleElixir_ElixirofMajorAgility,
+	GuardianElixir:  proto.GuardianElixir_ElixirofMajorMageblood,
 	Food:            proto.Food_FoodGrilledMudfish,
 	DefaultPotion:   proto.Potions_HastePotion,
 	DefaultConjured: proto.Conjured_ConjuredDarkRune,

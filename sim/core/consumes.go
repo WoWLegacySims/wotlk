@@ -7,6 +7,15 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
+func ApplyAlchemyBonus(stats stats.Stats, effect int32) stats.Stats {
+	mod, ok := mixology[effect]
+	if !ok {
+		mod = 1.3
+	}
+	return stats.Multiply(mod)
+
+}
+
 // Registers all consume-related effects to the Agent.
 func applyConsumeEffects(agent Agent) {
 	character := agent.GetCharacter()
@@ -14,297 +23,94 @@ func applyConsumeEffects(agent Agent) {
 	if consumes == nil {
 		return
 	}
-
 	if consumes.Flask != proto.Flask_FlaskUnknown {
+		bonus := Elixirs[int32(consumes.Flask)]
+		bonus = ApplyAlchemyBonus(bonus, int32(consumes.Flask))
+
 		switch consumes.Flask {
-		case proto.Flask_FlaskOfTheFrostWyrm:
-			character.AddStats(stats.Stats{
-				stats.SpellPower: 125,
-			})
-			if character.HasProfession(proto.Profession_Alchemy) {
-				character.AddStats(stats.Stats{
-					stats.SpellPower: 47,
-				})
-			}
-		case proto.Flask_FlaskOfEndlessRage:
-			character.AddStats(stats.Stats{
-				stats.AttackPower:       180,
-				stats.RangedAttackPower: 180,
-			})
-			if character.HasProfession(proto.Profession_Alchemy) {
-				character.AddStats(stats.Stats{
-					stats.AttackPower:       80,
-					stats.RangedAttackPower: 80,
-				})
-			}
-		case proto.Flask_FlaskOfPureMojo:
-			character.AddStats(stats.Stats{
-				stats.MP5: 45,
-			})
-			if character.HasProfession(proto.Profession_Alchemy) {
-				character.AddStats(stats.Stats{
-					stats.MP5: 20,
-				})
-			}
-		case proto.Flask_FlaskOfStoneblood:
-			character.AddStats(stats.Stats{
-				stats.Health: 1300,
-			})
-			if character.HasProfession(proto.Profession_Alchemy) {
-				character.AddStats(stats.Stats{
-					stats.Health: 650,
-				})
-			}
-		case proto.Flask_LesserFlaskOfToughness:
-			character.AddStats(stats.Stats{
-				stats.Resilience: 50,
-			})
-			if character.HasProfession(proto.Profession_Alchemy) {
-				character.AddStats(stats.Stats{
-					stats.Resilience: 82,
-				})
-			}
-		case proto.Flask_LesserFlaskOfResistance:
-			character.AddStats(stats.Stats{
-				stats.ArcaneResistance: 50,
-				stats.FireResistance:   50,
-				stats.FrostResistance:  50,
-				stats.NatureResistance: 50,
-				stats.ShadowResistance: 50,
-			})
-			if character.HasProfession(proto.Profession_Alchemy) {
-				character.AddStats(stats.Stats{
-					stats.ArcaneResistance: 40,
-					stats.FireResistance:   40,
-					stats.FrostResistance:  40,
-					stats.NatureResistance: 40,
-					stats.ShadowResistance: 40,
-				})
-			}
-		case proto.Flask_FlaskOfBlindingLight:
-			character.OnSpellRegistered(func(spell *Spell) {
-				if spell.SpellSchool.Matches(SpellSchoolArcane | SpellSchoolHoly | SpellSchoolNature) {
-					spell.BonusSpellPower += 80
-				}
-			})
-		case proto.Flask_FlaskOfMightyRestoration:
-			character.AddStats(stats.Stats{
-				stats.MP5: 25,
-			})
-		case proto.Flask_FlaskOfPureDeath:
-			character.OnSpellRegistered(func(spell *Spell) {
-				if spell.SpellSchool.Matches(SpellSchoolFire | SpellSchoolFrost | SpellSchoolShadow) {
-					spell.BonusSpellPower += 80
-				}
-			})
-		case proto.Flask_FlaskOfRelentlessAssault:
-			character.AddStats(stats.Stats{
-				stats.AttackPower:       120,
-				stats.RangedAttackPower: 120,
-			})
-		case proto.Flask_FlaskOfSupremePower:
-			character.AddStats(stats.Stats{
-				stats.SpellPower: 70,
-			})
-		case proto.Flask_FlaskOfFortification:
-			character.AddStats(stats.Stats{
-				stats.Health:  500,
-				stats.Defense: 10,
-			})
-		case proto.Flask_FlaskOfChromaticWonder:
-			character.AddStats(stats.Stats{
-				stats.Stamina:          18,
-				stats.Strength:         18,
-				stats.Agility:          18,
-				stats.Intellect:        18,
-				stats.Spirit:           18,
-				stats.ArcaneResistance: 35,
-				stats.FireResistance:   35,
-				stats.FrostResistance:  35,
-				stats.NatureResistance: 35,
-				stats.ShadowResistance: 35,
-			})
+		case proto.Flask_FlaskofBlindingLight:
+			character.PseudoStats.ArcaneSpellPower += bonus[stats.SpellPower]
+			character.PseudoStats.HolySpellPower += bonus[stats.SpellPower]
+			character.PseudoStats.NatureSpellPower += bonus[stats.SpellPower]
+		case proto.Flask_FlaskofPureDeath:
+			character.PseudoStats.ShadowSpellPower += bonus[stats.SpellPower]
+			character.PseudoStats.FireSpellPower += bonus[stats.SpellPower]
+			character.PseudoStats.FrostSpellPower += bonus[stats.SpellPower]
+		default:
+			character.AddStats(bonus)
 		}
+
 	} else {
-		switch consumes.BattleElixir {
-		case proto.BattleElixir_ElixirOfAccuracy:
-			character.AddStats(stats.Stats{
-				stats.MeleeHit: 45,
-				stats.SpellHit: 45,
-			})
-		case proto.BattleElixir_ElixirOfArmorPiercing:
-			character.AddStats(stats.Stats{
-				stats.ArmorPenetration: 45,
-			})
-		case proto.BattleElixir_ElixirOfDeadlyStrikes:
-			character.AddStats(stats.Stats{
-				stats.MeleeCrit: 45,
-				stats.SpellCrit: 45,
-			})
-		case proto.BattleElixir_ElixirOfExpertise:
-			character.AddStats(stats.Stats{
-				stats.Expertise: 45,
-			})
-		case proto.BattleElixir_ElixirOfLightningSpeed:
-			character.AddStats(stats.Stats{
-				stats.MeleeHaste: 45,
-				stats.SpellHaste: 45,
-			})
-		case proto.BattleElixir_ElixirOfMightyAgility:
-			character.AddStats(stats.Stats{
-				stats.Agility: 45,
-			})
-		case proto.BattleElixir_ElixirOfMightyStrength:
-			character.AddStats(stats.Stats{
-				stats.Strength: 45,
-			})
-		case proto.BattleElixir_GurusElixir:
-			character.AddStats(stats.Stats{
-				stats.Agility:   20,
-				stats.Strength:  20,
-				stats.Stamina:   20,
-				stats.Intellect: 20,
-				stats.Spirit:    20,
-			})
-		case proto.BattleElixir_SpellpowerElixir:
-			character.AddStats(stats.Stats{
-				stats.SpellPower: 58,
-			})
-		case proto.BattleElixir_WrathElixir:
-			character.AddStats(stats.Stats{
-				stats.AttackPower:       90,
-				stats.RangedAttackPower: 90,
-			})
-		case proto.BattleElixir_AdeptsElixir:
-			character.AddStats(stats.Stats{
-				stats.SpellCrit:  24,
-				stats.SpellPower: 24,
-			})
-		case proto.BattleElixir_ElixirOfDemonslaying:
-			if character.CurrentTarget.MobType == proto.MobType_MobTypeDemon {
-				character.PseudoStats.MobTypeAttackPower += 265
+		if consumes.BattleElixir != proto.BattleElixir_BattleElixirUnknown {
+			bonus := Elixirs[int32(consumes.BattleElixir)]
+			bonus = ApplyAlchemyBonus(bonus, int32(consumes.BattleElixir))
+
+			switch consumes.BattleElixir {
+			case proto.BattleElixir_ElixirofFirepower:
+				fallthrough
+			case proto.BattleElixir_ElixirofMajorFirepower:
+				fallthrough
+			case proto.BattleElixir_ElixirofGreaterFirepower:
+				character.PseudoStats.FireSpellPower += bonus[stats.SpellPower]
+			case proto.BattleElixir_ElixirofFrostPower:
+				fallthrough
+			case proto.BattleElixir_ElixirofMajorFrostPower:
+				character.PseudoStats.FrostSpellPower += bonus[stats.SpellPower]
+			case proto.BattleElixir_ElixirofShadowPower:
+				fallthrough
+			case proto.BattleElixir_ElixirofMajorShadowPower:
+				character.PseudoStats.ShadowSpellPower += bonus[stats.SpellPower]
+			case proto.BattleElixir_ElixirofDemonslaying:
+				if character.CurrentTarget.MobType == proto.MobType_MobTypeDemon {
+					character.PseudoStats.MobTypeAttackPower = bonus[stats.AttackPower]
+				}
+			default:
+				character.AddStats(bonus)
 			}
-		case proto.BattleElixir_ElixirOfMajorAgility:
-			character.AddStats(stats.Stats{
-				stats.Agility:   35,
-				stats.MeleeCrit: 20,
-			})
-		case proto.BattleElixir_ElixirOfMajorStrength:
-			character.AddStats(stats.Stats{
-				stats.Strength: 35,
-			})
-		case proto.BattleElixir_ElixirOfMastery:
-			character.AddStats(stats.Stats{
-				stats.Stamina:   15,
-				stats.Strength:  15,
-				stats.Agility:   15,
-				stats.Intellect: 15,
-				stats.Spirit:    15,
-			})
-		case proto.BattleElixir_ElixirOfTheMongoose:
-			character.AddStats(stats.Stats{
-				stats.Agility:   25,
-				stats.MeleeCrit: 28,
-			})
-		case proto.BattleElixir_FelStrengthElixir:
-			character.AddStats(stats.Stats{
-				stats.AttackPower:       90,
-				stats.RangedAttackPower: 90,
-				stats.Stamina:           -10,
-			})
-		case proto.BattleElixir_GreaterArcaneElixir:
-			character.AddStats(stats.Stats{
-				stats.SpellPower: 35,
-			})
 		}
+		if consumes.GuardianElixir != proto.GuardianElixir_GuardianElixirUnknown {
+			bonus := Elixirs[int32(consumes.GuardianElixir)]
+			bonus = ApplyAlchemyBonus(bonus, int32(consumes.GuardianElixir))
+			switch consumes.GuardianElixir {
+			case proto.GuardianElixir_EarthenElixir:
+				character.PseudoStats.BonusPhysicalDamageTaken -= 20
+				character.PseudoStats.BonusSpellDamageTaken -= 20
+			case proto.GuardianElixir_GiftofArthas:
+				character.AddStats(bonus)
+				debuffAuras := (&character.Unit).NewEnemyAuraArray(GiftOfArthasAura)
 
-		switch consumes.GuardianElixir {
-		case proto.GuardianElixir_ElixirOfMightyDefense:
-			character.AddStats(stats.Stats{
-				stats.Defense: 45,
-			})
-		case proto.GuardianElixir_ElixirOfMightyFortitude:
-			character.AddStats(stats.Stats{
-				stats.Health: 350,
-			})
-		case proto.GuardianElixir_ElixirOfMightyMageblood:
-			character.AddStats(stats.Stats{
-				stats.MP5: 30,
-			})
-		case proto.GuardianElixir_ElixirOfMightyThoughts:
-			character.AddStats(stats.Stats{
-				stats.Intellect: 45,
-			})
-		case proto.GuardianElixir_ElixirOfProtection:
-			character.AddStats(stats.Stats{
-				stats.Armor: 800,
-			})
-			if character.HasProfession(proto.Profession_Alchemy) {
-				character.AddStats(stats.Stats{
-					stats.Armor: 280,
+				actionID := ActionID{SpellID: 11374}
+				goaProc := character.RegisterSpell(SpellConfig{
+					ActionID:    actionID,
+					SpellSchool: SpellSchoolNature,
+					ProcMask:    ProcMaskEmpty,
+
+					ThreatMultiplier: 1,
+					FlatThreatBonus:  90,
+
+					ApplyEffects: func(sim *Simulation, target *Unit, spell *Spell) {
+						debuffAuras.Get(target).Activate(sim)
+						spell.CalcAndDealOutcome(sim, target, spell.OutcomeAlwaysHit)
+					},
 				})
+
+				character.RegisterAura(Aura{
+					Label:    "Gift of Arthas",
+					Duration: NeverExpires,
+					OnReset: func(aura *Aura, sim *Simulation) {
+						aura.Activate(sim)
+					},
+					OnSpellHitTaken: func(aura *Aura, sim *Simulation, spell *Spell, result *SpellResult) {
+						if result.Landed() &&
+							spell.SpellSchool == SpellSchoolPhysical &&
+							sim.RandomFloat("Gift of Arthas") < 0.3 {
+							goaProc.Cast(sim, spell.Unit)
+						}
+					},
+				})
+			default:
+				character.AddStats(bonus)
 			}
-		case proto.GuardianElixir_ElixirOfSpirit:
-			character.AddStats(stats.Stats{
-				stats.Spirit: 50,
-			})
-		case proto.GuardianElixir_ElixirOfDraenicWisdom:
-			character.AddStats(stats.Stats{
-				stats.Intellect: 30,
-				stats.Spirit:    30,
-			})
-		case proto.GuardianElixir_ElixirOfIronskin:
-			character.AddStats(stats.Stats{
-				stats.Resilience: 30,
-			})
-		case proto.GuardianElixir_ElixirOfMajorDefense:
-			character.AddStats(stats.Stats{
-				stats.Armor: 550,
-			})
-		case proto.GuardianElixir_ElixirOfMajorFortitude:
-			character.AddStats(stats.Stats{
-				stats.Health: 250,
-			})
-		case proto.GuardianElixir_ElixirOfMajorMageblood:
-			character.AddStats(stats.Stats{
-				stats.MP5: 16,
-			})
-		case proto.GuardianElixir_GiftOfArthas:
-			character.AddStats(stats.Stats{
-				stats.ShadowResistance: 10,
-			})
-
-			debuffAuras := (&character.Unit).NewEnemyAuraArray(GiftOfArthasAura)
-
-			actionID := ActionID{SpellID: 11374}
-			goaProc := character.RegisterSpell(SpellConfig{
-				ActionID:    actionID,
-				SpellSchool: SpellSchoolNature,
-				ProcMask:    ProcMaskEmpty,
-
-				ThreatMultiplier: 1,
-				FlatThreatBonus:  90,
-
-				ApplyEffects: func(sim *Simulation, target *Unit, spell *Spell) {
-					debuffAuras.Get(target).Activate(sim)
-					spell.CalcAndDealOutcome(sim, target, spell.OutcomeAlwaysHit)
-				},
-			})
-
-			character.RegisterAura(Aura{
-				Label:    "Gift of Arthas",
-				Duration: NeverExpires,
-				OnReset: func(aura *Aura, sim *Simulation) {
-					aura.Activate(sim)
-				},
-				OnSpellHitTaken: func(aura *Aura, sim *Simulation, spell *Spell, result *SpellResult) {
-					if result.Landed() &&
-						spell.SpellSchool == SpellSchoolPhysical &&
-						sim.RandomFloat("Gift of Arthas") < 0.3 {
-						goaProc.Cast(sim, spell.Unit)
-					}
-				},
-			})
 		}
 	}
 

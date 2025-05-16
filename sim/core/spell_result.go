@@ -104,9 +104,29 @@ func (spell *Spell) PhysicalCritCheck(sim *Simulation, attackTable *AttackTable)
 }
 
 func (spell *Spell) SpellPower() float64 {
+	schoolSP := 0.0
+	if spell.SpellSchool.Matches(SpellSchoolArcane) {
+		schoolSP = max(schoolSP, spell.Unit.PseudoStats.ArcaneSpellPower)
+	}
+	if spell.SpellSchool.Matches(SpellSchoolFire) {
+		schoolSP = max(schoolSP, spell.Unit.PseudoStats.FireSpellPower)
+	}
+	if spell.SpellSchool.Matches(SpellSchoolFrost) {
+		schoolSP = max(schoolSP, spell.Unit.PseudoStats.FrostSpellPower)
+	}
+	if spell.SpellSchool.Matches(SpellSchoolHoly) {
+		schoolSP = max(schoolSP, spell.Unit.PseudoStats.HolySpellPower)
+	}
+	if spell.SpellSchool.Matches(SpellSchoolNature) {
+		schoolSP = max(schoolSP, spell.Unit.PseudoStats.NatureSpellPower)
+	}
+	if spell.SpellSchool.Matches(SpellSchoolShadow) {
+		schoolSP = max(schoolSP, spell.Unit.PseudoStats.ShadowSpellPower)
+	}
 	return spell.Unit.GetStat(stats.SpellPower) +
 		spell.BonusSpellPower +
-		spell.Unit.PseudoStats.MobTypeSpellPower
+		spell.Unit.PseudoStats.MobTypeSpellPower +
+		schoolSP
 }
 
 func (spell *Spell) SpellHitChance(target *Unit) float64 {
@@ -388,6 +408,10 @@ func (result *SpellResult) applyTargetModifiers(spell *Spell, attackTable *Attac
 
 	if spell.SpellSchool.Matches(SpellSchoolPhysical) && spell.Flags.Matches(SpellFlagIncludeTargetBonusDamage) {
 		result.Damage += attackTable.Defender.PseudoStats.BonusPhysicalDamageTaken
+	}
+
+	if spell.SpellSchool.Matches(SpellSchoolMagic) && spell.Flags.Matches(SpellFlagIncludeTargetBonusDamage) {
+		result.Damage += attackTable.Defender.PseudoStats.BonusSpellDamageTaken
 	}
 
 	result.Damage *= spell.TargetDamageMultiplier(attackTable, isPeriodic)

@@ -92,7 +92,7 @@ var BasicOptions = &proto.Player_HolyPaladin{
 }
 
 var FullConsumes = &proto.Consumes{
-	Flask:           proto.Flask_FlaskOfStoneblood,
+	Flask:           proto.Flask_FlaskofStoneblood,
 	Food:            proto.Food_FoodDragonfinFilet,
 	DefaultPotion:   proto.Potions_IndestructiblePotion,
 	PrepopPotion:    proto.Potions_IndestructiblePotion,

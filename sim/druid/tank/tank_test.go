@@ -88,7 +88,7 @@ var PlayerOptionsDefault = &proto.Player_FeralTankDruid{
 
 var FullConsumes = &proto.Consumes{
 	BattleElixir:    proto.BattleElixir_GurusElixir,
-	GuardianElixir:  proto.GuardianElixir_GiftOfArthas,
+	GuardianElixir:  proto.GuardianElixir_GiftofArthas,
 	Food:            proto.Food_FoodBlackenedDragonfin,
 	DefaultPotion:   proto.Potions_IndestructiblePotion,
 	DefaultConjured: proto.Conjured_ConjuredHealthstone,

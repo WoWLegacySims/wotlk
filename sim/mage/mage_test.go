@@ -148,7 +148,7 @@ var PlayerOptionsArcane = &proto.Player_Mage{
 }
 
 var FullFireConsumes = &proto.Consumes{
-	Flask:         proto.Flask_FlaskOfTheFrostWyrm,
+	Flask:         proto.Flask_FlaskoftheFrostWyrm,
 	Food:          proto.Food_FoodFirecrackerSalmon,
 	DefaultPotion: proto.Potions_PotionOfSpeed,
 }
