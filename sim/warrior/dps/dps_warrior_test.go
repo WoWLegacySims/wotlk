@@ -131,5 +131,5 @@ var FullConsumes = &proto.Consumes{
 	Flask:         proto.Flask_FlaskofEndlessRage,
 	DefaultPotion: proto.Potions_PotionOfSpeed,
 	PrepopPotion:  proto.Potions_PotionOfSpeed,
-	Food:          proto.Food_FoodFishFeast,
+	Food:          proto.Food_FishFeast,
 }

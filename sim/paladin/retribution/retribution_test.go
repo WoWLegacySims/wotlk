@@ -130,6 +130,6 @@ var FullConsumes = &proto.Consumes{
 	Flask:           proto.Flask_FlaskofRelentlessAssault,
 	DefaultPotion:   proto.Potions_HastePotion,
 	DefaultConjured: proto.Conjured_ConjuredDarkRune,
-	Food:            proto.Food_FoodRoastedClefthoof,
+	Food:            proto.Food_RoastedClefthoof,
 	ThermalSapper:   true,
 }

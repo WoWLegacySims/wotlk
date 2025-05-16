@@ -139,5 +139,5 @@ var FullConsumes = &proto.Consumes{
 	Flask:         proto.Flask_FlaskoftheFrostWyrm,
 	DefaultPotion: proto.Potions_PotionOfWildMagic,
 	PrepopPotion:  proto.Potions_PotionOfWildMagic,
-	Food:          proto.Food_FoodFishFeast,
+	Food:          proto.Food_FishFeast,
 }

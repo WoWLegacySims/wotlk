@@ -159,7 +159,7 @@ var FullConsumes = &proto.Consumes{
 	Flask:         proto.Flask_FlaskofEndlessRage,
 	DefaultPotion: proto.Potions_PotionOfSpeed,
 	PrepopPotion:  proto.Potions_PotionOfSpeed,
-	Food:          proto.Food_FoodDragonfinFilet,
+	Food:          proto.Food_DragonfinFilet,
 }
 
 var ItemFilter = core.ItemFilter{

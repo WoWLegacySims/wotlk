@@ -8,7 +8,7 @@ import (
 )
 
 func ApplyAlchemyBonus(stats stats.Stats, effect int32) stats.Stats {
-	mod, ok := mixology[effect]
+	mod, ok := Mixology[effect]
 	if !ok {
 		mod = 1.3
 	}
@@ -24,7 +24,7 @@ func applyConsumeEffects(agent Agent) {
 		return
 	}
 	if consumes.Flask != proto.Flask_FlaskUnknown {
-		bonus := Elixirs[int32(consumes.Flask)]
+		bonus := Flasks[consumes.Flask]
 		bonus = ApplyAlchemyBonus(bonus, int32(consumes.Flask))
 
 		switch consumes.Flask {
@@ -42,7 +42,7 @@ func applyConsumeEffects(agent Agent) {
 
 	} else {
 		if consumes.BattleElixir != proto.BattleElixir_BattleElixirUnknown {
-			bonus := Elixirs[int32(consumes.BattleElixir)]
+			bonus := BattleElixirs[consumes.BattleElixir]
 			bonus = ApplyAlchemyBonus(bonus, int32(consumes.BattleElixir))
 
 			switch consumes.BattleElixir {
@@ -69,7 +69,7 @@ func applyConsumeEffects(agent Agent) {
 			}
 		}
 		if consumes.GuardianElixir != proto.GuardianElixir_GuardianElixirUnknown {
-			bonus := Elixirs[int32(consumes.GuardianElixir)]
+			bonus := GuardianElixirs[consumes.GuardianElixir]
 			bonus = ApplyAlchemyBonus(bonus, int32(consumes.GuardianElixir))
 			switch consumes.GuardianElixir {
 			case proto.GuardianElixir_EarthenElixir:
@@ -114,116 +114,9 @@ func applyConsumeEffects(agent Agent) {
 		}
 	}
 
-	switch consumes.Food {
-	case proto.Food_FoodFishFeast:
-		character.AddStats(stats.Stats{
-			stats.AttackPower:       80,
-			stats.RangedAttackPower: 80,
-			stats.SpellPower:        46,
-			stats.Stamina:           40,
-		})
-	case proto.Food_FoodGreatFeast:
-		character.AddStats(stats.Stats{
-			stats.AttackPower:       60,
-			stats.RangedAttackPower: 60,
-			stats.SpellPower:        35,
-			stats.Stamina:           30,
-		})
-	case proto.Food_FoodBlackenedDragonfin:
-		character.AddStats(stats.Stats{
-			stats.Agility: 40,
-			stats.Stamina: 40,
-		})
-	case proto.Food_FoodHeartyRhino:
-		character.AddStats(stats.Stats{
-			stats.ArmorPenetration: 40,
-			stats.Stamina:          40,
-		})
-	case proto.Food_FoodMegaMammothMeal:
-		character.AddStats(stats.Stats{
-			stats.AttackPower:       80,
-			stats.RangedAttackPower: 80,
-			stats.Stamina:           40,
-		})
-	case proto.Food_FoodSpicedWormBurger:
-		character.AddStats(stats.Stats{
-			stats.MeleeCrit: 40,
-			stats.SpellCrit: 40,
-			stats.Stamina:   40,
-		})
-	case proto.Food_FoodRhinoliciousWormsteak:
-		character.AddStats(stats.Stats{
-			stats.Expertise: 40,
-			stats.Stamina:   40,
-		})
-	case proto.Food_FoodImperialMantaSteak:
-		character.AddStats(stats.Stats{
-			stats.MeleeHaste: 40,
-			stats.SpellHaste: 40,
-			stats.Stamina:    40,
-		})
-	case proto.Food_FoodSnapperExtreme:
-		character.AddStats(stats.Stats{
-			stats.MeleeHit: 40,
-			stats.SpellHit: 40,
-			stats.Stamina:  40,
-		})
-	case proto.Food_FoodMightyRhinoDogs:
-		character.AddStats(stats.Stats{
-			stats.MP5:     16,
-			stats.Stamina: 40,
-		})
-	case proto.Food_FoodFirecrackerSalmon:
-		character.AddStats(stats.Stats{
-			stats.SpellPower: 46,
-			stats.Stamina:    40,
-		})
-	case proto.Food_FoodCuttlesteak:
-		character.AddStats(stats.Stats{
-			stats.Spirit:  40,
-			stats.Stamina: 40,
-		})
-	case proto.Food_FoodDragonfinFilet:
-		character.AddStats(stats.Stats{
-			stats.Strength: 40,
-			stats.Stamina:  40,
-		})
-	case proto.Food_FoodBlackenedBasilisk:
-		character.AddStats(stats.Stats{
-			stats.SpellPower: 23,
-			stats.Spirit:     20,
-		})
-	case proto.Food_FoodGrilledMudfish:
-		character.AddStats(stats.Stats{
-			stats.Agility: 20,
-			stats.Spirit:  20,
-		})
-	case proto.Food_FoodRavagerDog:
-		character.AddStats(stats.Stats{
-			stats.AttackPower:       40,
-			stats.RangedAttackPower: 40,
-			stats.Spirit:            20,
-		})
-	case proto.Food_FoodRoastedClefthoof:
-		character.AddStats(stats.Stats{
-			stats.Strength: 20,
-			stats.Spirit:   20,
-		})
-	case proto.Food_FoodSkullfishSoup:
-		character.AddStats(stats.Stats{
-			stats.SpellCrit: 20,
-			stats.Spirit:    20,
-		})
-	case proto.Food_FoodSpicyHotTalbuk:
-		character.AddStats(stats.Stats{
-			stats.MeleeHit: 20,
-			stats.Spirit:   20,
-		})
-	case proto.Food_FoodFishermansFeast:
-		character.AddStats(stats.Stats{
-			stats.Stamina: 30,
-			stats.Spirit:  20,
-		})
+	if consumes.Food != proto.Food_FoodUnknown {
+		bonus := Foods[consumes.Food]
+		character.AddStats(bonus)
 	}
 
 	registerPotionCD(agent, consumes)

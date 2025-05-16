@@ -84,7 +84,7 @@ var FullConsumes = &proto.Consumes{
 	Flask:         proto.Flask_FlaskofStoneblood,
 	DefaultPotion: proto.Potions_IndestructiblePotion,
 	PrepopPotion:  proto.Potions_IndestructiblePotion,
-	Food:          proto.Food_FoodDragonfinFilet,
+	Food:          proto.Food_DragonfinFilet,
 }
 
 var FullDebuffs = &proto.Debuffs{

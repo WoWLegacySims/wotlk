@@ -1,3 +1,4 @@
+import * as PresetUtils from '../core/preset_utils.js';
 import {
 	BattleElixir,
 	Conjured,
@@ -10,21 +11,16 @@ import {
 	Spec,
 	UnitReference,
 } from '../core/proto/common.js';
-import { SavedTalents } from '../core/proto/ui.js';
-
 import {
-	FeralTankDruid_Rotation as DruidRotation,
-	FeralTankDruid_Options as DruidOptions,
 	DruidMajorGlyph,
 	DruidMinorGlyph,
+	FeralTankDruid_Options as DruidOptions,
+	FeralTankDruid_Rotation as DruidRotation,
 } from '../core/proto/druid.js';
-
-import * as PresetUtils from '../core/preset_utils.js';
-
+import { SavedTalents } from '../core/proto/ui.js';
 // Preset options for this spec.
 // Eventually we will import these values for the raid sim too, so its good to
 // keep them in a separate file.
-
 import P1Gear from './gear_sets/p1.gear.json';
 export const P1_PRESET = PresetUtils.makePresetGear('P1', P1Gear);
 import P2Gear from './gear_sets/p2.gear.json';
