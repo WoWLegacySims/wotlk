@@ -1,26 +1,21 @@
+import * as PresetUtils from '../core/preset_utils.js';
 import {
 	Consumes,
 	Faction,
-	Flask,
-	Food,
 	Glyphs,
 	Potions,
 } from '../core/proto/common.js';
+import {Flask,Food} from '../core/proto/consumes_gen.js'
 import { SavedTalents } from '../core/proto/ui.js';
-
 import {
-	WarriorShout,
 	Warrior_Options as WarriorOptions,
 	WarriorMajorGlyph,
 	WarriorMinorGlyph,
+	WarriorShout,
 } from '../core/proto/warrior.js';
-
-import * as PresetUtils from '../core/preset_utils.js';
-
 // Preset options for this spec.
 // Eventually we will import these values for the raid sim too, so its good to
 // keep them in a separate file.
-
 import PreraidArmsGear from './gear_sets/preraid_arms.gear.json';
 export const PRERAID_ARMS_PRESET = PresetUtils.makePresetGear('Preraid Arms', PreraidArmsGear, { talentTree: 0 });
 import P1ArmsGear from './gear_sets/p1_arms.gear.json';
@@ -104,8 +99,8 @@ export const DefaultOptions = WarriorOptions.create({
 });
 
 export const DefaultConsumes = Consumes.create({
-	flask: Flask.FlaskOfEndlessRage,
-	food: Food.FoodSpicedWormBurger,
+	flask: Flask.FlaskofEndlessRage,
+	food: Food.SpicedWormBurger,
 	defaultPotion: Potions.IndestructiblePotion,
 	prepopPotion: Potions.PotionOfSpeed,
 });

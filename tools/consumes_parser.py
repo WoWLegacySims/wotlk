@@ -23,6 +23,7 @@ DIR_PATH = "assets/db_inputs/spells/"
 SPELL = "Spell.csv"
 
 GO_OUTPUT_PATH = "sim/core/"
+TS_OUTPUT_PATH = "ui/core/"
 SPELLDBC = GenIntIndexedDb(DIR_PATH + SPELL)
 
 ElixirExcludes = "32767,32766,34537,8827"
@@ -33,7 +34,7 @@ FoodAdditions = {
     57426: 57399,
     66486: 66623,
 }
-FoodExcludes = "45279,42997,43001"
+FoodIds = "24105, 17198, 724, 1082, 3728, 12215, 13928, 33004, 20452, 33024, 35563, 35565, 21023, 27651, 27655, 27657, 27658, 27659, 27663, 27667, 33867, 33825, 33872, 34754, 34755, 34756, 34758, 34769, 42994, 42995, 42996, 42998, 42999, 43000, 43015, 46399"
 
 Off = {
     "Effect": 68,
@@ -114,6 +115,7 @@ class Aura:
     name: str
     spell: int
     level: int
+    stats: List[str]
 
 class Elixir(Aura):
     flag: int
@@ -183,52 +185,73 @@ def GenStatAuras(auras: List[Aura], name:str):
     for aura in auras:
         spell = SPELLDBC[aura.spell]
         output += f"proto.{name}_{aura.name}: {{\n"
+        aura.stats = []
         for eff in range(0,3):
             if (int(spell[Off["Effect"]+eff]) != 6):
                 break
 
-            aura = int(spell[Off["EffectAura"]+eff])
+            effAura = int(spell[Off["EffectAura"]+eff])
             misc = int(spell[Off["EffectMiscValueA"]+eff])
             amount = int(spell[Off["EffectBasePoints"]+eff])+1
 
-            if(aura == AuraEffect["damage"]):
-                if(misc == SchoolMask["Physical"]): output += f"stats.AttackPower: {amount},stats.RangedAttackPower: {amount},"
-                elif (misc & SchoolMask["Magic"]): output += f"stats.SpellPower: {amount},"
+            if(effAura == AuraEffect["damage"]):
+                if(misc == SchoolMask["Physical"]):
+                    output += f"stats.AttackPower: {amount},stats.RangedAttackPower: {amount},"
+                    aura.stats.append("AttackPower")
+                    aura.stats.append("RangedAttackPower")
 
-            if(aura == AuraEffect["stat"]):
+                elif (misc & SchoolMask["Magic"]):
+                    output += f"stats.SpellPower: {amount},"
+                    aura.stats.append("SpellPower")
+
+            if(effAura == AuraEffect["stat"]):
                 if(misc == -1):
                    for i in range(0,5):
                         output += f"stats.{Stat[i]}: {amount},"
+                        aura.stats.append(Stat[i])
                 else:
                    output += f"stats.{Stat[misc]}: {amount},"
+                   aura.stats.append(Stat[misc])
 
-            if(aura == AuraEffect["resistance"]):
+            if(effAura == AuraEffect["resistance"]):
                 for i in [1,4,8,16,32,64]:
                     if(i & misc):
                         output += f"stats.{Resistance[i]}: {amount},"
+                        aura.stats.append(Resistance[i])
 
-            if(aura == AuraEffect["penetration"]): output += f"stats.SpellPenetration: {-amount},"
+            if(effAura == AuraEffect["penetration"]):
+                output += f"stats.SpellPenetration: {-amount},"
+                aura.stats.append("SpellPenetration")
 
-            if(aura == AuraEffect["regen"]):
-                if(misc == 0): output += f"stats.MP5: {amount},"
+            if(effAura == AuraEffect["regen"]):
+                if(misc == 0):
+                    output += f"stats.MP5: {amount},"
+                    aura.stats.append("MP5")
 
-            if(aura == AuraEffect["hp5"]): output += f"/*stats.HP5: {amount},*/"
+            if(effAura == AuraEffect["hp5"]):
+                output += f"/*stats.HP5: {amount},*/"
 
-            if(aura == AuraEffect["health"]):
-                if(misc == 0): output += f"stats.Health: {amount},"
+            if(effAura == AuraEffect["health"]):
+                if(misc == 0):
+                    output += f"stats.Health: {amount},"
+                    aura.stats.append("Health")
 
-            if(aura == AuraEffect["rating"]):
+            if(effAura == AuraEffect["rating"]):
                 for i, s in Rating.items():
                     if(misc & (1 << i)):
                         output += f"stats.{s}: {amount},"
+                        aura.stats.append(s)
 
-            if(aura == AuraEffect["attackpower"] or aura == AuraEffect["attackpowervs"]):
+            if(effAura == AuraEffect["attackpower"] or effAura == AuraEffect["attackpowervs"]):
                 output += f"stats.AttackPower: {amount}, stats.RangedAttackPower: {amount},"
+                aura.stats.append("AttackPower")
+                aura.stats.append("RangedAttackPower")
+
         output += "},\n"
     output += "}"
     return output
 
-def GenElixirs(elixirs: List[Elixir]):
+def GenGOElixirs(elixirs: List[Elixir]):
     output = ""
     list = []
     for el in elixirs:
@@ -251,6 +274,60 @@ def GenElixirs(elixirs: List[Elixir]):
 
     output += GenStatAuras(list,"Flask")
     return output
+
+def GenConsumableStatOption(consume: List[Aura], category: str):
+    output = ""
+    statoption = ""
+    output += f"export const {category.upper()}_CONFIG = [\n"
+    for con in consume:
+        #output += f"export const {con.name} = {{actionId: ActionId.fromItemId({con.entry}), value: {category}.{con.name}}};\n"
+        output += f"{{ config : {{actionId: ActionId.fromItemId({con.entry}), value: {category}.{con.name}}}, stats: ["
+        for stat in con.stats:
+            output += f"Stat.Stat{stat},"
+        output += f"],level: {con.level}}},\n"
+
+    output += f"] as ConsumableStatOption<{category}>[];\n"
+    #output += f"export const {category.upper()}_CONFIG = [\n"
+    #output += statoption
+    #output += f"] as ConsumableStatOption<{category}>[];\n"
+    return output
+
+
+def GenTSElixirs(elixirs: List[Elixir]):
+    output = ""
+    list = []
+    for el in elixirs:
+        if el.flag == 1:
+            list.append(el)
+
+    output += GenConsumableStatOption(list,"BattleElixir")
+
+    list = []
+    for el in elixirs:
+        if el.flag == 2:
+            list.append(el)
+
+    output += GenConsumableStatOption(list,"GuardianElixir")
+
+    list = []
+    for el in elixirs:
+        if el.flag == 3:
+            list.append(el)
+
+    output += GenConsumableStatOption(list,"Flask")
+    return output
+
+def GenConsumableStatOptions(elixirs: List[Elixir], food: List[Aura]):
+    output = """import {Stat} from "../../proto/common";
+import {BattleElixir,Flask,Food,GuardianElixir} from '../../proto/consumes_gen.js'
+import { ActionId } from "../../proto_utils/action_id";
+import { ConsumableStatOption } from "./consumables.js";
+
+"""
+    output += GenTSElixirs(elixirs)
+    output += GenConsumableStatOption(food,"Food")
+    return output
+
 
 if __name__ == "__main__":
     db = mysql.connector.connect(host="localhost", user="root", password="root", database="acore_world")
@@ -305,15 +382,15 @@ ORDER BY special_flag ASC""")
 
     cursor.execute(f"""SELECT entry ,name, spellid_1, RequiredLevel
 FROM item_template
-WHERE spellid_1 IN({eatSpellKeys}) AND entry NOT IN({FoodExcludes})
+WHERE spellid_1 IN({eatSpellKeys}) AND entry IN({FoodIds})
 UNION ALL
 SELECT entry ,name, spellid_2, RequiredLevel
 FROM item_template
-WHERE spellid_2 IN({eatSpellKeys}) AND entry NOT IN({FoodExcludes})
+WHERE spellid_2 IN({eatSpellKeys}) AND entry IN({FoodIds})
 UNION ALL
 SELECT entry ,name, spellid_3, RequiredLevel
 FROM item_template
-WHERE spellid_3 IN({eatSpellKeys}) AND entry NOT IN({FoodExcludes})
+WHERE spellid_3 IN({eatSpellKeys}) AND entry IN({FoodIds})
 """)
     results = cursor.fetchall()
     food = []
@@ -326,7 +403,7 @@ WHERE spellid_3 IN({eatSpellKeys}) AND entry NOT IN({FoodExcludes})
         food.append(f)
 
     output = GenMixology(mixology)
-    output += GenElixirs(elixirs)
+    output += GenGOElixirs(elixirs)
     output += GenStatAuras(food, "Food")
     fname = BASE_DIR + GO_OUTPUT_PATH + "consumes_gen.go"
     print(f"Writing stats to: {fname}")
@@ -336,6 +413,13 @@ WHERE spellid_3 IN({eatSpellKeys}) AND entry NOT IN({FoodExcludes})
 
     output = GenProto(elixirs, food)
     fname = BASE_DIR + "proto/consumes_gen.proto"
+    print(f"Writing proto to: {fname}")
+    f = open(fname, "w")
+    f.write(output)
+    f.close()
+
+    output = GenConsumableStatOptions(elixirs, food)
+    fname = BASE_DIR + TS_OUTPUT_PATH + "components/inputs/consumes_gen.ts"
     print(f"Writing proto to: {fname}")
     f = open(fname, "w")
     f.write(output)

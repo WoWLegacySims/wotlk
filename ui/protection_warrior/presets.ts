@@ -1,29 +1,23 @@
+import * as PresetUtils from '../core/preset_utils.js';
 import {
-	BattleElixir,
 	Consumes,
 	Explosive,
-	Food,
 	Glyphs,
-	GuardianElixir,
 	Potions,
 	Spec,
 } from '../core/proto/common.js';
+import {BattleElixir,Food,GuardianElixir} from '../core/proto/consumes_gen.js'
 import { SavedTalents } from '../core/proto/ui.js';
-
 import {
-	WarriorShout,
-	ProtectionWarrior_Rotation as ProtectionWarriorRotation,
 	ProtectionWarrior_Options as ProtectionWarriorOptions,
+	ProtectionWarrior_Rotation as ProtectionWarriorRotation,
 	WarriorMajorGlyph,
 	WarriorMinorGlyph,
+	WarriorShout,
 } from '../core/proto/warrior.js';
-
-import * as PresetUtils from '../core/preset_utils.js';
-
 // Preset options for this spec.
 // Eventually we will import these values for the raid sim too, so its good to
 // keep them in a separate file.
-
 import PreraidBalancedGear from './gear_sets/preraid_balanced.gear.json';
 export const PRERAID_BALANCED_PRESET = PresetUtils.makePresetGear('P1 PreRaid Preset', PreraidBalancedGear);
 import PreraidP4Gear from './gear_sets/p4_preraid.gear.json';
@@ -81,9 +75,9 @@ export const DefaultOptions = ProtectionWarriorOptions.create({
 });
 
 export const DefaultConsumes = Consumes.create({
-	battleElixir: BattleElixir.ElixirOfExpertise,
-	guardianElixir: GuardianElixir.ElixirOfProtection,
-	food: Food.FoodDragonfinFilet,
+	battleElixir: BattleElixir.ElixirofExpertise,
+	guardianElixir: GuardianElixir.ElixirofProtection,
+	food: Food.DragonfinFilet,
 	defaultPotion: Potions.IndestructiblePotion,
 	prepopPotion: Potions.IndestructiblePotion,
 	thermalSapper: true,

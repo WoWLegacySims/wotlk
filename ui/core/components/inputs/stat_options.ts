@@ -2,7 +2,6 @@ import { IndividualSimUI } from "../../individual_sim_ui";
 import { Player } from "../../player";
 import { Faction, Spec, Stat } from "../../proto/common";
 import { ActionId } from "../../proto_utils/action_id";
-
 import { IconEnumPicker, IconEnumPickerConfig } from "../icon_enum_picker";
 import { IconPicker, IconPickerConfig } from "../icon_picker";
 import { MultiIconPicker, MultiIconPickerConfig } from "../multi_icon_picker";
@@ -16,6 +15,7 @@ export interface ActionInputConfig<T> {
 
 export interface StatOption {
 	stats: Array<Stat>,
+	level?: number,
 }
 
 export interface ItemStatOption<T> extends StatOption {
@@ -51,10 +51,10 @@ export function relevantStatOptions<T, OptionsType extends ItemStatOptions<T> | 
 	simUI: IndividualSimUI<Spec>
 ): StatOptions<T, OptionsType> {
   return options
-    .filter(option =>
-      option.stats.length == 0 ||
-      option.stats.some(stat => simUI.individualConfig.epStats.includes(stat)) ||
-			simUI.individualConfig.includeBuffDebuffInputs.includes(option.config))
+    .filter(option => ((!option.level || option.level + 10 >= simUI.player.getLevel() && option.level <= simUI.player.getLevel()) &&
+      (option.stats.length == 0 ||
+      option.stats.some(stat => simUI.individualConfig.epStats.includes(stat))) ||
+			simUI.individualConfig.includeBuffDebuffInputs.includes(option.config)))
 		.filter(option =>
 			!simUI.individualConfig.excludeBuffDebuffInputs.includes(option.config))
 }

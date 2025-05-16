@@ -1,35 +1,30 @@
+import * as PresetUtils from '../core/preset_utils.js';
 import {
 	Consumes,
-	Flask,
-	Food,
+	Debuffs,
+	Faction,
 	Glyphs,
 	Potions,
 	RaidBuffs,
 	TristateEffect,
-	Debuffs,
-	Faction,
 } from '../core/proto/common.js';
-import { SavedTalents } from '../core/proto/ui.js';
-
+import {Flask,Food} from '../core/proto/consumes_gen.js'
 import {
 	AirTotem,
 	EarthTotem,
+	EnhancementShaman_Options as EnhancementShamanOptions,
 	FireTotem,
-	WaterTotem,
-	ShamanTotems,
 	ShamanImbue,
+	ShamanMajorGlyph,
 	ShamanShield,
 	ShamanSyncType,
-	ShamanMajorGlyph,
-	EnhancementShaman_Options as EnhancementShamanOptions,
+	ShamanTotems,
+	WaterTotem,
 } from '../core/proto/shaman.js';
-
-import * as PresetUtils from '../core/preset_utils.js';
-
+import { SavedTalents } from '../core/proto/ui.js';
 // Preset options for this spec.
 // Eventually we will import these values for the raid sim too, so its good to
 // keep them in a separate file.
-
 import PreraidGear from './gear_sets/preraid.gear.json';
 export const PRERAID_PRESET = PresetUtils.makePresetGear('Preraid Preset', PreraidGear);
 import P1Gear from './gear_sets/p1.gear.json';
@@ -97,8 +92,8 @@ export const DefaultOptions = EnhancementShamanOptions.create({
 
 export const DefaultConsumes = Consumes.create({
 	defaultPotion: Potions.PotionOfSpeed,
-	flask: Flask.FlaskOfEndlessRage,
-	food: Food.FoodFishFeast,
+	flask: Flask.FlaskofEndlessRage,
+	food: Food.FishFeast,
 });
 
 export const DefaultRaidBuffs = RaidBuffs.create({

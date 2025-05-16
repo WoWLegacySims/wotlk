@@ -210,122 +210,22 @@ stats.Resilience: 50,},
 var Foods = map[proto.Food]stats.Stats{
 proto.Food_GoretuskLiverPie: {
 stats.Stamina: 4,stats.Spirit: 4,},
-proto.Food_SeasonedWolfKabob: {
-stats.Stamina: 6,stats.Spirit: 6,},
 proto.Food_RedridgeGoulash: {
-stats.Stamina: 6,stats.Spirit: 6,},
-proto.Food_SpicedWolfMeat: {
-stats.Stamina: 2,stats.Spirit: 2,},
-proto.Food_CrabCake: {
-stats.Stamina: 4,stats.Spirit: 4,},
-proto.Food_CoyoteSteak: {
-stats.Stamina: 4,stats.Spirit: 4,},
-proto.Food_DryPorkRibs: {
-stats.Stamina: 4,stats.Spirit: 4,},
-proto.Food_BeerBastedBoarRibs: {
-stats.Stamina: 2,stats.Spirit: 2,},
-proto.Food_BloodSausage: {
-stats.Stamina: 4,stats.Spirit: 4,},
-proto.Food_CrocoliskSteak: {
-stats.Stamina: 4,stats.Spirit: 4,},
-proto.Food_MurlocFinSoup: {
-stats.Stamina: 6,stats.Spirit: 6,},
-proto.Food_CrocoliskGumbo: {
-stats.Stamina: 6,stats.Spirit: 6,},
-proto.Food_CuriouslyTastyOmelet: {
-stats.Stamina: 6,stats.Spirit: 6,},
-proto.Food_GooeySpiderCake: {
-stats.Stamina: 6,stats.Spirit: 6,},
-proto.Food_BigBearSteak: {
-stats.Stamina: 6,stats.Spirit: 6,},
-proto.Food_HotLionChops: {
 stats.Stamina: 6,stats.Spirit: 6,},
 proto.Food_TastyLionSteak: {
 stats.Stamina: 8,stats.Spirit: 8,},
-proto.Food_SoothingTurtleBisque: {
-stats.Stamina: 8,stats.Spirit: 8,},
-proto.Food_BarbecuedBuzzardWing: {
-stats.Stamina: 8,stats.Spirit: 8,},
-proto.Food_KaldoreiSpiderKabob: {
-stats.Stamina: 2,stats.Spirit: 2,},
-proto.Food_RoastedKodoMeat: {
-stats.Stamina: 2,stats.Spirit: 2,},
-proto.Food_FilletofFrenzy: {
-stats.Stamina: 4,stats.Spirit: 4,},
-proto.Food_StriderStew: {
-stats.Stamina: 4,stats.Spirit: 4,},
-proto.Food_CrispyLizardTail: {
-stats.Stamina: 6,stats.Spirit: 6,},
-proto.Food_LeanVenison: {
-stats.Stamina: 6,stats.Spirit: 6,},
-proto.Food_BoiledClams: {
-stats.Stamina: 4,stats.Spirit: 4,},
-proto.Food_GoblinDeviledClams: {
-stats.Stamina: 6,stats.Spirit: 6,},
-proto.Food_GiantClamScorcho: {
-stats.Stamina: 8,stats.Spirit: 8,},
-proto.Food_HerbBakedEgg: {
-stats.Stamina: 2,stats.Spirit: 2,},
-proto.Food_Lollipop: {
-stats.Stamina: 2,stats.Spirit: 2,},
-proto.Food_CandyBar: {
-stats.Stamina: 2,stats.Spirit: 2,},
-proto.Food_ChocolateSquare: {
-stats.Stamina: 2,stats.Spirit: 2,},
-proto.Food_CactusAppleSurprise: {
-stats.Stamina: 2,stats.Spirit: 2,},
-proto.Food_LeanWolfSteak: {
-stats.Stamina: 6,stats.Spirit: 6,},
-proto.Food_RoastRaptor: {
-stats.Stamina: 8,stats.Spirit: 8,},
-proto.Food_JungleStew: {
-stats.Stamina: 8,stats.Spirit: 8,},
-proto.Food_CarrionSurprise: {
-stats.Stamina: 8,stats.Spirit: 8,},
-proto.Food_MysteryStew: {
-stats.Stamina: 8,stats.Spirit: 8,},
 proto.Food_HeavyKodoStew: {
 stats.Stamina: 12,stats.Spirit: 12,},
-proto.Food_SpicedChiliCrab: {
-stats.Stamina: 12,stats.Spirit: 12,},
-proto.Food_MonsterOmelet: {
-stats.Stamina: 12,stats.Spirit: 12,},
-proto.Food_CrispyBatWing: {
-stats.Stamina: 2,stats.Spirit: 2,},
-proto.Food_HotWolfRibs: {
-stats.Stamina: 8,stats.Spirit: 8,},
 proto.Food_GrilledSquid: {
 stats.Agility: 10,},
-proto.Food_ClamletteSurprise: {
-stats.Stamina: 12,stats.Spirit: 12,},
-proto.Food_GingerbreadCookie: {
-stats.Stamina: 2,stats.Spirit: 2,},
 proto.Food_EggNog: {
 stats.Stamina: 2,stats.Spirit: 2,},
-proto.Food_SpiderSausage: {
-stats.Stamina: 12,stats.Spirit: 12,},
-proto.Food_TenderWolfSteak: {
-stats.Stamina: 12,stats.Spirit: 12,},
-proto.Food_HeavyCrocoliskStew: {
-stats.Stamina: 8,stats.Spirit: 8,},
 proto.Food_SmokedDesertDumplings: {
 stats.Strength: 20,},
 proto.Food_DirgesKickinChimaerokChops: {
 stats.Stamina: 25,},
-proto.Food_CrunchySpiderSurprise: {
-stats.Stamina: 4,stats.Spirit: 4,},
-proto.Food_CookiesJumboGumbo: {
-stats.Stamina: 2,stats.Spirit: 2,},
 proto.Food_RoastedMoongrazeTenderloin: {
 stats.Stamina: 2,stats.Spirit: 2,},
-proto.Food_MarshLichen: {
-stats.Spirit: 10,},
-proto.Food_EdibleFern: {
-stats.Stamina: 14,stats.Spirit: 14,},
-proto.Food_LynxSteak: {
-stats.Stamina: 2,stats.Spirit: 2,},
-proto.Food_BatBites: {
-stats.Stamina: 4,stats.Spirit: 4,},
 proto.Food_BuzzardBites: {
 stats.Stamina: 20,stats.Spirit: 20,},
 proto.Food_RavagerDog: {
@@ -336,156 +236,34 @@ proto.Food_RoastedClefthoof: {
 stats.Strength: 20,stats.Spirit: 20,},
 proto.Food_WarpBurger: {
 stats.Agility: 20,stats.Spirit: 20,},
-proto.Food_TalbukSteak: {
-stats.Stamina: 20,stats.Spirit: 20,},
-proto.Food_FeltailDelight: {
-stats.Stamina: 20,stats.Spirit: 20,},
 proto.Food_BlackenedSporefish: {
 stats.Stamina: 20,stats.MP5: 10,},
-proto.Food_GrilledMudfish: {
-stats.Agility: 20,stats.Spirit: 20,},
-proto.Food_PoachedBluefish: {
-stats.SpellPower: 23,stats.Spirit: 20,},
-proto.Food_GoldenFishSticks: {
-stats.Spirit: 20,stats.SpellPower: 23,},
 proto.Food_SpicyCrawdad: {
 stats.Stamina: 30,stats.Spirit: 20,},
-proto.Food_HelboarBacon: {
-stats.Strength: 20,},
-proto.Food_ClamBar: {
-stats.Stamina: 20,stats.Spirit: 20,},
-proto.Food_OronoksTuberofHealing: {
-stats.Spirit: 20,stats.SpellPower: 23,},
-proto.Food_OronoksTuberofAgility: {
-stats.Agility: 20,stats.Spirit: 20,},
-proto.Food_OronoksTuberofStrength: {
-stats.Strength: 20,stats.Spirit: 20,},
-proto.Food_OronoksTuberofSpellPower: {
-stats.SpellPower: 23,stats.Spirit: 20,},
-proto.Food_MokNathalShortribs: {
-stats.Stamina: 20,stats.Spirit: 20,},
-proto.Food_CrunchySerpent: {
-stats.SpellPower: 23,stats.Spirit: 20,},
-proto.Food_SkyguardRations: {
-stats.Stamina: 15,stats.Spirit: 15,},
 proto.Food_ClamletteMagnifique: {
 stats.AttackPower: 24, stats.RangedAttackPower: 24,stats.SpellPower: 14,},
-proto.Food_SavorySausage: {
-stats.Stamina: 12,stats.Spirit: 12,},
 proto.Food_PickledSausage: {
 stats.Stamina: 14,stats.Spirit: 14,},
-proto.Food_SpicySmokedSausage: {
-stats.Stamina: 20,stats.Spirit: 20,},
-proto.Food_TheGoldenLink: {
-stats.Stamina: 20,stats.Spirit: 20,},
-proto.Food_BarleybrewLight: {
-stats.Stamina: 4,stats.Spirit: 4,},
-proto.Food_BarleybrewDark: {
-stats.Stamina: 6,stats.Spirit: 6,},
-proto.Food_BarleybrewClear: {
-stats.Stamina: 2,stats.Spirit: 2,},
-proto.Food_Thunder45: {
-stats.Stamina: 8,stats.Spirit: 8,},
-proto.Food_ThunderbrewAle: {
-stats.Stamina: 12,stats.Spirit: 12,},
-proto.Food_ThunderbrewStout: {
-stats.Stamina: 14,stats.Spirit: 14,},
-proto.Food_GordokGrog: {
-stats.Stamina: 20,stats.Spirit: 20,},
-proto.Food_OgreMead: {
-stats.Stamina: 20,stats.Spirit: 20,},
-proto.Food_MuddersMilk: {
-stats.Strength: 20,stats.Spirit: 20,},
-proto.Food_TheEssentialBrewfestPretzel: {
-stats.Stamina: 2,stats.Spirit: 2,},
-proto.Food_FishermansFeast: {
-stats.Stamina: 30,stats.Spirit: 20,},
 proto.Food_SkullfishSoup: {
 stats.MeleeCrit: 20,stats.SpellCrit: 20,stats.Spirit: 20,},
 proto.Food_BroiledBloodfin: {
 stats.FireResistance: 8,stats.NatureResistance: 8,stats.FrostResistance: 8,stats.ShadowResistance: 8,stats.ArcaneResistance: 8,},
 proto.Food_SpicyHotTalbuk: {
 stats.MeleeHit: 20,stats.SpellHit: 20,stats.Spirit: 20,},
-proto.Food_SmallStepBrew: {
-stats.Stamina: 2,stats.Spirit: 2,},
-proto.Food_LongStrideBrew: {
-stats.Stamina: 4,stats.Spirit: 4,},
-proto.Food_PathofBrew: {
-stats.Stamina: 6,stats.Spirit: 6,},
-proto.Food_JungleRiverWater: {
-stats.Stamina: 8,stats.Spirit: 8,},
-proto.Food_BrewdooMagic: {
-stats.Stamina: 12,stats.Spirit: 12,},
-proto.Food_StoutShrunkenHead: {
-stats.Stamina: 14,stats.Spirit: 14,},
-proto.Food_DriedSausage: {
-stats.Stamina: 6,stats.Spirit: 6,},
-proto.Food_SucculentSausage: {
-stats.Stamina: 8,stats.Spirit: 8,},
-proto.Food_SpicedOnionCheese: {
-stats.Stamina: 4,stats.Spirit: 4,},
-proto.Food_ShoveltuskSoup: {
-stats.MeleeHaste: 30,stats.SpellHaste: 30,stats.Stamina: 30,},
-proto.Food_RecipeShoveltuskSoup: {
-stats.MeleeHaste: 30,stats.SpellHaste: 30,stats.Stamina: 30,},
-proto.Food_HoneyedHolidayHam: {
-stats.Stamina: 20,stats.Spirit: 20,},
-proto.Food_HotAppleCider: {
-stats.Stamina: 20,stats.Spirit: 20,},
-proto.Food_SparklingAppleCider: {
-stats.Stamina: 12,stats.Spirit: 12,},
-proto.Food_MammothMeal: {
-stats.AttackPower: 60, stats.RangedAttackPower: 60,stats.Stamina: 30,},
-proto.Food_ShoveltuskSteak: {
-stats.SpellPower: 35,stats.Stamina: 30,},
-proto.Food_WormDelight: {
-stats.MeleeCrit: 30,stats.SpellCrit: 30,stats.Stamina: 30,},
-proto.Food_RoastedWorg: {
-stats.MeleeHaste: 30,stats.SpellHaste: 30,stats.Stamina: 30,},
-proto.Food_RhinoDogs: {
-stats.MP5: 15,stats.Stamina: 30,},
-proto.Food_GreatFeast: {
-stats.AttackPower: 60, stats.RangedAttackPower: 60,stats.Stamina: 30,stats.SpellPower: 35,},
 proto.Food_MegaMammothMeal: {
 stats.AttackPower: 80, stats.RangedAttackPower: 80,stats.Stamina: 40,},
 proto.Food_TenderShoveltuskSteak: {
 stats.SpellPower: 46,stats.Stamina: 40,},
 proto.Food_SpicedWormBurger: {
 stats.MeleeCrit: 40,stats.SpellCrit: 40,stats.Stamina: 40,},
-proto.Food_VeryBurntWorg: {
-stats.MeleeHaste: 40,stats.SpellHaste: 40,stats.Stamina: 40,},
 proto.Food_MightyRhinoDogs: {
 stats.MP5: 20,stats.Stamina: 40,},
-proto.Food_GrilledSculpin: {
-stats.AttackPower: 60, stats.RangedAttackPower: 60,stats.Stamina: 40,},
-proto.Food_SmokedSalmon: {
-stats.SpellPower: 35,stats.Stamina: 40,},
-proto.Food_PoachedNettlefish: {
-stats.MeleeCrit: 30,stats.SpellCrit: 30,stats.Stamina: 40,},
-proto.Food_PickledFangtooth: {
-stats.MP5: 15,stats.Stamina: 40,},
-proto.Food_PoachedNorthernSculpin: {
-stats.AttackPower: 80, stats.RangedAttackPower: 80,stats.Stamina: 40,},
-proto.Food_FirecrackerSalmon: {
-stats.SpellPower: 46,stats.Stamina: 40,},
-proto.Food_SpicyBlueNettlefish: {
-stats.MeleeCrit: 40,stats.SpellCrit: 40,stats.Stamina: 40,},
 proto.Food_ImperialMantaSteak: {
 stats.MeleeHaste: 40,stats.SpellHaste: 40,stats.Stamina: 40,},
 proto.Food_CharredBearKabobs: {
 stats.AttackPower: 24, stats.RangedAttackPower: 24,},
 proto.Food_JuicyBearBurger: {
 stats.SpellPower: 14,},
-proto.Food_SucculentOrcaStew: {
-stats.MeleeCrit: 30,stats.SpellCrit: 30,stats.Stamina: 30,},
-proto.Food_RecipeSucculentOrcaStew: {
-stats.Stamina: 6,stats.Spirit: 6,},
-proto.Food_SteamingChickenSoup: {
-stats.Stamina: 25,stats.Spirit: 25,},
-proto.Food_BakedMantaRay: {
-stats.MeleeHaste: 30,stats.SpellHaste: 30,stats.Stamina: 40,},
-proto.Food_SpicyFriedHerring: {
-stats.MP5: 20,stats.Stamina: 40,},
 proto.Food_RhinoliciousWormsteak: {
 stats.Expertise: 40,stats.Stamina: 40,},
 proto.Food_HeartyRhino: {
@@ -500,22 +278,6 @@ proto.Food_DragonfinFilet: {
 stats.Strength: 40,stats.Stamina: 40,},
 proto.Food_FishFeast: {
 stats.AttackPower: 80, stats.RangedAttackPower: 80,stats.Stamina: 40,stats.SpellPower: 46,},
-proto.Food_DalaranClamChowder: {
-stats.AttackPower: 60, stats.RangedAttackPower: 60,stats.Stamina: 30,stats.SpellPower: 35,},
-proto.Food_SlipperyEel: {
-stats.Dodge: 40,},
-proto.Food_WorgTartare: {
-stats.MeleeHit: 40,stats.SpellHit: 40,stats.Stamina: 40,},
 proto.Food_ThundersPlunder: {
 stats.Resilience: 40,stats.Stamina: 40,},
-proto.Food_BarleybrewGold: {
-stats.MeleeCrit: 40,stats.SpellCrit: 40,},
-proto.Food_CrimsonStripe: {
-stats.MeleeCrit: 40,stats.SpellCrit: 40,},
-proto.Food_PromiseofthePandaren: {
-stats.Resilience: 40,stats.Stamina: 40,},
-proto.Food_ChuganpugsDelight: {
-stats.MeleeCrit: 40,stats.SpellCrit: 40,},
-proto.Food_BountifulBasket: {
-stats.AttackPower: 8, stats.RangedAttackPower: 8,stats.Stamina: 4,stats.SpellPower: 4,},
 }

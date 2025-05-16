@@ -1,25 +1,20 @@
+import * as PresetUtils from '../core/preset_utils.js';
 import {
 	Conjured,
 	Consumes,
-	Flask,
-	Food,
 	Glyphs,
 	Potions,
 } from '../core/proto/common.js';
-import { SavedTalents } from '../core/proto/ui.js';
-
+import {Flask,Food} from '../core/proto/consumes_gen.js'
 import {
 	Rogue_Options as RogueOptions,
 	Rogue_Options_PoisonImbue as Poison,
 	RogueMajorGlyph,
 } from '../core/proto/rogue.js';
-
-import * as PresetUtils from '../core/preset_utils.js';
-
+import { SavedTalents } from '../core/proto/ui.js';
 // Preset options for this spec.
 // Eventually we will import these values for the raid sim too, so its good to
 // keep them in a separate file.
-
 import PreraidAssassinationGear from './gear_sets/preraid_assassination.gear.json';
 export const PRERAID_PRESET_ASSASSINATION = PresetUtils.makePresetGear('PreRaid Assassination', PreraidAssassinationGear, { talentTree: 0 });
 import P1AssassinationGear from './gear_sets/p1_assassination.gear.json';
@@ -171,6 +166,6 @@ export const DefaultConsumes = Consumes.create({
 	defaultPotion: Potions.PotionOfSpeed,
 	prepopPotion: Potions.PotionOfSpeed,
 	defaultConjured: Conjured.ConjuredRogueThistleTea,
-	flask: Flask.FlaskOfEndlessRage,
-	food: Food.FoodMegaMammothMeal,
+	flask: Flask.FlaskofEndlessRage,
+	food: Food.MegaMammothMeal,
 });

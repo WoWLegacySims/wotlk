@@ -1,16 +1,14 @@
 import * as PresetUtils from '../core/preset_utils.js';
 import {
-	BattleElixir,
 	Conjured,
 	Consumes,
 	Explosive,
-	Food,
 	Glyphs,
-	GuardianElixir,
 	Potions,
 	Spec,
 	UnitReference,
 } from '../core/proto/common.js';
+import {BattleElixir, Food, GuardianElixir} from '../core/proto/consumes_gen.js'
 import {
 	DruidMajorGlyph,
 	DruidMinorGlyph,
@@ -65,8 +63,8 @@ export const DefaultOptions = DruidOptions.create({
 
 export const DefaultConsumes = Consumes.create({
 	battleElixir: BattleElixir.GurusElixir,
-	guardianElixir: GuardianElixir.GiftOfArthas,
-	food: Food.FoodBlackenedDragonfin,
+	guardianElixir: GuardianElixir.GiftofArthas,
+	food: Food.BlackenedDragonfin,
 	prepopPotion: Potions.IndestructiblePotion,
 	defaultPotion: Potions.IndestructiblePotion,
 	defaultConjured: Conjured.ConjuredHealthstone,

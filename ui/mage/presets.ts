@@ -1,33 +1,28 @@
+import { Player } from '../core/player.js';
+import * as PresetUtils from '../core/preset_utils.js';
 import {
 	Conjured,
 	Consumes,
 	Faction,
-	Flask,
-	Food,
 	Glyphs,
 	Potions,
 	Profession,
 	Spec,
 	UnitReference,
 } from '../core/proto/common.js';
-import { SavedTalents } from '../core/proto/ui.js';
-import { Player } from '../core/player.js';
-
+import {Flask,Food} from '../core/proto/consumes_gen.js'
 import {
-	Mage_Rotation as MageRotation,
-	Mage_Rotation_PrimaryFireSpell as PrimaryFireSpell,
 	Mage_Options as MageOptions,
 	Mage_Options_ArmorType as ArmorType,
+	Mage_Rotation as MageRotation,
+	Mage_Rotation_PrimaryFireSpell as PrimaryFireSpell,
 	MageMajorGlyph,
 	MageMinorGlyph,
 } from '../core/proto/mage.js';
-
-import * as PresetUtils from '../core/preset_utils.js';
-
+import { SavedTalents } from '../core/proto/ui.js';
 // Preset options for this spec.
 // Eventually we will import these values for the raid sim too, so its good to
 // keep them in a separate file.
-
 import PreraidArcaneGear from './gear_sets/preraid_arcane.gear.json';
 export const ARCANE_PRERAID_PRESET = PresetUtils.makePresetGear('Arcane Preraid Preset', PreraidArcaneGear, { talentTree: 0 });
 import P1ArcaneGear from './gear_sets/p1_arcane.gear.json';
@@ -188,8 +183,8 @@ export const DefaultFireOptions = MageOptions.create({
 });
 
 export const DefaultFireConsumes = Consumes.create({
-	flask: Flask.FlaskOfTheFrostWyrm,
-	food: Food.FoodFirecrackerSalmon,
+	flask: Flask.FlaskoftheFrostWyrm,
+	food: Food.TenderShoveltuskSteak,
 	defaultPotion: Potions.PotionOfSpeed,
 	defaultConjured: Conjured.ConjuredFlameCap,
 	prepopPotion: Potions.PotionOfSpeed,
@@ -204,8 +199,8 @@ export const DefaultFrostOptions = MageOptions.create({
 export const DefaultFrostConsumes = Consumes.create({
 	defaultPotion: Potions.PotionOfSpeed,
 	defaultConjured: Conjured.ConjuredFlameCap,
-	flask: Flask.FlaskOfTheFrostWyrm,
-	food: Food.FoodFishFeast,
+	flask: Flask.FlaskoftheFrostWyrm,
+	food: Food.FishFeast,
 });
 
 export const DefaultArcaneOptions = MageOptions.create({
@@ -217,8 +212,8 @@ export const DefaultArcaneOptions = MageOptions.create({
 export const DefaultArcaneConsumes = Consumes.create({
 	defaultPotion: Potions.PotionOfSpeed,
 	defaultConjured: Conjured.ConjuredDarkRune,
-	flask: Flask.FlaskOfTheFrostWyrm,
-	food: Food.FoodFirecrackerSalmon,
+	flask: Flask.FlaskoftheFrostWyrm,
+	food: Food.TenderShoveltuskSteak,
 });
 
 export const OtherDefaults = {

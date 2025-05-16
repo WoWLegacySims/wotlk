@@ -4,15 +4,13 @@ import {
 	Spec,
 } from "../../proto/common";
 import { TypedEvent } from "../../typed_event";
-
 import { Component } from "../component";
 import { buildIconInput } from "../icon_inputs.js";
-import { relevantStatOptions } from "../inputs/stat_options";
 import { TypedIconEnumPickerConfig, TypedIconPickerConfig } from "../input_helpers";
-
-import { SettingsTab } from "./settings_tab";
-
 import * as ConsumablesInputs from '../inputs/consumables';
+import {BATTLEELIXIR_CONFIG, FLASK_CONFIG, FOOD_CONFIG, GUARDIANELIXIR_CONFIG} from "../inputs/consumes_gen"
+import { relevantStatOptions } from "../inputs/stat_options";
+import { SettingsTab } from "./settings_tab";
 
 export class ConsumesPicker extends Component {
 	protected settingsTab: SettingsTab;
@@ -31,7 +29,7 @@ export class ConsumesPicker extends Component {
 	}
 
 	private buildPotionsPicker() {
-		let fragment = document.createElement('fragment');
+		const fragment = document.createElement('fragment');
 		fragment.innerHTML = `
 			<div class="consumes-row input-root input-inline">
 				<label class="form-label">Potions</label>
@@ -77,7 +75,7 @@ export class ConsumesPicker extends Component {
 	}
 
 	private buildElixirsPicker() {
-		let fragment = document.createElement('fragment');
+		const fragment = document.createElement('fragment');
 		fragment.innerHTML = `
       <div class="consumes-row input-root input-inline">
         <label class="form-label">Elixirs</label>
@@ -96,24 +94,24 @@ export class ConsumesPicker extends Component {
 		const guardianElixirsElem = this.rootElem.querySelector('.consumes-guardian-elixirs') as HTMLElement;
 
 		this.buildPickers({
-			changeEmitters: [],
+			changeEmitters: [this.simUI.player.levelChangeEmitter],
 			containerElem: rowElem,
 			options: [
 				{
 					getConfig: () => ConsumablesInputs.makeFlasksInput(
-						relevantStatOptions(ConsumablesInputs.FLASKS_CONFIG, this.simUI)
+						relevantStatOptions(FLASK_CONFIG, this.simUI)
 					),
 					parentElem: flasksElem,
 				},
 				{
 					getConfig: () => ConsumablesInputs.makeBattleElixirsInput(
-						relevantStatOptions(ConsumablesInputs.BATTLE_ELIXIRS_CONFIG, this.simUI)
+						relevantStatOptions(BATTLEELIXIR_CONFIG, this.simUI)
 					),
 					parentElem: battleElixirsElem,
 				},
 				{
 					getConfig: () => ConsumablesInputs.makeGuardianElixirsInput(
-						relevantStatOptions(ConsumablesInputs.GUARDIAN_ELIXIRS_CONFIG, this.simUI)
+						relevantStatOptions(GUARDIANELIXIR_CONFIG, this.simUI)
 					),
 					parentElem: guardianElixirsElem,
 				}
@@ -122,7 +120,7 @@ export class ConsumesPicker extends Component {
 	}
 
 	private buildFoodPicker() {
-		let fragment = document.createElement('fragment');
+		const fragment = document.createElement('fragment');
 		fragment.innerHTML = `
       <div class="consumes-row input-root input-inline">
         <label class="form-label">Food</label>
@@ -136,12 +134,12 @@ export class ConsumesPicker extends Component {
 		const foodsElem = this.rootElem.querySelector('.consumes-food') as HTMLElement;
 
 		this.buildPickers({
-			changeEmitters: [],
+			changeEmitters: [this.simUI.player.levelChangeEmitter],
 			containerElem: rowElem,
 			options: [
 				{
 					getConfig: () => ConsumablesInputs.makeFoodInput(
-						relevantStatOptions(ConsumablesInputs.FOOD_CONFIG, this.simUI),
+						relevantStatOptions(FOOD_CONFIG, this.simUI),
 					),
 					parentElem: foodsElem,
 				},
@@ -150,7 +148,7 @@ export class ConsumesPicker extends Component {
 	}
 
 	private buildEngPicker() {
-		let fragment = document.createElement('fragment');
+		const fragment = document.createElement('fragment');
 		fragment.innerHTML = `
       <div class="consumes-row input-root input-inline">
         <label class="form-label">Engineering</label>
@@ -192,7 +190,7 @@ export class ConsumesPicker extends Component {
 
 	private buildPetPicker() {
 		if (this.simUI.individualConfig.petConsumeInputs?.length) {
-			let fragment = document.createElement('fragment');
+			const fragment = document.createElement('fragment');
 			fragment.innerHTML = `
         <div class="consumes-row input-root input-inline">
           <label class="form-label">Pet</label>
