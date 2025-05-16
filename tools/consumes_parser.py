@@ -172,6 +172,11 @@ import (
     "github.com/WoWLegacySims/wotlk/sim/core/proto"
 )
 
+type Consume struct {
+	Stats stats.Stats
+	Level int32
+}
+
 var Mixology = map[int32]float64{
 '''
     for mix in mixology:
@@ -181,10 +186,10 @@ var Mixology = map[int32]float64{
 
 
 def GenStatAuras(auras: List[Aura], name:str):
-    output = f"\nvar {name}s = map[proto.{name}]stats.Stats{{\n"
+    output = f"\nvar {name}s = map[proto.{name}]Consume{{\n"
     for aura in auras:
         spell = SPELLDBC[aura.spell]
-        output += f"proto.{name}_{aura.name}: {{\n"
+        output += f"proto.{name}_{aura.name}: {{Level: {aura.level},\nStats: stats.Stats{{"
         aura.stats = []
         for eff in range(0,3):
             if (int(spell[Off["Effect"]+eff]) != 6):
@@ -247,7 +252,7 @@ def GenStatAuras(auras: List[Aura], name:str):
                 aura.stats.append("AttackPower")
                 aura.stats.append("RangedAttackPower")
 
-        output += "},\n"
+        output += "}},\n"
     output += "}"
     return output
 

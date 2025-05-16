@@ -24,99 +24,107 @@ func applyConsumeEffects(agent Agent) {
 		return
 	}
 	if consumes.Flask != proto.Flask_FlaskUnknown {
-		bonus := Flasks[consumes.Flask]
-		bonus = ApplyAlchemyBonus(bonus, int32(consumes.Flask))
+		flask := Flasks[consumes.Flask]
+		if character.Level >= flask.Level {
+			bonus := ApplyAlchemyBonus(flask.Stats, int32(consumes.Flask))
 
-		switch consumes.Flask {
-		case proto.Flask_FlaskofBlindingLight:
-			character.PseudoStats.ArcaneSpellPower += bonus[stats.SpellPower]
-			character.PseudoStats.HolySpellPower += bonus[stats.SpellPower]
-			character.PseudoStats.NatureSpellPower += bonus[stats.SpellPower]
-		case proto.Flask_FlaskofPureDeath:
-			character.PseudoStats.ShadowSpellPower += bonus[stats.SpellPower]
-			character.PseudoStats.FireSpellPower += bonus[stats.SpellPower]
-			character.PseudoStats.FrostSpellPower += bonus[stats.SpellPower]
-		default:
-			character.AddStats(bonus)
-		}
-
-	} else {
-		if consumes.BattleElixir != proto.BattleElixir_BattleElixirUnknown {
-			bonus := BattleElixirs[consumes.BattleElixir]
-			bonus = ApplyAlchemyBonus(bonus, int32(consumes.BattleElixir))
-
-			switch consumes.BattleElixir {
-			case proto.BattleElixir_ElixirofFirepower:
-				fallthrough
-			case proto.BattleElixir_ElixirofMajorFirepower:
-				fallthrough
-			case proto.BattleElixir_ElixirofGreaterFirepower:
-				character.PseudoStats.FireSpellPower += bonus[stats.SpellPower]
-			case proto.BattleElixir_ElixirofFrostPower:
-				fallthrough
-			case proto.BattleElixir_ElixirofMajorFrostPower:
-				character.PseudoStats.FrostSpellPower += bonus[stats.SpellPower]
-			case proto.BattleElixir_ElixirofShadowPower:
-				fallthrough
-			case proto.BattleElixir_ElixirofMajorShadowPower:
+			switch consumes.Flask {
+			case proto.Flask_FlaskofBlindingLight:
+				character.PseudoStats.ArcaneSpellPower += bonus[stats.SpellPower]
+				character.PseudoStats.HolySpellPower += bonus[stats.SpellPower]
+				character.PseudoStats.NatureSpellPower += bonus[stats.SpellPower]
+			case proto.Flask_FlaskofPureDeath:
 				character.PseudoStats.ShadowSpellPower += bonus[stats.SpellPower]
-			case proto.BattleElixir_ElixirofDemonslaying:
-				if character.CurrentTarget.MobType == proto.MobType_MobTypeDemon {
-					character.PseudoStats.MobTypeAttackPower = bonus[stats.AttackPower]
-				}
+				character.PseudoStats.FireSpellPower += bonus[stats.SpellPower]
+				character.PseudoStats.FrostSpellPower += bonus[stats.SpellPower]
 			default:
 				character.AddStats(bonus)
 			}
 		}
+	} else {
+		if consumes.BattleElixir != proto.BattleElixir_BattleElixirUnknown {
+			elixir := BattleElixirs[consumes.BattleElixir]
+			if character.Level >= elixir.Level {
+				bonus := ApplyAlchemyBonus(elixir.Stats, int32(consumes.BattleElixir))
+
+				switch consumes.BattleElixir {
+				case proto.BattleElixir_ElixirofFirepower:
+					fallthrough
+				case proto.BattleElixir_ElixirofMajorFirepower:
+					fallthrough
+				case proto.BattleElixir_ElixirofGreaterFirepower:
+					character.PseudoStats.FireSpellPower += bonus[stats.SpellPower]
+				case proto.BattleElixir_ElixirofFrostPower:
+					fallthrough
+				case proto.BattleElixir_ElixirofMajorFrostPower:
+					character.PseudoStats.FrostSpellPower += bonus[stats.SpellPower]
+				case proto.BattleElixir_ElixirofShadowPower:
+					fallthrough
+				case proto.BattleElixir_ElixirofMajorShadowPower:
+					character.PseudoStats.ShadowSpellPower += bonus[stats.SpellPower]
+				case proto.BattleElixir_ElixirofDemonslaying:
+					if character.CurrentTarget.MobType == proto.MobType_MobTypeDemon {
+						character.PseudoStats.MobTypeAttackPower = bonus[stats.AttackPower]
+					}
+				default:
+					character.AddStats(bonus)
+				}
+			}
+
+		}
 		if consumes.GuardianElixir != proto.GuardianElixir_GuardianElixirUnknown {
-			bonus := GuardianElixirs[consumes.GuardianElixir]
-			bonus = ApplyAlchemyBonus(bonus, int32(consumes.GuardianElixir))
-			switch consumes.GuardianElixir {
-			case proto.GuardianElixir_EarthenElixir:
-				character.PseudoStats.BonusPhysicalDamageTaken -= 20
-				character.PseudoStats.BonusSpellDamageTaken -= 20
-			case proto.GuardianElixir_GiftofArthas:
-				character.AddStats(bonus)
-				debuffAuras := (&character.Unit).NewEnemyAuraArray(GiftOfArthasAura)
+			elixir := GuardianElixirs[consumes.GuardianElixir]
+			if character.Level >= elixir.Level {
+				bonus := ApplyAlchemyBonus(elixir.Stats, int32(consumes.GuardianElixir))
+				switch consumes.GuardianElixir {
+				case proto.GuardianElixir_EarthenElixir:
+					character.PseudoStats.BonusPhysicalDamageTaken -= 20
+					character.PseudoStats.BonusSpellDamageTaken -= 20
+				case proto.GuardianElixir_GiftofArthas:
+					character.AddStats(bonus)
+					debuffAuras := (&character.Unit).NewEnemyAuraArray(GiftOfArthasAura)
 
-				actionID := ActionID{SpellID: 11374}
-				goaProc := character.RegisterSpell(SpellConfig{
-					ActionID:    actionID,
-					SpellSchool: SpellSchoolNature,
-					ProcMask:    ProcMaskEmpty,
+					actionID := ActionID{SpellID: 11374}
+					goaProc := character.RegisterSpell(SpellConfig{
+						ActionID:    actionID,
+						SpellSchool: SpellSchoolNature,
+						ProcMask:    ProcMaskEmpty,
 
-					ThreatMultiplier: 1,
-					FlatThreatBonus:  90,
+						ThreatMultiplier: 1,
+						FlatThreatBonus:  90,
 
-					ApplyEffects: func(sim *Simulation, target *Unit, spell *Spell) {
-						debuffAuras.Get(target).Activate(sim)
-						spell.CalcAndDealOutcome(sim, target, spell.OutcomeAlwaysHit)
-					},
-				})
+						ApplyEffects: func(sim *Simulation, target *Unit, spell *Spell) {
+							debuffAuras.Get(target).Activate(sim)
+							spell.CalcAndDealOutcome(sim, target, spell.OutcomeAlwaysHit)
+						},
+					})
 
-				character.RegisterAura(Aura{
-					Label:    "Gift of Arthas",
-					Duration: NeverExpires,
-					OnReset: func(aura *Aura, sim *Simulation) {
-						aura.Activate(sim)
-					},
-					OnSpellHitTaken: func(aura *Aura, sim *Simulation, spell *Spell, result *SpellResult) {
-						if result.Landed() &&
-							spell.SpellSchool == SpellSchoolPhysical &&
-							sim.RandomFloat("Gift of Arthas") < 0.3 {
-							goaProc.Cast(sim, spell.Unit)
-						}
-					},
-				})
-			default:
-				character.AddStats(bonus)
+					character.RegisterAura(Aura{
+						Label:    "Gift of Arthas",
+						Duration: NeverExpires,
+						OnReset: func(aura *Aura, sim *Simulation) {
+							aura.Activate(sim)
+						},
+						OnSpellHitTaken: func(aura *Aura, sim *Simulation, spell *Spell, result *SpellResult) {
+							if result.Landed() &&
+								spell.SpellSchool == SpellSchoolPhysical &&
+								sim.RandomFloat("Gift of Arthas") < 0.3 {
+								goaProc.Cast(sim, spell.Unit)
+							}
+						},
+					})
+				default:
+					character.AddStats(bonus)
+				}
 			}
 		}
 	}
 
 	if consumes.Food != proto.Food_FoodUnknown {
-		bonus := Foods[consumes.Food]
-		character.AddStats(bonus)
+		food := Foods[consumes.Food]
+		if character.Level >= food.Level {
+			character.AddStats(food.Stats)
+		}
 	}
 
 	registerPotionCD(agent, consumes)

@@ -117,6 +117,7 @@ export class SettingsTab extends SimTab {
 			changedEvent: sim => sim.expansionChangeEmitter,
 			getValue: sim => sim.getExpansion(),
 			setValue: (eventID, sim, newValue) => sim.setExpansion(eventID, newValue),
+			showWhen: () => false,
 		});
 
 		const races = specToEligibleRaces[this.simUI.player.spec];

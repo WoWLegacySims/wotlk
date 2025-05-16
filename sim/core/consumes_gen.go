@@ -10,6 +10,11 @@ import (
     "github.com/WoWLegacySims/wotlk/sim/core/proto"
 )
 
+type Consume struct {
+	Stats stats.Stats
+	Level int32
+}
+
 var Mixology = map[int32]float64{
 28497: 1.444,
 33721: 1.4,
@@ -33,251 +38,251 @@ var Mixology = map[int32]float64{
 60347: 1.444,
 62380: 1.8,
 }
-var BattleElixirs = map[proto.BattleElixir]stats.Stats{
-proto.BattleElixir_ElixirofMastery: {
-stats.Strength: 15,stats.Agility: 15,stats.Stamina: 15,stats.Intellect: 15,stats.Spirit: 15,},
-proto.BattleElixir_ElixirofBruteForce: {
-stats.Strength: 18,stats.Stamina: 18,},
-proto.BattleElixir_GreaterArcaneElixir: {
-stats.SpellPower: 35,stats.MeleeCrit: 10,stats.SpellCrit: 10,},
-proto.BattleElixir_ElixirofFrostPower: {
-stats.SpellPower: 15,},
-proto.BattleElixir_ElixirofGreaterFirepower: {
-stats.SpellPower: 40,},
-proto.BattleElixir_ElixirofMajorStrength: {
-stats.Strength: 35,},
-proto.BattleElixir_ElixirofHealingPower: {
-stats.Spirit: 24,stats.SpellPower: 24,},
-proto.BattleElixir_ElixirofMajorFrostPower: {
-stats.SpellPower: 55,},
-proto.BattleElixir_ElixirofMajorAgility: {
-stats.Agility: 30,stats.MeleeCrit: 12,stats.SpellCrit: 12,},
-proto.BattleElixir_ElixirofMajorFirepower: {
-stats.SpellPower: 55,},
-proto.BattleElixir_ElixirofMajorShadowPower: {
-stats.SpellPower: 55,},
-proto.BattleElixir_OnslaughtElixir: {
-stats.AttackPower: 60, stats.RangedAttackPower: 60,},
-proto.BattleElixir_AdeptsElixir: {
-stats.SpellPower: 24,stats.MeleeCrit: 24,stats.SpellCrit: 24,},
-proto.BattleElixir_ElixirofMinorAgility: {
-stats.Agility: 4,},
-proto.BattleElixir_FelStrengthElixir: {
-stats.AttackPower: 90, stats.RangedAttackPower: 90,stats.Stamina: -10,},
-proto.BattleElixir_ElixirofMightyAgility: {
-stats.Agility: 45,},
-proto.BattleElixir_WrathElixir: {
-stats.AttackPower: 90, stats.RangedAttackPower: 90,},
-proto.BattleElixir_SpellpowerElixir: {
-stats.SpellPower: 58,},
-proto.BattleElixir_ElixirofMightyStrength: {
-stats.Strength: 50,},
-proto.BattleElixir_GurusElixir: {
-stats.Strength: 20,stats.Agility: 20,stats.Stamina: 20,stats.Intellect: 20,stats.Spirit: 20,},
-proto.BattleElixir_ElixirofAccuracy: {
-stats.MeleeHit: 45,stats.SpellHit: 45,},
-proto.BattleElixir_ElixirofDeadlyStrikes: {
-stats.MeleeCrit: 45,stats.SpellCrit: 45,},
-proto.BattleElixir_ElixirofExpertise: {
-stats.Expertise: 45,},
-proto.BattleElixir_ElixirofArmorPiercing: {
-stats.ArmorPenetration: 45,},
-proto.BattleElixir_ElixirofLightningSpeed: {
-stats.MeleeHaste: 45,stats.SpellHaste: 45,},
-proto.BattleElixir_ElixirofMinorAccuracy: {
-stats.MeleeHit: 10,stats.SpellHit: 10,},
-proto.BattleElixir_ElixiroftheMongoose: {
-stats.Agility: 25,stats.MeleeCrit: 10,stats.SpellCrit: 10,},
-proto.BattleElixir_ElixirofFirepower: {
-stats.SpellPower: 10,},
-proto.BattleElixir_ElixirofGiantGrowth: {
-stats.Strength: 8,},
-proto.BattleElixir_ElixirofAgility: {
-stats.Agility: 15,},
-proto.BattleElixir_ElixirofOgresStrength: {
-stats.Strength: 8,},
-proto.BattleElixir_ElixirofLesserAgility: {
-stats.Agility: 8,},
-proto.BattleElixir_ArcaneElixir: {
-stats.SpellPower: 20,},
-proto.BattleElixir_ElixirofGreaterAgility: {
-stats.Agility: 25,},
-proto.BattleElixir_ElixirofGiants: {
-stats.Strength: 25,},
-proto.BattleElixir_ElixirofDemonslaying: {
-stats.AttackPower: 105, stats.RangedAttackPower: 105,},
-proto.BattleElixir_ElixirofShadowPower: {
-stats.SpellPower: 40,},
-proto.BattleElixir_ElixirofLionsStrength: {
-stats.Strength: 4,},
+var BattleElixirs = map[proto.BattleElixir]Consume{
+proto.BattleElixir_ElixirofMastery: {Level: 50,
+Stats: stats.Stats{stats.Strength: 15,stats.Agility: 15,stats.Stamina: 15,stats.Intellect: 15,stats.Spirit: 15,}},
+proto.BattleElixir_ElixirofBruteForce: {Level: 45,
+Stats: stats.Stats{stats.Strength: 18,stats.Stamina: 18,}},
+proto.BattleElixir_GreaterArcaneElixir: {Level: 47,
+Stats: stats.Stats{stats.SpellPower: 35,stats.MeleeCrit: 10,stats.SpellCrit: 10,}},
+proto.BattleElixir_ElixirofFrostPower: {Level: 28,
+Stats: stats.Stats{stats.SpellPower: 15,}},
+proto.BattleElixir_ElixirofGreaterFirepower: {Level: 40,
+Stats: stats.Stats{stats.SpellPower: 40,}},
+proto.BattleElixir_ElixirofMajorStrength: {Level: 50,
+Stats: stats.Stats{stats.Strength: 35,}},
+proto.BattleElixir_ElixirofHealingPower: {Level: 50,
+Stats: stats.Stats{stats.Spirit: 24,stats.SpellPower: 24,}},
+proto.BattleElixir_ElixirofMajorFrostPower: {Level: 50,
+Stats: stats.Stats{stats.SpellPower: 55,}},
+proto.BattleElixir_ElixirofMajorAgility: {Level: 55,
+Stats: stats.Stats{stats.Agility: 30,stats.MeleeCrit: 12,stats.SpellCrit: 12,}},
+proto.BattleElixir_ElixirofMajorFirepower: {Level: 50,
+Stats: stats.Stats{stats.SpellPower: 55,}},
+proto.BattleElixir_ElixirofMajorShadowPower: {Level: 60,
+Stats: stats.Stats{stats.SpellPower: 55,}},
+proto.BattleElixir_OnslaughtElixir: {Level: 50,
+Stats: stats.Stats{stats.AttackPower: 60, stats.RangedAttackPower: 60,}},
+proto.BattleElixir_AdeptsElixir: {Level: 50,
+Stats: stats.Stats{stats.SpellPower: 24,stats.MeleeCrit: 24,stats.SpellCrit: 24,}},
+proto.BattleElixir_ElixirofMinorAgility: {Level: 2,
+Stats: stats.Stats{stats.Agility: 4,}},
+proto.BattleElixir_FelStrengthElixir: {Level: 60,
+Stats: stats.Stats{stats.AttackPower: 90, stats.RangedAttackPower: 90,stats.Stamina: -10,}},
+proto.BattleElixir_ElixirofMightyAgility: {Level: 70,
+Stats: stats.Stats{stats.Agility: 45,}},
+proto.BattleElixir_WrathElixir: {Level: 70,
+Stats: stats.Stats{stats.AttackPower: 90, stats.RangedAttackPower: 90,}},
+proto.BattleElixir_SpellpowerElixir: {Level: 70,
+Stats: stats.Stats{stats.SpellPower: 58,}},
+proto.BattleElixir_ElixirofMightyStrength: {Level: 70,
+Stats: stats.Stats{stats.Strength: 50,}},
+proto.BattleElixir_GurusElixir: {Level: 70,
+Stats: stats.Stats{stats.Strength: 20,stats.Agility: 20,stats.Stamina: 20,stats.Intellect: 20,stats.Spirit: 20,}},
+proto.BattleElixir_ElixirofAccuracy: {Level: 70,
+Stats: stats.Stats{stats.MeleeHit: 45,stats.SpellHit: 45,}},
+proto.BattleElixir_ElixirofDeadlyStrikes: {Level: 70,
+Stats: stats.Stats{stats.MeleeCrit: 45,stats.SpellCrit: 45,}},
+proto.BattleElixir_ElixirofExpertise: {Level: 70,
+Stats: stats.Stats{stats.Expertise: 45,}},
+proto.BattleElixir_ElixirofArmorPiercing: {Level: 70,
+Stats: stats.Stats{stats.ArmorPenetration: 45,}},
+proto.BattleElixir_ElixirofLightningSpeed: {Level: 70,
+Stats: stats.Stats{stats.MeleeHaste: 45,stats.SpellHaste: 45,}},
+proto.BattleElixir_ElixirofMinorAccuracy: {Level: 15,
+Stats: stats.Stats{stats.MeleeHit: 10,stats.SpellHit: 10,}},
+proto.BattleElixir_ElixiroftheMongoose: {Level: 46,
+Stats: stats.Stats{stats.Agility: 25,stats.MeleeCrit: 10,stats.SpellCrit: 10,}},
+proto.BattleElixir_ElixirofFirepower: {Level: 18,
+Stats: stats.Stats{stats.SpellPower: 10,}},
+proto.BattleElixir_ElixirofGiantGrowth: {Level: 8,
+Stats: stats.Stats{stats.Strength: 8,}},
+proto.BattleElixir_ElixirofAgility: {Level: 27,
+Stats: stats.Stats{stats.Agility: 15,}},
+proto.BattleElixir_ElixirofOgresStrength: {Level: 20,
+Stats: stats.Stats{stats.Strength: 8,}},
+proto.BattleElixir_ElixirofLesserAgility: {Level: 18,
+Stats: stats.Stats{stats.Agility: 8,}},
+proto.BattleElixir_ArcaneElixir: {Level: 37,
+Stats: stats.Stats{stats.SpellPower: 20,}},
+proto.BattleElixir_ElixirofGreaterAgility: {Level: 38,
+Stats: stats.Stats{stats.Agility: 25,}},
+proto.BattleElixir_ElixirofGiants: {Level: 38,
+Stats: stats.Stats{stats.Strength: 25,}},
+proto.BattleElixir_ElixirofDemonslaying: {Level: 40,
+Stats: stats.Stats{stats.AttackPower: 105, stats.RangedAttackPower: 105,}},
+proto.BattleElixir_ElixirofShadowPower: {Level: 40,
+Stats: stats.Stats{stats.SpellPower: 40,}},
+proto.BattleElixir_ElixirofLionsStrength: {Level: 1,
+Stats: stats.Stats{stats.Strength: 4,}},
 }
-var GuardianElixirs = map[proto.GuardianElixir]stats.Stats{
-proto.GuardianElixir_ElixirofSpirit: {
-stats.Spirit: 50,},
-proto.GuardianElixir_ElixiroftheSages: {
-stats.Intellect: 18,stats.Spirit: 18,},
-proto.GuardianElixir_ElixirofMightyThoughts: {
-stats.Intellect: 45,},
-proto.GuardianElixir_EarthenElixir: {
-},
-proto.GuardianElixir_ElixirofDraenicWisdom: {
-stats.Intellect: 30,stats.Spirit: 30,},
-proto.GuardianElixir_ElixirofIronskin: {
-stats.Resilience: 30,},
-proto.GuardianElixir_ElixirofMinorDefense: {
-stats.Armor: 50,},
-proto.GuardianElixir_MajorTrollsBloodElixir: {
-/*stats.HP5: 12,*/},
-proto.GuardianElixir_ElixirofFortitude: {
-stats.Health: 120,},
-proto.GuardianElixir_ElixirofDefense: {
-stats.Armor: 150,},
-proto.GuardianElixir_ElixirofMinorFortitude: {
-stats.Health: 27,},
-proto.GuardianElixir_WeakTrollsBloodElixir: {
-/*stats.HP5: 2,*/},
-proto.GuardianElixir_ElixirofMightyFortitude: {
-stats.Health: 350,/*stats.HP5: 20,*/},
-proto.GuardianElixir_ElixirofWisdom: {
-stats.Intellect: 6,},
-proto.GuardianElixir_ElixirofProtection: {
-stats.Armor: 800,},
-proto.GuardianElixir_ElixirofMightyDefense: {
-stats.Defense: 45,},
-proto.GuardianElixir_StrongTrollsBloodElixir: {
-/*stats.HP5: 6,*/},
-proto.GuardianElixir_ElixirofMightyMageblood: {
-stats.MP5: 30,},
-proto.GuardianElixir_ElixirofGreaterDefense: {
-stats.Armor: 250,},
-proto.GuardianElixir_ElixirofSuperiorDefense: {
-stats.Armor: 450,},
-proto.GuardianElixir_MightyTrollsBloodElixir: {
-/*stats.HP5: 20,*/},
-proto.GuardianElixir_MagebloodElixir: {
-stats.MP5: 15,},
-proto.GuardianElixir_BloodkelpElixirofDodging: {
-stats.Dodge: 36,},
-proto.GuardianElixir_BloodkelpElixirofResistance: {
-stats.FireResistance: 15,stats.NatureResistance: 15,stats.FrostResistance: 15,stats.ShadowResistance: 15,stats.ArcaneResistance: 15,},
-proto.GuardianElixir_ElixirofGreaterIntellect: {
-stats.Intellect: 25,},
-proto.GuardianElixir_ElixirofMajorDefense: {
-stats.Armor: 550,},
-proto.GuardianElixir_GiftofArthas: {
-stats.ShadowResistance: 10,},
-proto.GuardianElixir_ElixirofEmpowerment: {
-stats.SpellPenetration: 30,},
-proto.GuardianElixir_ElixirofMajorFortitude: {
-stats.Health: 250,/*stats.HP5: 10,*/},
-proto.GuardianElixir_ElixirofMajorMageblood: {
-stats.MP5: 20,},
+var GuardianElixirs = map[proto.GuardianElixir]Consume{
+proto.GuardianElixir_ElixirofSpirit: {Level: 70,
+Stats: stats.Stats{stats.Spirit: 50,}},
+proto.GuardianElixir_ElixiroftheSages: {Level: 44,
+Stats: stats.Stats{stats.Intellect: 18,stats.Spirit: 18,}},
+proto.GuardianElixir_ElixirofMightyThoughts: {Level: 70,
+Stats: stats.Stats{stats.Intellect: 45,}},
+proto.GuardianElixir_EarthenElixir: {Level: 50,
+Stats: stats.Stats{}},
+proto.GuardianElixir_ElixirofDraenicWisdom: {Level: 50,
+Stats: stats.Stats{stats.Intellect: 30,stats.Spirit: 30,}},
+proto.GuardianElixir_ElixirofIronskin: {Level: 55,
+Stats: stats.Stats{stats.Resilience: 30,}},
+proto.GuardianElixir_ElixirofMinorDefense: {Level: 1,
+Stats: stats.Stats{stats.Armor: 50,}},
+proto.GuardianElixir_MajorTrollsBloodElixir: {Level: 26,
+Stats: stats.Stats{/*stats.HP5: 12,*/}},
+proto.GuardianElixir_ElixirofFortitude: {Level: 25,
+Stats: stats.Stats{stats.Health: 120,}},
+proto.GuardianElixir_ElixirofDefense: {Level: 16,
+Stats: stats.Stats{stats.Armor: 150,}},
+proto.GuardianElixir_ElixirofMinorFortitude: {Level: 2,
+Stats: stats.Stats{stats.Health: 27,}},
+proto.GuardianElixir_WeakTrollsBloodElixir: {Level: 1,
+Stats: stats.Stats{/*stats.HP5: 2,*/}},
+proto.GuardianElixir_ElixirofMightyFortitude: {Level: 70,
+Stats: stats.Stats{stats.Health: 350,/*stats.HP5: 20,*/}},
+proto.GuardianElixir_ElixirofWisdom: {Level: 10,
+Stats: stats.Stats{stats.Intellect: 6,}},
+proto.GuardianElixir_ElixirofProtection: {Level: 70,
+Stats: stats.Stats{stats.Armor: 800,}},
+proto.GuardianElixir_ElixirofMightyDefense: {Level: 70,
+Stats: stats.Stats{stats.Defense: 45,}},
+proto.GuardianElixir_StrongTrollsBloodElixir: {Level: 15,
+Stats: stats.Stats{/*stats.HP5: 6,*/}},
+proto.GuardianElixir_ElixirofMightyMageblood: {Level: 70,
+Stats: stats.Stats{stats.MP5: 30,}},
+proto.GuardianElixir_ElixirofGreaterDefense: {Level: 29,
+Stats: stats.Stats{stats.Armor: 250,}},
+proto.GuardianElixir_ElixirofSuperiorDefense: {Level: 43,
+Stats: stats.Stats{stats.Armor: 450,}},
+proto.GuardianElixir_MightyTrollsBloodElixir: {Level: 53,
+Stats: stats.Stats{/*stats.HP5: 20,*/}},
+proto.GuardianElixir_MagebloodElixir: {Level: 40,
+Stats: stats.Stats{stats.MP5: 15,}},
+proto.GuardianElixir_BloodkelpElixirofDodging: {Level: 0,
+Stats: stats.Stats{stats.Dodge: 36,}},
+proto.GuardianElixir_BloodkelpElixirofResistance: {Level: 0,
+Stats: stats.Stats{stats.FireResistance: 15,stats.NatureResistance: 15,stats.FrostResistance: 15,stats.ShadowResistance: 15,stats.ArcaneResistance: 15,}},
+proto.GuardianElixir_ElixirofGreaterIntellect: {Level: 37,
+Stats: stats.Stats{stats.Intellect: 25,}},
+proto.GuardianElixir_ElixirofMajorDefense: {Level: 55,
+Stats: stats.Stats{stats.Armor: 550,}},
+proto.GuardianElixir_GiftofArthas: {Level: 38,
+Stats: stats.Stats{stats.ShadowResistance: 10,}},
+proto.GuardianElixir_ElixirofEmpowerment: {Level: 60,
+Stats: stats.Stats{stats.SpellPenetration: 30,}},
+proto.GuardianElixir_ElixirofMajorFortitude: {Level: 50,
+Stats: stats.Stats{stats.Health: 250,/*stats.HP5: 10,*/}},
+proto.GuardianElixir_ElixirofMajorMageblood: {Level: 60,
+Stats: stats.Stats{stats.MP5: 20,}},
 }
-var Flasks = map[proto.Flask]stats.Stats{
-proto.Flask_FlaskofChromaticResistance: {
-stats.FireResistance: 25,stats.NatureResistance: 25,stats.FrostResistance: 25,stats.ShadowResistance: 25,stats.ArcaneResistance: 25,},
-proto.Flask_FlaskofStoneblood: {
-stats.Health: 1300,},
-proto.Flask_FlaskofPureMojo: {
-stats.MP5: 45,},
-proto.Flask_FlaskofEndlessRage: {
-stats.AttackPower: 180, stats.RangedAttackPower: 180,},
-proto.Flask_FlaskoftheFrostWyrm: {
-stats.SpellPower: 125,},
-proto.Flask_FlaskoftheTitans: {
-stats.Health: 400,},
-proto.Flask_LesserFlaskofResistance: {
-stats.FireResistance: 50,stats.NatureResistance: 50,stats.FrostResistance: 50,stats.ShadowResistance: 50,stats.ArcaneResistance: 50,},
-proto.Flask_FlaskofDistilledWisdom: {
-stats.Intellect: 65,},
-proto.Flask_FlaskofSupremePower: {
-stats.SpellPower: 70,},
-proto.Flask_FlaskofFortification: {
-stats.Health: 500,stats.Defense: 10,},
-proto.Flask_FlaskofPureDeath: {
-stats.SpellPower: 80,},
-proto.Flask_FlaskofBlindingLight: {
-stats.SpellPower: 80,},
-proto.Flask_FlaskofChromaticWonder: {
-stats.FireResistance: 35,stats.NatureResistance: 35,stats.FrostResistance: 35,stats.ShadowResistance: 35,stats.ArcaneResistance: 35,stats.Strength: 18,stats.Agility: 18,stats.Stamina: 18,stats.Intellect: 18,stats.Spirit: 18,},
-proto.Flask_FlaskofRelentlessAssault: {
-stats.AttackPower: 120, stats.RangedAttackPower: 120,},
-proto.Flask_FlaskofMightyRestoration: {
-stats.MP5: 31,},
-proto.Flask_LesserFlaskofToughness: {
-stats.Resilience: 50,},
+var Flasks = map[proto.Flask]Consume{
+proto.Flask_FlaskofChromaticResistance: {Level: 50,
+Stats: stats.Stats{stats.FireResistance: 25,stats.NatureResistance: 25,stats.FrostResistance: 25,stats.ShadowResistance: 25,stats.ArcaneResistance: 25,}},
+proto.Flask_FlaskofStoneblood: {Level: 75,
+Stats: stats.Stats{stats.Health: 1300,}},
+proto.Flask_FlaskofPureMojo: {Level: 75,
+Stats: stats.Stats{stats.MP5: 45,}},
+proto.Flask_FlaskofEndlessRage: {Level: 75,
+Stats: stats.Stats{stats.AttackPower: 180, stats.RangedAttackPower: 180,}},
+proto.Flask_FlaskoftheFrostWyrm: {Level: 75,
+Stats: stats.Stats{stats.SpellPower: 125,}},
+proto.Flask_FlaskoftheTitans: {Level: 50,
+Stats: stats.Stats{stats.Health: 400,}},
+proto.Flask_LesserFlaskofResistance: {Level: 70,
+Stats: stats.Stats{stats.FireResistance: 50,stats.NatureResistance: 50,stats.FrostResistance: 50,stats.ShadowResistance: 50,stats.ArcaneResistance: 50,}},
+proto.Flask_FlaskofDistilledWisdom: {Level: 50,
+Stats: stats.Stats{stats.Intellect: 65,}},
+proto.Flask_FlaskofSupremePower: {Level: 50,
+Stats: stats.Stats{stats.SpellPower: 70,}},
+proto.Flask_FlaskofFortification: {Level: 65,
+Stats: stats.Stats{stats.Health: 500,stats.Defense: 10,}},
+proto.Flask_FlaskofPureDeath: {Level: 65,
+Stats: stats.Stats{stats.SpellPower: 80,}},
+proto.Flask_FlaskofBlindingLight: {Level: 65,
+Stats: stats.Stats{stats.SpellPower: 80,}},
+proto.Flask_FlaskofChromaticWonder: {Level: 65,
+Stats: stats.Stats{stats.FireResistance: 35,stats.NatureResistance: 35,stats.FrostResistance: 35,stats.ShadowResistance: 35,stats.ArcaneResistance: 35,stats.Strength: 18,stats.Agility: 18,stats.Stamina: 18,stats.Intellect: 18,stats.Spirit: 18,}},
+proto.Flask_FlaskofRelentlessAssault: {Level: 65,
+Stats: stats.Stats{stats.AttackPower: 120, stats.RangedAttackPower: 120,}},
+proto.Flask_FlaskofMightyRestoration: {Level: 65,
+Stats: stats.Stats{stats.MP5: 31,}},
+proto.Flask_LesserFlaskofToughness: {Level: 70,
+Stats: stats.Stats{stats.Resilience: 50,}},
 }
-var Foods = map[proto.Food]stats.Stats{
-proto.Food_GoretuskLiverPie: {
-stats.Stamina: 4,stats.Spirit: 4,},
-proto.Food_RedridgeGoulash: {
-stats.Stamina: 6,stats.Spirit: 6,},
-proto.Food_TastyLionSteak: {
-stats.Stamina: 8,stats.Spirit: 8,},
-proto.Food_HeavyKodoStew: {
-stats.Stamina: 12,stats.Spirit: 12,},
-proto.Food_GrilledSquid: {
-stats.Agility: 10,},
-proto.Food_EggNog: {
-stats.Stamina: 2,stats.Spirit: 2,},
-proto.Food_SmokedDesertDumplings: {
-stats.Strength: 20,},
-proto.Food_DirgesKickinChimaerokChops: {
-stats.Stamina: 25,},
-proto.Food_RoastedMoongrazeTenderloin: {
-stats.Stamina: 2,stats.Spirit: 2,},
-proto.Food_BuzzardBites: {
-stats.Stamina: 20,stats.Spirit: 20,},
-proto.Food_RavagerDog: {
-stats.AttackPower: 40, stats.RangedAttackPower: 40,stats.Spirit: 20,},
-proto.Food_BlackenedBasilisk: {
-stats.SpellPower: 23,stats.Spirit: 20,},
-proto.Food_RoastedClefthoof: {
-stats.Strength: 20,stats.Spirit: 20,},
-proto.Food_WarpBurger: {
-stats.Agility: 20,stats.Spirit: 20,},
-proto.Food_BlackenedSporefish: {
-stats.Stamina: 20,stats.MP5: 10,},
-proto.Food_SpicyCrawdad: {
-stats.Stamina: 30,stats.Spirit: 20,},
-proto.Food_ClamletteMagnifique: {
-stats.AttackPower: 24, stats.RangedAttackPower: 24,stats.SpellPower: 14,},
-proto.Food_PickledSausage: {
-stats.Stamina: 14,stats.Spirit: 14,},
-proto.Food_SkullfishSoup: {
-stats.MeleeCrit: 20,stats.SpellCrit: 20,stats.Spirit: 20,},
-proto.Food_BroiledBloodfin: {
-stats.FireResistance: 8,stats.NatureResistance: 8,stats.FrostResistance: 8,stats.ShadowResistance: 8,stats.ArcaneResistance: 8,},
-proto.Food_SpicyHotTalbuk: {
-stats.MeleeHit: 20,stats.SpellHit: 20,stats.Spirit: 20,},
-proto.Food_MegaMammothMeal: {
-stats.AttackPower: 80, stats.RangedAttackPower: 80,stats.Stamina: 40,},
-proto.Food_TenderShoveltuskSteak: {
-stats.SpellPower: 46,stats.Stamina: 40,},
-proto.Food_SpicedWormBurger: {
-stats.MeleeCrit: 40,stats.SpellCrit: 40,stats.Stamina: 40,},
-proto.Food_MightyRhinoDogs: {
-stats.MP5: 20,stats.Stamina: 40,},
-proto.Food_ImperialMantaSteak: {
-stats.MeleeHaste: 40,stats.SpellHaste: 40,stats.Stamina: 40,},
-proto.Food_CharredBearKabobs: {
-stats.AttackPower: 24, stats.RangedAttackPower: 24,},
-proto.Food_JuicyBearBurger: {
-stats.SpellPower: 14,},
-proto.Food_RhinoliciousWormsteak: {
-stats.Expertise: 40,stats.Stamina: 40,},
-proto.Food_HeartyRhino: {
-stats.ArmorPenetration: 40,stats.Stamina: 40,},
-proto.Food_SnapperExtreme: {
-stats.MeleeHit: 40,stats.SpellHit: 40,stats.Stamina: 40,},
-proto.Food_Cuttlesteak: {
-stats.Spirit: 40,stats.Stamina: 40,},
-proto.Food_BlackenedDragonfin: {
-stats.Agility: 40,stats.Stamina: 40,},
-proto.Food_DragonfinFilet: {
-stats.Strength: 40,stats.Stamina: 40,},
-proto.Food_FishFeast: {
-stats.AttackPower: 80, stats.RangedAttackPower: 80,stats.Stamina: 40,stats.SpellPower: 46,},
-proto.Food_ThundersPlunder: {
-stats.Resilience: 40,stats.Stamina: 40,},
+var Foods = map[proto.Food]Consume{
+proto.Food_GoretuskLiverPie: {Level: 5,
+Stats: stats.Stats{stats.Stamina: 4,stats.Spirit: 4,}},
+proto.Food_RedridgeGoulash: {Level: 10,
+Stats: stats.Stats{stats.Stamina: 6,stats.Spirit: 6,}},
+proto.Food_TastyLionSteak: {Level: 20,
+Stats: stats.Stats{stats.Stamina: 8,stats.Spirit: 8,}},
+proto.Food_HeavyKodoStew: {Level: 35,
+Stats: stats.Stats{stats.Stamina: 12,stats.Spirit: 12,}},
+proto.Food_GrilledSquid: {Level: 35,
+Stats: stats.Stats{stats.Agility: 10,}},
+proto.Food_EggNog: {Level: 1,
+Stats: stats.Stats{stats.Stamina: 2,stats.Spirit: 2,}},
+proto.Food_SmokedDesertDumplings: {Level: 45,
+Stats: stats.Stats{stats.Strength: 20,}},
+proto.Food_DirgesKickinChimaerokChops: {Level: 55,
+Stats: stats.Stats{stats.Stamina: 25,}},
+proto.Food_RoastedMoongrazeTenderloin: {Level: 0,
+Stats: stats.Stats{stats.Stamina: 2,stats.Spirit: 2,}},
+proto.Food_BuzzardBites: {Level: 55,
+Stats: stats.Stats{stats.Stamina: 20,stats.Spirit: 20,}},
+proto.Food_RavagerDog: {Level: 55,
+Stats: stats.Stats{stats.AttackPower: 40, stats.RangedAttackPower: 40,stats.Spirit: 20,}},
+proto.Food_BlackenedBasilisk: {Level: 55,
+Stats: stats.Stats{stats.SpellPower: 23,stats.Spirit: 20,}},
+proto.Food_RoastedClefthoof: {Level: 55,
+Stats: stats.Stats{stats.Strength: 20,stats.Spirit: 20,}},
+proto.Food_WarpBurger: {Level: 55,
+Stats: stats.Stats{stats.Agility: 20,stats.Spirit: 20,}},
+proto.Food_BlackenedSporefish: {Level: 55,
+Stats: stats.Stats{stats.Stamina: 20,stats.MP5: 10,}},
+proto.Food_SpicyCrawdad: {Level: 55,
+Stats: stats.Stats{stats.Stamina: 30,stats.Spirit: 20,}},
+proto.Food_ClamletteMagnifique: {Level: 35,
+Stats: stats.Stats{stats.AttackPower: 24, stats.RangedAttackPower: 24,stats.SpellPower: 14,}},
+proto.Food_PickledSausage: {Level: 45,
+Stats: stats.Stats{stats.Stamina: 14,stats.Spirit: 14,}},
+proto.Food_SkullfishSoup: {Level: 65,
+Stats: stats.Stats{stats.MeleeCrit: 20,stats.SpellCrit: 20,stats.Spirit: 20,}},
+proto.Food_BroiledBloodfin: {Level: 55,
+Stats: stats.Stats{stats.FireResistance: 8,stats.NatureResistance: 8,stats.FrostResistance: 8,stats.ShadowResistance: 8,stats.ArcaneResistance: 8,}},
+proto.Food_SpicyHotTalbuk: {Level: 65,
+Stats: stats.Stats{stats.MeleeHit: 20,stats.SpellHit: 20,stats.Spirit: 20,}},
+proto.Food_MegaMammothMeal: {Level: 70,
+Stats: stats.Stats{stats.AttackPower: 80, stats.RangedAttackPower: 80,stats.Stamina: 40,}},
+proto.Food_TenderShoveltuskSteak: {Level: 70,
+Stats: stats.Stats{stats.SpellPower: 46,stats.Stamina: 40,}},
+proto.Food_SpicedWormBurger: {Level: 70,
+Stats: stats.Stats{stats.MeleeCrit: 40,stats.SpellCrit: 40,stats.Stamina: 40,}},
+proto.Food_MightyRhinoDogs: {Level: 70,
+Stats: stats.Stats{stats.MP5: 20,stats.Stamina: 40,}},
+proto.Food_ImperialMantaSteak: {Level: 70,
+Stats: stats.Stats{stats.MeleeHaste: 40,stats.SpellHaste: 40,stats.Stamina: 40,}},
+proto.Food_CharredBearKabobs: {Level: 45,
+Stats: stats.Stats{stats.AttackPower: 24, stats.RangedAttackPower: 24,}},
+proto.Food_JuicyBearBurger: {Level: 45,
+Stats: stats.Stats{stats.SpellPower: 14,}},
+proto.Food_RhinoliciousWormsteak: {Level: 70,
+Stats: stats.Stats{stats.Expertise: 40,stats.Stamina: 40,}},
+proto.Food_HeartyRhino: {Level: 70,
+Stats: stats.Stats{stats.ArmorPenetration: 40,stats.Stamina: 40,}},
+proto.Food_SnapperExtreme: {Level: 70,
+Stats: stats.Stats{stats.MeleeHit: 40,stats.SpellHit: 40,stats.Stamina: 40,}},
+proto.Food_Cuttlesteak: {Level: 70,
+Stats: stats.Stats{stats.Spirit: 40,stats.Stamina: 40,}},
+proto.Food_BlackenedDragonfin: {Level: 70,
+Stats: stats.Stats{stats.Agility: 40,stats.Stamina: 40,}},
+proto.Food_DragonfinFilet: {Level: 70,
+Stats: stats.Stats{stats.Strength: 40,stats.Stamina: 40,}},
+proto.Food_FishFeast: {Level: 70,
+Stats: stats.Stats{stats.AttackPower: 80, stats.RangedAttackPower: 80,stats.Stamina: 40,stats.SpellPower: 46,}},
+proto.Food_ThundersPlunder: {Level: 75,
+Stats: stats.Stats{stats.Resilience: 40,stats.Stamina: 40,}},
 }
