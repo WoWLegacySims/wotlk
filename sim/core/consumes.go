@@ -126,10 +126,88 @@ func applyConsumeEffects(agent Agent) {
 			character.AddStats(food.Stats)
 		}
 	}
+	if character.Class != proto.Class_ClassRogue && character.Class != proto.Class_ClassShaman && character.Class != proto.Class_ClassWarlock {
+		ApplyImbue(character, consumes.MhImbue, true)
+		ApplyImbue(character, consumes.OhImbue, false)
+	}
 
 	registerPotionCD(agent, consumes)
 	registerConjuredCD(agent, consumes)
 	registerExplosivesCD(agent, consumes)
+}
+
+func ApplyImbue(character *Character, imbue proto.WeaponImbue, isMH bool) {
+	if imbue == proto.WeaponImbue_ImbueUnknown && ((isMH && character.GetMHWeapon() == nil) || (!isMH && character.GetOHWeapon() == nil)) {
+		return
+	}
+	bonusDamage := 0.0
+	switch imbue {
+	case proto.WeaponImbue_BrilliantWizardOil:
+		character.AddStats(stats.Stats{
+			stats.SpellCrit:  14,
+			stats.MeleeCrit:  14,
+			stats.SpellPower: 36,
+		})
+	case proto.WeaponImbue_BrilliantManaOil:
+		character.AddStats(stats.Stats{
+			stats.MP5:        12,
+			stats.SpellPower: 13,
+		})
+	case proto.WeaponImbue_SuperiorWizardOil:
+		character.AddStat(stats.SpellPower, 42)
+	case proto.WeaponImbue_SuperiorManaOil:
+		character.AddStat(stats.MP5, 14)
+	case proto.WeaponImbue_WizardOil:
+		character.AddStat(stats.SpellPower, 24)
+	case proto.WeaponImbue_LesserManaOil:
+		character.AddStat(stats.MP5, 8)
+	case proto.WeaponImbue_LesserWizardOil:
+		character.AddStat(stats.SpellPower, 16)
+	case proto.WeaponImbue_MinorManaOil:
+		character.AddStat(stats.MP5, 4)
+	case proto.WeaponImbue_MinorWizardOil:
+		character.AddStat(stats.SpellPower, 8)
+	case proto.WeaponImbue_AdamantiteSharpeningStone:
+		character.AddStats(stats.Stats{stats.MeleeCrit: 14, stats.SpellCrit: 14})
+		bonusDamage = 12
+	case proto.WeaponImbue_AdamantiteWeightStone:
+		character.AddStats(stats.Stats{stats.MeleeCrit: 14, stats.SpellCrit: 14})
+		bonusDamage = 12
+	case proto.WeaponImbue_FelSharpeningStone:
+		bonusDamage = 12
+	case proto.WeaponImbue_FelWeightstone:
+		bonusDamage = 12
+	case proto.WeaponImbue_ElementalSharpeningStone:
+		if character.Class != proto.Class_ClassHunter {
+			character.AddStat(stats.MeleeCrit, 28)
+		}
+	case proto.WeaponImbue_DenseSharpeningStone:
+		bonusDamage = 8
+	case proto.WeaponImbue_DenseWeightstone:
+		bonusDamage = 8
+	case proto.WeaponImbue_SolidSharpeningStone:
+		bonusDamage = 6
+	case proto.WeaponImbue_SolidWeightStone:
+		bonusDamage = 6
+	case proto.WeaponImbue_HeavySharpeningStone:
+		bonusDamage = 4
+	case proto.WeaponImbue_HeavyWeightStone:
+		bonusDamage = 4
+	case proto.WeaponImbue_CoarseSharpeningStone:
+		bonusDamage = 3
+	case proto.WeaponImbue_CoarseWeightStone:
+		bonusDamage = 3
+	case proto.WeaponImbue_RoughSharpeningStone:
+		bonusDamage = 2
+	case proto.WeaponImbue_RoughWeightStone:
+		bonusDamage = 2
+	}
+	weapon := character.AutoAttacks.MH()
+	if !isMH {
+		weapon = character.AutoAttacks.OH()
+	}
+	weapon.BaseDamageMin += bonusDamage
+	weapon.BaseDamageMax += bonusDamage
 }
 
 func ApplyPetConsumeEffects(pet *Character, ownerConsumes *proto.Consumes) {
