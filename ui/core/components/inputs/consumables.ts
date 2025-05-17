@@ -229,7 +229,7 @@ export const makeMHImbueInput = makeConsumeInputFactory({
 	},
 	filter: (option,player) => {
 		const opt = option as ImbueConsumableStatOption
-		return (!opt.level || player.getLevel() >= opt.level) && (!opt.type || opt.type === "sharp" && player.getGear().hasSharpMHWeapon() || opt.type === "blunt" && player.getGear().hasBluntMHWeapon()) && option.config.actionId.anyId() == 28421
+		return (!opt.level || player.getLevel() >= opt.level) && (!opt.type || opt.type === "sharp" && player.getGear().hasSharpMHWeapon() || opt.type === "blunt" && player.getGear().hasBluntMHWeapon())
 	},
 });
 export const makeOHImbueInput = makeConsumeInputFactory({
