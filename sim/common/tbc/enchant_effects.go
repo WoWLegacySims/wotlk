@@ -31,19 +31,13 @@ func init() {
 
 	core.NewEnchantEffect(2671, func(agent core.Agent) {
 		// Sunfire
-		agent.GetCharacter().OnSpellRegistered(func(spell *core.Spell) {
-			if spell.SpellSchool.Matches(core.SpellSchoolArcane | core.SpellSchoolFire) {
-				spell.BonusSpellPower += 50
-			}
-		})
+		agent.GetCharacter().PseudoStats.ArcaneSpellPower += 50
+		agent.GetCharacter().PseudoStats.FireSpellPower += 50
 	})
 	core.NewEnchantEffect(2672, func(agent core.Agent) {
 		// Soulfrost
-		agent.GetCharacter().OnSpellRegistered(func(spell *core.Spell) {
-			if spell.SpellSchool.Matches(core.SpellSchoolFrost | core.SpellSchoolShadow) {
-				spell.BonusSpellPower += 54
-			}
-		})
+		agent.GetCharacter().PseudoStats.ArcaneSpellPower += 54
+		agent.GetCharacter().PseudoStats.FireSpellPower += 54
 	})
 
 	core.AddWeaponEffect(963, func(agent core.Agent, slot proto.ItemSlot) {

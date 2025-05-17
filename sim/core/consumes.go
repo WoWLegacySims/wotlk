@@ -628,26 +628,15 @@ func registerConjuredCD(agent Agent, consumes *proto.Consumes) {
 		})
 
 		const procChance = 0.185
-		var fireSpells []*Spell
-		character.OnSpellRegistered(func(spell *Spell) {
-			if spell.SpellSchool.Matches(SpellSchoolFire) {
-				fireSpells = append(fireSpells, spell)
-			}
-		})
-
 		flameCapAura := character.RegisterAura(Aura{
 			Label:    "Flame Cap",
 			ActionID: actionID,
 			Duration: time.Minute,
 			OnGain: func(aura *Aura, sim *Simulation) {
-				for _, spell := range fireSpells {
-					spell.BonusSpellPower += 80
-				}
+				character.PseudoStats.FireSpellPower += 80
 			},
 			OnExpire: func(aura *Aura, sim *Simulation) {
-				for _, spell := range fireSpells {
-					spell.BonusSpellPower -= 80
-				}
+				character.PseudoStats.FireSpellPower -= 80
 			},
 			OnSpellHitDealt: func(aura *Aura, sim *Simulation, spell *Spell, result *SpellResult) {
 				if !result.Landed() || !spell.ProcMask.Matches(ProcMaskMeleeOrRanged) {
