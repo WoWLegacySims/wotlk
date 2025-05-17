@@ -59,7 +59,10 @@ export class IconEnumPicker<ModObject, T> extends Input<ModObject, T> {
 		if (config.showWhen) {
 			config.changedEvent(this.modObject).on(_eventID => {
 				const show = config.showWhen && config.showWhen(this.modObject);
-				if (!show) this.rootElem.classList.add('hide');
+				if (!show) {
+					this.setValue(_eventID,this.config.zeroValue)
+					this.rootElem.classList.add('hide');
+				}
 			});
 		}
 

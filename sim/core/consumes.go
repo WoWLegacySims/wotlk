@@ -702,12 +702,12 @@ func registerExplosivesCD(agent Agent, consumes *proto.Consumes) {
 	if !character.HasProfession(proto.Profession_Engineering) {
 		return
 	}
-	if !consumes.ThermalSapper && !consumes.ExplosiveDecoy && !hasFiller {
+	if consumes.BigExplosive == proto.Big_Explosive_BigExplosiveUnknown && consumes.DecoyExplosive == proto.Decoy_Explosive_Decoy_ExplosiveUnknown && !hasFiller {
 		return
 	}
 	sharedTimer := character.NewTimer()
 
-	if consumes.ThermalSapper {
+	if consumes.BigExplosive == proto.Big_Explosive_ThermalSapper {
 		character.AddMajorCooldown(MajorCooldown{
 			Spell:    character.newThermalSapperSpell(sharedTimer),
 			Type:     CooldownTypeDPS | CooldownTypeExplosive,
@@ -715,7 +715,7 @@ func registerExplosivesCD(agent Agent, consumes *proto.Consumes) {
 		})
 	}
 
-	if consumes.ExplosiveDecoy {
+	if consumes.DecoyExplosive == proto.Decoy_Explosive_ExplosiveDecoy {
 		character.AddMajorCooldown(MajorCooldown{
 			Spell:    character.newExplosiveDecoySpell(sharedTimer),
 			Type:     CooldownTypeDPS | CooldownTypeExplosive,

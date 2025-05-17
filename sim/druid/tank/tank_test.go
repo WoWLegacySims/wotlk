@@ -92,6 +92,6 @@ var FullConsumes = &proto.Consumes{
 	Food:            proto.Food_BlackenedDragonfin,
 	DefaultPotion:   proto.Potions_IndestructiblePotion,
 	DefaultConjured: proto.Conjured_ConjuredHealthstone,
-	ThermalSapper:   true,
+	BigExplosive:    proto.Big_Explosive_ThermalSapper,
 	FillerExplosive: proto.Explosive_ExplosiveSaroniteBomb,
 }

@@ -1,5 +1,6 @@
 import * as PresetUtils from '../core/preset_utils.js';
 import {
+	Big_Explosive,
 	Conjured,
 	Consumes,
 	Explosive,
@@ -68,6 +69,6 @@ export const DefaultConsumes = Consumes.create({
 	prepopPotion: Potions.IndestructiblePotion,
 	defaultPotion: Potions.IndestructiblePotion,
 	defaultConjured: Conjured.ConjuredHealthstone,
-	thermalSapper: true,
+	bigExplosive: Big_Explosive.ThermalSapper,
 	fillerExplosive: Explosive.ExplosiveSaroniteBomb,
 });

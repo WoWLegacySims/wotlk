@@ -275,6 +275,16 @@ enum Explosive {
 	ExplosiveCobaltFragBomb = 2;
 }
 
+enum Big_Explosive {
+	BigExplosiveUnknown = 0;
+	ThermalSapper = 1;
+}
+
+enum Decoy_Explosive {
+	Decoy_ExplosiveUnknown = 0;
+	ExplosiveDecoy = 1;
+}
+
 enum Potions {
 	UnknownPotion = 0;
 	RunicHealingPotion = 1;
@@ -502,8 +512,8 @@ message Consumes {
 	Potions prepop_potion = 11;
 	Conjured default_conjured = 12;
 
-	bool thermal_sapper = 15;
-	bool explosive_decoy = 16;
+	Big_Explosive big_explosive = 15;
+	Decoy_Explosive decoy_explosive = 16;
 	Explosive filler_explosive = 17;
 }
 

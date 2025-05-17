@@ -2,7 +2,6 @@ import { IndividualSimUI } from "../../individual_sim_ui";
 import { Player } from "../../player";
 import {
 	Class,
-	ItemSlot,
 	Spec,
 } from "../../proto/common";
 import { TypedEvent } from "../../typed_event";
@@ -52,35 +51,25 @@ export class ConsumesPicker extends Component {
 		const conjuredElem = this.rootElem.querySelector('.consumes-conjured') as HTMLElement;
 
 		this.buildPickers({
-			// GearChangeEmitter for ConjuredMinorRecombobulator
-			changeEmitters: [],
+			changeEmitters: [this.simUI.player.levelChangeEmitter],
 			containerElem: rowElem,
 			options: [
 				{
 					getConfig: () => ConsumablesInputs.makePrepopPotionsInput(
-						relevantStatOptions(ConsumablesInputs.PRE_POTIONS_CONFIG, this.simUI, option => {
-							const player = this.simUI.player;
-							return (!option.level || player.getLevel() >= option.level)
-						}),
+						relevantStatOptions(ConsumablesInputs.PRE_POTIONS_CONFIG, this.simUI),
 						'Combat Potion',
 					),
 					parentElem: prePotsElem,
 				},
 				{
 					getConfig: () => ConsumablesInputs.makePotionsInput(
-						relevantStatOptions(ConsumablesInputs.POTIONS_CONFIG, this.simUI, option => {
-							const player = this.simUI.player;
-							return (!option.level || player.getLevel() >= option.level)
-						})
+						relevantStatOptions(ConsumablesInputs.POTIONS_CONFIG, this.simUI)
 					),
 					parentElem: potionsElem,
 				},
 				{
 					getConfig: () => ConsumablesInputs.makeConjuredInput(
-						relevantStatOptions(ConsumablesInputs.CONJURED_CONFIG, this.simUI, option => {
-							const player = this.simUI.player;
-							return (!option.level || player.getLevel() >= option.level)
-						})
+						relevantStatOptions(ConsumablesInputs.CONJURED_CONFIG, this.simUI)
 					),
 					parentElem: conjuredElem,
 				}
@@ -113,28 +102,19 @@ export class ConsumesPicker extends Component {
 			options: [
 				{
 					getConfig: () => ConsumablesInputs.makeFlasksInput(
-						relevantStatOptions(FLASK_CONFIG, this.simUI, option => {
-							const player = this.simUI.player;
-							return (!option.level || player.getLevel() >= option.level)
-						})
+						relevantStatOptions(FLASK_CONFIG, this.simUI)
 					),
 					parentElem: flasksElem,
 				},
 				{
 					getConfig: () => ConsumablesInputs.makeBattleElixirsInput(
-						relevantStatOptions(BATTLEELIXIR_CONFIG, this.simUI, option => {
-							const player = this.simUI.player;
-							return (!option.level || player.getLevel() >= option.level)
-						})
+						relevantStatOptions(BATTLEELIXIR_CONFIG, this.simUI)
 					),
 					parentElem: battleElixirsElem,
 				},
 				{
 					getConfig: () => ConsumablesInputs.makeGuardianElixirsInput(
-						relevantStatOptions(GUARDIANELIXIR_CONFIG, this.simUI, option => {
-							const player = this.simUI.player;
-							return (!option.level || player.getLevel() >= option.level)
-						})
+						relevantStatOptions(GUARDIANELIXIR_CONFIG, this.simUI)
 					),
 					parentElem: guardianElixirsElem,
 				}
@@ -163,21 +143,13 @@ export class ConsumesPicker extends Component {
 			containerElem: rowElem,
 			options: [{
 				getConfig: () => ConsumablesInputs.makeMHImbueInput(
-					relevantStatOptions(ConsumablesInputs.IMBUE_CONFIG, this.simUI, option => {
-						const opt = option as ConsumablesInputs.ImbueConsumableStatOption
-						const player = this.simUI.player;
-						return (!opt.level || player.getLevel() >= opt.level) && (!opt.type || opt.type === "sharp" && player.getGear().hasSharpMHWeapon() || opt.type === "blunt" && player.getGear().hasBluntMHWeapon())
-					})
+					relevantStatOptions(ConsumablesInputs.IMBUE_CONFIG, this.simUI)
 				),
 				parentElem: mhElem,
 			},
 			{
 				getConfig: () => ConsumablesInputs.makeOHImbueInput(
-					relevantStatOptions(ConsumablesInputs.IMBUE_CONFIG, this.simUI, option => {
-						const opt = option as ConsumablesInputs.ImbueConsumableStatOption
-						const player = this.simUI.player;
-						return (!opt.level || player.getLevel() >= opt.level) &&  (!opt.type || opt.type === "sharp" && player.getGear().hasSharpOHWeapon() || opt.type === "blunt" && player.getGear().hasBluntOHWeapon())
-					})
+					relevantStatOptions(ConsumablesInputs.IMBUE_CONFIG, this.simUI)
 				),
 				parentElem: ohElem,
 			}
@@ -205,10 +177,7 @@ export class ConsumesPicker extends Component {
 			options: [
 				{
 					getConfig: () => ConsumablesInputs.makeFoodInput(
-						relevantStatOptions(FOOD_CONFIG, this.simUI, option => {
-							const player = this.simUI.player;
-							return (!option.level || player.getLevel() >= option.level)
-						}),
+						relevantStatOptions(FOOD_CONFIG, this.simUI),
 					),
 					parentElem: foodsElem,
 				},
@@ -239,17 +208,20 @@ export class ConsumesPicker extends Component {
 			containerElem: rowElem,
 			options: [
 				{
-					getConfig: () => ConsumablesInputs.ThermalSapper,
+					getConfig: () => ConsumablesInputs.makeBigExplosivesInput(
+						relevantStatOptions(ConsumablesInputs.BIG_EXPLOSIVES_CONFIG, this.simUI)
+					),
 					parentElem: sapperElem,
 				},
 				{
-					getConfig: () => ConsumablesInputs.ExplosiveDecoy,
+					getConfig: () => ConsumablesInputs.makeDecoyExplosivesInput(
+						relevantStatOptions(ConsumablesInputs.DECOY_EXPLOSIVE_CONFIG, this.simUI)
+					),
 					parentElem: decoyElem,
 				},
 				{
 					getConfig: () => ConsumablesInputs.makeExplosivesInput(
-						relevantStatOptions(ConsumablesInputs.EXPLOSIVES_CONFIG, this.simUI),
-						'Explosives',
+						relevantStatOptions(ConsumablesInputs.EXPLOSIVES_CONFIG, this.simUI)
 					),
 					parentElem: explosivesElem,
 				}
@@ -299,7 +271,7 @@ export class ConsumesPicker extends Component {
 				}
 
 				if (isShown) buildIconInput(optionSet.parentElem, this.simUI.player, config);
-
+				if(!isShown && ((value: any): value is TypedIconEnumPickerConfig<Player<Spec>, number> => value.setValue !== undefined)(config)) config.setValue(0,this.simUI.player,0);
 				return isShown;
 			}).filter(isShown => isShown).length > 0;
 

@@ -131,5 +131,5 @@ var FullConsumes = &proto.Consumes{
 	DefaultPotion:   proto.Potions_HastePotion,
 	DefaultConjured: proto.Conjured_ConjuredDarkRune,
 	Food:            proto.Food_RoastedClefthoof,
-	ThermalSapper:   true,
+	BigExplosive:    proto.Big_Explosive_ThermalSapper,
 }

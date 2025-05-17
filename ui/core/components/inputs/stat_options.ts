@@ -48,7 +48,6 @@ export type StatOptions<T, Options extends ItemStatOptions<T> | PickerStatOption
 export function relevantStatOptions<T, OptionsType extends ItemStatOptions<T> | PickerStatOptions>(
 	options: StatOptions<T, OptionsType>,
 	simUI: IndividualSimUI<Spec>,
-	filter?: (option: OptionsType) => boolean,
 ): StatOptions<T, OptionsType> {
   return options
     .filter(option =>
@@ -57,5 +56,4 @@ export function relevantStatOptions<T, OptionsType extends ItemStatOptions<T> | 
 			simUI.individualConfig.includeBuffDebuffInputs.includes(option.config))
 		.filter(option =>
 			!simUI.individualConfig.excludeBuffDebuffInputs.includes(option.config))
-		.filter(option => !filter || filter(option))
 }

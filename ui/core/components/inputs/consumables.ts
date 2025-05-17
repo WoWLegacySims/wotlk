@@ -1,12 +1,15 @@
 import { Player } from "../../player";
 import {
+	Big_Explosive,
 	Class,
 	Conjured,
 	Consumes,
+	Decoy_Explosive,
 	Explosive,
 	ItemSlot,
 	PetFood,
 	Potions,
+	Profession,
 	Spec,
 	Stat,
 	WeaponImbue,
@@ -36,7 +39,8 @@ export interface ConsumeInputFactoryArgs<T extends number> {
 	consumesFieldName: keyof Consumes,
 	// Additional callback if logic besides syncing consumes is required
 	onSet?: (eventactionId: EventID, player: Player<any>, newValue: T) => void
-	showWhen?: (player: Player<any>) => boolean
+	showWhen?: (player: Player<any>) => boolean,
+	filter?: (option: ConsumableStatOption<T>, player: Player<any>) => boolean
 }
 
 function makeConsumeInputFactory<T extends number>(args: ConsumeInputFactoryArgs<T>): (options: ConsumableStatOption<T>[], tooltip?: string) => InputHelpers.TypedIconEnumPickerConfig<Player<any>, T> {
@@ -52,7 +56,8 @@ function makeConsumeInputFactory<T extends number>(args: ConsumeInputFactoryArgs
 					actionId: option.config.actionId,
 					showWhen: (player: Player<any>) =>
 						(!option.config.showWhen || option.config.showWhen(player)) &&
-						(option.config.faction || player.getFaction()) == player.getFaction()
+						(option.config.faction || player.getFaction()) == player.getFaction() &&
+						(!args.filter || args.filter(option, player))
 				} as IconEnumValueConfig<Player<any>, T>;
 				if (option.config.value) rtn.value = option.config.value
 
@@ -60,12 +65,11 @@ function makeConsumeInputFactory<T extends number>(args: ConsumeInputFactoryArgs
 			})),
 			equals: (a: T, b: T) => a == b,
 			zeroValue: 0 as T,
-			changedEvent: (player: Player<any>) => TypedEvent.onAny([player.consumesChangeEmitter, player.gearChangeEmitter]),
+			changedEvent: (player: Player<any>) => TypedEvent.onAny([player.consumesChangeEmitter, player.gearChangeEmitter, player.levelChangeEmitter, player.professionChangeEmitter]),
 			showWhen: (player: Player<any>) => !args.showWhen || args.showWhen(player),
 			getValue: (player: Player<any>) => player.getConsumes()[args.consumesFieldName] as T,
 			setValue: (eventID: EventID, player: Player<any>, newValue: number) => {
 				const newConsumes = player.getConsumes();
-
 				if (newConsumes[args.consumesFieldName] === newValue){
 					return;
 				}
@@ -88,7 +92,7 @@ function makeConsumeInputFactory<T extends number>(args: ConsumeInputFactoryArgs
 ///////////////////////////////////////////////////////////////////////////
 
 export const ConjuredDarkRune = { actionId: ActionId.fromItemId(12662), value: Conjured.ConjuredDarkRune };
-export const ConjuredFlameCap = { actionId: ActionId.fromItemId(22788), value: Conjured.ConjuredFlameCap };
+export const ConjuredFlameCap = { actionId: ActionId.fromItemId(22788), value: Conjured.ConjuredFlameCap};
 export const ConjuredHealthstone = { actionId: ActionId.fromItemId(22105), value: Conjured.ConjuredHealthstone };
 export const ConjuredRogueThistleTea = {
   actionId: ActionId.fromItemId(7676),
@@ -109,18 +113,33 @@ export const makeConjuredInput = makeConsumeInputFactory({consumesFieldName: 'de
 //                                 EXPLOSIVES
 ///////////////////////////////////////////////////////////////////////////
 
-export const ExplosiveSaroniteBomb    = { actionId: ActionId.fromItemId(41119), value: Explosive.ExplosiveSaroniteBomb };
-export const ExplosiveCobaltFragBomb  = { actionId: ActionId.fromItemId(40771), value: Explosive.ExplosiveCobaltFragBomb };
-
 export const EXPLOSIVES_CONFIG = [
-	{ config: ExplosiveSaroniteBomb, stats: [] ,level:1},
-	{ config: ExplosiveCobaltFragBomb, stats: [],level:1 },
+	{ config: { actionId: ActionId.fromItemId(41119), value: Explosive.ExplosiveSaroniteBomb }, stats: [] ,level:1},
+	{ config: { actionId: ActionId.fromItemId(40771), value: Explosive.ExplosiveCobaltFragBomb }, stats: [],level:1 },
 ] as ConsumableStatOption<Explosive>[];
 
-export const makeExplosivesInput = makeConsumeInputFactory({consumesFieldName: 'fillerExplosive'});
+export const BIG_EXPLOSIVES_CONFIG = [
+	{ config: {actionId: ActionId.fromItemId(42641), value: Big_Explosive.ThermalSapper}, stats: [] ,level:1},
+] as ConsumableStatOption<Big_Explosive>[];
 
-export const ThermalSapper = makeBooleanConsumeInput({actionId: ActionId.fromItemId(42641), fieldName: 'thermalSapper'});
-export const ExplosiveDecoy = makeBooleanConsumeInput({actionId: ActionId.fromItemId(40536), fieldName: 'explosiveDecoy'});
+export const DECOY_EXPLOSIVE_CONFIG = [
+	{ config: {actionId: ActionId.fromItemId(40536), value: Decoy_Explosive.ExplosiveDecoy}, stats: [] ,level:1},
+] as ConsumableStatOption<Decoy_Explosive>[];
+
+export const makeExplosivesInput = makeConsumeInputFactory({
+	consumesFieldName: 'fillerExplosive',
+	showWhen: player => player.hasProfession(Profession.Engineering)
+});
+
+export const makeBigExplosivesInput = makeConsumeInputFactory({
+	consumesFieldName: 'bigExplosive',
+	showWhen: player => player.hasProfession(Profession.Engineering)
+});
+
+export const makeDecoyExplosivesInput = makeConsumeInputFactory({
+	consumesFieldName: 'decoyExplosive',
+	showWhen: player => player.hasProfession(Profession.Engineering)
+});
 
 ///////////////////////////////////////////////////////////////////////////
 //                                 FLASKS + ELIXIRS
@@ -129,28 +148,34 @@ export const ExplosiveDecoy = makeBooleanConsumeInput({actionId: ActionId.fromIt
 // Flasks
 
 export const makeFlasksInput = makeConsumeInputFactory({
-  consumesFieldName: 'flask',
-  onSet: (eventID: EventID, player: Player<any>, newValue: Flask) => {
-    if (newValue) {
-      const newConsumes = player.getConsumes();
-      newConsumes.battleElixir = BattleElixir.BattleElixirUnknown;
-      newConsumes.guardianElixir = GuardianElixir.GuardianElixirUnknown;
-      player.setConsumes(eventID, newConsumes);
-    }
-  }
+    consumesFieldName: 'flask',
+    onSet: (eventID: EventID, player: Player<any>, newValue: Flask) => {
+        if (newValue) {
+        	const newConsumes = player.getConsumes();
+      		newConsumes.battleElixir = BattleElixir.BattleElixirUnknown;
+      		newConsumes.guardianElixir = GuardianElixir.GuardianElixirUnknown;
+      		player.setConsumes(eventID, newConsumes);
+    	}
+  	},
+	filter: (option,player) => {
+		return !option.level || player.getLevel() >= option.level
+	},
 });
 
 // Battle Elixirs
 
 export const makeBattleElixirsInput = makeConsumeInputFactory({
-  consumesFieldName: 'battleElixir',
-  onSet: (eventID: EventID, player: Player<any>, newValue: BattleElixir) => {
-    if (newValue) {
-      const newConsumes = player.getConsumes();
-      newConsumes.flask = Flask.FlaskUnknown;
-      player.setConsumes(eventID, newConsumes);
-    }
-  }
+    consumesFieldName: 'battleElixir',
+    onSet: (eventID: EventID, player: Player<any>, newValue: BattleElixir) => {
+	    if (newValue) {
+            const newConsumes = player.getConsumes();
+            newConsumes.flask = Flask.FlaskUnknown;
+    	    player.setConsumes(eventID, newConsumes);
+		}
+  	},
+  	filter: (option,player) => {
+		return !option.level || player.getLevel() >= option.level
+	},
 });
 
 // Guardian Elixirs
@@ -163,7 +188,10 @@ export const makeGuardianElixirsInput = makeConsumeInputFactory({
 			newConsumes.flask = Flask.FlaskUnknown;
 			player.setConsumes(eventID, newConsumes);
 		}
-	}
+	},
+	filter: (option,player) => {
+		return !option.level || player.getLevel() >= option.level
+	},
 });
 
 export const IMBUE_CONFIG = [
@@ -193,20 +221,38 @@ export const IMBUE_CONFIG = [
 { config : {actionId: ActionId.fromItemId(3239), value: WeaponImbue.RoughWeightStone}, stats: [Stat.StatAttackPower],level: 1, type: "blunt"},
 ] as ImbueConsumableStatOption[];
 
-export const makeMHImbueInput = makeConsumeInputFactory({consumesFieldName: 'mhImbue',showWhen: player => {
-	const mh = player.getGear().getEquippedItem(ItemSlot.ItemSlotMainHand);
-	return mh != null && mh?.item.ilvl <= 165;
-},});
-export const makeOHImbueInput = makeConsumeInputFactory({consumesFieldName: 'ohImbue',showWhen: player => {
-	const oh = player.getGear().getEquippedItem(ItemSlot.ItemSlotOffHand);
-	return oh != null && oh?.item.ilvl <= 165;
-},});
+export const makeMHImbueInput = makeConsumeInputFactory({
+	consumesFieldName: 'mhImbue',
+	showWhen: player => {
+		const mh = player.getGear().getEquippedItem(ItemSlot.ItemSlotMainHand);
+		return mh != null && mh?.item.ilvl <= 165;
+	},
+	filter: (option,player) => {
+		const opt = option as ImbueConsumableStatOption
+		return (!opt.level || player.getLevel() >= opt.level) && (!opt.type || opt.type === "sharp" && player.getGear().hasSharpMHWeapon() || opt.type === "blunt" && player.getGear().hasBluntMHWeapon()) && option.config.actionId.anyId() == 28421
+	},
+});
+export const makeOHImbueInput = makeConsumeInputFactory({
+	consumesFieldName: 'ohImbue',
+	showWhen: player => {
+		const oh = player.getGear().getEquippedItem(ItemSlot.ItemSlotOffHand);
+		return oh != null && oh?.item.ilvl <= 165;
+	},
+	filter: (option,player) => {
+		const opt = option as ImbueConsumableStatOption
+		return (!opt.level || player.getLevel() >= opt.level) && (!opt.type || opt.type === "sharp" && player.getGear().hasSharpOHWeapon() || opt.type === "blunt" && player.getGear().hasBluntOHWeapon())
+	},
+});
 
 ///////////////////////////////////////////////////////////////////////////
 //                                 FOOD
 ///////////////////////////////////////////////////////////////////////////
 
-export const makeFoodInput = makeConsumeInputFactory({consumesFieldName: 'food'});
+export const makeFoodInput = makeConsumeInputFactory({
+	consumesFieldName: 'food',
+	filter: (option,player) => {
+		return !option.level || player.getLevel() >= option.level
+	},});
 
 ///////////////////////////////////////////////////////////////////////////
 //                                 PET

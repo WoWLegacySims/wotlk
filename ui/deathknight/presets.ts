@@ -1,5 +1,6 @@
 import * as PresetUtils from '../core/preset_utils.js';
 import {
+	Big_Explosive,
 	Consumes,
 	Explosive,
 	Glyphs,
@@ -206,6 +207,6 @@ export const DefaultConsumes = Consumes.create({
 	defaultPotion: Potions.PotionOfSpeed,
 	petFood: PetFood.PetFoodSpicedMammothTreats,
 	prepopPotion: Potions.PotionOfSpeed,
-	thermalSapper: true,
+	bigExplosive: Big_Explosive.ThermalSapper,
 	fillerExplosive: Explosive.ExplosiveSaroniteBomb,
 });
