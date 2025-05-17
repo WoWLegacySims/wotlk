@@ -2,7 +2,7 @@ import * as PresetUtils from '../core/preset_utils.js';
 import {
 	Consumes,
 	Debuffs,
-	Explosive,
+	Explosive_Small,
 	Faction,
 	Glyphs,
 	IndividualBuffs,
@@ -116,7 +116,7 @@ export const DefaultConsumes = Consumes.create({
 	flask: Flask.FlaskoftheFrostWyrm,
 	food: Food.FishFeast,
 	prepopPotion: Potions.PotionOfWildMagic,
-	fillerExplosive: Explosive.ExplosiveSaroniteBomb,
+	explosiveSmall: Explosive_Small.ExplosiveSaroniteBomb,
 });
 
 export const DefaultRaidBuffs = RaidBuffs.create({

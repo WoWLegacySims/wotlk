@@ -269,20 +269,27 @@ enum TristateEffect {
 	TristateEffectImproved = 2;
 }
 
-enum Explosive {
-	ExplosiveUnknown = 0;
+enum Explosive_Small {
+	ExplosiveSmallUnknown = 0;
 	ExplosiveSaroniteBomb = 1;
 	ExplosiveCobaltFragBomb = 2;
+	TheBiggerOne = 3;
+	DenseDynamite = 4;
+	EzThroDynamiteII = 5;
+	HeavyDynamite = 6;
+	EzThroDynamite = 7;
 }
 
-enum Big_Explosive {
-	BigExplosiveUnknown = 0;
-	ThermalSapper = 1;
-}
-
-enum Decoy_Explosive {
-	Decoy_ExplosiveUnknown = 0;
+enum Explosive_Medium {
+	ExplosiveMediumUnknown = 0;
 	ExplosiveDecoy = 1;
+}
+
+enum Explosive_Big {
+	ExplosiveBigUnknown = 0;
+	ThermalSapper = 1;
+	SuperSapperCharge = 2;
+	GoblinSapperCharge = 3;
 }
 
 enum Potions {
@@ -512,9 +519,9 @@ message Consumes {
 	Potions prepop_potion = 11;
 	Conjured default_conjured = 12;
 
-	Big_Explosive big_explosive = 15;
-	Decoy_Explosive decoy_explosive = 16;
-	Explosive filler_explosive = 17;
+	Explosive_Big explosive_big = 15;
+	Explosive_Medium explosive_medium = 16;
+	Explosive_Small explosive_small = 17;
 }
 
 message Debuffs {

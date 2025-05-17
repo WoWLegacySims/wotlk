@@ -1,6 +1,7 @@
 package core
 
 import (
+	"slices"
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
@@ -697,48 +698,69 @@ var SaroniteBombActionID = ActionID{ItemID: 41119}
 var CobaltFragBombActionID = ActionID{ItemID: 40771}
 
 func registerExplosivesCD(agent Agent, consumes *proto.Consumes) {
+	if consumes.ExplosiveBig == proto.Explosive_Big_ExplosiveBigUnknown && consumes.ExplosiveMedium == proto.Explosive_Medium_ExplosiveMediumUnknown && consumes.ExplosiveSmall == proto.Explosive_Small_ExplosiveSmallUnknown {
+		return
+	}
 	character := agent.GetCharacter()
-	hasFiller := consumes.FillerExplosive != proto.Explosive_ExplosiveUnknown
-	if !character.HasProfession(proto.Profession_Engineering) {
-		return
-	}
-	if consumes.BigExplosive == proto.Big_Explosive_BigExplosiveUnknown && consumes.DecoyExplosive == proto.Decoy_Explosive_Decoy_ExplosiveUnknown && !hasFiller {
-		return
-	}
 	sharedTimer := character.NewTimer()
 
-	if consumes.BigExplosive == proto.Big_Explosive_ThermalSapper {
+	var bigExplosive *Spell
+	var mediumExplosive *Spell
+	var smallExplosive *Spell
+
+	switch consumes.ExplosiveBig {
+	case proto.Explosive_Big_ThermalSapper:
+		bigExplosive = character.newBigExplosiveSpell(sharedTimer, 42641, 2188, 2812, 2188, 2812)
+	case proto.Explosive_Big_SuperSapperCharge:
+		bigExplosive = character.newBigExplosiveSpell(sharedTimer, 23827, 900, 1500, 675, 1125)
+	case proto.Explosive_Big_GoblinSapperCharge:
+		bigExplosive = character.newBigExplosiveSpell(sharedTimer, 10646, 450, 750, 375, 625)
+	}
+
+	switch consumes.ExplosiveMedium {
+	case proto.Explosive_Medium_ExplosiveDecoy:
+		mediumExplosive = character.newMediumExplosiveSpell(sharedTimer, 40536, 1440, 2160)
+	}
+
+	switch consumes.ExplosiveSmall {
+	case proto.Explosive_Small_ExplosiveSaroniteBomb:
+		smallExplosive = character.newSmallExplosiveSpell(sharedTimer, 41119, 1150, 1500)
+	case proto.Explosive_Small_ExplosiveCobaltFragBomb:
+		smallExplosive = character.newSmallExplosiveSpell(sharedTimer, 40771, 750, 1000)
+	case proto.Explosive_Small_TheBiggerOne:
+		smallExplosive = character.newSmallExplosiveSpell(sharedTimer, 23826, 600, 1000)
+	case proto.Explosive_Small_DenseDynamite:
+		smallExplosive = character.newSmallExplosiveSpell(sharedTimer, 18641, 340, 460)
+	case proto.Explosive_Small_HeavyDynamite:
+		smallExplosive = character.newSmallExplosiveSpell(sharedTimer, 4378, 128, 172)
+	case proto.Explosive_Small_EzThroDynamiteII:
+		smallExplosive = character.newSmallExplosiveSpell(sharedTimer, 18588, 213, 287)
+	case proto.Explosive_Small_EzThroDynamite:
+		smallExplosive = character.newSmallExplosiveSpell(sharedTimer, 6714, 51, 69)
+	}
+
+	if bigExplosive != nil {
 		character.AddMajorCooldown(MajorCooldown{
-			Spell:    character.newThermalSapperSpell(sharedTimer),
+			Spell:    bigExplosive,
 			Type:     CooldownTypeDPS | CooldownTypeExplosive,
 			Priority: CooldownPriorityLow + 30,
 		})
 	}
 
-	if consumes.DecoyExplosive == proto.Decoy_Explosive_ExplosiveDecoy {
+	if mediumExplosive != nil {
 		character.AddMajorCooldown(MajorCooldown{
-			Spell:    character.newExplosiveDecoySpell(sharedTimer),
+			Spell:    mediumExplosive,
 			Type:     CooldownTypeDPS | CooldownTypeExplosive,
 			Priority: CooldownPriorityLow + 20,
 			ShouldActivate: func(sim *Simulation, character *Character) bool {
-				// Decoy puts other explosives on 2m CD, so only use if there won't be enough
-				// time to use another explosive OR there is no filler explosive.
-				return sim.GetRemainingDuration() < time.Minute || !hasFiller
+				return sim.GetRemainingDuration() < time.Minute || smallExplosive == nil
 			},
 		})
 	}
 
-	if hasFiller {
-		var filler *Spell
-		switch consumes.FillerExplosive {
-		case proto.Explosive_ExplosiveSaroniteBomb:
-			filler = character.newSaroniteBombSpell(sharedTimer)
-		case proto.Explosive_ExplosiveCobaltFragBomb:
-			filler = character.newCobaltFragBombSpell(sharedTimer)
-		}
-
+	if smallExplosive != nil {
 		character.AddMajorCooldown(MajorCooldown{
-			Spell:    filler,
+			Spell:    smallExplosive,
 			Type:     CooldownTypeDPS | CooldownTypeExplosive,
 			Priority: CooldownPriorityLow + 10,
 		})
@@ -746,9 +768,8 @@ func registerExplosivesCD(agent Agent, consumes *proto.Consumes) {
 }
 
 // Creates a spell object for the common explosive case.
-func (character *Character) newBasicExplosiveSpellConfig(sharedTimer *Timer, actionID ActionID, school SpellSchool, minDamage float64, maxDamage float64, cooldown Cooldown, _ float64, _ float64) SpellConfig {
-	dealSelfDamage := actionID.SameAction(ThermalSapperActionID)
-
+func (character *Character) newBasicExplosiveSpellConfig(sharedTimer *Timer, actionID ActionID, school SpellSchool, minDamage float64, maxDamage float64, cooldown Cooldown, selfDamageMin float64, selfDamageMax float64) SpellConfig {
+	dealSelfDamage := selfDamageMin > 0 && selfDamageMax > 0
 	return SpellConfig{
 		ActionID:    actionID,
 		SpellSchool: school,
@@ -758,7 +779,7 @@ func (character *Character) newBasicExplosiveSpellConfig(sharedTimer *Timer, act
 			CD: cooldown,
 			SharedCD: Cooldown{
 				Timer:    sharedTimer,
-				Duration: TernaryDuration(actionID.SameAction(ExplosiveDecoyActionID), time.Minute*2, time.Minute),
+				Duration: TernaryDuration(slices.Contains([]int32{40536}, actionID.ItemID), time.Minute*2, time.Minute),
 			},
 		},
 
@@ -775,21 +796,20 @@ func (character *Character) newBasicExplosiveSpellConfig(sharedTimer *Timer, act
 			}
 
 			if dealSelfDamage {
-				baseDamage := sim.Roll(minDamage, maxDamage)
+				baseDamage := sim.Roll(selfDamageMin, selfDamageMax)
 				spell.CalcAndDealDamage(sim, &character.Unit, baseDamage, spell.OutcomeMagicHitAndCrit)
 			}
 		},
 	}
 }
-func (character *Character) newThermalSapperSpell(sharedTimer *Timer) *Spell {
-	return character.GetOrRegisterSpell(character.newBasicExplosiveSpellConfig(sharedTimer, ThermalSapperActionID, SpellSchoolFire, 2188, 2812, Cooldown{Timer: character.NewTimer(), Duration: time.Minute * 5}, 2188, 2812))
+func (character *Character) newBigExplosiveSpell(sharedTimer *Timer, itemID int32, minDamage float64, maxDamage float64, selfDamageMin float64, selfDamageMax float64) *Spell {
+	return character.GetOrRegisterSpell(character.newBasicExplosiveSpellConfig(sharedTimer, ActionID{ItemID: itemID}, SpellSchoolFire, minDamage, maxDamage, Cooldown{Timer: character.NewTimer(), Duration: time.Minute * 5}, selfDamageMin, selfDamageMax))
 }
-func (character *Character) newExplosiveDecoySpell(sharedTimer *Timer) *Spell {
-	return character.GetOrRegisterSpell(character.newBasicExplosiveSpellConfig(sharedTimer, ExplosiveDecoyActionID, SpellSchoolPhysical, 1440, 2160, Cooldown{Timer: character.NewTimer(), Duration: time.Minute * 2}, 0, 0))
+
+func (character *Character) newMediumExplosiveSpell(sharedTimer *Timer, itemID int32, minDamage float64, maxDamage float64) *Spell {
+	return character.GetOrRegisterSpell(character.newBasicExplosiveSpellConfig(sharedTimer, ActionID{ItemID: itemID}, SpellSchoolPhysical, minDamage, maxDamage, Cooldown{Timer: character.NewTimer(), Duration: time.Minute * 2}, 0, 0))
 }
-func (character *Character) newSaroniteBombSpell(sharedTimer *Timer) *Spell {
-	return character.GetOrRegisterSpell(character.newBasicExplosiveSpellConfig(sharedTimer, SaroniteBombActionID, SpellSchoolFire, 1150, 1500, Cooldown{}, 0, 0))
-}
-func (character *Character) newCobaltFragBombSpell(sharedTimer *Timer) *Spell {
-	return character.GetOrRegisterSpell(character.newBasicExplosiveSpellConfig(sharedTimer, CobaltFragBombActionID, SpellSchoolFire, 750, 1000, Cooldown{}, 0, 0))
+
+func (character *Character) newSmallExplosiveSpell(sharedTimer *Timer, itemID int32, minDamage float64, maxDamage float64) *Spell {
+	return character.GetOrRegisterSpell(character.newBasicExplosiveSpellConfig(sharedTimer, ActionID{ItemID: itemID}, SpellSchoolFire, minDamage, maxDamage, Cooldown{Timer: character.NewTimer(), Duration: time.Minute}, 0, 0))
 }

@@ -1,11 +1,11 @@
 import { Player } from "../../player";
 import {
-	Big_Explosive,
 	Class,
 	Conjured,
 	Consumes,
-	Decoy_Explosive,
-	Explosive,
+	Explosive_Big,
+	Explosive_Medium,
+	Explosive_Small,
 	ItemSlot,
 	PetFood,
 	Potions,
@@ -114,31 +114,35 @@ export const makeConjuredInput = makeConsumeInputFactory({consumesFieldName: 'de
 ///////////////////////////////////////////////////////////////////////////
 
 export const EXPLOSIVES_CONFIG = [
-	{ config: { actionId: ActionId.fromItemId(41119), value: Explosive.ExplosiveSaroniteBomb }, stats: [] ,level:1},
-	{ config: { actionId: ActionId.fromItemId(40771), value: Explosive.ExplosiveCobaltFragBomb }, stats: [],level:1 },
-] as ConsumableStatOption<Explosive>[];
+	{ config: { actionId: ActionId.fromItemId(41119), value: Explosive_Small.ExplosiveSaroniteBomb, showWhen: player => player.hasProfession(Profession.Engineering) }, stats: []},
+	{ config: { actionId: ActionId.fromItemId(40771), value: Explosive_Small.ExplosiveCobaltFragBomb, showWhen: player => player.hasProfession(Profession.Engineering) }, stats: []},
+	{ config: { actionId: ActionId.fromItemId(23826), value: Explosive_Small.TheBiggerOne, showWhen: player => player.hasProfession(Profession.Engineering) }, stats: []},
+	{ config: { actionId: ActionId.fromItemId(18588), value: Explosive_Small.EzThroDynamiteII}, stats: []},
+	{ config: { actionId: ActionId.fromItemId(6714), value: Explosive_Small.EzThroDynamite}, stats: []},
+	{ config: { actionId: ActionId.fromItemId(18641), value: Explosive_Small.DenseDynamite, showWhen: player => player.hasProfession(Profession.Engineering) }, stats: []},
+	{ config: { actionId: ActionId.fromItemId(4378), value: Explosive_Small.HeavyDynamite, showWhen: player => player.hasProfession(Profession.Engineering) }, stats: []},
+] as ConsumableStatOption<Explosive_Small>[];
 
 export const BIG_EXPLOSIVES_CONFIG = [
-	{ config: {actionId: ActionId.fromItemId(42641), value: Big_Explosive.ThermalSapper}, stats: [] ,level:1},
-] as ConsumableStatOption<Big_Explosive>[];
+	{ config: {actionId: ActionId.fromItemId(42641), value: Explosive_Big.ThermalSapper, showWhen: player => player.hasProfession(Profession.Engineering)}, stats: []},
+	{ config: {actionId: ActionId.fromItemId(23827), value: Explosive_Big.SuperSapperCharge, showWhen: player => player.hasProfession(Profession.Engineering)}, stats: []},
+	{ config: {actionId: ActionId.fromItemId(10646), value: Explosive_Big.GoblinSapperCharge, showWhen: player => player.hasProfession(Profession.Engineering)}, stats: []},
+] as ConsumableStatOption<Explosive_Big>[];
 
 export const DECOY_EXPLOSIVE_CONFIG = [
-	{ config: {actionId: ActionId.fromItemId(40536), value: Decoy_Explosive.ExplosiveDecoy}, stats: [] ,level:1},
-] as ConsumableStatOption<Decoy_Explosive>[];
+	{ config: {actionId: ActionId.fromItemId(40536), value: Explosive_Medium.ExplosiveDecoy, showWhen: player => player.hasProfession(Profession.Engineering)}, stats: []},
+] as ConsumableStatOption<Explosive_Medium>[];
 
 export const makeExplosivesInput = makeConsumeInputFactory({
-	consumesFieldName: 'fillerExplosive',
-	showWhen: player => player.hasProfession(Profession.Engineering)
+	consumesFieldName: 'explosiveSmall'
 });
 
 export const makeBigExplosivesInput = makeConsumeInputFactory({
-	consumesFieldName: 'bigExplosive',
-	showWhen: player => player.hasProfession(Profession.Engineering)
+	consumesFieldName: 'explosiveBig'
 });
 
 export const makeDecoyExplosivesInput = makeConsumeInputFactory({
-	consumesFieldName: 'decoyExplosive',
-	showWhen: player => player.hasProfession(Profession.Engineering)
+	consumesFieldName: 'explosiveMedium'
 });
 
 ///////////////////////////////////////////////////////////////////////////

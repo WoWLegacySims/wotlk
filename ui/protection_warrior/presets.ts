@@ -1,8 +1,8 @@
 import * as PresetUtils from '../core/preset_utils.js';
 import {
-	Big_Explosive,
 	Consumes,
-	Explosive,
+	Explosive_Big,
+	Explosive_Small,
 	Glyphs,
 	Potions,
 	Spec,
@@ -81,6 +81,6 @@ export const DefaultConsumes = Consumes.create({
 	food: Food.DragonfinFilet,
 	defaultPotion: Potions.IndestructiblePotion,
 	prepopPotion: Potions.IndestructiblePotion,
-	bigExplosive: Big_Explosive.ThermalSapper,
-	fillerExplosive: Explosive.ExplosiveSaroniteBomb,
+	explosiveBig: Explosive_Big.ThermalSapper,
+	explosiveSmall: Explosive_Small.ExplosiveSaroniteBomb,
 });
