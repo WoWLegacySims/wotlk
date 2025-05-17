@@ -15,7 +15,6 @@ export interface ActionInputConfig<T> {
 
 export interface StatOption {
 	stats: Array<Stat>,
-	level?: number,
 }
 
 export interface ItemStatOption<T> extends StatOption {
@@ -48,13 +47,15 @@ export type StatOptions<T, Options extends ItemStatOptions<T> | PickerStatOption
 
 export function relevantStatOptions<T, OptionsType extends ItemStatOptions<T> | PickerStatOptions>(
 	options: StatOptions<T, OptionsType>,
-	simUI: IndividualSimUI<Spec>
+	simUI: IndividualSimUI<Spec>,
+	filter?: (option: OptionsType) => boolean,
 ): StatOptions<T, OptionsType> {
   return options
-    .filter(option => ((!option.level || option.level + 10 >= simUI.player.getLevel() && option.level <= simUI.player.getLevel()) &&
+    .filter(option =>
       (option.stats.length == 0 ||
       option.stats.some(stat => simUI.individualConfig.epStats.includes(stat))) ||
-			simUI.individualConfig.includeBuffDebuffInputs.includes(option.config)))
+			simUI.individualConfig.includeBuffDebuffInputs.includes(option.config))
 		.filter(option =>
 			!simUI.individualConfig.excludeBuffDebuffInputs.includes(option.config))
+		.filter(option => !filter || filter(option))
 }

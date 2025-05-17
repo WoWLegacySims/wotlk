@@ -4,10 +4,12 @@ import {
 	Conjured,
 	Consumes,
 	Explosive,
+	ItemSlot,
 	PetFood,
 	Potions,
 	Spec,
 	Stat,
+	WeaponImbue,
 } from "../../proto/common";
 import {BattleElixir,Flask,GuardianElixir} from '../../proto/consumes_gen.js'
 import { ActionId } from "../../proto_utils/action_id";
@@ -22,7 +24,12 @@ export interface ConsumableInputConfig<T> extends ActionInputConfig<T> {
 }
 
 export interface ConsumableStatOption<T> extends ItemStatOption<T> {
-	config: ConsumableInputConfig<T>
+	config: ConsumableInputConfig<T>,
+	level?: number,
+}
+
+export interface ImbueConsumableStatOption extends ConsumableStatOption<WeaponImbue> {
+	type?: string,
 }
 
 export interface ConsumeInputFactoryArgs<T extends number> {
@@ -158,6 +165,42 @@ export const makeGuardianElixirsInput = makeConsumeInputFactory({
 		}
 	}
 });
+
+export const IMBUE_CONFIG = [
+{ config : {actionId: ActionId.fromItemId(20749), value: WeaponImbue.BrilliantWizardOil}, stats: [Stat.StatSpellCrit, Stat.StatSpellPower],level: 45},
+{ config : {actionId: ActionId.fromItemId(20748), value: WeaponImbue.BrilliantManaOil}, stats: [Stat.StatMP5, Stat.StatSpellPower],level: 45},
+{ config : {actionId: ActionId.fromItemId(22522), value: WeaponImbue.SuperiorWizardOil}, stats: [Stat.StatSpellPower],level: 58},
+{ config : {actionId: ActionId.fromItemId(22521), value: WeaponImbue.SuperiorManaOil}, stats: [Stat.StatMP5],level: 58},
+{ config : {actionId: ActionId.fromItemId(20750), value: WeaponImbue.WizardOil}, stats: [Stat.StatSpellPower],level: 40},
+{ config : {actionId: ActionId.fromItemId(20747), value: WeaponImbue.LesserManaOil}, stats: [Stat.StatMP5],level: 30},
+{ config : {actionId: ActionId.fromItemId(20746), value: WeaponImbue.LesserWizardOil}, stats: [Stat.StatSpellPower],level: 30},
+{ config : {actionId: ActionId.fromItemId(20745), value: WeaponImbue.MinorManaOil}, stats: [Stat.StatMP5],level: 5},
+{ config : {actionId: ActionId.fromItemId(20744), value: WeaponImbue.MinorWizardOil}, stats: [Stat.StatSpellPower],level: 5},
+{ config : {actionId: ActionId.fromItemId(23529), value: WeaponImbue.AdamantiteSharpeningStone}, stats: [Stat.StatMeleeCrit, Stat.StatAttackPower],level: 60, type: "sharp"},
+{ config : {actionId: ActionId.fromItemId(28421), value: WeaponImbue.AdamantiteWeightStone}, stats: [Stat.StatMeleeCrit, Stat.StatAttackPower],level: 60, type: "blunt"},
+{ config : {actionId: ActionId.fromItemId(23528), value: WeaponImbue.FelSharpeningStone}, stats: [Stat.StatAttackPower],level: 50, type: "sharp"},
+{ config : {actionId: ActionId.fromItemId(28420), value: WeaponImbue.FelWeightstone}, stats: [Stat.StatAttackPower],level: 50, type: "blunt"},
+{ config : {actionId: ActionId.fromItemId(18262), value: WeaponImbue.ElementalSharpeningStone}, stats: [Stat.StatMeleeCrit],level: 50},
+{ config : {actionId: ActionId.fromItemId(12404), value: WeaponImbue.DenseSharpeningStone}, stats: [Stat.StatAttackPower],level: 35, type: "sharp"},
+{ config : {actionId: ActionId.fromItemId(12643), value: WeaponImbue.DenseWeightstone}, stats: [Stat.StatAttackPower],level: 35, type: "blunt"},
+{ config : {actionId: ActionId.fromItemId(7964), value: WeaponImbue.SolidSharpeningStone}, stats: [Stat.StatAttackPower],level: 25, type: "sharp"},
+{ config : {actionId: ActionId.fromItemId(7965), value: WeaponImbue.SolidWeightStone}, stats: [Stat.StatAttackPower],level: 25, type: "blunt"},
+{ config : {actionId: ActionId.fromItemId(2871), value: WeaponImbue.HeavySharpeningStone}, stats: [Stat.StatAttackPower],level: 15, type: "sharp"},
+{ config : {actionId: ActionId.fromItemId(3241), value: WeaponImbue.HeavyWeightStone,}, stats: [Stat.StatAttackPower],level: 15, type: "blunt"},
+{ config : {actionId: ActionId.fromItemId(2863), value: WeaponImbue.CoarseSharpeningStone}, stats: [Stat.StatAttackPower],level: 5, type: "sharp"},
+{ config : {actionId: ActionId.fromItemId(3240), value: WeaponImbue.CoarseWeightStone}, stats: [Stat.StatAttackPower],level: 5, type: "blunt"},
+{ config : {actionId: ActionId.fromItemId(2862), value: WeaponImbue.RoughSharpeningStone }, stats: [Stat.StatAttackPower],level: 1, type: "sharp"},
+{ config : {actionId: ActionId.fromItemId(3239), value: WeaponImbue.RoughWeightStone}, stats: [Stat.StatAttackPower],level: 1, type: "blunt"},
+] as ImbueConsumableStatOption[];
+
+export const makeMHImbueInput = makeConsumeInputFactory({consumesFieldName: 'mhImbue',showWhen: player => {
+	const mh = player.getGear().getEquippedItem(ItemSlot.ItemSlotMainHand);
+	return mh != null && mh?.item.ilvl <= 165;
+},});
+export const makeOHImbueInput = makeConsumeInputFactory({consumesFieldName: 'ohImbue',showWhen: player => {
+	const oh = player.getGear().getEquippedItem(ItemSlot.ItemSlotOffHand);
+	return oh != null && oh?.item.ilvl <= 165;
+},});
 
 ///////////////////////////////////////////////////////////////////////////
 //                                 FOOD

@@ -303,6 +303,34 @@ enum Conjured {
 	ConjuredRogueThistleTea = 4;
 }
 
+enum WeaponImbue {
+	ImbueUnknown = 0;
+	BrilliantWizardOil = 1;
+	BrilliantManaOil = 2;
+	SuperiorWizardOil = 3;
+	SuperiorManaOil = 4;
+	WizardOil = 5;
+	LesserManaOil = 6;
+	LesserWizardOil = 7;
+	MinorManaOil = 8;
+	MinorWizardOil = 9;
+	AdamantiteSharpeningStone = 10;
+	AdamantiteWeightStone = 11;
+	FelSharpeningStone = 12;
+	FelWeightstone = 13;
+	ElementalSharpeningStone = 14;
+	DenseSharpeningStone = 15;
+	DenseWeightstone = 16;
+	SolidSharpeningStone = 17;
+	SolidWeightStone = 18;
+	HeavySharpeningStone = 19;
+	HeavyWeightStone = 20;
+	CoarseSharpeningStone = 21;
+	CoarseWeightStone = 22;
+	RoughSharpeningStone = 23;
+	RoughWeightStone = 24;
+}
+
 enum PetFood {
 	PetFoodUnknown = 0;
 	PetFoodSpicedMammothTreats = 1;
@@ -460,6 +488,9 @@ message Consumes {
 	Flask flask = 1;
 	BattleElixir battle_elixir = 2;
 	GuardianElixir guardian_elixir = 3;
+
+	WeaponImbue MhImbue = 4;
+	WeaponImbue OhImbue = 5;
 
 	Food food = 6;
 	PetFood pet_food = 7;
