@@ -108,6 +108,28 @@ class GlyphPicker extends Input<Player<any>, number> {
 				(glyphs[glyphField] as number) = newValue;
 				player.setGlyphs(eventID, glyphs);
 			},
+			enableWhen:player => {
+				let level: number;
+				switch(glyphField){
+					case 'major1':
+					case 'minor1':
+						level = 15;
+						break;
+					case 'major2':
+						level = 30;
+						break;
+					case 'minor2':
+						level = 50;
+						break;
+					case 'minor3':
+						level = 70;
+						break;
+					case 'major3':
+						level = 80;
+						break;
+				}
+				return player.getLevel() >= level
+			},
 		});
 		if (!isMajor) {
 			this.rootElem.classList.add('minor');

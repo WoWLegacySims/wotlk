@@ -143,13 +143,22 @@ func NewCharacter(party *Party, partyIndex int, player *proto.Player) Character 
 	character.Label = fmt.Sprintf("%s (#%d)", character.Name, character.Index+1)
 
 	if player.Glyphs != nil {
-		character.glyphs = [6]int32{
-			player.Glyphs.Major1,
-			player.Glyphs.Major2,
-			player.Glyphs.Major3,
-			player.Glyphs.Minor1,
-			player.Glyphs.Minor2,
-			player.Glyphs.Minor3,
+		character.glyphs = [6]int32{}
+		if character.Level >= 15 {
+			character.glyphs[0] = player.Glyphs.Major1
+			character.glyphs[3] = player.Glyphs.Minor1
+		}
+		if character.Level >= 30 {
+			character.glyphs[1] = player.Glyphs.Major2
+		}
+		if character.Level >= 50 {
+			character.glyphs[4] = player.Glyphs.Minor2
+		}
+		if character.Level >= 70 {
+			character.glyphs[5] = player.Glyphs.Minor3
+		}
+		if character.Level >= 80 {
+			character.glyphs[2] = player.Glyphs.Major3
 		}
 	}
 	character.PrimaryTalentTree = GetPrimaryTalentTreeIndex(player.TalentsString)
