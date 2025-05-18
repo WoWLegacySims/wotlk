@@ -1,10 +1,10 @@
 import {BooleanPicker} from '../components/boolean_picker.js';
 import {EnumPicker} from '../components/enum_picker.js';
-import {ItemSlot, UnitReference} from '../proto/common.js';
 import {Player} from '../player.js';
+import {Expansion, ItemSlot, UnitReference} from '../proto/common.js';
+import {emptyUnitReference} from '../proto_utils/utils.js';
 import {Sim} from '../sim.js';
 import {EventID} from '../typed_event.js';
-import {emptyUnitReference} from '../proto_utils/utils.js';
 
 export function makeShow1hWeaponsSelector(parent: HTMLElement, sim: Sim): BooleanPicker<Sim> {
 	return new BooleanPicker<Sim>(parent, sim, {
@@ -64,21 +64,22 @@ export function makeShowEPValuesSelector(parent: HTMLElement, sim: Sim): Boolean
 	});
 }
 
-export function makePhaseSelector(parent: HTMLElement, sim: Sim): EnumPicker<Sim> {
+export function makeExpansionSelector(parent: HTMLElement, sim: Sim): EnumPicker<Sim> {
 	return new EnumPicker<Sim>(parent, sim, {
-		extraCssClasses: ['phase-selector'],
+		extraCssClasses: ['expansion-selector'],
 		values: [
-			{ name: 'Phase 1', value: 1 },
-			{ name: 'Phase 2', value: 2 },
-			{ name: 'Phase 3', value: 3 },
-			{ name: 'Phase 4', value: 4 },
-			{ name: 'Phase 5', value: 5 },
+			{ name: 'Vanilla', value: Expansion.ExpansionVanilla },
+			{ name: 'TBC', value: Expansion.ExpansionTbc },
+			{ name: 'WOTLK', value: Expansion.ExpansionWotlk },
 		],
-		changedEvent: (sim: Sim) => sim.phaseChangeEmitter,
-		getValue: (sim: Sim) => sim.getPhase(),
-		setValue: (eventID: EventID, sim: Sim, newValue: number) => {
-			sim.setPhase(eventID, newValue);
+		changedEvent: (sim: Sim) => sim.filtersChangeEmitter,
+		getValue: (sim: Sim) => sim.getFilters().maxExpansion,
+		setValue: (eventID: EventID, sim: Sim, newValue: Expansion) => {
+			const filters = sim.getFilters();
+			filters.maxExpansion = newValue;
+			sim.setFilters(eventID, filters);
 		},
+		defaultValue: sim.getExpansion()
 	});
 }
 

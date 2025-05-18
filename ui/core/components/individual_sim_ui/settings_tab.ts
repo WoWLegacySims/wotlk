@@ -109,6 +109,9 @@ export class SettingsTab extends SimTab {
 			changedEvent: sim => sim.levelChangeEmitter,
 			getValue: sim => sim.getLevel(),
 			setValue: (eventID, sim, newValue) => sim.setLevel(eventID, newValue),
+			float: false,
+			min: () => this.simUI.player.getMinLevel(),
+			max: () => this.simUI.player.getMaxLevel()
 		});
 
 		new EnumPicker(contentBlock.bodyElement, this.simUI.player, {
@@ -117,7 +120,6 @@ export class SettingsTab extends SimTab {
 			changedEvent: sim => sim.expansionChangeEmitter,
 			getValue: sim => sim.getExpansion(),
 			setValue: (eventID, sim, newValue) => sim.setExpansion(eventID, newValue),
-			showWhen: () => false,
 		});
 
 		const races = specToEligibleRaces[this.simUI.player.spec];

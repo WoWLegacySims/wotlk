@@ -141,3 +141,5 @@ var ThunderClap = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:47501,MinLevel:73,MaxLevel:0,Duration:30000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 246,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: -11,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:47502,MinLevel:78,MaxLevel:0,Duration:30000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 299,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: -11,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
+
+ var AllSpells = []spellinfo.Spell{BattleShout,Cleave,CommandingShout,DemoralizingShout,Devastate,Execute,HeroicStrike,MortalStrike,Rend,Revenge,ShieldSlam,Slam,ThunderClap}

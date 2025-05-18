@@ -1,5 +1,5 @@
 import { getLanguageCode } from './constants/lang.js';
-import { MAX_LEVEL_TBC, MAX_LEVEL_VANILLA, MAX_LEVEL_WOTLK, MIN_LEVEL, MIN_LEVEL_DK } from './constants/mechanics.js';
+import { MIN_LEVEL, MIN_LEVEL_DK } from './constants/mechanics.js';
 import * as Ratings from './constants/ratings.js';
 import { MAX_PARTY_SIZE,Party } from './party.js';
 import {
@@ -234,7 +234,6 @@ export class Player<SpecType extends Spec> {
 	private itemSwapGear: ItemSwapGear = new ItemSwapGear({});
 	private race: Race;
 	private level = 80;
-	private expansion = Expansion.ExpansionWotlk
 	private profession1: Profession = 0;
 	private profession2: Profession = 0;
 	aplRotation: APLRotation = APLRotation.create();
@@ -526,7 +525,7 @@ export class Player<SpecType extends Spec> {
 		return this.level
 	}
 	setLevel(eventID: EventID, newLevel: number) {
-		const minLevel = this.isClass(Class.ClassDeathknight) ? MIN_LEVEL_DK : MIN_LEVEL;
+		const minLevel = this.getMinLevel()
 		newLevel = Math.min(Math.max(newLevel, minLevel), this.getMaxLevel());
 		if (newLevel != this.level) {
 			this.sim.encounter.targets.forEach(t => {
@@ -537,24 +536,21 @@ export class Player<SpecType extends Spec> {
 		}
 	}
 
-	getExpansion(): Expansion {
-		return this.expansion
-	}
-	setExpansion(eventID: EventID, newExpansion: Expansion) {
-		if (newExpansion != this.expansion) {
-			this.expansion = newExpansion;
-			this.expansionChangeEmitter.emit(eventID);
-			const maxLevel = this.getMaxLevel();
-			if (this.level > maxLevel) this.setLevel(eventID,maxLevel);
-		}
+	getMinLevel() {
+		return this.isClass(Class.ClassDeathknight) ? MIN_LEVEL_DK : MIN_LEVEL;
 	}
 
-	getMaxLevel(): number {
-		switch (this.expansion) {
-			case (Expansion.ExpansionWotlk): return MAX_LEVEL_WOTLK;
-			case (Expansion.ExpansionTbc): return MAX_LEVEL_TBC;
-			case (Expansion.ExpansionVanilla): return MAX_LEVEL_VANILLA;
-			default: return MAX_LEVEL_WOTLK;
+	getMaxLevel() {
+		return this.sim.getMaxLevel()
+	}
+
+	getExpansion(): Expansion {
+		return this.sim.getExpansion()
+	}
+	setExpansion(eventID: EventID, newExpansion: Expansion) {
+		const maxLevel = this.sim.setExpansion(eventID, newExpansion)
+		if (this.level > maxLevel) {
+			this.setLevel(eventID,maxLevel);
 		}
 	}
 
@@ -1114,7 +1110,7 @@ export class Player<SpecType extends Spec> {
 
 		// Compare whether its better to match sockets + get socket bonus, or just use best gems.
 		const bestGemEPNotMatchingSockets = sum(item.gemSockets.map(socketColor => {
-			const gems = this.sim.db.getGems(socketColor).filter(gem => isUnrestrictedGem(gem, this.sim.getPhase()));
+			const gems = this.sim.db.getGems(socketColor).filter(gem => isUnrestrictedGem(gem, this.sim.getExpansion()));
 			if (gems.length > 0) {
 				return Math.max(...gems.map(gem => this.computeGemEP(gem)));
 			} else {
@@ -1123,7 +1119,7 @@ export class Player<SpecType extends Spec> {
 		}));
 
 		const bestGemEPMatchingSockets = sum(item.gemSockets.map(socketColor => {
-			const gems = this.sim.db.getGems(socketColor).filter(gem => isUnrestrictedGem(gem, this.sim.getPhase()) && gemMatchesSocket(gem, socketColor));
+			const gems = this.sim.db.getGems(socketColor).filter(gem => isUnrestrictedGem(gem, this.sim.getExpansion()) && gemMatchesSocket(gem, socketColor));
 			if (gems.length > 0) {
 				return Math.max(...gems.map(gem => this.computeGemEP(gem)));
 			} else {
@@ -1222,6 +1218,12 @@ export class Player<SpecType extends Spec> {
 			itemData = filterItems(itemData, item => !item.sources.some(itemSrc => itemSrc.source.oneofKind == 'quest'));
 		}
 
+		if (filters.minIlvl > 0)
+			itemData = filterItems(itemData, item => filters.minIlvl <= item.ilvl)
+
+		if (filters.maxIlvl > 0)
+			itemData = filterItems(itemData, item => filters.maxIlvl >= item.ilvl)
+
 		for (const [srcOptionStr, difficulty] of Object.entries(Player.DIFFICULTY_SRCS)) {
 			const srcOption = parseInt(srcOptionStr) as SourceFilterOption;
 			if (!filters.sources.includes(srcOption)) {
@@ -1236,13 +1238,6 @@ export class Player<SpecType extends Spec> {
 							itemSrc.source.oneofKind == 'drop' && itemSrc.source.drop.difficulty == normalDifficulty && itemSrc.source.drop.category == AL_CATEGORY_HARD_MODE));
 				}
 			}
-		}
-
-		if (!filters.raids.includes(RaidFilterOption.RaidVanilla)) {
-			itemData = filterItems(itemData, item => item.expansion != Expansion.ExpansionVanilla);
-		}
-		if (!filters.raids.includes(RaidFilterOption.RaidTbc)) {
-			itemData = filterItems(itemData, item => item.expansion != Expansion.ExpansionTbc);
 		}
 		for (const [raidOptionStr, zoneId] of Object.entries(Player.RAID_IDS)) {
 			const raidOption = parseInt(raidOptionStr) as RaidFilterOption;

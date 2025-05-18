@@ -12,10 +12,8 @@ import {
 import { ActionId } from '../proto_utils/action_id.js';
 import { Raid } from '../raid';
 import { EventID, TypedEvent } from '../typed_event';
-
 import { IconEnumPicker } from './icon_enum_picker';
 import { IconPicker } from './icon_picker';
-
 import * as InputHelpers from './input_helpers';
 
 // Component Functions
@@ -26,6 +24,7 @@ export type IconInputConfig<ModObject, T> = (
 );
 
 export const buildIconInput = (parent: HTMLElement, player: Player<Spec>, inputConfig: IconInputConfig<Player<Spec>, any>) => {
+	parent.classList.remove('hide')
 	if (inputConfig.type == 'icon') {
 		return new IconPicker<Player<Spec>, any>(parent, player, inputConfig);
 	} else if (inputConfig.type == 'iconEnum') {

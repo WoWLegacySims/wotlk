@@ -46,124 +46,27 @@ var ItemOverrides = []*proto.UIItem{
 	{Id: 48561, SetName: "Koltira's Plate"},
 	{Id: 48562, SetName: "Koltira's Plate"},
 
-	// Valorous T8 Sets
-	{Id: 45375, Phase: 2},
-	{Id: 45381, Phase: 2},
-	{Id: 45382, Phase: 2},
-	{Id: 45376, Phase: 2},
-	{Id: 45370, Phase: 2},
-	{Id: 45371, Phase: 2},
-	{Id: 45383, Phase: 2},
-	{Id: 45372, Phase: 2},
-	{Id: 45377, Phase: 2},
-	{Id: 45384, Phase: 2},
-	{Id: 45379, Phase: 2},
-	{Id: 45385, Phase: 2},
-	{Id: 45380, Phase: 2},
-	{Id: 45373, Phase: 2},
-	{Id: 45374, Phase: 2},
-	{Id: 45391, Phase: 2},
-	{Id: 45386, Phase: 2},
-	{Id: 45340, Phase: 2},
-	{Id: 45335, Phase: 2},
-	{Id: 45336, Phase: 2},
-	{Id: 45341, Phase: 2},
-	{Id: 45337, Phase: 2},
-	{Id: 45342, Phase: 2},
-	{Id: 45338, Phase: 2},
-	{Id: 45343, Phase: 2},
-	{Id: 45339, Phase: 2},
-	{Id: 45344, Phase: 2},
-	{Id: 45419, Phase: 2},
-	{Id: 45417, Phase: 2},
-	{Id: 45420, Phase: 2},
-	{Id: 45421, Phase: 2},
-	{Id: 45422, Phase: 2},
-	{Id: 45387, Phase: 2},
-	{Id: 45392, Phase: 2},
-	{Id: 46131, Phase: 2},
-	{Id: 45365, Phase: 2},
-	{Id: 45367, Phase: 2},
-	{Id: 45369, Phase: 2},
-	{Id: 45368, Phase: 2},
-	{Id: 45388, Phase: 2},
-	{Id: 45393, Phase: 2},
-	{Id: 46313, Phase: 2},
-	{Id: 45351, Phase: 2},
-	{Id: 45355, Phase: 2},
-	{Id: 45345, Phase: 2},
-	{Id: 45356, Phase: 2},
-	{Id: 45346, Phase: 2},
-	{Id: 45347, Phase: 2},
-	{Id: 45357, Phase: 2},
-	{Id: 45352, Phase: 2},
-	{Id: 45358, Phase: 2},
-	{Id: 45348, Phase: 2},
-	{Id: 45359, Phase: 2},
-	{Id: 45349, Phase: 2},
-	{Id: 45353, Phase: 2},
-	{Id: 45354, Phase: 2},
-	{Id: 45394, Phase: 2},
-	{Id: 45395, Phase: 2},
-	{Id: 45389, Phase: 2},
-	{Id: 45360, Phase: 2},
-	{Id: 45361, Phase: 2},
-	{Id: 45362, Phase: 2},
-	{Id: 45363, Phase: 2},
-	{Id: 45364, Phase: 2},
-	{Id: 45390, Phase: 2},
-	{Id: 45429, Phase: 2},
-	{Id: 45424, Phase: 2},
-	{Id: 45430, Phase: 2},
-	{Id: 45425, Phase: 2},
-	{Id: 45426, Phase: 2},
-	{Id: 45431, Phase: 2},
-	{Id: 45427, Phase: 2},
-	{Id: 45432, Phase: 2},
-	{Id: 45428, Phase: 2},
-	{Id: 45433, Phase: 2},
-	{Id: 45396, Phase: 2},
-	{Id: 45397, Phase: 2},
-	{Id: 45398, Phase: 2},
-	{Id: 45399, Phase: 2},
-	{Id: 45400, Phase: 2},
-	{Id: 45413, Phase: 2},
-	{Id: 45412, Phase: 2},
-	{Id: 45406, Phase: 2},
-	{Id: 45414, Phase: 2},
-	{Id: 45401, Phase: 2},
-	{Id: 45411, Phase: 2},
-	{Id: 45402, Phase: 2},
-	{Id: 45408, Phase: 2},
-	{Id: 45409, Phase: 2},
-	{Id: 45403, Phase: 2},
-	{Id: 45415, Phase: 2},
-	{Id: 45410, Phase: 2},
-	{Id: 45404, Phase: 2},
-	{Id: 45405, Phase: 2},
-	{Id: 45416, Phase: 2},
+	// love is in the air loot
+	{Id: 51804, Expansion: proto.Expansion_ExpansionWotlk},
+	{Id: 51805, Expansion: proto.Expansion_ExpansionWotlk},
+	{Id: 51806, Expansion: proto.Expansion_ExpansionWotlk},
+	{Id: 51807, Expansion: proto.Expansion_ExpansionWotlk},
 
-	// Other items Wowhead has the wrong phase listed for
-	// Ick's loot table from Pit of Saron
-	{Id: 49812, Phase: 4},
-	{Id: 49808, Phase: 4},
-	{Id: 49811, Phase: 4},
-	{Id: 49807, Phase: 4},
-	{Id: 49810, Phase: 4},
-	{Id: 49809, Phase: 4},
+	//headless horseman
+	{Id: 49126, Expansion: proto.Expansion_ExpansionWotlk},
+	{Id: 49128, Expansion: proto.Expansion_ExpansionWotlk},
+	{Id: 49121, Expansion: proto.Expansion_ExpansionWotlk},
+	{Id: 49123, Expansion: proto.Expansion_ExpansionWotlk},
+	{Id: 49124, Expansion: proto.Expansion_ExpansionWotlk},
 
-	// Drape of Icy Intent
-	{Id: 45461, Phase: 2},
-
-	// Valentine's day event rewards
-	{Id: 51804, Phase: 2},
-	{Id: 51805, Phase: 2},
-	{Id: 51806, Phase: 2},
-	{Id: 51807, Phase: 2},
-	{Id: 51808, Phase: 2},
-
-	// Cata pre-patch event items
-	{Id: 53492, Phase: 5},
+	//coren direbrew
+	{Id: 48663, Expansion: proto.Expansion_ExpansionWotlk},
+	{Id: 49074, Expansion: proto.Expansion_ExpansionWotlk},
+	{Id: 49076, Expansion: proto.Expansion_ExpansionWotlk},
+	{Id: 49078, Expansion: proto.Expansion_ExpansionWotlk},
+	{Id: 49080, Expansion: proto.Expansion_ExpansionWotlk},
+	{Id: 49116, Expansion: proto.Expansion_ExpansionWotlk},
+	{Id: 49118, Expansion: proto.Expansion_ExpansionWotlk},
 
 	// Heirloom Dwarven Handcannon, Wowhead partially glitchs out and shows us some other lvl calc for this
 	{Id: 44093, Stats: stats.Stats{stats.MeleeCrit: 30, stats.SpellCrit: 30, stats.Resilience: 13, stats.AttackPower: 34}.ToFloatArray()},
@@ -535,9 +438,12 @@ var ItemDenyList = map[int32]struct{}{
 	18582: {},
 	18583: {},
 	18584: {},
+	22736: {},
 	24265: {},
+	33046: {}, //PvP Pwn
 	32384: {},
 	32421: {},
+	32466: {},
 	32422: {},
 	33482: {},
 	33350: {},
@@ -546,9 +452,15 @@ var ItemDenyList = map[int32]struct{}{
 	34578: {}, // Battlemaster's Determination
 	34579: {}, // Battlemaster's Audacity
 	34580: {}, // Battlemaster's Perseverence
+	38282: {},
 
 	38694: {}, // "Family" Shoulderpads heirloom
 	39263: {}, // "Dissevered Leggings"
+
+	41587: {},
+	41588: {},
+	41589: {},
+	41590: {},
 	45084: {}, // 'Book of Crafting Secrets' heirloom
 
 	// '10 man' onyxia head rewards
@@ -579,6 +491,8 @@ var ItemDenyList = map[int32]struct{}{
 	48897: {}, // DK's Tier 9 Duplicates
 	48898: {}, // DK's Tier 9 Duplicates
 	48899: {}, // DK's Tier 9 Duplicates
+
+	50741: {}, //rp item
 }
 
 // Item icons to include in the DB, so they don't need to be separately loaded in the UI.

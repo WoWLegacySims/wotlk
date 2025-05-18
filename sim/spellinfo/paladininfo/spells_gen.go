@@ -181,3 +181,5 @@ var ShieldofRighteousness = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:53600,MinLevel:75,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 6,Effects: [3]spellinfo.SpellEffect{{BasePoints: 389,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 99,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:61411,MinLevel:80,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 6,Effects: [3]spellinfo.SpellEffect{{BasePoints: 519,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 99,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
+
+ var AllSpells = []spellinfo.Spell{AvengersShield,BlessingofMight,BlessingofWisdom,Consecration,DevotionAura,Exorcism,FireResistanceAura,FlashofLight,FrostResistanceAura,HammerofWrath,HolyLight,HolyShield,HolyShock,HolyShockDamage,HolyShockHeal,HolyWrath,RetributionAura,ShadowResistanceAura,ShieldofRighteousness}

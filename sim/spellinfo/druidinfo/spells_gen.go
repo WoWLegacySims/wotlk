@@ -275,3 +275,5 @@ var Wrath = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:48459,MinLevel:74,MaxLevel:78,Duration:0,Period:0,CastTime: 2000 * time.Millisecond,BaseCost: 11,Effects: [3]spellinfo.SpellEffect{{BasePoints: 503,Die: 65,LevelScaling: 3,Coefficient: 0.571,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:48461,MinLevel:79,MaxLevel:83,Duration:0,Period:0,CastTime: 2000 * time.Millisecond,BaseCost: 11,Effects: [3]spellinfo.SpellEffect{{BasePoints: 552,Die: 71,LevelScaling: 4,Coefficient: 0.571,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
+
+ var AllSpells = []spellinfo.Spell{Claw,DemoralizingRoar,FerociousBite,HealingTouch,Hurricane,InsectSwarm,Lacerate,Lifebloom,MangleBear,MangleCat,MarkoftheWild,Maul,Moonfire,Pounce,Rake,Ravage,Regrowth,Rejuvenation,Rip,Shred,Starfire,SwipeBear,Thorns,TigersFury,Tranquility,Wrath}

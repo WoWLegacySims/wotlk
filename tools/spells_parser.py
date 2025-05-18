@@ -477,13 +477,18 @@ def GenSpellInfo(name: str, ids: List[int]):
 
         output += "},},\n"
     output += "}}\n"
-    return output
+    return output, CleanName(name)
 
 
 def GenSpells(cls: str):
     output = GenHeader(cls)
+    spells = []
     for spell in SPELLS[cls]:
-        output += GenSpellInfo(spell, SPELLS[cls][spell])
+        text, name = GenSpellInfo(spell, SPELLS[cls][spell])
+        output += text
+        spells.append(name)
+
+    output += f"\n var AllSpells = []spellinfo.Spell{{{','.join(spells)}}}"
 
     WriteFile(cls, output)
 

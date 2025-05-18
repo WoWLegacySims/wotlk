@@ -154,23 +154,23 @@ var EnchantOverrides = []*proto.UIEnchant{
 	{EffectId: 3788, ItemId: 44496, SpellId: 59619, Name: "Accuracy", Quality: proto.ItemQuality_ItemQualityRare, Stats: stats.Stats{stats.MeleeHit: 25, stats.SpellHit: 25, stats.MeleeCrit: 25, stats.SpellCrit: 25}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon},
 	{EffectId: 3830, SpellId: 44629, Name: "Exceptional Spellpower", Quality: proto.ItemQuality_ItemQualityRare, Stats: stats.Stats{stats.SpellPower: 50}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon},
 	{EffectId: 1606, SpellId: 60621, Name: "Greater Potency", Quality: proto.ItemQuality_ItemQualityCommon, Stats: stats.Stats{stats.AttackPower: 50, stats.RangedAttackPower: 50}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon},
-	{EffectId: 3370, SpellId: 53343, Name: "Rune of Razorice", Phase: 1, Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, ClassAllowlist: []proto.Class{proto.Class_ClassDeathknight}},
-	{EffectId: 3369, SpellId: 53341, Name: "Rune of Cinderglacier", Phase: 1, Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, ClassAllowlist: []proto.Class{proto.Class_ClassDeathknight}},
-	{EffectId: 3366, SpellId: 53331, Name: "Rune of Lichbane", Phase: 1, Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, ClassAllowlist: []proto.Class{proto.Class_ClassDeathknight}},
-	{EffectId: 3595, SpellId: 54447, Name: "Rune of Spellbreaking", Phase: 1, Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, ClassAllowlist: []proto.Class{proto.Class_ClassDeathknight}},
-	{EffectId: 3594, SpellId: 54446, Name: "Rune of Swordbreaking", Phase: 1, Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, ClassAllowlist: []proto.Class{proto.Class_ClassDeathknight}},
-	{EffectId: 3368, SpellId: 53344, Name: "Rune of the Fallen Crusader", Phase: 1, Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, ClassAllowlist: []proto.Class{proto.Class_ClassDeathknight}},
+	{EffectId: 3370, SpellId: 53343, Name: "Rune of Razorice", Expansion: 3, Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, ClassAllowlist: []proto.Class{proto.Class_ClassDeathknight}},
+	{EffectId: 3369, SpellId: 53341, Name: "Rune of Cinderglacier", Expansion: 3, Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, ClassAllowlist: []proto.Class{proto.Class_ClassDeathknight}},
+	{EffectId: 3366, SpellId: 53331, Name: "Rune of Lichbane", Expansion: 3, Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, ClassAllowlist: []proto.Class{proto.Class_ClassDeathknight}},
+	{EffectId: 3595, SpellId: 54447, Name: "Rune of Spellbreaking", Expansion: 3, Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, ClassAllowlist: []proto.Class{proto.Class_ClassDeathknight}},
+	{EffectId: 3594, SpellId: 54446, Name: "Rune of Swordbreaking", Expansion: 3, Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, ClassAllowlist: []proto.Class{proto.Class_ClassDeathknight}},
+	{EffectId: 3368, SpellId: 53344, Name: "Rune of the Fallen Crusader", Expansion: 3, Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, ClassAllowlist: []proto.Class{proto.Class_ClassDeathknight}},
 	{EffectId: 3870, ItemId: 46348, SpellId: 64579, Name: "Blood Draining", Quality: proto.ItemQuality_ItemQualityEpic, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon},
-	{EffectId: 3883, SpellId: 70164, Name: "Rune of the Nerubian Carapace", Phase: 1, Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, ClassAllowlist: []proto.Class{proto.Class_ClassDeathknight}},
+	{EffectId: 3883, SpellId: 70164, Name: "Rune of the Nerubian Carapace", Expansion: 3, Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, ClassAllowlist: []proto.Class{proto.Class_ClassDeathknight}},
 
 	// 2H Weapon
 	{EffectId: 3247, ItemId: 44473, SpellId: 44595, Name: "Scourgebane", Quality: proto.ItemQuality_ItemQualityRare, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, EnchantType: proto.EnchantType_EnchantTypeTwoHand},
 	{EffectId: 3827, ItemId: 44483, SpellId: 60691, Name: "Massacre", Quality: proto.ItemQuality_ItemQualityRare, Stats: stats.Stats{stats.AttackPower: 110, stats.RangedAttackPower: 110}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, EnchantType: proto.EnchantType_EnchantTypeTwoHand},
 	{EffectId: 3828, SpellId: 44630, Name: "Greater Savagery", Quality: proto.ItemQuality_ItemQualityCommon, Stats: stats.Stats{stats.AttackPower: 85, stats.RangedAttackPower: 85}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, EnchantType: proto.EnchantType_EnchantTypeTwoHand},
 	{EffectId: 3854, ItemId: 45059, SpellId: 62948, Name: "Staff - Greater Spellpower", Quality: proto.ItemQuality_ItemQualityRare, Stats: stats.Stats{stats.SpellPower: 81}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, EnchantType: proto.EnchantType_EnchantTypeStaff},
-	{EffectId: 3367, SpellId: 53342, Name: "Rune of Spellshattering", Phase: 1, Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, ClassAllowlist: []proto.Class{proto.Class_ClassDeathknight}},
-	{EffectId: 3365, SpellId: 53323, Name: "Rune of Swordshattering", Phase: 1, Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, ClassAllowlist: []proto.Class{proto.Class_ClassDeathknight}},
-	{EffectId: 3847, SpellId: 62158, Name: "Rune of the Stoneskin Gargoyle", Phase: 1, Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, ClassAllowlist: []proto.Class{proto.Class_ClassDeathknight}},
+	{EffectId: 3367, SpellId: 53342, Name: "Rune of Spellshattering", Expansion: 3, Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, ClassAllowlist: []proto.Class{proto.Class_ClassDeathknight}},
+	{EffectId: 3365, SpellId: 53323, Name: "Rune of Swordshattering", Expansion: 3, Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, ClassAllowlist: []proto.Class{proto.Class_ClassDeathknight}},
+	{EffectId: 3847, SpellId: 62158, Name: "Rune of the Stoneskin Gargoyle", Expansion: 3, Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, ClassAllowlist: []proto.Class{proto.Class_ClassDeathknight}},
 
 	// Shield
 	{EffectId: 1952, SpellId: 44489, Name: "Defense", Quality: proto.ItemQuality_ItemQualityCommon, Stats: stats.Stats{stats.Defense: 20}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, EnchantType: proto.EnchantType_EnchantTypeShield},
@@ -221,7 +221,7 @@ var EnchantOverrides = []*proto.UIEnchant{
 	{EffectId: 368, SpellId: 34004, Name: "Enchant Cloak - Greater Agility", Quality: proto.ItemQuality_ItemQualityCommon, Stats: stats.Stats{stats.Agility: 12}.ToFloatArray(), Type: proto.ItemType_ItemTypeBack},
 	{EffectId: 2938, ItemId: 28274, SpellId: 34003, Name: "Enchant Cloak - Spell Penetration", Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{stats.SpellPenetration: 20}.ToFloatArray(), Type: proto.ItemType_ItemTypeBack},
 	{EffectId: 1441, ItemId: 28277, SpellId: 34006, Name: "Enchant Cloak - Greater Shadow Resistance", Quality: proto.ItemQuality_ItemQualityRare, Stats: stats.Stats{stats.ShadowResistance: 15}.ToFloatArray(), Type: proto.ItemType_ItemTypeBack},
-	{EffectId: 2648, ItemId: 35756, SpellId: 47051, Name: "Enchant Cloak - Steelweave", Phase: 5, Quality: proto.ItemQuality_ItemQualityRare, Stats: stats.Stats{stats.Defense: 12}.ToFloatArray(), Type: proto.ItemType_ItemTypeBack},
+	{EffectId: 2648, ItemId: 35756, SpellId: 47051, Name: "Enchant Cloak - Steelweave", Expansion: 3, Quality: proto.ItemQuality_ItemQualityRare, Stats: stats.Stats{stats.Defense: 12}.ToFloatArray(), Type: proto.ItemType_ItemTypeBack},
 
 	// Chest
 	{EffectId: 2659, SpellId: 27957, Name: "Chest - Exceptional Health", Quality: proto.ItemQuality_ItemQualityCommon, Stats: stats.Stats{stats.Health: 150}.ToFloatArray(), Type: proto.ItemType_ItemTypeChest},
@@ -229,7 +229,7 @@ var EnchantOverrides = []*proto.UIEnchant{
 	{EffectId: 2933, ItemId: 28270, SpellId: 33992, Name: "Chest - Major Resilience", Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{stats.Resilience: 15}.ToFloatArray(), Type: proto.ItemType_ItemTypeChest},
 	{EffectId: 1144, SpellId: 33990, Name: "Chest - Major Spirit", Quality: proto.ItemQuality_ItemQualityCommon, Stats: stats.Stats{stats.Spirit: 15}.ToFloatArray(), Type: proto.ItemType_ItemTypeChest},
 	{EffectId: 3150, SpellId: 33991, Name: "Chest - Restore Mana Prime", Quality: proto.ItemQuality_ItemQualityCommon, Stats: stats.Stats{stats.MP5: 6}.ToFloatArray(), Type: proto.ItemType_ItemTypeChest},
-	{EffectId: 1950, ItemId: 35500, SpellId: 46594, Name: "Chest - Defense", Phase: 5, Quality: proto.ItemQuality_ItemQualityCommon, Stats: stats.Stats{stats.Defense: 15}.ToFloatArray(), Type: proto.ItemType_ItemTypeChest},
+	{EffectId: 1950, ItemId: 35500, SpellId: 46594, Name: "Chest - Defense", Expansion: 3, Quality: proto.ItemQuality_ItemQualityCommon, Stats: stats.Stats{stats.Defense: 15}.ToFloatArray(), Type: proto.ItemType_ItemTypeChest},
 
 	// Wrist
 	{EffectId: 2649, ItemId: 22533, SpellId: 27914, Name: "Bracer - Fortitude", Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{stats.Stamina: 12}.ToFloatArray(), Type: proto.ItemType_ItemTypeWrist},
@@ -276,7 +276,7 @@ var EnchantOverrides = []*proto.UIEnchant{
 	{EffectId: 3222, ItemId: 33165, SpellId: 42620, Name: "Greater Agility", Quality: proto.ItemQuality_ItemQualityCommon, Stats: stats.Stats{stats.Agility: 20}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon},
 	{EffectId: 2670, ItemId: 22556, SpellId: 27977, Name: "2H Weapon - Major Agility", Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{stats.Agility: 35}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, EnchantType: proto.EnchantType_EnchantTypeTwoHand},
 	{EffectId: 3225, ItemId: 33307, SpellId: 42974, Name: "Executioner", Quality: proto.ItemQuality_ItemQualityRare, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon},
-	{EffectId: 3273, ItemId: 35498, SpellId: 46578, Name: "Deathfrost", Phase: 5, Quality: proto.ItemQuality_ItemQualityRare, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon},
+	{EffectId: 3273, ItemId: 35498, SpellId: 46578, Name: "Deathfrost", Expansion: 3, Quality: proto.ItemQuality_ItemQualityRare, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon},
 	{EffectId: 3855, ItemId: 45060, SpellId: 62959, Name: "Staff - Spellpower", Quality: proto.ItemQuality_ItemQualityRare, Stats: stats.Stats{stats.SpellPower: 69}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, EnchantType: proto.EnchantType_EnchantTypeStaff},
 
 	// Shield

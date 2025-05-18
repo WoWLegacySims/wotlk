@@ -95,3 +95,5 @@ var ScourgeStrike = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:55270,MinLevel:73,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 652,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 69,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 11,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:55271,MinLevel:79,MaxLevel:0,Duration:0,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 799,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 69,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 11,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 }}
+
+ var AllSpells = []spellinfo.Spell{BloodBoil,BloodStrike,DeathandDecay,DeathCoil,DeathStrike,FrostStrike,HeartStrike,HornofWinter,HowlingBlast,IcyTouch,Obliterate,PlagueStrike,ScourgeStrike}

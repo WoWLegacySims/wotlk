@@ -5,7 +5,7 @@ import { element, fragment, ref } from 'tsx-vanilla';
 import { setItemQualityCssClass } from '../css_utils';
 import { IndividualSimUI } from '../individual_sim_ui.js';
 import { Player } from '../player';
-import { Class, GemColor, ItemQuality, ItemSlot, ItemSpec, ItemType } from '../proto/common';
+import { Class, Expansion, GemColor, ItemQuality, ItemSlot, ItemSpec, ItemType } from '../proto/common';
 import { DatabaseFilters, RepFaction, UIEnchant as Enchant, UIGem as Gem, UIItem as Item, UIItem_FactionRestriction } from '../proto/ui.js';
 import { ActionId } from '../proto_utils/action_id';
 import { getEnchantDescription, getUniqueEnchantString } from '../proto_utils/enchants';
@@ -21,7 +21,7 @@ import { BaseModal } from './base_modal';
 import { Component } from './component';
 import { FiltersMenu } from './filters_menu';
 import {
-	makePhaseSelector,
+	makeExpansionSelector,
 	makeShow1hWeaponsSelector,
 	makeShow2hWeaponsSelector,
 	makeShowEPValuesSelector,
@@ -425,7 +425,7 @@ export class SelectorModal extends BaseModal {
 			<div className="d-flex align-items-center form-text mt-3">
 				<i className="fas fa-circle-exclamation fa-xl me-2"></i>
 				<span>
-					If gear is missing, check the selected phase and your gear filters.
+					If gear is missing, check the selected expansion and your gear filters.
 					<br />
 					If the problem persists, save any un-saved data, click the
 					<i className="fas fa-cog mx-1"></i>
@@ -465,9 +465,10 @@ export class SelectorModal extends BaseModal {
 					name: item.name,
 					quality: item.quality,
 					heroic: item.heroic,
-					phase: item.phase,
+					ilvl: item.ilvl,
 					baseEP: this.player.computeItemEP(item, slot),
 					ignoreEPFilter: false,
+					expansion: item.expansion,
 					onEquip: (eventID, item: Item) => {
 						const equippedItem = gearData.getEquippedItem();
 						if (equippedItem) {
@@ -496,10 +497,10 @@ export class SelectorModal extends BaseModal {
 					actionId: enchant.spellId ? ActionId.fromSpellId(enchant.spellId) : ActionId.fromItemId(enchant.itemId),
 					name: enchant.name,
 					quality: enchant.quality,
-					phase: enchant.phase || 1,
 					baseEP: this.player.computeStatsEP(new Stats(enchant.stats)),
 					ignoreEPFilter: true,
 					heroic: false,
+					expansion: enchant.expansion,
 					onEquip: (eventID, enchant: Enchant) => {
 						const equippedItem = gearData.getEquippedItem();
 						if (equippedItem) gearData.equipItem(eventID, equippedItem.withEnchant(enchant));
@@ -545,10 +546,10 @@ export class SelectorModal extends BaseModal {
 						actionId: ActionId.fromItemId(gem.id),
 						name: gem.name,
 						quality: gem.quality,
-						phase: gem.phase,
 						heroic: false,
 						baseEP: this.player.computeStatsEP(new Stats(gem.stats)),
 						ignoreEPFilter: true,
+						expansion: gem.expansion,
 						onEquip: (eventID, gem: Gem) => {
 							const equippedItem = gearData.getEquippedItem();
 							if (equippedItem) gearData.equipItem(eventID, equippedItem.withGem(gem, socketIdx));
@@ -690,13 +691,11 @@ export class SelectorModal extends BaseModal {
 		// Add event handlers
 		gearData.changeEvent.on(invokeUpdate);
 
-		this.player.sim.phaseChangeEmitter.on(applyFilter);
 		this.player.sim.filtersChangeEmitter.on(applyFilter);
 		this.player.sim.showEPValuesChangeEmitter.on(hideOrShowEPValues);
 
 		this.addOnDisposeCallback(() => {
 			gearData.changeEvent.off(invokeUpdate);
-			this.player.sim.phaseChangeEmitter.off(applyFilter);
 			this.player.sim.filtersChangeEmitter.off(applyFilter);
 			this.player.sim.showEPValuesChangeEmitter.off(hideOrShowEPValues);
 			ilist.dispose();
@@ -727,10 +726,11 @@ export interface ItemData<T> {
 	id: number;
 	actionId: ActionId;
 	quality: ItemQuality;
-	phase: number;
 	baseEP: number;
 	ignoreEPFilter: boolean;
 	heroic: boolean;
+	ilvl?: number;
+	expansion: Expansion;
 	onEquip: (eventID: EventID, item: T) => void;
 }
 
@@ -814,7 +814,7 @@ export class ItemList<T> {
 				<div className="selector-modal-filters">
 					<input className="selector-modal-search form-control" type="text" placeholder="Search..." />
 					{label == 'Items' && <button className="selector-modal-filters-button btn btn-primary">Filters</button>}
-					<div className="selector-modal-phase-selector"></div>
+					<div className="selector-modal-expansion-selector"></div>
 					<div className="sim-input selector-modal-boolean-option selector-modal-show-1h-weapons"></div>
 					<div className="sim-input selector-modal-boolean-option selector-modal-show-2h-weapons"></div>
 					<div className="sim-input selector-modal-boolean-option selector-modal-show-matching-gems"></div>
@@ -865,7 +865,7 @@ export class ItemList<T> {
 			(this.tabContent.getElementsByClassName('selector-modal-show-matching-gems')[0] as HTMLElement).style.display = 'none';
 		}
 
-		makePhaseSelector(this.tabContent.getElementsByClassName('selector-modal-phase-selector')[0] as HTMLElement, player.sim);
+		makeExpansionSelector(this.tabContent.getElementsByClassName('selector-modal-expansion-selector')[0] as HTMLElement, player.sim);
 
 		if (label == 'Items') {
 			const filtersButton = this.tabContent.getElementsByClassName('selector-modal-filters-button')[0] as HTMLElement;
@@ -1014,11 +1014,12 @@ export class ItemList<T> {
 		} else if (this.label.startsWith('Gem')) {
 			itemIdxs = this.player.filterGemData(itemIdxs, i => this.itemData[i].item as unknown as Gem, this.slot, this.socketColor);
 		}
+		const filters = this.player.sim.getFilters();
 
 		itemIdxs = itemIdxs.filter(i => {
 			const listItemData = this.itemData[i];
 
-			if (listItemData.phase > this.player.sim.getPhase()) {
+			if (listItemData.expansion > filters.maxExpansion) {
 				return false;
 			}
 

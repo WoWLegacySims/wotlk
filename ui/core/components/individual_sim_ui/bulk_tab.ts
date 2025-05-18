@@ -945,7 +945,7 @@ class GemSelectorModal extends BaseModal {
 						actionId: ActionId.fromItemId(gem.id),
 						name: gem.name,
 						quality: gem.quality,
-						phase: gem.phase,
+						expansion: gem.expansion,
 						heroic: false,
 						baseEP: 0,
 						ignoreEPFilter: true,
@@ -972,7 +972,6 @@ class GemSelectorModal extends BaseModal {
 
 			this.addOnDisposeCallback(() => this.ilist?.dispose());
 
-			this.simUI.sim.phaseChangeEmitter.on(applyFilter);
 			this.simUI.sim.filtersChangeEmitter.on(applyFilter);
 			// gearData.changeEvent.on(applyFilter);
 		}

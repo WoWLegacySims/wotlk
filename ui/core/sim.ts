@@ -1,36 +1,33 @@
+import { getBrowserLanguageCode, setLanguageCode } from './constants/lang.js';
+import { MAX_LEVEL_TBC, MAX_LEVEL_VANILLA, MAX_LEVEL_WOTLK } from './constants/mechanics.js';
+import * as OtherConstants from './constants/other.js';
+import { Encounter } from './encounter.js';
+import { Player, UnitMetadata } from './player.js';
+import { BulkSettings, BulkSimRequest, BulkSimResult, ComputeStatsRequest , Raid as RaidProto , RaidSimRequest, RaidSimResult , SimOptions , StatWeightsRequest, StatWeightsResult } from './proto/api.js';
 import {
 	ArmorType,
+	Expansion,
 	Faction,
 	Profession,
-	SimDatabase,
-	Stat, PseudoStat,
+PseudoStat,
 	RangedWeaponType,
-	WeaponType,
-	UnitReference,
+	SimDatabase,
+	Stat, 	UnitReference,
 	UnitReference_Type as UnitType,
+	WeaponType,
 } from './proto/common.js';
-import { BulkSimRequest, BulkSimResult, BulkSettings, Raid as RaidProto } from './proto/api.js';
-import { ComputeStatsRequest } from './proto/api.js';
-import { RaidSimRequest, RaidSimResult } from './proto/api.js';
-import { SimOptions } from './proto/api.js';
-import { StatWeightsRequest, StatWeightsResult } from './proto/api.js';
 import {
 	DatabaseFilters,
+	RaidFilterOption,
 	SimSettings as SimSettingsProto,
 	SourceFilterOption,
-	RaidFilterOption,
 } from './proto/ui.js';
 import { Database } from './proto_utils/database.js';
 import { SimResult } from './proto_utils/sim_result.js';
-import { getBrowserLanguageCode, setLanguageCode } from './constants/lang.js';
-import { Encounter } from './encounter.js';
-import { Player, UnitMetadata } from './player.js';
 import { Raid } from './raid.js';
 import { EventID, TypedEvent } from './typed_event.js';
 import { getEnumValues } from './utils.js';
 import { WorkerPool } from './worker_pool.js';
-
-import * as OtherConstants from './constants/other.js';
 
 export type RaidSimData = {
 	request: RaidSimRequest,
@@ -57,17 +54,17 @@ export enum SimSettingCategories {
 export class Sim {
 	private readonly workerPool: WorkerPool;
 
-	private iterations: number = 3000;
-	private phase: number = OtherConstants.CURRENT_PHASE;
+	private iterations = 3000;
+	private expansion = Expansion.ExpansionWotlk;
 	private faction: Faction = Faction.Alliance;
-	private fixedRngSeed: number = 0;
+	private fixedRngSeed = 0;
 	private filters: DatabaseFilters = Sim.defaultFilters();
-	private showDamageMetrics: boolean = true;
-	private showThreatMetrics: boolean = false;
-	private showHealingMetrics: boolean = false;
-	private showExperimental: boolean = false;
-	private showEPValues: boolean = false;
-	private language: string = '';
+	private showDamageMetrics = true;
+	private showThreatMetrics = false;
+	private showHealingMetrics = false;
+	private showExperimental = false;
+	private showEPValues = false;
+	private language = '';
 
 	readonly raid: Raid;
 	readonly encounter: Encounter;
@@ -75,7 +72,7 @@ export class Sim {
 	private db_: Database | null = null;
 
 	readonly iterationsChangeEmitter = new TypedEvent<void>();
-	readonly phaseChangeEmitter = new TypedEvent<void>();
+	readonly expansionChangeEmitter = new TypedEvent<void>();
 	readonly factionChangeEmitter = new TypedEvent<void>();
 	readonly fixedRngSeedChangeEmitter = new TypedEvent<void>();
 	readonly lastUsedRngSeedChangeEmitter = new TypedEvent<void>();
@@ -106,7 +103,7 @@ export class Sim {
 	readonly bulkSimResultEmitter = new TypedEvent<BulkSimResult>();
 
 	private readonly _initPromise: Promise<any>;
-	private lastUsedRngSeed: number = 0;
+	private lastUsedRngSeed = 0;
 
 	// These callbacks are needed so we can apply BuffBot modifications automatically before sending requests.
 	private modifyRaidProto: ((raidProto: RaidProto) => void) = () => { };
@@ -122,7 +119,7 @@ export class Sim {
 
 		this.settingsChangeEmitter = TypedEvent.onAny([
 			this.iterationsChangeEmitter,
-			this.phaseChangeEmitter,
+			this.expansionChangeEmitter,
 			this.fixedRngSeedChangeEmitter,
 			this.filtersChangeEmitter,
 			this.showDamageMetricsChangeEmitter,
@@ -237,7 +234,7 @@ export class Sim {
 
 		this.bulkSimStartEmitter.emit(TypedEvent.nextEventID(), request);
 
-		var result = await this.workerPool.bulkSimAsync(request, onProgress);
+		const result = await this.workerPool.bulkSimAsync(request, onProgress);
 		if (result.errorResult != "") {
 			throw new SimError(result.errorResult);
 		}
@@ -257,7 +254,7 @@ export class Sim {
 
 		const request = this.makeRaidSimRequest(false);
 
-		var result = await this.workerPool.raidSimAsync(request, onProgress);
+		const result = await this.workerPool.raidSimAsync(request, onProgress);
 		if (result.errorResult != "") {
 			throw new SimError(result.errorResult);
 		}
@@ -324,9 +321,9 @@ export class Sim {
 					}))
 				.flat()
 				.filter(p => p != null) as Array<Promise<boolean>>;
-			
+
 			const targetUpdatePromise = this.encounter.targetsMetadata.update(result.encounterStats!.targets.map(t => t.metadata!));
-			
+
 			const anyUpdates = await Promise.all(playerUpdatePromises.concat([targetUpdatePromise]));
 			if (anyUpdates.some(v => v)) {
 				this.unitMetadataEmitter.emit(eventID);
@@ -367,7 +364,7 @@ export class Sim {
 				pseudoStatsToWeigh: epPseudoStats,
 				epReferenceStat: epReferenceStat,
 			});
-			var result = await this.workerPool.statWeightsAsync(request, onProgress);
+			const result = await this.workerPool.statWeightsAsync(request, onProgress);
 			return result;
 		}
 	}
@@ -394,13 +391,26 @@ export class Sim {
 		return undefined;
 	}
 
-	getPhase(): number {
-		return this.phase;
+	getExpansion(): Expansion {
+		return this.expansion;
 	}
-	setPhase(eventID: EventID, newPhase: number) {
-		if (newPhase != this.phase && newPhase > 0) {
-			this.phase = newPhase;
-			this.phaseChangeEmitter.emit(eventID);
+	setExpansion(eventID: EventID, newExpansion: Expansion): number {
+		if (newExpansion != this.expansion) {
+			const filters = this.getFilters();
+			filters.maxExpansion = newExpansion;
+			this.setFilters(eventID, filters);
+			this.expansion = newExpansion;
+			this.expansionChangeEmitter.emit(eventID);
+		}
+		return this.getMaxLevel();
+	}
+
+	getMaxLevel(): number {
+		switch (this.expansion) {
+			case (Expansion.ExpansionWotlk): return MAX_LEVEL_WOTLK;
+			case (Expansion.ExpansionTbc): return MAX_LEVEL_TBC;
+			case (Expansion.ExpansionVanilla): return MAX_LEVEL_VANILLA;
+			default: return MAX_LEVEL_WOTLK;
 		}
 	}
 
@@ -553,7 +563,7 @@ export class Sim {
 
 		return SimSettingsProto.create({
 			iterations: this.getIterations(),
-			phase: this.getPhase(),
+			expansion: this.getExpansion(),
 			fixedRngSeed: BigInt(this.getFixedRngSeed()),
 			showDamageMetrics: this.getShowDamageMetrics(),
 			showThreatMetrics: this.getShowThreatMetrics(),
@@ -569,7 +579,7 @@ export class Sim {
 	fromProto(eventID: EventID, proto: SimSettingsProto) {
 		TypedEvent.freezeAllAndDo(() => {
 			this.setIterations(eventID, proto.iterations || 3000);
-			this.setPhase(eventID, proto.phase || OtherConstants.CURRENT_PHASE);
+			this.setExpansion(eventID, proto.expansion || Expansion.ExpansionWotlk)
 			this.setFixedRngSeed(eventID, Number(proto.fixedRngSeed));
 			this.setShowDamageMetrics(eventID, proto.showDamageMetrics);
 			this.setShowThreatMetrics(eventID, proto.showThreatMetrics);
@@ -602,8 +612,8 @@ export class Sim {
 	applyDefaults(eventID: EventID, isTankSim: boolean, isHealingSim: boolean) {
 		this.fromProto(eventID, SimSettingsProto.create({
 			iterations: 3000,
-			phase: OtherConstants.CURRENT_PHASE,
 			faction: Faction.Alliance,
+			expansion: Expansion.ExpansionWotlk,
 			showDamageMetrics: !isHealingSim,
 			showThreatMetrics: isTankSim,
 			showHealingMetrics: isHealingSim,
@@ -617,6 +627,7 @@ export class Sim {
 		return DatabaseFilters.create({
 			oneHandedWeapons: true,
 			twoHandedWeapons: true,
+			maxExpansion: Expansion.ExpansionWotlk,
 		});
 	}
 }

@@ -54,7 +54,7 @@ type ItemResponse interface {
 	GetStats() Stats
 	IsEquippable() bool
 	GetItemLevel() int
-	GetPhase() int
+	GetExpansion() int
 	GetUnique() bool
 	GetItemType() proto.ItemType
 	GetArmorType() proto.ArmorType
@@ -283,33 +283,27 @@ func (item WowheadItemResponse) GetItemLevel() int {
 	return item.GetIntValue(itemLevelRegex)
 }
 
-var phaseRegex = regexp.MustCompile(`Phase ([0-9])`)
-
-func (item WowheadItemResponse) GetPhase() int {
-	phase := item.GetIntValue(phaseRegex)
-	if phase != 0 {
-		return phase
-	}
-
+func (item WowheadItemResponse) GetExpansion() proto.Expansion {
 	ilvl := item.GetItemLevel()
-	if ilvl <= 164 { // TBC items
-		return 0
+
+	if proto.ItemQuality(item.Quality) < proto.ItemQuality_ItemQualityEpic && ilvl > 115 {
+		return proto.Expansion_ExpansionWotlk
 	}
 
-	if ilvl < 200 || ilvl == 200 || ilvl == 213 || ilvl == 226 {
-		return 1
-	} else if ilvl == 219 || ilvl == 226 || ilvl == 239 {
-		return 2
-	} else if ilvl == 232 || ilvl == 245 || ilvl == 258 {
-		return 3
-	} else if ilvl == 251 || ilvl == 258 || ilvl == 259 || ilvl == 264 || ilvl == 268 || ilvl == 270 || ilvl == 271 || ilvl == 272 {
-		return 4
-	} else if ilvl == 277 || ilvl == 284 {
-		return 5
+	if ilvl > 164 { //swp is 164
+		return proto.Expansion_ExpansionWotlk
 	}
 
-	// default to 1
-	return 1
+	if proto.ItemQuality(item.Quality) < proto.ItemQuality_ItemQualityEpic && ilvl > 70 {
+		return proto.Expansion_ExpansionTbc
+	}
+
+	if ilvl > 94 {
+		return proto.Expansion_ExpansionTbc
+	}
+
+	//rest should be vanilla
+	return proto.Expansion_ExpansionVanilla
 }
 
 var uniqueRegex = regexp.MustCompile(`Unique`)
@@ -610,11 +604,11 @@ func (item WowheadItemResponse) ToItemProto() *proto.UIItem {
 		WeaponDamageMax: weaponDamageMax,
 		WeaponSpeed:     item.GetWeaponSpeed(),
 
-		Ilvl:    int32(item.GetItemLevel()),
-		Phase:   int32(item.GetPhase()),
-		Quality: proto.ItemQuality(item.GetQuality()),
-		Unique:  item.GetUnique(),
-		Heroic:  item.IsHeroic(),
+		Ilvl:      int32(item.GetItemLevel()),
+		Expansion: item.GetExpansion(),
+		Quality:   proto.ItemQuality(item.GetQuality()),
+		Unique:    item.GetUnique(),
+		Heroic:    item.IsHeroic(),
 
 		RequiredProfession: item.GetRequiredProfession(),
 		SetName:            item.GetItemSetName(),
@@ -629,7 +623,7 @@ func (item WowheadItemResponse) ToGemProto() *proto.UIGem {
 
 		Stats: toSlice(item.GetGemStats()),
 
-		Phase:              int32(item.GetPhase()),
+		Expansion:          item.GetExpansion(),
 		Quality:            proto.ItemQuality(item.GetQuality()),
 		Unique:             item.GetUnique(),
 		RequiredProfession: item.GetRequiredProfession(),

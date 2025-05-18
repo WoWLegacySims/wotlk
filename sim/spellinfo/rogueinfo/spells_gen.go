@@ -115,3 +115,5 @@ var SliceandDice = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:5171,MinLevel:10,MaxLevel:0,Duration:6000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 1,},{BasePoints: 19,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:6774,MinLevel:42,MaxLevel:0,Duration:6000,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 1,},{BasePoints: 39,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
+
+ var AllSpells = []spellinfo.Spell{Ambush,Backstab,DeadlyThrow,Envenom,Eviscerate,Garrote,Hemorrhage,Mutilate,Rupture,SinisterStrike,SliceandDice}

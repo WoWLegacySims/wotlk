@@ -312,3 +312,5 @@ var BloodPact = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:27268,MinLevel:62,MaxLevel:72,Duration:-1,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 659,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:47982,MinLevel:74,MaxLevel:80,Duration:-1,Period:0,CastTime: 0 * time.Millisecond,BaseCost: 0,Effects: [3]spellinfo.SpellEffect{{BasePoints: 1329,Die: 1,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
+
+ var AllSpells = []spellinfo.Spell{ChaosBolt,Corruption,CurseofAgony,CurseofDoom,CurseoftheElements,CurseofTongues,CurseofWeakness,DarkPact,DeathCoil,DemonArmor,DemonSkin,DrainLife,FelArmor,Haunt,Hellfire,Immolate,Incinerate,LifeTap,RainofFire,SearingPain,SeedofCorruption,SeedofCorruptionExplosion,ShadowBolt,Shadowburn,Shadowflame,Shadowfury,SoulFire,UnstableAffliction,CreateFirestone,CreateSpellstone,DrainSoul,Cleave,LashofPain,ShadowBite,Firebolt,FelIntelligence,BloodPact}

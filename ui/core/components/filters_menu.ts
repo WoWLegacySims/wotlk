@@ -1,3 +1,4 @@
+import { Player } from '../player.js';
 import {
 	ArmorType,
 	ItemSlot,
@@ -20,15 +21,13 @@ import {
 	classToMaxArmorType,
 	isDualWieldSpec,
 } from '../proto_utils/utils.js';
-import { Player } from '../player.js';
 import { Sim } from '../sim.js';
 import { EventID } from '../typed_event.js';
 import { getEnumValues } from '../utils.js';
-
-import { BooleanPicker } from './boolean_picker.js';
-import { NumberPicker } from './number_picker.js';
 import { BaseModal } from './base_modal.js';
+import { BooleanPicker } from './boolean_picker.js';
 import { EnumPicker } from './enum_picker.js';
+import { NumberPicker } from './number_picker.js';
 
 const factionRestrictionsToLabels: Record<UIItem_FactionRestriction, string> = {
 	[UIItem_FactionRestriction.UNSPECIFIED]: 'None',
@@ -40,6 +39,33 @@ export class FiltersMenu extends BaseModal {
 	constructor(rootElem: HTMLElement, player: Player<any>, slot: ItemSlot) {
 		super(rootElem, 'filters-menu', { size: 'md', title: 'Filters' });
 
+		const itemLevelSection = this.newSection('Weapon Speed');
+		itemLevelSection.classList.add('filters-menu-section-number-list');
+			new NumberPicker<Sim>(itemLevelSection, player.sim, {
+				label: 'Min Item Level',
+				float: false,
+				positive: true,
+				changedEvent: (sim: Sim) => sim.filtersChangeEmitter,
+				getValue: (sim: Sim) => sim.getFilters().minIlvl,
+				setValue: (eventID: EventID, sim: Sim, newValue: number) => {
+					const filters = sim.getFilters();
+					filters.minIlvl = newValue;
+					sim.setFilters(eventID, filters);
+				},
+			});
+			new NumberPicker<Sim>(itemLevelSection, player.sim, {
+				label: 'Max Item Level',
+				float: false,
+				positive: true,
+				changedEvent: (sim: Sim) => sim.filtersChangeEmitter,
+				getValue: (sim: Sim) => sim.getFilters().maxIlvl,
+				setValue: (eventID: EventID, sim: Sim, newValue: number) => {
+					const filters = sim.getFilters();
+					filters.maxIlvl = newValue;
+					sim.setFilters(eventID, filters);
+				},
+			});
+
 		let section = this.newSection('Factions');
 
 		new EnumPicker(section, player.sim, {
@@ -48,7 +74,7 @@ export class FiltersMenu extends BaseModal {
 				UIItem_FactionRestriction.UNSPECIFIED,
 				UIItem_FactionRestriction.ALLIANCE_ONLY,
 				UIItem_FactionRestriction.HORDE_ONLY
-			].map((restriction) => {
+			].map(restriction => {
 				return {
 					name: factionRestrictionsToLabels[restriction],
 					value: restriction,

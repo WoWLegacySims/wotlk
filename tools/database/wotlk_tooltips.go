@@ -199,24 +199,28 @@ func (item WotlkItemResponse) GetItemLevel() int {
 	return item.GetIntValue(wotlkItemLevelRegex)
 }
 
-// WOTLK DB has no phase info
-func (item WotlkItemResponse) GetPhase() int {
+func (item WotlkItemResponse) GetExpansion() proto.Expansion {
 
 	ilvl := item.GetItemLevel()
-	if ilvl < 200 || ilvl == 200 || ilvl == 213 || ilvl == 226 {
-		return 1
-	} else if ilvl == 219 || ilvl == 226 || ilvl == 239 {
-		return 2
-	} else if ilvl == 232 || ilvl == 245 || ilvl == 258 {
-		return 3
-	} else if ilvl == 251 || ilvl == 258 || ilvl == 259 || ilvl == 264 || ilvl == 268 || ilvl == 270 || ilvl == 271 || ilvl == 272 {
-		return 4
-	} else if ilvl == 277 || ilvl == 284 {
-		return 5
+
+	if ilvl > 164 { //swp is 164
+		return proto.Expansion_ExpansionWotlk
 	}
 
-	// default to 1
-	return 1
+	if proto.ItemQuality(item.Quality) < proto.ItemQuality_ItemQualityEpic && ilvl > 115 {
+		return proto.Expansion_ExpansionWotlk
+	}
+
+	if ilvl > 100 {
+		return proto.Expansion_ExpansionTbc
+	}
+
+	if proto.ItemQuality(item.Quality) < proto.ItemQuality_ItemQualityEpic && ilvl > 70 {
+		return proto.Expansion_ExpansionTbc
+	}
+
+	//rest should be vanilla
+	return proto.Expansion_ExpansionVanilla
 }
 
 func (item WotlkItemResponse) GetUnique() bool {

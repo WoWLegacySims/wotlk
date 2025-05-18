@@ -270,7 +270,10 @@ export class ConsumesPicker extends Component {
 						config.values.filter(value => !value.showWhen || value.showWhen(this.simUI.player)).length > 1;
 				}
 
-				if (isShown) buildIconInput(optionSet.parentElem, this.simUI.player, config);
+				if (isShown) {
+					buildIconInput(optionSet.parentElem, this.simUI.player, config);
+				}
+				else optionSet.parentElem.classList.add('hide')
 				if(!isShown && ((value: any): value is TypedIconEnumPickerConfig<Player<Spec>, number> => value.setValue !== undefined)(config)) config.setValue(0,this.simUI.player,0);
 				return isShown;
 			}).filter(isShown => isShown).length > 0;

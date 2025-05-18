@@ -61,7 +61,6 @@ message UIItem {
 	double weapon_speed = 14;
 
 	int32 ilvl = 15;
-	int32 phase = 16;
 	ItemQuality quality = 17;
 	bool unique = 18;
 	bool heroic = 19;
@@ -167,7 +166,7 @@ message UIEnchant {
 	repeated double stats = 8;
 
 	ItemQuality quality = 9;
-	int32 phase = 10;
+	Expansion expansion =  10;
 
 	// Classes that are allowed to use the enchant. Empty indicates no special class restrictions.
 	repeated Class class_allowlist = 11;
@@ -182,10 +181,10 @@ message UIGem {
 
 	repeated double stats = 5;
 
-	int32 phase = 6;
 	ItemQuality quality = 7;
 	bool unique = 8;
 	Profession required_profession = 9;
+	Expansion expansion = 10;
 }
 
 message IconData {
@@ -213,8 +212,6 @@ enum SourceFilterOption {
 
 enum RaidFilterOption {
 	RaidUnknown = 0;
-	RaidVanilla = 1;
-	RaidTbc = 2;
 	RaidNaxxramas = 3;
 	RaidEyeOfEternity = 4;
 	RaidObsidianSanctum = 5;
@@ -226,7 +223,7 @@ enum RaidFilterOption {
 	RaidRubySanctum = 11;
 }
 
-// Next tag: 20.
+// Next tag: 23.
 message DatabaseFilters {
 	repeated ArmorType armor_types = 1;
 	repeated WeaponType weapon_types = 2;
@@ -252,11 +249,15 @@ message DatabaseFilters {
 	repeated int32 favorite_gems = 12;
 	// Uniquely-identifying strings for favorited enchants.
 	repeated string favorite_enchants = 13;
+
+	int32 min_ilvl = 20;
+	int32 max_ilvl = 21;
+
+	Expansion max_expansion = 22;
 }
 
 message SimSettings {
 	int32 iterations = 1;
-	int32 phase = 2;
 	int64 fixed_rng_seed = 3;
 	bool show_damage_metrics = 8;
 	bool show_threat_metrics = 4;
@@ -266,6 +267,7 @@ message SimSettings {
 	string language = 9;
 	Faction faction = 6;
 	DatabaseFilters filters = 10;
+	Expansion expansion = 12;
 }
 
 // Contains all information that is imported/exported from an individual sim.
@@ -342,7 +344,6 @@ message SavedRaid {
 	Raid raid = 1;
 	BlessingsAssignments blessings = 3;
 	Faction faction = 4;
-	int32 phase = 5;
 }
 
 // Contains all information that is imported/exported from a raid sim.

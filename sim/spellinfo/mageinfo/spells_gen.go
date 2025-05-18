@@ -209,3 +209,5 @@ var Scorch = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:42858,MinLevel:73,MaxLevel:77,Duration:0,Period:0,CastTime: 1500 * time.Millisecond,BaseCost: 8,Effects: [3]spellinfo.SpellEffect{{BasePoints: 320,Die: 59,LevelScaling: 2.6,Coefficient: 0.429,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:42859,MinLevel:78,MaxLevel:82,Duration:0,Period:0,CastTime: 1500 * time.Millisecond,BaseCost: 8,Effects: [3]spellinfo.SpellEffect{{BasePoints: 375,Die: 69,LevelScaling: 3.1,Coefficient: 0.429,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},{BasePoints: 0,Die: 0,LevelScaling: 0,Coefficient: 0,},},},
 }}
+
+ var AllSpells = []spellinfo.Spell{ArcaneBarrage,ArcaneBlast,ArcaneExplosion,ArcaneIntellect,ArcaneMissiles,BlastWave,Blizzard,ConeofCold,DragonsBreath,FireBlast,Fireball,Flamestrike,FrostNova,Frostbolt,FrostfireBolt,IceLance,LivingBomb,LivingBombExplosion,Pyroblast,Scorch}

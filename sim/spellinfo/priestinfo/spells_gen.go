@@ -273,3 +273,5 @@ var VampiricTouch = spellinfo.Spell{SpellInfos: []*spellinfo.SpellInfo{
 {SpellID:48159,MinLevel:75,MaxLevel:79,Duration:15000,Period:3000,CastTime: 1500 * time.Millisecond,BaseCost: 16,Effects: [3]spellinfo.SpellEffect{{BasePoints: 1,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 146,Die: 1,LevelScaling: 0,Coefficient: 0.4,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 {SpellID:48160,MinLevel:80,MaxLevel:84,Duration:15000,Period:3000,CastTime: 1500 * time.Millisecond,BaseCost: 16,Effects: [3]spellinfo.SpellEffect{{BasePoints: 1,Die: 1,LevelScaling: 0,Coefficient: 1,},{BasePoints: 169,Die: 1,LevelScaling: 0,Coefficient: 0.4,},{BasePoints: -1,Die: 1,LevelScaling: 0,Coefficient: 0,},},},
 }}
+
+ var AllSpells = []spellinfo.Spell{BindingHeal,CircleofHealing,DesperatePrayer,DevouringPlague,DivineSpirit,FlashHeal,GreaterHeal,Heal,HolyFire,HolyNova,InnerFire,LesserHeal,MindBlast,MindFlay,MindSear,Penance,PenanceDamage,PenanceHeal,PowerWordFortitude,PowerWordShield,PrayerofHealing,PrayerofMending,Renew,ShadowProtection,ShadowWordDeath,ShadowWordPain,Smite,VampiricTouch}

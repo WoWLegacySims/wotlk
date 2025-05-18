@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"slices"
 	"strconv"
 	"strings"
 
@@ -14,6 +15,17 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 	_ "github.com/WoWLegacySims/wotlk/sim/encounters" // Needed for preset encounters.
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/commoninfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/deathknightinfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/druidinfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/hunterinfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/mageinfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/paladininfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/priestinfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/rogueinfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/shamaninfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warlockinfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warriorinfo"
 	"github.com/WoWLegacySims/wotlk/tools"
 	"github.com/WoWLegacySims/wotlk/tools/database"
 )
@@ -141,10 +153,8 @@ func main() {
 		}
 	}
 
-	for _, spellIds := range GetAllRotationSpellIds() {
-		for _, spellId := range spellIds {
-			db.AddSpellIcon(spellId, spellTooltips)
-		}
+	for _, spellId := range GetAllRotationSpellIds() {
+		db.AddSpellIcon(spellId, spellTooltips)
 	}
 
 	atlasDBProto := atlaslootDB.ToUIProto()
@@ -316,18 +326,6 @@ func simmableItemFilter(_ int32, item *proto.UIItem) bool {
 		return false
 	} else if item.Quality > proto.ItemQuality_ItemQualityHeirloom {
 		return false
-	} else if item.Quality < proto.ItemQuality_ItemQualityEpic {
-		if item.Ilvl < 145 {
-			return false
-		}
-		if item.Ilvl < 149 && item.SetName == "" {
-			return false
-		}
-	} else {
-		// Epic and legendary items might come from classic, so use a lower ilvl threshold.
-		if item.Quality != proto.ItemQuality_ItemQualityHeirloom && item.Ilvl < 140 {
-			return false
-		}
 	}
 	if item.Ilvl == 0 {
 		fmt.Printf("Missing ilvl: %s\n", item.Name)
@@ -478,138 +476,231 @@ type RotContainer struct {
 	Raid *proto.Raid
 }
 
-func GetAllRotationSpellIds() map[string][]int32 {
+func GetAllRotationSpellIds() []int32 {
 	sim.RegisterAll()
 
 	rotMapping := []RotContainer{
 		{Name: "feral", Raid: core.SinglePlayerRaidProto(core.WithSpec(&proto.Player{
 			Class:         proto.Class_ClassDruid,
 			Equipment:     &proto.EquipmentSpec{},
+			Level:         80,
 			TalentsString: "-503202132322010053120230310511-205503012",
 		}, &proto.Player_FeralDruid{FeralDruid: &proto.FeralDruid{Options: &proto.FeralDruid_Options{}, Rotation: &proto.FeralDruid_Rotation{}}}), nil, nil, nil)},
 		{Name: "balance", Raid: core.SinglePlayerRaidProto(core.WithSpec(&proto.Player{
 			Class:         proto.Class_ClassDruid,
 			Equipment:     &proto.EquipmentSpec{},
+			Level:         80,
 			TalentsString: "5102233115331303213305311031--205003002",
 		}, &proto.Player_BalanceDruid{BalanceDruid: &proto.BalanceDruid{Options: &proto.BalanceDruid_Options{}}}), nil, nil, nil)},
 		{Name: "guardian", Raid: core.SinglePlayerRaidProto(core.WithSpec(&proto.Player{
 			Class:         proto.Class_ClassDruid,
 			Equipment:     &proto.EquipmentSpec{},
+			Level:         80,
 			TalentsString: "-503232132322010353120300313511-20350001",
 		}, &proto.Player_FeralTankDruid{FeralTankDruid: &proto.FeralTankDruid{Options: &proto.FeralTankDruid_Options{}}}), nil, nil, nil)},
 		{Name: "restodruid", Raid: core.SinglePlayerRaidProto(core.WithSpec(&proto.Player{
 			Class:         proto.Class_ClassDruid,
 			Equipment:     &proto.EquipmentSpec{},
+			Level:         80,
 			TalentsString: "05320031103--230023312131502331050313051",
 		}, &proto.Player_RestorationDruid{RestorationDruid: &proto.RestorationDruid{Options: &proto.RestorationDruid_Options{}}}), nil, nil, nil)},
 		{Name: "elemental", Raid: core.SinglePlayerRaidProto(core.WithSpec(&proto.Player{
 			Class:         proto.Class_ClassShaman,
 			Race:          proto.Race_RaceTroll,
 			Equipment:     &proto.EquipmentSpec{},
+			Level:         80,
 			TalentsString: "0532001523212351322301351-005052031",
 		}, &proto.Player_ElementalShaman{ElementalShaman: &proto.ElementalShaman{Options: &proto.ElementalShaman_Options{}}}), nil, nil, nil)},
 		{Name: "enhance", Raid: core.SinglePlayerRaidProto(core.WithSpec(&proto.Player{
 			Class:         proto.Class_ClassShaman,
 			Race:          proto.Race_RaceTroll,
 			Equipment:     &proto.EquipmentSpec{},
+			Level:         80,
 			TalentsString: "053030152-30405003105021333031131031051",
 		}, &proto.Player_EnhancementShaman{EnhancementShaman: &proto.EnhancementShaman{Options: &proto.EnhancementShaman_Options{}}}), nil, nil, nil)},
 		{Name: "restosham", Raid: core.SinglePlayerRaidProto(core.WithSpec(&proto.Player{
 			Class:         proto.Class_ClassShaman,
 			Race:          proto.Race_RaceTroll,
 			Equipment:     &proto.EquipmentSpec{},
+			Level:         80,
 			TalentsString: "-3020503-50005331335310501122331251",
 		}, &proto.Player_RestorationShaman{RestorationShaman: &proto.RestorationShaman{Options: &proto.RestorationShaman_Options{}}}), nil, nil, nil)},
 		{Name: "hunter", Raid: core.SinglePlayerRaidProto(core.WithSpec(&proto.Player{
 			Class:         proto.Class_ClassHunter,
 			Race:          proto.Race_RaceTroll,
 			Equipment:     &proto.EquipmentSpec{},
+			Level:         80,
 			TalentsString: "-015305101-5000032500033330532135301311",
 		}, &proto.Player_Hunter{Hunter: &proto.Hunter{Options: &proto.Hunter_Options{}}}), nil, nil, nil)},
 		{Name: "mage", Raid: core.SinglePlayerRaidProto(core.WithSpec(&proto.Player{
 			Class:         proto.Class_ClassMage,
 			Race:          proto.Race_RaceTroll,
 			Equipment:     &proto.EquipmentSpec{},
+			Level:         80,
 			TalentsString: "23000513310033015032310250532-03-023303001",
 		}, &proto.Player_Mage{Mage: &proto.Mage{Options: &proto.Mage_Options{}}}), nil, nil, nil)},
 		{Name: "healingpriest", Raid: core.SinglePlayerRaidProto(core.WithSpec(&proto.Player{
 			Class:         proto.Class_ClassPriest,
 			Equipment:     &proto.EquipmentSpec{},
+			Level:         80,
 			TalentsString: "0503203130300512301313231251-2351010303",
 		}, &proto.Player_HealingPriest{HealingPriest: &proto.HealingPriest{Options: &proto.HealingPriest_Options{}}}), nil, nil, nil)},
 		{Name: "shadow", Raid: core.SinglePlayerRaidProto(core.WithSpec(&proto.Player{
 			Class:         proto.Class_ClassPriest,
 			Equipment:     &proto.EquipmentSpec{},
+			Level:         80,
 			TalentsString: "05032031--325023051223010323151301351",
 		}, &proto.Player_ShadowPriest{ShadowPriest: &proto.ShadowPriest{Options: &proto.ShadowPriest_Options{}}}), nil, nil, nil)},
 		{Name: "rogue", Raid: core.SinglePlayerRaidProto(core.WithSpec(&proto.Player{
 			Class:         proto.Class_ClassRogue,
 			Equipment:     &proto.EquipmentSpec{},
+			Level:         80,
 			TalentsString: "00532000523-0252051050035010223100501251",
 		}, &proto.Player_Rogue{Rogue: &proto.Rogue{Options: &proto.Rogue_Options{}}}), nil, nil, nil)},
 		{Name: "warrior", Raid: core.SinglePlayerRaidProto(core.WithSpec(&proto.Player{
 			Class:         proto.Class_ClassWarrior,
 			Equipment:     &proto.EquipmentSpec{},
+			Level:         80,
 			TalentsString: "302023102331-305053000520310053120500351",
 		}, &proto.Player_Warrior{Warrior: &proto.Warrior{Options: &proto.Warrior_Options{}}}), nil, nil, nil)},
 		{Name: "protwarrior", Raid: core.SinglePlayerRaidProto(core.WithSpec(&proto.Player{
 			Class:         proto.Class_ClassWarrior,
 			Equipment:     &proto.EquipmentSpec{},
+			Level:         80,
 			TalentsString: "2500030023-302-053351225000012521030113321",
 		}, &proto.Player_ProtectionWarrior{ProtectionWarrior: &proto.ProtectionWarrior{Options: &proto.ProtectionWarrior_Options{}}}), nil, nil, nil)},
 		{Name: "holypally", Raid: core.SinglePlayerRaidProto(core.WithSpec(&proto.Player{
 			Class:         proto.Class_ClassPaladin,
 			Equipment:     &proto.EquipmentSpec{},
+			Level:         80,
 			TalentsString: "50350151020013053100515221-50023131203",
 		}, &proto.Player_HolyPaladin{HolyPaladin: &proto.HolyPaladin{Options: &proto.HolyPaladin_Options{}}}), nil, nil, nil)},
 		{Name: "protpally", Raid: core.SinglePlayerRaidProto(core.WithSpec(&proto.Player{
 			Class:         proto.Class_ClassPaladin,
 			Equipment:     &proto.EquipmentSpec{},
+			Level:         80,
 			TalentsString: "-05005135200132311333312321-511302012003",
 		}, &proto.Player_ProtectionPaladin{ProtectionPaladin: &proto.ProtectionPaladin{Options: &proto.ProtectionPaladin_Options{}}}), nil, nil, nil)},
 		{Name: "ret", Raid: core.SinglePlayerRaidProto(core.WithSpec(&proto.Player{
 			Class:         proto.Class_ClassPaladin,
 			Race:          proto.Race_RaceBloodElf,
 			Equipment:     &proto.EquipmentSpec{},
+			Level:         80,
 			TalentsString: "050501-05-05232051203331302133231331",
 		}, &proto.Player_RetributionPaladin{RetributionPaladin: &proto.RetributionPaladin{Options: &proto.RetributionPaladin_Options{}}}), nil, nil, nil)},
 		{Name: "warlock", Raid: core.SinglePlayerRaidProto(core.WithSpec(&proto.Player{
 			Class:         proto.Class_ClassWarlock,
 			Equipment:     &proto.EquipmentSpec{},
+			Level:         80,
 			TalentsString: "2350002030023510253500331151--550000051",
 		}, &proto.Player_Warlock{Warlock: &proto.Warlock{Options: &proto.Warlock_Options{}}}), nil, nil, nil)},
 		{Name: "dk", Raid: core.SinglePlayerRaidProto(core.WithSpec(&proto.Player{
 			Class:         proto.Class_ClassDeathknight,
 			Equipment:     &proto.EquipmentSpec{},
+			Level:         80,
 			TalentsString: "-320043500002-2300303050032152000150013133051",
 		}, &proto.Player_Deathknight{Deathknight: &proto.Deathknight{Options: &proto.Deathknight_Options{}}}), nil, nil, nil)},
 		{Name: "tankdk", Raid: core.SinglePlayerRaidProto(core.WithSpec(&proto.Player{
 			Class:         proto.Class_ClassDeathknight,
 			Equipment:     &proto.EquipmentSpec{},
+			Level:         80,
 			TalentsString: "005510153330330220102013-3050505100023101-002",
 		}, &proto.Player_TankDeathknight{TankDeathknight: &proto.TankDeathknight{Options: &proto.TankDeathknight_Options{}, Rotation: &proto.TankDeathknight_Rotation{}}}), nil, nil, nil)},
 	}
 
-	ret_db := make(map[string][]int32, 0)
-
+	//ret_db := make(map[string][]int32, 0)
+	ret_db := []int32{}
 	for _, r := range rotMapping {
 		f := CreateTempAgent(r.Raid).GetCharacter()
 
-		spells := make([]int32, 0, len(f.Spellbook))
-
 		for _, s := range f.Spellbook {
 			if s.SpellID != 0 {
-				spells = append(spells, s.SpellID)
+				ret_db = append(ret_db, s.SpellID)
 			}
 		}
 
 		for _, s := range f.GetAuras() {
 			if s.ActionID.SpellID != 0 {
-				spells = append(spells, s.ActionID.SpellID)
+				ret_db = append(ret_db, s.ActionID.SpellID)
 			}
 		}
-
-		ret_db[r.Name] = spells
+	}
+	for _, spell := range deathknightinfo.AllSpells {
+		for _, in := range spell.SpellInfos {
+			if !slices.Contains(ret_db, in.SpellID) {
+				ret_db = append(ret_db, in.SpellID)
+			}
+		}
+	}
+	for _, spell := range druidinfo.AllSpells {
+		for _, in := range spell.SpellInfos {
+			if !slices.Contains(ret_db, in.SpellID) {
+				ret_db = append(ret_db, in.SpellID)
+			}
+		}
+	}
+	for _, spell := range hunterinfo.AllSpells {
+		for _, in := range spell.SpellInfos {
+			if !slices.Contains(ret_db, in.SpellID) {
+				ret_db = append(ret_db, in.SpellID)
+			}
+		}
+	}
+	for _, spell := range mageinfo.AllSpells {
+		for _, in := range spell.SpellInfos {
+			if !slices.Contains(ret_db, in.SpellID) {
+				ret_db = append(ret_db, in.SpellID)
+			}
+		}
+	}
+	for _, spell := range paladininfo.AllSpells {
+		for _, in := range spell.SpellInfos {
+			if !slices.Contains(ret_db, in.SpellID) {
+				ret_db = append(ret_db, in.SpellID)
+			}
+		}
+	}
+	for _, spell := range priestinfo.AllSpells {
+		for _, in := range spell.SpellInfos {
+			if !slices.Contains(ret_db, in.SpellID) {
+				ret_db = append(ret_db, in.SpellID)
+			}
+		}
+	}
+	for _, spell := range rogueinfo.AllSpells {
+		for _, in := range spell.SpellInfos {
+			if !slices.Contains(ret_db, in.SpellID) {
+				ret_db = append(ret_db, in.SpellID)
+			}
+		}
+	}
+	for _, spell := range shamaninfo.AllSpells {
+		for _, in := range spell.SpellInfos {
+			if !slices.Contains(ret_db, in.SpellID) {
+				ret_db = append(ret_db, in.SpellID)
+			}
+		}
+	}
+	for _, spell := range warlockinfo.AllSpells {
+		for _, in := range spell.SpellInfos {
+			if !slices.Contains(ret_db, in.SpellID) {
+				ret_db = append(ret_db, in.SpellID)
+			}
+		}
+	}
+	for _, spell := range warriorinfo.AllSpells {
+		for _, in := range spell.SpellInfos {
+			if !slices.Contains(ret_db, in.SpellID) {
+				ret_db = append(ret_db, in.SpellID)
+			}
+		}
+	}
+	for _, spell := range commoninfo.AllSpells {
+		for _, in := range spell.SpellInfos {
+			if !slices.Contains(ret_db, in.SpellID) {
+				ret_db = append(ret_db, in.SpellID)
+			}
+		}
 	}
 	return ret_db
 }
