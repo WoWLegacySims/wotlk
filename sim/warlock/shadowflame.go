@@ -1,18 +1,27 @@
 package warlock
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warlockinfo"
 )
 
 func (warlock *Warlock) registerShadowflameSpell() {
-	dotDamage := 161.0
-	minDamage := 615.0
-	maxDamage := 671.0
+	dbc := warlockinfo.Shadowflame.GetMaxRank(warlock.Level)
+	if dbc == nil {
+		return
+	}
+	dbcDot := warlockinfo.ShadowflameDot.GetByID(dbc.Effects[1].TriggerSpell)
+	if dbcDot == nil {
+		panic(fmt.Sprintf("No Dot found for Shadowflame %d", dbc.SpellID))
+	}
+	bp, die := dbc.GetBPDie(0, warlock.Level)
+	bpDot, _ := dbcDot.GetBPDie(0, warlock.Level)
 
 	warlock.ShadowflameDot = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 61291},
+		ActionID:    core.ActionID{SpellID: dbcDot.SpellID},
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskEmpty,
 
@@ -27,7 +36,7 @@ func (warlock *Warlock) registerShadowflameSpell() {
 			NumberOfTicks: 4,
 			TickLength:    time.Second * 2,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, _ bool) {
-				dot.SnapshotBaseDamage = dotDamage + 0.0667*dot.Spell.SpellPower()
+				dot.SnapshotBaseDamage = bpDot + 0.0667*dot.Spell.SpellPower()
 				dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(dot.Spell.Unit.AttackTables[target.UnitIndex])
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
@@ -41,7 +50,7 @@ func (warlock *Warlock) registerShadowflameSpell() {
 	})
 
 	warlock.Shadowflame = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 61290},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagAPL,
@@ -60,8 +69,8 @@ func (warlock *Warlock) registerShadowflameSpell() {
 			},
 		},
 
-		BonusCritRating: 0 +
-			core.TernaryFloat64(warlock.Talents.Devastation, 5*core.CritRatingPerCritChance, 0),
+		BonusCrit: 0 +
+			core.TernaryFloat64(warlock.Talents.Devastation, 5, 0),
 		DamageMultiplierAdditive: 1 +
 			warlock.GrandFirestoneBonus() +
 			0.03*float64(warlock.Talents.ShadowMastery),
@@ -71,7 +80,7 @@ func (warlock *Warlock) registerShadowflameSpell() {
 		ApplyEffects: func(sim *core.Simulation, _ *core.Unit, spell *core.Spell) {
 			dmgFromSP := 0.1064 * spell.SpellPower()
 			for _, target := range sim.Encounter.TargetUnits {
-				baseDamage := sim.Roll(minDamage, maxDamage) + dmgFromSP
+				baseDamage := sim.Roll(bp, die) + dmgFromSP
 				baseDamage *= sim.Encounter.AOECapMultiplier()
 				result := spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 				if result.Landed() {

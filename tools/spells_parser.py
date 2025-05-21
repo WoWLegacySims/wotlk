@@ -284,6 +284,7 @@ SPELLS = {
         "Shadow Bolt": [686,695,705,1088,1106,7641,11659,11660,11661,25307,27209,47808,47809],
         "Shadowburn": [17877,18867,18868,18869,18870,18871,27263,30546,47826,47827],
         "Shadowflame": [47897,61290],
+        "Shadowflame Dot": [47960,61291],
         "Shadowfury": [30283,30413,30414,47846,47847],
         "Soul Fire": [6353,17924,27211,30545,47824,47825],
         "Unstable Affliction": [30108,30404,30405,47841,47843],
@@ -404,6 +405,11 @@ def ApplySpellinfoCorrections(spellInfo: SpellInfo):
             spellInfo.MinLevel = 71
         case 58655:
             spellInfo.MinLevel = 80
+        #Shadowflame
+        case 47897:
+            spellInfo.Effects[1].TriggerSpell = 47960
+        case 61290:
+            spellInfo.Effects[1].TriggerSpell = 61291
 
 def GenIndexedDb(file : str):
     db = {}
