@@ -33,7 +33,7 @@ func (warlock *Warlock) registerConflagrateSpell() {
 			},
 		},
 		ExtraCastCondition: func(sim *core.Simulation, target *core.Unit) bool {
-			return warlock.Immolate.Dot(target).IsActive()
+			return warlock.Immolate.Dot(target).IsActive() || warlock.ShadowflameDot.Dot(target).IsActive()
 		},
 
 		BonusCrit: 0 +
@@ -58,7 +58,9 @@ func (warlock *Warlock) registerConflagrateSpell() {
 			TickLength:    time.Second * 2,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				dot.SnapshotBaseDamage = (314.0 / 3) + (0.4/3)*dot.Spell.SpellPower()
+				baseDamage, _ := warlock.getConflagBaseDot(target)
+
+				dot.SnapshotBaseDamage = 0.4 / 3 * baseDamage
 				attackTable := dot.Spell.Unit.AttackTables[target.UnitIndex]
 				dot.SnapshotCritChance = dot.Spell.SpellCritChance(target)
 
@@ -73,8 +75,8 @@ func (warlock *Warlock) registerConflagrateSpell() {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			// takes the SP of the immolate (or shadowflame) dot on the target
-			baseDamage := 471.0 + 0.6*warlock.Immolate.Dot(target).Spell.SpellPower()
+			baseDamage, dot := warlock.getConflagBaseDot(target)
+			baseDamage *= 0.6
 			result := spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 			if !result.Landed() {
 				return
@@ -83,9 +85,18 @@ func (warlock *Warlock) registerConflagrateSpell() {
 			spell.Dot(target).Apply(sim)
 
 			if !hasGlyphOfConflag {
-				warlock.Immolate.Dot(target).Deactivate(sim)
-				//warlock.ShadowflameDot.Deactivate(sim)
+				dot.Deactivate(sim)
 			}
 		},
 	})
+}
+
+func (warlock *Warlock) getConflagBaseDot(target *core.Unit) (float64, *core.Dot) {
+	dot := warlock.Immolate.Dot(target)
+	ticks := 5.0
+	if !dot.IsActive() {
+		dot = warlock.ShadowflameDot.Dot(target)
+		ticks = 4.0
+	}
+	return dot.SnapshotBaseDamage * ticks, dot
 }

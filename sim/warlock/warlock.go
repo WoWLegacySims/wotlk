@@ -33,6 +33,8 @@ type Warlock struct {
 	Conflagrate        *core.Spell
 	DrainSoul          *core.Spell
 	Shadowburn         *core.Spell
+	Shadowflame        *core.Spell
+	ShadowflameDot     *core.Spell
 	SearingPain        *core.Spell
 
 	CurseOfElements      *core.Spell
@@ -115,6 +117,7 @@ func (warlock *Warlock) Initialize() {
 	warlock.registerSearingPainSpell()
 	warlock.registerInfernoSpell()
 	warlock.registerBlackBook()
+	warlock.registerShadowflameSpell()
 
 	// Do this post-finalize so cast speed is updated with new stats
 	warlock.Env.RegisterPostFinalizeEffect(func() {
