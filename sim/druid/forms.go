@@ -48,9 +48,10 @@ func (druid *Druid) ClearForm(sim *core.Simulation) {
 }
 
 func (druid *Druid) GetCatWeapon() core.Weapon {
+	level := float64(min(60, druid.Level))
 	return core.Weapon{
-		BaseDamageMin:        43,
-		BaseDamageMax:        66,
+		BaseDamageMin:        0.85 * level,
+		BaseDamageMax:        1.25 * level,
 		SwingSpeed:           1.0,
 		NormalizedSwingSpeed: 1.0,
 		CritMultiplier:       druid.MeleeCritMultiplier(Cat),
@@ -59,9 +60,10 @@ func (druid *Druid) GetCatWeapon() core.Weapon {
 }
 
 func (druid *Druid) GetBearWeapon() core.Weapon {
+	level := float64(min(60, druid.Level))
 	return core.Weapon{
-		BaseDamageMin:        109,
-		BaseDamageMax:        165,
+		BaseDamageMin:        0.85 * level * 2.5,
+		BaseDamageMax:        1.25 * level * 2.5,
 		SwingSpeed:           2.5,
 		NormalizedSwingSpeed: 2.5,
 		CritMultiplier:       druid.MeleeCritMultiplier(Bear),
