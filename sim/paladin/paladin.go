@@ -175,7 +175,7 @@ func NewPaladin(character *core.Character, talentsStr string) *Paladin {
 
 	paladin.PseudoStats.CanParry = true
 
-	paladin.EnableManaBar()
+	paladin.EnableManaBar(15)
 	paladin.AddStatDependency(stats.Strength, stats.AttackPower, 2.0)
 	paladin.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritPerAgi[character.Class][paladin.Level]*paladin.CritRatingPerCritChance)
 

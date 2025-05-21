@@ -6,6 +6,7 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/shamaninfo"
 )
 
 var TalentTreeSizes = [3]int{25, 29, 26}
@@ -31,7 +32,7 @@ func NewShaman(character *core.Character, talents string, totems *proto.ShamanTo
 	shaman.waterShieldManaMetrics = shaman.NewManaMetrics(core.ActionID{SpellID: 57960})
 
 	core.FillTalentsProto(shaman.Talents.ProtoReflect(), talents, TalentTreeSizes)
-	shaman.EnableManaBar()
+	shaman.EnableManaBar(15)
 
 	if shaman.Totems.Fire == proto.FireTotem_TotemOfWrath && !shaman.Talents.TotemOfWrath {
 		shaman.Totems.Fire = proto.FireTotem_FlametongueTotem
@@ -46,7 +47,13 @@ func NewShaman(character *core.Character, talents string, totems *proto.ShamanTo
 	shaman.PseudoStats.MeleeHasteRatingPerHastePercent /= 1.3
 
 	if selfBuffs.Shield == proto.ShamanShield_WaterShield {
-		shaman.AddStat(stats.MP5, 100)
+		dbc := shamaninfo.WaterShield.GetMaxRank(shaman.Level)
+		if dbc != nil {
+			shaman.AddStat(stats.MP5, dbc.Effects[1].BasePoints+1)
+
+			shaman.waterShieldManaProc, _ = dbc.GetBPDie(0, shaman.Level)
+			shaman.waterShieldManaProc *= (1 + 0.05*float64(shaman.Talents.ImprovedShields))
+		}
 	}
 
 	// When using the tier bonus for snapshotting we do not use the bonus spell
@@ -138,6 +145,7 @@ type Shaman struct {
 	Riptide                *core.Spell
 	EarthShield            *core.Spell
 
+	waterShieldManaProc    float64
 	waterShieldManaMetrics *core.ResourceMetrics
 
 	hasHeroicPresence bool

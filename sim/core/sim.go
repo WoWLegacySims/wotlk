@@ -247,11 +247,22 @@ func (sim *Simulation) RandomExpFloat(label string) float64 {
 }
 
 // Shorthand for commonly-used RNG behavior.
-// Returns a random number between min and max.
-func (sim *Simulation) Roll(min float64, max float64) float64 {
-	return sim.RollWithLabel(min, max, "Damage Roll")
+// Returns a random int on the die + basepoints
+func (sim *Simulation) Roll(basepoints float64, die float64) float64 {
+	return sim.RollWithLabel(basepoints, die, "Damage Roll")
 }
-func (sim *Simulation) RollWithLabel(min float64, max float64, label string) float64 {
+func (sim *Simulation) RollWithLabel(basepoints float64, die float64, label string) float64 {
+	if die == 1 {
+		return basepoints + 1
+	}
+	return basepoints + math.Ceil(die*sim.RandomFloat(label))
+}
+
+// Returns a random float between min and max
+func (sim *Simulation) RollFloat(min float64, max float64) float64 {
+	return sim.RollFloatWithLabel(min, max, "Damage Roll")
+}
+func (sim *Simulation) RollFloatWithLabel(min float64, max float64, label string) float64 {
 	return min + (max-min)*sim.RandomFloat(label)
 }
 

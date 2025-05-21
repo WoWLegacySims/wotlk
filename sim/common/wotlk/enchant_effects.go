@@ -75,7 +75,7 @@ func init() {
 			ThreatMultiplier: 1,
 
 			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-				spell.CalcAndDealDamage(sim, target, sim.Roll(185, 215), spell.OutcomeMagicHitAndCrit)
+				spell.CalcAndDealDamage(sim, target, sim.Roll(184, 31), spell.OutcomeMagicHitAndCrit)
 			},
 		})
 
@@ -125,7 +125,7 @@ func init() {
 			ThreatMultiplier: 1,
 
 			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-				baseDamage := sim.Roll(45, 67)
+				baseDamage := sim.Roll(44, 23)
 				spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialHitAndCrit)
 			},
 		})
@@ -294,7 +294,7 @@ func init() {
 			ThreatMultiplier: 1,
 
 			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-				spell.CalcAndDealDamage(sim, target, sim.Roll(1654, 2020), spell.OutcomeMagicCrit)
+				spell.CalcAndDealDamage(sim, target, sim.Roll(1653, 367), spell.OutcomeMagicCrit)
 			},
 		})
 

@@ -5,6 +5,7 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/shamaninfo"
 )
 
 func (shaman *Shaman) registerAncestralHealingSpell() {
@@ -23,21 +24,24 @@ func (shaman *Shaman) registerAncestralHealingSpell() {
 }
 
 func (shaman *Shaman) registerLesserHealingWaveSpell() {
-	spellCoeff := 0.807
-	bonusCoeff := 0.02 * float64(shaman.Talents.TidalWaves)
+	dbc := shamaninfo.LesserHealingWave.GetMaxRank(shaman.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, shaman.Level)
+	coef := (dbc.GetCoefficient(0) + 0.02*float64(shaman.Talents.TidalWaves)) * dbc.GetLevelPenalty(shaman.Level)
+
 	impShieldChance := 0.2 * float64(shaman.Talents.ImprovedWaterShield)
-	impShieldManaGain := 428.0 * (1 + 0.05*float64(shaman.Talents.ImprovedShields))
 
 	hasGlyph := shaman.HasMajorGlyph(proto.ShamanMajorGlyph_GlyphOfLesserHealingWave)
 
-	bonusHeal := 0 +
-		core.TernaryFloat64(shaman.Ranged().ID == 42598, 338, 0) +
+	bp += core.TernaryFloat64(shaman.Ranged().ID == 42598, 338, 0) +
 		core.TernaryFloat64(shaman.Ranged().ID == 42597, 267, 0) +
 		core.TernaryFloat64(shaman.Ranged().ID == 42596, 236, 0) +
 		core.TernaryFloat64(shaman.Ranged().ID == 42595, 204, 0)
 
 	shaman.LesserHealingWave = shaman.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 49276},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskSpellHealing,
 		Flags:       core.SpellFlagHelpful | core.SpellFlagAPL,
@@ -62,7 +66,7 @@ func (shaman *Shaman) registerLesserHealingWaveSpell() {
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			healPower := spell.HealingPower(target)
-			baseHealing := sim.Roll(1624, 1852) + spellCoeff*healPower + bonusCoeff*healPower + bonusHeal
+			baseHealing := sim.Roll(bp, die) + coef*healPower
 			if hasGlyph {
 				if shaman.EarthShield.Hot(target).IsActive() {
 					baseHealing *= 1.2
@@ -73,7 +77,7 @@ func (shaman *Shaman) registerLesserHealingWaveSpell() {
 			if result.Outcome.Matches(core.OutcomeCrit) {
 				if impShieldChance > 0 {
 					if sim.RandomFloat("imp water shield") > impShieldChance {
-						shaman.AddMana(sim, impShieldManaGain, shaman.waterShieldManaMetrics)
+						shaman.AddMana(sim, shaman.waterShieldManaProc, shaman.waterShieldManaMetrics)
 					}
 				}
 				if shaman.Talents.AncestralAwakening > 0 {
@@ -93,13 +97,20 @@ func (shaman *Shaman) registerLesserHealingWaveSpell() {
 }
 
 func (shaman *Shaman) registerRiptideSpell() {
-	spellCoeff := 0.402
-	hotCoeff := 0.188
+	dbc := shamaninfo.Riptide.GetMaxRank(shaman.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, shaman.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(shaman.Level)
+
+	bpHot, _ := dbc.GetBPDie(1, shaman.Level)
+	coefHot := dbc.GetCoefficient(1) * dbc.GetLevelPenalty(shaman.Level)
+
 	impShieldChance := []float64{0, 0.33, 0.66, 1.0}[shaman.Talents.ImprovedWaterShield]
-	impShieldManaGain := 428.0 * (1 + 0.05*float64(shaman.Talents.ImprovedShields))
 
 	shaman.Riptide = shaman.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 61301},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskSpellHealing,
 		Flags:       core.SpellFlagHelpful | core.SpellFlagAPL,
@@ -133,7 +144,7 @@ func (shaman *Shaman) registerRiptideSpell() {
 			NumberOfTicks: 5,
 			TickLength:    time.Second * 3,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, _ bool) {
-				dot.SnapshotBaseDamage = 334 + hotCoeff*dot.Spell.HealingPower(target)
+				dot.SnapshotBaseDamage = bpHot + coefHot*dot.Spell.HealingPower(target)
 				dot.SnapshotAttackerMultiplier = dot.Spell.CasterHealingMultiplier()
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
@@ -143,14 +154,14 @@ func (shaman *Shaman) registerRiptideSpell() {
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			healPower := spell.HealingPower(target)
-			baseHealing := sim.Roll(1604, 1736) + spellCoeff*healPower
+			baseHealing := sim.Roll(bp, die) + coef*healPower
 			result := spell.CalcAndDealHealing(sim, target, baseHealing, spell.OutcomeHealingCrit)
 			spell.Hot(target).Apply(sim)
 
 			if result.Outcome.Matches(core.OutcomeCrit) {
 				if impShieldChance > 0 {
 					if impShieldChance > 0.9999 || sim.RandomFloat("imp water shield") > impShieldChance {
-						shaman.AddMana(sim, impShieldManaGain, shaman.waterShieldManaMetrics)
+						shaman.AddMana(sim, shaman.waterShieldManaProc, shaman.waterShieldManaMetrics)
 					}
 				}
 				if shaman.Talents.AncestralAwakening > 0 {
@@ -169,15 +180,14 @@ func (shaman *Shaman) registerRiptideSpell() {
 }
 
 func (shaman *Shaman) registerHealingWaveSpell() {
-	// TODO: finish this
-	// ActionID:    core.ActionID{SpellID: 49273},
+	dbc := shamaninfo.HealingWave.GetMaxRank(shaman.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, shaman.Level)
+	coef := (dbc.GetCoefficient(0) + float64(shaman.Talents.TidalWaves)) * dbc.GetLevelPenalty(shaman.Level)
 
-	// -79 mana totem: 39728
-
-	spellCoeff := 0.807
-	bonusCoeff := 0.02 * float64(shaman.Talents.TidalWaves)
 	impShieldChance := 0.2 * float64(shaman.Talents.ImprovedWaterShield)
-	impShieldManaGain := 428.0 * (1 + 0.05*float64(shaman.Talents.ImprovedShields))
 
 	hasGlyph := shaman.HasMajorGlyph(proto.ShamanMajorGlyph_GlyphOfLesserHealingWave)
 
@@ -188,20 +198,21 @@ func (shaman *Shaman) registerHealingWaveSpell() {
 		core.TernaryFloat64(shaman.Ranged().ID == 42595, 204, 0)
 
 	shaman.HealingWave = shaman.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 49273},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskSpellHealing,
 		Flags:       core.SpellFlagHelpful | core.SpellFlagAPL,
 
 		ManaCost: core.ManaCostOptions{
-			BaseCost: 0.15,
+			BaseCost: dbc.BaseCost / 100,
 			Multiplier: 1 *
 				(1 - .01*float64(shaman.Talents.TidalFocus)),
+			FlatModifier: core.TernaryFloat64(shaman.Ranged().ID == 39728, -79, 0),
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
 				GCD:      core.GCDDefault,
-				CastTime: time.Millisecond * 1500,
+				CastTime: dbc.CastTime,
 			},
 		},
 
@@ -213,7 +224,7 @@ func (shaman *Shaman) registerHealingWaveSpell() {
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			healPower := spell.HealingPower(target)
-			baseHealing := sim.Roll(1624, 1852) + spellCoeff*healPower + bonusCoeff*healPower + bonusHeal
+			baseHealing := sim.Roll(bp, die) + coef*healPower + +bonusHeal
 			if hasGlyph {
 				if shaman.EarthShield.Hot(target).IsActive() {
 					baseHealing *= 1.2
@@ -224,7 +235,7 @@ func (shaman *Shaman) registerHealingWaveSpell() {
 			if result.Outcome.Matches(core.OutcomeCrit) {
 				if impShieldChance > 0 {
 					if sim.RandomFloat("imp water shield") > impShieldChance {
-						shaman.AddMana(sim, impShieldManaGain, shaman.waterShieldManaMetrics)
+						shaman.AddMana(sim, shaman.waterShieldManaProc, shaman.waterShieldManaMetrics)
 					}
 				}
 				if shaman.Talents.AncestralAwakening > 0 {
@@ -244,8 +255,14 @@ func (shaman *Shaman) registerHealingWaveSpell() {
 }
 
 func (shaman *Shaman) registerEarthShieldSpell() {
-	actionID := core.ActionID{SpellID: 49284}
-	spCoeff := 0.286
+	dbc := shamaninfo.EarthShield.GetMaxRank(shaman.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, shaman.Level)
+	coef := (dbc.GetCoefficient(0)) * dbc.GetLevelPenalty(shaman.Level)
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 
 	bonusHeal := 0.0
 	if shaman.HasMajorGlyph(proto.ShamanMajorGlyph_GlyphOfEarthShield) {
@@ -292,7 +309,7 @@ func (shaman *Shaman) registerEarthShieldSpell() {
 			NumberOfTicks: 6 + shaman.Talents.ImprovedEarthShield,
 			TickLength:    time.Minute*10 + 1, // tick length longer than expire time.
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, _ bool) {
-				dot.SnapshotBaseDamage = 377 + dot.Spell.HealingPower(target)*spCoeff
+				dot.SnapshotBaseDamage = bp + dot.Spell.HealingPower(target)*coef
 				dot.SnapshotAttackerMultiplier = dot.Spell.CasterHealingMultiplier()
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
@@ -306,9 +323,14 @@ func (shaman *Shaman) registerEarthShieldSpell() {
 }
 
 func (shaman *Shaman) registerChainHealSpell() {
-	spellCoeff := 1.342884
+	dbc := shamaninfo.ChainHeal.GetMaxRank(shaman.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, shaman.Level)
+	coef := (dbc.GetCoefficient(0)) * dbc.GetLevelPenalty(shaman.Level)
+
 	impShieldChance := 0.1 * float64(shaman.Talents.ImprovedWaterShield)
-	impShieldManaGain := 428.0 * (1 + 0.05*float64(shaman.Talents.ImprovedShields))
 
 	hasGlyph := shaman.HasMajorGlyph(proto.ShamanMajorGlyph_GlyphOfChainHeal)
 
@@ -323,7 +345,7 @@ func (shaman *Shaman) registerChainHealSpell() {
 		core.TernaryFloat64(shaman.Ranged().ID == 40709, 78, 0)
 
 	shaman.ChainHeal = shaman.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 55459},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskSpellHealing,
 		Flags:       core.SpellFlagHelpful | core.SpellFlagAPL,
@@ -346,13 +368,13 @@ func (shaman *Shaman) registerChainHealSpell() {
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			bounceCoeff := 1.0
-			dmgReductionPerBounce := 0.6
+			dmgReductionPerBounce := dbc.Effects[0].ChainAmplitude
 			curTarget := target
 			// TODO: This bounces to most hurt friendly...
 			targets := sim.Environment.Raid.GetFirstNPlayersOrPets(numHits)
 			for hitIndex := int32(0); hitIndex < numHits; hitIndex++ {
 				healPower := spell.HealingPower(target)
-				baseHealing := sim.Roll(1055, 1205) + spellCoeff*healPower + bonusHeal
+				baseHealing := sim.Roll(bp, die) + coef*healPower + bonusHeal
 				baseHealing *= bounceCoeff
 
 				riptide := shaman.Riptide.Hot(curTarget)
@@ -365,7 +387,7 @@ func (shaman *Shaman) registerChainHealSpell() {
 				if result.Outcome.Matches(core.OutcomeCrit) {
 					if impShieldChance > 0 {
 						if sim.RandomFloat("imp water shield") > impShieldChance {
-							shaman.AddMana(sim, impShieldManaGain, shaman.waterShieldManaMetrics)
+							shaman.AddMana(sim, shaman.waterShieldManaProc, shaman.waterShieldManaMetrics)
 						}
 					}
 				}

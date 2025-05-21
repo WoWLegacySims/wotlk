@@ -7,7 +7,7 @@ import (
 )
 
 func (dk *Deathknight) newFrostStrikeHitSpell(isMH bool) *core.Spell {
-	dbc := deathknightinfo.FrostStrike.FindMaxRank(dk.Level)
+	dbc := deathknightinfo.FrostStrike.GetMaxRank(dk.Level)
 	if dbc == nil {
 		return nil
 	}

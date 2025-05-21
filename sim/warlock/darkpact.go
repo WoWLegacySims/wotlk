@@ -6,6 +6,7 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warlockinfo"
 )
 
 func (warlock *Warlock) registerDarkPactSpell() {
@@ -13,8 +14,13 @@ func (warlock *Warlock) registerDarkPactSpell() {
 		return
 	}
 
-	actionID := core.ActionID{SpellID: 59092}
-	baseRestore := 1200.0
+	dbc := warlockinfo.DarkPact.GetMaxRank(warlock.Level)
+	if dbc == nil {
+		return
+	}
+	baseRestore, _ := dbc.GetBPDie(0, warlock.Level)
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 	manaMetrics := warlock.NewManaMetrics(actionID)
 	petManaMetrics := warlock.Pet.NewManaMetrics(actionID)
 	hasGlyph := warlock.HasMajorGlyph(proto.WarlockMajorGlyph_GlyphOfLifeTap)

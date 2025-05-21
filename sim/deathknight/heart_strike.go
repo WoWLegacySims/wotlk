@@ -6,7 +6,7 @@ import (
 )
 
 func (dk *Deathknight) newHeartStrikeSpell(isMainTarget bool, isDrw bool) *core.Spell {
-	dbc := deathknightinfo.HeartStrike.FindMaxRank(dk.Level)
+	dbc := deathknightinfo.HeartStrike.GetMaxRank(dk.Level)
 	if dbc == nil {
 		return nil
 	}

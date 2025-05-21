@@ -5,9 +5,16 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/hunterinfo"
 )
 
 func (hunter *Hunter) registerArcaneShotSpell(timer *core.Timer) {
+	dbc := hunterinfo.ArcaneShot.GetMaxRank(hunter.Level)
+	if dbc == nil {
+		return
+	}
+	dmg, _ := dbc.GetBPDie(0, hunter.Level)
+
 	hasGlyph := hunter.HasMajorGlyph(proto.HunterMajorGlyph_GlyphOfArcaneShot)
 	var manaMetrics *core.ResourceMetrics
 	if hasGlyph {
@@ -15,7 +22,7 @@ func (hunter *Hunter) registerArcaneShotSpell(timer *core.Timer) {
 	}
 
 	hunter.ArcaneShot = hunter.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 49045},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolArcane,
 		ProcMask:    core.ProcMaskRangedSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
@@ -46,7 +53,7 @@ func (hunter *Hunter) registerArcaneShotSpell(timer *core.Timer) {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 492 + 0.15*spell.RangedAttackPower(target)
+			baseDamage := dmg + 0.15*spell.RangedAttackPower(target)
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeRangedHitAndCrit)
 			if hasGlyph && result.Landed() && (hunter.SerpentSting.Dot(target).IsActive() || hunter.ScorpidStingAuras.Get(target).IsActive()) {
 				hunter.AddMana(sim, 0.2*hunter.ArcaneShot.DefaultCast.Cost, manaMetrics)

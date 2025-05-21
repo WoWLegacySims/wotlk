@@ -8,6 +8,9 @@ import (
 // TODO: GlyphOfSunderArmor will require refactoring this a bit
 
 func (warrior *Warrior) newSunderArmorSpell(isDevastateEffect bool) *core.Spell {
+	if warrior.Level < 10 {
+		return nil
+	}
 	warrior.SunderArmorAuras = warrior.NewEnemyAuraArray(core.SunderArmorAura)
 
 	config := core.SpellConfig{

@@ -5,6 +5,7 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warriorinfo"
 )
 
 const ShoutExpirationThreshold = time.Second * 3
@@ -37,11 +38,16 @@ func (warrior *Warrior) makeShoutSpellHelper(actionID core.ActionID, allyAuras c
 }
 
 func (warrior *Warrior) registerShouts() {
-	warrior.BattleShout = warrior.makeShoutSpellHelper(core.ActionID{SpellID: 47436}, warrior.NewAllyAuraArray(func(unit *core.Unit) *core.Aura {
-		return core.BattleShoutAura(unit, warrior.Talents.CommandingPresence, warrior.Talents.BoomingVoice, warrior.HasMinorGlyph(proto.WarriorMinorGlyph_GlyphOfBattle))
-	}))
-
-	warrior.CommandingShout = warrior.makeShoutSpellHelper(core.ActionID{SpellID: 47440}, warrior.NewAllyAuraArray(func(unit *core.Unit) *core.Aura {
-		return core.CommandingShoutAura(unit, warrior.Talents.CommandingPresence, warrior.Talents.BoomingVoice, warrior.HasMinorGlyph(proto.WarriorMinorGlyph_GlyphOfCommand))
-	}))
+	dbc := warriorinfo.BattleShout.GetMaxRank(warrior.Level)
+	if dbc != nil {
+		warrior.BattleShout = warrior.makeShoutSpellHelper(core.ActionID{SpellID: dbc.SpellID}, warrior.NewAllyAuraArray(func(unit *core.Unit) *core.Aura {
+			return core.BattleShoutAura(unit, warrior.Talents.CommandingPresence, warrior.Talents.BoomingVoice, warrior.HasMinorGlyph(proto.WarriorMinorGlyph_GlyphOfBattle))
+		}))
+	}
+	dbc = warriorinfo.CommandingShout.GetMaxRank(warrior.Level)
+	if dbc != nil {
+		warrior.CommandingShout = warrior.makeShoutSpellHelper(core.ActionID{SpellID: dbc.SpellID}, warrior.NewAllyAuraArray(func(unit *core.Unit) *core.Aura {
+			return core.CommandingShoutAura(unit, warrior.Talents.CommandingPresence, warrior.Talents.BoomingVoice, warrior.HasMinorGlyph(proto.WarriorMinorGlyph_GlyphOfCommand))
+		}))
+	}
 }

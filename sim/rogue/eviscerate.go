@@ -5,11 +5,19 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/rogueinfo"
 )
 
 func (rogue *Rogue) registerEviscerate() {
+	dbc := rogueinfo.Eviscerate.GetMaxRank(rogue.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, rogue.Level)
+	combo := dbc.Effects[0].PointsPerCombo
+
 	rogue.Eviscerate = rogue.RegisterSpell(core.SpellConfig{
-		ActionID:     core.ActionID{SpellID: 48668},
+		ActionID:     core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool:  core.SpellSchoolPhysical,
 		ProcMask:     core.ProcMaskMeleeMHSpecial,
 		Flags:        core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | rogue.finisherFlags() | SpellFlagColdBlooded | core.SpellFlagAPL,
@@ -45,12 +53,11 @@ func (rogue *Rogue) registerEviscerate() {
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			rogue.BreakStealth(sim)
 			comboPoints := rogue.ComboPoints()
-			flatBaseDamage := 127 + 370*float64(comboPoints)
+			flatBaseDamage := sim.Roll(bp, die) + combo*float64(comboPoints)
 			// tooltip implies 3..7% AP scaling, but testing shows it's fixed at 7% (3.4.0.46158)
 			apRatio := 0.07 * float64(comboPoints)
 
 			baseDamage := flatBaseDamage +
-				254.0*sim.RandomFloat("Eviscerate") +
 				apRatio*spell.MeleeAttackPower() +
 				spell.BonusWeaponDamage()
 

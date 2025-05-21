@@ -5,18 +5,23 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/druidinfo"
 )
 
 func (druid *Druid) registerShredSpell() {
-	flatDamageBonus := (666 +
-		core.TernaryFloat64(druid.Ranged().ID == 29390, 88, 0) +
-		core.TernaryFloat64(druid.Ranged().ID == 40713, 203, 0)) / 2.25
+	dbc := druidinfo.Shred.GetMaxRank(druid.Level)
+	if dbc == nil {
+		return
+	}
+	dmg, _ := dbc.GetBPDie(0, druid.Level)
+	flatDamageBonus := dmg + core.TernaryFloat64(druid.Ranged().ID == 29390, 39, 0) +
+		core.TernaryFloat64(druid.Ranged().ID == 40713, 90, 0)
 
 	hasGlyphofShred := druid.HasMajorGlyph(proto.DruidMajorGlyph_GlyphOfShred)
 	maxRipTicks := druid.MaxRipTicks()
 
 	druid.Shred = druid.RegisterSpell(Cat, core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48572},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagAPL,

@@ -11,6 +11,7 @@ import (
 
 const (
 	Pet_Unknown              int32 = 0
+	Pet_Hunter               int32 = 1
 	Pet_Infernal             int32 = 89
 	Pet_Imp                  int32 = 416
 	Pet_Felhunter            int32 = 417
@@ -41,7 +42,7 @@ type PetAgent interface {
 type OnPetEnable func(sim *Simulation)
 type OnPetDisable func(sim *Simulation)
 
-type PetStatInheritance func(ownerStats stats.Stats) stats.Stats
+type PetStatInheritance func(ownerStats stats.Stats, ownerPseudoStats stats.PseudoStats) stats.Stats
 type PetMeleeSpeedInheritance func(amount float64)
 
 // Pet is an extension of Character, for any entity created by a player that can
@@ -135,7 +136,14 @@ func NewPet(name string, owner *Character, baseStats stats.Stats, basePercentage
 // addedStats is the amount of stats added to the owner (will be negative if the
 // owner lost stats).
 func (pet *Pet) addOwnerStats(sim *Simulation, addedStats stats.Stats) {
-	inheritedChange := pet.dynamicStatInheritance(addedStats)
+	inheritedChange := pet.dynamicStatInheritance(addedStats, stats.PseudoStats{})
+
+	pet.inheritedStats.AddInplace(&inheritedChange)
+	pet.AddStatsDynamic(sim, inheritedChange)
+}
+
+func (pet *Pet) addOwnerPseudoStats(sim *Simulation, addedStats stats.PseudoStats) {
+	inheritedChange := pet.dynamicStatInheritance(stats.Stats{}, addedStats)
 
 	pet.inheritedStats.AddInplace(&inheritedChange)
 	pet.AddStatsDynamic(sim, inheritedChange)
@@ -181,7 +189,7 @@ func (pet *Pet) Enable(sim *Simulation, petAgent PetAgent) {
 		pet.reset(sim, petAgent)
 	}
 
-	pet.inheritedStats = pet.statInheritance(pet.Owner.GetStats())
+	pet.inheritedStats = pet.statInheritance(pet.Owner.GetStats(), pet.Owner.PseudoStats)
 	pet.AddStatsDynamic(sim, pet.inheritedStats)
 
 	if !pet.isGuardian {

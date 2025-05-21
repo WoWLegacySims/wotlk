@@ -9,6 +9,9 @@ import (
 )
 
 func (dk *Deathknight) registerIceboundFortitudeSpell() {
+	if dk.Level < 62 {
+		return
+	}
 	actionID := core.ActionID{SpellID: 48792}
 	cdTimer := dk.NewTimer()
 	cd := time.Minute * 2

@@ -1,7 +1,6 @@
 package warlock
 
 import (
-	"math"
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
@@ -10,6 +9,9 @@ import (
 )
 
 func (warlock *Warlock) registerInfernoSpell() {
+	if warlock.Level < 50 {
+		return
+	}
 	summonInfernalAura := warlock.RegisterAura(core.Aura{
 		Label:    "Summon Infernal",
 		ActionID: core.ActionID{SpellID: 1122},
@@ -40,7 +42,7 @@ func (warlock *Warlock) registerInfernoSpell() {
 		ThreatMultiplier: 1,
 		CritMultiplier:   warlock.SpellCritMultiplier(1, 0),
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			// TODO: add fire spell damage
+
 			baseDmg := (200 + 1*spell.SpellPower()) * sim.Encounter.AOECapMultiplier()
 
 			for _, aoeTarget := range sim.Encounter.TargetUnits {
@@ -65,33 +67,25 @@ type InfernalPet struct {
 }
 
 func (warlock *Warlock) NewInfernal() *InfernalPet {
-	statInheritance := func(ownerStats stats.Stats) stats.Stats {
-		ownerHitChance := math.Floor(ownerStats[stats.SpellHit] / warlock.SpellHitRatingPerHitChance)
-
-		// TODO: account for fire spell damage
+	statInheritance := func(ownerStats stats.Stats, pseudoStats stats.PseudoStats) stats.Stats {
+		spellPower := ownerStats[stats.SpellPower] + pseudoStats.FireSpellPower
 		return stats.Stats{
 			stats.Stamina:          ownerStats[stats.Stamina] * 0.75,
 			stats.Intellect:        ownerStats[stats.Intellect] * 0.3,
 			stats.Armor:            ownerStats[stats.Armor] * 0.35,
-			stats.AttackPower:      ownerStats[stats.SpellPower] * 0.57,
-			stats.SpellPower:       ownerStats[stats.SpellPower] * 0.15,
+			stats.AttackPower:      spellPower * 0.57,
+			stats.SpellPower:       spellPower * 0.15,
 			stats.SpellPenetration: ownerStats[stats.SpellPenetration],
-			stats.MeleeHit:         ownerHitChance * warlock.MeleeHitRatingPerHitChance,
-			stats.SpellHit:         ownerHitChance * warlock.SpellHitRatingPerHitChance,
-			stats.Expertise: (ownerStats[stats.SpellHit] / warlock.SpellHitRatingPerHitChance) *
-				PetExpertiseScale * warlock.ExpertisePerQuarterPercentReduction,
+			stats.MeleeHit:         warlock.CalculateHitInheritance(stats.SpellHit, stats.MeleeHit),
+			stats.SpellHit:         ownerStats[stats.SpellHit],
+			stats.Expertise:        warlock.CalculateHitInheritance(stats.SpellHit, stats.Expertise),
 		}
 	}
 
+	baseStats := core.PetBaseStats[core.Pet_Infernal][warlock.Level]
+
 	infernal := &InfernalPet{
-		Pet: core.NewPet("Infernal", &warlock.Character, stats.Stats{
-			stats.Strength:  331,
-			stats.Agility:   113,
-			stats.Stamina:   361,
-			stats.Intellect: 65,
-			stats.Spirit:    109,
-			stats.Mana:      0,
-		}, stats.Stats{stats.MeleeCrit: 3.192}, statInheritance, false, false),
+		Pet:   core.NewPet("Infernal", &warlock.Character, baseStats.Stats, stats.Stats{stats.MeleeCrit: 3.192}, statInheritance, false, false),
 		owner: warlock,
 	}
 
@@ -109,14 +103,13 @@ func (warlock *Warlock) NewInfernal() *InfernalPet {
 
 	infernal.EnableAutoAttacks(infernal, core.AutoAttackOptions{
 		MainHand: core.Weapon{
-			BaseDamageMin:  330,
-			BaseDamageMax:  494.9,
+			BaseDamageMin:  float64(baseStats.Min_dmg),
+			BaseDamageMax:  float64(baseStats.Max_dmg),
 			SwingSpeed:     2,
 			CritMultiplier: 2,
 		},
 		AutoSwingMelee: true,
 	})
-	infernal.AutoAttacks.MHConfig().DamageMultiplier *= 3.2
 
 	core.ApplyPetConsumeEffects(&infernal.Character, warlock.Consumes)
 
@@ -151,16 +144,14 @@ func (infernal *InfernalPet) Initialize() {
 			TickLength:          time.Second * 2,
 			AffectedByCastSpeed: false,
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
-				// TODO: use highest SP amount of all schools
-				// base formula is 25 + (lvl-50)*0.5 * Warlock_SP*0.2
 				// note this scales with the warlocks SP, NOT with the pets
 
 				// we remove all the spirit based sp since immolation aura doesn't benefit from it, see
 				// JamminL/wotlk-classic-bugs#329
 				coef := core.TernaryFloat64(infernal.owner.GlyphOfLifeTapAura.IsActive(), 0.2, 0) + felarmor_coef
 
-				warlockSP := infernal.owner.Unit.GetStat(stats.SpellPower) - infernal.owner.Unit.GetStat(stats.Spirit)*coef
-				baseDmg := (40 + warlockSP*0.2) * sim.Encounter.AOECapMultiplier()
+				warlockSP := infernal.owner.Unit.GetStat(stats.SpellPower) - infernal.owner.Unit.GetStat(stats.Spirit)*coef + infernal.owner.Unit.PseudoStats.FireSpellPower
+				baseDmg := (25 + (float64(infernal.Level)-50)*0.5 + warlockSP*0.2) * sim.Encounter.AOECapMultiplier()
 
 				for _, aoeTarget := range sim.Encounter.TargetUnits {
 					dot.Spell.CalcAndDealDamage(sim, aoeTarget, baseDmg, dot.Spell.OutcomeMagicHit)

@@ -8,6 +8,9 @@ import (
 )
 
 func (warrior *Warrior) registerOverpowerSpell(cdTimer *core.Timer) {
+	if warrior.Level < 12 {
+		return
+	}
 	outcomeMask := core.OutcomeDodge
 	if warrior.HasMajorGlyph(proto.WarriorMajorGlyph_GlyphOfOverpower) {
 		outcomeMask |= core.OutcomeParry

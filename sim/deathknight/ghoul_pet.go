@@ -188,7 +188,7 @@ func (dk *Deathknight) ghoulStatInheritance() core.PetStatInheritance {
 
 	baseStatsScale := glyphBonus + 0.7*ravenousDead
 
-	return func(ownerStats stats.Stats) stats.Stats {
+	return func(ownerStats stats.Stats, _ stats.PseudoStats) stats.Stats {
 		return stats.Stats{
 			stats.Stamina:  ownerStats[stats.Stamina] * baseStatsScale,
 			stats.Strength: ownerStats[stats.Strength] * baseStatsScale,
@@ -202,7 +202,7 @@ func (dk *Deathknight) ghoulStatInheritance() core.PetStatInheritance {
 }
 
 func (dk *Deathknight) armyGhoulStatInheritance() core.PetStatInheritance {
-	return func(ownerStats stats.Stats) stats.Stats {
+	return func(ownerStats stats.Stats, _ stats.PseudoStats) stats.Stats {
 		return stats.Stats{
 			stats.Stamina:     ownerStats[stats.Stamina] * 0.2,
 			stats.AttackPower: ownerStats[stats.AttackPower] * 0.065,

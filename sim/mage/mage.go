@@ -18,6 +18,17 @@ const (
 
 var TalentTreeSizes = [3]int{30, 28, 28}
 
+var magePetStatInheritance = func(mage *Mage) core.PetStatInheritance {
+	return func(ownerStats stats.Stats, _ stats.PseudoStats) stats.Stats {
+		return stats.Stats{
+			stats.Stamina:    ownerStats[stats.Stamina] * 0.3,
+			stats.Intellect:  ownerStats[stats.Intellect] * 0.3,
+			stats.SpellPower: ownerStats[stats.SpellPower] * 0.333,
+			stats.SpellHit:   ownerStats[stats.SpellHit] - float64(mage.Talents.Precision),
+		}
+	}
+}
+
 func RegisterMage() {
 	core.RegisterAgentFactory(
 		proto.Player_Mage{},
@@ -154,7 +165,7 @@ func NewMage(character *core.Character, options *proto.Player) *Mage {
 	core.FillTalentsProto(mage.Talents.ProtoReflect(), options.TalentsString, TalentTreeSizes)
 
 	mage.bonusCritDamage = .25*float64(mage.Talents.SpellPower) + .1*float64(mage.Talents.Burnout)
-	mage.EnableManaBar()
+	mage.EnableManaBar(15)
 
 	if mage.Options.Armor == proto.Mage_Options_MageArmor {
 		mage.PseudoStats.SpiritRegenRateCasting += .5

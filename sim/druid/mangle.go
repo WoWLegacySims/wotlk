@@ -5,6 +5,7 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/druidinfo"
 )
 
 func (druid *Druid) registerMangleBearSpell() {
@@ -12,12 +13,18 @@ func (druid *Druid) registerMangleBearSpell() {
 		return
 	}
 
+	dbc := druidinfo.MangleBear.GetMaxRank(druid.Level)
+	if dbc == nil {
+		return
+	}
+	dmg := dbc.Effects[0].BasePoints + 1
+
 	mangleAuras := druid.NewEnemyAuraArray(core.MangleAura)
 	durReduction := (0.5) * float64(druid.Talents.ImprovedMangle)
 	glyphBonus := core.TernaryFloat64(druid.HasMajorGlyph(proto.DruidMajorGlyph_GlyphOfMangle), 1.1, 1.0)
 
 	druid.MangleBear = druid.RegisterSpell(Bear, core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48564},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagAPL,
@@ -42,7 +49,7 @@ func (druid *Druid) registerMangleBearSpell() {
 		ThreatMultiplier: core.TernaryFloat64(druid.HasSetBonus(ItemSetThunderheartHarness, 2), 1.15, 1),
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 299/1.15 +
+			baseDamage := dmg +
 				spell.Unit.MHWeaponDamage(sim, spell.MeleeAttackPower()) +
 				spell.BonusWeaponDamage()
 
@@ -68,11 +75,17 @@ func (druid *Druid) registerMangleCatSpell() {
 		return
 	}
 
+	dbc := druidinfo.MangleCat.GetMaxRank(druid.Level)
+	if dbc == nil {
+		return
+	}
+	dmg := dbc.Effects[0].BasePoints + 1
+
 	mangleAuras := druid.NewEnemyAuraArray(core.MangleAura)
 	glyphBonus := core.TernaryFloat64(druid.HasMajorGlyph(proto.DruidMajorGlyph_GlyphOfMangle), 1.1, 1.0)
 
 	druid.MangleCat = druid.RegisterSpell(Cat, core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48566},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagAPL,
@@ -93,7 +106,7 @@ func (druid *Druid) registerMangleCatSpell() {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 566/2.0 +
+			baseDamage := dmg +
 				spell.Unit.MHWeaponDamage(sim, spell.MeleeAttackPower()) +
 				spell.BonusWeaponDamage()
 

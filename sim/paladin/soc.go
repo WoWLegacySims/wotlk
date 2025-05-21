@@ -6,6 +6,9 @@ import (
 )
 
 func (paladin *Paladin) registerSealOfCommandSpellAndAura() {
+	if !paladin.Talents.SealOfCommand {
+		return
+	}
 	/*
 	 * Seal of Command is an Spell/Aura that when active makes the paladin capable of procing
 	 * 2 different SpellIDs depending on a paladin's casted spell or melee swing.

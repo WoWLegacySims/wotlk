@@ -1,19 +1,34 @@
 package mage
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/mageinfo"
 )
 
 func (mage *Mage) registerLivingBombSpell() {
 	if !mage.Talents.LivingBomb {
 		return
 	}
+	dbc := mageinfo.LivingBomb.GetMaxRank(mage.Level)
+	if dbc == nil {
+		return
+	}
+	expId, _ := dbc.GetBPDie(1, mage.Level)
+	dbcExp := mageinfo.LivingBombExplosion.GetByID(int32(expId))
+	if dbcExp == nil {
+		panic(fmt.Sprintf("No Explosion Spell found for Living Bomb %d", dbc.SpellID))
+	}
+	bp, _ := dbc.GetBPDie(0, mage.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(mage.Level)
+	bpExp, _ := dbcExp.GetBPDie(0, mage.Level)
+	coefExp := dbcExp.GetCoefficient(0) * dbcExp.GetLevelPenalty(mage.Level)
 
 	livingBombExplosionSpell := mage.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 55362},
+		ActionID:    core.ActionID{SpellID: dbcExp.SpellID},
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       SpellFlagMage | HotStreakSpells,
@@ -27,7 +42,7 @@ func (mage *Mage) registerLivingBombSpell() {
 		ThreatMultiplier: 1 - 0.1*float64(mage.Talents.BurningSoul),
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 690 + 0.4*spell.SpellPower()
+			baseDamage := bpExp + coefExp*spell.SpellPower()
 			baseDamage *= sim.Encounter.AOECapMultiplier()
 			for _, aoeTarget := range sim.Encounter.TargetUnits {
 				spell.CalcAndDealDamage(sim, aoeTarget, baseDamage, spell.OutcomeMagicHitAndCrit)
@@ -79,7 +94,7 @@ func (mage *Mage) registerLivingBombSpell() {
 			TickLength:    time.Second * 3,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, _ bool) {
-				dot.SnapshotBaseDamage = 345 + 0.2*dot.Spell.SpellPower()
+				dot.SnapshotBaseDamage = bp + coef*dot.Spell.SpellPower()
 				dot.SnapshotCritChance = dot.Spell.SpellCritChance(target)
 				dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(dot.Spell.Unit.AttackTables[target.UnitIndex])
 			},

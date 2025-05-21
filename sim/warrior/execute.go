@@ -3,9 +3,15 @@ package warrior
 import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warriorinfo"
 )
 
 func (warrior *Warrior) registerExecuteSpell() {
+	dbc := warriorinfo.Execute.GetMaxRank(warrior.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, warrior.Level)
 	const maxRage = 30
 
 	var extraRageBonus float64
@@ -15,7 +21,7 @@ func (warrior *Warrior) registerExecuteSpell() {
 
 	var rageMetrics *core.ResourceMetrics
 	warrior.Execute = warrior.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 47471},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagAPL,
@@ -49,7 +55,7 @@ func (warrior *Warrior) registerExecuteSpell() {
 			warrior.SpendRage(sim, extraRage, rageMetrics)
 			rageMetrics.Events--
 
-			baseDamage := 1456 + 0.2*spell.MeleeAttackPower() + 38*(extraRage+extraRageBonus)
+			baseDamage := bp + 0.2*spell.MeleeAttackPower() + dbc.Effects[0].ChainAmplitude*10*(extraRage+extraRageBonus)
 			result := spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialHitAndCrit)
 
 			if !result.Landed() {

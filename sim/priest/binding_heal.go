@@ -4,13 +4,19 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/priestinfo"
 )
 
 func (priest *Priest) registerBindingHealSpell() {
-	spellCoeff := 0.8057 + 0.04*float64(priest.Talents.EmpoweredHealing)
+	dbc := priestinfo.BindingHeal.GetMaxRank(priest.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, priest.Level)
+	spellCoeff := (dbc.GetCoefficient(0) + 0.04*float64(priest.Talents.EmpoweredHealing)) * dbc.GetLevelPenalty(priest.Level)
 
 	priest.BindingHeal = priest.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48120},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    core.ProcMaskSpellHealing,
 		Flags:       core.SpellFlagHelpful | core.SpellFlagAPL,
@@ -37,10 +43,10 @@ func (priest *Priest) registerBindingHealSpell() {
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			healFromSP := spellCoeff * spell.HealingPower(target)
 
-			selfHealing := sim.Roll(1959, 2516) + healFromSP
+			selfHealing := sim.Roll(bp, die) + healFromSP
 			spell.CalcAndDealHealing(sim, &priest.Unit, selfHealing, spell.OutcomeHealingCrit)
 
-			targetHealing := sim.Roll(1959, 2516) + healFromSP
+			targetHealing := sim.Roll(bp, die) + healFromSP
 			spell.CalcAndDealHealing(sim, target, targetHealing, spell.OutcomeHealingCrit)
 		},
 	})

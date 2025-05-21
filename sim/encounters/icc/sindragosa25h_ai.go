@@ -300,7 +300,7 @@ func (ai *Sindragosa25HAI) registerFrostBreathSpell(target *core.Target) {
 		CritMultiplier:   1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(minRoll, maxRoll)
+			baseDamage := sim.RollFloat(minRoll, maxRoll)
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeAlwaysHit)
 			ai.FrostBreathDebuff.Activate(sim)
 			ai.FrostBreathDebuff.AddStack(sim)

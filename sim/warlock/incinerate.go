@@ -5,13 +5,19 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warlockinfo"
 )
 
 func (warlock *Warlock) registerIncinerateSpell() {
-	spellCoeff := 0.714 * (1 + 0.04*float64(warlock.Talents.ShadowAndFlame))
+	dbc := warlockinfo.Incinerate.GetMaxRank(warlock.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, warlock.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(warlock.Level) * (1 + 0.04*float64(warlock.Talents.ShadowAndFlame))
 
 	warlock.Incinerate = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:     core.ActionID{SpellID: 47838},
+		ActionID:     core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool:  core.SpellSchoolFire,
 		ProcMask:     core.ProcMaskSpellDamage,
 		Flags:        core.SpellFlagAPL,
@@ -41,12 +47,11 @@ func (warlock *Warlock) registerIncinerateSpell() {
 		ThreatMultiplier: 1 - 0.1*float64(warlock.Talents.DestructiveReach),
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			var baseDamage float64
+			baseDamage := sim.Roll(bp, die)
 			if warlock.Immolate.Dot(target).IsActive() {
-				baseDamage = sim.Roll(582+145, 676+169) + spellCoeff*spell.SpellPower()
-			} else {
-				baseDamage = sim.Roll(582, 676) + spellCoeff*spell.SpellPower()
+				baseDamage *= 1.25
 			}
+			baseDamage += coef * spell.SpellPower()
 
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {

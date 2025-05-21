@@ -5,20 +5,27 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warlockinfo"
 )
 
 func (warlock *Warlock) registerCorruptionSpell() {
-	spellCoeff := 0.2 + 0.12*float64(warlock.Talents.EmpoweredCorruption)/6 + 0.01*float64(warlock.Talents.EverlastingAffliction)
+	dbc := warlockinfo.Corruption.GetMaxRank(warlock.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, warlock.Level)
+	coef := (0.2 + 0.02*float64(warlock.Talents.EmpoweredCorruption) + 0.01*float64(warlock.Talents.EverlastingAffliction)) * dbc.GetLevelPenalty(warlock.Level)
+	ticks := dbc.Duration / dbc.Effects[0].AuraPeriod
 	canCrit := warlock.Talents.Pandemic
 
 	warlock.Corruption = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 47813},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagHauntSE | core.SpellFlagAPL,
 
 		ManaCost: core.ManaCostOptions{
-			BaseCost:   0.14,
+			BaseCost:   dbc.BaseCost / 100,
 			Multiplier: 1 - 0.02*float64(warlock.Talents.Suppression),
 		},
 		Cast: core.CastConfig{
@@ -44,12 +51,12 @@ func (warlock *Warlock) registerCorruptionSpell() {
 			Aura: core.Aura{
 				Label: "Corruption",
 			},
-			NumberOfTicks:       6,
+			NumberOfTicks:       ticks,
 			TickLength:          time.Second * 3,
 			AffectedByCastSpeed: warlock.HasMajorGlyph(proto.WarlockMajorGlyph_GlyphOfQuickDecay),
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				dot.SnapshotBaseDamage = 1080/6 + spellCoeff*dot.Spell.SpellPower()
+				dot.SnapshotBaseDamage = bp + coef*dot.Spell.SpellPower()
 				if !isRollover {
 					attackTable := dot.Spell.Unit.AttackTables[target.UnitIndex]
 					dot.SnapshotCritChance = dot.Spell.SpellCritChance(target)
@@ -77,7 +84,7 @@ func (warlock *Warlock) registerCorruptionSpell() {
 				dot := spell.Dot(target)
 				return dot.CalcSnapshotDamage(sim, target, dot.OutcomeExpectedMagicSnapshotCrit)
 			} else {
-				baseDmg := 180 + spellCoeff*spell.SpellPower()
+				baseDmg := bp + coef*spell.SpellPower()
 				return spell.CalcPeriodicDamage(sim, target, baseDmg, spell.OutcomeExpectedMagicCrit)
 			}
 		},

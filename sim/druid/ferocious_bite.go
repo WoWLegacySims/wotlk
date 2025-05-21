@@ -4,13 +4,22 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/druidinfo"
 )
 
 func (druid *Druid) registerFerociousBiteSpell() {
-	dmgPerComboPoint := 290.0 + core.TernaryFloat64(druid.Ranged().ID == 25667, 14, 0)
+	dbc := druidinfo.FerociousBite.GetMaxRank(druid.Level)
+	if dbc == nil {
+		return
+	}
+
+	dmgPerComboPoint := dbc.Effects[0].PointsPerCombo + core.TernaryFloat64(druid.Ranged().ID == 25667, 14, 0)
+	bp := dbc.Effects[0].BasePoints
+	die := dbc.Effects[0].Die
+	dmgPerEnergy := dbc.Effects[0].ChainAmplitude
 
 	druid.FerociousBite = druid.RegisterSpell(Cat, core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48577},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagAPL,
@@ -43,10 +52,9 @@ func (druid *Druid) registerFerociousBiteSpell() {
 			attackPower := spell.MeleeAttackPower()
 			excessEnergy := min(druid.CurrentEnergy(), 30)
 
-			baseDamage := 120.0 +
-				sim.RandomFloat("Ferocious Bite")*140.0 +
+			baseDamage := sim.Roll(bp, die) +
 				dmgPerComboPoint*comboPoints +
-				excessEnergy*(9.4+attackPower/410) +
+				excessEnergy*(dmgPerEnergy+attackPower/410) +
 				attackPower*0.07*comboPoints
 
 			result := spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialHitAndCrit)

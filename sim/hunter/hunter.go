@@ -155,7 +155,7 @@ func NewHunter(character *core.Character, options *proto.Player) *Hunter {
 		Options:   hunterOptions.Options,
 	}
 	core.FillTalentsProto(hunter.Talents.ProtoReflect(), options.TalentsString, TalentTreeSizes)
-	hunter.EnableManaBar()
+	hunter.EnableManaBar(15)
 
 	hunter.PseudoStats.CanParry = true
 

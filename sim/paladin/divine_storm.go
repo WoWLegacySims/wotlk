@@ -7,6 +7,9 @@ import (
 )
 
 func (paladin *Paladin) registerDivineStormSpell() {
+	if !paladin.Talents.DivineStorm {
+		return
+	}
 	bonusDmg := core.TernaryFloat64(paladin.Ranged().ID == 45510, 235, 0) + // Libram of Discord
 		core.TernaryFloat64(paladin.Ranged().ID == 38362, 81, 0) // Venture Co. Libram of Retribution
 	numHits := min(4, paladin.Env.GetNumTargets())

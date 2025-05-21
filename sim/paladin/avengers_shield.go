@@ -5,16 +5,26 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/paladininfo"
 )
 
 func (paladin *Paladin) registerAvengersShieldSpell() {
+	if !paladin.Talents.AvengersShield {
+		return
+	}
+	dbc := paladininfo.AvengersShield.GetMaxRank(paladin.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, paladin.Level)
+
 	glyphedSingleTargetAS := paladin.HasMajorGlyph(proto.PaladinMajorGlyph_GlyphOfAvengerSShield)
 	// Glyph to single target, OR apply to up to 3 targets
 	numHits := core.TernaryInt32(glyphedSingleTargetAS, 1, min(3, paladin.Env.GetNumTargets()))
 	results := make([]*core.SpellResult, numHits)
 
 	paladin.AvengersShield = paladin.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48827},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
@@ -43,7 +53,7 @@ func (paladin *Paladin) registerAvengersShieldSpell() {
 
 			curTarget := target
 			for hitIndex := int32(0); hitIndex < numHits; hitIndex++ {
-				baseDamage := constBaseDamage + sim.Roll(1100, 1344)
+				baseDamage := constBaseDamage + sim.Roll(bp, die)
 
 				results[hitIndex] = spell.CalcDamage(sim, curTarget, baseDamage, spell.OutcomeMeleeSpecialHitAndCrit)
 				curTarget = sim.Environment.NextTargetUnit(curTarget)

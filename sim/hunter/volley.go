@@ -5,11 +5,19 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/hunterinfo"
 )
 
 func (hunter *Hunter) registerVolleySpell() {
+	dbc := hunterinfo.Volley.GetMaxRank(hunter.Level)
+	dbcEff := hunterinfo.VolleyEffect.GetMaxRank(hunter.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbcEff.GetBPDie(0, hunter.Level)
+
 	hunter.Volley = hunter.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 58434},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolArcane,
 		ProcMask:    core.ProcMaskRangedSpecial,
 		Flags:       core.SpellFlagChanneled | core.SpellFlagAPL,
@@ -43,7 +51,7 @@ func (hunter *Hunter) registerVolleySpell() {
 
 			OnSnapshot: func(sim *core.Simulation, _ *core.Unit, dot *core.Dot, _ bool) {
 				target := hunter.CurrentTarget
-				dot.SnapshotBaseDamage = 353 + 0.0837*dot.Spell.RangedAttackPower(target)
+				dot.SnapshotBaseDamage = bp + 0.0837*dot.Spell.RangedAttackPower(target)
 				dot.SnapshotBaseDamage *= sim.Encounter.AOECapMultiplier()
 
 				attackTable := dot.Spell.Unit.AttackTables[target.UnitIndex]

@@ -5,6 +5,9 @@ import (
 )
 
 func (hunter *Hunter) registerScorpidStingSpell() {
+	if hunter.Level < 22 {
+		return
+	}
 	hunter.ScorpidStingAuras = hunter.NewEnemyAuraArray(core.ScorpidStingAura)
 
 	hunter.ScorpidSting = hunter.RegisterSpell(core.SpellConfig{

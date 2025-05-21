@@ -4,14 +4,20 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/druidinfo"
 )
 
 func (druid *Druid) registerTigersFurySpell() {
-	actionID := core.ActionID{SpellID: 50213}
+	dbc := druidinfo.TigersFury.GetMaxRank(druid.Level)
+	if dbc == nil {
+		return
+	}
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 	energyMetrics := druid.NewEnergyMetrics(actionID)
 	instantEnergy := 20.0 * float64(druid.Talents.KingOfTheJungle)
 
-	dmgBonus := 80.0
+	dmgBonus, _ := dbc.GetBPDie(0, druid.Level)
 	cdReduction := core.TernaryDuration(druid.HasSetBonus(ItemSetDreamwalkerBattlegear, 4), time.Second*3, 0)
 
 	druid.TigersFuryAura = druid.RegisterAura(core.Aura{

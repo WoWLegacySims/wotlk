@@ -4,31 +4,37 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/druidinfo"
 )
 
 const IdolAvenger int32 = 31025
 const IdolSteadfastRenewal int32 = 40712
 
 func (druid *Druid) registerWrathSpell() {
-	spellCoeff := 0.571 + (0.02 * float64(druid.Talents.WrathOfCenarius))
+	dbc := druidinfo.Wrath.GetMaxRank(druid.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, druid.Level)
+	spellCoeff := (dbc.GetCoefficient(0) + (0.02 * float64(druid.Talents.WrathOfCenarius))) * dbc.GetLevelPenalty(druid.Level)
 	bonusFlatDamage := core.TernaryFloat64(druid.Ranged().ID == IdolAvenger, 25, 0) +
 		core.TernaryFloat64(druid.Ranged().ID == IdolSteadfastRenewal, 70, 0)
 
 	druid.Wrath = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
-		ActionID:     core.ActionID{SpellID: 48461},
+		ActionID:     core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool:  core.SpellSchoolNature,
 		ProcMask:     core.ProcMaskSpellDamage,
 		Flags:        SpellFlagNaturesGrace | SpellFlagOmenTrigger | core.SpellFlagAPL,
 		MissileSpeed: 20,
 
 		ManaCost: core.ManaCostOptions{
-			BaseCost:   0.11,
+			BaseCost:   dbc.BaseCost / 100,
 			Multiplier: 1 - 0.03*float64(druid.Talents.Moonglow),
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
 				GCD:      core.GCDDefault,
-				CastTime: time.Second*2 - time.Millisecond*100*time.Duration(druid.Talents.StarlightWrath),
+				CastTime: dbc.CastTime - time.Millisecond*100*time.Duration(druid.Talents.StarlightWrath),
 			},
 		},
 
@@ -41,7 +47,7 @@ func (druid *Druid) registerWrathSpell() {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := bonusFlatDamage + sim.Roll(557, 627) + spellCoeff*spell.SpellPower()
+			baseDamage := bonusFlatDamage + sim.Roll(bp, die) + spellCoeff*spell.SpellPower()
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {
 				spell.DealDamage(sim, result)

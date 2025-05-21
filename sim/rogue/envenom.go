@@ -4,12 +4,19 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/rogueinfo"
 )
 
 func (rogue *Rogue) registerEnvenom() {
+	dbc := rogueinfo.Envenom.GetMaxRank(rogue.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, rogue.Level)
+
 	rogue.EnvenomAura = rogue.RegisterAura(core.Aura{
 		Label:    "Envenom",
-		ActionID: core.ActionID{SpellID: 57993},
+		ActionID: core.ActionID{SpellID: dbc.SpellID},
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
 			rogue.deadlyPoisonProcChanceBonus += 0.15
 			rogue.UpdateInstantPoisonPPM(0.75)
@@ -23,7 +30,7 @@ func (rogue *Rogue) registerEnvenom() {
 	chanceToRetainStacks := []float64{0, 0.33, 0.66, 1}[rogue.Talents.MasterPoisoner]
 
 	rogue.Envenom = rogue.RegisterSpell(core.SpellConfig{
-		ActionID:     core.ActionID{SpellID: 57993},
+		ActionID:     core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool:  core.SpellSchoolNature,
 		ProcMask:     core.ProcMaskMeleeMHSpecial, // not core.ProcMaskSpellDamage
 		Flags:        core.SpellFlagMeleeMetrics | rogue.finisherFlags() | SpellFlagColdBlooded | core.SpellFlagAPL,
@@ -66,7 +73,7 @@ func (rogue *Rogue) registerEnvenom() {
 			// - 215 base is scaled by consumed doses (<= comboPoints)
 			// - apRatio is independent of consumed doses (== comboPoints)
 			consumed := min(dp.GetStacks(), comboPoints)
-			baseDamage := 215*float64(consumed) + 0.09*float64(comboPoints)*spell.MeleeAttackPower()
+			baseDamage := (bp)*float64(consumed) + 0.09*float64(comboPoints)*spell.MeleeAttackPower()
 
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialHitAndCrit)
 

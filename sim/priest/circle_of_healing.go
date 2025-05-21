@@ -5,18 +5,25 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/priestinfo"
 )
 
 func (priest *Priest) registerCircleOfHealingSpell() {
 	if !priest.Talents.CircleOfHealing {
 		return
 	}
+	dbc := priestinfo.CircleofHealing.GetMaxRank(priest.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, priest.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(priest.Level)
 
 	numTargets := 5 + core.TernaryInt32(priest.HasMajorGlyph(proto.PriestMajorGlyph_GlyphOfCircleOfHealing), 1, 0)
 	targets := priest.Env.Raid.GetFirstNPlayersOrPets(numTargets)
 
 	priest.CircleOfHealing = priest.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48089},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    core.ProcMaskSpellHealing,
 		Flags:       core.SpellFlagHelpful | core.SpellFlagAPL,
@@ -46,9 +53,9 @@ func (priest *Priest) registerCircleOfHealingSpell() {
 		ThreatMultiplier: 1 - []float64{0, .07, .14, .20}[priest.Talents.SilentResolve],
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			healFromSP := 0.4029 * spell.HealingPower(target)
+			healFromSP := coef * spell.HealingPower(target)
 			for _, aoeTarget := range targets {
-				baseHealing := sim.Roll(958, 1058) + healFromSP
+				baseHealing := sim.Roll(bp, die) + healFromSP
 				spell.CalcAndDealHealing(sim, aoeTarget, baseHealing, spell.OutcomeHealingCrit)
 			}
 		},

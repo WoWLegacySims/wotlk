@@ -4,15 +4,22 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/mageinfo"
 )
 
 func (mage *Mage) registerBlastWaveSpell() {
 	if !mage.Talents.BlastWave {
 		return
 	}
+	dbc := mageinfo.BlastWave.GetMaxRank(mage.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, mage.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(mage.Level)
 
 	mage.BlastWave = mage.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 42945},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       SpellFlagMage | core.SpellFlagAPL,
@@ -36,7 +43,7 @@ func (mage *Mage) registerBlastWaveSpell() {
 		ThreatMultiplier: 1 - 0.1*float64(mage.Talents.BurningSoul),
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			for _, aoeTarget := range sim.Encounter.TargetUnits {
-				baseDamage := sim.Roll(1047, 1233) + 0.193*spell.SpellPower()
+				baseDamage := sim.Roll(bp, die) + coef*spell.SpellPower()
 				baseDamage *= sim.Encounter.AOECapMultiplier()
 				spell.CalcAndDealDamage(sim, aoeTarget, baseDamage, spell.OutcomeMagicHitAndCrit)
 			}

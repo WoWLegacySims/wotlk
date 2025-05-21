@@ -5,10 +5,26 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/druidinfo"
 )
 
 func (druid *Druid) registerMoonfireSpell() {
-	numTicks := druid.moonfireTicks()
+	dbc := druidinfo.Moonfire.GetMaxRank(druid.Level)
+	if dbc == nil {
+		return
+	}
+	basecost := dbc.BaseCost / 100
+
+	bp, die := dbc.GetBPDie(1, druid.Level)
+
+	coef := dbc.GetCoefficient(1) * dbc.GetLevelPenalty(druid.Level)
+
+	dotDmg := dbc.Effects[0].BasePoints + 1
+	dotCoef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(druid.Level)
+
+	numTicks := dbc.Duration/int32(dbc.Effects[0].AuraPeriod) +
+		core.TernaryInt32(druid.Talents.NaturesSplendor, 1, 0) +
+		core.TernaryInt32(druid.HasSetBonus(ItemSetThunderheartRegalia, 2), 1, 0)
 
 	starfireBonusCrit := float64(druid.Talents.ImprovedInsectSwarm)
 	dotCanCrit := druid.HasSetBonus(ItemSetMalfurionsRegalia, 2)
@@ -24,13 +40,13 @@ func (druid *Druid) registerMoonfireSpell() {
 		core.TernaryFloat64(druid.HasMajorGlyph(proto.DruidMajorGlyph_GlyphOfMoonfire), 0.75, 0)
 
 	druid.Moonfire = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48463},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolArcane,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       SpellFlagNaturesGrace | SpellFlagOmenTrigger | core.SpellFlagAPL,
 
 		ManaCost: core.ManaCostOptions{
-			BaseCost:   0.21,
+			BaseCost:   basecost,
 			Multiplier: 1 - 0.03*float64(druid.Talents.Moonglow),
 		},
 		Cast: core.CastConfig{
@@ -55,12 +71,12 @@ func (druid *Druid) registerMoonfireSpell() {
 					druid.Starfire.BonusCrit -= starfireBonusCrit
 				},
 			},
-			NumberOfTicks: druid.moonfireTicks(),
+			NumberOfTicks: numTicks,
 			TickLength:    time.Second * 3,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
 				dot.Spell.DamageMultiplier = baseDamageMultiplier + bonusPeriodicDamageMultiplier
-				dot.SnapshotBaseDamage = 200 + 0.13*dot.Spell.SpellPower()
+				dot.SnapshotBaseDamage = dotDmg + dotCoef*dot.Spell.SpellPower()
 				attackTable := dot.Spell.Unit.AttackTables[target.UnitIndex]
 				dot.SnapshotCritChance = dot.Spell.SpellCritChance(target)
 				dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(attackTable)
@@ -76,7 +92,7 @@ func (druid *Druid) registerMoonfireSpell() {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(406, 476) + 0.15*spell.SpellPower()
+			baseDamage := sim.Roll(bp, die) + coef*spell.SpellPower()
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 			if result.Landed() {
 				druid.ExtendingMoonfireStacks = 3
@@ -87,10 +103,4 @@ func (druid *Druid) registerMoonfireSpell() {
 			spell.DealDamage(sim, result)
 		},
 	})
-}
-
-func (druid *Druid) moonfireTicks() int32 {
-	return 4 +
-		core.TernaryInt32(druid.Talents.NaturesSplendor, 1, 0) +
-		core.TernaryInt32(druid.HasSetBonus(ItemSetThunderheartRegalia, 2), 1, 0)
 }

@@ -7,7 +7,7 @@ import (
 )
 
 func (hunter *Hunter) registerKillCommandCD() {
-	if hunter.pet == nil {
+	if hunter.pet == nil || hunter.Level < 66 {
 		return
 	}
 

@@ -5,14 +5,19 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warlockinfo"
 )
 
 func (warlock *Warlock) registerShadowBurnSpell() {
 	if !warlock.Talents.Shadowburn {
 		return
 	}
-
-	spellCoeff := 0.429 * (1 + 0.04*float64(warlock.Talents.ShadowAndFlame))
+	dbc := warlockinfo.Shadowburn.GetMaxRank(warlock.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(1, warlock.Level)
+	coef := dbc.GetCoefficient(1) * dbc.GetLevelPenalty(warlock.Level) * (1 + 0.04*float64(warlock.Talents.ShadowAndFlame))
 
 	if warlock.HasMajorGlyph(proto.WarlockMajorGlyph_GlyphOfShadowburn) {
 		warlock.RegisterResetEffect(func(sim *core.Simulation) {
@@ -25,7 +30,7 @@ func (warlock *Warlock) registerShadowBurnSpell() {
 	}
 
 	warlock.Shadowburn = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 47827},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagAPL,
@@ -53,7 +58,7 @@ func (warlock *Warlock) registerShadowBurnSpell() {
 		ThreatMultiplier: 1 - 0.1*float64(warlock.Talents.DestructiveReach),
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(775, 865) + spellCoeff*spell.SpellPower()
+			baseDamage := sim.Roll(bp, die) + coef*spell.SpellPower()
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 		},
 	})

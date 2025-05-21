@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/mageinfo"
 )
 
 func (mage *Mage) registerPyroblastSpell() {
@@ -11,7 +12,14 @@ func (mage *Mage) registerPyroblastSpell() {
 		return
 	}
 
-	spellCoeff := 1.15 + 0.05*float64(mage.Talents.EmpoweredFire)
+	dbc := mageinfo.Pyroblast.GetMaxRank(mage.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, mage.Level)
+	dotDmg, _ := dbc.GetBPDie(1, mage.Level)
+
+	spellCoeff := (1.15 + 0.05*float64(mage.Talents.EmpoweredFire)) * dbc.GetLevelPenalty(mage.Level)
 	tickCoeff := 0.05 + 0.05*float64(mage.Talents.EmpoweredFire)
 
 	hasT8_4pc := mage.HasSetBonus(ItemSetKirinTorGarb, 4)
@@ -19,7 +27,7 @@ func (mage *Mage) registerPyroblastSpell() {
 	var pyroblastDot *core.Spell
 
 	pyroblastConfig := core.SpellConfig{
-		ActionID:     core.ActionID{SpellID: 42891},
+		ActionID:     core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool:  core.SpellSchoolFire,
 		ProcMask:     core.ProcMaskSpellDamage,
 		Flags:        SpellFlagMage | core.SpellFlagAPL,
@@ -60,7 +68,7 @@ func (mage *Mage) registerPyroblastSpell() {
 			NumberOfTicks: 4,
 			TickLength:    time.Second * 3,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, _ bool) {
-				dot.SnapshotBaseDamage = 113.0 + tickCoeff*dot.Spell.SpellPower()
+				dot.SnapshotBaseDamage = dotDmg + tickCoeff*dot.Spell.SpellPower()
 				dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(dot.Spell.Unit.AttackTables[target.UnitIndex])
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
@@ -69,7 +77,7 @@ func (mage *Mage) registerPyroblastSpell() {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(1210, 1531) + spellCoeff*spell.SpellPower()
+			baseDamage := sim.Roll(bp, die) + spellCoeff*spell.SpellPower()
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {
 				if result.Landed() {

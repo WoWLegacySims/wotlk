@@ -7,6 +7,9 @@ import (
 )
 
 func (warrior *Warrior) registerBerserkerRageSpell() {
+	if warrior.Level < 32 {
+		return
+	}
 	actionID := core.ActionID{SpellID: 18499}
 	rageBonus := 10 * float64(warrior.Talents.ImprovedBerserkerRage)
 	rageMetrics := warrior.NewRageMetrics(actionID)

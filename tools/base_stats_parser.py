@@ -92,6 +92,7 @@ class PetLevelStats:
     Max_dmg: int
 
 Pets = {
+    1: "Hunter",
     89: "Infernal",
     416: "Imp",
     417: "Felhunter",
@@ -279,7 +280,8 @@ if __name__ == "__main__":
         level.Spirit = x[7]
         stats.append(level)
 
-    cursor.execute("SELECT * FROM pet_levelstats WHERE pet_levelstats.creature_entry IN (89,416,417,510,1860,1863,15438,17252,19668,26125,37994)")
+
+    cursor.execute(f"SELECT * FROM pet_levelstats WHERE pet_levelstats.creature_entry IN ({','.join(Pets.keys)})")
     results = cursor.fetchall()
     pets = []
     for x in results:

@@ -153,7 +153,9 @@ func (spell *Spell) MagicCritCheck(sim *Simulation, target *Unit) bool {
 }
 
 func (spell *Spell) HealingPower(target *Unit) float64 {
-	return spell.SpellPower() + target.PseudoStats.BonusHealingTaken
+	return spell.Unit.GetStat(stats.SpellPower) +
+		spell.BonusSpellPower +
+		target.PseudoStats.BonusHealingTaken
 }
 func (spell *Spell) healingCritRating() float64 {
 	return spell.Unit.GetStat(stats.SpellCrit)

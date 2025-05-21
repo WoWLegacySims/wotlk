@@ -1159,7 +1159,7 @@ const idToCategoryMap: Record<number, number> = {
 	[3043]: MELEE_ACTION_CATEGORY + 0.3, // Scorpid Sting
 	[53238]: MELEE_ACTION_CATEGORY + 0.31, // Piercing Shots
 	[63672]: MELEE_ACTION_CATEGORY + 0.32, // Black Arrow
-	[49067]: MELEE_ACTION_CATEGORY + 0.33, // Explosive Trap
+	[49065]: MELEE_ACTION_CATEGORY + 0.33, // Explosive Trap
 	[58434]: MELEE_ACTION_CATEGORY + 0.34, // Volley
 
 	// Paladin
@@ -1221,7 +1221,7 @@ const idToCategoryMap: Record<number, number> = {
 	[60043]: SPELL_ACTION_CATEGORY + 0.31, // Lava Burst
 	[49238]: SPELL_ACTION_CATEGORY + 0.32, // Lightning Bolt
 	[49271]: SPELL_ACTION_CATEGORY + 0.33, // Chain Lightning
-	[61657]: SPELL_ACTION_CATEGORY + 0.41, // Fire Nova
+	[61654]: SPELL_ACTION_CATEGORY + 0.41, // Fire Nova
 	[58734]: SPELL_ACTION_CATEGORY + 0.42, // Magma Totem
 	[58704]: SPELL_ACTION_CATEGORY + 0.43, // Searing Totem
 	[49281]: SPELL_ACTION_CATEGORY + 0.51, // Lightning Shield
@@ -1254,7 +1254,7 @@ const idToCategoryMap: Record<number, number> = {
 	[42859]: SPELL_ACTION_CATEGORY + 0.03, // Scorch
 	[42891]: SPELL_ACTION_CATEGORY + 0.1, // Pyroblast
 	[42846]: SPELL_ACTION_CATEGORY + 0.1, // Arcane Missiles
-	[44572]: SPELL_ACTION_CATEGORY + 0.1, // Deep Freeze
+	[71757]: SPELL_ACTION_CATEGORY + 0.1, // Deep Freeze
 	[44781]: SPELL_ACTION_CATEGORY + 0.2, // Arcane Barrage
 	[42914]: SPELL_ACTION_CATEGORY + 0.2, // Ice Lance
 	[55360]: SPELL_ACTION_CATEGORY + 0.2, // Living Bomb

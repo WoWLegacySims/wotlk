@@ -7,6 +7,9 @@ import (
 )
 
 func (warrior *Warrior) RegisterHeroicThrow() {
+	if warrior.Level < 80 {
+		return
+	}
 	warrior.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: 57755},
 		SpellSchool: core.SpellSchoolPhysical,

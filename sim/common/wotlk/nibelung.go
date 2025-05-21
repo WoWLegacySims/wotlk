@@ -19,13 +19,13 @@ type ValkyrPet struct {
 
 func newValkyr(character *core.Character) *ValkyrPet {
 	return &ValkyrPet{
-		Pet: core.NewPet("Valkyr", character, valkyrStats, stats.Stats{}, func(ownerStats stats.Stats) stats.Stats {
+		Pet: core.NewPet("Valkyr", character, valkyrStats, stats.Stats{}, func(_ stats.Stats, _ stats.PseudoStats) stats.Stats {
 			return stats.Stats{}
 		}, false, true),
 	}
 }
 
-func getSmiteConfig(valkyr *ValkyrPet, spellId int32, damageMin float64, damageMax float64) core.SpellConfig {
+func getSmiteConfig(valkyr *ValkyrPet, spellId int32, basepoints float64, die float64) core.SpellConfig {
 	return core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: spellId},
 		SpellSchool: core.SpellSchoolHoly,
@@ -39,7 +39,7 @@ func getSmiteConfig(valkyr *ValkyrPet, spellId int32, damageMin float64, damageM
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1,
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(damageMin, damageMax)
+			baseDamage := sim.Roll(basepoints, die)
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicCrit)
 			spell.DealDamage(sim, result)
 			valkyr.GainHealth(sim, valkyr.MaxHealth()*0.25, valkyr.healthMetrics)
@@ -60,10 +60,10 @@ func (valkyr *ValkyrPet) registerSmite(isHeroic bool) {
 	}
 
 	if isHeroic {
-		smite := getSmiteConfig(valkyr, spellId, 1804, 2022)
+		smite := getSmiteConfig(valkyr, spellId, 1803, 219)
 		valkyr.smite = valkyr.GetOrRegisterSpell(smite)
 	} else {
-		smite := getSmiteConfig(valkyr, spellId, 1591, 1785)
+		smite := getSmiteConfig(valkyr, spellId, 1590, 195)
 		valkyr.smite = valkyr.GetOrRegisterSpell(smite)
 	}
 }

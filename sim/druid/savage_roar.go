@@ -13,6 +13,9 @@ func (druid *Druid) getSavageRoarMultiplier() float64 {
 }
 
 func (druid *Druid) registerSavageRoarSpell() {
+	if druid.Level < 75 {
+		return
+	}
 	actionID := core.ActionID{SpellID: 52610}
 
 	srm := druid.getSavageRoarMultiplier()

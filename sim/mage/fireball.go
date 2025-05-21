@@ -9,15 +9,14 @@ import (
 )
 
 func (mage *Mage) registerFireballSpell() {
-	dbc := mageinfo.Fireball.FindMaxRank(mage.Level)
+	dbc := mageinfo.Fireball.GetMaxRank(mage.Level)
 
 	if dbc == nil {
 		return
 	}
 
-	spellCoeff := dbc.Effects[0].Coefficient + 0.05*float64(mage.Talents.EmpoweredFire)
-	levelDamage := float64(min(mage.Level, dbc.MaxLevel)-dbc.MinLevel) * dbc.Effects[0].LevelScaling
-
+	spellCoeff := (dbc.GetCoefficient(0) + 0.05*float64(mage.Talents.EmpoweredFire)) * dbc.GetLevelPenalty(mage.Level)
+	bp, die := dbc.GetBPDie(0, mage.Level)
 	hasGlyph := mage.HasMajorGlyph(proto.MageMajorGlyph_GlyphOfFireball)
 
 	mage.Fireball = mage.RegisterSpell(core.SpellConfig{
@@ -56,7 +55,7 @@ func (mage *Mage) registerFireballSpell() {
 			Aura: core.Aura{
 				Label: "Fireball",
 			},
-			NumberOfTicks: dbc.Duration / dbc.Period,
+			NumberOfTicks: dbc.Duration / dbc.Effects[1].AuraPeriod,
 			TickLength:    time.Second * 2,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, _ bool) {
 				dot.SnapshotBaseDamage = dbc.Effects[1].BasePoints + dbc.Effects[1].Die
@@ -68,7 +67,7 @@ func (mage *Mage) registerFireballSpell() {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(dbc.Effects[0].BasePoints+1, dbc.Effects[0].BasePoints+dbc.Effects[0].Die) + levelDamage + spellCoeff*spell.SpellPower()
+			baseDamage := sim.Roll(bp, die) + spellCoeff*spell.SpellPower()
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {
 				if result.Landed() && !hasGlyph {

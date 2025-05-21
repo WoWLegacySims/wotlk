@@ -5,13 +5,23 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/priestinfo"
 )
 
 func (priest *Priest) RegisterHolyFireSpell() {
+	dbc := priestinfo.HolyFire.GetMaxRank(priest.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, priest.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(priest.Level)
+	bpDot, _ := dbc.GetBPDie(1, priest.Level)
+	coefDot := dbc.GetCoefficient(1) * dbc.GetLevelPenalty(priest.Level)
+
 	hasGlyph := priest.HasMajorGlyph(proto.PriestMajorGlyph_GlyphOfSmite)
 
 	priest.HolyFire = priest.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48135},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagAPL,
@@ -52,7 +62,7 @@ func (priest *Priest) RegisterHolyFireSpell() {
 			NumberOfTicks: 7,
 			TickLength:    time.Second * 1,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, _ bool) {
-				dot.SnapshotBaseDamage = 50 + 0.024*dot.Spell.SpellPower()
+				dot.SnapshotBaseDamage = bpDot + coefDot*dot.Spell.SpellPower()
 				dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(dot.Spell.Unit.AttackTables[target.UnitIndex])
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
@@ -61,7 +71,7 @@ func (priest *Priest) RegisterHolyFireSpell() {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(900, 1140) + 0.5711*spell.SpellPower()
+			baseDamage := sim.Roll(bp, die) + coef*spell.SpellPower()
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 			if result.Landed() {
 				spell.Dot(target).Apply(sim)

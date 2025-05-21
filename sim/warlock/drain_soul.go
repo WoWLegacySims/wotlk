@@ -4,9 +4,17 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warlockinfo"
 )
 
 func (warlock *Warlock) registerDrainSoulSpell() {
+	dbc := warlockinfo.DrainSoul.GetMaxRank(warlock.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(1, warlock.Level)
+	coef := dbc.GetCoefficient(1) * dbc.GetLevelPenalty(warlock.Level)
+
 	soulSiphonMultiplier := 0.03 * float64(warlock.Talents.SoulSiphon)
 
 	calcSoulSiphonMult := func(target *core.Unit) float64 {
@@ -35,7 +43,7 @@ func (warlock *Warlock) registerDrainSoulSpell() {
 	}
 
 	warlock.DrainSoul = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 47855},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagChanneled | core.SpellFlagHauntSE | core.SpellFlagAPL,
@@ -66,7 +74,7 @@ func (warlock *Warlock) registerDrainSoulSpell() {
 			AffectedByCastSpeed: true,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				baseDmg := 142 + 0.429*dot.Spell.SpellPower()
+				baseDmg := bp + coef*dot.Spell.SpellPower()
 				dot.SnapshotBaseDamage = baseDmg * calcSoulSiphonMult(target)
 				dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(dot.Spell.Unit.AttackTables[target.UnitIndex])
 			},
@@ -91,7 +99,7 @@ func (warlock *Warlock) registerDrainSoulSpell() {
 				dot := spell.Dot(target)
 				return dot.CalcSnapshotDamage(sim, target, spell.OutcomeExpectedMagicAlwaysHit)
 			} else {
-				baseDmg := (142 + 0.429*spell.SpellPower()) * calcSoulSiphonMult(target)
+				baseDmg := (bp + coef*spell.SpellPower()) * calcSoulSiphonMult(target)
 				return spell.CalcPeriodicDamage(sim, target, baseDmg, spell.OutcomeExpectedMagicAlwaysHit)
 			}
 		},

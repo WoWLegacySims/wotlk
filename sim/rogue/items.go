@@ -83,7 +83,7 @@ var Tier9 = core.NewItemSet(core.ItemSet{
 					if !result.Landed() {
 						return
 					}
-					if !spell.ActionID.IsSpellAction(RuptureSpellID) {
+					if !spell.ActionID.IsSpell(rogue.Rupture) {
 						return
 					}
 					if !icd.IsReady(sim) {

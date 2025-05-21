@@ -26,7 +26,7 @@ var ItemSetFistsOfFury = core.NewItemSet(core.ItemSet{
 				ThreatMultiplier: 1,
 
 				ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-					spell.CalcAndDealDamage(sim, target, sim.Roll(100, 150), spell.OutcomeMagicHitAndCrit)
+					spell.CalcAndDealDamage(sim, target, sim.Roll(99, 51), spell.OutcomeMagicHitAndCrit)
 				},
 			})
 
@@ -67,7 +67,7 @@ var ItemSetStormshroud = core.NewItemSet(core.ItemSet{
 				ThreatMultiplier: 1,
 
 				ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-					spell.CalcAndDealDamage(sim, target, sim.Roll(15, 25), spell.OutcomeMagicHitAndCrit)
+					spell.CalcAndDealDamage(sim, target, sim.Roll(14, 11), spell.OutcomeMagicHitAndCrit)
 				},
 			})
 			char.RegisterAura(core.Aura{

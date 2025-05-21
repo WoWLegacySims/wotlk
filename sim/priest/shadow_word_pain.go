@@ -5,9 +5,17 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/priestinfo"
 )
 
 func (priest *Priest) registerShadowWordPainSpell() {
+	dbc := priestinfo.ShadowWordPain.GetMaxRank(priest.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, priest.Level)
+	coef := 0.1833 * dbc.GetLevelPenalty(priest.Level)
+
 	twistedFaithMultiplier := 1 + 0.02*float64(priest.Talents.TwistedFaith)
 	mentalAgility := []float64{0, .04, .07, .10}[priest.Talents.MentalAgility]
 	shadowFocus := 0.02 * float64(priest.Talents.ShadowFocus)
@@ -20,7 +28,7 @@ func (priest *Priest) registerShadowWordPainSpell() {
 	}
 
 	priest.ShadowWordPain = priest.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48125},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagAPL,
@@ -62,7 +70,7 @@ func (priest *Priest) registerShadowWordPainSpell() {
 			TickLength: time.Second * 3,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				dot.SnapshotBaseDamage = 1380/6 + 0.1833*dot.Spell.SpellPower()
+				dot.SnapshotBaseDamage = bp + coef*dot.Spell.SpellPower()
 				if !isRollover {
 					dot.SnapshotCritChance = dot.Spell.SpellCritChance(target)
 					dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(dot.Spell.Unit.AttackTables[target.UnitIndex])
@@ -99,7 +107,7 @@ func (priest *Priest) registerShadowWordPainSpell() {
 					return dot.CalcSnapshotDamage(sim, target, spell.OutcomeExpectedMagicAlwaysHit)
 				}
 			} else {
-				baseDamage := 1380/6 + 0.1833*spell.SpellPower()
+				baseDamage := bp + coef*spell.SpellPower()
 				if priest.Talents.Shadowform {
 					return spell.CalcPeriodicDamage(sim, target, baseDamage, spell.OutcomeExpectedMagicCrit)
 				} else {

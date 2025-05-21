@@ -5,18 +5,26 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/shamaninfo"
 )
 
 func (shaman *Shaman) registerLightningShieldSpell() {
 	if shaman.SelfBuffs.Shield != proto.ShamanShield_LightningShield {
 		return
 	}
+	dbc := shamaninfo.LightningShield.GetMaxRank(shaman.Level)
+	dbcProc := shamaninfo.LightningShieldEffect.GetMaxRank(shaman.Level)
+	if dbc == nil || dbcProc == nil {
+		return
+	}
+	bp, _ := dbcProc.GetBPDie(0, shaman.Level)
+	coef := (dbcProc.GetCoefficient(0)) * dbcProc.GetLevelPenalty(shaman.Level)
 
-	actionID := core.ActionID{SpellID: 49281}
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 	procChance := 0.02*float64(shaman.Talents.StaticShock) + core.TernaryFloat64(shaman.HasSetBonus(ItemSetThrallsBattlegear, 2), 0.03, 0)
 
 	procSpell := shaman.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 49279},
+		ActionID:    core.ActionID{SpellID: dbcProc.SpellID},
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskEmpty,
 
@@ -27,7 +35,7 @@ func (shaman *Shaman) registerLightningShieldSpell() {
 		ThreatMultiplier: 1, //fix when spirit weapons is fixed
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 380 + 0.267*spell.SpellPower()
+			baseDamage := bp + coef*spell.SpellPower()
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMagicHit)
 		},
 	})

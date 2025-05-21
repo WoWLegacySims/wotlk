@@ -5,14 +5,20 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/hunterinfo"
 )
 
 func (hunter *Hunter) registerBlackArrowSpell(timer *core.Timer) {
 	if !hunter.Talents.BlackArrow {
 		return
 	}
+	dbc := hunterinfo.BlackArrow.GetMaxRank(hunter.Level)
+	if dbc == nil {
+		return
+	}
+	dmg, _ := dbc.GetBPDie(0, hunter.Level)
 
-	actionID := core.ActionID{SpellID: 63672}
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 
 	hunter.BlackArrow = hunter.RegisterSpell(core.SpellConfig{
 		ActionID:    actionID,
@@ -58,7 +64,7 @@ func (hunter *Hunter) registerBlackArrowSpell(timer *core.Timer) {
 			TickLength:    time.Second * 3,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
 				// scales slightly better (11.5%) than the tooltip implies (10%), but isn't affected by Hunter's Mark
-				dot.SnapshotBaseDamage = 553 + 0.023*(dot.Spell.Unit.GetStat(stats.RangedAttackPower)+dot.Spell.Unit.PseudoStats.MobTypeAttackPower)
+				dot.SnapshotBaseDamage = dmg + 0.023*(dot.Spell.Unit.GetStat(stats.RangedAttackPower)+dot.Spell.Unit.PseudoStats.MobTypeAttackPower)
 				dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(dot.Spell.Unit.AttackTables[target.UnitIndex])
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {

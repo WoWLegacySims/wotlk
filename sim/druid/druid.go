@@ -270,7 +270,7 @@ func New(char *core.Character, form DruidForm, selfBuffs SelfBuffs, talents stri
 		form:         form,
 	}
 	core.FillTalentsProto(druid.Talents.ProtoReflect(), talents, TalentTreeSizes)
-	druid.EnableManaBar()
+	druid.EnableManaBar(15)
 
 	druid.AddStatDependency(stats.Strength, stats.AttackPower, 2)
 	druid.AddStatDependency(stats.BonusArmor, stats.Armor, 1)

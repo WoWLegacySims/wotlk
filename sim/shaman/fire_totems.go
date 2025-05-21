@@ -4,11 +4,20 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/shamaninfo"
 )
 
 func (shaman *Shaman) registerSearingTotemSpell() {
+	dbc := shamaninfo.SearingTotem.GetMaxRank(shaman.Level)
+	dbcEffect := shamaninfo.Attack.GetMaxRank(shaman.Level)
+	if dbc == nil || dbcEffect == nil {
+		return
+	}
+	bp, die := dbcEffect.GetBPDie(0, shaman.Level)
+	coef := dbcEffect.GetCoefficient(0) * dbc.GetLevelPenalty(shaman.Level)
+
 	shaman.SearingTotem = shaman.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 58704},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskEmpty,
 		Flags:       SpellFlagTotem | core.SpellFlagAPL,
@@ -42,7 +51,7 @@ func (shaman *Shaman) registerSearingTotemSpell() {
 			NumberOfTicks: 24,
 			TickLength:    time.Second * 60 / 24,
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
-				baseDamage := sim.Roll(90, 120) + 0.167*dot.Spell.SpellPower()
+				baseDamage := sim.Roll(bp, die) + coef*dot.Spell.SpellPower()
 				dot.Spell.CalcAndDealDamage(sim, target, baseDamage, dot.Spell.OutcomeMagicHitAndCrit)
 			},
 		},
@@ -58,8 +67,16 @@ func (shaman *Shaman) registerSearingTotemSpell() {
 }
 
 func (shaman *Shaman) registerMagmaTotemSpell() {
+	dbc := shamaninfo.MagmaTotem.GetMaxRank(shaman.Level)
+	dbcEffect := shamaninfo.MagmaTotemEffect.GetMaxRank(shaman.Level)
+	if dbc == nil || dbcEffect == nil {
+		return
+	}
+	bp, _ := dbcEffect.GetBPDie(0, shaman.Level)
+	coef := dbcEffect.GetCoefficient(0) * dbc.GetLevelPenalty(shaman.Level)
+
 	shaman.MagmaTotem = shaman.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 58734},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskEmpty,
 		Flags:       SpellFlagTotem | core.SpellFlagAPL,
@@ -89,7 +106,7 @@ func (shaman *Shaman) registerMagmaTotemSpell() {
 			TickLength:    time.Second * 2,
 
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
-				baseDamage := 371 + 0.1*dot.Spell.SpellPower()
+				baseDamage := bp + coef*dot.Spell.SpellPower()
 				baseDamage *= sim.Encounter.AOECapMultiplier()
 				for _, aoeTarget := range sim.Encounter.TargetUnits {
 					dot.Spell.CalcAndDealDamage(sim, aoeTarget, baseDamage, dot.Spell.OutcomeMagicHitAndCrit)

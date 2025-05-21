@@ -16,6 +16,9 @@ func (paladin *Paladin) canJudgement(sim *core.Simulation) bool {
 }
 
 func (paladin *Paladin) registerJudgementOfWisdomSpell(cdTimer *core.Timer) {
+	if paladin.Level < 12 {
+		return
+	}
 	jowAuras := paladin.NewEnemyAuraArray(core.JudgementOfWisdomAura)
 
 	paladin.JudgementOfWisdom = paladin.RegisterSpell(core.SpellConfig{
@@ -58,6 +61,9 @@ func (paladin *Paladin) registerJudgementOfWisdomSpell(cdTimer *core.Timer) {
 }
 
 func (paladin *Paladin) registerJudgementOfLightSpell(cdTimer *core.Timer) {
+	if paladin.Level < 4 {
+		return
+	}
 	jolAuras := paladin.NewEnemyAuraArray(core.JudgementOfLightAura)
 
 	paladin.JudgementOfLight = paladin.RegisterSpell(core.SpellConfig{

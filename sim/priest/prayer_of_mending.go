@@ -5,10 +5,18 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/priestinfo"
 )
 
 func (priest *Priest) registerPrayerOfMendingSpell() {
-	actionID := core.ActionID{SpellID: 48113}
+	dbc := priestinfo.PrayerofMending.GetMaxRank(priest.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, priest.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(priest.Level)
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 
 	pomAuras := make([]*core.Aura, len(priest.Env.AllUnits))
 	for _, unit := range priest.Env.AllUnits {
@@ -22,7 +30,7 @@ func (priest *Priest) registerPrayerOfMendingSpell() {
 	var curTarget *core.Unit
 	var remainingJumps int
 	priest.ProcPrayerOfMending = func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-		baseHealing := 1043 + 0.8057*spell.HealingPower(target)
+		baseHealing := bp + coef*spell.HealingPower(target)
 		priest.PrayerOfMending.CalcAndDealHealing(sim, target, baseHealing, spell.OutcomeHealingCrit)
 
 		pomAuras[target.UnitIndex].Deactivate(sim)

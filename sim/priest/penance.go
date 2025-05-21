@@ -5,6 +5,7 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/priestinfo"
 )
 
 func (priest *Priest) registerPenanceHealSpell() {
@@ -20,6 +21,18 @@ func (priest *Priest) makePenanceSpell(isHeal bool) *core.Spell {
 		return nil
 	}
 
+	dbc := priestinfo.Penance.GetMaxRank(priest.Level)
+	dbcDmg := priestinfo.PenanceDamage.GetMaxRank(priest.Level)
+	dbcHeal := priestinfo.PenanceHeal.GetMaxRank(priest.Level)
+	if dbc == nil || dbcDmg == nil || dbcHeal == nil {
+		return nil
+	}
+	bpDmg, _ := dbcDmg.GetBPDie(0, priest.Level)
+	coefDmg := dbcDmg.GetCoefficient(0) * dbcDmg.GetLevelPenalty(priest.Level)
+
+	bpHeal, dieHeal := dbcHeal.GetBPDie(0, priest.Level)
+	coefHeal := dbcHeal.GetCoefficient(0) * dbcHeal.GetLevelPenalty(priest.Level)
+
 	var procMask core.ProcMask
 	flags := core.SpellFlagChanneled | core.SpellFlagAPL
 	if isHeal {
@@ -30,7 +43,7 @@ func (priest *Priest) makePenanceSpell(isHeal bool) *core.Spell {
 	}
 
 	return priest.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 53007},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    procMask,
 		Flags:       flags,
@@ -71,7 +84,7 @@ func (priest *Priest) makePenanceSpell(isHeal bool) *core.Spell {
 			AffectedByCastSpeed: true,
 
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
-				baseDamage := 375 + 0.2290*dot.Spell.SpellPower()
+				baseDamage := bpDmg + coefDmg*dot.Spell.SpellPower()
 				dot.Spell.CalcAndDealPeriodicDamage(sim, target, baseDamage, dot.Spell.OutcomeMagicHitAndCrit)
 			},
 		}, core.DotConfig{}),
@@ -84,7 +97,7 @@ func (priest *Priest) makePenanceSpell(isHeal bool) *core.Spell {
 			AffectedByCastSpeed: true,
 
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
-				baseHealing := sim.Roll(1484, 1676) + 0.5362*dot.Spell.HealingPower(target)
+				baseHealing := sim.Roll(bpHeal, dieHeal) + coefHeal*dot.Spell.HealingPower(target)
 				dot.Spell.CalcAndDealPeriodicHealing(sim, target, baseHealing, dot.Spell.OutcomeHealingCrit)
 			},
 		}, core.DotConfig{}),

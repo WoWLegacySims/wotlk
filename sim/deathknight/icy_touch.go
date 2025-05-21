@@ -6,13 +6,11 @@ import (
 )
 
 func (dk *Deathknight) registerIcyTouchSpell() {
-	dbc := deathknightinfo.IcyTouch.FindMaxRank(dk.Level)
+	dbc := deathknightinfo.IcyTouch.GetMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}
-	minDamage := dbc.Effects[0].BasePoints
-	maxDamage := minDamage + dbc.Effects[0].Die
-	minDamage += 1
+	bp, die := dbc.GetBPDie(0, dk.Level)
 	actionID := core.ActionID{SpellID: dbc.SpellID}
 
 	sigilBonus := dk.sigilOfTheFrozenConscienceBonus()
@@ -40,7 +38,7 @@ func (dk *Deathknight) registerIcyTouchSpell() {
 		ThreatMultiplier: 1.0,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := (sim.Roll(minDamage, maxDamage) + sigilBonus + 0.1*dk.getImpurityBonus(spell)) *
+			baseDamage := (sim.Roll(bp, die) + sigilBonus + 0.1*dk.getImpurityBonus(spell)) *
 				dk.glacielRotBonus(target) *
 				dk.RoRTSBonus(target) *
 				dk.mercilessCombatBonus(sim)
@@ -58,13 +56,11 @@ func (dk *Deathknight) registerIcyTouchSpell() {
 	})
 }
 func (dk *Deathknight) registerDrwIcyTouchSpell() {
-	dbc := deathknightinfo.IcyTouch.FindMaxRank(dk.Level)
+	dbc := deathknightinfo.IcyTouch.GetMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}
-	minDamage := dbc.Effects[0].BasePoints
-	maxDamage := minDamage + dbc.Effects[0].Die
-	minDamage += 1
+	bp, die := dbc.GetBPDie(0, dk.Level)
 	actionID := core.ActionID{SpellID: dbc.SpellID}
 	sigilBonus := dk.sigilOfTheFrozenConscienceBonus()
 
@@ -80,7 +76,7 @@ func (dk *Deathknight) registerDrwIcyTouchSpell() {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(minDamage, maxDamage) + sigilBonus + 0.1*dk.RuneWeapon.getImpurityBonus(spell)
+			baseDamage := sim.Roll(bp, die) + sigilBonus + 0.1*dk.RuneWeapon.getImpurityBonus(spell)
 
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 			if result.Landed() {

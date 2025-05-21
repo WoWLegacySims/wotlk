@@ -6,9 +6,27 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/hunterinfo"
 )
 
 func (hunter *Hunter) registerAspectOfTheDragonhawkSpell() {
+	name := "Aspect of the Dragonhawk"
+	dbc := hunterinfo.AspectoftheDragonhawk.GetMaxRank(hunter.Level)
+	if dbc == nil {
+		dbc = hunterinfo.AspectoftheHawk.GetMaxRank(hunter.Level)
+		if dbc == nil {
+			return
+		}
+		name = "Aspect of the Hawk"
+	}
+	ap, _ := dbc.GetBPDie(0, hunter.Level)
+	ap *= core.TernaryFloat64(hunter.Talents.AspectMastery, 1.3, 1)
+
+	dodge, _ := dbc.GetBPDie(2, hunter.Level)
+	if dodge > 0 {
+		dodge += 2 * float64(hunter.Talents.ImprovedAspectOfTheMonkey)
+	}
+
 	var impHawkAura *core.Aura
 	const improvedHawkProcChance = 0.1
 	if hunter.Talents.ImprovedAspectOfTheHawk > 0 {
@@ -29,17 +47,17 @@ func (hunter *Hunter) registerAspectOfTheDragonhawkSpell() {
 		})
 	}
 
-	actionID := core.ActionID{SpellID: 61847}
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 	hunter.AspectOfTheDragonhawkAura = hunter.NewTemporaryStatsAuraWrapped(
-		"Aspect of the Dragonhawk",
+		name,
 		actionID,
 		stats.Stats{
-			stats.RangedAttackPower: core.TernaryFloat64(hunter.Talents.AspectMastery, 390, 300),
-			stats.Dodge:             (18 + 2*float64(hunter.Talents.ImprovedAspectOfTheMonkey)) * hunter.DodgeRatingPerDodgeChance,
+			stats.RangedAttackPower: ap,
+			stats.Dodge:             dodge * hunter.DodgeRatingPerDodgeChance,
 		},
 		core.NeverExpires,
 		func(aura *core.Aura) {
-			if hunter.Talents.AspectMastery {
+			if hunter.Talents.AspectMastery && dodge > 0 {
 				aura.ApplyOnGain(func(aura *core.Aura, sim *core.Simulation) {
 					aura.Unit.PseudoStats.DamageTakenMultiplier *= 0.95
 				})

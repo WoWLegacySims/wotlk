@@ -5,9 +5,18 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warlockinfo"
 )
 
 func (warlock *Warlock) registerImmolateSpell() {
+	dbc := warlockinfo.Immolate.GetMaxRank(warlock.Level)
+	if dbc == nil {
+		return
+	}
+	bpDot, _ := dbc.GetBPDie(0, warlock.Level)
+
+	bp, _ := dbc.GetBPDie(1, warlock.Level)
+	coef := dbc.GetCoefficient(1) * dbc.GetLevelPenalty(warlock.Level)
 	fireAndBrimstoneBonus := 0.02 * float64(warlock.Talents.FireAndBrimstone)
 	bonusPeriodicDamageMultiplier := 0 +
 		0.03*float64(warlock.Talents.Aftermath) +
@@ -16,7 +25,7 @@ func (warlock *Warlock) registerImmolateSpell() {
 		warlock.GrandFirestoneBonus()
 
 	warlock.Immolate = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 47811},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagAPL,
@@ -63,7 +72,7 @@ func (warlock *Warlock) registerImmolateSpell() {
 			TickLength:    time.Second * 3,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				dot.SnapshotBaseDamage = 157 + 0.2*dot.Spell.SpellPower()
+				dot.SnapshotBaseDamage = bpDot + coef*dot.Spell.SpellPower()
 				attackTable := dot.Spell.Unit.AttackTables[target.UnitIndex]
 				dot.SnapshotCritChance = dot.Spell.SpellCritChance(target)
 
@@ -77,7 +86,7 @@ func (warlock *Warlock) registerImmolateSpell() {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 460 + 0.2*spell.SpellPower()
+			baseDamage := bp + coef*spell.SpellPower()
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 			if result.Landed() {
 				spell.Dot(target).Apply(sim)

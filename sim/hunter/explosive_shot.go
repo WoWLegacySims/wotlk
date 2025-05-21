@@ -6,6 +6,7 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/hunterinfo"
 )
 
 func (hunter *Hunter) registerExplosiveShotSpell(timer *core.Timer) {
@@ -18,17 +19,15 @@ func (hunter *Hunter) registerExplosiveShotSpell(timer *core.Timer) {
 }
 
 func (hunter *Hunter) makeExplosiveShotSpell(timer *core.Timer, downrank bool) *core.Spell {
-	actionID := core.ActionID{SpellID: 60053}
-	minFlatDamage := 386.0
-	maxFlatDamage := 464.0
-	if downrank {
-		actionID = core.ActionID{SpellID: 60052}
-		minFlatDamage = 325.0
-		maxFlatDamage = 391.0
+	dbc := core.Ternary(downrank, hunterinfo.ExplosiveShot.GetDownRank(hunter.Level), hunterinfo.ExplosiveShot.GetMaxRank(hunter.Level))
+	if dbc == nil {
+		return nil
 	}
+	bp, die := dbc.GetBPDie(0, hunter.Level)
+	rank := dbc.Rank
 
 	return hunter.RegisterSpell(core.SpellConfig{
-		ActionID:    actionID,
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskRangedSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
@@ -59,12 +58,12 @@ func (hunter *Hunter) makeExplosiveShotSpell(timer *core.Timer, downrank bool) *
 
 		Dot: core.DotConfig{
 			Aura: core.Aura{
-				Label: fmt.Sprintf("ExplosiveShot-%d", actionID.SpellID),
+				Label: fmt.Sprintf("Explosive Shot (Rank %d)", rank),
 			},
 			NumberOfTicks: 2,
 			TickLength:    time.Second * 1,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				dot.SnapshotBaseDamage = sim.Roll(minFlatDamage, maxFlatDamage) + 0.14*dot.Spell.RangedAttackPower(target)
+				dot.SnapshotBaseDamage = sim.Roll(bp, die) + 0.14*dot.Spell.RangedAttackPower(target)
 				attackTable := dot.Spell.Unit.AttackTables[target.UnitIndex]
 				dot.SnapshotCritChance = dot.Spell.PhysicalCritChance(attackTable)
 				dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(attackTable)

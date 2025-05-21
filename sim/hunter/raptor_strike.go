@@ -4,11 +4,18 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/hunterinfo"
 )
 
 func (hunter *Hunter) registerRaptorStrikeSpell() {
+	dbc := hunterinfo.RaptorStrike.GetMaxRank(hunter.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, hunter.Level)
+
 	hunter.RaptorStrike = hunter.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48996},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHAuto | core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage,
@@ -31,7 +38,7 @@ func (hunter *Hunter) registerRaptorStrikeSpell() {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 335 +
+			baseDamage := bp +
 				spell.Unit.MHWeaponDamage(sim, spell.MeleeAttackPower()) +
 				spell.BonusWeaponDamage()
 

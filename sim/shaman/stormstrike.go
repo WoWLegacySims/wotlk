@@ -71,6 +71,10 @@ func (shaman *Shaman) newStormstrikeHitSpell(isMH bool) func(*core.Simulation, *
 }
 
 func (shaman *Shaman) registerStormstrikeSpell() {
+	if !shaman.Talents.Stormstrike {
+		return
+	}
+
 	mhHit := shaman.newStormstrikeHitSpell(true)
 	ohHit := shaman.newStormstrikeHitSpell(false)
 

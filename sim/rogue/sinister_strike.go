@@ -5,13 +5,20 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/rogueinfo"
 )
 
 func (rogue *Rogue) registerSinisterStrikeSpell() {
+	dbc := rogueinfo.SinisterStrike.GetMaxRank(rogue.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, rogue.Level)
+
 	hasGlyphOfSinisterStrike := rogue.HasMajorGlyph(proto.RogueMajorGlyph_GlyphOfSinisterStrike)
 
 	rogue.SinisterStrike = rogue.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48638},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | SpellFlagBuilder | SpellFlagColdBlooded | core.SpellFlagAPL,
@@ -40,7 +47,7 @@ func (rogue *Rogue) registerSinisterStrikeSpell() {
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			rogue.BreakStealth(sim)
-			baseDamage := 180 +
+			baseDamage := bp +
 				spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
 				spell.BonusWeaponDamage()
 

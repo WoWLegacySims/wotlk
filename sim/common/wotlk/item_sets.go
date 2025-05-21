@@ -82,13 +82,13 @@ func applyShardOfTheGodsDamageProc(character *core.Character, isHeroic bool) {
 func applyShardOfTheGodsHealingProc(character *core.Character, isHeroic bool) {
 	name := "Cauterizing Heal"
 	actionID := core.ActionID{SpellID: 69733}
-	minHeal := 2269.0
-	maxHeal := 2773.0
+	bp := 2268.0
+	die := 505.0
 	if isHeroic {
 		name += " H"
 		actionID = core.ActionID{SpellID: 69734}
-		minHeal = 2530.0
-		maxHeal = 3092.0
+		bp = 3092.0
+		die = 563.0
 	}
 
 	spell := character.RegisterSpell(core.SpellConfig{
@@ -102,7 +102,7 @@ func applyShardOfTheGodsHealingProc(character *core.Character, isHeroic bool) {
 		CritMultiplier:   character.DefaultHealingCritMultiplier(),
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseHealing := sim.Roll(minHeal, maxHeal)
+			baseHealing := sim.Roll(bp, die)
 			spell.CalcAndDealHealing(sim, target, baseHealing, spell.OutcomeHealingCrit)
 		},
 	})

@@ -5,6 +5,7 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/shamaninfo"
 )
 
 func (shaman *Shaman) ShockCD() time.Duration {
@@ -22,7 +23,7 @@ func (shaman *Shaman) newShockSpellConfig(spellID int32, spellSchool core.SpellS
 		Flags:       SpellFlagShock | core.SpellFlagAPL,
 
 		ManaCost: core.ManaCostOptions{
-			BaseCost: baseCost,
+			BaseCost: baseCost / 100,
 			Multiplier: 1 -
 				core.TernaryFloat64(shaman.Talents.ShamanisticFocus, 0.45, 0) -
 				0.02*float64(shaman.Talents.Convection) -
@@ -49,9 +50,15 @@ func (shaman *Shaman) newShockSpellConfig(spellID int32, spellSchool core.SpellS
 }
 
 func (shaman *Shaman) registerEarthShockSpell(shockTimer *core.Timer) {
-	config := shaman.newShockSpellConfig(49231, core.SpellSchoolNature, 0.18, shockTimer)
+	dbc := shamaninfo.EarthShock.GetMaxRank(shaman.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(1, shaman.Level)
+	coef := dbc.GetCoefficient(1) * dbc.GetLevelPenalty(shaman.Level)
+	config := shaman.newShockSpellConfig(dbc.SpellID, core.SpellSchoolNature, dbc.BaseCost, shockTimer)
 	config.ApplyEffects = func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-		baseDamage := sim.Roll(854, 900) + 0.386*spell.SpellPower()
+		baseDamage := sim.Roll(bp, die) + coef*spell.SpellPower()
 		spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 	}
 
@@ -59,7 +66,17 @@ func (shaman *Shaman) registerEarthShockSpell(shockTimer *core.Timer) {
 }
 
 func (shaman *Shaman) registerFlameShockSpell(shockTimer *core.Timer) {
-	config := shaman.newShockSpellConfig(49233, core.SpellSchoolFire, 0.17, shockTimer)
+	dbc := shamaninfo.FlameShock.GetMaxRank(shaman.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, shaman.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(shaman.Level)
+
+	bpDot, _ := dbc.GetBPDie(1, shaman.Level)
+	coefDot := dbc.GetCoefficient(1) * dbc.GetLevelPenalty(shaman.Level)
+
+	config := shaman.newShockSpellConfig(dbc.SpellID, core.SpellSchoolFire, dbc.BaseCost, shockTimer)
 
 	config.Cast.CD.Duration -= time.Duration(shaman.Talents.BoomingEchoes) * time.Second
 	config.CritMultiplier = shaman.ElementalCritMultiplier(core.TernaryFloat64(shaman.HasMajorGlyph(proto.ShamanMajorGlyph_GlyphOfFlameShock), 0.6, 0))
@@ -67,7 +84,7 @@ func (shaman *Shaman) registerFlameShockSpell(shockTimer *core.Timer) {
 
 	flameShockBaseNumberOfTicks := 6 + core.TernaryInt32(shaman.HasSetBonus(ItemSetThrallsRegalia, 2), 3, 0)
 	config.ApplyEffects = func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-		baseDamage := 500 + 0.214*spell.SpellPower()
+		baseDamage := bp + coef*spell.SpellPower()
 		result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 		if result.Landed() {
 			spell.Dot(target).NumberOfTicks = flameShockBaseNumberOfTicks
@@ -96,7 +113,7 @@ func (shaman *Shaman) registerFlameShockSpell(shockTimer *core.Timer) {
 		AffectedByCastSpeed: true,
 
 		OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, _ bool) {
-			dot.SnapshotBaseDamage = 834/6 + 0.1*dot.Spell.SpellPower()
+			dot.SnapshotBaseDamage = bpDot + coefDot*dot.Spell.SpellPower()
 			dot.SnapshotCritChance = dot.Spell.SpellCritChance(target)
 
 			dot.Spell.DamageMultiplierAdditive += bonusPeriodicDamageMultiplier
@@ -112,12 +129,19 @@ func (shaman *Shaman) registerFlameShockSpell(shockTimer *core.Timer) {
 }
 
 func (shaman *Shaman) registerFrostShockSpell(shockTimer *core.Timer) {
-	config := shaman.newShockSpellConfig(49236, core.SpellSchoolFrost, 0.18, shockTimer)
+	dbc := shamaninfo.FrostShock.GetMaxRank(shaman.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(1, shaman.Level)
+	coef := dbc.GetCoefficient(1) * dbc.GetLevelPenalty(shaman.Level)
+
+	config := shaman.newShockSpellConfig(dbc.SpellID, core.SpellSchoolFrost, 0.18, shockTimer)
 	config.Cast.CD.Duration -= time.Duration(shaman.Talents.BoomingEchoes) * time.Second
 	config.DamageMultiplier += 0.1 * float64(shaman.Talents.BoomingEchoes)
 	config.ThreatMultiplier *= 2
 	config.ApplyEffects = func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-		baseDamage := sim.Roll(812, 858) + 0.386*spell.SpellPower()
+		baseDamage := sim.Roll(bp, die) + coef*spell.SpellPower()
 		spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 	}
 

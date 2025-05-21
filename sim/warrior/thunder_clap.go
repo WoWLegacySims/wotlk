@@ -5,15 +5,22 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warriorinfo"
 )
 
 func (warrior *Warrior) registerThunderClapSpell() {
+	dbc := warriorinfo.ThunderClap.GetMaxRank(warrior.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, warrior.Level)
+
 	warrior.ThunderClapAuras = warrior.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 		return core.ThunderClapAura(target, warrior.Talents.ImprovedThunderClap)
 	})
 
 	warrior.ThunderClap = warrior.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 47502},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskRangedSpecial,
 		Flags:       core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagAPL,
@@ -45,7 +52,7 @@ func (warrior *Warrior) registerThunderClapSpell() {
 		ThreatMultiplier: 1.85,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 300 + 0.12*spell.MeleeAttackPower()
+			baseDamage := bp + 0.12*spell.MeleeAttackPower()
 			baseDamage *= sim.Encounter.AOECapMultiplier()
 
 			for _, aoeTarget := range sim.Encounter.TargetUnits {

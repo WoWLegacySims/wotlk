@@ -10,7 +10,7 @@ import (
 
 // this is just a simple spell because it has no rune costs and is really just a wrapper.
 func (dk *Deathknight) registerScourgeStrikeShadowDamageSpell() *core.Spell {
-	dbc := deathknightinfo.ScourgeStrike.FindMaxRank(dk.Level)
+	dbc := deathknightinfo.ScourgeStrike.GetMaxRank(dk.Level)
 	if dbc == nil {
 		return nil
 	}
@@ -44,7 +44,7 @@ func (dk *Deathknight) registerScourgeStrikeSpell() {
 	if !dk.Talents.ScourgeStrike {
 		return
 	}
-	dbc := deathknightinfo.ScourgeStrike.FindMaxRank(dk.Level)
+	dbc := deathknightinfo.ScourgeStrike.GetMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}

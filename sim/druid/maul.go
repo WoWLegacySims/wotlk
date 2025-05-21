@@ -3,10 +3,16 @@ package druid
 import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/druidinfo"
 )
 
 func (druid *Druid) registerMaulSpell() {
-	flatBaseDamage := 578.0
+	dbc := druidinfo.Maul.GetMaxRank(druid.Level)
+	if dbc == nil {
+		return
+	}
+	flatBaseDamage := dbc.Effects[0].BasePoints + 1
+
 	if druid.Ranged().ID == 23198 { // Idol of Brutality
 		flatBaseDamage += 50
 	} else if druid.Ranged().ID == 38365 { // Idol of Perspicacious Attacks
@@ -16,7 +22,7 @@ func (druid *Druid) registerMaulSpell() {
 	numHits := core.TernaryInt32(druid.HasMajorGlyph(proto.DruidMajorGlyph_GlyphOfMaul) && druid.Env.GetNumTargets() > 1, 2, 1)
 
 	druid.Maul = druid.RegisterSpell(Bear, core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48480},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagNoOnCastComplete,

@@ -5,6 +5,7 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/rogueinfo"
 )
 
 func (rogue *Rogue) registerHemorrhageSpell() {
@@ -12,7 +13,14 @@ func (rogue *Rogue) registerHemorrhageSpell() {
 		return
 	}
 
-	actionID := core.ActionID{SpellID: 48660}
+	dbc := rogueinfo.Hemorrhage.GetMaxRank(rogue.Level)
+	if dbc == nil {
+		return
+	}
+
+	bonus, _ := dbc.GetBPDie(2, rogue.Level)
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 
 	var numPlayers int
 	for _, u := range rogue.Env.Raid.AllUnits {
@@ -26,7 +34,7 @@ func (rogue *Rogue) registerHemorrhageSpell() {
 	// Hemo debuff disabled except in raid sim
 	// in a raid environment each melee will get very little debuffs, which is hard to model
 	if numPlayers >= 2 {
-		bonusDamage := 75.0
+		bonusDamage := bonus
 		if rogue.HasMajorGlyph(proto.RogueMajorGlyph_GlyphOfHemorrhage) {
 			bonusDamage *= 1.4
 		}

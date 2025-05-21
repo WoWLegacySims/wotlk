@@ -5,11 +5,18 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/priestinfo"
 )
 
 func (priest *Priest) registerRenewSpell() {
-	actionID := core.ActionID{SpellID: 48068}
-	spellCoeff := (1.88 + .05*float64(priest.Talents.EmpoweredRenew)) / 5
+	dbc := priestinfo.Renew.GetMaxRank(priest.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, priest.Level)
+	spellCoeff := dbc.GetCoefficient(0) * (1 + (0.01 * float64(priest.Talents.EmpoweredRenew))) * dbc.GetLevelPenalty(priest.Level)
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 
 	if priest.Talents.EmpoweredRenew > 0 {
 		priest.EmpoweredRenew = priest.RegisterSpell(core.SpellConfig{
@@ -22,13 +29,13 @@ func (priest *Priest) registerRenewSpell() {
 			DamageMultiplier: 1 *
 				float64(priest.renewTicks()) *
 				priest.renewHealingMultiplier() *
-				.05 * float64(priest.Talents.EmpoweredRenew) *
+				.05 * float64(priest.Talents.ImprovedRenew) *
 				core.TernaryFloat64(priest.HasSetBonus(ItemSetZabrasRaiment, 4), 1.1, 1),
 			CritMultiplier:   priest.DefaultHealingCritMultiplier(),
 			ThreatMultiplier: 1 - []float64{0, .07, .14, .20}[priest.Talents.SilentResolve],
 
 			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-				baseHealing := 280 + spellCoeff*spell.HealingPower(target)
+				baseHealing := bp + spellCoeff*spell.HealingPower(target)
 				spell.CalcAndDealHealing(sim, target, baseHealing, spell.OutcomeHealingCrit)
 			},
 		})
@@ -60,7 +67,7 @@ func (priest *Priest) registerRenewSpell() {
 			NumberOfTicks: priest.renewTicks(),
 			TickLength:    time.Second * 3,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, _ bool) {
-				dot.SnapshotBaseDamage = 280 + spellCoeff*dot.Spell.HealingPower(target)
+				dot.SnapshotBaseDamage = bp + spellCoeff*dot.Spell.HealingPower(target)
 				dot.SnapshotAttackerMultiplier = dot.Spell.CasterHealingMultiplier()
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {

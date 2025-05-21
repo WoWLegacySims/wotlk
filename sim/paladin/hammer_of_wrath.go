@@ -5,11 +5,18 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/paladininfo"
 )
 
 func (paladin *Paladin) registerHammerOfWrathSpell() {
+	dbc := paladininfo.HammerofWrath.GetMaxRank(paladin.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, paladin.Level)
+
 	paladin.HammerOfWrath = paladin.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48806},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
@@ -41,7 +48,7 @@ func (paladin *Paladin) registerHammerOfWrathSpell() {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(1139, 1257) +
+			baseDamage := sim.Roll(bp, die) +
 				.15*spell.SpellPower() +
 				.15*spell.MeleeAttackPower()
 

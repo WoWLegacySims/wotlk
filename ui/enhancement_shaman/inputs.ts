@@ -1,12 +1,11 @@
+import * as InputHelpers from '../core/components/input_helpers.js';
+import { Spec } from '../core/proto/common.js';
 import {
-	ShamanShield,
 	ShamanImbue,
+	ShamanShield,
 	ShamanSyncType,
 } from '../core/proto/shaman.js';
-import { Spec } from '../core/proto/common.js';
 import { ActionId } from '../core/proto_utils/action_id.js';
-
-import * as InputHelpers from '../core/components/input_helpers.js';
 
 // Configuration for spec-specific UI elements on the settings tab.
 // These don't need to be in a separate file but it keeps things cleaner.
@@ -28,6 +27,7 @@ export const ShamanImbueMH = InputHelpers.makeSpecOptionsEnumIconInput<Spec.Spec
 		{ actionId: ActionId.fromSpellId(58790), value: ShamanImbue.FlametongueWeapon, text: 'R10' },
 		{ actionId: ActionId.fromSpellId(58789), value: ShamanImbue.FlametongueWeaponDownrank, text: 'R9' },
 		{ actionId: ActionId.fromSpellId(58796), value: ShamanImbue.FrostbrandWeapon },
+		{ actionId: ActionId.fromSpellId(10399), value: ShamanImbue.RockbiterWeapon },
 	],
 });
 
@@ -39,6 +39,7 @@ export const ShamanImbueOH = InputHelpers.makeSpecOptionsEnumIconInput<Spec.Spec
 		{ actionId: ActionId.fromSpellId(58790), value: ShamanImbue.FlametongueWeapon, text: 'R10' },
 		{ actionId: ActionId.fromSpellId(58789), value: ShamanImbue.FlametongueWeaponDownrank, text: 'R9' },
 		{ actionId: ActionId.fromSpellId(58796), value: ShamanImbue.FrostbrandWeapon },
+		{ actionId: ActionId.fromSpellId(10399), value: ShamanImbue.RockbiterWeapon },
 	],
 });
 

@@ -1,11 +1,14 @@
 package shaman
 
 import (
+	"fmt"
+	"slices"
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/shamaninfo"
 )
 
 var TotemOfTheAstralWinds int32 = 27815
@@ -30,10 +33,7 @@ func (shaman *Shaman) RegisterOnItemSwapWithImbue(effectID int32, procMask *core
 	})
 }
 
-var WindfuryBonuses = []float64{46, 119, 249, 333, 445, 835, 1090, 1250}
-
-func (shaman *Shaman) newWindfuryImbueSpell(isMH bool) *core.Spell {
-	apBonus := 1250.0
+func (shaman *Shaman) newWindfuryImbueSpell(isMH bool, spellID int32, apBonus float64) *core.Spell {
 	if shaman.Ranged().ID == TotemOfTheAstralWinds {
 		apBonus += 80
 	} else if shaman.Ranged().ID == TotemOfSplintering {
@@ -51,7 +51,7 @@ func (shaman *Shaman) newWindfuryImbueSpell(isMH bool) *core.Spell {
 	}
 
 	spellConfig := core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 58804, Tag: int32(tag)},
+		ActionID:    core.ActionID{SpellID: spellID, Tag: int32(tag)},
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    procMask,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage,
@@ -80,12 +80,17 @@ func (shaman *Shaman) RegisterWindfuryImbue(procMask core.ProcMask) {
 	if procMask == core.ProcMaskUnknown {
 		return
 	}
+	dbc := shamaninfo.WindfuryWeapon.GetMaxRank(shaman.Level)
+	if dbc == nil {
+		return
+	}
+	apBonus, _ := dbc.GetBPDie(1, shaman.Level)
 
 	if procMask.Matches(core.ProcMaskMeleeMH) {
-		shaman.MainHand().TempEnchant = 3787
+		shaman.MainHand().TempEnchant = int32(dbc.Effects[0].MiscValueA)
 	}
 	if procMask.Matches(core.ProcMaskMeleeOH) {
-		shaman.OffHand().TempEnchant = 3787
+		shaman.OffHand().TempEnchant = int32(dbc.Effects[0].MiscValueA)
 	}
 
 	var proc = 0.2
@@ -101,8 +106,8 @@ func (shaman *Shaman) RegisterWindfuryImbue(procMask core.ProcMask) {
 		Duration: time.Second * 3,
 	}
 
-	mhSpell := shaman.newWindfuryImbueSpell(true)
-	ohSpell := shaman.newWindfuryImbueSpell(false)
+	mhSpell := shaman.newWindfuryImbueSpell(true, dbc.SpellID, apBonus)
+	ohSpell := shaman.newWindfuryImbueSpell(false, dbc.SpellID, apBonus)
 
 	aura := shaman.RegisterAura(core.Aura{
 		Label:    "Windfury Imbue",
@@ -131,19 +136,13 @@ func (shaman *Shaman) RegisterWindfuryImbue(procMask core.ProcMask) {
 		},
 	})
 
-	shaman.RegisterOnItemSwapWithImbue(3787, &procMask, aura)
+	shaman.RegisterOnItemSwapWithImbue(int32(dbc.Effects[0].MiscValueA), &procMask, aura)
 }
 
-func (shaman *Shaman) newFlametongueImbueSpell(weapon *core.Item, isDownranked bool) *core.Spell {
-	spellID := 58790
-	baseDamage := 68.5
-	if isDownranked {
-		spellID = 58789
-		baseDamage = 64
-	}
+func (shaman *Shaman) newFlametongueImbueSpell(weapon *core.Item, spellID int32, bp float64) *core.Spell {
 
 	return shaman.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: int32(spellID)},
+		ActionID:    core.ActionID{SpellID: spellID},
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskWeaponProc,
 
@@ -154,7 +153,7 @@ func (shaman *Shaman) newFlametongueImbueSpell(weapon *core.Item, isDownranked b
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			if weapon.SwingSpeed != 0 {
-				damage := weapon.SwingSpeed * (baseDamage + 0.1/2.6*spell.SpellPower())
+				damage := weapon.SwingSpeed * (bp + 0.1/2.6*spell.SpellPower())
 				spell.CalcAndDealDamage(sim, target, damage, spell.OutcomeMagicHitAndCrit)
 			}
 		},
@@ -162,16 +161,22 @@ func (shaman *Shaman) newFlametongueImbueSpell(weapon *core.Item, isDownranked b
 }
 
 func (shaman *Shaman) ApplyFlametongueImbueToItem(item *core.Item, isDownranked bool) {
-	if item == nil || item.TempEnchant == 3781 || item.TempEnchant == 3780 {
+	var flameTongueEnchants []int32 = make([]int32, 10)
+	for i, dbc := range shamaninfo.FlametongueWeapon.SpellInfos {
+		flameTongueEnchants[i] = int32(dbc.Effects[0].MiscValueA)
+	}
+	if item == nil || slices.Contains(flameTongueEnchants, item.TempEnchant) {
 		return
 	}
 
-	spBonus := 211.0
-	enchantID := 3781
-	if isDownranked {
-		spBonus = 186.0
-		enchantID = 3780
+	dbc := core.Ternary(isDownranked, shamaninfo.FlametongueWeapon.GetDownRank(shaman.Level), shamaninfo.FlametongueWeapon.GetMaxRank(shaman.Level))
+	dbcPassive := core.Ternary(isDownranked, shamaninfo.FlametongueWeaponPassive.GetDownRank(shaman.Level), shamaninfo.FlametongueWeaponPassive.GetMaxRank(shaman.Level))
+	if dbc == nil || dbcPassive == nil {
+		return
 	}
+
+	spBonus, _ := dbcPassive.GetBPDie(1, shaman.Level)
+	enchantID := dbc.Effects[0].MiscValueA
 
 	spMod := 1.0 + 0.1*float64(shaman.Talents.ElementalWeapons)
 
@@ -199,20 +204,24 @@ func (shaman *Shaman) RegisterFlametongueImbue(procMask core.ProcMask, isDownran
 		return
 	}
 
+	dbc := core.Ternary(isDownranked, shamaninfo.FlametongueWeapon.GetDownRank(shaman.Level), shamaninfo.FlametongueWeapon.GetMaxRank(shaman.Level))
+	dbcPassive := core.Ternary(isDownranked, shamaninfo.FlametongueWeaponPassive.GetDownRank(shaman.Level), shamaninfo.FlametongueWeaponPassive.GetMaxRank(shaman.Level))
+	if dbc == nil || dbcPassive == nil {
+		return
+	}
+	dmg, _ := dbcPassive.GetBPDie(0, shaman.Level)
+	dmg /= 100
+
 	icd := core.Cooldown{
 		Timer:    shaman.NewTimer(),
 		Duration: time.Millisecond,
 	}
 
-	mhSpell := shaman.newFlametongueImbueSpell(shaman.MainHand(), isDownranked)
-	ohSpell := shaman.newFlametongueImbueSpell(shaman.OffHand(), isDownranked)
+	mhSpell := shaman.newFlametongueImbueSpell(shaman.MainHand(), dbc.SpellID, dmg)
+	ohSpell := shaman.newFlametongueImbueSpell(shaman.OffHand(), dbc.SpellID, dmg)
 
-	label := "Flametongue Imbue"
-	enchantID := 3781
-	if isDownranked {
-		label = "Flametongue Imbue (downranked)"
-		enchantID = 3780
-	}
+	label := fmt.Sprintf("Flametongue Imbue (Rank %d)", dbc.Rank)
+	enchantID := dbc.Effects[0].MiscValueA
 
 	aura := shaman.RegisterAura(core.Aura{
 		Label:    label,
@@ -242,38 +251,40 @@ func (shaman *Shaman) RegisterFlametongueImbue(procMask core.ProcMask, isDownran
 	shaman.RegisterOnItemSwapWithImbue(int32(enchantID), &procMask, aura)
 }
 
-func (shaman *Shaman) FrostbrandDebuffAura(target *core.Unit, _ int32) *core.Aura {
-	multiplier := 1 + 0.05*float64(shaman.Talents.FrozenPower)
-	return target.GetOrRegisterAura(core.Aura{
-		Label:    "Frostbrand Attack-" + shaman.Label,
-		ActionID: core.ActionID{SpellID: 58799},
-		Duration: time.Second * 8,
-		OnGain: func(aura *core.Aura, sim *core.Simulation) {
-			shaman.LightningBolt.DamageMultiplier *= multiplier
-			shaman.ChainLightning.DamageMultiplier *= multiplier
-			if shaman.LavaLash != nil {
-				shaman.LavaLash.DamageMultiplier *= multiplier
-			}
-			shaman.EarthShock.DamageMultiplier *= multiplier
-			shaman.FlameShock.DamageMultiplier *= multiplier
-			shaman.FrostShock.DamageMultiplier *= multiplier
-		},
-		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
-			shaman.LightningBolt.DamageMultiplier /= multiplier
-			shaman.ChainLightning.DamageMultiplier /= multiplier
-			if shaman.LavaLash != nil {
-				shaman.LavaLash.DamageMultiplier /= multiplier
-			}
-			shaman.EarthShock.DamageMultiplier /= multiplier
-			shaman.FlameShock.DamageMultiplier /= multiplier
-			shaman.FrostShock.DamageMultiplier /= multiplier
-		},
-	})
+func (shaman *Shaman) FrostbrandDebuffAura(spellID int32) func(*core.Unit, int32) *core.Aura {
+	return func(target *core.Unit, _ int32) *core.Aura {
+		multiplier := 1 + 0.05*float64(shaman.Talents.FrozenPower)
+		return target.GetOrRegisterAura(core.Aura{
+			Label:    "Frostbrand Attack-" + shaman.Label,
+			ActionID: core.ActionID{SpellID: spellID},
+			Duration: time.Second * 8,
+			OnGain: func(aura *core.Aura, sim *core.Simulation) {
+				shaman.LightningBolt.DamageMultiplier *= multiplier
+				shaman.ChainLightning.DamageMultiplier *= multiplier
+				if shaman.LavaLash != nil {
+					shaman.LavaLash.DamageMultiplier *= multiplier
+				}
+				shaman.EarthShock.DamageMultiplier *= multiplier
+				shaman.FlameShock.DamageMultiplier *= multiplier
+				shaman.FrostShock.DamageMultiplier *= multiplier
+			},
+			OnExpire: func(aura *core.Aura, sim *core.Simulation) {
+				shaman.LightningBolt.DamageMultiplier /= multiplier
+				shaman.ChainLightning.DamageMultiplier /= multiplier
+				if shaman.LavaLash != nil {
+					shaman.LavaLash.DamageMultiplier /= multiplier
+				}
+				shaman.EarthShock.DamageMultiplier /= multiplier
+				shaman.FlameShock.DamageMultiplier /= multiplier
+				shaman.FrostShock.DamageMultiplier /= multiplier
+			},
+		})
+	}
 }
 
-func (shaman *Shaman) newFrostbrandImbueSpell() *core.Spell {
+func (shaman *Shaman) newFrostbrandImbueSpell(spellID int32, bp float64) *core.Spell {
 	return shaman.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 58796},
+		ActionID:    core.ActionID{SpellID: spellID},
 		SpellSchool: core.SpellSchoolFrost,
 		ProcMask:    core.ProcMaskEmpty,
 
@@ -283,7 +294,7 @@ func (shaman *Shaman) newFrostbrandImbueSpell() *core.Spell {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 530 + 0.1*spell.SpellPower()
+			baseDamage := bp + 0.1*spell.SpellPower()
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 		},
 	})
@@ -294,19 +305,27 @@ func (shaman *Shaman) RegisterFrostbrandImbue(procMask core.ProcMask) {
 		return
 	}
 
+	dbc := shamaninfo.FrostbrandWeapon.GetMaxRank(shaman.Level)
+	dbcPassive := shamaninfo.FrostbrandAttack.GetMaxRank(shaman.Level)
+	if dbc == nil || dbcPassive == nil {
+		return
+	}
+	effect := core.TernaryInt32(dbcPassive.SpellID == 58799, 1, 0)
+	bp, _ := dbcPassive.GetBPDie(effect, shaman.Level)
+
 	if procMask.Matches(core.ProcMaskMeleeMH) {
-		shaman.MainHand().TempEnchant = 3784
+		shaman.MainHand().TempEnchant = int32(dbc.Effects[0].MiscValueA)
 	}
 	if procMask.Matches(core.ProcMaskMeleeOH) {
-		shaman.OffHand().TempEnchant = 3784
+		shaman.OffHand().TempEnchant = int32(dbc.Effects[0].MiscValueA)
 	}
 
 	ppmm := shaman.AutoAttacks.NewPPMManager(9.0, procMask)
 
-	mhSpell := shaman.newFrostbrandImbueSpell()
-	ohSpell := shaman.newFrostbrandImbueSpell()
+	mhSpell := shaman.newFrostbrandImbueSpell(dbc.SpellID, bp)
+	ohSpell := shaman.newFrostbrandImbueSpell(dbc.SpellID, bp)
 
-	fbDebuffAuras := shaman.NewEnemyAuraArray(shaman.FrostbrandDebuffAura)
+	fbDebuffAuras := shaman.NewEnemyAuraArray(shaman.FrostbrandDebuffAura(dbcPassive.SpellID))
 
 	aura := shaman.RegisterAura(core.Aura{
 		Label:    "Frostbrand Imbue",
@@ -333,6 +352,52 @@ func (shaman *Shaman) RegisterFrostbrandImbue(procMask core.ProcMask) {
 	shaman.ItemSwap.RegisterOnSwapItemForEffectWithPPMManager(3784, 9.0, &ppmm, aura)
 }
 
+func (shaman *Shaman) RegisterRockbiterImbue(procMask core.ProcMask) {
+	if procMask == core.ProcMaskUnknown {
+		return
+	}
+	dbc := shamaninfo.RockbiterWeapon.GetMaxRank(shaman.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(1, shaman.Level)
+
+	if procMask.Matches(core.ProcMaskMeleeMH) {
+		shaman.ApplyRockbiter(true, bp)
+	}
+	if procMask.Matches(core.ProcMaskMeleeOH) {
+		shaman.ApplyRockbiter(false, bp)
+	}
+}
+
+func (shaman *Shaman) ApplyRockbiter(isMH bool, bonus float64) {
+	weapon := core.Ternary(isMH, shaman.MainHand(), shaman.OffHand())
+	auto := core.Ternary(isMH, shaman.AutoAttacks.MH(), shaman.AutoAttacks.OH())
+	procMask := core.Ternary(isMH, core.ProcMaskMeleeMH, core.ProcMaskMeleeOH)
+
+	weapon.TempEnchant = 1
+
+	aura := shaman.RegisterAura(core.Aura{
+		Label:    "Rockbiter Imbue",
+		Duration: core.NeverExpires,
+		OnReset: func(aura *core.Aura, sim *core.Simulation) {
+			aura.Activate(sim)
+		},
+		OnGain: func(aura *core.Aura, sim *core.Simulation) {
+			auto.BaseDamageMin += bonus * weapon.SwingSpeed
+			auto.BaseDamageMax += bonus * weapon.SwingSpeed
+		},
+		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
+			auto.BaseDamageMin -= bonus * weapon.SwingSpeed
+			auto.BaseDamageMax -= bonus * weapon.SwingSpeed
+		},
+	})
+
+	shaman.RegisterOnItemSwapWithImbue(1, &procMask, aura)
+
+}
+
+// idc about heals
 func (shaman *Shaman) newEarthlivingImbueSpell() *core.Spell {
 	return shaman.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: 51994},

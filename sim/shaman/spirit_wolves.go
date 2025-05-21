@@ -31,16 +31,7 @@ func (SpiritWolves *SpiritWolves) CancelGCDTimer(sim *core.Simulation) {
 	SpiritWolves.SpiritWolf2.CancelGCDTimer(sim)
 }
 
-var spiritWolfBaseStats = stats.Stats{
-	stats.Stamina:   361,
-	stats.Spirit:    109,
-	stats.Intellect: 65,
-	stats.Armor:     9616,
-
-	stats.Agility:     113,
-	stats.Strength:    331,
-	stats.AttackPower: -20,
-}
+var spiritWolfBaseStats = core.PetBaseStats[core.Pet_Unknown][1].Stats
 
 var spiritWolfBasePercentageStats = stats.Stats{
 	// Add 1.8% because pets aren't affected by that component of crit suppression.
@@ -55,8 +46,8 @@ func (shaman *Shaman) NewSpiritWolf(index int) *SpiritWolf {
 
 	spiritWolf.EnableAutoAttacks(spiritWolf, core.AutoAttackOptions{
 		MainHand: core.Weapon{
-			BaseDamageMin:  246,
-			BaseDamageMax:  372,
+			BaseDamageMin:  float64(spiritWolf.Level) * 3,
+			BaseDamageMax:  float64(spiritWolf.Level) * 5,
 			SwingSpeed:     1.5,
 			CritMultiplier: 2,
 		},
@@ -72,20 +63,19 @@ func (shaman *Shaman) NewSpiritWolf(index int) *SpiritWolf {
 	return spiritWolf
 }
 
-const PetExpertiseScale = 3.25
-
 func (shaman *Shaman) makeStatInheritance() core.PetStatInheritance {
-	return func(ownerStats stats.Stats) stats.Stats {
+	return func(ownerStats stats.Stats, _ stats.PseudoStats) stats.Stats {
 		ownerHitChance := ownerStats[stats.MeleeHit] / shaman.MeleeHitRatingPerHitChance
 		hitRatingFromOwner := math.Floor(ownerHitChance) * shaman.MeleeHitRatingPerHitChance
 
 		return stats.Stats{
 			stats.Stamina:     ownerStats[stats.Stamina] * 0.3,
 			stats.Armor:       ownerStats[stats.Armor] * 0.35,
-			stats.AttackPower: ownerStats[stats.AttackPower] * (core.TernaryFloat64(shaman.HasMajorGlyph(proto.ShamanMajorGlyph_GlyphOfFeralSpirit), 0.61, 0.31)),
+			stats.AttackPower: ownerStats[stats.AttackPower] * (core.TernaryFloat64(shaman.HasMajorGlyph(proto.ShamanMajorGlyph_GlyphOfFeralSpirit), 0.6, 0.3)),
+			stats.SpellPower:  ownerStats[stats.SpellPower] * 0.3,
 
 			stats.MeleeHit:  hitRatingFromOwner,
-			stats.Expertise: math.Floor(math.Floor(ownerHitChance)*PetExpertiseScale) * shaman.ExpertisePerQuarterPercentReduction,
+			stats.Expertise: shaman.CalculateHitInheritance(stats.SpellHit, stats.Expertise),
 		}
 	}
 }
@@ -101,7 +91,7 @@ func (spiritWolf *SpiritWolf) Reset(sim *core.Simulation) {
 	spiritWolf.Disable(sim)
 	if sim.Log != nil {
 		spiritWolf.Log(sim, "Base Stats: %s", spiritWolfBaseStats)
-		inheritedStats := spiritWolf.shamanOwner.makeStatInheritance()(spiritWolf.shamanOwner.GetStats())
+		inheritedStats := spiritWolf.shamanOwner.makeStatInheritance()(spiritWolf.shamanOwner.GetStats(), stats.PseudoStats{})
 		spiritWolf.Log(sim, "Inherited Stats: %s", inheritedStats)
 		spiritWolf.Log(sim, "Total Stats: %s", spiritWolf.GetStats())
 	}

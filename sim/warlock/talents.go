@@ -8,6 +8,7 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warlockinfo"
 )
 
 func (warlock *Warlock) ApplyTalents() {
@@ -81,10 +82,20 @@ func (warlock *Warlock) applyDeathsEmbrace() {
 
 func (warlock *Warlock) applyWeaponImbue() {
 	if warlock.Options.WeaponImbue == proto.Warlock_Options_GrandFirestone {
-		warlock.AddStat(stats.SpellCrit, 49*(1+1.5*float64(warlock.Talents.MasterConjuror)))
+		dbc := warlockinfo.CreateFirestone.GetMaxRank(warlock.Level)
+		if dbc != nil {
+
+			bp := dbc.Effects[0].BasePoints
+			warlock.AddStat(stats.SpellCrit, bp*(1+1.5*float64(warlock.Talents.MasterConjuror)))
+		}
 	}
 	if warlock.Options.WeaponImbue == proto.Warlock_Options_GrandSpellstone {
-		warlock.AddStat(stats.SpellHaste, 60*(1+1.5*float64(warlock.Talents.MasterConjuror)))
+		dbc := warlockinfo.CreateSpellstone.GetMaxRank(warlock.Level)
+		if dbc != nil {
+
+			bp := dbc.Effects[0].BasePoints
+			warlock.AddStat(stats.SpellHaste, bp*(1+1.5*float64(warlock.Talents.MasterConjuror)))
+		}
 	}
 }
 

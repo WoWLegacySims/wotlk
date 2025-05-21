@@ -6,6 +6,7 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/priestinfo"
 )
 
 var TalentTreeSizes = [3]int{28, 27, 27}
@@ -191,13 +192,19 @@ func New(char *core.Character, selfBuffs SelfBuffs, talents string) *Priest {
 	}
 	core.FillTalentsProto(priest.Talents.ProtoReflect(), talents, TalentTreeSizes)
 
-	priest.EnableManaBar()
+	priest.EnableManaBar(15)
 	priest.ShadowfiendPet = priest.NewShadowfiend()
 
-	if selfBuffs.UseInnerFire {
+	dbc := priestinfo.InnerFire.GetMaxRank(priest.Level)
+	if selfBuffs.UseInnerFire && dbc != nil {
+
 		multi := 1 + float64(priest.Talents.ImprovedInnerFire)*0.15
-		sp := 120.0 * multi
-		armor := 2440 * multi * core.TernaryFloat64(priest.HasMajorGlyph(proto.PriestMajorGlyph_GlyphOfInnerFire), 1.5, 1)
+		armor, _ := dbc.GetBPDie(0, priest.Level)
+		sp, _ := dbc.GetBPDie(1, priest.Level)
+
+		armor *= multi * core.TernaryFloat64(priest.HasMajorGlyph(proto.PriestMajorGlyph_GlyphOfInnerFire), 1.5, 1)
+		sp *= multi
+
 		priest.AddStat(stats.SpellPower, sp)
 		priest.AddStat(stats.Armor, armor)
 	}

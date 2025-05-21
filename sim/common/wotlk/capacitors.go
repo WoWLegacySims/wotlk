@@ -31,17 +31,17 @@ type CapacitorDamageEffect struct {
 	MaxStacks int32
 	Trigger   core.ProcTrigger
 
-	School core.SpellSchool
-	MinDmg float64
-	MaxDmg float64
+	School     core.SpellSchool
+	BasePoints float64
+	Die        float64
 }
 
 func newCapacitorDamageEffect(config CapacitorDamageEffect) {
 	core.NewItemEffect(config.ID, func(agent core.Agent) {
 		character := agent.GetCharacter()
 
-		minDmg := config.MinDmg
-		maxDmg := config.MaxDmg
+		bp := config.BasePoints
+		die := config.Die
 		damageSpell := character.RegisterSpell(core.SpellConfig{
 			ActionID:    core.ActionID{ItemID: config.ID},
 			SpellSchool: config.School,
@@ -52,7 +52,7 @@ func newCapacitorDamageEffect(config CapacitorDamageEffect) {
 			ThreatMultiplier: 1,
 
 			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-				spell.CalcAndDealDamage(sim, target, sim.Roll(minDmg, maxDmg), spell.OutcomeMagicHitAndCrit)
+				spell.CalcAndDealDamage(sim, target, sim.Roll(bp, die), spell.OutcomeMagicHitAndCrit)
 			},
 		})
 
@@ -91,9 +91,9 @@ func init() {
 			ICD:      time.Millisecond * 2500,
 			ActionID: core.ActionID{ItemID: 38072},
 		},
-		School: core.SpellSchoolNature,
-		MinDmg: 1181,
-		MaxDmg: 1371,
+		School:     core.SpellSchoolNature,
+		BasePoints: 1180,
+		Die:        191,
 	})
 	newCapacitorDamageEffect(CapacitorDamageEffect{
 		Name:      "Reign of the Unliving",
@@ -106,9 +106,9 @@ func init() {
 			ICD:      time.Millisecond * 2000,
 			ActionID: core.ActionID{ItemID: 47182},
 		},
-		School: core.SpellSchoolFire,
-		MinDmg: 1741,
-		MaxDmg: 2023,
+		School:     core.SpellSchoolFire,
+		BasePoints: 1740,
+		Die:        283,
 	})
 	newCapacitorDamageEffect(CapacitorDamageEffect{
 		Name:      "Reign of the Unliving H",
@@ -121,9 +121,9 @@ func init() {
 			ICD:      time.Millisecond * 2000,
 			ActionID: core.ActionID{ItemID: 47188},
 		},
-		School: core.SpellSchoolFire,
-		MinDmg: 1959,
-		MaxDmg: 2275,
+		School:     core.SpellSchoolFire,
+		BasePoints: 1958,
+		Die:        317,
 	})
 
 	core.AddEffectsToTest = true
@@ -139,9 +139,9 @@ func init() {
 			ICD:      time.Millisecond * 2000,
 			ActionID: core.ActionID{ItemID: 47316},
 		},
-		School: core.SpellSchoolFire,
-		MinDmg: 1741,
-		MaxDmg: 2023,
+		School:     core.SpellSchoolFire,
+		BasePoints: 1740,
+		Die:        283,
 	})
 	newCapacitorDamageEffect(CapacitorDamageEffect{
 		Name:      "Reign of the Dead H",
@@ -154,9 +154,9 @@ func init() {
 			ICD:      time.Millisecond * 2000,
 			ActionID: core.ActionID{ItemID: 47477},
 		},
-		School: core.SpellSchoolFire,
-		MinDmg: 1959,
-		MaxDmg: 2275,
+		School:     core.SpellSchoolFire,
+		BasePoints: 1958,
+		Die:        317,
 	})
 
 	// see various posts around https://web.archive.org/web/20100530203708/http://elitistjerks.com/f78/t39136-combat_mutilate_spreadsheets_updated_3_3_a/p96/#post1518212

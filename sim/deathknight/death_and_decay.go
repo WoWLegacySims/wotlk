@@ -9,7 +9,7 @@ import (
 )
 
 func (dk *Deathknight) registerDeathAndDecaySpell() {
-	dbc := deathknightinfo.DeathandDecay.FindMaxRank(dk.Level)
+	dbc := deathknightinfo.DeathandDecay.GetMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}

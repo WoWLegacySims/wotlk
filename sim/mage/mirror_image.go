@@ -9,8 +9,11 @@ import (
 )
 
 // The numbers in this file are VERY rough approximations based on logs.
-
+// todo, check code
 func (mage *Mage) registerMirrorImageCD() {
+	if mage.Level < 80 {
+		return
+	}
 	var t10Aura *core.Aura
 	if mage.HasSetBonus(ItemSetBloodmagesRegalia, 4) {
 		t10Aura = mage.RegisterAura(core.Aura{
@@ -68,12 +71,15 @@ type MirrorImage struct {
 }
 
 func (mage *Mage) NewMirrorImage() *MirrorImage {
+	baseStats := core.PetBaseStats[core.Pet_Unknown][1].Stats
+	baseStats = baseStats.Add(stats.Stats{stats.Mana: float64(mage.Level)*30 + 28})
+
 	mirrorImage := &MirrorImage{
-		Pet:       core.NewPet("Mirror Image", &mage.Character, mirrorImageBaseStats, mirrorImageBasePercentageStats, createMirrorImageInheritance(mage), false, true),
+		Pet:       core.NewPet("Mirror Image", &mage.Character, baseStats, mirrorImageBasePercentageStats, magePetStatInheritance(mage), false, true),
 		mageOwner: mage,
 	}
 	mirrorImage.Class = proto.Class_ClassMage
-	mirrorImage.EnableManaBar()
+	mirrorImage.EnableManaBar(15)
 
 	mage.AddPet(mirrorImage)
 
@@ -103,22 +109,9 @@ func (mi *MirrorImage) ExecuteCustomRotation(sim *core.Simulation) {
 	}
 }
 
-var mirrorImageBaseStats = stats.Stats{
-	stats.Mana: 3000, // Unknown
-}
-
 var mirrorImageBasePercentageStats = stats.Stats{
 	// seems to be about 8% baseline
 	stats.SpellCrit: 8,
-}
-
-var createMirrorImageInheritance = func(mage *Mage) func(stats.Stats) stats.Stats {
-	return func(ownerStats stats.Stats) stats.Stats {
-		return stats.Stats{
-			stats.SpellHit:   ownerStats[stats.SpellHit] - float64(mage.Talents.Precision),
-			stats.SpellPower: ownerStats[stats.SpellPower] * 0.33,
-		}
-	}
 }
 
 func (mi *MirrorImage) registerFrostboltSpell() {
@@ -146,7 +139,7 @@ func (mi *MirrorImage) registerFrostboltSpell() {
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			//3x damage for 3 mirror images
-			baseDamage := (sim.Roll(163, 169) + 0.3*spell.SpellPower()) * numImages
+			baseDamage := (sim.Roll(162, 7) + 0.3*spell.SpellPower()) * numImages
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {
 				spell.DealDamage(sim, result)
@@ -182,7 +175,7 @@ func (mi *MirrorImage) registerFireblastSpell() {
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			//3x damage for 3 mirror images
-			baseDamage := (sim.Roll(88, 98) + 0.15*spell.SpellPower()) * numImages
+			baseDamage := (sim.Roll(87, 11) + 0.15*spell.SpellPower()) * numImages
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 		},
 	})

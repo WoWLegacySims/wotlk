@@ -1,7 +1,6 @@
 package shaman
 
 import (
-	"math"
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
@@ -28,16 +27,18 @@ type FireElemental struct {
 }
 
 func (shaman *Shaman) NewFireElemental(bonusSpellPower float64) *FireElemental {
+	basestats := core.PetBaseStats[core.Pet_GreaterFireElemental][shaman.Level].Stats
+
 	fireElemental := &FireElemental{
-		Pet:         core.NewPet("Greater Fire Elemental", &shaman.Character, fireElementalPetBaseStats, fireElementalPetBasePercentageStats, shaman.fireElementalStatInheritance(), false, true),
+		Pet:         core.NewPet("Greater Fire Elemental", &shaman.Character, basestats, fireElementalPetBasePercentageStats, shaman.fireElementalStatInheritance(), false, true),
 		shamanOwner: shaman,
 	}
 	fireElemental.Class = proto.Class_ClassPaladin
-	fireElemental.EnableManaBar()
+	fireElemental.EnableManaBar(15)
 	fireElemental.EnableAutoAttacks(fireElemental, core.AutoAttackOptions{
 		MainHand: core.Weapon{
-			BaseDamageMin:  1,  // Estimated from base AP
-			BaseDamageMax:  23, // Estimated from base AP
+			BaseDamageMin:  float64(fireElemental.Level) * 2.5,
+			BaseDamageMax:  float64(fireElemental.Level) * 4.5,
 			SwingSpeed:     2,
 			CritMultiplier: 2, // Pretty sure this is right.
 			SpellSchool:    core.SpellSchoolFire,
@@ -46,15 +47,15 @@ func (shaman *Shaman) NewFireElemental(bonusSpellPower float64) *FireElemental {
 	})
 
 	if bonusSpellPower > 0 {
-		fireElemental.AddStat(stats.SpellPower, float64(bonusSpellPower)*0.5218)
-		fireElemental.AddStat(stats.AttackPower, float64(bonusSpellPower)*4.45)
+		fireElemental.AddStat(stats.SpellPower, float64(bonusSpellPower))
+		fireElemental.AddStat(stats.AttackPower, float64(bonusSpellPower)*3)
 	}
 
 	if shaman.hasHeroicPresence || shaman.Race == proto.Race_RaceDraenei {
 		fireElemental.AddStats(stats.Stats{
 			stats.MeleeHit:  -shaman.MeleeHitRatingPerHitChance,
 			stats.SpellHit:  -shaman.SpellHitRatingPerHitChance,
-			stats.Expertise: math.Floor(-shaman.SpellHitRatingPerHitChance * 0.79),
+			stats.Expertise: -shaman.SpellHitRatingPerHitChance * 17.0 / 26.0 * shaman.ExpertisePerQuarterPercentReduction / shaman.SpellHitRatingPerHitChance,
 		})
 	}
 
@@ -139,15 +140,6 @@ func (fireElemental *FireElemental) TryCast(sim *core.Simulation, target *core.U
 	return true
 }
 
-var fireElementalPetBaseStats = stats.Stats{
-	stats.Mana:        1789,
-	stats.Health:      994,
-	stats.Intellect:   147,
-	stats.Stamina:     327,
-	stats.SpellPower:  0,    //Estimated
-	stats.AttackPower: 1303, //Estimated
-}
-
 var fireElementalPetBasePercentageStats = stats.Stats{
 	// TODO : Log digging and my own samples this seems to be around the 5% mark.
 	stats.MeleeCrit: (5 + 1.8),
@@ -155,27 +147,17 @@ var fireElementalPetBasePercentageStats = stats.Stats{
 }
 
 func (shaman *Shaman) fireElementalStatInheritance() core.PetStatInheritance {
-	return func(ownerStats stats.Stats) stats.Stats {
-		ownerSpellHitChance := math.Floor(ownerStats[stats.SpellHit] / shaman.SpellHitRatingPerHitChance)
-		spellHitRatingFromOwner := ownerSpellHitChance * shaman.SpellHitRatingPerHitChance
-
-		ownerHitChance := ownerStats[stats.MeleeHit] / shaman.MeleeHitRatingPerHitChance
-		hitRatingFromOwner := math.Floor(ownerHitChance) * shaman.MeleeHitRatingPerHitChance
+	return func(ownerStats stats.Stats, pseudoStats stats.PseudoStats) stats.Stats {
+		spellPower := ownerStats[stats.SpellPower] + pseudoStats.FireSpellPower
 		return stats.Stats{
-			stats.Stamina:     ownerStats[stats.Stamina] * 0.75,
+			stats.Stamina:     ownerStats[stats.Stamina] * 0.3,
 			stats.Intellect:   ownerStats[stats.Intellect] * 0.30,
-			stats.SpellPower:  ownerStats[stats.SpellPower] * 0.4970,
-			stats.AttackPower: ownerStats[stats.SpellPower] * 4.2381,
+			stats.SpellPower:  spellPower,
+			stats.AttackPower: spellPower * 3,
 
-			// TODO tested useing pre-patch lvl 70 stats need to confirm in WOTLK at 80.
-			stats.MeleeHit: hitRatingFromOwner,
-			stats.SpellHit: spellHitRatingFromOwner,
-
-			/*
-				TODO working on figuring this out, getting close need more trials. will need to remove specific buffs,
-				ie does not gain the benefit from draenei buff.
-			*/
-			stats.Expertise: math.Floor(spellHitRatingFromOwner * 0.79),
+			stats.MeleeHit:  shaman.CalculateHitInheritance(stats.SpellHit, stats.MeleeHit),
+			stats.SpellHit:  ownerStats[stats.SpellHit],
+			stats.Expertise: shaman.CalculateHitInheritance(stats.SpellHit, stats.Expertise),
 		}
 	}
 }

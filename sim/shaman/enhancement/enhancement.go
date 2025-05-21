@@ -96,6 +96,7 @@ func (enh *EnhancementShaman) Initialize() {
 	enh.RegisterFlametongueImbue(enh.getImbueProcMask(proto.ShamanImbue_FlametongueWeapon), false)
 	enh.RegisterFlametongueImbue(enh.getImbueProcMask(proto.ShamanImbue_FlametongueWeaponDownrank), true)
 	enh.RegisterWindfuryImbue(enh.getImbueProcMask(proto.ShamanImbue_WindfuryWeapon))
+	enh.RegisterRockbiterImbue(enh.getImbueProcMask(proto.ShamanImbue_RockbiterWeapon))
 
 	if enh.ItemSwap.IsEnabled() {
 		mh := enh.ItemSwap.GetItem(proto.ItemSlot_ItemSlotMainHand)

@@ -5,13 +5,21 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/priestinfo"
 )
 
 func (priest *Priest) registerFlashHealSpell() {
-	spellCoeff := 0.8057 + 0.04*float64(priest.Talents.EmpoweredHealing)
+	dbc := priestinfo.FlashHeal.GetMaxRank(priest.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, priest.Level)
+	coef := dbc.GetCoefficient(0)
+
+	spellCoeff := (coef + 0.04*float64(priest.Talents.EmpoweredHealing)) * dbc.GetLevelPenalty(priest.Level)
 
 	priest.FlashHeal = priest.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48071},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    core.ProcMaskSpellHealing,
 		Flags:       core.SpellFlagHelpful | core.SpellFlagAPL,
@@ -38,7 +46,7 @@ func (priest *Priest) registerFlashHealSpell() {
 		ThreatMultiplier: 1 - []float64{0, .07, .14, .20}[priest.Talents.SilentResolve],
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseHealing := sim.Roll(1896, 2203) + spellCoeff*spell.HealingPower(target)
+			baseHealing := sim.Roll(bp, die) + spellCoeff*spell.HealingPower(target)
 			spell.CalcAndDealHealing(sim, target, baseHealing, spell.OutcomeHealingCrit)
 		},
 	})

@@ -4,11 +4,19 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/mageinfo"
 )
 
 func (mage *Mage) registerFireBlastSpell() {
+	dbc := mageinfo.FireBlast.GetMaxRank(mage.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, mage.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(mage.Level)
+
 	mage.FireBlast = mage.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 42873},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       SpellFlagMage | HotStreakSpells | core.SpellFlagAPL,
@@ -35,7 +43,7 @@ func (mage *Mage) registerFireBlastSpell() {
 		ThreatMultiplier: 1 - 0.1*float64(mage.Talents.BurningSoul),
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(925, 1095) + (1.5/3.5)*spell.SpellPower()
+			baseDamage := sim.Roll(bp, die) + coef*spell.SpellPower()
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 		},
 	})

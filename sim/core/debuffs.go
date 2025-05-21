@@ -269,7 +269,7 @@ func JudgementOfLightAura(target *Unit, _ int32) *Aura {
 }
 
 func CurseOfElementsAura(target *Unit, level int32) *Aura {
-	dbc := warlockinfo.CurseoftheElements.FindMaxRank(level)
+	dbc := warlockinfo.CurseoftheElements.GetMaxRank(level)
 	if dbc == nil {
 		return nil
 	}
@@ -634,7 +634,7 @@ func ExposeArmorAura(target *Unit, hasGlyph bool) *Aura {
 }
 
 func CurseOfWeaknessAura(target *Unit, points int32, level int32) *Aura {
-	dbc := warlockinfo.CurseofWeakness.FindMaxRank(level)
+	dbc := warlockinfo.CurseofWeakness.GetMaxRank(level)
 	if dbc == nil {
 		return nil
 	}
@@ -706,7 +706,7 @@ func ShatteringThrowAura(target *Unit, _ int32) *Aura {
 const HuntersMarkAuraTag = "HuntersMark"
 
 func HuntersMarkAura(target *Unit, points int32, glyphed bool, level int32) *Aura {
-	dbc := hunterinfo.HuntersMark.FindMaxRank(level)
+	dbc := hunterinfo.HuntersMark.GetMaxRank(level)
 	if dbc == nil {
 		return nil
 	}
@@ -734,11 +734,11 @@ func HuntersMarkAura(target *Unit, points int32, glyphed bool, level int32) *Aur
 }
 
 func DemoralizingRoarAura(target *Unit, points int32, level int32) *Aura {
-	dbc := druidinfo.DemoralizingRoar.FindMaxRank(level)
+	dbc := druidinfo.DemoralizingRoar.GetMaxRank(level)
 	if dbc == nil {
 		return nil
 	}
-	ap := dbc.Effects[0].BasePoints + 1 - float64(min(dbc.MaxLevel, level)-dbc.MinLevel)
+	ap, _ := dbc.GetBPDie(0, level)
 	aura := target.GetOrRegisterAura(Aura{
 		Label:    "DemoralizingRoar-" + strconv.Itoa(int(points)),
 		ActionID: ActionID{SpellID: dbc.SpellID},
@@ -749,7 +749,7 @@ func DemoralizingRoarAura(target *Unit, points int32, level int32) *Aura {
 }
 
 func DemoralizingShoutAura(target *Unit, boomingVoicePts int32, impDemoShoutPts int32, level int32) *Aura {
-	dbc := warriorinfo.DemoralizingShout.FindMaxRank(level)
+	dbc := warriorinfo.DemoralizingShout.GetMaxRank(level)
 	if dbc == nil {
 		return nil
 	}
@@ -774,7 +774,7 @@ func VindicationAura(target *Unit, points int32, level int32) *Aura {
 }
 
 func DemoralizingScreechAura(target *Unit, level int32) *Aura {
-	dbc := hunterinfo.DemoralizingScreech.FindMaxRank(level)
+	dbc := hunterinfo.DemoralizingScreech.GetMaxRank(level)
 	if dbc == nil {
 		return nil
 	}

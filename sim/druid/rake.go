@@ -4,13 +4,21 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/druidinfo"
 )
 
 func (druid *Druid) registerRakeSpell() {
+	dbc := druidinfo.Rake.GetMaxRank(druid.Level)
+	if dbc == nil {
+		return
+	}
+	dmg, _ := dbc.GetBPDie(0, druid.Level)
+	dotdmg, _ := dbc.GetBPDie(1, druid.Level)
+
 	dotCanCrit := druid.HasSetBonus(ItemSetLasherweaveBattlegear, 4)
 
 	druid.Rake = druid.RegisterSpell(Cat, core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48574},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIgnoreResists | core.SpellFlagAPL,
@@ -38,7 +46,7 @@ func (druid *Druid) registerRakeSpell() {
 			NumberOfTicks: 3 + core.TernaryInt32(druid.HasSetBonus(ItemSetMalfurionsBattlegear, 2), 1, 0),
 			TickLength:    time.Second * 3,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				dot.SnapshotBaseDamage = 358 + 0.06*dot.Spell.MeleeAttackPower()
+				dot.SnapshotBaseDamage = dotdmg + 0.06*dot.Spell.MeleeAttackPower()
 				attackTable := dot.Spell.Unit.AttackTables[target.UnitIndex]
 				dot.SnapshotCritChance = dot.Spell.PhysicalCritChance(attackTable)
 				dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(attackTable)
@@ -53,7 +61,7 @@ func (druid *Druid) registerRakeSpell() {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 176 + 0.01*spell.MeleeAttackPower()
+			baseDamage := dmg + 0.01*spell.MeleeAttackPower()
 			if druid.BleedCategories.Get(target).AnyActive() {
 				baseDamage *= 1.3
 			}
@@ -69,7 +77,7 @@ func (druid *Druid) registerRakeSpell() {
 		},
 
 		ExpectedInitialDamage: func(sim *core.Simulation, target *core.Unit, spell *core.Spell, _ bool) *core.SpellResult {
-			baseDamage := 176 + 0.01*spell.MeleeAttackPower()
+			baseDamage := dmg + 0.01*spell.MeleeAttackPower()
 			initial := spell.CalcPeriodicDamage(sim, target, baseDamage, spell.OutcomeExpectedMagicAlwaysHit)
 
 			attackTable := spell.Unit.AttackTables[target.UnitIndex]
@@ -79,7 +87,7 @@ func (druid *Druid) registerRakeSpell() {
 			return initial
 		},
 		ExpectedTickDamage: func(sim *core.Simulation, target *core.Unit, spell *core.Spell, _ bool) *core.SpellResult {
-			tickBase := (358 + 0.06*spell.MeleeAttackPower())
+			tickBase := (dotdmg + 0.06*spell.MeleeAttackPower())
 			ticks := spell.CalcPeriodicDamage(sim, target, tickBase, spell.OutcomeExpectedMagicAlwaysHit)
 
 			attackTable := spell.Unit.AttackTables[target.UnitIndex]

@@ -7,6 +7,9 @@ import (
 )
 
 func (druid *Druid) registerFaerieFireSpell() {
+	if druid.Level < 18 {
+		return
+	}
 	actionID := core.ActionID{SpellID: 770}
 	manaCostOptions := core.ManaCostOptions{
 		BaseCost: 0.08,
@@ -18,7 +21,7 @@ func (druid *Druid) registerFaerieFireSpell() {
 	flags := SpellFlagOmenTrigger
 	formMask := Humanoid | Moonkin
 
-	if druid.InForm(Cat | Bear) {
+	if druid.InForm(Cat|Bear) && druid.Level >= 18 {
 		actionID = core.ActionID{SpellID: 16857}
 		manaCostOptions = core.ManaCostOptions{}
 		gcd = time.Second

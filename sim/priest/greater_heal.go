@@ -4,10 +4,23 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/priestinfo"
 )
 
 func (priest *Priest) registerGreaterHealSpell() {
-	spellCoeff := 1.6114 + 0.08*float64(priest.Talents.EmpoweredHealing)
+	dbc := priestinfo.GreaterHeal.GetMaxRank(priest.Level)
+	if dbc == nil {
+		dbc = priestinfo.Heal.GetMaxRank(priest.Level)
+		if dbc == nil {
+			dbc = priestinfo.LesserHeal.GetMaxRank(priest.Level)
+			if dbc == nil {
+				return
+			}
+		}
+	}
+	bp, die := dbc.GetBPDie(0, priest.Level)
+	coef := dbc.GetCoefficient(0)
+	spellCoeff := (coef + 0.08*float64(priest.Talents.EmpoweredHealing)) * dbc.GetLevelPenalty(priest.Level)
 
 	priest.GreaterHeal = priest.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: 48063},
@@ -16,7 +29,7 @@ func (priest *Priest) registerGreaterHealSpell() {
 		Flags:       core.SpellFlagHelpful | core.SpellFlagAPL,
 
 		ManaCost: core.ManaCostOptions{
-			BaseCost: 0.32,
+			BaseCost: dbc.BaseCost / 100,
 			Multiplier: 1 *
 				(1 - .05*float64(priest.Talents.ImprovedHealing)) *
 				core.TernaryFloat64(priest.HasSetBonus(ItemSetRegaliaOfFaith, 4), .95, 1),
@@ -24,7 +37,7 @@ func (priest *Priest) registerGreaterHealSpell() {
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
 				GCD:      core.GCDDefault,
-				CastTime: time.Second*3 - time.Millisecond*100*time.Duration(priest.Talents.DivineFury),
+				CastTime: dbc.CastTime - time.Millisecond*100*time.Duration(priest.Talents.DivineFury),
 			},
 		},
 
@@ -38,7 +51,7 @@ func (priest *Priest) registerGreaterHealSpell() {
 		ThreatMultiplier: 1 - []float64{0, .07, .14, .20}[priest.Talents.SilentResolve],
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseHealing := sim.Roll(3980, 4621) + spellCoeff*spell.HealingPower(target)
+			baseHealing := sim.Roll(bp, die) + spellCoeff*spell.HealingPower(target)
 			spell.CalcAndDealHealing(sim, target, baseHealing, spell.OutcomeHealingCrit)
 		},
 	})

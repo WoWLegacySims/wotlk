@@ -5,10 +5,16 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warlockinfo"
 )
 
 func (warlock *Warlock) registerShadowBoltSpell() {
-	spellCoeff := 0.857 * (1 + 0.04*float64(warlock.Talents.ShadowAndFlame))
+	dbc := warlockinfo.ShadowBolt.GetMaxRank(warlock.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, warlock.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(warlock.Level) * (1 + 0.04*float64(warlock.Talents.ShadowAndFlame))
 	ISBProcChance := 0.2 * float64(warlock.Talents.ImprovedShadowBolt)
 
 	var shadowMasteryAuras core.AuraArray
@@ -17,14 +23,14 @@ func (warlock *Warlock) registerShadowBoltSpell() {
 	}
 
 	warlock.ShadowBolt = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:     core.ActionID{SpellID: 47809},
+		ActionID:     core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool:  core.SpellSchoolShadow,
 		ProcMask:     core.ProcMaskSpellDamage,
 		Flags:        core.SpellFlagAPL,
 		MissileSpeed: 20,
 
 		ManaCost: core.ManaCostOptions{
-			BaseCost: 0.17,
+			BaseCost: dbc.BaseCost / 100,
 			Multiplier: 1 -
 				[]float64{0, .04, .07, .10}[warlock.Talents.Cataclysm] -
 				core.TernaryFloat64(warlock.HasMajorGlyph(proto.WarlockMajorGlyph_GlyphOfShadowBolt), 0.1, 0),
@@ -32,7 +38,7 @@ func (warlock *Warlock) registerShadowBoltSpell() {
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
 				GCD:      core.GCDDefault,
-				CastTime: time.Millisecond * (3000 - 100*time.Duration(warlock.Talents.Bane)),
+				CastTime: dbc.CastTime - (100 * time.Millisecond * time.Duration(warlock.Talents.Bane)),
 			},
 		},
 
@@ -49,7 +55,7 @@ func (warlock *Warlock) registerShadowBoltSpell() {
 		ThreatMultiplier: 1 - 0.1*float64(warlock.Talents.DestructiveReach),
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(694, 775) + spellCoeff*spell.SpellPower()
+			baseDamage := sim.Roll(bp, die) + coef*spell.SpellPower()
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {
 				spell.DealDamage(sim, result)

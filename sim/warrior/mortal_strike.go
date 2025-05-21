@@ -5,15 +5,22 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warriorinfo"
 )
 
 func (warrior *Warrior) registerMortalStrikeSpell(cdTimer *core.Timer) {
+	dbc := warriorinfo.MortalStrike.GetMaxRank(warrior.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(1, warrior.Level)
+
 	if !warrior.Talents.MortalStrike {
 		return
 	}
 
 	warrior.MortalStrike = warrior.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 47486},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagAPL,
@@ -42,7 +49,7 @@ func (warrior *Warrior) registerMortalStrikeSpell(cdTimer *core.Timer) {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 380 +
+			baseDamage := bp +
 				spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
 				spell.BonusWeaponDamage()
 

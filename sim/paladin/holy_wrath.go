@@ -5,9 +5,16 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/paladininfo"
 )
 
 func (paladin *Paladin) registerHolyWrathSpell() {
+	dbc := paladininfo.HolyWrath.GetMaxRank(paladin.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, paladin.Level)
+
 	results := make([]*core.SpellResult, len(paladin.Env.Encounter.TargetUnits))
 
 	paladin.HolyWrath = paladin.RegisterSpell(core.SpellConfig{
@@ -38,7 +45,7 @@ func (paladin *Paladin) registerHolyWrathSpell() {
 			constBaseDamage := .07*spell.SpellPower() + .07*spell.MeleeAttackPower()
 
 			for i, aoeTarget := range sim.Encounter.TargetUnits {
-				baseDamage := constBaseDamage + sim.Roll(1050, 1234)
+				baseDamage := constBaseDamage + sim.Roll(bp, die)
 
 				if aoeTarget.MobType == proto.MobType_MobTypeDemon || aoeTarget.MobType == proto.MobType_MobTypeUndead {
 					results[i] = spell.CalcDamage(sim, aoeTarget, baseDamage, spell.OutcomeMagicHitAndCrit)

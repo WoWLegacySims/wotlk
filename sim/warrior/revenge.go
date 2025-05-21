@@ -5,10 +5,17 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warriorinfo"
 )
 
 func (warrior *Warrior) registerRevengeSpell(cdTimer *core.Timer) {
-	actionID := core.ActionID{SpellID: 57823}
+	dbc := warriorinfo.Revenge.GetMaxRank(warrior.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, warrior.Level)
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 
 	warrior.revengeProcAura = warrior.RegisterAura(core.Aura{
 		Label:    "Revenge",
@@ -91,7 +98,7 @@ func (warrior *Warrior) registerRevengeSpell(cdTimer *core.Timer) {
 		FlatThreatBonus:  121,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(1636, 1998) + 0.31*spell.MeleeAttackPower()
+			baseDamage := sim.Roll(bp, die) + 0.31*spell.MeleeAttackPower()
 			result := spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialHitAndCrit)
 			if !result.Landed() {
 				spell.IssueRefund(sim)
@@ -100,7 +107,7 @@ func (warrior *Warrior) registerRevengeSpell(cdTimer *core.Timer) {
 			if extraHit {
 				if sim.RandomFloat("Revenge Target Roll") <= 0.5*float64(warrior.Talents.ImprovedRevenge) {
 					otherTarget := sim.Environment.NextTargetUnit(target)
-					baseDamage := sim.Roll(1636, 1998) + 0.31*spell.MeleeAttackPower()
+					baseDamage := sim.Roll(bp, die) + 0.31*spell.MeleeAttackPower()
 					spell.CalcAndDealDamage(sim, otherTarget, baseDamage, spell.OutcomeMeleeSpecialHitAndCrit)
 				}
 			}

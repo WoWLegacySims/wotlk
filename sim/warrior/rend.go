@@ -5,10 +5,17 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warriorinfo"
 )
 
 // TODO (maybe) https://github.com/magey/wotlk-warrior/issues/23 - Rend is not benefitting from Two-Handed Weapon Specialization
 func (warrior *Warrior) RegisterRendSpell() {
+	dbc := warriorinfo.Rend.GetMaxRank(warrior.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, warrior.Level)
+
 	dotDuration := time.Second * 15
 	dotTicks := int32(5)
 	if warrior.HasMajorGlyph(proto.WarriorMajorGlyph_GlyphOfRending) {
@@ -17,7 +24,7 @@ func (warrior *Warrior) RegisterRendSpell() {
 	}
 
 	warrior.Rend = warrior.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 47465},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagNoOnCastComplete | core.SpellFlagAPL,
@@ -48,7 +55,7 @@ func (warrior *Warrior) RegisterRendSpell() {
 			NumberOfTicks: dotTicks,
 			TickLength:    time.Second * 3,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, _ bool) {
-				dot.SnapshotBaseDamage = (380 + warrior.AutoAttacks.MH().CalculateAverageWeaponDamage(dot.Spell.MeleeAttackPower())) / 5
+				dot.SnapshotBaseDamage = bp + (warrior.AutoAttacks.MH().CalculateAverageWeaponDamage(dot.Spell.MeleeAttackPower()))/5
 				// 135% damage multiplier is applied at the beginning of the fight and removed when target is at 75% health
 				if sim.GetRemainingDurationPercent() > 0.75 {
 					dot.SnapshotBaseDamage *= 1.35

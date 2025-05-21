@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/common/wotlk"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warlockinfo"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
@@ -170,15 +171,19 @@ func NewWarlock(character *core.Character, options *proto.Player) *Warlock {
 		Options:   warlockOptions.Options,
 	}
 	core.FillTalentsProto(warlock.Talents.ProtoReflect(), options.TalentsString, TalentTreeSizes)
-	warlock.EnableManaBar()
+	warlock.EnableManaBar(15)
 
 	warlock.AddStatDependency(stats.Strength, stats.AttackPower, 1)
 
 	if warlock.Options.Armor == proto.Warlock_Options_FelArmor {
-		demonicAegisMultiplier := 1 + float64(warlock.Talents.DemonicAegis)*0.1
-		amount := 180.0 * demonicAegisMultiplier
-		warlock.AddStat(stats.SpellPower, amount)
-		warlock.AddStatDependency(stats.Spirit, stats.SpellPower, 0.3*demonicAegisMultiplier)
+		dbc := warlockinfo.FelArmor.GetMaxRank(warlock.Level)
+		if dbc != nil {
+			bp, _ := dbc.GetBPDie(2, warlock.Level)
+			demonicAegisMultiplier := 1 + float64(warlock.Talents.DemonicAegis)*0.1
+			amount := bp * demonicAegisMultiplier
+			warlock.AddStat(stats.SpellPower, amount)
+			warlock.AddStatDependency(stats.Spirit, stats.SpellPower, 0.3*demonicAegisMultiplier)
+		}
 	}
 
 	if warlock.Options.Summon != proto.Warlock_Options_NoSummon {

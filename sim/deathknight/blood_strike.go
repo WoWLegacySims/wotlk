@@ -8,7 +8,7 @@ import (
 var BloodStrikeActionID = core.ActionID{SpellID: 49930}
 
 func (dk *Deathknight) newBloodStrikeSpell(isMH bool) *core.Spell {
-	dbc := deathknightinfo.BloodStrike.FindMaxRank(dk.Level)
+	dbc := deathknightinfo.BloodStrike.GetMaxRank(dk.Level)
 	if dbc == nil {
 		return nil
 	}
@@ -98,7 +98,7 @@ func (dk *Deathknight) registerBloodStrikeSpell() {
 }
 
 func (dk *Deathknight) registerDrwBloodStrikeSpell() {
-	dbc := deathknightinfo.BloodStrike.FindMaxRank(dk.Level)
+	dbc := deathknightinfo.BloodStrike.GetMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}

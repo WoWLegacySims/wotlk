@@ -1,19 +1,19 @@
 package rogue
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/rogueinfo"
 )
 
-var MutilateSpellID int32 = 48666
-
-func (rogue *Rogue) newMutilateHitSpell(isMH bool) *core.Spell {
-	actionID := core.ActionID{SpellID: 48665}
+func (rogue *Rogue) newMutilateHitSpell(isMH bool, damage float64, id int32) *core.Spell {
+	actionID := core.ActionID{SpellID: id}
 	procMask := core.ProcMaskMeleeMHSpecial
 	if !isMH {
-		actionID = core.ActionID{SpellID: 48664}
+		actionID = core.ActionID{SpellID: id}
 		procMask = core.ProcMaskMeleeOHSpecial
 	}
 
@@ -39,9 +39,9 @@ func (rogue *Rogue) newMutilateHitSpell(isMH bool) *core.Spell {
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			var baseDamage float64
 			if isMH {
-				baseDamage = 181 + spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower())
+				baseDamage = damage + spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower())
 			} else {
-				baseDamage = 181 + spell.Unit.OHNormalizedWeaponDamage(sim, spell.MeleeAttackPower())
+				baseDamage = damage + spell.Unit.OHNormalizedWeaponDamage(sim, spell.MeleeAttackPower())
 			}
 			// TODO: Add support for all poison effects
 			if rogue.DeadlyPoison.Dot(target).IsActive() || rogue.woundPoisonDebuffAuras.Get(target).IsActive() {
@@ -58,11 +58,21 @@ func (rogue *Rogue) registerMutilateSpell() {
 		return
 	}
 
-	rogue.MutilateMH = rogue.newMutilateHitSpell(true)
-	rogue.MutilateOH = rogue.newMutilateHitSpell(false)
+	dbc := rogueinfo.Mutilate.GetMaxRank(rogue.Level)
+	if dbc == nil {
+		return
+	}
+	dbcDamage := rogueinfo.MutilateMH.GetByID(dbc.Effects[1].TriggerSpell)
+	if dbcDamage == nil {
+		panic(fmt.Sprintf("No Trigger spell found for Mutilate %d", dbc.SpellID))
+	}
+	bp, _ := dbcDamage.GetBPDie(0, rogue.Level)
+
+	rogue.MutilateMH = rogue.newMutilateHitSpell(true, bp, dbc.Effects[1].TriggerSpell)
+	rogue.MutilateOH = rogue.newMutilateHitSpell(false, bp, dbc.Effects[2].TriggerSpell)
 
 	rogue.Mutilate = rogue.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: MutilateSpellID},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL,

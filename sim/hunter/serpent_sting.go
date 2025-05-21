@@ -5,15 +5,22 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/hunterinfo"
 )
 
 func (hunter *Hunter) registerSerpentStingSpell() {
+	dbc := hunterinfo.SerpentSting.GetMaxRank(hunter.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, hunter.Level)
+
 	canCrit := hunter.HasSetBonus(ItemSetWindrunnersPursuit, 2)
 	noxiousStingsMultiplier := 1 + 0.01*float64(hunter.Talents.NoxiousStings)
 	huntersWithGlyphOfSteadyShot := hunter.GetAllHuntersWithGlyphOfSteadyShot()
 
 	hunter.SerpentSting = hunter.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 49001},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskEmpty,
 		Flags:       core.SpellFlagAPL,
@@ -66,7 +73,7 @@ func (hunter *Hunter) registerSerpentStingSpell() {
 			TickLength:    time.Second * 3,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				dot.SnapshotBaseDamage = 242 + 0.04*dot.Spell.RangedAttackPower(target)
+				dot.SnapshotBaseDamage = bp + 0.04*dot.Spell.RangedAttackPower(target)
 				if !isRollover {
 					attackTable := dot.Spell.Unit.AttackTables[target.UnitIndex]
 					dot.SnapshotCritChance = dot.Spell.PhysicalCritChance(attackTable)

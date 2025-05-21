@@ -8,7 +8,7 @@ import (
 
 // TODO: Cleanup obliterate the same way we did for plague strike
 func (dk *Deathknight) newObliterateHitSpell(isMH bool) *core.Spell {
-	dbc := deathknightinfo.Obliterate.FindMaxRank(dk.Level)
+	dbc := deathknightinfo.Obliterate.GetMaxRank(dk.Level)
 	if dbc == nil {
 		return nil
 	}

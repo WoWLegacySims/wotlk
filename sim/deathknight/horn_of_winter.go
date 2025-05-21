@@ -8,7 +8,7 @@ import (
 )
 
 func (dk *Deathknight) registerHornOfWinterSpell() {
-	dbc := deathknightinfo.HornofWinter.FindMaxRank(dk.Level)
+	dbc := deathknightinfo.HornofWinter.GetMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}

@@ -5,15 +5,22 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/shamaninfo"
 )
 
 func (shaman *Shaman) registerFireNovaSpell() {
+	dbc := shamaninfo.FireNovaDamage.GetMaxRank(shaman.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, shaman.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(shaman.Level)
 	fireNovaGlyphCDReduction := core.TernaryInt32(shaman.HasMajorGlyph(proto.ShamanMajorGlyph_GlyphOfFireNova), 3, 0)
 	impFireNovaCDReduction := shaman.Talents.ImprovedFireNova * 2
 	fireNovaCooldown := 10 - fireNovaGlyphCDReduction - impFireNovaCDReduction
 
 	shaman.FireNova = shaman.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 61657},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       SpellFlagFocusable | core.SpellFlagAPL,
@@ -37,12 +44,10 @@ func (shaman *Shaman) registerFireNovaSpell() {
 		ThreatMultiplier: shaman.spellThreatMultiplier(),
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			// FIXME: double check spell coefficients
-			dmgFromSP := 0.2142 * spell.SpellPower()
+			dmgFromSP := coef * spell.SpellPower()
 			for _, aoeTarget := range sim.Encounter.TargetUnits {
-				baseDamage := sim.Roll(893, 997) + dmgFromSP
-				// TODO: Uncomment this
-				//baseDamage *= sim.Encounter.AOECapMultiplier()
+				baseDamage := sim.Roll(bp, die) + dmgFromSP
+				baseDamage *= sim.Encounter.AOECapMultiplier()
 				spell.CalcAndDealDamage(sim, aoeTarget, baseDamage, spell.OutcomeMagicHitAndCrit)
 			}
 		},

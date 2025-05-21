@@ -7,7 +7,7 @@ import (
 )
 
 func (priest *Priest) registerShadowfiendSpell() {
-	if !priest.UseShadowfiend {
+	if !priest.UseShadowfiend || priest.Level < 66 {
 		return
 	}
 

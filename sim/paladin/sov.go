@@ -9,6 +9,9 @@ import (
 )
 
 func (paladin *Paladin) registerSealOfVengeanceSpellAndAura() {
+	if paladin.Level < 64 {
+		return
+	}
 	/*
 	 * Seal of Vengeance is an Spell/Aura that when active makes the paladin capable of procing
 	 * 3 different SpellIDs depending on a paladin's casted spell or melee swing.

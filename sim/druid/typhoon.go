@@ -5,15 +5,20 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/druidinfo"
 )
 
 func (druid *Druid) registerTyphoonSpell() {
 	if !druid.Talents.Typhoon {
 		return
 	}
-
+	dbc := druidinfo.Typhoon.GetMaxRank(druid.Level)
+	if dbc == nil {
+		return
+	}
+	dmg, _ := dbc.GetBPDie(1, druid.Level)
 	druid.Typhoon = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 61384},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       SpellFlagOmenTrigger | core.SpellFlagAPL,
@@ -39,7 +44,7 @@ func (druid *Druid) registerTyphoonSpell() {
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {
-				baseDamage := 1190 + 0.193*spell.SpellPower()
+				baseDamage := dmg + 0.193*spell.SpellPower()
 				baseDamage *= sim.Encounter.AOECapMultiplier()
 				for _, aoeTarget := range sim.Encounter.TargetUnits {
 					spell.CalcAndDealDamage(sim, aoeTarget, baseDamage, spell.OutcomeMagicHitAndCrit)

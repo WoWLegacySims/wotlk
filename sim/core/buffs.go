@@ -522,7 +522,7 @@ func ApplyInspiration(character *Character, uptime float64) {
 }
 
 func RetributionAura(character *Character, sanctifiedRetribution bool) *Aura {
-	dbc := paladininfo.RetributionAura.FindMaxRank(character.Level)
+	dbc := paladininfo.RetributionAura.GetMaxRank(character.Level)
 	if dbc == nil {
 		return nil
 	}
@@ -563,7 +563,7 @@ func RetributionAura(character *Character, sanctifiedRetribution bool) *Aura {
 }
 
 func ThornsAura(character *Character, points int32) *Aura {
-	dbc := druidinfo.Thorns.FindMaxRank(character.Level)
+	dbc := druidinfo.Thorns.GetMaxRank(character.Level)
 	if dbc == nil {
 		return nil
 	}
@@ -1467,7 +1467,7 @@ func (raid *Raid) ProcReplenishment(sim *Simulation, src ReplenishmentSource) {
 }
 
 func TotemOfWrathAura(character *Character) *Aura {
-	dbc := shamaninfo.TotemofWrathEffect.FindMaxRank(character.Level)
+	dbc := shamaninfo.TotemofWrathEffect.GetMaxRank(character.Level)
 	if dbc == nil {
 		return nil
 	}
@@ -1486,7 +1486,7 @@ func TotemOfWrathAura(character *Character) *Aura {
 }
 
 func FlametongueTotemAura(character *Character) *Aura {
-	dbc := shamaninfo.FlametongeTotemEffect.FindMaxRank(character.Level)
+	dbc := shamaninfo.FlametongeTotemEffect.GetMaxRank(character.Level)
 	if dbc == nil {
 		return nil
 	}
@@ -1532,7 +1532,7 @@ func spellPowerBonusEffect(aura *Aura, spellPowerBonus float64) *ExclusiveEffect
 }
 
 func BattleShoutAura(unit *Unit, commandingPresencePts int32, boomingVoicePts int32, minorGlyph bool) *Aura {
-	dbc := warriorinfo.BattleShout.FindMaxRank(unit.Level)
+	dbc := warriorinfo.BattleShout.GetMaxRank(unit.Level)
 	if dbc == nil {
 		return nil
 	}
@@ -1548,7 +1548,7 @@ func BattleShoutAura(unit *Unit, commandingPresencePts int32, boomingVoicePts in
 }
 
 func BlessingOfMightAura(unit *Unit, impBomPts int32) *Aura {
-	dbc := paladininfo.BlessingofMight.FindMaxRank(unit.Level)
+	dbc := paladininfo.BlessingofMight.GetMaxRank(unit.Level)
 	if dbc == nil {
 		return nil
 	}
@@ -1585,7 +1585,7 @@ func attackPowerBonusEffect(aura *Aura, apBonus float64) *ExclusiveEffect {
 }
 
 func CommandingShoutAura(unit *Unit, commandingPresencePts int32, boomingVoicePts int32, minorGlyph bool) *Aura {
-	dbc := warriorinfo.CommandingShout.FindMaxRank(unit.Level)
+	dbc := warriorinfo.CommandingShout.GetMaxRank(unit.Level)
 	if dbc == nil {
 		return nil
 	}
@@ -1601,7 +1601,7 @@ func CommandingShoutAura(unit *Unit, commandingPresencePts int32, boomingVoicePt
 }
 
 func BloodPactAura(unit *Unit, impImpPts int32) *Aura {
-	dbc := warlockinfo.BloodPact.FindMaxRank(unit.Level)
+	dbc := warlockinfo.BloodPact.GetMaxRank(unit.Level)
 	if dbc == nil {
 		return nil
 	}

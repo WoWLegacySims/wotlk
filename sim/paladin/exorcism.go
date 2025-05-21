@@ -5,11 +5,18 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/paladininfo"
 )
 
 func (paladin *Paladin) registerExorcismSpell() {
+	dbc := paladininfo.Exorcism.GetMaxRank(paladin.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, paladin.Level)
+
 	paladin.Exorcism = paladin.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48801},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
@@ -46,7 +53,7 @@ func (paladin *Paladin) registerExorcismSpell() {
 		CritMultiplier:   paladin.SpellCritMultiplier(),
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(1028, 1146) +
+			baseDamage := sim.Roll(bp, die) +
 				.15*spell.SpellPower() +
 				.15*spell.MeleeAttackPower()
 

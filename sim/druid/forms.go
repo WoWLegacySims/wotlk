@@ -10,6 +10,7 @@ import (
 
 type DruidForm uint8
 
+// @todo
 const (
 	Humanoid DruidForm = 1 << iota
 	Bear

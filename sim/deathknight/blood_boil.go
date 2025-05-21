@@ -6,13 +6,12 @@ import (
 )
 
 func (dk *Deathknight) registerBloodBoilSpell() {
-	dbc := deathknightinfo.BloodBoil.FindMaxRank(dk.Level)
+	dbc := deathknightinfo.BloodBoil.GetMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}
-	minDamage := dbc.Effects[0].BasePoints
-	maxDamage := minDamage + dbc.Effects[0].Die
-	minDamage += 1
+	bp, die := dbc.GetBPDie(0, dk.Level)
+
 	actionID := core.ActionID{SpellID: dbc.SpellID}
 
 	// TODO: Handle blood boil correctly -
@@ -40,7 +39,7 @@ func (dk *Deathknight) registerBloodBoilSpell() {
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			for _, aoeTarget := range sim.Encounter.TargetUnits {
-				baseDamage := (sim.Roll(minDamage, maxDamage) + 0.06*dk.getImpurityBonus(spell)) * dk.RoRTSBonus(aoeTarget) * core.TernaryFloat64(dk.DiseasesAreActive(aoeTarget), 1.5, 1.0)
+				baseDamage := (sim.Roll(bp, die) + 0.06*dk.getImpurityBonus(spell)) * dk.RoRTSBonus(aoeTarget) * core.TernaryFloat64(dk.DiseasesAreActive(aoeTarget), 1.5, 1.0)
 				baseDamage *= sim.Encounter.AOECapMultiplier()
 
 				result := spell.CalcAndDealDamage(sim, aoeTarget, baseDamage, spell.OutcomeMagicHitAndCrit)
@@ -54,13 +53,11 @@ func (dk *Deathknight) registerBloodBoilSpell() {
 }
 
 func (dk *Deathknight) registerDrwBloodBoilSpell() {
-	dbc := deathknightinfo.BloodBoil.FindMaxRank(dk.Level)
+	dbc := deathknightinfo.BloodBoil.GetMaxRank(dk.Level)
 	if dbc == nil {
 		return
 	}
-	minDamage := dbc.Effects[0].BasePoints
-	maxDamage := minDamage + dbc.Effects[0].Die
-	minDamage += 1
+	bp, die := dbc.GetBPDie(0, dk.Level)
 	actionID := core.ActionID{SpellID: dbc.SpellID}
 
 	dk.RuneWeapon.BloodBoil = dk.RuneWeapon.RegisterSpell(core.SpellConfig{
@@ -74,7 +71,7 @@ func (dk *Deathknight) registerDrwBloodBoilSpell() {
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			for _, aoeTarget := range sim.Encounter.TargetUnits {
-				baseDamage := (sim.Roll(minDamage, maxDamage) + 0.06*dk.RuneWeapon.getImpurityBonus(spell)) * core.TernaryFloat64(dk.DrwDiseasesAreActive(aoeTarget), 1.5, 1.0)
+				baseDamage := (sim.Roll(bp, die) + 0.06*dk.RuneWeapon.getImpurityBonus(spell)) * core.TernaryFloat64(dk.DrwDiseasesAreActive(aoeTarget), 1.5, 1.0)
 				baseDamage *= sim.Encounter.AOECapMultiplier()
 
 				spell.CalcAndDealDamage(sim, aoeTarget, baseDamage, spell.OutcomeMagicHitAndCrit)

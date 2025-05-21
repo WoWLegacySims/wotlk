@@ -5,11 +5,18 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/rogueinfo"
 )
 
 func (rogue *Rogue) registerFeintSpell() {
+	dbc := rogueinfo.Feint.GetMaxRank(rogue.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, rogue.Level)
+
 	rogue.Feint = rogue.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48659},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskEmpty,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
@@ -27,7 +34,7 @@ func (rogue *Rogue) registerFeintSpell() {
 			},
 			IgnoreHaste: true,
 		},
-
+		FlatThreatBonus:  bp,
 		DamageMultiplier: 0,
 		ThreatMultiplier: 1,
 

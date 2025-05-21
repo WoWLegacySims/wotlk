@@ -39,6 +39,9 @@ func (rogue *Rogue) makeFanOfKnivesWeaponHitSpell(isMH bool) *core.Spell {
 }
 
 func (rogue *Rogue) registerFanOfKnives() {
+	if rogue.Level < 80 {
+		return
+	}
 	mhSpell := rogue.makeFanOfKnivesWeaponHitSpell(true)
 	ohSpell := rogue.makeFanOfKnivesWeaponHitSpell(false)
 	results := make([]*core.SpellResult, len(rogue.Env.Encounter.TargetUnits))

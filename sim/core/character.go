@@ -241,6 +241,41 @@ func (character *Character) RemoveDynamicEquipScaling(sim *Simulation, stat stat
 	character.AddStatDynamic(sim, stat, statDiff)
 }
 
+func (character *Character) CalculateHitInheritance(from stats.Stat, to stats.Stat) float64 {
+	amount := character.GetStat(from)
+	var capFrom float64
+	var capTo float64
+	switch from {
+	case stats.MeleeHit:
+		amount /= character.MeleeHitRatingPerHitChance
+		capFrom = 8
+	case stats.SpellHit:
+		amount /= character.SpellHitRatingPerHitChance
+		capFrom = 17
+	case stats.Expertise:
+		amount /= character.ExpertisePerQuarterPercentReduction
+		capFrom = 26
+	}
+
+	var mult float64
+	//pet and owner have same level, so we can use the owner ratings
+	switch to {
+	case stats.MeleeHit:
+		mult = character.MeleeHitRatingPerHitChance
+		capTo = 8
+	case stats.SpellHit:
+		mult = character.SpellHitRatingPerHitChance
+		capTo = 17
+	case stats.Expertise:
+		mult = character.ExpertisePerQuarterPercentReduction
+		capTo = 26
+	}
+
+	amount = (amount / capFrom) * capTo
+
+	return amount * mult
+}
+
 func (character *Character) EquipStats() stats.Stats {
 	var baseEquipStats = character.Equipment.Stats()
 	var bonusEquipStats = baseEquipStats.Add(character.bonusStats)

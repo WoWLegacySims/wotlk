@@ -2,11 +2,17 @@ package warlock
 
 import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
-	"github.com/WoWLegacySims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warlockinfo"
 )
 
 func (warlock *Warlock) registerLifeTapSpell() {
-	actionID := core.ActionID{SpellID: 57946}
+	dbc := warlockinfo.LifeTap.GetMaxRank(warlock.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, warlock.Level)
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 	impLifetap := 1.0 + 0.1*float64(warlock.Talents.ImprovedLifeTap)
 	manaMetrics := warlock.NewManaMetrics(actionID)
 
@@ -30,7 +36,7 @@ func (warlock *Warlock) registerLifeTapSpell() {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			restore := (2000.0 + 0.5*warlock.GetStat(stats.SpellPower)) * impLifetap
+			restore := (bp + 0.5*spell.SpellPower()) * impLifetap
 			warlock.AddMana(sim, restore, manaMetrics)
 
 			if warlock.Talents.ManaFeed && warlock.Pet != nil {

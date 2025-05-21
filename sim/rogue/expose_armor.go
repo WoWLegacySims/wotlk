@@ -8,6 +8,9 @@ import (
 )
 
 func (rogue *Rogue) registerExposeArmorSpell() {
+	if rogue.Level < 14 {
+		return
+	}
 	rogue.ExposeArmorAuras = rogue.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 		return core.ExposeArmorAura(target, rogue.HasMajorGlyph(proto.RogueMajorGlyph_GlyphOfExposeArmor))
 	})

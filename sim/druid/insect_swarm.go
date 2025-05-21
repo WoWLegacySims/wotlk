@@ -5,11 +5,19 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/druidinfo"
 )
 
 const CryingWind int32 = 45270
 
 func (druid *Druid) registerInsectSwarmSpell() {
+	dbc := druidinfo.InsectSwarm.GetMaxRank(druid.Level)
+	if dbc == nil {
+		return
+	}
+	dmg, _ := dbc.GetBPDie(0, druid.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(druid.Level)
+
 	missAuras := druid.NewEnemyAuraArray(core.InsectSwarmAura)
 	hasGlyph := druid.HasMajorGlyph(proto.DruidMajorGlyph_GlyphOfInsectSwarm)
 	idolSpellPower := core.TernaryFloat64(druid.Ranged().ID == CryingWind, 396, 0)
@@ -36,7 +44,7 @@ func (druid *Druid) registerInsectSwarmSpell() {
 	}
 
 	druid.InsectSwarm = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48468},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       SpellFlagOmenTrigger | core.SpellFlagAPL,
@@ -71,7 +79,7 @@ func (druid *Druid) registerInsectSwarmSpell() {
 			TickLength:    time.Second * 2,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				dot.SnapshotBaseDamage = 215 + 0.2*(dot.Spell.SpellPower()+idolSpellPower)
+				dot.SnapshotBaseDamage = dmg + coef*(dot.Spell.SpellPower()+idolSpellPower)
 				dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(dot.Spell.Unit.AttackTables[target.UnitIndex])
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {

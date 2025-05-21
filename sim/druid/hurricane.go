@@ -1,14 +1,27 @@
 package druid
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/druidinfo"
 )
 
 func (druid *Druid) registerHurricaneSpell() {
+	dbc := druidinfo.Hurricane.GetMaxRank(druid.Level)
+	if dbc == nil {
+		return
+	}
+	dbcDamage := druidinfo.HurricaneDamage.GetByID(dbc.Effects[2].TriggerSpell)
+	if dbcDamage == nil {
+		panic(fmt.Sprintf("No Damage spell found for Hurricane %d", dbc.SpellID))
+	}
+	dmg, _ := dbcDamage.GetBPDie(0, druid.Level)
+	coef := dbcDamage.GetCoefficient(0) * dbcDamage.GetLevelPenalty(druid.Level)
+
 	druid.HurricaneTickSpell = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 48466},
+		ActionID:       core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool:    core.SpellSchoolNature,
 		ProcMask:       core.ProcMaskProc,
 		Flags:          SpellFlagOmenTrigger,
@@ -18,7 +31,7 @@ func (druid *Druid) registerHurricaneSpell() {
 			0.01*float64(druid.Talents.Genesis),
 		ThreatMultiplier: 1,
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			damage := 451 + 0.129*spell.SpellPower()
+			damage := dmg + coef*spell.SpellPower()
 			damage *= sim.Encounter.AOECapMultiplier()
 			for _, aoeTarget := range sim.Encounter.TargetUnits {
 				spell.CalcAndDealDamage(sim, aoeTarget, damage, spell.OutcomeMagicHitAndCrit)
@@ -27,7 +40,7 @@ func (druid *Druid) registerHurricaneSpell() {
 	})
 
 	druid.Hurricane = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48467},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagChanneled | core.SpellFlagAPL,

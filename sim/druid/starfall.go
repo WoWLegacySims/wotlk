@@ -1,10 +1,12 @@
 package druid
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/druidinfo"
 )
 
 // We register two spells to apply two different dot effects and get two entries in Damage/Detailed results
@@ -12,12 +14,33 @@ func (druid *Druid) registerStarfallSpell() {
 	if !druid.Talents.Starfall {
 		return
 	}
+	dbc := druidinfo.Starfall.GetMaxRank(druid.Level)
+	if dbc == nil {
+		return
+	}
+	spellId := dbc.SpellID
+	dbc = druidinfo.StarfallAura.GetByID(dbc.Effects[0].TriggerSpell)
+	if dbc == nil {
+		panic(fmt.Sprintf("No Aura found for Starfall %d", spellId))
+	}
+	dbc = druidinfo.StarfallDirect.GetByID(int32(dbc.Effects[0].BasePoints) + 1)
+	if dbc == nil {
+		panic(fmt.Sprintf("No Direct Spell found for Starfall %d", spellId))
+	}
+	dbcSplash := druidinfo.StarfallSplash.GetByID(dbc.Effects[1].TriggerSpell)
+	if dbcSplash == nil {
+		panic(fmt.Sprintf("No Splash Spell found for Starfall %d", spellId))
+	}
+	bpDir, dieDir := dbc.GetBPDie(0, druid.Level)
+	splashdmg, _ := dbcSplash.GetBPDie(0, druid.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(druid.Level)
+	coefSplash := dbcSplash.GetCoefficient(0) * dbcSplash.GetLevelPenalty(druid.Level)
 
 	numberOfTicks := core.TernaryInt32(druid.Env.GetNumTargets() > 1, 20, 10)
 	tickLength := time.Second
 
 	starfallTickSpell := druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
-		ActionID:         core.ActionID{SpellID: 53195},
+		ActionID:         core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool:      core.SpellSchoolArcane,
 		ProcMask:         core.ProcMaskSuppressedProc,
 		Flags:            SpellFlagNaturesGrace,
@@ -26,13 +49,13 @@ func (druid *Druid) registerStarfallSpell() {
 		CritMultiplier:   druid.BalanceCritMultiplier(),
 		ThreatMultiplier: 1,
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(563, 653) + 0.3*spell.SpellPower()
+			baseDamage := sim.Roll(bpDir, dieDir) + coef*spell.SpellPower()
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 		},
 	})
 
 	druid.Starfall = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 53201},
+		ActionID:    core.ActionID{SpellID: spellId},
 		SpellSchool: core.SpellSchoolArcane,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagAPL | SpellFlagOmenTrigger,
@@ -70,7 +93,7 @@ func (druid *Druid) registerStarfallSpell() {
 	})
 
 	starfallSplashTickSpell := druid.RegisterSpell(Any, core.SpellConfig{
-		ActionID:         core.ActionID{SpellID: 53190},
+		ActionID:         core.ActionID{SpellID: dbcSplash.SpellID},
 		SpellSchool:      core.SpellSchoolArcane,
 		ProcMask:         core.ProcMaskSuppressedProc,
 		BonusCrit:        2 * float64(druid.Talents.NaturesMajesty),
@@ -78,7 +101,7 @@ func (druid *Druid) registerStarfallSpell() {
 		CritMultiplier:   druid.BalanceCritMultiplier(),
 		ThreatMultiplier: 1,
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 101 + 0.13*spell.SpellPower()
+			baseDamage := splashdmg + coefSplash*spell.SpellPower()
 			baseDamage *= sim.Encounter.AOECapMultiplier()
 			for _, aoeTarget := range sim.Encounter.TargetUnits {
 				spell.CalcAndDealDamage(sim, aoeTarget, baseDamage, spell.OutcomeMagicHitAndCrit)
@@ -87,7 +110,7 @@ func (druid *Druid) registerStarfallSpell() {
 	})
 
 	druid.StarfallSplash = druid.RegisterSpell(Any, core.SpellConfig{
-		ActionID: core.ActionID{SpellID: 53190},
+		ActionID: core.ActionID{SpellID: dbcSplash.SpellID},
 		Dot: core.DotConfig{
 			Aura: core.Aura{
 				Label: "StarfallSplash",

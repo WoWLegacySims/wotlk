@@ -8,7 +8,7 @@ import (
 
 func (dk *Deathknight) registerRaiseDeadCD() {
 	// If talented as permanent pet skip this spell
-	if dk.Talents.MasterOfGhouls {
+	if dk.Talents.MasterOfGhouls || dk.Level < 56 {
 		return
 	}
 

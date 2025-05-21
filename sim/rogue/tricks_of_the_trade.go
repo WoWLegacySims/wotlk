@@ -8,6 +8,9 @@ import (
 )
 
 func (rogue *Rogue) registerTricksOfTheTradeSpell() {
+	if rogue.Level < 75 {
+		return
+	}
 	actionID := core.ActionID{SpellID: 57934}
 	energyMetrics := rogue.NewEnergyMetrics(actionID)
 	hasShadowblades := rogue.HasSetBonus(Tier10, 2)

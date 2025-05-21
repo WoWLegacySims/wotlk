@@ -4,13 +4,26 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warlockinfo"
 )
 
 func (warlock *Warlock) registerSeedSpell() {
-	actionID := core.ActionID{SpellID: 47836}
+	dbc := warlockinfo.SeedofCorruption.GetMaxRank(warlock.Level)
+	dbcExp := warlockinfo.SeedofCorruptionExplosion.GetMaxRank(warlock.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, warlock.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(warlock.Level)
+
+	bpToExp, _ := dbc.GetBPDie(1, warlock.Level)
+	coefToExp := dbc.GetCoefficient(1)
+
+	bpExp, dieExp := dbcExp.GetBPDie(0, warlock.Level)
+	coefExp := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(warlock.Level)
 
 	seedExplosion := warlock.RegisterSpell(core.SpellConfig{
-		ActionID:    actionID.WithTag(1), // actually 47834
+		ActionID:    core.ActionID{SpellID: dbcExp.SpellID},
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagHauntSE | core.SpellFlagNoLogs,
@@ -25,24 +38,25 @@ func (warlock *Warlock) registerSeedSpell() {
 		ThreatMultiplier: 1 - 0.1*float64(warlock.Talents.ImprovedDrainSoul),
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDmg := (sim.Roll(1633, 1897) + 0.286*spell.SpellPower()) * sim.Encounter.AOECapMultiplier()
+			baseDmg := (sim.Roll(bpExp, dieExp) + coefExp*spell.SpellPower()) * sim.Encounter.AOECapMultiplier()
 			for _, aoeTarget := range sim.Encounter.TargetUnits {
 				spell.CalcAndDealDamage(sim, aoeTarget, baseDmg, spell.OutcomeMagicHitAndCrit)
 			}
 		},
 	})
 
+	seedDamage := 0.0
 	warlock.SeedDamageTracker = make([]float64, len(warlock.Env.AllUnits))
 	trySeedPop := func(sim *core.Simulation, target *core.Unit, dmg float64) {
 		warlock.SeedDamageTracker[target.UnitIndex] += dmg
-		if warlock.SeedDamageTracker[target.UnitIndex] > 1518 {
+		if warlock.SeedDamageTracker[target.UnitIndex] > seedDamage {
 			warlock.Seed.Dot(target).Deactivate(sim)
 			seedExplosion.Cast(sim, target)
 		}
 	}
 
 	warlock.Seed = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:     actionID,
+		ActionID:     core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool:  core.SpellSchoolShadow,
 		ProcMask:     core.ProcMaskEmpty,
 		Flags:        core.SpellFlagHauntSE | core.SpellFlagAPL,
@@ -73,9 +87,6 @@ func (warlock *Warlock) registerSeedSpell() {
 					if !result.Landed() {
 						return
 					}
-					if spell.ActionID.SpellID == actionID.SpellID {
-						return // Seed can't pop seed.
-					}
 					trySeedPop(sim, aura.Unit, result.Damage)
 				},
 				OnPeriodicDamageDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
@@ -93,8 +104,9 @@ func (warlock *Warlock) registerSeedSpell() {
 			TickLength:    time.Second * 3,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				dot.SnapshotBaseDamage = 1518/6 + 0.25*dot.Spell.SpellPower()
+				dot.SnapshotBaseDamage = bp + coef*dot.Spell.SpellPower()
 				dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(dot.Spell.Unit.AttackTables[target.UnitIndex])
+				seedDamage = bpToExp + coefToExp*dot.Spell.SpellPower()
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
 				dot.CalcAndDealPeriodicSnapshotDamage(sim, target, dot.OutcomeTick)

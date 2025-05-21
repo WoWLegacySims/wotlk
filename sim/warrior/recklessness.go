@@ -7,6 +7,9 @@ import (
 )
 
 func (warrior *Warrior) RegisterRecklessnessCD() {
+	if warrior.Level < 50 {
+		return
+	}
 	actionID := core.ActionID{SpellID: 1719}
 	var affectedSpells []*core.Spell
 

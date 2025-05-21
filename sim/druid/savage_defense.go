@@ -8,7 +8,7 @@ import (
 )
 
 func (druid *Druid) registerSavageDefensePassive() {
-	if !druid.InForm(Bear) {
+	if !druid.InForm(Bear) || druid.Level < 40 {
 		return
 	}
 

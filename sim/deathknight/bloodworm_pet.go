@@ -83,7 +83,7 @@ var bloodwormPetBaseCrit = stats.Stats{
 }
 
 func (dk *Deathknight) bloodwormStatInheritance() core.PetStatInheritance {
-	return func(ownerStats stats.Stats) stats.Stats {
+	return func(ownerStats stats.Stats, _ stats.PseudoStats) stats.Stats {
 		return stats.Stats{
 			stats.AttackPower: ownerStats[stats.AttackPower] * 0.168,
 			stats.MeleeHaste:  ownerStats[stats.MeleeHaste],

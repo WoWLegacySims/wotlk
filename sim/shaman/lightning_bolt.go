@@ -5,18 +5,27 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/shamaninfo"
 )
 
 func (shaman *Shaman) registerLightningBoltSpell() {
-	shaman.LightningBolt = shaman.RegisterSpell(shaman.newLightningBoltSpellConfig(false))
-	shaman.LightningBoltLO = shaman.RegisterSpell(shaman.newLightningBoltSpellConfig(true))
+	dbc := shamaninfo.LightningBolt.GetMaxRank(shaman.Level)
+	if dbc == nil {
+		return
+	}
+	shaman.LightningBolt = shaman.RegisterSpell(shaman.newLightningBoltSpellConfig(false, dbc))
+	shaman.LightningBoltLO = shaman.RegisterSpell(shaman.newLightningBoltSpellConfig(true, dbc))
 }
 
-func (shaman *Shaman) newLightningBoltSpellConfig(isLightningOverload bool) core.SpellConfig {
+func (shaman *Shaman) newLightningBoltSpellConfig(isLightningOverload bool, dbc *spellinfo.SpellInfo) core.SpellConfig {
+	bp, die := dbc.GetBPDie(0, shaman.Level)
+	coef := (dbc.GetCoefficient(0)) * dbc.GetLevelPenalty(shaman.Level)
+
 	spellConfig := shaman.newElectricSpellConfig(
-		core.ActionID{SpellID: 49238},
-		0.1*core.TernaryFloat64(shaman.HasSetBonus(ItemSetEarthShatterGarb, 2), 0.95, 1),
-		time.Millisecond*2500,
+		core.ActionID{SpellID: dbc.SpellID},
+		(dbc.BaseCost/100)*core.TernaryFloat64(shaman.HasSetBonus(ItemSetEarthShatterGarb, 2), 0.95, 1),
+		dbc.CastTime,
 		isLightningOverload)
 
 	if shaman.HasMajorGlyph(proto.ShamanMajorGlyph_GlyphOfLightningBolt) {
@@ -56,13 +65,13 @@ func (shaman *Shaman) newLightningBoltSpellConfig(isLightningOverload bool) core
 		})
 	}
 
-	dmgBonus := shaman.electricSpellBonusDamage(0.7143)
-	spellCoeff := 0.7143 + 0.04*float64(shaman.Talents.Shamanism)
+	dmgBonus := shaman.electricSpellBonusDamage(coef)
+	spellCoeff := coef + 0.04*float64(shaman.Talents.Shamanism)*dbc.GetLevelPenalty(shaman.Level)
 
 	canLO := !isLightningOverload && shaman.Talents.LightningOverload > 0
 	lightningOverloadChance := float64(shaman.Talents.LightningOverload) * 0.11
 	spellConfig.ApplyEffects = func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-		baseDamage := dmgBonus + sim.Roll(719, 819) + spellCoeff*spell.SpellPower()
+		baseDamage := dmgBonus + sim.Roll(bp, die) + spellCoeff*spell.SpellPower()
 		result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 
 		if !isLightningOverload && lbDotSpell != nil && result.DidCrit() {

@@ -7,6 +7,9 @@ import (
 )
 
 func (dk *Deathknight) registerDeathPactSpell() {
+	if dk.Level < 66 {
+		return
+	}
 	actionID := core.ActionID{SpellID: 48743}
 	cdTimer := dk.NewTimer()
 	cd := time.Minute * 2

@@ -5,10 +5,17 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warlockinfo"
 )
 
 func (warlock *Warlock) registerUnstableAfflictionSpell() {
-	spellCoeff := 0.2 + 0.01*float64(warlock.Talents.EverlastingAffliction)
+	dbc := warlockinfo.UnstableAffliction.GetMaxRank(warlock.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, warlock.Level)
+	coef := (dbc.GetCoefficient(0) + 0.01*float64(warlock.Talents.EverlastingAffliction)) * dbc.GetLevelPenalty(warlock.Level)
+
 	canCrit := warlock.Talents.Pandemic
 
 	warlock.UnstableAffliction = warlock.RegisterSpell(core.SpellConfig{
@@ -46,7 +53,7 @@ func (warlock *Warlock) registerUnstableAfflictionSpell() {
 			NumberOfTicks: 5,
 			TickLength:    time.Second * 3,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, _ bool) {
-				dot.SnapshotBaseDamage = 230 + spellCoeff*dot.Spell.SpellPower()
+				dot.SnapshotBaseDamage = bp + coef*dot.Spell.SpellPower()
 				attackTable := dot.Spell.Unit.AttackTables[target.UnitIndex]
 				dot.SnapshotCritChance = dot.Spell.SpellCritChance(target)
 				dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(attackTable)

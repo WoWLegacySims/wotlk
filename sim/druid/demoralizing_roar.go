@@ -4,15 +4,17 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/druidinfo"
 )
 
 func (druid *Druid) registerDemoralizingRoarSpell() {
-	druid.DemoralizingRoarAuras = druid.NewEnemyAuraArray(func(target *core.Unit, level int32) *core.Aura {
-		return core.DemoralizingRoarAura(target, druid.Talents.FeralAggression, level)
-	})
+	dbc := druidinfo.DemoralizingRoar.GetMaxRank(druid.Level)
+	if dbc == nil {
+		return
+	}
 
 	druid.DemoralizingRoar = druid.RegisterSpell(Bear, core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48560},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskEmpty,
 		Flags:       core.SpellFlagAPL,

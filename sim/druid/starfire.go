@@ -5,11 +5,19 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/druidinfo"
 )
 
 func (druid *Druid) registerStarfireSpell() {
-	spellCoeff := 1.0
-	bonusCoeff := 0.04 * float64(druid.Talents.WrathOfCenarius)
+	dbc := druidinfo.Starfire.GetMaxRank(druid.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, druid.Level)
+
+	coefPenalty := dbc.GetLevelPenalty(druid.Level)
+	spellCoeff := 1.0 * coefPenalty
+	bonusCoeff := 0.04 * float64(druid.Talents.WrathOfCenarius) * coefPenalty
 
 	idolSpellPower := 0 +
 		core.TernaryFloat64(druid.Ranged().ID == 27518, 55, 0) + // Ivory Moongoddess
@@ -32,7 +40,7 @@ func (druid *Druid) registerStarfireSpell() {
 	})
 
 	druid.Starfire = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48465},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolArcane,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       SpellFlagNaturesGrace | SpellFlagOmenTrigger | core.SpellFlagAPL,
@@ -58,7 +66,7 @@ func (druid *Druid) registerStarfireSpell() {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(1038, 1222) + ((spell.SpellPower() + idolSpellPower) * spellCoeff) + (spell.SpellPower() * bonusCoeff)
+			baseDamage := sim.Roll(bp, die) + ((spell.SpellPower() + idolSpellPower) * spellCoeff) + (spell.SpellPower() * bonusCoeff)
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 			if result.Landed() && hasGlyph {
 				starfireGlyphSpell.Cast(sim, target)

@@ -5,13 +5,19 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warlockinfo"
 )
 
 func (warlock *Warlock) registerCurseOfElementsSpell() {
+	dbc := warlockinfo.CurseoftheElements.GetMaxRank(warlock.Level)
+	if dbc == nil {
+		return
+	}
+
 	warlock.CurseOfElementsAuras = warlock.NewEnemyAuraArray(core.CurseOfElementsAura)
 
 	warlock.CurseOfElements = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 47865},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskEmpty,
 		Flags:       core.SpellFlagAPL,
@@ -41,12 +47,17 @@ func (warlock *Warlock) registerCurseOfElementsSpell() {
 }
 
 func (warlock *Warlock) registerCurseOfWeaknessSpell() {
+	dbc := warlockinfo.CurseofWeakness.GetMaxRank(warlock.Level)
+	if dbc == nil {
+		return
+	}
+
 	warlock.CurseOfWeaknessAuras = warlock.NewEnemyAuraArray(func(target *core.Unit, level int32) *core.Aura {
 		return core.CurseOfWeaknessAura(target, warlock.Talents.ImprovedCurseOfWeakness, level)
 	})
 
 	warlock.CurseOfWeakness = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 50511},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskEmpty,
 		Flags:       core.SpellFlagAPL,
@@ -76,6 +87,9 @@ func (warlock *Warlock) registerCurseOfWeaknessSpell() {
 }
 
 func (warlock *Warlock) registerCurseOfTonguesSpell() {
+	if warlock.Level < 50 {
+		return
+	}
 	actionID := core.ActionID{SpellID: 11719}
 
 	// Empty aura so we can simulate cost/time to keep tongues up
@@ -118,11 +132,17 @@ func (warlock *Warlock) registerCurseOfTonguesSpell() {
 }
 
 func (warlock *Warlock) registerCurseOfAgonySpell() {
+	dbc := warlockinfo.CurseofAgony.GetMaxRank(warlock.Level)
+	if dbc == nil {
+		return
+	}
+	baseTickDmg, _ := dbc.GetBPDie(0, warlock.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(warlock.Level)
+
 	numberOfTicks := core.TernaryInt32(warlock.HasMajorGlyph(proto.WarlockMajorGlyph_GlyphOfCurseOfAgony), 14, 12)
-	baseTickDmg := 145.0
 
 	warlock.CurseOfAgony = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 47864},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolShadow,
 		Flags:       core.SpellFlagHauntSE | core.SpellFlagAPL,
 		ProcMask:    core.ProcMaskSpellDamage,
@@ -151,7 +171,7 @@ func (warlock *Warlock) registerCurseOfAgonySpell() {
 			NumberOfTicks: numberOfTicks,
 			TickLength:    time.Second * 2,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				dot.SnapshotBaseDamage = 0.5*baseTickDmg + 0.1*dot.Spell.SpellPower()
+				dot.SnapshotBaseDamage = 0.5*baseTickDmg + coef*dot.Spell.SpellPower()
 				dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(dot.Spell.Unit.AttackTables[target.UnitIndex])
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
@@ -174,8 +194,15 @@ func (warlock *Warlock) registerCurseOfAgonySpell() {
 }
 
 func (warlock *Warlock) registerCurseOfDoomSpell() {
+	dbc := warlockinfo.CurseofDoom.GetMaxRank(warlock.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, warlock.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(warlock.Level)
+
 	warlock.CurseOfDoom = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 47867},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagAPL,
@@ -206,7 +233,7 @@ func (warlock *Warlock) registerCurseOfDoomSpell() {
 			NumberOfTicks: 1,
 			TickLength:    time.Minute,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				dot.SnapshotBaseDamage = 7300 + 2*dot.Spell.SpellPower()
+				dot.SnapshotBaseDamage = bp + coef*dot.Spell.SpellPower()
 				dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(dot.Spell.Unit.AttackTables[target.UnitIndex])
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {

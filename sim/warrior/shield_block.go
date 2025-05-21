@@ -8,6 +8,9 @@ import (
 )
 
 func (warrior *Warrior) RegisterShieldBlockCD() {
+	if warrior.Level < 16 {
+		return
+	}
 	actionID := core.ActionID{SpellID: 2565}
 	cooldownDur := time.Second*60 - time.Second*10*time.Duration(warrior.Talents.ShieldMastery)
 	cooldownDur = core.TernaryDuration(warrior.HasSetBonus(ItemSetWrynnsPlate, 4), cooldownDur-time.Second*10, cooldownDur)

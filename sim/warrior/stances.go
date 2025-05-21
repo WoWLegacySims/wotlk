@@ -84,6 +84,9 @@ func (warrior *Warrior) registerBattleStanceAura() {
 }
 
 func (warrior *Warrior) registerDefensiveStanceAura() {
+	if warrior.Level < 10 {
+		return
+	}
 	const threatMult = 2.0735
 
 	actionID := core.ActionID{SpellID: 71}
@@ -159,6 +162,9 @@ func (warrior *Warrior) registerDefensiveStanceAura() {
 }
 
 func (warrior *Warrior) registerBerserkerStanceAura() {
+	if warrior.Level < 30 {
+		return
+	}
 	threatMult := 0.8 - 0.02*float64(warrior.Talents.ImprovedBerserkerStance)
 	critBonus := warrior.CritRatingPerCritChance * (3 + core.TernaryFloat64(warrior.HasSetBonus(ItemSetWrynnsBattlegear, 2), 2, 0))
 

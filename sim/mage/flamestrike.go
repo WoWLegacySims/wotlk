@@ -1,28 +1,28 @@
 package mage
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/mageinfo"
 )
 
-func (mage *Mage) registerFlamestrikeSpell(rank8 bool) *core.Spell {
-	actionID := core.ActionID{SpellID: 42926}.WithTag(9)
-	dotDamage := 780.0 / 4
-	minDamage := 876.0
-	maxDamage := 1071.0
-	spCoeffMultiplier := 1.0
-	label := "Flamestrike (Rank 9)"
-	if rank8 {
-		actionID = core.ActionID{SpellID: 42925}.WithTag(8)
-		dotDamage = 620.0 / 4
-		minDamage = 699.0
-		maxDamage = 854.0
-		label = "Flamestrike (Rank 8)"
-		// Flamestrike (Rank 8) has a 90% SP coefficient penalty
-		// https://wowpedia.fandom.com/wiki/Downranking#Wrath_of_the_Lich_King
-		spCoeffMultiplier = 0.9
+func (mage *Mage) registerFlamestrikeSpell(downrank bool) *core.Spell {
+	dbc := core.Ternary(downrank, mageinfo.Flamestrike.GetDownRank(mage.Level), mageinfo.Flamestrike.GetMaxRank(mage.Level))
+	if dbc == nil {
+		return nil
 	}
+	bp, die := dbc.GetBPDie(0, mage.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(mage.Level)
+
+	bpDot, _ := dbc.GetBPDie(1, mage.Level)
+	coefDot := dbc.GetCoefficient(1) * dbc.GetLevelPenalty(mage.Level)
+	rank := dbc.Rank
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}.WithTag(rank)
+
+	label := fmt.Sprintf("Flamestrike (Rank %d)", rank)
 
 	return mage.RegisterSpell(core.SpellConfig{
 		ActionID:    actionID,
@@ -31,7 +31,7 @@ func (mage *Mage) registerFlamestrikeSpell(rank8 bool) *core.Spell {
 		Flags:       SpellFlagMage | core.SpellFlagAPL,
 
 		ManaCost: core.ManaCostOptions{
-			BaseCost: 0.30,
+			BaseCost: dbc.BaseCost / 100,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
@@ -56,7 +56,7 @@ func (mage *Mage) registerFlamestrikeSpell(rank8 bool) *core.Spell {
 			TickLength:    time.Second * 2,
 			OnSnapshot: func(sim *core.Simulation, _ *core.Unit, dot *core.Dot, _ bool) {
 				target := mage.CurrentTarget
-				dot.SnapshotBaseDamage = dotDamage + 0.122*dot.Spell.SpellPower()*spCoeffMultiplier
+				dot.SnapshotBaseDamage = bpDot + coefDot*dot.Spell.SpellPower()
 				dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(dot.Spell.Unit.AttackTables[target.UnitIndex])
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
@@ -67,9 +67,9 @@ func (mage *Mage) registerFlamestrikeSpell(rank8 bool) *core.Spell {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			dmgFromSP := 0.243 * spell.SpellPower() * spCoeffMultiplier
+			dmgFromSP := coef * spell.SpellPower()
 			for _, aoeTarget := range sim.Encounter.TargetUnits {
-				baseDamage := sim.Roll(minDamage, maxDamage) + dmgFromSP
+				baseDamage := sim.Roll(bp, die) + dmgFromSP
 				baseDamage *= sim.Encounter.AOECapMultiplier()
 				spell.CalcAndDealDamage(sim, aoeTarget, baseDamage, spell.OutcomeMagicHitAndCrit)
 			}

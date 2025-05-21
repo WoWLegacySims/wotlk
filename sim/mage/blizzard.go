@@ -4,9 +4,17 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/mageinfo"
 )
 
 func (mage *Mage) registerBlizzardSpell() {
+	dbc := mageinfo.Blizzard.GetMaxRank(mage.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, mage.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(mage.Level)
+
 	var improvedBlizzardProcApplication *core.Spell
 	if mage.Talents.ImprovedBlizzard > 0 {
 		auras := mage.NewEnemyAuraArray(func(unit *core.Unit, _ int32) *core.Aura {
@@ -27,7 +35,7 @@ func (mage *Mage) registerBlizzardSpell() {
 	}
 
 	blizzardTickSpell := mage.RegisterSpell(core.SpellConfig{
-		ActionID:         core.ActionID{SpellID: 42938},
+		ActionID:         core.ActionID{SpellID: dbc.Effects[0].TriggerSpell},
 		SpellSchool:      core.SpellSchoolFrost,
 		ProcMask:         core.ProcMaskSpellDamage,
 		Flags:            SpellFlagMage,
@@ -35,7 +43,7 @@ func (mage *Mage) registerBlizzardSpell() {
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1 - (0.1/3)*float64(mage.Talents.FrostChanneling),
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			damage := 426 + (4.0/3.5/8)*spell.SpellPower()
+			damage := bp + coef*spell.SpellPower()
 			damage *= sim.Encounter.AOECapMultiplier()
 			for _, aoeTarget := range sim.Encounter.TargetUnits {
 				spell.CalcAndDealDamage(sim, aoeTarget, damage, spell.OutcomeMagicHitAndCrit)
@@ -48,7 +56,7 @@ func (mage *Mage) registerBlizzardSpell() {
 	})
 
 	mage.Blizzard = mage.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 42940},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolFrost,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       SpellFlagMage | core.SpellFlagChanneled | core.SpellFlagAPL,

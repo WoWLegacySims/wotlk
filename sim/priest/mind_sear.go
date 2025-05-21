@@ -1,15 +1,17 @@
 package priest
 
 import (
+	"fmt"
 	"strconv"
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/priestinfo"
 )
 
 func (priest *Priest) getMindSearMiseryCoefficient() float64 {
-	return 0.2861 * (1 + 0.05*float64(priest.Talents.Misery))
+	return 0.286 * (1 + 0.05*float64(priest.Talents.Misery))
 }
 
 func (priest *Priest) getMindSearBaseConfig() core.SpellConfig {
@@ -26,14 +28,20 @@ func (priest *Priest) getMindSearBaseConfig() core.SpellConfig {
 	}
 }
 
-func (priest *Priest) getMindSearTickSpell(numTicks int32) *core.Spell {
+func (priest *Priest) getMindSearTickSpell(numTicks int32, id int32) (*core.Spell, float64, float64) {
+	dbc := priestinfo.MindSearDamage.GetByID(id)
+	if dbc == nil {
+		panic(fmt.Sprintf("No Mind Sear found with SpellID %d", id))
+	}
+	bp, die := dbc.GetBPDie(0, priest.Level)
+
 	hasGlyphOfShadow := priest.HasGlyph(int32(proto.PriestMajorGlyph_GlyphOfShadow))
-	miseryCoeff := priest.getMindSearMiseryCoefficient()
+	miseryCoeff := priest.getMindSearMiseryCoefficient() * dbc.GetLevelPenalty(priest.Level)
 
 	config := priest.getMindSearBaseConfig()
-	config.ActionID = core.ActionID{SpellID: 53022}.WithTag(numTicks)
+	config.ActionID = core.ActionID{SpellID: dbc.SpellID}.WithTag(numTicks)
 	config.ApplyEffects = func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-		damage := sim.Roll(212, 228) + miseryCoeff*spell.SpellPower()
+		damage := sim.Roll(bp, die) + miseryCoeff*spell.SpellPower()
 		result := spell.CalcAndDealDamage(sim, target, damage, spell.OutcomeMagicHitAndCrit)
 
 		if result.Landed() {
@@ -43,10 +51,15 @@ func (priest *Priest) getMindSearTickSpell(numTicks int32) *core.Spell {
 			priest.ShadowyInsightAura.Activate(sim)
 		}
 	}
-	return priest.GetOrRegisterSpell(config)
+	return priest.GetOrRegisterSpell(config), bp, die
 }
 
 func (priest *Priest) newMindSearSpell(numTicksIdx int32) *core.Spell {
+	dbc := priestinfo.MindSear.GetMaxRank(priest.Level)
+	if dbc == nil {
+		return nil
+	}
+
 	numTicks := numTicksIdx
 	flags := core.SpellFlagChanneled | core.SpellFlagNoMetrics
 	if numTicksIdx == 0 {
@@ -55,10 +68,10 @@ func (priest *Priest) newMindSearSpell(numTicksIdx int32) *core.Spell {
 	}
 
 	miseryCoeff := priest.getMindSearMiseryCoefficient()
-	mindSearTickSpell := priest.getMindSearTickSpell(numTicksIdx)
+	mindSearTickSpell, bp, die := priest.getMindSearTickSpell(numTicksIdx, dbc.Effects[0].TriggerSpell)
 
 	config := priest.getMindSearBaseConfig()
-	config.ActionID = core.ActionID{SpellID: 53023}.WithTag(numTicksIdx)
+	config.ActionID = core.ActionID{SpellID: dbc.SpellID}.WithTag(numTicksIdx)
 	config.Flags = flags
 	config.ManaCost = core.ManaCostOptions{
 		BaseCost:   0.28,
@@ -93,7 +106,7 @@ func (priest *Priest) newMindSearSpell(numTicksIdx int32) *core.Spell {
 		}
 	}
 	config.ExpectedTickDamage = func(sim *core.Simulation, target *core.Unit, spell *core.Spell, _ bool) *core.SpellResult {
-		baseDamage := sim.Roll(212, 228) + miseryCoeff*spell.SpellPower()
+		baseDamage := sim.Roll(bp, die) + miseryCoeff*spell.SpellPower()
 		return spell.CalcPeriodicDamage(sim, target, baseDamage, spell.OutcomeExpectedMagicCrit)
 	}
 	return priest.GetOrRegisterSpell(config)

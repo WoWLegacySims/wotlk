@@ -7,6 +7,9 @@ import (
 )
 
 func (paladin *Paladin) registerDivineProtectionSpell() {
+	if paladin.Level < 6 {
+		return
+	}
 	duration := time.Second*12 + core.TernaryDuration(paladin.HasSetBonus(ItemSetRedemptionPlate, 4), time.Second*3, 0)
 
 	actionID := core.ActionID{SpellID: 498}

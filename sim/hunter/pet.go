@@ -24,6 +24,8 @@ type HunterPet struct {
 }
 
 func (hunter *Hunter) NewHunterPet() *HunterPet {
+	baseStats := core.PetBaseStats[core.Pet_Hunter][hunter.Level].Stats
+
 	if hunter.Options.PetType == proto.Hunter_Options_PetNone {
 		return nil
 	}
@@ -33,7 +35,7 @@ func (hunter *Hunter) NewHunterPet() *HunterPet {
 	petConfig := PetConfigs[hunter.Options.PetType]
 
 	hp := &HunterPet{
-		Pet:         core.NewPet(petConfig.Name, &hunter.Character, hunterPetBaseStats, hunterPetBasePercentageStats, hunter.makeStatInheritance(), true, false),
+		Pet:         core.NewPet(petConfig.Name, &hunter.Character, baseStats, hunterPetBasePercentageStats, hunter.makeStatInheritance(), true, false),
 		config:      petConfig,
 		hunterOwner: hunter,
 
@@ -49,8 +51,8 @@ func (hunter *Hunter) NewHunterPet() *HunterPet {
 	atkSpd := 2 / (1 + 0.15*float64(hp.Talents().CobraReflexes))
 	hp.EnableAutoAttacks(hp, core.AutoAttackOptions{
 		MainHand: core.Weapon{
-			BaseDamageMin:  50,
-			BaseDamageMax:  78,
+			BaseDamageMin:  float64(hp.Level - (hp.Level / 4)),
+			BaseDamageMax:  float64(hp.Level + (hp.Level / 4)),
 			SwingSpeed:     atkSpd,
 			CritMultiplier: 2,
 		},
@@ -131,18 +133,10 @@ func (hp *HunterPet) killCommandMult() float64 {
 	return 1 + 0.2*float64(hp.KillCommandAura.GetStacks())
 }
 
-var hunterPetBaseStats = stats.Stats{
-	stats.Agility:     113,
-	stats.Strength:    331,
-	stats.AttackPower: -20, // Apparently pets and warriors have a AP penalty.
-}
-
 var hunterPetBasePercentageStats = stats.Stats{
 	// Add 1.8% because pets aren't affected by that component of crit suppression.
 	stats.MeleeCrit: (3.2 + 1.8),
 }
-
-const PetExpertiseScale = 3.25
 
 func (hunter *Hunter) makeStatInheritance() core.PetStatInheritance {
 	hvw := hunter.Talents.HunterVsWild
@@ -153,7 +147,7 @@ func (hunter *Hunter) makeStatInheritance() core.PetStatInheritance {
 		wildHunt = petTalents.WildHunt
 	}
 
-	return func(ownerStats stats.Stats) stats.Stats {
+	return func(ownerStats stats.Stats, _ stats.PseudoStats) stats.Stats {
 		// EJ posts claim this value is passed through math.Floor, but in-game testing
 		// shows pets benefit from each point of owner hit rating in WotLK Classic.
 		// https://web.archive.org/web/20120112003252/http://elitistjerks.com/f80/t100099-demonology_releasing_demon_you
@@ -166,8 +160,8 @@ func (hunter *Hunter) makeStatInheritance() core.PetStatInheritance {
 			stats.AttackPower: ownerStats[stats.RangedAttackPower]*0.22*(1+0.15*float64(wildHunt)) + ownerStats[stats.Stamina]*0.1*float64(hvw),
 
 			stats.MeleeHit:  hitRatingFromOwner,
-			stats.SpellHit:  hitRatingFromOwner * 2,
-			stats.Expertise: ownerHitChance * PetExpertiseScale * hunter.ExpertisePerQuarterPercentReduction,
+			stats.SpellHit:  hunter.CalculateHitInheritance(stats.MeleeHit, stats.SpellHit),
+			stats.Expertise: hunter.CalculateHitInheritance(stats.MeleeHit, stats.Expertise),
 		}
 	}
 }

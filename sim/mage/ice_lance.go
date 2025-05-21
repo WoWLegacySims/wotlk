@@ -2,11 +2,19 @@ package mage
 
 import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/mageinfo"
 )
 
 func (mage *Mage) registerIceLanceSpell() {
+	dbc := mageinfo.IceLance.GetMaxRank(mage.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, mage.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(mage.Level)
+
 	mage.IceLance = mage.RegisterSpell(core.SpellConfig{
-		ActionID:     core.ActionID{SpellID: 42914},
+		ActionID:     core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool:  core.SpellSchoolFrost,
 		ProcMask:     core.ProcMaskSpellDamage,
 		Flags:        SpellFlagMage | core.SpellFlagAPL,
@@ -26,7 +34,7 @@ func (mage *Mage) registerIceLanceSpell() {
 		ThreatMultiplier:         1 - (0.1/3)*float64(mage.Talents.FrostChanneling),
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(224, 258) + (1.5/3.5/3.0)*spell.SpellPower()
+			baseDamage := sim.Roll(bp, die) + coef*spell.SpellPower()
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {
 				spell.DealDamage(sim, result)

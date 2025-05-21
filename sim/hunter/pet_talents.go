@@ -120,7 +120,7 @@ func (hp *HunterPet) applyCullingTheHerd() {
 			aura.Activate(sim)
 		},
 		OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-			if result.Outcome.Matches(core.OutcomeCrit) && (spell.IsSpellAction(BiteSpellID) || spell.IsSpellAction(ClawSpellID) || spell.IsSpellAction(SmackSpellID)) {
+			if result.Outcome.Matches(core.OutcomeCrit) && (spell.IsSpell(hp.focusDump)) {
 				petAura.Activate(sim)
 				ownerAura.Activate(sim)
 			}

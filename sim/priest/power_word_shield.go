@@ -5,10 +5,17 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/priestinfo"
 )
 
 func (priest *Priest) registerPowerWordShieldSpell() {
-	coeff := 0.8057 + 0.08*float64(priest.Talents.BorrowedTime)
+	dbc := priestinfo.PowerWordShield.GetMaxRank(priest.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, priest.Level)
+
+	coeff := (0.8068 + 0.08*float64(priest.Talents.BorrowedTime)) * dbc.GetLevelPenalty(priest.Level)
 
 	wsDuration := time.Second*15 -
 		core.TernaryDuration(priest.HasSetBonus(ItemSetGladiatorsInvestiture, 4), time.Second*2, 0) -
@@ -25,7 +32,7 @@ func (priest *Priest) registerPowerWordShieldSpell() {
 	var glyphHeal *core.Spell
 
 	priest.PowerWordShield = priest.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48066},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    core.ProcMaskSpellHealing,
 		Flags:       core.SpellFlagHelpful | core.SpellFlagAPL,
@@ -63,7 +70,7 @@ func (priest *Priest) registerPowerWordShieldSpell() {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			shieldAmount := 2230.0 + coeff*spell.HealingPower(target)
+			shieldAmount := bp + coeff*spell.HealingPower(target)
 			shield := spell.Shield(target)
 			shield.Apply(sim, shieldAmount)
 
@@ -103,7 +110,7 @@ func (priest *Priest) registerPowerWordShieldSpell() {
 			ThreatMultiplier: 1 - []float64{0, .07, .14, .20}[priest.Talents.SilentResolve],
 
 			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-				baseHealing := 2230 + coeff*spell.HealingPower(target)
+				baseHealing := bp + coeff*spell.HealingPower(target)
 				spell.CalcAndDealHealing(sim, target, baseHealing, spell.OutcomeAlwaysHit)
 			},
 		})

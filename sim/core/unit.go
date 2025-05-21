@@ -1,6 +1,7 @@
 package core
 
 import (
+	"strings"
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
@@ -251,6 +252,48 @@ func (unit *Unit) AddStatsDynamic(sim *Simulation, bonus stats.Stats) {
 	unit.processDynamicBonus(sim, bonus)
 }
 
+func (unit *Unit) AddPseudoSpellpowerDynamic(sim *Simulation, school SpellSchool, amount float64) {
+	if unit.Env == nil {
+		panic("Environment not constructed.")
+	} else if !unit.Env.IsFinalized() && !unit.Env.MeasuringStats {
+		panic("Not finalized, use AddStats instead!")
+	}
+	bonus := stats.PseudoStats{}
+	names := []string{}
+	if school&SpellSchoolArcane != 0 {
+		bonus.ArcaneSpellPower += amount
+		names = append(names, "Arcane")
+	}
+	if school&SpellSchoolFire != 0 {
+		bonus.FireSpellPower += amount
+		names = append(names, "Fire")
+	}
+	if school&SpellSchoolFrost != 0 {
+		bonus.FrostSpellPower += amount
+		names = append(names, "Frost")
+	}
+	if school&SpellSchoolHoly != 0 {
+		bonus.HolySpellPower += amount
+		names = append(names, "Holy")
+	}
+	if school&SpellSchoolNature != 0 {
+		bonus.NatureSpellPower += amount
+		names = append(names, "Nature")
+	}
+	if school&SpellSchoolShadow != 0 {
+		bonus.ShadowSpellPower += amount
+		names = append(names, "Shadow")
+	}
+
+	if sim.Log != nil {
+		unit.Log(sim, "Dynamic spellpower change %s: %d", strings.Join(names, ","), amount)
+	}
+
+	for _, pet := range unit.DynamicStatsPets {
+		pet.addOwnerPseudoStats(sim, bonus)
+	}
+}
+
 func (unit *Unit) AddStatDynamic(sim *Simulation, stat stats.Stat, amount float64) {
 	bonus := stats.Stats{}
 	bonus[stat] = amount
@@ -349,6 +392,16 @@ func (unit *Unit) Armor() float64 {
 
 func (unit *Unit) BlockValue() float64 {
 	return unit.PseudoStats.BlockValueMultiplier * unit.stats[stats.BlockValue]
+}
+
+func (unit *Unit) GetShieldBlockValue(softcap float64, hardcap float64) float64 {
+	value := unit.BlockValue()
+	if value >= hardcap {
+		value = (softcap + hardcap) / 2
+	} else if value > softcap {
+		value = softcap + ((value - softcap) / 2)
+	}
+	return value
 }
 
 func (unit *Unit) ArmorPenetrationPercentage(armorPenRating float64) float64 {

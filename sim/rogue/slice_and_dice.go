@@ -5,10 +5,17 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/rogueinfo"
 )
 
 func (rogue *Rogue) registerSliceAndDice() {
-	actionID := core.ActionID{SpellID: 6774}
+	dbc := rogueinfo.SliceandDice.GetMaxRank(rogue.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(1, rogue.Level)
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 
 	durationMultiplier := 1.0 + 0.25*float64(rogue.Talents.ImprovedSliceAndDice)
 	durationBonus := time.Duration(0)
@@ -24,7 +31,7 @@ func (rogue *Rogue) registerSliceAndDice() {
 		time.Duration(float64(time.Second*21+durationBonus) * durationMultiplier),
 	}
 
-	hasteBonus := 1.4
+	hasteBonus := 1 + (bp / 100)
 	if rogue.HasSetBonus(Tier6, 2) {
 		hasteBonus += 0.05
 	}

@@ -32,8 +32,8 @@ type manaBar struct {
 // EnableManaBar will setup caster stat dependencies (int->mana and int->spellcrit)
 // as well as enable the mana gain action to regenerate mana.
 // It will then enable mana gain metrics for reporting.
-func (character *Character) EnableManaBar() {
-	character.EnableManaBarWithModifier(1.0)
+func (character *Character) EnableManaBar(modifier float64) {
+	character.EnableManaBarWithModifier(modifier)
 	character.Unit.SetCurrentPowerBar(ManaBar)
 }
 
@@ -42,8 +42,8 @@ func (character *Character) EnableManaBarWithModifier(modifier float64) {
 	// See https://wowwiki-archive.fandom.com/wiki/Base_mana.
 	// Subtract out the non-linear part of the formula separately, so that weird
 	// mana values are not included when using the stat dependency manager.
-	character.AddStat(stats.Mana, 20-15*20*modifier)
-	character.AddStatDependency(stats.Intellect, stats.Mana, 15*modifier)
+	character.AddStat(stats.Mana, character.baseStats[stats.Intellect]*-modifier)
+	character.AddStatDependency(stats.Intellect, stats.Mana, modifier)
 	character.AddStatDependency(stats.Intellect, stats.SpellCrit, character.CritRatingPerCritChance*SpellCritPerInt[character.Class][character.Level])
 
 	// Not a real spell, just holds metrics from mana gain threat.
@@ -284,9 +284,10 @@ func (mb *manaBar) EndOOMEvent(sim *Simulation) {
 }
 
 type ManaCostOptions struct {
-	BaseCost   float64
-	FlatCost   float64 // Alternative to BaseCost for giving a flat value.
-	Multiplier float64 // It's OK to leave this at 0, will default to 1.
+	BaseCost     float64
+	FlatCost     float64 // Alternative to BaseCost for giving a flat value.
+	Multiplier   float64 // It's OK to leave this at 0, will default to 1.
+	FlatModifier float64
 }
 type ManaCost struct {
 	ResourceMetrics *ResourceMetrics
@@ -294,6 +295,7 @@ type ManaCost struct {
 
 func newManaCost(spell *Spell, options ManaCostOptions) *ManaCost {
 	baseCost := TernaryFloat64(options.FlatCost > 0, options.FlatCost, options.BaseCost*spell.Unit.BaseMana)
+	baseCost += options.FlatModifier
 	if player := spell.Unit.Env.Raid.GetPlayerFromUnit(spell.Unit); player != nil {
 		if player.GetCharacter().HasTrinketEquipped(45703) { // Spark of Hope
 			baseCost = max(0, baseCost-44)
