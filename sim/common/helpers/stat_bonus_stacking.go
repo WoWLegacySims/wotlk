@@ -20,6 +20,8 @@ type StackingStatBonusEffect struct {
 	Outcome    core.HitOutcome
 	Harmful    bool
 	ProcChance float64
+	ICD        time.Duration
+	PPM        float64
 }
 
 func NewStackingStatBonusEffect(config StackingStatBonusEffect) {
@@ -49,9 +51,10 @@ func NewStackingStatBonusEffect(config StackingStatBonusEffect) {
 			Outcome:    config.Outcome,
 			Harmful:    config.Harmful,
 			ProcChance: config.ProcChance,
+			ICD:        config.ICD,
+			PPM:        config.PPM,
 			Handler: func(sim *core.Simulation, _ *core.Spell, _ *core.SpellResult) {
 				procAura.Activate(sim)
-				procAura.AddStack(sim)
 			},
 		})
 	})
