@@ -100,7 +100,9 @@ var ItemSetLightswornBattlegear = core.NewItemSet(core.ItemSet{
 			procSpell := paladin.RegisterSpell(core.SpellConfig{
 				ActionID: core.ActionID{SpellID: 70765},
 				ApplyEffects: func(_ *core.Simulation, _ *core.Unit, _ *core.Spell) {
-					paladin.DivineStorm.CD.Reset()
+					if paladin.DivineStorm != nil {
+						paladin.DivineStorm.CD.Reset()
+					}
 				},
 			})
 
@@ -281,7 +283,7 @@ func init() {
 				aura.Activate(sim)
 			},
 			OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				if spell.SpellID == paladin.CrusaderStrike.SpellID {
+				if spell.IsSpell(paladin.CrusaderStrike) {
 					procAura.Activate(sim)
 				}
 			},
@@ -299,7 +301,7 @@ func init() {
 				aura.Activate(sim)
 			},
 			OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				if spell.SpellID == paladin.CrusaderStrike.SpellID {
+				if spell.IsSpell(paladin.CrusaderStrike) {
 					procAura.Activate(sim)
 				}
 			},
@@ -317,7 +319,7 @@ func init() {
 				aura.Activate(sim)
 			},
 			OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				if spell.SpellID == paladin.CrusaderStrike.SpellID {
+				if spell.IsSpell(paladin.CrusaderStrike) {
 					procAura.Activate(sim)
 				}
 			},
@@ -335,7 +337,7 @@ func init() {
 				aura.Activate(sim)
 			},
 			OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				if spell.SpellID == paladin.CrusaderStrike.SpellID {
+				if spell.IsSpell(paladin.CrusaderStrike) {
 					procAura.Activate(sim)
 				}
 			},
@@ -353,7 +355,7 @@ func init() {
 				aura.Activate(sim)
 			},
 			OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				if spell.SpellID == paladin.CrusaderStrike.SpellID {
+				if spell.IsSpell(paladin.CrusaderStrike) {
 					procAura.Activate(sim)
 				}
 			},
@@ -371,7 +373,7 @@ func init() {
 				aura.Activate(sim)
 			},
 			OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				if spell.SpellID == paladin.CrusaderStrike.SpellID {
+				if spell.IsSpell(paladin.CrusaderStrike) {
 					procAura.Activate(sim)
 				}
 			},
@@ -398,7 +400,7 @@ func init() {
 				aura.Activate(sim)
 			},
 			OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				if spell.SpellID == paladin.CrusaderStrike.SpellID {
+				if spell.IsSpell(paladin.CrusaderStrike) {
 					procAura.Activate(sim)
 					procAura.AddStack(sim)
 				}
@@ -482,7 +484,7 @@ func init() {
 				aura.Activate(sim)
 			},
 			OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				if spell.SpellID == paladin.HolyShield.SpellID {
+				if spell.IsSpell(paladin.HolyShield) {
 					procAura.Activate(sim)
 				}
 			},

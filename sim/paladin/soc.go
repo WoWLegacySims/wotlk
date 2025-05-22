@@ -148,7 +148,7 @@ func (paladin *Paladin) registerSealOfCommandSpellAndAura() {
 				}
 			} else if spell.IsMelee() {
 				// Temporary check to avoid AOE double procing.
-				if spell.SpellID == paladin.HammerOfTheRighteous.SpellID || spell.SpellID == paladin.DivineStorm.SpellID {
+				if spell.IsSpell(paladin.HammerOfTheRighteous) || spell.IsSpell(paladin.DivineStorm) {
 					onSpecialOrSwingProc.Cast(sim, result.Target)
 				} else {
 					onSpecialOrSwingProcCleave.Cast(sim, result.Target)

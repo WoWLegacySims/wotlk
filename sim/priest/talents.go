@@ -415,7 +415,7 @@ func (priest *Priest) applyMisery() {
 				return
 			}
 
-			if spell == priest.ShadowWordPain || spell == priest.VampiricTouch || spell.ActionID.SpellID == priest.MindFlay[1].ActionID.SpellID {
+			if spell == priest.ShadowWordPain || spell == priest.VampiricTouch || spell.IsSpell(priest.MindFlay[1]) {
 				miseryAuras.Get(result.Target).Activate(sim)
 			}
 		},

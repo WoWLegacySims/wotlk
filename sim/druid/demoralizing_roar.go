@@ -13,6 +13,10 @@ func (druid *Druid) registerDemoralizingRoarSpell() {
 		return
 	}
 
+	druid.DemoralizingRoarAuras = druid.NewEnemyAuraArray(func(target *core.Unit, level int32) *core.Aura {
+		return core.DemoralizingRoarAura(target, druid.Talents.FeralAggression, level)
+	})
+
 	druid.DemoralizingRoar = druid.RegisterSpell(Bear, core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellRanks:  druidinfo.DemoralizingRoar.GetAllIDs(),
