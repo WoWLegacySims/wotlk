@@ -72,6 +72,27 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFire-AllItems-BandoftheEternalChampion-29301"
+ value: {
+  dps: 10243.973
+  tps: 8252.35004
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-BandoftheEternalDefender-29297"
+ value: {
+  dps: 10243.973
+  tps: 8252.35004
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-BandoftheEternalSage-29305"
+ value: {
+  dps: 10429.18026
+  tps: 8402.91287
+ }
+}
+dps_results: {
  key: "TestFire-AllItems-BaubleofTrueBlood-50354"
  value: {
   dps: 10126.65895
@@ -95,10 +116,31 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFire-AllItems-BlackenedNaaruSliver-34427"
+ value: {
+  dps: 10268.00528
+  tps: 8270.20007
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-BladeofUnquenchedThirst-31193"
+ value: {
+  dps: 10731.99264
+  tps: 8645.30928
+ }
+}
+dps_results: {
  key: "TestFire-AllItems-BlessedRegaliaofUndeadCleansing"
  value: {
   dps: 7285.06971
   tps: 5864.66949
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-BloodlustBrooch-29383"
+ value: {
+  dps: 10129.91633
+  tps: 8162.22115
  }
 }
 dps_results: {
@@ -116,10 +158,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFire-AllItems-BraidedEterniumChain-24114"
+ value: {
+  dps: 10388.95489
+  tps: 8370.27059
+ }
+}
+dps_results: {
  key: "TestFire-AllItems-ChaoticSkyflareDiamond"
  value: {
   dps: 10731.99264
   tps: 8645.30928
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-CommendationofKael'thas-34473"
+ value: {
+  dps: 10129.91633
+  tps: 8162.22115
  }
 }
 dps_results: {
@@ -147,8 +203,8 @@ dps_results: {
 dps_results: {
  key: "TestFire-AllItems-DarkmoonCard:Berserker!-42989"
  value: {
-  dps: 10318.10263
-  tps: 8315.31434
+  dps: 10129.91633
+  tps: 8162.22115
  }
 }
 dps_results: {
@@ -222,6 +278,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFire-AllItems-DragonspineTrophy-28830"
+ value: {
+  dps: 10129.91633
+  tps: 8162.22115
+ }
+}
+dps_results: {
  key: "TestFire-AllItems-EffulgentSkyflareDiamond"
  value: {
   dps: 10329.22204
@@ -280,8 +343,15 @@ dps_results: {
 dps_results: {
  key: "TestFire-AllItems-EyeoftheBroodmother-45308"
  value: {
-  dps: 10570.52829
-  tps: 8515.43933
+  dps: 10303.112
+  tps: 8302.66374
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-Felstriker-12590"
+ value: {
+  dps: 10731.99264
+  tps: 8645.30928
  }
 }
 dps_results: {
@@ -362,10 +432,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFire-AllItems-GnomereganAuto-Blocker600-29387"
+ value: {
+  dps: 10129.91633
+  tps: 8162.22115
+ }
+}
+dps_results: {
  key: "TestFire-AllItems-GnomishLightningGenerator-41121"
  value: {
   dps: 10401.69234
   tps: 8389.17552
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-HandofJustice-11815"
+ value: {
+  dps: 10129.91633
+  tps: 8162.22115
  }
 }
 dps_results: {
@@ -383,10 +467,17 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFire-AllItems-IconoftheSilverCrescent-29370"
+ value: {
+  dps: 10299.79528
+  tps: 8297.3578
+ }
+}
+dps_results: {
  key: "TestFire-AllItems-IllustrationoftheDragonSoul-40432"
  value: {
-  dps: 10527.98401
-  tps: 8478.92464
+  dps: 10129.91633
+  tps: 8162.22115
  }
 }
 dps_results: {
@@ -439,17 +530,17 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFire-AllItems-Lavanthor'sTalisman-37872"
+ key: "TestFire-AllItems-MadnessoftheBetrayer-32505"
  value: {
-  dps: 10129.91633
-  tps: 8162.22115
+  dps: 10246.4355
+  tps: 8255.49924
  }
 }
 dps_results: {
  key: "TestFire-AllItems-MajesticDragonFigurine-40430"
  value: {
-  dps: 10425.34112
-  tps: 8401.29325
+  dps: 10129.91633
+  tps: 8162.22115
  }
 }
 dps_results: {
@@ -478,13 +569,6 @@ dps_results: {
  value: {
   dps: 10731.99264
   tps: 8645.30928
- }
-}
-dps_results: {
- key: "TestFire-AllItems-OfferingofSacrifice-37638"
- value: {
-  dps: 10129.91633
-  tps: 8162.22115
  }
 }
 dps_results: {
@@ -579,7 +663,28 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFire-AllItems-ScarabBrooch-21625"
+ value: {
+  dps: 10129.91633
+  tps: 8162.22115
+ }
+}
+dps_results: {
  key: "TestFire-AllItems-SealofthePantheon-36993"
+ value: {
+  dps: 10129.91633
+  tps: 8162.22115
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-ShadowmoonInsignia-32501"
+ value: {
+  dps: 10129.91633
+  tps: 8162.22115
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-ShardofContempt-34472"
  value: {
   dps: 10129.91633
   tps: 8162.22115
@@ -635,13 +740,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFire-AllItems-SphereofRedDragon'sBlood-37166"
- value: {
-  dps: 10301.34623
-  tps: 8299.94746
- }
-}
-dps_results: {
  key: "TestFire-AllItems-SwiftSkyflareDiamond"
  value: {
   dps: 10329.22204
@@ -691,10 +789,31 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFire-AllItems-TheLightningCapacitor-28785"
+ value: {
+  dps: 10197.4916
+  tps: 8231.99178
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-TheSkullofGul'dan-32483"
+ value: {
+  dps: 10546.83685
+  tps: 8494.44289
+ }
+}
+dps_results: {
  key: "TestFire-AllItems-TheTwinBladesofAzzinoth"
  value: {
   dps: 8476.39178
   tps: 6851.85445
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-Thunderfury,BlessedBladeoftheWindseeker-19019"
+ value: {
+  dps: 10731.99264
+  tps: 8645.30928
  }
 }
 dps_results: {
@@ -733,13 +852,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFire-AllItems-TomeofArcanePhenomena-36972"
- value: {
-  dps: 10449.222
-  tps: 8415.51043
- }
-}
-dps_results: {
  key: "TestFire-AllItems-TrenchantEarthshatterDiamond"
  value: {
   dps: 10370.03459
@@ -754,10 +866,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFire-AllItems-WingedTalisman-37844"
+ key: "TestFire-AllItems-TsunamiTalisman-30627"
  value: {
-  dps: 10302.34449
-  tps: 8300.16368
+  dps: 10307.18769
+  tps: 8305.68247
  }
 }
 dps_results: {

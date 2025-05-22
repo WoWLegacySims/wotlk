@@ -79,6 +79,27 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSubtlety-AllItems-BandoftheEternalChampion-29301"
+ value: {
+  dps: 6199.18662
+  tps: 4401.4225
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-BandoftheEternalDefender-29297"
+ value: {
+  dps: 6112.21919
+  tps: 4339.67563
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-BandoftheEternalSage-29305"
+ value: {
+  dps: 6124.59369
+  tps: 4348.46152
+ }
+}
+dps_results: {
  key: "TestSubtlety-AllItems-BaubleofTrueBlood-50354"
  value: {
   dps: 6180.86901
@@ -116,10 +137,31 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSubtlety-AllItems-BlackenedNaaruSliver-34427"
+ value: {
+  dps: 6345.9432
+  tps: 4505.61967
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-BladeofUnquenchedThirst-31193"
+ value: {
+  dps: 6423.40614
+  tps: 4560.61836
+ }
+}
+dps_results: {
  key: "TestSubtlety-AllItems-BlessedRegaliaofUndeadCleansing"
  value: {
   dps: 4649.73266
   tps: 3301.31019
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-BloodlustBrooch-29383"
+ value: {
+  dps: 6271.05664
+  tps: 4452.45021
  }
 }
 dps_results: {
@@ -137,10 +179,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSubtlety-AllItems-BraidedEterniumChain-24114"
+ value: {
+  dps: 6259.77924
+  tps: 4444.44326
+ }
+}
+dps_results: {
  key: "TestSubtlety-AllItems-ChaoticSkyflareDiamond"
  value: {
   dps: 6422.80995
   tps: 4560.19507
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-CommendationofKael'thas-34473"
+ value: {
+  dps: 6181.70164
+  tps: 4389.00817
  }
 }
 dps_results: {
@@ -168,8 +224,8 @@ dps_results: {
 dps_results: {
  key: "TestSubtlety-AllItems-DarkmoonCard:Berserker!-42989"
  value: {
-  dps: 6246.30423
-  tps: 4434.876
+  dps: 6246.03566
+  tps: 4434.68532
  }
 }
 dps_results: {
@@ -243,6 +299,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSubtlety-AllItems-DragonspineTrophy-28830"
+ value: {
+  dps: 6296.94207
+  tps: 4470.82887
+ }
+}
+dps_results: {
  key: "TestSubtlety-AllItems-EffulgentSkyflareDiamond"
  value: {
   dps: 6290.40376
@@ -306,6 +369,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSubtlety-AllItems-Felstriker-12590"
+ value: {
+  dps: 6423.40614
+  tps: 4560.61836
+ }
+}
+dps_results: {
  key: "TestSubtlety-AllItems-Figurine-SapphireOwl-42413"
  value: {
   dps: 6181.70164
@@ -343,8 +413,8 @@ dps_results: {
 dps_results: {
  key: "TestSubtlety-AllItems-FuryoftheFiveFlights-40431"
  value: {
-  dps: 6395.64377
-  tps: 4540.90708
+  dps: 6395.35393
+  tps: 4540.70129
  }
 }
 dps_results: {
@@ -376,10 +446,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSubtlety-AllItems-GnomereganAuto-Blocker600-29387"
+ value: {
+  dps: 6181.70164
+  tps: 4389.00817
+ }
+}
+dps_results: {
  key: "TestSubtlety-AllItems-GnomishLightningGenerator-41121"
  value: {
   dps: 6231.51608
   tps: 4424.37641
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-HandofJustice-11815"
+ value: {
+  dps: 6267.52744
+  tps: 4449.94448
  }
 }
 dps_results: {
@@ -394,6 +478,13 @@ dps_results: {
  value: {
   dps: 6423.40614
   tps: 4560.61836
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-IconoftheSilverCrescent-29370"
+ value: {
+  dps: 6181.70164
+  tps: 4389.00817
  }
 }
 dps_results: {
@@ -440,10 +531,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestSubtlety-AllItems-Lavanthor'sTalisman-37872"
+ key: "TestSubtlety-AllItems-MadnessoftheBetrayer-32505"
  value: {
-  dps: 6181.70164
-  tps: 4389.00817
+  dps: 6310.83051
+  tps: 4480.68966
  }
 }
 dps_results: {
@@ -465,13 +556,6 @@ dps_results: {
  value: {
   dps: 6198.54885
   tps: 4400.96968
- }
-}
-dps_results: {
- key: "TestSubtlety-AllItems-OfferingofSacrifice-37638"
- value: {
-  dps: 6181.70164
-  tps: 4389.00817
  }
 }
 dps_results: {
@@ -566,6 +650,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSubtlety-AllItems-ScarabBrooch-21625"
+ value: {
+  dps: 6181.70164
+  tps: 4389.00817
+ }
+}
+dps_results: {
  key: "TestSubtlety-AllItems-SealofthePantheon-36993"
  value: {
   dps: 6181.70164
@@ -577,6 +668,20 @@ dps_results: {
  value: {
   dps: 6910.90068
   tps: 4906.73948
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-ShadowmoonInsignia-32501"
+ value: {
+  dps: 6181.70164
+  tps: 4389.00817
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-ShardofContempt-34472"
+ value: {
+  dps: 6248.95933
+  tps: 4436.76112
  }
 }
 dps_results: {
@@ -633,13 +738,6 @@ dps_results: {
  value: {
   dps: 6239.79453
   tps: 4430.25412
- }
-}
-dps_results: {
- key: "TestSubtlety-AllItems-SphereofRedDragon'sBlood-37166"
- value: {
-  dps: 6376.32231
-  tps: 4527.18884
  }
 }
 dps_results: {
@@ -706,6 +804,20 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSubtlety-AllItems-TheLightningCapacitor-28785"
+ value: {
+  dps: 6195.6036
+  tps: 4398.87856
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-TheSkullofGul'dan-32483"
+ value: {
+  dps: 6283.34075
+  tps: 4461.17193
+ }
+}
+dps_results: {
  key: "TestSubtlety-AllItems-ThunderingSkyflareDiamond"
  value: {
   dps: 6384.39006
@@ -741,13 +853,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestSubtlety-AllItems-TomeofArcanePhenomena-36972"
- value: {
-  dps: 6186.71993
-  tps: 4392.57115
- }
-}
-dps_results: {
  key: "TestSubtlety-AllItems-TrenchantEarthshatterDiamond"
  value: {
   dps: 6290.40376
@@ -762,6 +867,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSubtlety-AllItems-TsunamiTalisman-30627"
+ value: {
+  dps: 6285.24955
+  tps: 4462.52718
+ }
+}
+dps_results: {
  key: "TestSubtlety-AllItems-UndeadSlayer'sBlessedArmor"
  value: {
   dps: 4945.59503
@@ -773,13 +885,6 @@ dps_results: {
  value: {
   dps: 5829.81257
   tps: 4139.16693
- }
-}
-dps_results: {
- key: "TestSubtlety-AllItems-WingedTalisman-37844"
- value: {
-  dps: 6181.70164
-  tps: 4389.00817
  }
 }
 dps_results: {
