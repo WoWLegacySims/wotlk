@@ -44,6 +44,7 @@ func (rogue *Rogue) registerDeadlyPoisonSpell() {
 
 	rogue.DeadlyPoison = rogue.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  rogueinfo.DeadlyPoison.GetAllIDs(),
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskWeaponProc,
 
@@ -275,9 +276,10 @@ func (rogue *Rogue) registerWoundPoisonSpell() {
 	id := dbc.SpellID
 
 	woundPoisonDebuffAura := core.Aura{
-		Label:    "WoundPoison-" + strconv.Itoa(int(rogue.Index)),
-		ActionID: core.ActionID{SpellID: id},
-		Duration: time.Second * 15,
+		Label:     "WoundPoison-" + strconv.Itoa(int(rogue.Index)),
+		ActionID:  core.ActionID{SpellID: id},
+		AuraRanks: rogueinfo.WoundPoison.GetAllIDs(),
+		Duration:  time.Second * 15,
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
 			if rogue.Talents.SavageCombat > 0 {
 				rogue.savageCombatDebuffAuras.Get(aura.Unit).Activate(sim)

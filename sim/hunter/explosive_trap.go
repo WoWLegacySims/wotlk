@@ -21,6 +21,7 @@ func (hunter *Hunter) registerExplosiveTrapSpell(timer *core.Timer) {
 
 	hunter.ExplosiveTrap = hunter.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  hunterinfo.ExplosiveTrap.GetAllIDs(),
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagAPL,

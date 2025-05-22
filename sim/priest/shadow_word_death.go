@@ -32,6 +32,7 @@ func (priest *Priest) registerShadowWordDeathSpell() {
 
 	priest.ShadowWordDeath = priest.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  priestinfo.ShadowWordDeath.GetAllIDs(),
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagAPL,

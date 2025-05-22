@@ -17,6 +17,7 @@ func (priest *Priest) RegisterSmiteSpell() {
 
 	priest.Smite = priest.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  priestinfo.Smite.GetAllIDs(),
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagAPL,

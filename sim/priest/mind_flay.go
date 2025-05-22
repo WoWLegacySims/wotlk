@@ -88,6 +88,7 @@ func (priest *Priest) newMindFlaySpell(numTicksIdx int32) *core.Spell {
 
 	return priest.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID}.WithTag(numTicksIdx),
+		SpellRanks:  priestinfo.MindFlay.GetAllIDs(),
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       flags,

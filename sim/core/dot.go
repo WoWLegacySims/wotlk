@@ -317,6 +317,9 @@ func (spell *Spell) createDots(config DotConfig, isHot bool) {
 	if auraConfig.ActionID.IsEmptyAction() {
 		auraConfig.ActionID = dot.Spell.ActionID
 	}
+	if len(auraConfig.AuraRanks) == 0 {
+		auraConfig.AuraRanks = dot.Spell.SpellRanks
+	}
 
 	caster := dot.Spell.Unit
 	if config.IsAOE || config.SelfOnly {

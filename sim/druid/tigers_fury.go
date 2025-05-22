@@ -21,9 +21,10 @@ func (druid *Druid) registerTigersFurySpell() {
 	cdReduction := core.TernaryDuration(druid.HasSetBonus(ItemSetDreamwalkerBattlegear, 4), time.Second*3, 0)
 
 	druid.TigersFuryAura = druid.RegisterAura(core.Aura{
-		Label:    "Tiger's Fury Aura",
-		ActionID: actionID,
-		Duration: 6 * time.Second,
+		Label:     "Tiger's Fury Aura",
+		AuraRanks: druidinfo.TigersFury.GetAllIDs(),
+		ActionID:  actionID,
+		Duration:  6 * time.Second,
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
 			druid.PseudoStats.BonusDamage += dmgBonus
 		},
@@ -33,8 +34,9 @@ func (druid *Druid) registerTigersFurySpell() {
 	})
 
 	spell := druid.RegisterSpell(Cat, core.SpellConfig{
-		ActionID: actionID,
-		Flags:    core.SpellFlagAPL,
+		ActionID:   actionID,
+		SpellRanks: druidinfo.TigersFury.GetAllIDs(),
+		Flags:      core.SpellFlagAPL,
 		Cast: core.CastConfig{
 			CD: core.Cooldown{
 				Timer:    druid.NewTimer(),

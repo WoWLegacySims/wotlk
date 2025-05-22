@@ -20,6 +20,7 @@ func (warlock *Warlock) registerCorruptionSpell() {
 
 	warlock.Corruption = warlock.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  warlockinfo.Corruption.GetAllIDs(),
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagHauntSE | core.SpellFlagAPL,

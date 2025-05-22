@@ -18,6 +18,7 @@ func (hunter *Hunter) registerVolleySpell() {
 
 	hunter.Volley = hunter.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  hunterinfo.Volley.GetAllIDs(),
 		SpellSchool: core.SpellSchoolArcane,
 		ProcMask:    core.ProcMaskRangedSpecial,
 		Flags:       core.SpellFlagChanneled | core.SpellFlagAPL,

@@ -17,6 +17,7 @@ func (warlock *Warlock) registerSoulFireSpell() {
 
 	warlock.SoulFire = warlock.RegisterSpell(core.SpellConfig{
 		ActionID:     core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:   warlockinfo.SoulFire.GetAllIDs(),
 		SpellSchool:  core.SpellSchoolFire,
 		ProcMask:     core.ProcMaskSpellDamage,
 		Flags:        core.SpellFlagAPL,

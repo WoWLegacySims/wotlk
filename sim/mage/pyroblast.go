@@ -28,6 +28,7 @@ func (mage *Mage) registerPyroblastSpell() {
 
 	pyroblastConfig := core.SpellConfig{
 		ActionID:     core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:   mageinfo.Pyroblast.GetAllIDs(),
 		SpellSchool:  core.SpellSchoolFire,
 		ProcMask:     core.ProcMaskSpellDamage,
 		Flags:        SpellFlagMage | core.SpellFlagAPL,

@@ -23,6 +23,7 @@ func (hunter *Hunter) registerArcaneShotSpell(timer *core.Timer) {
 
 	hunter.ArcaneShot = hunter.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  hunterinfo.ArcaneShot.GetAllIDs(),
 		SpellSchool: core.SpellSchoolArcane,
 		ProcMask:    core.ProcMaskRangedSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL,

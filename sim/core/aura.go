@@ -105,6 +105,8 @@ type Aura struct {
 	metrics AuraMetrics
 
 	initialized bool
+
+	AuraRanks map[int32]bool
 }
 
 func (aura *Aura) init(sim *Simulation) {
@@ -324,12 +326,17 @@ func (at *auraTracker) GetAuras() []*Aura {
 }
 func (at *auraTracker) GetAuraByID(actionID ActionID) *Aura {
 	for _, aura := range at.auras {
-		if aura.ActionID.SameAction(actionID) {
+		if aura.ActionID.SameAction(actionID) || aura.HasRank(actionID) {
 			return aura
 		}
 	}
 	return nil
 }
+
+func (aura *Aura) HasRank(actionID ActionID) bool {
+	return aura.AuraRanks[actionID.SpellID]
+}
+
 func (at *auraTracker) GetIcdAuraByID(actionID ActionID) *Aura {
 	for _, aura := range at.auras {
 		if (aura.ActionID.SameAction(actionID) || aura.ActionIDForProc.SameAction(actionID)) && aura.Icd != nil {
@@ -376,6 +383,7 @@ func (at *auraTracker) registerAura(unit *Unit, aura Aura) *Aura {
 	newAura.onHealTakenIndex = Inactive
 	newAura.onPeriodicHealDealtIndex = Inactive
 	newAura.onPeriodicHealTakenIndex = Inactive
+	newAura.AuraRanks = aura.AuraRanks
 
 	at.auras = append(at.auras, newAura)
 	if newAura.Tag != "" {
@@ -403,6 +411,9 @@ func (unit *Unit) GetOrRegisterAura(aura Aura) *Aura {
 		curAura.OnHealTaken = aura.OnHealTaken
 		curAura.OnPeriodicHealDealt = aura.OnPeriodicHealDealt
 		curAura.OnPeriodicHealTaken = aura.OnPeriodicHealTaken
+		for k, _ := range aura.AuraRanks {
+			curAura.AuraRanks[k] = true
+		}
 		return curAura
 	}
 }

@@ -48,6 +48,7 @@ func (shaman *Shaman) registerLightningShieldSpell() {
 	shaman.LightningShieldAura = shaman.RegisterAura(core.Aura{
 		Label:     "Lightning Shield",
 		ActionID:  actionID,
+		AuraRanks: shamaninfo.LightningShield.GetAllIDs(),
 		Duration:  time.Minute * 10,
 		MaxStacks: 9,
 		OnReset: func(aura *core.Aura, sim *core.Simulation) {
@@ -81,8 +82,9 @@ func (shaman *Shaman) registerLightningShieldSpell() {
 	})
 
 	shaman.LightningShield = shaman.RegisterSpell(core.SpellConfig{
-		ActionID: actionID,
-		Flags:    core.SpellFlagAPL,
+		ActionID:   actionID,
+		SpellRanks: shamaninfo.LightningShield.GetAllIDs(),
+		Flags:      core.SpellFlagAPL,
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
 				GCD: core.GCDDefault,

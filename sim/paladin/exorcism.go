@@ -17,6 +17,7 @@ func (paladin *Paladin) registerExorcismSpell() {
 
 	paladin.Exorcism = paladin.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  paladininfo.Exorcism.GetAllIDs(),
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL,

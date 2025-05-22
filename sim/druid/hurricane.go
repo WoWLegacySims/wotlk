@@ -41,6 +41,7 @@ func (druid *Druid) registerHurricaneSpell() {
 
 	druid.Hurricane = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  druidinfo.Hurricane.GetAllIDs(),
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagChanneled | core.SpellFlagAPL,

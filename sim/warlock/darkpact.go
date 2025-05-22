@@ -27,6 +27,7 @@ func (warlock *Warlock) registerDarkPactSpell() {
 
 	warlock.DarkPact = warlock.RegisterSpell(core.SpellConfig{
 		ActionID:    actionID,
+		SpellRanks:  warlockinfo.DarkPact.GetAllIDs(),
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskEmpty,
 		Flags:       core.SpellFlagAPL,

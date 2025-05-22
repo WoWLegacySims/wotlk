@@ -18,6 +18,7 @@ func (warlock *Warlock) registerIncinerateSpell() {
 
 	warlock.Incinerate = warlock.RegisterSpell(core.SpellConfig{
 		ActionID:     core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:   warlockinfo.Incinerate.GetAllIDs(),
 		SpellSchool:  core.SpellSchoolFire,
 		ProcMask:     core.ProcMaskSpellDamage,
 		Flags:        core.SpellFlagAPL,

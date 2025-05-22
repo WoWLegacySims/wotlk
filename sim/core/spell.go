@@ -56,6 +56,8 @@ type SpellConfig struct {
 	Shield ShieldConfig
 
 	RelatedAuras []AuraArray
+
+	SpellRanks map[int32]bool
 }
 
 type RankedSpells struct {
@@ -147,6 +149,8 @@ type Spell struct {
 
 	// Per-target auras that are related to this spell, usually buffs or debuffs applied by the spell.
 	RelatedAuras []AuraArray
+
+	SpellRanks map[int32]bool
 }
 
 func (unit *Unit) OnSpellRegistered(handler SpellRegisteredHandler) {
@@ -228,6 +232,7 @@ func (unit *Unit) RegisterSpell(config SpellConfig) *Spell {
 		splitSpellMetrics: make([][]SpellMetrics, max(1, config.MetricSplits)),
 
 		RelatedAuras: config.RelatedAuras,
+		SpellRanks:   config.SpellRanks,
 	}
 
 	switch {
@@ -610,4 +615,8 @@ type SpellCost interface {
 
 func (spell *Spell) IssueRefund(sim *Simulation) {
 	spell.Cost.IssueRefund(sim, spell)
+}
+
+func (spell *Spell) HasRank(actionID ActionID) bool {
+	return spell.SpellRanks[actionID.SpellID]
 }

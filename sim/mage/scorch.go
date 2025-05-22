@@ -26,6 +26,7 @@ func (mage *Mage) registerScorchSpell() {
 
 	mage.Scorch = mage.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  mageinfo.Scorch.GetAllIDs(),
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       SpellFlagMage | HotStreakSpells | core.SpellFlagAPL,

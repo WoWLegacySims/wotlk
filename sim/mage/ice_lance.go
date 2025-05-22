@@ -15,6 +15,7 @@ func (mage *Mage) registerIceLanceSpell() {
 
 	mage.IceLance = mage.RegisterSpell(core.SpellConfig{
 		ActionID:     core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:   mageinfo.IceLance.GetAllIDs(),
 		SpellSchool:  core.SpellSchoolFrost,
 		ProcMask:     core.ProcMaskSpellDamage,
 		Flags:        SpellFlagMage | core.SpellFlagAPL,

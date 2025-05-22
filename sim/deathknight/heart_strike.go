@@ -20,6 +20,7 @@ func (dk *Deathknight) newHeartStrikeSpell(isMainTarget bool, isDrw bool) *core.
 
 	conf := core.SpellConfig{
 		ActionID:    actionID.WithTag(core.TernaryInt32(isMainTarget, 1, 2)),
+		SpellRanks:  deathknightinfo.HeartStrike.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage,

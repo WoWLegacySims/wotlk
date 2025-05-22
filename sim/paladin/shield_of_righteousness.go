@@ -22,6 +22,7 @@ func (paladin *Paladin) registerShieldOfRighteousnessSpell() {
 
 	paladin.ShieldOfRighteousness = paladin.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  paladininfo.ShieldofRighteousness.GetAllIDs(),
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL,

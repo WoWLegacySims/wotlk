@@ -19,6 +19,7 @@ func (druid *Druid) registerTyphoonSpell() {
 	dmg, _ := dbc.GetBPDie(1, druid.Level)
 	druid.Typhoon = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  druidinfo.Typhoon.GetAllIDs(),
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       SpellFlagOmenTrigger | core.SpellFlagAPL,

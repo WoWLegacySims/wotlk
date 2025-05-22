@@ -26,7 +26,8 @@ func (shaman *Shaman) newLightningBoltSpellConfig(isLightningOverload bool, dbc 
 		core.ActionID{SpellID: dbc.SpellID},
 		(dbc.BaseCost/100)*core.TernaryFloat64(shaman.HasSetBonus(ItemSetEarthShatterGarb, 2), 0.95, 1),
 		dbc.CastTime,
-		isLightningOverload)
+		isLightningOverload,
+		shamaninfo.LightningBolt.GetAllIDs())
 
 	if shaman.HasMajorGlyph(proto.ShamanMajorGlyph_GlyphOfLightningBolt) {
 		spellConfig.DamageMultiplier += 0.04

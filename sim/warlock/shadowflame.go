@@ -22,6 +22,7 @@ func (warlock *Warlock) registerShadowflameSpell() {
 
 	warlock.ShadowflameDot = warlock.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbcDot.SpellID},
+		SpellRanks:  warlockinfo.ShadowflameDot.GetAllIDs(),
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskEmpty,
 
@@ -51,6 +52,7 @@ func (warlock *Warlock) registerShadowflameSpell() {
 
 	warlock.Shadowflame = warlock.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  warlockinfo.Shadowflame.GetAllIDs(),
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagAPL,

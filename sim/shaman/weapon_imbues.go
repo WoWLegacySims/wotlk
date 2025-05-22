@@ -310,7 +310,7 @@ func (shaman *Shaman) RegisterFrostbrandImbue(procMask core.ProcMask) {
 	if dbc == nil || dbcPassive == nil {
 		return
 	}
-	effect := core.TernaryInt32(dbcPassive.SpellID == 58799, 1, 0)
+	effect := core.TernaryInt32(dbcPassive.SpellID == 58799, 1, 0) //effects were switched for the last rank
 	bp, _ := dbcPassive.GetBPDie(effect, shaman.Level)
 
 	if procMask.Matches(core.ProcMaskMeleeMH) {

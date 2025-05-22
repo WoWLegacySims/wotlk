@@ -57,6 +57,7 @@ func (warlock *Warlock) registerSeedSpell() {
 
 	warlock.Seed = warlock.RegisterSpell(core.SpellConfig{
 		ActionID:     core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:   warlockinfo.SeedofCorruption.GetAllIDs(),
 		SpellSchool:  core.SpellSchoolShadow,
 		ProcMask:     core.ProcMaskEmpty,
 		Flags:        core.SpellFlagHauntSE | core.SpellFlagAPL,

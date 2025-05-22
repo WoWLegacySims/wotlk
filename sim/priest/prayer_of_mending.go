@@ -62,6 +62,7 @@ func (priest *Priest) registerPrayerOfMendingSpell() {
 
 	priest.PrayerOfMending = priest.RegisterSpell(core.SpellConfig{
 		ActionID:    actionID,
+		SpellRanks:  priestinfo.PrayerofMending.GetAllIDs(),
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    core.ProcMaskSpellHealing,
 		Flags:       core.SpellFlagHelpful | core.SpellFlagAPL,

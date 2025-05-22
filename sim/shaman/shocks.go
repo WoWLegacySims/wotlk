@@ -57,6 +57,7 @@ func (shaman *Shaman) registerEarthShockSpell(shockTimer *core.Timer) {
 	bp, die := dbc.GetBPDie(1, shaman.Level)
 	coef := dbc.GetCoefficient(1) * dbc.GetLevelPenalty(shaman.Level)
 	config := shaman.newShockSpellConfig(dbc.SpellID, core.SpellSchoolNature, dbc.BaseCost, shockTimer)
+	config.SpellRanks = shamaninfo.EarthShock.GetAllIDs()
 	config.ApplyEffects = func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 		baseDamage := sim.Roll(bp, die) + coef*spell.SpellPower()
 		spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
@@ -77,6 +78,7 @@ func (shaman *Shaman) registerFlameShockSpell(shockTimer *core.Timer) {
 	coefDot := dbc.GetCoefficient(1) * dbc.GetLevelPenalty(shaman.Level)
 
 	config := shaman.newShockSpellConfig(dbc.SpellID, core.SpellSchoolFire, dbc.BaseCost, shockTimer)
+	config.SpellRanks = shamaninfo.FlameShock.GetAllIDs()
 
 	config.Cast.CD.Duration -= time.Duration(shaman.Talents.BoomingEchoes) * time.Second
 	config.CritMultiplier = shaman.ElementalCritMultiplier(core.TernaryFloat64(shaman.HasMajorGlyph(proto.ShamanMajorGlyph_GlyphOfFlameShock), 0.6, 0))
@@ -100,7 +102,8 @@ func (shaman *Shaman) registerFlameShockSpell(shockTimer *core.Timer) {
 
 	config.Dot = core.DotConfig{
 		Aura: core.Aura{
-			Label: "FlameShock",
+			Label:     "FlameShock",
+			AuraRanks: shamaninfo.FlameShock.GetAllIDs(),
 			OnGain: func(aura *core.Aura, sim *core.Simulation) {
 				shaman.LavaBurst.BonusCrit += 100
 			},
@@ -137,6 +140,7 @@ func (shaman *Shaman) registerFrostShockSpell(shockTimer *core.Timer) {
 	coef := dbc.GetCoefficient(1) * dbc.GetLevelPenalty(shaman.Level)
 
 	config := shaman.newShockSpellConfig(dbc.SpellID, core.SpellSchoolFrost, 0.18, shockTimer)
+	config.SpellRanks = shamaninfo.FrostShock.GetAllIDs()
 	config.Cast.CD.Duration -= time.Duration(shaman.Talents.BoomingEchoes) * time.Second
 	config.DamageMultiplier += 0.1 * float64(shaman.Talents.BoomingEchoes)
 	config.ThreatMultiplier *= 2

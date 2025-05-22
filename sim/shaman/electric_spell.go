@@ -24,7 +24,7 @@ const (
 )
 
 // Shared precomputation logic for LB and CL.
-func (shaman *Shaman) newElectricSpellConfig(actionID core.ActionID, baseCost float64, baseCastTime time.Duration, isLightningOverload bool) core.SpellConfig {
+func (shaman *Shaman) newElectricSpellConfig(actionID core.ActionID, baseCost float64, baseCastTime time.Duration, isLightningOverload bool, spellRanks map[int32]bool) core.SpellConfig {
 	mask := core.ProcMaskSpellDamage
 	if isLightningOverload {
 		mask = core.ProcMaskProc
@@ -35,6 +35,7 @@ func (shaman *Shaman) newElectricSpellConfig(actionID core.ActionID, baseCost fl
 	}
 	spell := core.SpellConfig{
 		ActionID:     actionID,
+		SpellRanks:   spellRanks,
 		SpellSchool:  core.SpellSchoolNature,
 		ProcMask:     mask,
 		Flags:        flags,

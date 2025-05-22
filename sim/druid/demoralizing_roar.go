@@ -15,6 +15,7 @@ func (druid *Druid) registerDemoralizingRoarSpell() {
 
 	druid.DemoralizingRoar = druid.RegisterSpell(Bear, core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  druidinfo.DemoralizingRoar.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskEmpty,
 		Flags:       core.SpellFlagAPL,

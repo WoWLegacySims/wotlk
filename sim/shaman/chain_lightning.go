@@ -29,7 +29,8 @@ func (shaman *Shaman) newChainLightningSpell(isLightningOverload bool, dbc *spel
 		core.ActionID{SpellID: dbc.SpellID},
 		0.26,
 		time.Millisecond*2000,
-		isLightningOverload)
+		isLightningOverload,
+		shamaninfo.ChainLightning.GetAllIDs())
 
 	if !isLightningOverload {
 		spellConfig.Cast.CD = core.Cooldown{

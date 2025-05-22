@@ -60,7 +60,8 @@ func (mage *Mage) registerLivingBombSpell() {
 	}
 
 	mage.LivingBomb = mage.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 55360},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  mageinfo.LivingBomb.GetAllIDs(),
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       SpellFlagMage | core.SpellFlagAPL,

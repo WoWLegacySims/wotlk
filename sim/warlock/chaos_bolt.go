@@ -24,6 +24,7 @@ func (warlock *Warlock) registerChaosBoltSpell() {
 	//  or add an unlimited amount of "bonusSpellPenetration".
 	warlock.ChaosBolt = warlock.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  warlockinfo.ChaosBolt.GetAllIDs(),
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagAPL,

@@ -22,6 +22,7 @@ func (dk *Deathknight) newBloodStrikeSpell(isMH bool) *core.Spell {
 
 	conf := core.SpellConfig{
 		ActionID:    actionID.WithTag(core.TernaryInt32(isMH, 1, 2)),
+		SpellRanks:  deathknightinfo.BloodStrike.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    dk.threatOfThassarianProcMask(isMH),
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage,

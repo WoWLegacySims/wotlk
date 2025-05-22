@@ -22,6 +22,7 @@ func (hunter *Hunter) registerBlackArrowSpell(timer *core.Timer) {
 
 	hunter.BlackArrow = hunter.RegisterSpell(core.SpellConfig{
 		ActionID:    actionID,
+		SpellRanks:  hunterinfo.BlackArrow.GetAllIDs(),
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskRangedSpecial,
 		Flags:       core.SpellFlagAPL,

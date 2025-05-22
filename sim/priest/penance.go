@@ -44,6 +44,7 @@ func (priest *Priest) makePenanceSpell(isHeal bool) *core.Spell {
 
 	return priest.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  priestinfo.Penance.GetAllIDs(),
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    procMask,
 		Flags:       flags,

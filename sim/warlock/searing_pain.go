@@ -18,6 +18,7 @@ func (warlock *Warlock) registerSearingPainSpell() {
 
 	warlock.SearingPain = warlock.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  warlockinfo.SearingPain.GetAllIDs(),
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagAPL,

@@ -52,6 +52,7 @@ func (rogue *Rogue) registerSliceAndDice() {
 
 	rogue.SliceAndDice = rogue.RegisterSpell(core.SpellConfig{
 		ActionID:     actionID,
+		SpellRanks:   rogueinfo.SliceandDice.GetAllIDs(),
 		Flags:        SpellFlagFinisher | core.SpellFlagAPL,
 		MetricSplits: 6,
 

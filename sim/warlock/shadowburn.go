@@ -31,6 +31,7 @@ func (warlock *Warlock) registerShadowBurnSpell() {
 
 	warlock.Shadowburn = warlock.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  warlockinfo.Shadowburn.GetAllIDs(),
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagAPL,

@@ -26,6 +26,7 @@ func (mage *Mage) registerFlamestrikeSpell(downrank bool) *core.Spell {
 
 	return mage.RegisterSpell(core.SpellConfig{
 		ActionID:    actionID,
+		SpellRanks:  mageinfo.Flamestrike.GetAllIDs(),
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       SpellFlagMage | core.SpellFlagAPL,

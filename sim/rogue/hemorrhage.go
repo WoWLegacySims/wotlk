@@ -43,6 +43,7 @@ func (rogue *Rogue) registerHemorrhageSpell() {
 			return target.GetOrRegisterAura(core.Aura{
 				Label:     "Hemorrhage",
 				ActionID:  actionID,
+				AuraRanks: rogueinfo.Hemorrhage.GetAllIDs(),
 				Duration:  time.Second * 15,
 				MaxStacks: 10,
 				OnGain: func(aura *core.Aura, sim *core.Simulation) {
@@ -67,6 +68,7 @@ func (rogue *Rogue) registerHemorrhageSpell() {
 
 	rogue.Hemorrhage = rogue.RegisterSpell(core.SpellConfig{
 		ActionID:    actionID,
+		SpellRanks:  rogueinfo.Hemorrhage.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | SpellFlagBuilder | SpellFlagColdBlooded | core.SpellFlagAPL,

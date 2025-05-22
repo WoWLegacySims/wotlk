@@ -41,6 +41,7 @@ func (paladin *Paladin) registerHolyShieldSpell() {
 	paladin.HolyShieldAura = paladin.RegisterAura(core.Aura{
 		Label:     "Holy Shield",
 		ActionID:  actionID,
+		AuraRanks: paladininfo.HolyShield.GetAllIDs(),
 		Duration:  time.Second * 10,
 		MaxStacks: numCharges,
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
@@ -60,6 +61,7 @@ func (paladin *Paladin) registerHolyShieldSpell() {
 
 	paladin.HolyShield = paladin.RegisterSpell(core.SpellConfig{
 		ActionID:    actionID,
+		SpellRanks:  paladininfo.HolyShield.GetAllIDs(),
 		SpellSchool: core.SpellSchoolHoly,
 		Flags:       core.SpellFlagAPL,
 

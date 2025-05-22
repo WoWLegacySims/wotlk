@@ -21,6 +21,7 @@ func (mage *Mage) registerFireballSpell() {
 
 	mage.Fireball = mage.RegisterSpell(core.SpellConfig{
 		ActionID:     core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:   mageinfo.Fireball.GetAllIDs(),
 		SpellSchool:  core.SpellSchoolFire,
 		ProcMask:     core.ProcMaskSpellDamage,
 		Flags:        SpellFlagMage | BarrageSpells | HotStreakSpells | core.SpellFlagAPL,

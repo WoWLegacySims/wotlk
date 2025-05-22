@@ -21,6 +21,7 @@ func (shaman *Shaman) registerFireNovaSpell() {
 
 	shaman.FireNova = shaman.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  shamaninfo.FireNovaDamage.GetAllIDs(),
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       SpellFlagFocusable | core.SpellFlagAPL,

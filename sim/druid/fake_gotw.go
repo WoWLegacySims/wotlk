@@ -16,8 +16,9 @@ func (druid *Druid) registerFakeGotw() {
 	baseCost := core.TernaryFloat64(druid.HasMinorGlyph(proto.DruidMinorGlyph_GlyphOfTheWild), 0.5, 1) * dbc.BaseCost
 
 	druid.GiftOfTheWild = druid.RegisterSpell(Humanoid|Moonkin|Tree, core.SpellConfig{
-		ActionID: core.ActionID{SpellID: dbc.SpellID},
-		Flags:    SpellFlagOmenTrigger | core.SpellFlagHelpful | core.SpellFlagAPL,
+		ActionID:   core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks: druidinfo.GiftoftheWild.GetAllIDs(),
+		Flags:      SpellFlagOmenTrigger | core.SpellFlagHelpful | core.SpellFlagAPL,
 
 		ManaCost: core.ManaCostOptions{
 			BaseCost:   baseCost,

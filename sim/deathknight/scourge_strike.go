@@ -57,6 +57,7 @@ func (dk *Deathknight) registerScourgeStrikeSpell() {
 
 	dk.ScourgeStrike = dk.RegisterSpell(core.SpellConfig{
 		ActionID:    actionID.WithTag(1),
+		SpellRanks:  deathknightinfo.ScourgeStrike.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagAPL,

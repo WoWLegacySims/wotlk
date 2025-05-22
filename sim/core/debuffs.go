@@ -276,9 +276,10 @@ func CurseOfElementsAura(target *Unit, level int32) *Aura {
 	res := dbc.Effects[0].BasePoints + 1
 	dmg := 1 + (dbc.Effects[1].BasePoints+1)/100
 	aura := target.GetOrRegisterAura(Aura{
-		Label:    "Curse of Elements",
-		ActionID: ActionID{SpellID: dbc.SpellID},
-		Duration: time.Minute * 5,
+		Label:     "Curse of Elements",
+		ActionID:  ActionID{SpellID: dbc.SpellID},
+		AuraRanks: warlockinfo.CurseoftheElements.GetAllIDs(),
+		Duration:  time.Minute * 5,
 		OnGain: func(aura *Aura, sim *Simulation) {
 			aura.Unit.AddStatsDynamic(sim, stats.Stats{stats.ArcaneResistance: res, stats.FireResistance: res, stats.FrostResistance: res, stats.ShadowResistance: res, stats.NatureResistance: res})
 		},
@@ -640,9 +641,10 @@ func CurseOfWeaknessAura(target *Unit, points int32, level int32) *Aura {
 	}
 	ap := dbc.Effects[0].BasePoints + 1
 	aura := target.GetOrRegisterAura(Aura{
-		Label:    "Curse of Weakness" + strconv.Itoa(int(points)),
-		ActionID: ActionID{SpellID: dbc.SpellID},
-		Duration: time.Minute * 2,
+		Label:     "Curse of Weakness" + strconv.Itoa(int(points)),
+		ActionID:  ActionID{SpellID: dbc.SpellID},
+		AuraRanks: warlockinfo.CurseofWeakness.GetAllIDs(),
+		Duration:  time.Minute * 2,
 	})
 	minorArmorReductionEffect(aura, 0.05)
 	apReductionEffect(aura, -ap*(1+0.1*float64(points)))
@@ -714,10 +716,11 @@ func HuntersMarkAura(target *Unit, points int32, glyphed bool, level int32) *Aur
 	bonus := (1 + dbc.Effects[1].BasePoints) * (1 + 0.1*float64(points) + TernaryFloat64(glyphed, 0.2, 0))
 
 	aura := target.GetOrRegisterAura(Aura{
-		Label:    "HuntersMark-" + strconv.Itoa(int(bonus)),
-		Tag:      HuntersMarkAuraTag,
-		ActionID: ActionID{SpellID: dbc.SpellID},
-		Duration: NeverExpires,
+		Label:     "HuntersMark-" + strconv.Itoa(int(bonus)),
+		Tag:       HuntersMarkAuraTag,
+		ActionID:  ActionID{SpellID: dbc.SpellID},
+		AuraRanks: hunterinfo.HuntersMark.GetAllIDs(),
+		Duration:  NeverExpires,
 	})
 
 	aura.NewExclusiveEffect("HuntersMark", true, ExclusiveEffect{
@@ -740,9 +743,10 @@ func DemoralizingRoarAura(target *Unit, points int32, level int32) *Aura {
 	}
 	ap, _ := dbc.GetBPDie(0, level)
 	aura := target.GetOrRegisterAura(Aura{
-		Label:    "DemoralizingRoar-" + strconv.Itoa(int(points)),
-		ActionID: ActionID{SpellID: dbc.SpellID},
-		Duration: time.Second * 30,
+		Label:     "DemoralizingRoar-" + strconv.Itoa(int(points)),
+		ActionID:  ActionID{SpellID: dbc.SpellID},
+		AuraRanks: druidinfo.DemoralizingRoar.GetAllIDs(),
+		Duration:  time.Second * 30,
 	})
 	apReductionEffect(aura, -ap*(1+0.08*float64(points)))
 	return aura
@@ -755,9 +759,10 @@ func DemoralizingShoutAura(target *Unit, boomingVoicePts int32, impDemoShoutPts 
 	}
 	ap := dbc.Effects[0].BasePoints + 1 - float64(min(dbc.MaxLevel, level)-dbc.MinLevel)
 	aura := target.GetOrRegisterAura(Aura{
-		Label:    "DemoralizingShout-" + strconv.Itoa(int(impDemoShoutPts)),
-		ActionID: ActionID{SpellID: dbc.SpellID},
-		Duration: time.Duration(float64(time.Second*30) * (1 + 0.1*float64(boomingVoicePts))),
+		Label:     "DemoralizingShout-" + strconv.Itoa(int(impDemoShoutPts)),
+		ActionID:  ActionID{SpellID: dbc.SpellID},
+		AuraRanks: warriorinfo.DemoralizingShout.GetAllIDs(),
+		Duration:  time.Duration(float64(time.Second*30) * (1 + 0.1*float64(boomingVoicePts))),
 	})
 	apReductionEffect(aura, -ap*(1+0.08*float64(impDemoShoutPts)))
 	return aura
@@ -780,9 +785,10 @@ func DemoralizingScreechAura(target *Unit, level int32) *Aura {
 	}
 	ap := dbc.Effects[1].BasePoints + 1
 	aura := target.GetOrRegisterAura(Aura{
-		Label:    "DemoralizingScreech",
-		ActionID: ActionID{SpellID: dbc.SpellID},
-		Duration: time.Second * 4,
+		Label:     "DemoralizingScreech",
+		ActionID:  ActionID{SpellID: dbc.SpellID},
+		AuraRanks: hunterinfo.DemoralizingScreech.GetAllIDs(),
+		Duration:  time.Second * 4,
 	})
 	apReductionEffect(aura, -ap)
 	return aura

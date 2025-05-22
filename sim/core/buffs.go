@@ -548,9 +548,10 @@ func RetributionAura(character *Character, sanctifiedRetribution bool) *Aura {
 	})
 
 	return character.RegisterAura(Aura{
-		Label:    "Retribution Aura",
-		ActionID: actionID,
-		Duration: NeverExpires,
+		Label:     "Retribution Aura",
+		ActionID:  actionID,
+		AuraRanks: paladininfo.RetributionAura.GetAllIDs(),
+		Duration:  NeverExpires,
 		OnReset: func(aura *Aura, sim *Simulation) {
 			aura.Activate(sim)
 		},
@@ -586,9 +587,10 @@ func ThornsAura(character *Character, points int32) *Aura {
 	})
 
 	return character.RegisterAura(Aura{
-		Label:    "Thorns",
-		ActionID: actionID,
-		Duration: NeverExpires,
+		Label:     "Thorns",
+		ActionID:  actionID,
+		AuraRanks: druidinfo.Thorns.GetAllIDs(),
+		Duration:  NeverExpires,
 		OnReset: func(aura *Aura, sim *Simulation) {
 			aura.Activate(sim)
 		},
@@ -1475,6 +1477,7 @@ func TotemOfWrathAura(character *Character) *Aura {
 	aura := character.GetOrRegisterAura(Aura{
 		Label:      "Totem of Wrath",
 		ActionID:   ActionID{SpellID: dbc.SpellID},
+		AuraRanks:  shamaninfo.TotemofWrathEffect.GetAllIDs(),
 		Duration:   NeverExpires,
 		BuildPhase: CharacterBuildPhaseBuffs,
 		OnReset: func(aura *Aura, sim *Simulation) {
@@ -1494,6 +1497,7 @@ func FlametongueTotemAura(character *Character) *Aura {
 	aura := character.GetOrRegisterAura(Aura{
 		Label:      "Flametongue Totem",
 		ActionID:   ActionID{SpellID: dbc.SpellID},
+		AuraRanks:  shamaninfo.FlametongeTotemEffect.GetAllIDs(),
 		Duration:   NeverExpires,
 		BuildPhase: CharacterBuildPhaseBuffs,
 		OnReset: func(aura *Aura, sim *Simulation) {
@@ -1540,6 +1544,7 @@ func BattleShoutAura(unit *Unit, commandingPresencePts int32, boomingVoicePts in
 	aura := unit.GetOrRegisterAura(Aura{
 		Label:      "Battle Shout",
 		ActionID:   ActionID{SpellID: dbc.SpellID},
+		AuraRanks:  warriorinfo.BattleShout.GetAllIDs(),
 		Duration:   time.Duration(float64(time.Minute*2)*(1+0.25*float64(boomingVoicePts))) + TernaryDuration(minorGlyph, 2*time.Minute, 0),
 		BuildPhase: CharacterBuildPhaseBuffs,
 	})
@@ -1556,6 +1561,7 @@ func BlessingOfMightAura(unit *Unit, impBomPts int32) *Aura {
 	aura := unit.GetOrRegisterAura(Aura{
 		Label:      "Blessing of Might",
 		ActionID:   ActionID{SpellID: dbc.SpellID},
+		AuraRanks:  paladininfo.BlessingofMight.GetAllIDs(),
 		Duration:   NeverExpires,
 		BuildPhase: CharacterBuildPhaseBuffs,
 		OnReset: func(aura *Aura, sim *Simulation) {
@@ -1593,6 +1599,7 @@ func CommandingShoutAura(unit *Unit, commandingPresencePts int32, boomingVoicePt
 	aura := unit.GetOrRegisterAura(Aura{
 		Label:      "Commanding Shout",
 		ActionID:   ActionID{SpellID: dbc.SpellID},
+		AuraRanks:  warriorinfo.CommandingShout.GetAllIDs(),
 		Duration:   time.Duration(float64(time.Minute*2)*(1+0.25*float64(boomingVoicePts))) + TernaryDuration(minorGlyph, 2*time.Minute, 0),
 		BuildPhase: CharacterBuildPhaseBuffs,
 	})
@@ -1609,6 +1616,7 @@ func BloodPactAura(unit *Unit, impImpPts int32) *Aura {
 	aura := unit.GetOrRegisterAura(Aura{
 		Label:      "Blood Pact",
 		ActionID:   ActionID{SpellID: dbc.SpellID},
+		AuraRanks:  warlockinfo.BloodPact.GetAllIDs(),
 		Duration:   NeverExpires,
 		BuildPhase: CharacterBuildPhaseBuffs,
 		OnReset: func(aura *Aura, sim *Simulation) {

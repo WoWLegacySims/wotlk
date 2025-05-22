@@ -53,6 +53,7 @@ func (character *Character) applyProfessionEffects() {
 
 		spell := character.RegisterSpell(SpellConfig{
 			ActionID:    actionID,
+			SpellRanks:  commoninfo.Lifeblood.GetAllIDs(),
 			SpellSchool: SpellSchoolNature,
 			Cast: CastConfig{
 				CD: Cooldown{

@@ -6,6 +6,7 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warriorinfo"
 )
 
 func CreateBlackMagicProcAura(character *core.Character) *core.Aura {
@@ -246,8 +247,7 @@ func init() {
 			},
 			OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 				// Special case for spells that aren't spells that can proc black magic.
-				specialCaseSpell := spell.ActionID.SpellID == 47465 || spell.ActionID.SpellID == 12867
-
+				specialCaseSpell := warriorinfo.Rend.IsSpell(spell.ActionID.SpellID) || spell.ActionID.SpellID == 12867
 				if !result.Landed() || !spell.ProcMask.Matches(core.ProcMaskSpellDamage|core.ProcMaskWeaponProc) && !specialCaseSpell {
 					return
 				}

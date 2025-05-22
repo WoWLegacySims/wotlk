@@ -27,6 +27,11 @@ func (hunter *Hunter) registerAspectOfTheDragonhawkSpell() {
 		dodge += 2 * float64(hunter.Talents.ImprovedAspectOfTheMonkey)
 	}
 
+	ids := hunterinfo.AspectoftheDragonhawk.GetAllIDs()
+	for k, _ := range hunterinfo.AspectoftheHawk.GetAllIDs() {
+		ids[k] = true
+	}
+
 	var impHawkAura *core.Aura
 	const improvedHawkProcChance = 0.1
 	if hunter.Talents.ImprovedAspectOfTheHawk > 0 {
@@ -65,7 +70,7 @@ func (hunter *Hunter) registerAspectOfTheDragonhawkSpell() {
 					aura.Unit.PseudoStats.DamageTakenMultiplier /= 0.95
 				})
 			}
-
+			aura.AuraRanks = ids
 			aura.OnSpellHitDealt = func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 				if spell != hunter.AutoAttacks.RangedAuto() {
 					return
@@ -79,8 +84,9 @@ func (hunter *Hunter) registerAspectOfTheDragonhawkSpell() {
 	hunter.applySharedAspectConfig(true, hunter.AspectOfTheDragonhawkAura)
 
 	hunter.AspectOfTheDragonhawk = hunter.RegisterSpell(core.SpellConfig{
-		ActionID: actionID,
-		Flags:    core.SpellFlagAPL,
+		ActionID:   actionID,
+		SpellRanks: ids,
+		Flags:      core.SpellFlagAPL,
 
 		ApplyEffects: func(sim *core.Simulation, _ *core.Unit, _ *core.Spell) {
 			hunter.AspectOfTheDragonhawkAura.Activate(sim)

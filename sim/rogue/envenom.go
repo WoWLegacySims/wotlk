@@ -15,8 +15,9 @@ func (rogue *Rogue) registerEnvenom() {
 	bp, _ := dbc.GetBPDie(0, rogue.Level)
 
 	rogue.EnvenomAura = rogue.RegisterAura(core.Aura{
-		Label:    "Envenom",
-		ActionID: core.ActionID{SpellID: dbc.SpellID},
+		Label:     "Envenom",
+		ActionID:  core.ActionID{SpellID: dbc.SpellID},
+		AuraRanks: rogueinfo.Envenom.GetAllIDs(),
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
 			rogue.deadlyPoisonProcChanceBonus += 0.15
 			rogue.UpdateInstantPoisonPPM(0.75)
@@ -31,6 +32,7 @@ func (rogue *Rogue) registerEnvenom() {
 
 	rogue.Envenom = rogue.RegisterSpell(core.SpellConfig{
 		ActionID:     core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:   rogueinfo.Envenom.GetAllIDs(),
 		SpellSchool:  core.SpellSchoolNature,
 		ProcMask:     core.ProcMaskMeleeMHSpecial, // not core.ProcMaskSpellDamage
 		Flags:        core.SpellFlagMeleeMetrics | rogue.finisherFlags() | SpellFlagColdBlooded | core.SpellFlagAPL,

@@ -17,6 +17,7 @@ func (mage *Mage) registerFireBlastSpell() {
 
 	mage.FireBlast = mage.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  mageinfo.FireBlast.GetAllIDs(),
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       SpellFlagMage | HotStreakSpells | core.SpellFlagAPL,

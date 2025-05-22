@@ -25,6 +25,7 @@ func (paladin *Paladin) registerAvengersShieldSpell() {
 
 	paladin.AvengersShield = paladin.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  paladininfo.AvengersShield.GetAllIDs(),
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL,

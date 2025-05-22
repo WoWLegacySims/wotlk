@@ -21,6 +21,7 @@ func (warrior *Warrior) registerThunderClapSpell() {
 
 	warrior.ThunderClap = warrior.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  warriorinfo.ThunderClap.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskRangedSpecial,
 		Flags:       core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagAPL,

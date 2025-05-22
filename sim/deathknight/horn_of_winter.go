@@ -16,8 +16,9 @@ func (dk *Deathknight) registerHornOfWinterSpell() {
 	rpMetrics := dk.NewRunicPowerMetrics(actionID)
 
 	dk.HornOfWinter = dk.RegisterSpell(core.SpellConfig{
-		ActionID: actionID,
-		Flags:    core.SpellFlagAPL,
+		ActionID:   actionID,
+		SpellRanks: deathknightinfo.HornofWinter.GetAllIDs(),
+		Flags:      core.SpellFlagAPL,
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
 				GCD: core.GCDDefault,

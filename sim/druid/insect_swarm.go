@@ -45,6 +45,7 @@ func (druid *Druid) registerInsectSwarmSpell() {
 
 	druid.InsectSwarm = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  druidinfo.InsectSwarm.GetAllIDs(),
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       SpellFlagOmenTrigger | core.SpellFlagAPL,

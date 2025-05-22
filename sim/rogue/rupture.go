@@ -21,6 +21,7 @@ func (rogue *Rogue) registerRupture() {
 
 	rogue.Rupture = rogue.RegisterSpell(core.SpellConfig{
 		ActionID:     core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:   rogueinfo.Rupture.GetAllIDs(),
 		SpellSchool:  core.SpellSchoolPhysical,
 		ProcMask:     core.ProcMaskMeleeMHSpecial,
 		Flags:        core.SpellFlagMeleeMetrics | rogue.finisherFlags() | core.SpellFlagAPL,

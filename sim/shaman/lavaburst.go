@@ -52,6 +52,7 @@ func (shaman *Shaman) registerLavaBurstSpell() {
 
 	shaman.LavaBurst = shaman.RegisterSpell(core.SpellConfig{
 		ActionID:    actionID,
+		SpellRanks:  shamaninfo.LavaBurst.GetAllIDs(),
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       SpellFlagFocusable | core.SpellFlagAPL,

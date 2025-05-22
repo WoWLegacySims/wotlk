@@ -43,6 +43,7 @@ func (priest *Priest) registerRenewSpell() {
 
 	priest.Renew = priest.RegisterSpell(core.SpellConfig{
 		ActionID:    actionID,
+		SpellRanks:  priestinfo.Renew.GetAllIDs(),
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    core.ProcMaskSpellHealing,
 		Flags:       core.SpellFlagHelpful | core.SpellFlagAPL,

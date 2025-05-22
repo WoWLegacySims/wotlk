@@ -24,6 +24,7 @@ func (dk *Deathknight) registerHowlingBlastSpell() {
 
 	dk.HowlingBlast = dk.RegisterSpell(core.SpellConfig{
 		ActionID:    actionID,
+		SpellRanks:  deathknightinfo.HowlingBlast.GetAllIDs(),
 		Flags:       core.SpellFlagAPL,
 		SpellSchool: core.SpellSchoolFrost,
 		ProcMask:    core.ProcMaskSpellDamage,

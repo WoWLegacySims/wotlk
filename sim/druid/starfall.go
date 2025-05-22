@@ -56,6 +56,7 @@ func (druid *Druid) registerStarfallSpell() {
 
 	druid.Starfall = druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: spellId},
+		SpellRanks:  druidinfo.Starfall.GetAllIDs(),
 		SpellSchool: core.SpellSchoolArcane,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagAPL | SpellFlagOmenTrigger,

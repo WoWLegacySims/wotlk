@@ -23,6 +23,7 @@ func (warlock *Warlock) registerLifeTapSpell() {
 
 	warlock.LifeTap = warlock.RegisterSpell(core.SpellConfig{
 		ActionID:    actionID,
+		SpellRanks:  warlockinfo.LifeTap.GetAllIDs(),
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagAPL,

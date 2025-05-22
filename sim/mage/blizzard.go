@@ -57,6 +57,7 @@ func (mage *Mage) registerBlizzardSpell() {
 
 	mage.Blizzard = mage.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  mageinfo.Blizzard.GetAllIDs(),
 		SpellSchool: core.SpellSchoolFrost,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       SpellFlagMage | core.SpellFlagChanneled | core.SpellFlagAPL,

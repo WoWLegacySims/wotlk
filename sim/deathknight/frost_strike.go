@@ -24,6 +24,7 @@ func (dk *Deathknight) newFrostStrikeHitSpell(isMH bool) *core.Spell {
 
 	conf := core.SpellConfig{
 		ActionID:    actionID,
+		SpellRanks:  deathknightinfo.FrostStrike.GetAllIDs(),
 		SpellSchool: core.SpellSchoolFrost,
 		ProcMask:    dk.threatOfThassarianProcMask(isMH),
 		Flags:       core.SpellFlagMeleeMetrics,

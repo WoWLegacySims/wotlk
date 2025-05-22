@@ -20,6 +20,7 @@ func (mage *Mage) registerFrostfireBoltSpell() {
 
 	mage.FrostfireBolt = mage.RegisterSpell(core.SpellConfig{
 		ActionID:     core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:   mageinfo.FrostfireBolt.GetAllIDs(),
 		SpellSchool:  core.SpellSchoolFire | core.SpellSchoolFrost,
 		ProcMask:     core.ProcMaskSpellDamage,
 		Flags:        SpellFlagMage | BarrageSpells | HotStreakSpells | core.SpellFlagAPL,

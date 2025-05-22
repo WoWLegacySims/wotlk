@@ -18,9 +18,10 @@ func (warrior *Warrior) registerRevengeSpell(cdTimer *core.Timer) {
 	actionID := core.ActionID{SpellID: dbc.SpellID}
 
 	warrior.revengeProcAura = warrior.RegisterAura(core.Aura{
-		Label:    "Revenge",
-		Duration: 5 * time.Second,
-		ActionID: actionID,
+		Label:     "Revenge",
+		Duration:  5 * time.Second,
+		ActionID:  actionID,
+		AuraRanks: warriorinfo.Revenge.GetAllIDs(),
 	})
 
 	var glyphOfRevengeProcAura *core.Aura
@@ -70,6 +71,7 @@ func (warrior *Warrior) registerRevengeSpell(cdTimer *core.Timer) {
 
 	warrior.Revenge = warrior.RegisterSpell(core.SpellConfig{
 		ActionID:    actionID,
+		SpellRanks:  warriorinfo.Revenge.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagAPL,

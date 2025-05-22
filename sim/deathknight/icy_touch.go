@@ -17,6 +17,7 @@ func (dk *Deathknight) registerIcyTouchSpell() {
 
 	dk.IcyTouch = dk.RegisterSpell(core.SpellConfig{
 		ActionID:    actionID,
+		SpellRanks:  deathknightinfo.IcyTouch.GetAllIDs(),
 		Flags:       core.SpellFlagAPL,
 		SpellSchool: core.SpellSchoolFrost,
 		ProcMask:    core.ProcMaskSpellDamage,

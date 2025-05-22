@@ -24,9 +24,10 @@ func (warlock *Warlock) registerHauntSpell() {
 
 	warlock.HauntDebuffAuras = warlock.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 		return target.GetOrRegisterAura(core.Aura{
-			Label:    "Haunt-" + warlock.Label,
-			ActionID: actionID,
-			Duration: time.Second * 12,
+			Label:     "Haunt-" + warlock.Label,
+			ActionID:  actionID,
+			AuraRanks: warlockinfo.Haunt.GetAllIDs(),
+			Duration:  time.Second * 12,
 			OnGain: func(aura *core.Aura, sim *core.Simulation) {
 				warlock.AttackTables[aura.Unit.UnitIndex].HauntSEDamageTakenMultiplier *= debuffMult
 			},
@@ -38,6 +39,7 @@ func (warlock *Warlock) registerHauntSpell() {
 
 	warlock.Haunt = warlock.RegisterSpell(core.SpellConfig{
 		ActionID:     actionID,
+		SpellRanks:   warlockinfo.Haunt.GetAllIDs(),
 		SpellSchool:  core.SpellSchoolShadow,
 		ProcMask:     core.ProcMaskSpellDamage,
 		Flags:        core.SpellFlagAPL,

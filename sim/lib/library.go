@@ -13,6 +13,7 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim"
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warriorinfo"
 	"google.golang.org/protobuf/encoding/protojson"
 	goproto "google.golang.org/protobuf/proto"
 )
@@ -172,7 +173,7 @@ func trySpell(act int) bool {
 	casted := false
 
 	// FIXME : This is a hack to allow Heroic strike to work
-	if spell.ActionID.SpellID == 47450 {
+	if warriorinfo.HeroicStrike.IsSpell(spell.SpellID) {
 		aura := player.GetCharacter().GetAura("HS Queue Aura")
 		if aura.IsActive() {
 			return false

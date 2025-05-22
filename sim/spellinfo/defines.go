@@ -111,3 +111,15 @@ func (spell *SpellDBC) GetDownRank(level int32) *SpellInfo {
 	}
 	return nil
 }
+
+func (spell *SpellDBC) GetAllIDs() map[int32]bool {
+	ids := make(map[int32]bool, len(spell.SpellInfos))
+	for _, info := range spell.SpellInfos {
+		ids[info.SpellID] = true
+	}
+	return ids
+}
+
+func (spell *SpellDBC) IsSpell(id int32) bool {
+	return spell.GetAllIDs()[id]
+}

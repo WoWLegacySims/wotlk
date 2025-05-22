@@ -55,6 +55,7 @@ func (priest *Priest) registerDevouringPlagueSpell() {
 
 	priest.DevouringPlague = priest.RegisterSpell(core.SpellConfig{
 		ActionID:    actionID,
+		SpellRanks:  priestinfo.DevouringPlague.GetAllIDs(),
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagDisease | core.SpellFlagAPL,

@@ -27,7 +27,8 @@ func (hunter *Hunter) makeExplosiveShotSpell(timer *core.Timer, downrank bool) *
 	rank := dbc.Rank
 
 	return hunter.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID, Tag: core.TernaryInt32(downrank, 2, 1)},
+		SpellRanks:  hunterinfo.ExplosiveShot.GetAllIDs(),
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskRangedSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL,

@@ -42,6 +42,7 @@ func (shaman *Shaman) registerLesserHealingWaveSpell() {
 
 	shaman.LesserHealingWave = shaman.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  shamaninfo.LesserHealingWave.GetAllIDs(),
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskSpellHealing,
 		Flags:       core.SpellFlagHelpful | core.SpellFlagAPL,
@@ -111,6 +112,7 @@ func (shaman *Shaman) registerRiptideSpell() {
 
 	shaman.Riptide = shaman.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  shamaninfo.Riptide.GetAllIDs(),
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskSpellHealing,
 		Flags:       core.SpellFlagHelpful | core.SpellFlagAPL,
@@ -199,6 +201,7 @@ func (shaman *Shaman) registerHealingWaveSpell() {
 
 	shaman.HealingWave = shaman.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  shamaninfo.HealingWave.GetAllIDs(),
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskSpellHealing,
 		Flags:       core.SpellFlagHelpful | core.SpellFlagAPL,
@@ -276,6 +279,7 @@ func (shaman *Shaman) registerEarthShieldSpell() {
 
 	shaman.EarthShield = shaman.RegisterSpell(core.SpellConfig{
 		ActionID:    actionID,
+		SpellRanks:  shamaninfo.EarthShield.GetAllIDs(),
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskEmpty,
 		Flags:       core.SpellFlagHelpful | core.SpellFlagAPL,
@@ -346,6 +350,7 @@ func (shaman *Shaman) registerChainHealSpell() {
 
 	shaman.ChainHeal = shaman.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  shamaninfo.ChainHeal.GetAllIDs(),
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskSpellHealing,
 		Flags:       core.SpellFlagHelpful | core.SpellFlagAPL,

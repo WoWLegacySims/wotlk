@@ -72,6 +72,7 @@ func (priest *Priest) newMindSearSpell(numTicksIdx int32) *core.Spell {
 
 	config := priest.getMindSearBaseConfig()
 	config.ActionID = core.ActionID{SpellID: dbc.SpellID}.WithTag(numTicksIdx)
+	config.SpellRanks = priestinfo.MindSear.GetAllIDs()
 	config.Flags = flags
 	config.ManaCost = core.ManaCostOptions{
 		BaseCost:   0.28,
