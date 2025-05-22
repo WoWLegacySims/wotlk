@@ -27,6 +27,8 @@ const (
 
 type ProcHandler func(sim *Simulation, spell *Spell, result *SpellResult)
 
+type ProcTriggerCheck func(aura *Aura, sim *Simulation, spell *Spell, result *SpellResult) bool
+
 type ProcTrigger struct {
 	Name            string
 	ActionID        ActionID
@@ -41,6 +43,8 @@ type ProcTrigger struct {
 	PPM             float64
 	ICD             time.Duration
 	Handler         ProcHandler
+	SpellSchool     SpellSchool
+	CustomCheck     ProcTriggerCheck
 }
 
 func ApplyProcTriggerCallback(unit *Unit, aura *Aura, config ProcTrigger) {
@@ -69,6 +73,9 @@ func ApplyProcTriggerCallback(unit *Unit, aura *Aura, config ProcTrigger) {
 		if config.ProcMask != ProcMaskUnknown && !spell.ProcMask.Matches(config.ProcMask) {
 			return
 		}
+		if config.SpellSchool != SpellSchoolNone && !spell.SpellSchool.Matches(config.SpellSchool) {
+			return
+		}
 		if config.Outcome != OutcomeEmpty && !result.Outcome.Matches(config.Outcome) {
 			return
 		}
@@ -81,6 +88,9 @@ func ApplyProcTriggerCallback(unit *Unit, aura *Aura, config ProcTrigger) {
 		if config.ProcChance != 1 && sim.RandomFloat(config.Name) > config.ProcChance {
 			return
 		} else if config.PPM != 0 && !ppmm.Proc(sim, spell.ProcMask, config.Name) {
+			return
+		}
+		if config.CustomCheck != nil && !config.CustomCheck(aura, sim, spell, result) {
 			return
 		}
 
@@ -162,6 +172,11 @@ func MakeStackingAura(character *Character, config StackingStatAura) *Aura {
 	bonusPerStack := config.BonusPerStack
 	config.Aura.OnStacksChange = func(aura *Aura, sim *Simulation, oldStacks int32, newStacks int32) {
 		character.AddStatsDynamic(sim, bonusPerStack.Multiply(float64(newStacks-oldStacks)))
+	}
+	config.Aura.OnSpellHitDealt = func(aura *Aura, sim *Simulation, spell *Spell, result *SpellResult) {
+		if result.Landed() && spell.ProcMask.Matches(ProcMaskMeleeOrRanged) {
+			aura.AddStack(sim)
+		}
 	}
 	return character.RegisterAura(config.Aura)
 }

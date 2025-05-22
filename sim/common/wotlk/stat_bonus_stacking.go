@@ -3,141 +3,10 @@ package wotlk
 import (
 	"time"
 
+	"github.com/WoWLegacySims/wotlk/sim/common/helpers"
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
-
-type StackingStatBonusEffect struct {
-	Name       string
-	ID         int32
-	AuraID     int32
-	Bonus      stats.Stats
-	Duration   time.Duration
-	MaxStacks  int32
-	Callback   core.AuraCallback
-	ProcMask   core.ProcMask
-	SpellFlags core.SpellFlag
-	Outcome    core.HitOutcome
-	Harmful    bool
-	ProcChance float64
-}
-
-func newStackingStatBonusEffect(config StackingStatBonusEffect) {
-	core.NewItemEffect(config.ID, func(agent core.Agent) {
-		character := agent.GetCharacter()
-
-		auraID := core.ActionID{SpellID: config.AuraID}
-		if auraID.IsEmptyAction() {
-			auraID = core.ActionID{ItemID: config.ID}
-		}
-		procAura := core.MakeStackingAura(character, core.StackingStatAura{
-			Aura: core.Aura{
-				Label:     config.Name + " Proc",
-				ActionID:  auraID,
-				Duration:  config.Duration,
-				MaxStacks: config.MaxStacks,
-			},
-			BonusPerStack: config.Bonus,
-		})
-
-		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
-			ActionID:   core.ActionID{ItemID: config.ID},
-			Name:       config.Name,
-			Callback:   config.Callback,
-			ProcMask:   config.ProcMask,
-			SpellFlags: config.SpellFlags,
-			Outcome:    config.Outcome,
-			Harmful:    config.Harmful,
-			ProcChance: config.ProcChance,
-			Handler: func(sim *core.Simulation, _ *core.Spell, _ *core.SpellResult) {
-				procAura.Activate(sim)
-				procAura.AddStack(sim)
-			},
-		})
-	})
-}
-
-type StackingStatBonusCD struct {
-	Name        string
-	ID          int32
-	AuraID      int32
-	Bonus       stats.Stats
-	Duration    time.Duration
-	MaxStacks   int32
-	CD          time.Duration
-	Callback    core.AuraCallback
-	ProcMask    core.ProcMask
-	SpellFlags  core.SpellFlag
-	Outcome     core.HitOutcome
-	Harmful     bool
-	ProcChance  float64
-	IsDefensive bool
-}
-
-func newStackingStatBonusCD(config StackingStatBonusCD) {
-	core.NewItemEffect(config.ID, func(agent core.Agent) {
-		character := agent.GetCharacter()
-
-		auraID := core.ActionID{SpellID: config.AuraID}
-		if auraID.IsEmptyAction() {
-			auraID = core.ActionID{ItemID: config.ID}
-		}
-		buffAura := core.MakeStackingAura(character, core.StackingStatAura{
-			Aura: core.Aura{
-				Label:     config.Name + " Aura",
-				ActionID:  auraID,
-				Duration:  config.Duration,
-				MaxStacks: config.MaxStacks,
-			},
-			BonusPerStack: config.Bonus,
-		})
-
-		core.ApplyProcTriggerCallback(&character.Unit, buffAura, core.ProcTrigger{
-			Name:       config.Name,
-			Callback:   config.Callback,
-			ProcMask:   config.ProcMask,
-			SpellFlags: config.SpellFlags,
-			Outcome:    config.Outcome,
-			Harmful:    config.Harmful,
-			ProcChance: config.ProcChance,
-			Handler: func(sim *core.Simulation, _ *core.Spell, _ *core.SpellResult) {
-				buffAura.AddStack(sim)
-			},
-		})
-
-		var sharedTimer *core.Timer
-		if config.IsDefensive {
-			sharedTimer = character.GetDefensiveTrinketCD()
-		} else {
-			sharedTimer = character.GetOffensiveTrinketCD()
-		}
-
-		spell := character.RegisterSpell(core.SpellConfig{
-			ActionID: core.ActionID{ItemID: config.ID},
-			Flags:    core.SpellFlagNoOnCastComplete,
-
-			Cast: core.CastConfig{
-				CD: core.Cooldown{
-					Timer:    character.NewTimer(),
-					Duration: config.CD,
-				},
-				SharedCD: core.Cooldown{
-					Timer:    sharedTimer,
-					Duration: config.Duration,
-				},
-			},
-
-			ApplyEffects: func(sim *core.Simulation, _ *core.Unit, spell *core.Spell) {
-				buffAura.Activate(sim)
-			},
-		})
-
-		character.AddMajorCooldown(core.MajorCooldown{
-			Spell: spell,
-			Type:  core.CooldownTypeDPS,
-		})
-	})
-}
 
 func init() {
 	core.NewItemEffect(38212, func(agent core.Agent) {
@@ -173,7 +42,7 @@ func init() {
 		procAura.Icd = triggerAura.Icd
 	})
 
-	newStackingStatBonusEffect(StackingStatBonusEffect{
+	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{
 		Name:      "Majestic Dragon Figurine",
 		ID:        40430,
 		AuraID:    60525,
@@ -182,7 +51,7 @@ func init() {
 		Bonus:     stats.Stats{stats.Spirit: 18},
 		Callback:  core.CallbackOnCastComplete,
 	})
-	newStackingStatBonusEffect(StackingStatBonusEffect{
+	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{
 		Name:      "Fury of the Five Fights",
 		ID:        40431,
 		AuraID:    60314,
@@ -193,7 +62,7 @@ func init() {
 		ProcMask:  core.ProcMaskMeleeOrRanged,
 		Harmful:   true,
 	})
-	newStackingStatBonusEffect(StackingStatBonusEffect{
+	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{
 		Name:      "Illustration of the Dragon Soul",
 		ID:        40432,
 		AuraID:    60486,
@@ -203,7 +72,7 @@ func init() {
 		Callback:  core.CallbackOnCastComplete,
 		ProcMask:  core.ProcMaskSpellHealing | core.ProcMaskSpellDamage,
 	})
-	newStackingStatBonusEffect(StackingStatBonusEffect{
+	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{
 		Name:       "DMC Berserker",
 		ID:         42989,
 		AuraID:     60196,
@@ -214,7 +83,7 @@ func init() {
 		Harmful:    true,
 		ProcChance: 0.5,
 	})
-	newStackingStatBonusEffect(StackingStatBonusEffect{
+	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{
 		Name:      "Eye of the Broodmother",
 		ID:        45308,
 		AuraID:    65006,
@@ -226,7 +95,7 @@ func init() {
 
 	core.AddEffectsToTest = false
 
-	newStackingStatBonusEffect(StackingStatBonusEffect{
+	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{
 		Name:      "Solance of the Defeated",
 		ID:        47041,
 		AuraID:    67696,
@@ -235,7 +104,7 @@ func init() {
 		Bonus:     stats.Stats{stats.MP5: 16},
 		Callback:  core.CallbackOnCastComplete,
 	})
-	newStackingStatBonusEffect(StackingStatBonusEffect{
+	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{
 		Name:      "Solace of the Defeated H",
 		ID:        47059,
 		AuraID:    67750,
@@ -244,7 +113,7 @@ func init() {
 		Bonus:     stats.Stats{stats.MP5: 18},
 		Callback:  core.CallbackOnCastComplete,
 	})
-	newStackingStatBonusEffect(StackingStatBonusEffect{
+	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{
 		Name:      "Solace of the Fallen",
 		ID:        47271,
 		AuraID:    67696,
@@ -253,7 +122,7 @@ func init() {
 		Bonus:     stats.Stats{stats.MP5: 16},
 		Callback:  core.CallbackOnCastComplete,
 	})
-	newStackingStatBonusEffect(StackingStatBonusEffect{
+	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{
 		Name:      "Solace of the Fallen H",
 		ID:        47432,
 		AuraID:    67750,
@@ -262,7 +131,7 @@ func init() {
 		Bonus:     stats.Stats{stats.MP5: 18},
 		Callback:  core.CallbackOnCastComplete,
 	})
-	newStackingStatBonusEffect(StackingStatBonusEffect{
+	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{
 		Name:      "Muradin's Spyglass",
 		ID:        50340,
 		AuraID:    71570,
@@ -273,7 +142,7 @@ func init() {
 		ProcMask:  core.ProcMaskSpellOrProc | core.ProcMaskWeaponProc | core.ProcMaskSuppressedProc,
 		Harmful:   true,
 	})
-	newStackingStatBonusEffect(StackingStatBonusEffect{
+	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{
 		Name:      "Muradin's Spyglass H",
 		ID:        50345,
 		AuraID:    71572,
@@ -284,7 +153,7 @@ func init() {
 		ProcMask:  core.ProcMaskSpellOrProc | core.ProcMaskWeaponProc | core.ProcMaskSuppressedProc,
 		Harmful:   true,
 	})
-	newStackingStatBonusEffect(StackingStatBonusEffect{
+	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{
 		Name:       "Unidentifiable Organ",
 		ID:         50341,
 		AuraID:     71575,
@@ -296,7 +165,7 @@ func init() {
 		Outcome:    core.OutcomeLanded,
 		ProcChance: 0.6,
 	})
-	newStackingStatBonusEffect(StackingStatBonusEffect{
+	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{
 		Name:       "Unidentifiable Organ H",
 		ID:         50344,
 		AuraID:     71577,
@@ -308,7 +177,7 @@ func init() {
 		Outcome:    core.OutcomeLanded,
 		ProcChance: 0.6,
 	})
-	newStackingStatBonusEffect(StackingStatBonusEffect{
+	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{
 		Name:      "Herkuml War Token",
 		ID:        50355,
 		AuraID:    71396,
@@ -322,7 +191,7 @@ func init() {
 
 	// Stacking CD effects
 
-	newStackingStatBonusCD(StackingStatBonusCD{
+	helpers.NewStackingStatBonusCD(helpers.StackingStatBonusCD{
 		Name:        "Meteorite Crystal",
 		ID:          46051,
 		AuraID:      65000,
@@ -333,7 +202,7 @@ func init() {
 		Callback:    core.CallbackOnCastComplete,
 		IsDefensive: true,
 	})
-	newStackingStatBonusCD(StackingStatBonusCD{
+	helpers.NewStackingStatBonusCD(helpers.StackingStatBonusCD{
 		Name:      "Victor's Call",
 		ID:        47725,
 		AuraID:    67737,
@@ -345,7 +214,7 @@ func init() {
 		ProcMask:  core.ProcMaskMelee,
 		Outcome:   core.OutcomeLanded,
 	})
-	newStackingStatBonusCD(StackingStatBonusCD{
+	helpers.NewStackingStatBonusCD(helpers.StackingStatBonusCD{
 		Name:      "Victor's Call H",
 		ID:        47948,
 		AuraID:    67746,
@@ -357,7 +226,7 @@ func init() {
 		ProcMask:  core.ProcMaskMelee,
 		Outcome:   core.OutcomeLanded,
 	})
-	newStackingStatBonusCD(StackingStatBonusCD{
+	helpers.NewStackingStatBonusCD(helpers.StackingStatBonusCD{
 		Name:      "Talisman of Volatile Power",
 		ID:        47726,
 		AuraID:    67735,
@@ -368,7 +237,7 @@ func init() {
 		Callback:  core.CallbackOnCastComplete,
 		ProcMask:  core.ProcMaskSpellOrProc | core.ProcMaskWeaponProc | core.ProcMaskSuppressedProc,
 	})
-	newStackingStatBonusCD(StackingStatBonusCD{
+	helpers.NewStackingStatBonusCD(helpers.StackingStatBonusCD{
 		Name:      "Talisman of Volatile Power H",
 		ID:        47946,
 		AuraID:    67743,
@@ -379,7 +248,7 @@ func init() {
 		Callback:  core.CallbackOnCastComplete,
 		ProcMask:  core.ProcMaskSpellOrProc | core.ProcMaskWeaponProc | core.ProcMaskSuppressedProc,
 	})
-	newStackingStatBonusCD(StackingStatBonusCD{
+	helpers.NewStackingStatBonusCD(helpers.StackingStatBonusCD{
 		Name:        "Fervor of the Frostborn",
 		ID:          47727,
 		AuraID:      67727,
@@ -391,7 +260,7 @@ func init() {
 		Outcome:     core.OutcomeLanded,
 		IsDefensive: true,
 	})
-	newStackingStatBonusCD(StackingStatBonusCD{
+	helpers.NewStackingStatBonusCD(helpers.StackingStatBonusCD{
 		Name:        "Ferver of the Frostborn H",
 		ID:          47949,
 		AuraID:      67741,
@@ -403,7 +272,7 @@ func init() {
 		Outcome:     core.OutcomeLanded,
 		IsDefensive: true,
 	})
-	newStackingStatBonusCD(StackingStatBonusCD{
+	helpers.NewStackingStatBonusCD(helpers.StackingStatBonusCD{
 		Name:       "Binding Light",
 		ID:         47728,
 		AuraID:     67723,
@@ -414,7 +283,7 @@ func init() {
 		Callback:   core.CallbackOnCastComplete,
 		SpellFlags: core.SpellFlagHelpful,
 	})
-	newStackingStatBonusCD(StackingStatBonusCD{
+	helpers.NewStackingStatBonusCD(helpers.StackingStatBonusCD{
 		Name:       "Binding Light H",
 		ID:         47947,
 		AuraID:     67739,
@@ -425,7 +294,7 @@ func init() {
 		Callback:   core.CallbackOnCastComplete,
 		SpellFlags: core.SpellFlagHelpful,
 	})
-	newStackingStatBonusCD(StackingStatBonusCD{
+	helpers.NewStackingStatBonusCD(helpers.StackingStatBonusCD{
 		Name:      "Fetish of Volatile Power",
 		ID:        47879,
 		AuraID:    67735,
@@ -436,7 +305,7 @@ func init() {
 		Callback:  core.CallbackOnCastComplete,
 		ProcMask:  core.ProcMaskSpellOrProc | core.ProcMaskWeaponProc | core.ProcMaskSuppressedProc,
 	})
-	newStackingStatBonusCD(StackingStatBonusCD{
+	helpers.NewStackingStatBonusCD(helpers.StackingStatBonusCD{
 		Name:      "Fetish of Volatile Power H",
 		ID:        48018,
 		AuraID:    67743,
@@ -447,7 +316,7 @@ func init() {
 		Callback:  core.CallbackOnCastComplete,
 		ProcMask:  core.ProcMaskSpellOrProc | core.ProcMaskWeaponProc | core.ProcMaskSuppressedProc,
 	})
-	newStackingStatBonusCD(StackingStatBonusCD{
+	helpers.NewStackingStatBonusCD(helpers.StackingStatBonusCD{
 		Name:       "Binding Stone",
 		ID:         47880,
 		AuraID:     67723,
@@ -458,7 +327,7 @@ func init() {
 		Callback:   core.CallbackOnCastComplete,
 		SpellFlags: core.SpellFlagHelpful,
 	})
-	newStackingStatBonusCD(StackingStatBonusCD{
+	helpers.NewStackingStatBonusCD(helpers.StackingStatBonusCD{
 		Name:       "Binding Stone H",
 		ID:         48019,
 		AuraID:     67739,
@@ -469,7 +338,7 @@ func init() {
 		Callback:   core.CallbackOnCastComplete,
 		SpellFlags: core.SpellFlagHelpful,
 	})
-	newStackingStatBonusCD(StackingStatBonusCD{
+	helpers.NewStackingStatBonusCD(helpers.StackingStatBonusCD{
 		Name:      "Vengeance of the Forsaken",
 		ID:        47881,
 		AuraID:    67737,
@@ -481,7 +350,7 @@ func init() {
 		ProcMask:  core.ProcMaskMelee,
 		Outcome:   core.OutcomeLanded,
 	})
-	newStackingStatBonusCD(StackingStatBonusCD{
+	helpers.NewStackingStatBonusCD(helpers.StackingStatBonusCD{
 		Name:      "Vengeance of the Forsaken H",
 		ID:        48020,
 		AuraID:    67746,
@@ -493,7 +362,7 @@ func init() {
 		ProcMask:  core.ProcMaskMelee,
 		Outcome:   core.OutcomeLanded,
 	})
-	newStackingStatBonusCD(StackingStatBonusCD{
+	helpers.NewStackingStatBonusCD(helpers.StackingStatBonusCD{
 		Name:        "Eitrigg's Oath",
 		ID:          47882,
 		AuraID:      67727,
@@ -505,7 +374,7 @@ func init() {
 		Outcome:     core.OutcomeLanded,
 		IsDefensive: true,
 	})
-	newStackingStatBonusCD(StackingStatBonusCD{
+	helpers.NewStackingStatBonusCD(helpers.StackingStatBonusCD{
 		Name:        "Eitrigg's Oath H",
 		ID:          48021,
 		AuraID:      67741,
