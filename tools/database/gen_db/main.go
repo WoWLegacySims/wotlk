@@ -320,9 +320,7 @@ func simmableItemFilter(_ int32, item *proto.UIItem) bool {
 		return true
 	}
 
-	if item.Quality < proto.ItemQuality_ItemQualityUncommon {
-		return false
-	} else if item.Quality == proto.ItemQuality_ItemQualityArtifact {
+	if item.Quality == proto.ItemQuality_ItemQualityArtifact {
 		return false
 	} else if item.Quality > proto.ItemQuality_ItemQualityHeirloom {
 		return false
