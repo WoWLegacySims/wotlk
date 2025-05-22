@@ -1335,6 +1335,9 @@ export class Player<SpecType extends Spec> {
 				return false;
 			}
 
+			if (filters.itemQualities.length > 0 && !filters.itemQualities.includes(gem.quality))
+				return false
+
 			return true;
 		});
 	}

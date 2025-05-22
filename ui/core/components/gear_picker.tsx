@@ -19,7 +19,7 @@ import { EventID, TypedEvent } from '../typed_event';
 import { formatDeltaTextElem } from '../utils';
 import { BaseModal } from './base_modal';
 import { Component } from './component';
-import { FiltersMenu } from './filters_menu';
+import { GemFiltersMenu, ItemFiltersMenu } from './filters_menu';
 import {
 	makeExpansionSelector,
 	makeShow1hWeaponsSelector,
@@ -813,7 +813,7 @@ export class ItemList<T> {
 			<div id={tabContentId} className={`selector-modal-tab-pane tab-pane fade ${selected ? 'active show' : ''}`}>
 				<div className="selector-modal-filters">
 					<input className="selector-modal-search form-control" type="text" placeholder="Search..." />
-					{label == 'Items' && <button className="selector-modal-filters-button btn btn-primary">Filters</button>}
+					{(label != SelectorModalTabs.Enchants) && <button className="selector-modal-filters-button btn btn-primary">Filters</button>}
 					<div className="selector-modal-expansion-selector"></div>
 					<div className="sim-input selector-modal-boolean-option selector-modal-show-1h-weapons"></div>
 					<div className="sim-input selector-modal-boolean-option selector-modal-show-2h-weapons"></div>
@@ -867,9 +867,12 @@ export class ItemList<T> {
 
 		makeExpansionSelector(this.tabContent.getElementsByClassName('selector-modal-expansion-selector')[0] as HTMLElement, player.sim);
 
-		if (label == 'Items') {
+		if (label == SelectorModalTabs.Items) {
 			const filtersButton = this.tabContent.getElementsByClassName('selector-modal-filters-button')[0] as HTMLElement;
-			filtersButton.addEventListener('click', () => new FiltersMenu(parent, player, slot));
+			filtersButton.addEventListener('click', () => new ItemFiltersMenu(parent, player, slot));
+		} else if (label != SelectorModalTabs.Enchants) {
+			const filtersButton = this.tabContent.getElementsByClassName('selector-modal-filters-button')[0] as HTMLElement;
+			filtersButton.addEventListener('click', () => new GemFiltersMenu(parent, player));
 		}
 
 		this.listElem = this.tabContent.getElementsByClassName('selector-modal-list')[0] as HTMLElement;

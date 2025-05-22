@@ -7,6 +7,7 @@ import {
 import {
 	RaidFilterOption,
 	SourceFilterOption,
+	UIGem,
 	UIItem_FactionRestriction,
 } from '../proto/ui.js';
 import {
@@ -48,8 +49,54 @@ const itemQualitiesToLabels: Record<ItemQuality, string> = {
 };
 
 export class FiltersMenu extends BaseModal {
-	constructor(rootElem: HTMLElement, player: Player<any>, slot: ItemSlot) {
+	constructor(rootElem: HTMLElement, _player: Player<any>) {
 		super(rootElem, 'filters-menu', { size: 'md', title: 'Filters' });
+	}
+
+
+	protected newSection(name: string): HTMLElement {
+		const section = document.createElement('div');
+		section.classList.add('menu-section');
+		this.body.appendChild(section);
+		section.innerHTML = `
+			<div class="menu-section-header">
+				<h6 class="menu-section-title">${name}</h6>
+			</div>
+			<div class="menu-section-content"></div>
+		`;
+		return section.getElementsByClassName('menu-section-content')[0] as HTMLElement;
+	}
+}
+
+export class GemFiltersMenu extends FiltersMenu {
+	constructor(rootElem: HTMLElement, player: Player<any>) {
+		super(rootElem, player);
+
+		const section = this.newSection('Item Quality');
+		section.classList.add('filters-menu-section-bool-list');
+		[ItemQuality.ItemQualityCommon, ItemQuality.ItemQualityUncommon, ItemQuality.ItemQualityRare, ItemQuality.ItemQualityEpic].forEach(quality => {
+			new BooleanPicker<Sim>(section, player.sim, {
+				label: itemQualitiesToLabels[quality],
+				inline: true,
+				changedEvent: (sim: Sim) => sim.filtersChangeEmitter,
+				getValue: (sim: Sim) => sim.getFilters().itemQualities.includes(quality),
+				setValue: (eventID: EventID, sim: Sim, newValue: boolean) => {
+					const filters = sim.getFilters();
+					if (newValue) {
+						filters.itemQualities.push(quality);
+					} else {
+						filters.itemQualities = filters.itemQualities.filter(v => v != quality);
+					}
+					sim.setFilters(eventID, filters);
+				},
+			});
+		});
+	}
+}
+
+export class ItemFiltersMenu extends FiltersMenu {
+	constructor(rootElem: HTMLElement, player: Player<any>, slot: ItemSlot) {
+		super(rootElem, player);
 
 		const itemLevelSection = this.newSection('Item Level');
 		itemLevelSection.classList.add('filters-menu-section-number-list');
@@ -324,18 +371,5 @@ export class FiltersMenu extends BaseModal {
 				},
 			});
 		}
-	}
-
-	private newSection(name: string): HTMLElement {
-		const section = document.createElement('div');
-		section.classList.add('menu-section');
-		this.body.appendChild(section);
-		section.innerHTML = `
-			<div class="menu-section-header">
-				<h6 class="menu-section-title">${name}</h6>
-			</div>
-			<div class="menu-section-content"></div>
-		`;
-		return section.getElementsByClassName('menu-section-content')[0] as HTMLElement;
 	}
 }

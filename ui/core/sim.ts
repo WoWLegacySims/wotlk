@@ -543,7 +543,7 @@ export class Sim {
 	static readonly ALL_RANGED_WEAPON_TYPES = (getEnumValues(RangedWeaponType) as Array<RangedWeaponType>).filter(v => v != 0);
 	static readonly ALL_SOURCES = (getEnumValues(SourceFilterOption) as Array<SourceFilterOption>).filter(v => v != 0);
 	static readonly ALL_RAIDS = (getEnumValues(RaidFilterOption) as Array<RaidFilterOption>).filter(v => v != 0);
-	static readonly ALL_QUALITIES = (getEnumValues(ItemQuality) as Array<ItemQuality>).filter(v => v != 0);
+	static readonly MOST_USED_QUALITIES = (getEnumValues(ItemQuality) as Array<ItemQuality>).filter(v => v>1 && v<6);
 
 	toProto(): SimSettingsProto {
 		const filters = this.getFilters();
@@ -562,7 +562,7 @@ export class Sim {
 		if (filters.raids.length == Sim.ALL_RAIDS.length) {
 			filters.raids = [];
 		}
-		if (filters.itemQualities.length == Sim.ALL_QUALITIES.length) {
+		if (filters.itemQualities.length == Sim.MOST_USED_QUALITIES.length) {
 			filters.itemQualities = [];
 		}
 
@@ -611,7 +611,7 @@ export class Sim {
 				filters.raids = Sim.ALL_RAIDS.slice();
 			}
 			if (filters.itemQualities.length == 0) {
-				filters.itemQualities = Sim.ALL_QUALITIES.slice();
+				filters.itemQualities = Sim.MOST_USED_QUALITIES.slice();
 			}
 			this.setFilters(eventID, filters);
 		});
