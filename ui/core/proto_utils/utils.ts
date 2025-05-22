@@ -1748,6 +1748,9 @@ export function enchantAppliesToItem(enchant: Enchant, item: Item): boolean {
 	if (sharedSlots.length == 0)
 		return false;
 
+	if (item.ilvl < enchant.itemlevel)
+		return false
+
 	if (enchant.enchantType == EnchantType.EnchantTypeTwoHand && item.handType != HandType.HandTypeTwoHand)
 		return false;
 

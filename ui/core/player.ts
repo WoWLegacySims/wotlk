@@ -1313,6 +1313,9 @@ export class Player<SpecType extends Spec> {
 		return enchantData.filter(enchantElem => {
 			const enchant = getEnchantFunc(enchantElem);
 
+			if (this.getLevel() < enchant.level)
+				return false
+
 			if (!enchantAppliesToItem(enchant, currentEquippedItem.item)) {
 				return false;
 			}
