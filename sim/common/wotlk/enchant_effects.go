@@ -3,6 +3,7 @@ package wotlk
 import (
 	"time"
 
+	"github.com/WoWLegacySims/wotlk/sim/common/helpers"
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
@@ -15,6 +16,8 @@ func CreateBlackMagicProcAura(character *core.Character) *core.Aura {
 
 func init() {
 	// Keep these in order by item ID.
+
+	helpers.AddScope(3843, 15)
 
 	core.NewEnchantEffect(3251, func(agent core.Agent) {
 		character := agent.GetCharacter()
@@ -112,41 +115,7 @@ func init() {
 		agent.GetCharacter().AddBonusRangedCritRating(40)
 	})
 
-	core.NewEnchantEffect(3748, func(agent core.Agent) {
-		character := agent.GetCharacter()
-		actionID := core.ActionID{ItemID: 42500}
-
-		procSpell := character.RegisterSpell(core.SpellConfig{
-			ActionID:    actionID,
-			SpellSchool: core.SpellSchoolPhysical,
-			ProcMask:    core.ProcMaskEmpty,
-
-			DamageMultiplier: 1,
-			CritMultiplier:   character.DefaultMeleeCritMultiplier(),
-			ThreatMultiplier: 1,
-
-			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-				baseDamage := sim.Roll(44, 23)
-				spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialHitAndCrit)
-			},
-		})
-
-		aura := character.RegisterAura(core.Aura{
-			Label:    "Titanium Shield Spike",
-			ActionID: actionID,
-			Duration: core.NeverExpires,
-			OnReset: func(aura *core.Aura, sim *core.Simulation) {
-				aura.Activate(sim)
-			},
-			OnSpellHitTaken: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				if result.Landed() && spell.ProcMask.Matches(core.ProcMaskMelee) {
-					procSpell.Cast(sim, spell.Unit)
-				}
-			},
-		})
-
-		character.ItemSwap.RegisterOnSwapItemForEnchantEffect(3748, aura)
-	})
+	helpers.AddShieldSpike(3748, 42500, "Titanium Shield Spike", 44, 23)
 
 	core.NewEnchantEffect(3247, func(agent core.Agent) {
 		character := agent.GetCharacter()
@@ -260,12 +229,6 @@ func init() {
 		})
 
 		character.ItemSwap.RegisterOnSwapItemForEnchantEffect(3790, aura)
-	})
-
-	core.AddWeaponEffect(3843, func(agent core.Agent, _ proto.ItemSlot) {
-		w := agent.GetCharacter().AutoAttacks.Ranged()
-		w.BaseDamageMin += 15
-		w.BaseDamageMax += 15
 	})
 
 	core.NewEnchantEffect(3603, func(agent core.Agent) {
@@ -431,6 +394,58 @@ func init() {
 				}
 			},
 		})
+	})
+
+	core.NewEnchantEffect(3869, func(a core.Agent) {
+		character := a.GetCharacter()
+
+		procMask := character.GetProcMaskForEnchant(3869)
+
+		var counterDamage *core.Spell
+
+		bladeward := character.GetOrRegisterAura(core.Aura{
+			Label:     "Blade Warding",
+			ActionID:  core.ActionID{SpellID: 64440},
+			MaxStacks: 5,
+			Duration:  time.Second * 10,
+			OnStacksChange: func(aura *core.Aura, sim *core.Simulation, oldStacks, newStacks int32) {
+				aura.Unit.AddStat(stats.Parry, 200*float64(newStacks-oldStacks))
+			},
+			OnSpellHitTaken: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				if result.Outcome.Matches(core.OutcomeParry) {
+					counterDamage.Cast(sim, spell.Unit)
+				}
+			},
+		})
+
+		counterDamage = character.RegisterSpell(core.SpellConfig{
+			ActionID:    core.ActionID{SpellID: 64442},
+			SpellSchool: core.SpellSchoolPhysical,
+			ProcMask:    core.ProcMaskEmpty,
+			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
+				dmg := 0.0
+				for i := 0; i < int(bladeward.GetStacks()); i++ {
+					dmg += sim.Roll(599, 201)
+				}
+				spell.CalcAndDealDamage(sim, target, dmg, spell.OutcomeMeleeSpecialHitAndCrit)
+				bladeward.Deactivate(sim)
+			},
+		},
+		)
+
+		aura := core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			Name:     "Blade Warding",
+			Callback: core.CallbackOnSpellHitDealt,
+			ProcMask: procMask,
+			Outcome:  core.OutcomeLanded,
+			PPM:      1,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				bladeward.Activate(sim)
+				bladeward.AddStack(sim)
+			},
+		})
+
+		character.ItemSwap.RegisterOnSwapItemForEnchantEffect(3869, aura)
 	})
 
 	core.NewEnchantEffect(3870, func(agent core.Agent) {

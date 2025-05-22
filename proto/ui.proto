@@ -171,6 +171,8 @@ message UIEnchant {
 	// Classes that are allowed to use the enchant. Empty indicates no special class restrictions.
 	repeated Class class_allowlist = 11;
 	Profession required_profession = 12;
+	int32 level = 14;
+	int32 itemlevel = 15;
 }
 
 message UIGem {

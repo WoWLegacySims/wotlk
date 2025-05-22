@@ -74,10 +74,12 @@ func (unit *Unit) CurrentManaPercent() float64 {
 }
 
 func (unit *Unit) AddMana(sim *Simulation, amount float64, metrics *ResourceMetrics) {
+	if !unit.HasManaBar() {
+		return
+	}
 	if amount < 0 {
 		panic("Trying to add negative mana!")
 	}
-
 	oldMana := unit.CurrentMana()
 	newMana := min(oldMana+amount, unit.MaxMana())
 	metrics.AddEvent(amount, newMana-oldMana)
