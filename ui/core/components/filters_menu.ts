@@ -1,6 +1,7 @@
 import { Player } from '../player.js';
 import {
 	ArmorType,
+	ItemQuality,
 	ItemSlot,
 } from '../proto/common.js';
 import {
@@ -35,11 +36,22 @@ const factionRestrictionsToLabels: Record<UIItem_FactionRestriction, string> = {
 	[UIItem_FactionRestriction.HORDE_ONLY]: 'Horde only',
 };
 
+const itemQualitiesToLabels: Record<ItemQuality, string> = {
+	[ItemQuality.ItemQualityJunk]: 'Junk',
+	[ItemQuality.ItemQualityCommon]: 'Common',
+	[ItemQuality.ItemQualityUncommon]: 'Uncommon',
+	[ItemQuality.ItemQualityRare]: 'Rare',
+	[ItemQuality.ItemQualityEpic]: 'Epic',
+	[ItemQuality.ItemQualityLegendary]: 'Legendary',
+	[ItemQuality.ItemQualityHeirloom]: 'Heirloom',
+	[ItemQuality.ItemQualityArtifact]: 'Artifact',
+};
+
 export class FiltersMenu extends BaseModal {
 	constructor(rootElem: HTMLElement, player: Player<any>, slot: ItemSlot) {
 		super(rootElem, 'filters-menu', { size: 'md', title: 'Filters' });
 
-		const itemLevelSection = this.newSection('Weapon Speed');
+		const itemLevelSection = this.newSection('Item Level');
 		itemLevelSection.classList.add('filters-menu-section-number-list');
 			new NumberPicker<Sim>(itemLevelSection, player.sim, {
 				label: 'Min Item Level',
@@ -66,7 +78,27 @@ export class FiltersMenu extends BaseModal {
 				},
 			});
 
-		let section = this.newSection('Factions');
+			let section = this.newSection('Item Quality');
+			section.classList.add('filters-menu-section-bool-list');
+			[ItemQuality.ItemQualityJunk, ItemQuality.ItemQualityCommon, ItemQuality.ItemQualityUncommon, ItemQuality.ItemQualityRare, ItemQuality.ItemQualityEpic, ItemQuality.ItemQualityLegendary, ItemQuality.ItemQualityHeirloom].forEach(quality => {
+				new BooleanPicker<Sim>(section, player.sim, {
+					label: itemQualitiesToLabels[quality],
+					inline: true,
+					changedEvent: (sim: Sim) => sim.filtersChangeEmitter,
+					getValue: (sim: Sim) => sim.getFilters().itemQualities.includes(quality),
+					setValue: (eventID: EventID, sim: Sim, newValue: boolean) => {
+						const filters = sim.getFilters();
+						if (newValue) {
+							filters.itemQualities.push(quality);
+						} else {
+							filters.itemQualities = filters.itemQualities.filter(v => v != quality);
+						}
+						sim.setFilters(eventID, filters);
+					},
+				});
+			});
+
+		section = this.newSection('Factions');
 
 		new EnumPicker(section, player.sim, {
 			label: 'Faction Restrictions',

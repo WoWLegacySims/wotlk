@@ -1224,6 +1224,9 @@ export class Player<SpecType extends Spec> {
 		if (filters.maxIlvl > 0)
 			itemData = filterItems(itemData, item => filters.maxIlvl >= item.ilvl)
 
+		if (filters.itemQualities.length > 0)
+			itemData = filterItems(itemData, item => filters.itemQualities.includes(item.quality))
+
 		for (const [srcOptionStr, difficulty] of Object.entries(Player.DIFFICULTY_SRCS)) {
 			const srcOption = parseInt(srcOptionStr) as SourceFilterOption;
 			if (!filters.sources.includes(srcOption)) {

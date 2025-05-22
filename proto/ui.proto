@@ -223,7 +223,7 @@ enum RaidFilterOption {
 	RaidRubySanctum = 11;
 }
 
-// Next tag: 23.
+// Next tag: 24.
 message DatabaseFilters {
 	repeated ArmorType armor_types = 1;
 	repeated WeaponType weapon_types = 2;
@@ -254,6 +254,8 @@ message DatabaseFilters {
 	int32 max_ilvl = 21;
 
 	Expansion max_expansion = 22;
+
+	repeated ItemQuality item_qualities = 23;
 }
 
 message SimSettings {

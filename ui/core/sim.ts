@@ -8,6 +8,7 @@ import {
 	ArmorType,
 	Expansion,
 	Faction,
+	ItemQuality,
 	Profession,
 PseudoStat,
 	RangedWeaponType,
@@ -542,6 +543,7 @@ export class Sim {
 	static readonly ALL_RANGED_WEAPON_TYPES = (getEnumValues(RangedWeaponType) as Array<RangedWeaponType>).filter(v => v != 0);
 	static readonly ALL_SOURCES = (getEnumValues(SourceFilterOption) as Array<SourceFilterOption>).filter(v => v != 0);
 	static readonly ALL_RAIDS = (getEnumValues(RaidFilterOption) as Array<RaidFilterOption>).filter(v => v != 0);
+	static readonly ALL_QUALITIES = (getEnumValues(ItemQuality) as Array<ItemQuality>).filter(v => v != 0);
 
 	toProto(): SimSettingsProto {
 		const filters = this.getFilters();
@@ -559,6 +561,9 @@ export class Sim {
 		}
 		if (filters.raids.length == Sim.ALL_RAIDS.length) {
 			filters.raids = [];
+		}
+		if (filters.itemQualities.length == Sim.ALL_QUALITIES.length) {
+			filters.itemQualities = [];
 		}
 
 		return SimSettingsProto.create({
@@ -604,6 +609,9 @@ export class Sim {
 			}
 			if (filters.raids.length == 0) {
 				filters.raids = Sim.ALL_RAIDS.slice();
+			}
+			if (filters.itemQualities.length == 0) {
+				filters.itemQualities = Sim.ALL_QUALITIES.slice();
 			}
 			this.setFilters(eventID, filters);
 		});
