@@ -279,6 +279,9 @@ var EnchantOverrides = []*proto.UIEnchant{
 	{EffectId: 3273, ItemId: 35498, SpellId: 46578, Name: "Deathfrost", Expansion: 3, Quality: proto.ItemQuality_ItemQualityRare, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon},
 	{EffectId: 3855, ItemId: 45060, SpellId: 62959, Name: "Staff - Spellpower", Quality: proto.ItemQuality_ItemQualityRare, Stats: stats.Stats{stats.SpellPower: 69}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, EnchantType: proto.EnchantType_EnchantTypeStaff},
 
+	// 2H Weapon
+	{EffectId: 1896, ItemId: 16247, SpellId: 20030, Name: "Superior Impact", Quality: proto.ItemQuality_ItemQualityUncommon, Stats: stats.Stats{}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, EnchantType: proto.EnchantType_EnchantTypeTwoHand},
+
 	// Shield
 	{EffectId: 2654, ItemId: 22539, SpellId: 27945, Name: "Intellect", Quality: proto.ItemQuality_ItemQualityCommon, Stats: stats.Stats{stats.Intellect: 12}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, EnchantType: proto.EnchantType_EnchantTypeShield},
 	{EffectId: 1071, ItemId: 28282, SpellId: 34009, Name: "Major Stamina", Quality: proto.ItemQuality_ItemQualityCommon, Stats: stats.Stats{stats.Stamina: 18}.ToFloatArray(), Type: proto.ItemType_ItemTypeWeapon, EnchantType: proto.EnchantType_EnchantTypeShield},
