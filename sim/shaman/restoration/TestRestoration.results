@@ -60,6 +60,18 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestRestoration-AllItems-BandoftheEternalChampion-29301"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-BandoftheEternalDefender-29297"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-BandoftheEternalSage-29305"
+ value: {}
+}
+dps_results: {
  key: "TestRestoration-AllItems-BaubleofTrueBlood-50354"
  value: {
   hps: 93.75404
@@ -80,6 +92,10 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestRestoration-AllItems-Berserker'sCall-33831"
+ value: {}
+}
+dps_results: {
  key: "TestRestoration-AllItems-Bizuri'sTotemofShatteredIce-50458"
  value: {}
 }
@@ -89,6 +105,14 @@ dps_results: {
 }
 dps_results: {
  key: "TestRestoration-AllItems-BlackBruise-50692"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-BlackenedNaaruSliver-34427"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-BladeofUnquenchedThirst-31193"
  value: {}
 }
 dps_results: {
@@ -104,6 +128,10 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestRestoration-AllItems-BraidedEterniumChain-24114"
+ value: {}
+}
+dps_results: {
  key: "TestRestoration-AllItems-Bryntroll,theBoneArbiter-50415"
  value: {}
 }
@@ -112,7 +140,15 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestRestoration-AllItems-BulwarkofAzzinoth-32375"
+ value: {}
+}
+dps_results: {
  key: "TestRestoration-AllItems-ChaoticSkyflareDiamond"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-CommendationofKael'thas-34473"
  value: {}
 }
 dps_results: {
@@ -178,6 +214,10 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestRestoration-AllItems-DragonspineTrophy-28830"
+ value: {}
+}
+dps_results: {
  key: "TestRestoration-AllItems-EarthshatterBattlegear"
  value: {}
 }
@@ -219,6 +259,10 @@ dps_results: {
 }
 dps_results: {
  key: "TestRestoration-AllItems-EyeoftheBroodmother-45308"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-Felstriker-12590"
  value: {}
 }
 dps_results: {
@@ -284,6 +328,10 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestRestoration-AllItems-HandofJustice-11815"
+ value: {}
+}
+dps_results: {
  key: "TestRestoration-AllItems-HatefulGladiator'sTotemofSurvival-42601"
  value: {}
 }
@@ -329,6 +377,10 @@ dps_results: {
 }
 dps_results: {
  key: "TestRestoration-AllItems-Lavanthor'sTalisman-37872"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-MadnessoftheBetrayer-32505"
  value: {}
 }
 dps_results: {
@@ -408,6 +460,10 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestRestoration-AllItems-RodoftheSunKing-29996"
+ value: {}
+}
+dps_results: {
  key: "TestRestoration-AllItems-RuneofRepulsion-40372"
  value: {}
 }
@@ -416,11 +472,23 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestRestoration-AllItems-ScarabBrooch-21625"
+ value: {}
+}
+dps_results: {
  key: "TestRestoration-AllItems-SealofthePantheon-36993"
  value: {}
 }
 dps_results: {
  key: "TestRestoration-AllItems-Shadowmourne-49623"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-ShardofContempt-34472"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-ShiftingNaaruSliver-34429"
  value: {}
 }
 dps_results: {
@@ -460,10 +528,6 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-SphereofRedDragon'sBlood-37166"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-Stonebreaker'sTotem-33507"
  value: {}
 }
@@ -484,6 +548,10 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestRestoration-AllItems-SyphonoftheNathrezim-32262"
+ value: {}
+}
+dps_results: {
  key: "TestRestoration-AllItems-TalismanofTrollDivinity-37734"
  value: {}
 }
@@ -497,6 +565,10 @@ dps_results: {
 }
 dps_results: {
  key: "TestRestoration-AllItems-TheGeneral'sHeart-45507"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-TheSkullofGul'dan-32483"
  value: {}
 }
 dps_results: {
@@ -532,10 +604,6 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-TomeofArcanePhenomena-36972"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-TotemofElectrifyingWind-47666"
  value: {}
 }
@@ -560,15 +628,15 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestRestoration-AllItems-TsunamiTalisman-30627"
+ value: {}
+}
+dps_results: {
  key: "TestRestoration-AllItems-UndeadSlayer'sBlessedArmor"
  value: {}
 }
 dps_results: {
  key: "TestRestoration-AllItems-Val'anyr,HammerofAncientKings-46017"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-WingedTalisman-37844"
  value: {}
 }
 dps_results: {

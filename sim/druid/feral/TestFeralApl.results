@@ -79,6 +79,27 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralApl-AllItems-BandoftheEternalChampion-29301"
+ value: {
+  dps: 9720.42336
+  tps: 6965.44318
+ }
+}
+dps_results: {
+ key: "TestFeralApl-AllItems-BandoftheEternalDefender-29297"
+ value: {
+  dps: 9620.27125
+  tps: 6894.40997
+ }
+}
+dps_results: {
+ key: "TestFeralApl-AllItems-BandoftheEternalSage-29305"
+ value: {
+  dps: 9648.77729
+  tps: 6914.64926
+ }
+}
+dps_results: {
  key: "TestFeralApl-AllItems-BaubleofTrueBlood-50354"
  value: {
   dps: 9394.57298
@@ -102,6 +123,27 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralApl-AllItems-Berserker'sCall-33831"
+ value: {
+  dps: 9500.84616
+  tps: 6810.06688
+ }
+}
+dps_results: {
+ key: "TestFeralApl-AllItems-BlackenedNaaruSliver-34427"
+ value: {
+  dps: 9606.33157
+  tps: 6884.73716
+ }
+}
+dps_results: {
+ key: "TestFeralApl-AllItems-BladeofUnquenchedThirst-31193"
+ value: {
+  dps: 9942.08221
+  tps: 7123.26969
+ }
+}
+dps_results: {
  key: "TestFeralApl-AllItems-BlessedRegaliaofUndeadCleansing"
  value: {
   dps: 7235.11752
@@ -116,6 +158,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralApl-AllItems-BraidedEterniumChain-24114"
+ value: {
+  dps: 9652.20154
+  tps: 6917.90313
+ }
+}
+dps_results: {
  key: "TestFeralApl-AllItems-BrutalGladiator'sIdolofResolve-35019"
  value: {
   dps: 9650.36955
@@ -127,6 +176,13 @@ dps_results: {
  value: {
   dps: 9921.79623
   tps: 7108.86664
+ }
+}
+dps_results: {
+ key: "TestFeralApl-AllItems-CommendationofKael'thas-34473"
+ value: {
+  dps: 9394.57298
+  tps: 6734.61292
  }
 }
 dps_results: {
@@ -236,6 +292,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralApl-AllItems-DragonspineTrophy-28830"
+ value: {
+  dps: 9592.18296
+  tps: 6874.61686
+ }
+}
+dps_results: {
  key: "TestFeralApl-AllItems-DreamwalkerBattlegear"
  value: {
   dps: 7931.9307
@@ -313,6 +376,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralApl-AllItems-Felstriker-12590"
+ value: {
+  dps: 9926.82627
+  tps: 7112.43797
+ }
+}
+dps_results: {
  key: "TestFeralApl-AllItems-Figurine-SapphireOwl-42413"
  value: {
   dps: 9401.75019
@@ -357,8 +427,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-FuryoftheFiveFlights-40431"
  value: {
-  dps: 9609.05026
-  tps: 6886.89179
+  dps: 9608.61417
+  tps: 6886.58217
  }
 }
 dps_results: {
@@ -404,6 +474,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralApl-AllItems-HandofJustice-11815"
+ value: {
+  dps: 9444.05165
+  tps: 6769.81757
+ }
+}
+dps_results: {
  key: "TestFeralApl-AllItems-HatefulGladiator'sIdolofResolve-42587"
  value: {
   dps: 9650.36955
@@ -441,8 +518,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-IdoloftheCryingMoon-50456"
  value: {
-  dps: 9963.19069
-  tps: 7138.18193
+  dps: 9972.69798
+  tps: 7144.9321
  }
 }
 dps_results: {
@@ -549,6 +626,13 @@ dps_results: {
  value: {
   dps: 9394.57298
   tps: 6734.61292
+ }
+}
+dps_results: {
+ key: "TestFeralApl-AllItems-MadnessoftheBetrayer-32505"
+ value: {
+  dps: 9520.75415
+  tps: 6824.72506
  }
 }
 dps_results: {
@@ -713,6 +797,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralApl-AllItems-RodoftheSunKing-29996"
+ value: {
+  dps: 9962.88577
+  tps: 7138.04022
+ }
+}
+dps_results: {
  key: "TestFeralApl-AllItems-RuneofRepulsion-40372"
  value: {
   dps: 9394.57298
@@ -727,10 +818,31 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralApl-AllItems-ScarabBrooch-21625"
+ value: {
+  dps: 9394.57298
+  tps: 6734.61292
+ }
+}
+dps_results: {
  key: "TestFeralApl-AllItems-SealofthePantheon-36993"
  value: {
   dps: 9394.57298
   tps: 6734.61292
+ }
+}
+dps_results: {
+ key: "TestFeralApl-AllItems-ShardofContempt-34472"
+ value: {
+  dps: 9461.29103
+  tps: 6781.98274
+ }
+}
+dps_results: {
+ key: "TestFeralApl-AllItems-ShiftingNaaruSliver-34429"
+ value: {
+  dps: 9497.64061
+  tps: 6807.56658
  }
 }
 dps_results: {
@@ -783,13 +895,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFeralApl-AllItems-SphereofRedDragon'sBlood-37166"
- value: {
-  dps: 9570.39958
-  tps: 6860.49682
- }
-}
-dps_results: {
  key: "TestFeralApl-AllItems-StormshroudArmor"
  value: {
   dps: 7433.33422
@@ -818,6 +923,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralApl-AllItems-SyphonoftheNathrezim-32262"
+ value: {
+  dps: 9961.49887
+  tps: 7137.05552
+ }
+}
+dps_results: {
  key: "TestFeralApl-AllItems-TalismanofTrollDivinity-37734"
  value: {
   dps: 9394.57298
@@ -836,6 +948,13 @@ dps_results: {
  value: {
   dps: 9394.57298
   tps: 6734.61292
+ }
+}
+dps_results: {
+ key: "TestFeralApl-AllItems-TheSkullofGul'dan-32483"
+ value: {
+  dps: 9498.75469
+  tps: 6809.03066
  }
 }
 dps_results: {
@@ -888,13 +1007,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFeralApl-AllItems-TomeofArcanePhenomena-36972"
- value: {
-  dps: 9464.82893
-  tps: 6784.41986
- }
-}
-dps_results: {
  key: "TestFeralApl-AllItems-TrenchantEarthshatterDiamond"
  value: {
   dps: 9686.32108
@@ -906,6 +1018,13 @@ dps_results: {
  value: {
   dps: 9686.32108
   tps: 6941.52971
+ }
+}
+dps_results: {
+ key: "TestFeralApl-AllItems-TsunamiTalisman-30627"
+ value: {
+  dps: 9508.32636
+  tps: 6815.67697
  }
 }
 dps_results: {
@@ -927,13 +1046,6 @@ dps_results: {
  value: {
   dps: 9650.36955
   tps: 6915.70498
- }
-}
-dps_results: {
- key: "TestFeralApl-AllItems-WingedTalisman-37844"
- value: {
-  dps: 9394.57298
-  tps: 6734.61292
  }
 }
 dps_results: {

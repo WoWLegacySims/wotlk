@@ -3,18 +3,11 @@ package vanilla
 import (
 	"time"
 
-	"github.com/WoWLegacySims/wotlk/sim/common/helpers"
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
 func init() {
-	helpers.AddWeaponDamageEnchant(250, 1)
-	helpers.AddWeaponDamageEnchant(241, 2)
-	helpers.AddWeaponDamageEnchant(943, 3)
-	helpers.AddWeaponDamageEnchant(805, 4)
-	helpers.AddWeaponDamageEnchant(1897, 5)
-	helpers.AddWeaponDamageEnchant(963, 7)
 
 	// ApplyCrusaderEffect will be applied twice if there is two weapons with this enchant.
 	//   However, it will automatically overwrite one of them, so it should be ok.

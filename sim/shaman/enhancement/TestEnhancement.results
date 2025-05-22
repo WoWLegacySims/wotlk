@@ -72,6 +72,27 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestEnhancement-AllItems-BandoftheEternalChampion-29301"
+ value: {
+  dps: 7325.52848
+  tps: 4463.15998
+ }
+}
+dps_results: {
+ key: "TestEnhancement-AllItems-BandoftheEternalDefender-29297"
+ value: {
+  dps: 7239.18737
+  tps: 4406.53209
+ }
+}
+dps_results: {
+ key: "TestEnhancement-AllItems-BandoftheEternalSage-29305"
+ value: {
+  dps: 7349.913
+  tps: 4483.09325
+ }
+}
+dps_results: {
  key: "TestEnhancement-AllItems-BaubleofTrueBlood-50354"
  value: {
   dps: 7224.70389
@@ -102,6 +123,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestEnhancement-AllItems-Berserker'sCall-33831"
+ value: {
+  dps: 7330.67893
+  tps: 4452.07884
+ }
+}
+dps_results: {
  key: "TestEnhancement-AllItems-Bizuri'sTotemofShatteredIce-50458"
  value: {
   dps: 7722.30334
@@ -120,6 +148,20 @@ dps_results: {
  value: {
   dps: 7359.07446
   tps: 4543.95511
+ }
+}
+dps_results: {
+ key: "TestEnhancement-AllItems-BlackenedNaaruSliver-34427"
+ value: {
+  dps: 7390.28185
+  tps: 4510.57199
+ }
+}
+dps_results: {
+ key: "TestEnhancement-AllItems-BladeofUnquenchedThirst-31193"
+ value: {
+  dps: 7429.18114
+  tps: 4535.40258
  }
 }
 dps_results: {
@@ -144,6 +186,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestEnhancement-AllItems-BraidedEterniumChain-24114"
+ value: {
+  dps: 7313.34623
+  tps: 4458.01352
+ }
+}
+dps_results: {
  key: "TestEnhancement-AllItems-Bryntroll,theBoneArbiter-50415"
  value: {
   dps: 7429.18114
@@ -158,10 +207,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestEnhancement-AllItems-BulwarkofAzzinoth-32375"
+ value: {
+  dps: 4859.3437
+  tps: 2784.40945
+ }
+}
+dps_results: {
  key: "TestEnhancement-AllItems-ChaoticSkyflareDiamond"
  value: {
   dps: 7432.77271
   tps: 4541.1873
+ }
+}
+dps_results: {
+ key: "TestEnhancement-AllItems-CommendationofKael'thas-34473"
+ value: {
+  dps: 7224.5154
+  tps: 4392.80389
  }
 }
 dps_results: {
@@ -189,8 +252,8 @@ dps_results: {
 dps_results: {
  key: "TestEnhancement-AllItems-DarkmoonCard:Berserker!-42989"
  value: {
-  dps: 7355.346
-  tps: 4480.82775
+  dps: 7355.21348
+  tps: 4480.73499
  }
 }
 dps_results: {
@@ -259,15 +322,22 @@ dps_results: {
 dps_results: {
  key: "TestEnhancement-AllItems-DislodgedForeignObject-50348"
  value: {
-  dps: 7689.31538
-  tps: 4717.43128
+  dps: 7803.49698
+  tps: 4793.18035
  }
 }
 dps_results: {
  key: "TestEnhancement-AllItems-DislodgedForeignObject-50353"
  value: {
-  dps: 7623.87109
-  tps: 4670.97455
+  dps: 7724.53638
+  tps: 4737.89284
+ }
+}
+dps_results: {
+ key: "TestEnhancement-AllItems-DragonspineTrophy-28830"
+ value: {
+  dps: 7464.85195
+  tps: 4560.96359
  }
 }
 dps_results: {
@@ -343,8 +413,15 @@ dps_results: {
 dps_results: {
  key: "TestEnhancement-AllItems-EyeoftheBroodmother-45308"
  value: {
-  dps: 7438.35412
-  tps: 4527.15242
+  dps: 7430.48577
+  tps: 4527.02323
+ }
+}
+dps_results: {
+ key: "TestEnhancement-AllItems-Felstriker-12590"
+ value: {
+  dps: 7429.18114
+  tps: 4535.40258
  }
 }
 dps_results: {
@@ -406,8 +483,8 @@ dps_results: {
 dps_results: {
  key: "TestEnhancement-AllItems-FuryoftheFiveFlights-40431"
  value: {
-  dps: 7415.87534
-  tps: 4514.80936
+  dps: 7415.32829
+  tps: 4514.74411
  }
 }
 dps_results: {
@@ -453,6 +530,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestEnhancement-AllItems-HandofJustice-11815"
+ value: {
+  dps: 7266.43377
+  tps: 4428.39521
+ }
+}
+dps_results: {
  key: "TestEnhancement-AllItems-HatefulGladiator'sTotemofSurvival-42601"
  value: {
   dps: 7424.60094
@@ -476,8 +560,8 @@ dps_results: {
 dps_results: {
  key: "TestEnhancement-AllItems-IllustrationoftheDragonSoul-40432"
  value: {
-  dps: 7377.9338
-  tps: 4493.39771
+  dps: 7381.33602
+  tps: 4495.77927
  }
 }
 dps_results: {
@@ -535,6 +619,13 @@ dps_results: {
  value: {
   dps: 7224.5154
   tps: 4392.80389
+ }
+}
+dps_results: {
+ key: "TestEnhancement-AllItems-MadnessoftheBetrayer-32505"
+ value: {
+  dps: 7317.44728
+  tps: 4453.93269
  }
 }
 dps_results: {
@@ -664,6 +755,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestEnhancement-AllItems-RodoftheSunKing-29996"
+ value: {
+  dps: 7429.18114
+  tps: 4535.40258
+ }
+}
+dps_results: {
  key: "TestEnhancement-AllItems-RuneofRepulsion-40372"
  value: {
   dps: 7224.5171
@@ -678,6 +776,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestEnhancement-AllItems-ScarabBrooch-21625"
+ value: {
+  dps: 7224.5154
+  tps: 4392.80389
+ }
+}
+dps_results: {
  key: "TestEnhancement-AllItems-SealofthePantheon-36993"
  value: {
   dps: 7224.5171
@@ -689,6 +794,20 @@ dps_results: {
  value: {
   dps: 7429.18114
   tps: 4535.40258
+ }
+}
+dps_results: {
+ key: "TestEnhancement-AllItems-ShardofContempt-34472"
+ value: {
+  dps: 7277.58188
+  tps: 4425.0293
+ }
+}
+dps_results: {
+ key: "TestEnhancement-AllItems-ShiftingNaaruSliver-34429"
+ value: {
+  dps: 7381.85378
+  tps: 4482.7653
  }
 }
 dps_results: {
@@ -762,13 +881,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestEnhancement-AllItems-SphereofRedDragon'sBlood-37166"
- value: {
-  dps: 7404.01033
-  tps: 4493.14325
- }
-}
-dps_results: {
  key: "TestEnhancement-AllItems-Stonebreaker'sTotem-33507"
  value: {
   dps: 7423.53067
@@ -804,6 +916,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestEnhancement-AllItems-SyphonoftheNathrezim-32262"
+ value: {
+  dps: 7429.18114
+  tps: 4535.40258
+ }
+}
+dps_results: {
  key: "TestEnhancement-AllItems-TalismanofTrollDivinity-37734"
  value: {
   dps: 7224.5171
@@ -829,6 +948,13 @@ dps_results: {
  value: {
   dps: 7224.5154
   tps: 4392.80389
+ }
+}
+dps_results: {
+ key: "TestEnhancement-AllItems-TheSkullofGul'dan-32483"
+ value: {
+  dps: 7365.29208
+  tps: 4487.28246
  }
 }
 dps_results: {
@@ -888,13 +1014,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestEnhancement-AllItems-TomeofArcanePhenomena-36972"
- value: {
-  dps: 7380.52237
-  tps: 4495.3498
- }
-}
-dps_results: {
  key: "TestEnhancement-AllItems-TotemofElectrifyingWind-47666"
  value: {
   dps: 7661.75551
@@ -937,6 +1056,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestEnhancement-AllItems-TsunamiTalisman-30627"
+ value: {
+  dps: 7307.96541
+  tps: 4446.27245
+ }
+}
+dps_results: {
  key: "TestEnhancement-AllItems-UndeadSlayer'sBlessedArmor"
  value: {
   dps: 5908.20227
@@ -948,13 +1074,6 @@ dps_results: {
  value: {
   dps: 7569.34989
   tps: 4612.90806
- }
-}
-dps_results: {
- key: "TestEnhancement-AllItems-WingedTalisman-37844"
- value: {
-  dps: 7323.24912
-  tps: 4432.72351
  }
 }
 dps_results: {

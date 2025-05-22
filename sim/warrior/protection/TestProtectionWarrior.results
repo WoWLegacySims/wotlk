@@ -117,6 +117,27 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-BandoftheEternalChampion-29301"
+ value: {
+  dps: 1408.17645
+  tps: 3659.44232
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-BandoftheEternalDefender-29297"
+ value: {
+  dps: 1421.76118
+  tps: 3706.95337
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-BandoftheEternalSage-29305"
+ value: {
+  dps: 1401.17028
+  tps: 3646.68547
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-BaubleofTrueBlood-50354"
  value: {
   dps: 1443.61597
@@ -147,6 +168,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-Berserker'sCall-33831"
+ value: {
+  dps: 1440.8531
+  tps: 3738.02524
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-BlackBruise-50035"
  value: {
   dps: 1502.62813
@@ -158,6 +186,20 @@ dps_results: {
  value: {
   dps: 1532.82854
   tps: 3902.58233
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-BlackenedNaaruSliver-34427"
+ value: {
+  dps: 1443.10501
+  tps: 3745.38276
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-BladeofUnquenchedThirst-31193"
+ value: {
+  dps: 1443.50947
+  tps: 3757.45627
  }
 }
 dps_results: {
@@ -189,6 +231,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-BraidedEterniumChain-24114"
+ value: {
+  dps: 1422.32883
+  tps: 3704.16606
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-Bryntroll,theBoneArbiter-50415"
  value: {
   dps: 1443.50947
@@ -203,10 +252,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-BulwarkofAzzinoth-32375"
+ value: {
+  dps: 1362.47473
+  tps: 3545.66263
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-ChaoticSkyflareDiamond"
  value: {
   dps: 1464.89347
   tps: 3806.56276
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-CommendationofKael'thas-34473"
+ value: {
+  dps: 1443.50947
+  tps: 3757.45627
  }
 }
 dps_results: {
@@ -234,8 +297,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-DarkmoonCard:Berserker!-42989"
  value: {
-  dps: 1482.8109
-  tps: 3850.33623
+  dps: 1481.77116
+  tps: 3846.71616
  }
 }
 dps_results: {
@@ -299,6 +362,13 @@ dps_results: {
  value: {
   dps: 1470.21311
   tps: 3812.0458
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-DragonspineTrophy-28830"
+ value: {
+  dps: 1459.11746
+  tps: 3792.46618
  }
 }
 dps_results: {
@@ -379,6 +449,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-Felstriker-12590"
+ value: {
+  dps: 1443.50947
+  tps: 3757.45627
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-Figurine-SapphireOwl-42413"
  value: {
   dps: 1443.50947
@@ -416,8 +493,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-FuryoftheFiveFlights-40431"
  value: {
-  dps: 1473.63265
-  tps: 3820.71002
+  dps: 1468.42949
+  tps: 3803.88026
  }
 }
 dps_results: {
@@ -453,6 +530,13 @@ dps_results: {
  value: {
   dps: 1499.30293
   tps: 3876.2045
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-HandofJustice-11815"
+ value: {
+  dps: 1445.19988
+  tps: 3760.71999
  }
 }
 dps_results: {
@@ -531,6 +615,13 @@ dps_results: {
  value: {
   dps: 1456.808
   tps: 3793.30312
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-MadnessoftheBetrayer-32505"
+ value: {
+  dps: 1450.69756
+  tps: 3768.08042
  }
 }
 dps_results: {
@@ -660,7 +751,21 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-RodoftheSunKing-29996"
+ value: {
+  dps: 1443.50947
+  tps: 3757.45627
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-RuneofRepulsion-40372"
+ value: {
+  dps: 1443.50947
+  tps: 3757.45627
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-ScarabBrooch-21625"
  value: {
   dps: 1443.50947
   tps: 3757.45627
@@ -678,6 +783,20 @@ dps_results: {
  value: {
   dps: 1443.50947
   tps: 3757.45627
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-ShardofContempt-34472"
+ value: {
+  dps: 1460.66786
+  tps: 3801.26865
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-ShiftingNaaruSliver-34429"
+ value: {
+  dps: 1439.69274
+  tps: 3739.90308
  }
 }
 dps_results: {
@@ -744,13 +863,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestProtectionWarrior-AllItems-SphereofRedDragon'sBlood-37166"
- value: {
-  dps: 1478.71065
-  tps: 3846.54338
- }
-}
-dps_results: {
  key: "TestProtectionWarrior-AllItems-StormshroudArmor"
  value: {
   dps: 1131.41118
@@ -776,6 +888,13 @@ dps_results: {
  value: {
   dps: 1434.21835
   tps: 3734.84239
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-SyphonoftheNathrezim-32262"
+ value: {
+  dps: 1443.50947
+  tps: 3757.45627
  }
 }
 dps_results: {
@@ -807,10 +926,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-TheSkullofGul'dan-32483"
+ value: {
+  dps: 1455.33441
+  tps: 3782.21714
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-TheTwinBladesofAzzinoth"
  value: {
   dps: 1067.10265
   tps: 2408.07406
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-Thunderfury,BlessedBladeoftheWindseeker-19019"
+ value: {
+  dps: 1443.50947
+  tps: 3757.45627
  }
 }
 dps_results: {
@@ -849,13 +982,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestProtectionWarrior-AllItems-TomeofArcanePhenomena-36972"
- value: {
-  dps: 1436.78984
-  tps: 3728.88041
- }
-}
-dps_results: {
  key: "TestProtectionWarrior-AllItems-TrenchantEarthshatterDiamond"
  value: {
   dps: 1429.13677
@@ -870,6 +996,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-TsunamiTalisman-30627"
+ value: {
+  dps: 1446.9596
+  tps: 3759.2125
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-UndeadSlayer'sBlessedArmor"
  value: {
   dps: 1207.40792
@@ -881,13 +1014,6 @@ dps_results: {
  value: {
   dps: 1322.69643
   tps: 3474.57299
- }
-}
-dps_results: {
- key: "TestProtectionWarrior-AllItems-WingedTalisman-37844"
- value: {
-  dps: 1443.50947
-  tps: 3757.45627
  }
 }
 dps_results: {

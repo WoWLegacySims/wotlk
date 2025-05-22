@@ -79,6 +79,27 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDemonology-AllItems-BandoftheEternalChampion-29301"
+ value: {
+  dps: 12918.25788
+  tps: 11227.75709
+ }
+}
+dps_results: {
+ key: "TestDemonology-AllItems-BandoftheEternalDefender-29297"
+ value: {
+  dps: 12918.25788
+  tps: 11227.75709
+ }
+}
+dps_results: {
+ key: "TestDemonology-AllItems-BandoftheEternalSage-29305"
+ value: {
+  dps: 13058.07018
+  tps: 11357.45826
+ }
+}
+dps_results: {
  key: "TestDemonology-AllItems-BaubleofTrueBlood-50354"
  value: {
   dps: 12690.16686
@@ -102,6 +123,20 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDemonology-AllItems-Berserker'sCall-33831"
+ value: {
+  dps: 12691.01253
+  tps: 10999.5724
+ }
+}
+dps_results: {
+ key: "TestDemonology-AllItems-BlackenedNaaruSliver-34427"
+ value: {
+  dps: 12811.34612
+  tps: 11120.23572
+ }
+}
+dps_results: {
  key: "TestDemonology-AllItems-BlessedRegaliaofUndeadCleansing"
  value: {
   dps: 9576.21041
@@ -116,10 +151,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDemonology-AllItems-BraidedEterniumChain-24114"
+ value: {
+  dps: 12839.11112
+  tps: 11148.91785
+ }
+}
+dps_results: {
  key: "TestDemonology-AllItems-ChaoticSkyflareDiamond"
  value: {
   dps: 13483.18457
   tps: 11754.53005
+ }
+}
+dps_results: {
+ key: "TestDemonology-AllItems-CommendationofKael'thas-34473"
+ value: {
+  dps: 12698.47631
+  tps: 11005.47481
  }
 }
 dps_results: {
@@ -154,8 +203,8 @@ dps_results: {
 dps_results: {
  key: "TestDemonology-AllItems-DarkmoonCard:Berserker!-42989"
  value: {
-  dps: 12847.35678
-  tps: 11155.91665
+  dps: 12691.01253
+  tps: 10999.5724
  }
 }
 dps_results: {
@@ -229,6 +278,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDemonology-AllItems-DragonspineTrophy-28830"
+ value: {
+  dps: 12691.01253
+  tps: 10999.5724
+ }
+}
+dps_results: {
  key: "TestDemonology-AllItems-EffulgentSkyflareDiamond"
  value: {
   dps: 13114.16068
@@ -287,8 +343,8 @@ dps_results: {
 dps_results: {
  key: "TestDemonology-AllItems-EyeoftheBroodmother-45308"
  value: {
-  dps: 13084.36886
-  tps: 11368.89723
+  dps: 12819.33175
+  tps: 11127.89162
  }
 }
 dps_results: {
@@ -376,10 +432,17 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDemonology-AllItems-HandofJustice-11815"
+ value: {
+  dps: 12691.01253
+  tps: 10999.5724
+ }
+}
+dps_results: {
  key: "TestDemonology-AllItems-IllustrationoftheDragonSoul-40432"
  value: {
-  dps: 13063.16516
-  tps: 11334.76864
+  dps: 12691.01253
+  tps: 10999.5724
  }
 }
 dps_results: {
@@ -425,10 +488,17 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDemonology-AllItems-MadnessoftheBetrayer-32505"
+ value: {
+  dps: 12694.37485
+  tps: 10997.14738
+ }
+}
+dps_results: {
  key: "TestDemonology-AllItems-MajesticDragonFigurine-40430"
  value: {
-  dps: 12939.26131
-  tps: 11226.20988
+  dps: 12691.01253
+  tps: 10999.5724
  }
 }
 dps_results: {
@@ -558,10 +628,31 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDemonology-AllItems-ScarabBrooch-21625"
+ value: {
+  dps: 12691.01253
+  tps: 10999.5724
+ }
+}
+dps_results: {
  key: "TestDemonology-AllItems-SealofthePantheon-36993"
  value: {
   dps: 12691.01253
   tps: 10999.5724
+ }
+}
+dps_results: {
+ key: "TestDemonology-AllItems-ShardofContempt-34472"
+ value: {
+  dps: 12691.01253
+  tps: 10999.5724
+ }
+}
+dps_results: {
+ key: "TestDemonology-AllItems-ShiftingNaaruSliver-34429"
+ value: {
+  dps: 12939.63264
+  tps: 11236.62482
  }
 }
 dps_results: {
@@ -614,13 +705,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestDemonology-AllItems-SphereofRedDragon'sBlood-37166"
- value: {
-  dps: 12698.21705
-  tps: 10992.06274
- }
-}
-dps_results: {
  key: "TestDemonology-AllItems-SwiftSkyflareDiamond"
  value: {
   dps: 13124.36551
@@ -663,6 +747,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDemonology-AllItems-TheSkullofGul'dan-32483"
+ value: {
+  dps: 12859.58958
+  tps: 11154.22332
+ }
+}
+dps_results: {
  key: "TestDemonology-AllItems-ThunderingSkyflareDiamond"
  value: {
   dps: 13124.36551
@@ -698,13 +789,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestDemonology-AllItems-TomeofArcanePhenomena-36972"
- value: {
-  dps: 12921.11164
-  tps: 11220.48985
- }
-}
-dps_results: {
  key: "TestDemonology-AllItems-TrenchantEarthshatterDiamond"
  value: {
   dps: 13142.42464
@@ -719,10 +803,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestDemonology-AllItems-WingedTalisman-37844"
+ key: "TestDemonology-AllItems-TsunamiTalisman-30627"
  value: {
-  dps: 12839.34475
-  tps: 11133.99406
+  dps: 12755.89716
+  tps: 11059.47318
  }
 }
 dps_results: {
