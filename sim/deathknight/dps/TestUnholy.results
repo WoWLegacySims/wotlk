@@ -76,6 +76,30 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestUnholy-AllItems-BandoftheEternalChampion-29301"
+ value: {
+  dps: 9547.50675
+  tps: 5700.31409
+  hps: 40.74757
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-BandoftheEternalDefender-29297"
+ value: {
+  dps: 9461.91134
+  tps: 5634.39806
+  hps: 40.74757
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-BandoftheEternalSage-29305"
+ value: {
+  dps: 9493.09492
+  tps: 5662.49714
+  hps: 40.47169
+ }
+}
+dps_results: {
  key: "TestUnholy-AllItems-BaubleofTrueBlood-50354"
  value: {
   dps: 9295.67034
@@ -105,6 +129,22 @@ dps_results: {
   dps: 9126.71397
   tps: 5326.53378
   hps: 39.7544
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-Berserker'sCall-33831"
+ value: {
+  dps: 9417.38835
+  tps: 5692.54172
+  hps: 41.44646
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-BlackenedNaaruSliver-34427"
+ value: {
+  dps: 9454.54058
+  tps: 5585.19671
+  hps: 41.44646
  }
 }
 dps_results: {
@@ -140,6 +180,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestUnholy-AllItems-BraidedEterniumChain-24114"
+ value: {
+  dps: 9502.65097
+  tps: 5661.85197
+  hps: 39.66244
+ }
+}
+dps_results: {
  key: "TestUnholy-AllItems-Bryntroll,theBoneArbiter-50415"
  value: {
   dps: 9869.23255
@@ -161,6 +209,14 @@ dps_results: {
   dps: 9877.86428
   tps: 5901.19385
   hps: 41.44646
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-CommendationofKael'thas-34473"
+ value: {
+  dps: 9295.608
+  tps: 5609.56703
+  hps: 42.49481
  }
 }
 dps_results: {
@@ -292,6 +348,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestUnholy-AllItems-DragonspineTrophy-28830"
+ value: {
+  dps: 9564.33413
+  tps: 5750.55934
+  hps: 41.44646
+ }
+}
+dps_results: {
  key: "TestUnholy-AllItems-EffulgentSkyflareDiamond"
  value: {
   dps: 9744.6148
@@ -414,8 +478,8 @@ dps_results: {
 dps_results: {
  key: "TestUnholy-AllItems-FuryoftheFiveFlights-40431"
  value: {
-  dps: 9513.70928
-  tps: 5775.06931
+  dps: 9512.35317
+  tps: 5774.64944
   hps: 41.44646
  }
 }
@@ -448,6 +512,14 @@ dps_results: {
  value: {
   dps: 9439.50602
   tps: 5735.56675
+  hps: 41.44646
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-HandofJustice-11815"
+ value: {
+  dps: 9399.51779
+  tps: 5690.90869
   hps: 41.44646
  }
 }
@@ -528,6 +600,14 @@ dps_results: {
  value: {
   dps: 9295.608
   tps: 5609.56703
+  hps: 41.44646
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-MadnessoftheBetrayer-32505"
+ value: {
+  dps: 9457.2923
+  tps: 5739.33901
   hps: 41.44646
  }
 }
@@ -668,6 +748,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestUnholy-AllItems-RodoftheSunKing-29996"
+ value: {
+  dps: 9869.23255
+  tps: 5894.04022
+  hps: 41.44646
+ }
+}
+dps_results: {
  key: "TestUnholy-AllItems-RuneofRepulsion-40372"
  value: {
   dps: 9295.608
@@ -680,6 +768,14 @@ dps_results: {
  value: {
   dps: 9892.48259
   tps: 5908.21175
+  hps: 41.44646
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-ScarabBrooch-21625"
+ value: {
+  dps: 9295.608
+  tps: 5609.56703
   hps: 41.44646
  }
 }
@@ -728,6 +824,22 @@ dps_results: {
  value: {
   dps: 9869.23255
   tps: 5894.04022
+  hps: 41.44646
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-ShardofContempt-34472"
+ value: {
+  dps: 9390.29271
+  tps: 5688.27865
+  hps: 41.44646
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-ShiftingNaaruSliver-34429"
+ value: {
+  dps: 9353.91249
+  tps: 5510.04561
   hps: 41.44646
  }
 }
@@ -836,14 +948,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestUnholy-AllItems-SphereofRedDragon'sBlood-37166"
- value: {
-  dps: 9533.46519
-  tps: 5763.93295
-  hps: 41.44646
- }
-}
-dps_results: {
  key: "TestUnholy-AllItems-StormshroudArmor"
  value: {
   dps: 6783.56944
@@ -872,6 +976,14 @@ dps_results: {
  value: {
   dps: 9759.35285
   tps: 5799.79631
+  hps: 41.44646
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-SyphonoftheNathrezim-32262"
+ value: {
+  dps: 9869.23255
+  tps: 5894.04022
   hps: 41.44646
  }
 }
@@ -916,11 +1028,27 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestUnholy-AllItems-TheSkullofGul'dan-32483"
+ value: {
+  dps: 9409.96792
+  tps: 5563.20385
+  hps: 41.44646
+ }
+}
+dps_results: {
  key: "TestUnholy-AllItems-TheTwinBladesofAzzinoth"
  value: {
   dps: 8545.74348
   tps: 4902.53333
   hps: 40.06706
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-Thunderfury,BlessedBladeoftheWindseeker-19019"
+ value: {
+  dps: 9869.23255
+  tps: 5894.04022
+  hps: 41.44646
  }
 }
 dps_results: {
@@ -964,14 +1092,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestUnholy-AllItems-TomeofArcanePhenomena-36972"
- value: {
-  dps: 9421.19667
-  tps: 5665.81365
-  hps: 41.44646
- }
-}
-dps_results: {
  key: "TestUnholy-AllItems-TrenchantEarthshatterDiamond"
  value: {
   dps: 9744.6148
@@ -984,6 +1104,14 @@ dps_results: {
  value: {
   dps: 9744.6148
   tps: 5789.08686
+  hps: 41.44646
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-TsunamiTalisman-30627"
+ value: {
+  dps: 9420.90632
+  tps: 5711.96416
   hps: 41.44646
  }
 }
@@ -1001,14 +1129,6 @@ dps_results: {
   dps: 9143.99633
   tps: 5315.9112
   hps: 41.98655
- }
-}
-dps_results: {
- key: "TestUnholy-AllItems-WingedTalisman-37844"
- value: {
-  dps: 9295.608
-  tps: 5609.56703
-  hps: 41.44646
  }
 }
 dps_results: {

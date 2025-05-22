@@ -124,6 +124,27 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDisc-AllItems-BandoftheEternalChampion-29301"
+ value: {
+  tps: 16.97163
+  hps: 3669.83673
+ }
+}
+dps_results: {
+ key: "TestDisc-AllItems-BandoftheEternalDefender-29297"
+ value: {
+  tps: 16.97163
+  hps: 3669.83673
+ }
+}
+dps_results: {
+ key: "TestDisc-AllItems-BandoftheEternalSage-29305"
+ value: {
+  tps: 17.13174
+  hps: 3713.88246
+ }
+}
+dps_results: {
  key: "TestDisc-AllItems-BaubleofTrueBlood-50354"
  value: {
   tps: 17.13694
@@ -145,6 +166,27 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDisc-AllItems-Berserker'sCall-33831"
+ value: {
+  tps: 17.13694
+  hps: 3642.67331
+ }
+}
+dps_results: {
+ key: "TestDisc-AllItems-BlackenedNaaruSliver-34427"
+ value: {
+  tps: 17.00697
+  hps: 3618.47035
+ }
+}
+dps_results: {
+ key: "TestDisc-AllItems-BladeofUnquenchedThirst-31193"
+ value: {
+  tps: 17.13694
+  hps: 3766.83285
+ }
+}
+dps_results: {
  key: "TestDisc-AllItems-BlessedRegaliaofUndeadCleansing"
  value: {
   tps: 16.3361
@@ -159,10 +201,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDisc-AllItems-BraidedEterniumChain-24114"
+ value: {
+  tps: 16.80224
+  hps: 3706.51521
+ }
+}
+dps_results: {
  key: "TestDisc-AllItems-ChaoticSkyflareDiamond"
  value: {
   tps: 14.25778
   hps: 3774.58427
+ }
+}
+dps_results: {
+ key: "TestDisc-AllItems-CommendationofKael'thas-34473"
+ value: {
+  tps: 17.13694
+  hps: 3642.67331
  }
 }
 dps_results: {
@@ -278,6 +334,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDisc-AllItems-DragonspineTrophy-28830"
+ value: {
+  tps: 17.13694
+  hps: 3642.67331
+ }
+}
+dps_results: {
  key: "TestDisc-AllItems-EffulgentSkyflareDiamond"
  value: {
   tps: 14.25778
@@ -337,7 +400,14 @@ dps_results: {
  key: "TestDisc-AllItems-EyeoftheBroodmother-45308"
  value: {
   tps: 17.13694
-  hps: 3776.23099
+  hps: 3686.49776
+ }
+}
+dps_results: {
+ key: "TestDisc-AllItems-Felstriker-12590"
+ value: {
+  tps: 17.13694
+  hps: 3766.83285
  }
 }
 dps_results: {
@@ -425,6 +495,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDisc-AllItems-HandofJustice-11815"
+ value: {
+  tps: 17.13694
+  hps: 3642.67331
+ }
+}
+dps_results: {
  key: "TestDisc-AllItems-Heartpierce-49982"
  value: {
   tps: 17.13694
@@ -442,7 +519,7 @@ dps_results: {
  key: "TestDisc-AllItems-IllustrationoftheDragonSoul-40432"
  value: {
   tps: 17.13694
-  hps: 3696.16447
+  hps: 3642.67331
  }
 }
 dps_results: {
@@ -502,9 +579,16 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDisc-AllItems-MadnessoftheBetrayer-32505"
+ value: {
+  tps: 17.13694
+  hps: 3642.67331
+ }
+}
+dps_results: {
  key: "TestDisc-AllItems-MajesticDragonFigurine-40430"
  value: {
-  tps: 16.9367
+  tps: 17.13694
   hps: 3642.67331
  }
 }
@@ -635,6 +719,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDisc-AllItems-RodoftheSunKing-29996"
+ value: {
+  tps: 17.13694
+  hps: 3766.83285
+ }
+}
+dps_results: {
  key: "TestDisc-AllItems-RuneofRepulsion-40372"
  value: {
   tps: 17.13694
@@ -656,10 +747,31 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDisc-AllItems-ScarabBrooch-21625"
+ value: {
+  tps: 17.13694
+  hps: 3730.8226
+ }
+}
+dps_results: {
  key: "TestDisc-AllItems-SealofthePantheon-36993"
  value: {
   tps: 17.13694
   hps: 3642.67331
+ }
+}
+dps_results: {
+ key: "TestDisc-AllItems-ShardofContempt-34472"
+ value: {
+  tps: 17.13694
+  hps: 3642.67331
+ }
+}
+dps_results: {
+ key: "TestDisc-AllItems-ShiftingNaaruSliver-34429"
+ value: {
+  tps: 17.00697
+  hps: 3673.17633
  }
 }
 dps_results: {
@@ -712,13 +824,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestDisc-AllItems-SphereofRedDragon'sBlood-37166"
- value: {
-  tps: 17.13694
-  hps: 3642.67331
- }
-}
-dps_results: {
  key: "TestDisc-AllItems-SwiftSkyflareDiamond"
  value: {
   tps: 14.25778
@@ -740,6 +845,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDisc-AllItems-SyphonoftheNathrezim-32262"
+ value: {
+  tps: 17.13694
+  hps: 3766.83285
+ }
+}
+dps_results: {
  key: "TestDisc-AllItems-TalismanofTrollDivinity-37734"
  value: {
   tps: 16.97175
@@ -758,6 +870,13 @@ dps_results: {
  value: {
   tps: 17.13694
   hps: 3642.67331
+ }
+}
+dps_results: {
+ key: "TestDisc-AllItems-TheSkullofGul'dan-32483"
+ value: {
+  tps: 17.10884
+  hps: 3661.10077
  }
 }
 dps_results: {
@@ -796,13 +915,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestDisc-AllItems-TomeofArcanePhenomena-36972"
- value: {
-  tps: 17.10593
-  hps: 3648.8447
- }
-}
-dps_results: {
  key: "TestDisc-AllItems-TrenchantEarthshatterDiamond"
  value: {
   tps: 14.25778
@@ -817,6 +929,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDisc-AllItems-TsunamiTalisman-30627"
+ value: {
+  tps: 17.13694
+  hps: 3666.3849
+ }
+}
+dps_results: {
  key: "TestDisc-AllItems-Val'anyr,HammerofAncientKings-46017"
  value: {
   tps: 17.29574
@@ -828,13 +947,6 @@ dps_results: {
  value: {
   tps: 12.69253
   hps: 3035.54693
- }
-}
-dps_results: {
- key: "TestDisc-AllItems-WingedTalisman-37844"
- value: {
-  tps: 17.13694
-  hps: 3702.75532
  }
 }
 dps_results: {
