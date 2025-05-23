@@ -286,6 +286,16 @@ func (item WowheadItemResponse) GetItemLevel() int {
 func (item WowheadItemResponse) GetExpansion() proto.Expansion {
 	ilvl := item.GetItemLevel()
 
+	if item.IsGem() {
+		if ilvl > 70 {
+			return proto.Expansion_ExpansionWotlk
+		}
+		if proto.ItemQuality(item.Quality) == proto.ItemQuality_ItemQualityUncommon && ilvl == 70 {
+			return proto.Expansion_ExpansionWotlk
+		}
+		return proto.Expansion_ExpansionTbc
+	}
+
 	if proto.ItemQuality(item.Quality) < proto.ItemQuality_ItemQualityEpic && ilvl > 115 {
 		return proto.Expansion_ExpansionWotlk
 	}

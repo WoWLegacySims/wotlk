@@ -326,27 +326,13 @@ func simmableItemFilter(_ int32, item *proto.UIItem) bool {
 		return false
 	}
 	if item.Ilvl == 0 {
-		fmt.Printf("Missing ilvl: %s\n", item.Name)
+		return false
 	}
 
 	return true
 }
 func simmableGemFilter(_ int32, gem *proto.UIGem) bool {
-	if _, ok := database.GemAllowList[gem.Id]; ok {
-		return true
-	}
-
-	// Allow all meta gems
-	if gem.Color == proto.GemColor_GemColorMeta {
-		return true
-	}
-
-	// Arbitrary to filter out old gems
-	if gem.Id < 39900 {
-		return false
-	}
-
-	return gem.Quality >= proto.ItemQuality_ItemQualityUncommon
+	return true
 }
 
 type TalentConfig struct {

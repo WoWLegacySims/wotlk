@@ -824,7 +824,14 @@ var DenyListNameRegexes = []*regexp.Regexp{
 
 // Allows manual overriding for Gem fields in case WowHead is wrong.
 var GemOverrides = []*proto.UIGem{
-	{Id: 33131, Stats: stats.Stats{stats.AttackPower: 32, stats.RangedAttackPower: 32}.ToFloatArray()},
+	{Id: 33131, RequiredProfession: proto.Profession_Jewelcrafting, Unique: true, Expansion: proto.Expansion_ExpansionTbc},
+	{Id: 33133, RequiredProfession: proto.Profession_Jewelcrafting, Unique: true, Expansion: proto.Expansion_ExpansionTbc},
+	{Id: 33134, RequiredProfession: proto.Profession_Jewelcrafting, Unique: true, Expansion: proto.Expansion_ExpansionTbc},
+	{Id: 33135, RequiredProfession: proto.Profession_Jewelcrafting, Unique: true, Expansion: proto.Expansion_ExpansionTbc},
+	{Id: 33140, RequiredProfession: proto.Profession_Jewelcrafting, Unique: true, Expansion: proto.Expansion_ExpansionTbc},
+	{Id: 33143, RequiredProfession: proto.Profession_Jewelcrafting, Unique: true, Expansion: proto.Expansion_ExpansionTbc},
+	{Id: 34256, Unique: true, Expansion: proto.Expansion_ExpansionTbc},
+	{Id: 34831, Unique: true, Expansion: proto.Expansion_ExpansionTbc},
 }
 var GemAllowList = map[int32]struct{}{
 	22459: {}, // Void Sphere
