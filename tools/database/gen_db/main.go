@@ -108,6 +108,7 @@ func main() {
 	}
 	for _, item := range atlaslootDB.Items {
 		if _, ok := db.Items[item.Id]; ok {
+			item.Expansion = 0
 			db.MergeItem(item)
 		}
 	}
