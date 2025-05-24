@@ -6,6 +6,9 @@ labels: ''
 assignees: ''
 
 ---
+**Version of the sim**
+-  [ ] Level 80 only
+-  [ ] All Levels
 
 **Describe the bug**
 A clear and concise description of what the bug is.
