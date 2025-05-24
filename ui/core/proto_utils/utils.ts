@@ -247,30 +247,30 @@ export const talentTreeIcons: Record<Class, Array<string>> = {
 };
 
 export const titleIcons: Record<Class | Spec, string> = {
-	[Spec.SpecBalanceDruid]: '/sims/wotlk/BRANCH/assets/img/balance_druid_icon.png',
-	[Spec.SpecFeralDruid]: '/sims/wotlk/BRANCH/assets/img/feral_druid_icon.png',
-	[Spec.SpecFeralTankDruid]: '/sims/wotlk/BRANCH/assets/img/feral_druid_tank_icon.png',
-	[Spec.SpecRestorationDruid]: '/sims/wotlk/BRANCH/assets/img/resto_druid_icon.png',
-	[Spec.SpecElementalShaman]: '/sims/wotlk/BRANCH/assets/img/elemental_shaman_icon.png',
-	[Spec.SpecEnhancementShaman]: '/sims/wotlk/BRANCH/assets/img/enhancement_shaman_icon.png',
-	[Spec.SpecRestorationShaman]: '/sims/wotlk/BRANCH/assets/img/resto_shaman_icon.png',
-	[Spec.SpecHunter]: '/sims/wotlk/BRANCH/assets/img/hunter_icon.png',
-	[Spec.SpecMage]: '/sims/wotlk/BRANCH/assets/img/mage_icon.png',
-	[Spec.SpecRogue]: '/sims/wotlk/BRANCH/assets/img/rogue_icon.png',
-	[Spec.SpecHolyPaladin]: '/sims/wotlk/BRANCH/assets/img/holy_paladin_icon.png',
-	[Spec.SpecProtectionPaladin]: '/sims/wotlk/BRANCH/assets/img/protection_paladin_icon.png',
-	[Spec.SpecRetributionPaladin]: '/sims/wotlk/BRANCH/assets/img/retribution_icon.png',
-	[Spec.SpecHealingPriest]: '/sims/wotlk/BRANCH/assets/img/priest_icon.png',
-	[Spec.SpecShadowPriest]: '/sims/wotlk/BRANCH/assets/img/shadow_priest_icon.png',
-	[Spec.SpecSmitePriest]: '/sims/wotlk/BRANCH/assets/img/smite_priest_icon.png',
-	[Spec.SpecWarlock]: '/sims/wotlk/BRANCH/assets/img/warlock_icon.png',
-	[Spec.SpecWarrior]: '/sims/wotlk/BRANCH/assets/img/warrior_icon.png',
-	[Spec.SpecProtectionWarrior]: '/sims/wotlk/BRANCH/assets/img/protection_warrior_icon.png',
-	[Spec.SpecDeathknight]: '/sims/wotlk/BRANCH/assets/img/death_knight_icon.png',
-	[Spec.SpecTankDeathknight]: '/sims/wotlk/BRANCH/assets/img/death_knight_icon.png',
+	[Spec.SpecBalanceDruid]: '/sims/wotlk/all/assets/img/balance_druid_icon.png',
+	[Spec.SpecFeralDruid]: '/sims/wotlk/all/assets/img/feral_druid_icon.png',
+	[Spec.SpecFeralTankDruid]: '/sims/wotlk/all/assets/img/feral_druid_tank_icon.png',
+	[Spec.SpecRestorationDruid]: '/sims/wotlk/all/assets/img/resto_druid_icon.png',
+	[Spec.SpecElementalShaman]: '/sims/wotlk/all/assets/img/elemental_shaman_icon.png',
+	[Spec.SpecEnhancementShaman]: '/sims/wotlk/all/assets/img/enhancement_shaman_icon.png',
+	[Spec.SpecRestorationShaman]: '/sims/wotlk/all/assets/img/resto_shaman_icon.png',
+	[Spec.SpecHunter]: '/sims/wotlk/all/assets/img/hunter_icon.png',
+	[Spec.SpecMage]: '/sims/wotlk/all/assets/img/mage_icon.png',
+	[Spec.SpecRogue]: '/sims/wotlk/all/assets/img/rogue_icon.png',
+	[Spec.SpecHolyPaladin]: '/sims/wotlk/all/assets/img/holy_paladin_icon.png',
+	[Spec.SpecProtectionPaladin]: '/sims/wotlk/all/assets/img/protection_paladin_icon.png',
+	[Spec.SpecRetributionPaladin]: '/sims/wotlk/all/assets/img/retribution_icon.png',
+	[Spec.SpecHealingPriest]: '/sims/wotlk/all/assets/img/priest_icon.png',
+	[Spec.SpecShadowPriest]: '/sims/wotlk/all/assets/img/shadow_priest_icon.png',
+	[Spec.SpecSmitePriest]: '/sims/wotlk/all/assets/img/smite_priest_icon.png',
+	[Spec.SpecWarlock]: '/sims/wotlk/all/assets/img/warlock_icon.png',
+	[Spec.SpecWarrior]: '/sims/wotlk/all/assets/img/warrior_icon.png',
+	[Spec.SpecProtectionWarrior]: '/sims/wotlk/all/assets/img/protection_warrior_icon.png',
+	[Spec.SpecDeathknight]: '/sims/wotlk/all/assets/img/death_knight_icon.png',
+	[Spec.SpecTankDeathknight]: '/sims/wotlk/all/assets/img/death_knight_icon.png',
 };
 
-export const raidSimIcon = '/sims/wotlk/BRANCH/assets/img/raid_icon.png';
+export const raidSimIcon = '/sims/wotlk/all/assets/img/raid_icon.png';
 export const raidSimLabel = 'Full Raid Sim';
 
 // Converts '1231321-12313123-0' to [40, 21, 0].

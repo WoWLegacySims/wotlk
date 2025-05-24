@@ -27,10 +27,10 @@ import {
 	getEligibleItemSlots,
 } from './utils.js';
 
-const dbUrlJson = '/sims/wotlk/BRANCH/assets/database/db.json';
-const dbUrlBin = '/sims/wotlk/BRANCH/assets/database/db.bin';
-const leftoversUrlJson = '/sims/wotlk/BRANCH/assets/database/leftover_db.json';
-const leftoversUrlBin = '/sims/wotlk/BRANCH/assets/database/leftover_db.bin';
+const dbUrlJson = '/sims/wotlk/all/assets/database/db.json';
+const dbUrlBin = '/sims/wotlk/all/assets/database/db.bin';
+const leftoversUrlJson = '/sims/wotlk/all/assets/database/leftover_db.json';
+const leftoversUrlBin = '/sims/wotlk/all/assets/database/leftover_db.bin';
 // When changing this value, don't forget to change the html <link> for preloading!
 const READ_JSON = true;
 

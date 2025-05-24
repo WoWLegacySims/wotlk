@@ -1,4 +1,4 @@
-OUT_DIR := dist/sims/wotlk/BRANCH
+OUT_DIR := dist/sims/wotlk/all
 TS_CORE_SRC := $(shell find ui/core -name '*.ts' -type f)
 ASSETS_INPUT := $(shell find assets/ -type f)
 ASSETS := $(patsubst assets/%,$(OUT_DIR)/assets/%,$(ASSETS_INPUT))
@@ -126,18 +126,18 @@ $(OUT_DIR)/assets/%: assets/%
 	cp $< $@
 
 binary_dist/dist.go: sim/web/dist.go.tmpl
-	mkdir -p binary_dist/BRANCH
-	touch binary_dist/BRANCH/embedded
+	mkdir -p binary_dist/all
+	touch binary_dist/all/embedded
 	cp sim/web/dist.go.tmpl binary_dist/dist.go
 
 binary_dist: $(OUT_DIR)/.dirstamp
 	rm -rf binary_dist
 	mkdir -p binary_dist
 	cp -r $(OUT_DIR) binary_dist/
-	rm binary_dist/BRANCH/lib.wasm
-	rm -rf binary_dist/BRANCH/assets/db_inputs
-	rm binary_dist/BRANCH/assets/database/db.bin
-	rm binary_dist/BRANCH/assets/database/leftover_db.bin
+	rm binary_dist/all/lib.wasm
+	rm -rf binary_dist/all/assets/db_inputs
+	rm binary_dist/all/assets/database/db.bin
+	rm binary_dist/all/assets/database/leftover_db.bin
 
 # Rebuild the protobuf generated code.
 .PHONY: proto

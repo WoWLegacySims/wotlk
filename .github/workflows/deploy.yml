@@ -2,7 +2,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - BRANCH
+      - all
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -31,7 +31,7 @@ jobs:
 
       - name: Build 🔧
         run: |
-          make dist/sims/wotlk/BRANCH/.dirstamp
+          make dist/sims/wotlk/all/.dirstamp
 
       - name: Test
         run: |
@@ -42,7 +42,7 @@ jobs:
         with:
           branch: main
           single-commit: true
-          folder: dist/sims/wotlk/BRANCH
+          folder: dist/sims/wotlk/all
           repository-name: WoWLegacySims/sims
           token: ${{ secrets.WOWSIMS_TOKEN }}
-          target-folder: wotlk/BRANCH
+          target-folder: wotlk/all

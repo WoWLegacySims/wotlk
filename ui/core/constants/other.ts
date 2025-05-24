@@ -1,5 +1,5 @@
 // Github pages serves our site under the /wotlk directory (because the repo name is wotlk)
-export const REPO_NAME = 'sims/wotlk/BRANCH';
+export const REPO_NAME = 'sims/wotlk/all';
 
 // Get 'elemental_shaman', the pathname part after the repo name
 const pathnameParts = window.location.pathname.split('/');
