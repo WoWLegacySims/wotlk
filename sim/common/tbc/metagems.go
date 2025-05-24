@@ -8,9 +8,6 @@ import (
 )
 
 func init() {
-	core.AddEffectsToTest = false
-	// Keep these in order by item ID.
-
 	core.NewItemEffect(25893, func(agent core.Agent) {
 		character := agent.GetCharacter()
 		procAura := character.NewTemporaryStatsAura("Mystic Focus Proc", core.ActionID{ItemID: 25893}, stats.Stats{stats.SpellHaste: 320}, time.Second*4)
@@ -109,6 +106,4 @@ func init() {
 	// These are handled in character.go, but create empty effects, so they are included in tests.
 	core.NewItemEffect(34220, func(_ core.Agent) {}) // Chaotic Skyfire Diamond
 	core.NewItemEffect(32409, func(_ core.Agent) {}) // Relentless Earthstorm Diamond
-
-	core.AddEffectsToTest = true
 }

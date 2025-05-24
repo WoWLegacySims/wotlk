@@ -9,6 +9,7 @@ import (
 )
 
 func init() {
+	core.AddEffectsToTest = false
 	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
 		Name:     "Dragonspine Trophy",
 		ID:       28830,
@@ -125,5 +126,5 @@ func init() {
 			return aura.Unit.CurrentHealthPercent() <= 0.35
 		},
 	})
-
+	core.AddEffectsToTest = true
 }

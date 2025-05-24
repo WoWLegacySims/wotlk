@@ -580,4 +580,26 @@ func init() {
 	makeGladiatorIdolEffect(42589, 60698, 152, 10, "Furious Gladiator's Idol of Resolve")
 	makeGladiatorIdolEffect(42591, 60700, 172, 10, "Relentless Gladiator's Idol of Resolve")
 	makeGladiatorIdolEffect(51429, 60701, 204, 10, "Wrathful Gladiator's Idol of Resolve")
+
+	makeGladiatorMoonkinIdolEffect := func(itemID int32, spellId int32, spellpower float64, numSeconds int, label string) {
+		core.NewItemEffect(itemID, func(a core.Agent) {
+			druid := a.(DruidAgent).GetDruid()
+			procAura := druid.NewTemporaryStatsAura(label+" Proc", core.ActionID{SpellID: spellId}, stats.Stats{stats.SpellPower: spellpower}, time.Second*time.Duration(numSeconds))
+
+			core.MakePermanent(druid.RegisterAura(core.Aura{
+				Label: label,
+				OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+					if result.Landed() && druid.Moonfire != nil && spell.IsSpell(druid.Moonfire.Spell) {
+						procAura.Activate(sim)
+					}
+				},
+			}))
+		})
+	}
+	makeGladiatorMoonkinIdolEffect(42582, 60717, 62, 6, "Hateful Gladiator's Idol of Steadfastness")
+	makeGladiatorMoonkinIdolEffect(42575, 60710, 52, 6, "Savage Gladiator's Idol of Steadfastness")
+	makeGladiatorMoonkinIdolEffect(42583, 60719, 70, 10, "Deadly Gladiator's Idol of Steadfastness")
+	makeGladiatorMoonkinIdolEffect(42584, 60722, 84, 10, "Furious Gladiator's Idol of Steadfastness")
+	makeGladiatorMoonkinIdolEffect(42585, 60724, 101, 10, "Relentless Gladiator's Idol of Steadfastness")
+	makeGladiatorMoonkinIdolEffect(51437, 60726, 119, 10, "Wrathful Gladiator's Idol of Steadfastness")
 }

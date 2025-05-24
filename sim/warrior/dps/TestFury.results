@@ -65,31 +65,17 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFury-AllItems-Bandit'sInsignia-40371"
+ key: "TestFury-AllItems-BadgeofTenacity-32658"
  value: {
-  dps: 6770.3165
-  tps: 5027.64845
+  dps: 6638.7579
+  tps: 4927.63998
  }
 }
 dps_results: {
- key: "TestFury-AllItems-BandoftheEternalChampion-29301"
+ key: "TestFury-AllItems-BarbaricBelt-4264"
  value: {
-  dps: 6887.15397
-  tps: 5115.82134
- }
-}
-dps_results: {
- key: "TestFury-AllItems-BandoftheEternalDefender-29297"
- value: {
-  dps: 6757.53567
-  tps: 5020.57094
- }
-}
-dps_results: {
- key: "TestFury-AllItems-BandoftheEternalSage-29305"
- value: {
-  dps: 6823.04927
-  tps: 5067.98505
+  dps: 6603.73771
+  tps: 4908.20693
  }
 }
 dps_results: {
@@ -151,6 +137,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFury-AllItems-BlazingEmblem-2802"
+ value: {
+  dps: 6558.98526
+  tps: 4873.35267
+ }
+}
+dps_results: {
  key: "TestFury-AllItems-BlessedBattlegearofUndeadSlaying"
  value: {
   dps: 5369.52008
@@ -179,6 +172,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFury-AllItems-Bloodrazor-809"
+ value: {
+  dps: 6977.83642
+  tps: 5186.59718
+ }
+}
+dps_results: {
  key: "TestFury-AllItems-BracingEarthsiegeDiamond"
  value: {
   dps: 6861.03596
@@ -190,6 +190,13 @@ dps_results: {
  value: {
   dps: 6799.06202
   tps: 5048.1786
+ }
+}
+dps_results: {
+ key: "TestFury-AllItems-BrutalHauberk-7133"
+ value: {
+  dps: 6445.13039
+  tps: 4788.50825
  }
 }
 dps_results: {
@@ -214,7 +221,7 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFury-AllItems-CommendationofKael'thas-34473"
+ key: "TestFury-AllItems-ColdBasiliskEye-5079"
  value: {
   dps: 6558.98526
   tps: 4873.35267
@@ -243,24 +250,24 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFury-AllItems-DarkmoonCard:Berserker!-42989"
- value: {
-  dps: 6750.30902
-  tps: 5011.21238
- }
-}
-dps_results: {
- key: "TestFury-AllItems-DarkmoonCard:Death-42990"
- value: {
-  dps: 6751.83425
-  tps: 5013.72432
- }
-}
-dps_results: {
  key: "TestFury-AllItems-DarkmoonCard:Greatness-44255"
  value: {
   dps: 6558.98526
   tps: 4873.35267
+ }
+}
+dps_results: {
+ key: "TestFury-AllItems-DazzlingLongsword-869"
+ value: {
+  dps: 6977.83642
+  tps: 5186.59718
+ }
+}
+dps_results: {
+ key: "TestFury-AllItems-Death'sChoice-47303"
+ value: {
+  dps: 7116.08205
+  tps: 5284.49152
  }
 }
 dps_results: {
@@ -271,10 +278,17 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFury-AllItems-DeathKnight'sAnguish-38212"
+ key: "TestFury-AllItems-Death'sVerdict-47115"
  value: {
-  dps: 6728.98696
-  tps: 4995.57765
+  dps: 7144.1658
+  tps: 5300.50708
+ }
+}
+dps_results: {
+ key: "TestFury-AllItems-Death'sVerdict-47131"
+ value: {
+  dps: 7180.31751
+  tps: 5326.19555
  }
 }
 dps_results: {
@@ -320,10 +334,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFury-AllItems-DragonspineTrophy-28830"
+ key: "TestFury-AllItems-DragonscaleBreastplate-8367"
  value: {
-  dps: 6741.42044
-  tps: 5005.54382
+  dps: 6454.36926
+  tps: 4799.99946
  }
 }
 dps_results: {
@@ -348,10 +362,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFury-AllItems-EmbalmedShroud-7691"
+ value: {
+  dps: 6337.75098
+  tps: 4716.1643
+ }
+}
+dps_results: {
  key: "TestFury-AllItems-EmberSkyflareDiamond"
  value: {
   dps: 6861.03596
   tps: 5100.97752
+ }
+}
+dps_results: {
+ key: "TestFury-AllItems-EnergyCloak-9397"
+ value: {
+  dps: 6700.19556
+  tps: 4978.55252
  }
 }
 dps_results: {
@@ -390,21 +418,7 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFury-AllItems-ExtractofNecromanticPower-40373"
- value: {
-  dps: 6742.80812
-  tps: 5007.08367
- }
-}
-dps_results: {
- key: "TestFury-AllItems-EyeoftheBroodmother-45308"
- value: {
-  dps: 6692.63665
-  tps: 4972.10972
- }
-}
-dps_results: {
- key: "TestFury-AllItems-Felstriker-12590"
+ key: "TestFury-AllItems-FieryWarAxe-870"
  value: {
   dps: 6977.83642
   tps: 5186.59718
@@ -418,17 +432,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFury-AllItems-FireHardenedHauberk-6972"
+ value: {
+  dps: 6445.13039
+  tps: 4788.50825
+ }
+}
+dps_results: {
+ key: "TestFury-AllItems-FlurryAxe-871"
+ value: {
+  dps: 6977.83642
+  tps: 5186.59718
+ }
+}
+dps_results: {
  key: "TestFury-AllItems-ForethoughtTalisman-40258"
  value: {
   dps: 6558.98526
   tps: 4873.35267
- }
-}
-dps_results: {
- key: "TestFury-AllItems-ForgeEmber-37660"
- value: {
-  dps: 6673.10963
-  tps: 4960.61096
  }
 }
 dps_results: {
@@ -446,17 +467,18 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFury-AllItems-FuryoftheFiveFlights-40431"
- value: {
-  dps: 6777.10636
-  tps: 5033.72275
- }
-}
-dps_results: {
  key: "TestFury-AllItems-FuturesightRune-38763"
  value: {
   dps: 6558.98526
   tps: 4873.35267
+ }
+}
+dps_results: {
+ key: "TestFury-AllItems-Gem-studdedLeatherBelt-4262"
+ value: {
+  dps: 6565.33208
+  tps: 4877.92966
+  hps: 1.91414
  }
 }
 dps_results: {
@@ -497,8 +519,8 @@ dps_results: {
 dps_results: {
  key: "TestFury-AllItems-HandofJustice-11815"
  value: {
-  dps: 6715.43667
-  tps: 4989.55695
+  dps: 6616.5252
+  tps: 4912.28171
  }
 }
 dps_results: {
@@ -516,14 +538,21 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFury-AllItems-IconoftheSilverCrescent-29370"
+ key: "TestFury-AllItems-HelmofFire-8348"
  value: {
-  dps: 6558.98526
-  tps: 4873.35267
+  dps: 6327.15831
+  tps: 4704.85389
  }
 }
 dps_results: {
- key: "TestFury-AllItems-IllustrationoftheDragonSoul-40432"
+ key: "TestFury-AllItems-HowlingBlade-6331"
+ value: {
+  dps: 6977.83642
+  tps: 5186.59718
+ }
+}
+dps_results: {
+ key: "TestFury-AllItems-IconoftheSilverCrescent-29370"
  value: {
   dps: 6558.98526
   tps: 4873.35267
@@ -566,6 +595,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFury-AllItems-Jang'thrazetheProtector-9380"
+ value: {
+  dps: 6977.83642
+  tps: 5186.59718
+ }
+}
+dps_results: {
  key: "TestFury-AllItems-LastWord-50179"
  value: {
   dps: 6977.83642
@@ -580,24 +616,11 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFury-AllItems-MadnessoftheBetrayer-32505"
- value: {
-  dps: 6755.41602
-  tps: 5020.85449
- }
-}
-dps_results: {
- key: "TestFury-AllItems-MajesticDragonFigurine-40430"
+ key: "TestFury-AllItems-Lifestone-833"
  value: {
   dps: 6558.98526
   tps: 4873.35267
- }
-}
-dps_results: {
- key: "TestFury-AllItems-MeteoriteWhetstone-37390"
- value: {
-  dps: 6822.97786
-  tps: 5061.21977
+  hps: 1.7786
  }
 }
 dps_results: {
@@ -605,6 +628,13 @@ dps_results: {
  value: {
   dps: 6802.69356
   tps: 5052.30562
+ }
+}
+dps_results: {
+ key: "TestFury-AllItems-NightReaver-1318"
+ value: {
+  dps: 6977.83642
+  tps: 5186.59718
  }
 }
 dps_results: {
@@ -678,17 +708,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFury-AllItems-ReignoftheDead-47316"
+ key: "TestFury-AllItems-Ravager-7717"
  value: {
-  dps: 6558.98526
-  tps: 4873.35267
- }
-}
-dps_results: {
- key: "TestFury-AllItems-ReignoftheDead-47477"
- value: {
-  dps: 6558.98526
-  tps: 4873.35267
+  dps: 6977.83642
+  tps: 5186.59718
  }
 }
 dps_results: {
@@ -703,6 +726,20 @@ dps_results: {
  value: {
   dps: 6861.03596
   tps: 5100.97752
+ }
+}
+dps_results: {
+ key: "TestFury-AllItems-RingofSaviors-1447"
+ value: {
+  dps: 6757.89326
+  tps: 5020.8274
+ }
+}
+dps_results: {
+ key: "TestFury-AllItems-RobesofInsight-940"
+ value: {
+  dps: 6389.86138
+  tps: 4750.57593
  }
 }
 dps_results: {
@@ -748,17 +785,17 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFury-AllItems-ShardofContempt-34472"
- value: {
-  dps: 6672.0522
-  tps: 4955.35446
- }
-}
-dps_results: {
  key: "TestFury-AllItems-ShinyShardoftheGods"
  value: {
   dps: 6558.98526
   tps: 4873.35267
+ }
+}
+dps_results: {
+ key: "TestFury-AllItems-ShortswordofVengeance-754"
+ value: {
+  dps: 6977.83642
+  tps: 5186.59718
  }
 }
 dps_results: {
@@ -811,17 +848,17 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFury-AllItems-SparkofLife-37657"
- value: {
-  dps: 6652.05512
-  tps: 4932.89237
- }
-}
-dps_results: {
  key: "TestFury-AllItems-StormshroudArmor"
  value: {
   dps: 5069.00605
   tps: 3781.05627
+ }
+}
+dps_results: {
+ key: "TestFury-AllItems-Sul'thrazetheLasher-9372"
+ value: {
+  dps: 6977.83642
+  tps: 5186.59718
  }
 }
 dps_results: {
@@ -843,6 +880,13 @@ dps_results: {
  value: {
   dps: 6872.45121
   tps: 5109.37077
+ }
+}
+dps_results: {
+ key: "TestFury-AllItems-SwordofDecay-1727"
+ value: {
+  dps: 6977.83642
+  tps: 5186.59718
  }
 }
 dps_results: {
@@ -902,6 +946,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFury-AllItems-Thunderbrew'sBootFlask-744"
+ value: {
+  dps: 6559.95285
+  tps: 4874.03619
+ }
+}
+dps_results: {
  key: "TestFury-AllItems-Thunderfury,BlessedBladeoftheWindseeker-19019"
  value: {
   dps: 6977.83642
@@ -913,20 +964,6 @@ dps_results: {
  value: {
   dps: 6863.63387
   tps: 5100.62581
- }
-}
-dps_results: {
- key: "TestFury-AllItems-TinyAbominationinaJar-50351"
- value: {
-  dps: 6972.25293
-  tps: 5171.80822
- }
-}
-dps_results: {
- key: "TestFury-AllItems-TinyAbominationinaJar-50706"
- value: {
-  dps: 6973.19306
-  tps: 5167.73143
  }
 }
 dps_results: {
@@ -958,10 +995,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFury-AllItems-TsunamiTalisman-30627"
+ key: "TestFury-AllItems-TruesilverBreastplate-7939"
  value: {
-  dps: 6729.80879
-  tps: 4995.79908
+  dps: 6407.08835
+  tps: 4763.02731
  }
 }
 dps_results: {
@@ -976,6 +1013,13 @@ dps_results: {
  value: {
   dps: 5148.99405
   tps: 3889.29011
+ }
+}
+dps_results: {
+ key: "TestFury-AllItems-VestigeofHaldor-37064"
+ value: {
+  dps: 6724.57031
+  tps: 4988.77948
  }
 }
 dps_results: {

@@ -9,6 +9,7 @@ import (
 )
 
 func init() {
+	core.AddEffectsToTest = false
 	core.NewItemEffect(38212, func(agent core.Agent) {
 		character := agent.GetCharacter()
 
@@ -92,8 +93,6 @@ func init() {
 		Bonus:     stats.Stats{stats.SpellPower: 26},
 		Callback:  core.CallbackOnHealDealt | core.CallbackOnSpellHitDealt | core.CallbackOnPeriodicHealDealt | core.CallbackOnPeriodicDamageDealt,
 	})
-
-	core.AddEffectsToTest = false
 
 	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{
 		Name:      "Solance of the Defeated",
@@ -386,6 +385,5 @@ func init() {
 		Outcome:     core.OutcomeLanded,
 		IsDefensive: true,
 	})
-
 	core.AddEffectsToTest = true
 }

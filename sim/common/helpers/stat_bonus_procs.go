@@ -22,6 +22,7 @@ type ProcStatBonusEffect struct {
 	ICD         time.Duration
 	SpellSchool core.SpellSchool
 	CustomCheck core.ProcTriggerCheck
+	Weapon      bool
 
 	// For ignoring a hardcoded spell.
 	IgnoreSpellID int32
@@ -30,6 +31,10 @@ type ProcStatBonusEffect struct {
 func NewProcStatBonusEffect(config ProcStatBonusEffect) {
 	core.NewItemEffect(config.ID, func(agent core.Agent) {
 		character := agent.GetCharacter()
+
+		if config.Weapon {
+			config.ProcMask = character.GetProcMaskForItem(config.ID)
+		}
 
 		procID := core.ActionID{SpellID: config.AuraID}
 		if procID.IsEmptyAction() {
@@ -47,6 +52,73 @@ func NewProcStatBonusEffect(config ProcStatBonusEffect) {
 					procAura.Activate(sim)
 				}
 			}
+		}
+
+		triggerAura := core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			ActionID:    core.ActionID{ItemID: config.ID},
+			Name:        config.Name,
+			Callback:    config.Callback,
+			ProcMask:    config.ProcMask,
+			SpellSchool: config.SpellSchool,
+			Outcome:     config.Outcome,
+			Harmful:     config.Harmful,
+			ProcChance:  config.ProcChance,
+			PPM:         config.PPM,
+			ICD:         config.ICD,
+			CustomCheck: config.CustomCheck,
+			Handler:     handler,
+		})
+		procAura.Icd = triggerAura.Icd
+	})
+}
+
+type ProcStatDebuffEffect struct {
+	Name        string
+	ID          int32
+	AuraID      int32
+	Debuff      stats.Stats
+	Duration    time.Duration
+	Callback    core.AuraCallback
+	ProcMask    core.ProcMask
+	Outcome     core.HitOutcome
+	Harmful     bool
+	ProcChance  float64
+	PPM         float64
+	ICD         time.Duration
+	SpellSchool core.SpellSchool
+	CustomCheck core.ProcTriggerCheck
+	Weapon      bool
+
+	// For ignoring a hardcoded spell.
+	IgnoreSpellID int32
+}
+
+func NewProcStatDebuffEffect(config ProcStatDebuffEffect) {
+	core.NewItemEffect(config.ID, func(agent core.Agent) {
+		character := agent.GetCharacter()
+
+		if config.Weapon {
+			config.ProcMask = character.GetProcMaskForItem(config.ID)
+		}
+
+		procID := core.ActionID{SpellID: config.AuraID}
+		if procID.IsEmptyAction() {
+			procID = core.ActionID{ItemID: config.ID}
+		}
+
+		procAura := character.CurrentTarget.RegisterAura(core.Aura{
+			Label:    config.Name + " Proc",
+			ActionID: procID,
+			Duration: config.Duration,
+			OnGain: func(aura *core.Aura, sim *core.Simulation) {
+				aura.Unit.AddStatsDynamic(sim, config.Debuff)
+			},
+			OnExpire: func(aura *core.Aura, sim *core.Simulation) {
+				aura.Unit.AddStatsDynamic(sim, config.Debuff.Invert())
+			},
+		})
+		handler := func(sim *core.Simulation, _ *core.Spell, _ *core.SpellResult) {
+			procAura.Activate(sim)
 		}
 
 		triggerAura := core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{

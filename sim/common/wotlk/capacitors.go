@@ -9,7 +9,6 @@ import (
 
 func init() {
 	core.AddEffectsToTest = false
-
 	helpers.NewCapacitorDamageEffect(helpers.CapacitorDamageEffect{
 		Name:      "Thunder Capacitor",
 		ID:        38072,
@@ -55,9 +54,6 @@ func init() {
 		BasePoints: 1958,
 		Die:        317,
 	})
-
-	core.AddEffectsToTest = true
-
 	helpers.NewCapacitorDamageEffect(helpers.CapacitorDamageEffect{
 		Name:      "Reign of the Dead",
 		ID:        47316,
@@ -185,4 +181,5 @@ func init() {
 			})
 		})
 	})
+	core.AddEffectsToTest = true
 }

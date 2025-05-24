@@ -91,7 +91,9 @@ func main() {
 			// Only included items that are in wowheads gearplanner db
 			// Wowhead doesn't seem to have a field/flag to signify 'not available / in game' but their gearplanner db has them filtered
 			item := response.ToItemProto()
-			if _, ok := wowheadDB.Items[strconv.Itoa(int(item.Id))]; ok {
+			_, allow := database.ItemAllowList[item.Id]
+			_, ok := wowheadDB.Items[strconv.Itoa(int(item.Id))]
+			if ok || allow {
 				db.MergeItem(item)
 			}
 		} else if response.IsGem() {

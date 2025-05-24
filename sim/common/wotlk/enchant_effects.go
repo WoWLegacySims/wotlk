@@ -409,7 +409,7 @@ func init() {
 			MaxStacks: 5,
 			Duration:  time.Second * 10,
 			OnStacksChange: func(aura *core.Aura, sim *core.Simulation, oldStacks, newStacks int32) {
-				aura.Unit.AddStat(stats.Parry, 200*float64(newStacks-oldStacks))
+				aura.Unit.AddStatDynamic(sim, stats.Parry, 200*float64(newStacks-oldStacks))
 			},
 			OnSpellHitTaken: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 				if result.Outcome.Matches(core.OutcomeParry) {

@@ -3,6 +3,8 @@ package core
 import (
 	"fmt"
 	"slices"
+
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 )
 
 type ItemSet struct {
@@ -86,6 +88,10 @@ func (character *Character) HasSetBonus(set *ItemSet, numItems int32) bool {
 	}
 
 	return false
+}
+
+func (character *Character) HasItem(id int32, slot proto.ItemSlot) bool {
+	return &character.Equipment[slot] != nil && character.Equipment[slot].ID == id
 }
 
 type ActiveSetBonus struct {

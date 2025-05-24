@@ -37,7 +37,7 @@ func NewProtectionPaladin(character *core.Character, options *proto.Player) *Pro
 	prot.HasGlyphAS = prot.HasMajorGlyph(proto.PaladinMajorGlyph_GlyphOfAvengerSShield)
 
 	prot.EnableAutoAttacks(prot, core.AutoAttackOptions{
-		MainHand:       prot.WeaponFromMainHand(0), // Set crit multiplier later when we have targets.
+		MainHand:       prot.WeaponFromMainHand(prot.MeleeCritMultiplier()), // Set crit multiplier later when we have targets.
 		AutoSwingMelee: true,
 	})
 

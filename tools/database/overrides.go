@@ -343,6 +343,7 @@ var ItemOverrides = []*proto.UIItem{
 
 // Keep these sorted by item ID.
 var ItemAllowList = map[int32]struct{}{
+	9380:  {}, //Jang'traze
 	11815: {}, // Hand of Justice
 	12631: {}, // Fiery Plate Gauntlets
 	12590: {}, // Felstriker

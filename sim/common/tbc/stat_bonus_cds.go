@@ -29,7 +29,5 @@ func init() {
 
 	helpers.NewHealthActive(32501, 1750, time.Second*20, time.Minute*3) // Shadowmoon Insignia
 
-	core.AddEffectsToTest = false
 	core.NewSimpleStatOffensiveTrinketEffect(32658, stats.Stats{stats.Agility: 150}, time.Second*20, time.Minute*2) // Badge of Tenacity
-	core.AddEffectsToTest = true
 }

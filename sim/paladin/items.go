@@ -223,7 +223,7 @@ func (paladin *Paladin) getItemSetLightswornPlateBonus2() float64 {
 
 func (paladin *Paladin) getItemSetGladiatorsVindicationBonusGloves() float64 {
 	switch paladin.Hands().ID {
-	case 40798, 40802, 40805, 40808, 40812, 51475: // S5a Hateful, S5b Hateful, S5c Deadly, S6 Furious, S7 Relentless, S8 Wrathful
+	case 33750, 35089, 40798, 40802, 40805, 40808, 40812, 51475: // S5a Hateful, S5b Hateful, S5c Deadly, S6 Furious, S7 Relentless, S8 Wrathful
 		return 0.05
 	default:
 		return 0

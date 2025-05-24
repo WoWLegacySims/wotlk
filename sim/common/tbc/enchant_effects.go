@@ -9,9 +9,6 @@ import (
 )
 
 func init() {
-	core.AddEffectsToTest = false
-	// Keep these in order by item ID.
-
 	core.NewEnchantEffect(2523, func(agent core.Agent) {
 		agent.GetCharacter().AddBonusRangedHitRating(30)
 	})
@@ -111,16 +108,18 @@ func init() {
 		character := a.GetCharacter()
 
 		procMask := character.GetProcMaskForEnchant(2674)
-		healthMetrics := character.NewHealthMetrics(core.ActionID{SpellID: 28005})
 
 		procSpell := character.RegisterSpell(core.SpellConfig{
-			ActionID:    core.ActionID{SpellID: 28005},
-			SpellSchool: core.SpellSchoolArcane,
-			ProcMask:    core.ProcMaskEmpty,
+			ActionID:         core.ActionID{SpellID: 28005},
+			SpellSchool:      core.SpellSchoolArcane,
+			ProcMask:         core.ProcMaskEmpty,
+			DamageMultiplier: 1,
+			CritMultiplier:   character.DefaultSpellCritMultiplier(),
+			ThreatMultiplier: 1,
 			ApplyEffects: func(sim *core.Simulation, _ *core.Unit, spell *core.Spell) {
 				for _, c := range character.Party.PlayersAndPets {
 					heal := sim.Roll(179, 221)
-					c.GetCharacter().GainHealth(sim, heal, healthMetrics)
+					spell.CalcAndDealHealing(sim, &c.GetCharacter().Unit, heal, spell.OutcomeMagicHitAndCrit)
 				}
 			},
 		})
@@ -260,6 +259,4 @@ func init() {
 			applyDeathfrostForWeapon(character, procSpell, false)
 		}
 	})
-
-	core.AddEffectsToTest = true
 }

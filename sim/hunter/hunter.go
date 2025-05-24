@@ -105,8 +105,6 @@ func (hunter *Hunter) AddPartyBuffs(_ *proto.PartyBuffs) {
 
 func (hunter *Hunter) Initialize() {
 	// Update auto crit multipliers now that we have the targets.
-	hunter.AutoAttacks.MHConfig().CritMultiplier = hunter.critMultiplier(false, false, false)
-	hunter.AutoAttacks.OHConfig().CritMultiplier = hunter.critMultiplier(false, false, false)
 	hunter.AutoAttacks.RangedConfig().CritMultiplier = hunter.critMultiplier(false, false, false)
 
 	hunter.registerAspectOfTheDragonhawkSpell()
@@ -188,8 +186,8 @@ func NewHunter(character *core.Character, options *proto.Player) *Hunter {
 	hunter.EnableAutoAttacks(hunter, core.AutoAttackOptions{
 		// We don't know crit multiplier until later when we see the target so just
 		// use 0 for now.
-		MainHand:        hunter.WeaponFromMainHand(0),
-		OffHand:         hunter.WeaponFromOffHand(0),
+		MainHand:        hunter.WeaponFromMainHand(hunter.critMultiplier(false, false, false)),
+		OffHand:         hunter.WeaponFromOffHand(hunter.critMultiplier(false, false, false)),
 		Ranged:          rangedWeapon,
 		ReplaceMHSwing:  hunter.TryRaptorStrike,
 		AutoSwingRanged: true,

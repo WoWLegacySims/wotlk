@@ -8,8 +8,6 @@ import (
 )
 
 func init() {
-	core.AddEffectsToTest = false
-
 	helpers.NewProcDamageEffect(helpers.ProcDamageEffect{
 		ID: 37064,
 		Trigger: core.ProcTrigger{
@@ -25,7 +23,7 @@ func init() {
 		BasePoints: 1023,
 		Die:        513,
 	})
-
+	core.AddEffectsToTest = false
 	helpers.NewProcDamageEffect(helpers.ProcDamageEffect{
 		ID: 37264,
 		Trigger: core.ProcTrigger{
@@ -57,8 +55,6 @@ func init() {
 		BasePoints: 1023,
 		Die:        523,
 	})
-
-	core.AddEffectsToTest = true
 
 	helpers.NewProcDamageEffect(helpers.ProcDamageEffect{
 		ID: 40371,
@@ -105,4 +101,5 @@ func init() {
 		BasePoints: 1749,
 		Die:        501,
 	})
+	core.AddEffectsToTest = true
 }

@@ -80,9 +80,12 @@ func init() {
 		procMask := character.GetProcMaskForEnchant(36)
 
 		procSpell := character.RegisterSpell(core.SpellConfig{
-			ActionID:    core.ActionID{SpellID: 6297},
-			SpellSchool: core.SpellSchoolFire,
-			ProcMask:    core.ProcMaskEmpty,
+			ActionID:         core.ActionID{SpellID: 6297},
+			SpellSchool:      core.SpellSchoolFire,
+			ProcMask:         core.ProcMaskEmpty,
+			DamageMultiplier: 1,
+			CritMultiplier:   character.DefaultSpellCritMultiplier(),
+			ThreatMultiplier: 1,
 			ApplyEffects: func(sim *core.Simulation, _ *core.Unit, spell *core.Spell) {
 				for _, aoeTarget := range sim.Encounter.TargetUnits {
 					baseDamage := sim.Roll(8, 5)
@@ -112,9 +115,12 @@ func init() {
 		procMask := character.GetProcMaskForEnchant(803)
 
 		procSpell := character.RegisterSpell(core.SpellConfig{
-			ActionID:    core.ActionID{SpellID: 13897},
-			SpellSchool: core.SpellSchoolFire,
-			ProcMask:    core.ProcMaskEmpty,
+			ActionID:         core.ActionID{SpellID: 13897},
+			SpellSchool:      core.SpellSchoolFire,
+			ProcMask:         core.ProcMaskEmpty,
+			DamageMultiplier: 1,
+			CritMultiplier:   character.DefaultSpellCritMultiplier(),
+			ThreatMultiplier: 1,
 			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 				spell.CalcAndDealDamage(sim, target, 40, spell.OutcomeMagicHitAndCrit)
 			},
@@ -140,9 +146,12 @@ func init() {
 		procMask := character.GetProcMaskForEnchant(912)
 
 		procSpell := character.RegisterSpell(core.SpellConfig{
-			ActionID:    core.ActionID{SpellID: 13907},
-			SpellSchool: core.SpellSchoolHoly,
-			ProcMask:    core.ProcMaskEmpty,
+			ActionID:         core.ActionID{SpellID: 13907},
+			SpellSchool:      core.SpellSchoolHoly,
+			ProcMask:         core.ProcMaskEmpty,
+			DamageMultiplier: 1,
+			CritMultiplier:   character.DefaultSpellCritMultiplier(),
+			ThreatMultiplier: 1,
 			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 				baseDamage := sim.Roll(74, 51)
 				spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
@@ -173,17 +182,16 @@ func init() {
 		healthMetrics := character.NewHealthMetrics(core.ActionID{SpellID: 20004})
 
 		procSpell := character.RegisterSpell(core.SpellConfig{
-			ActionID:    core.ActionID{SpellID: 20004},
-			SpellSchool: core.SpellSchoolShadow,
-			ProcMask:    core.ProcMaskEmpty,
+			ActionID:         core.ActionID{SpellID: 20004},
+			SpellSchool:      core.SpellSchoolShadow,
+			ProcMask:         core.ProcMaskEmpty,
+			DamageMultiplier: 1,
+			CritMultiplier:   character.DefaultSpellCritMultiplier(),
+			ThreatMultiplier: 1,
 			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-				effect := 30.0
-				res := spell.CalcAndDealDamage(sim, target, effect, spell.OutcomeMagicHitAndCrit)
+				res := spell.CalcAndDealDamage(sim, target, 30, spell.OutcomeMagicHitAndCrit)
 				if res.Landed() {
-					if res.DidCrit() {
-						effect *= 2
-					}
-					character.GainHealth(sim, effect, healthMetrics)
+					character.GainHealth(sim, res.Damage, healthMetrics)
 				}
 			},
 		})
@@ -238,10 +246,12 @@ func init() {
 		})
 
 		procSpell := character.RegisterSpell(core.SpellConfig{
-			ActionID:    core.ActionID{SpellID: 20006},
-			SpellSchool: core.SpellSchoolShadow,
-			ProcMask:    core.ProcMaskEmpty,
-
+			ActionID:         core.ActionID{SpellID: 20006},
+			SpellSchool:      core.SpellSchoolShadow,
+			ProcMask:         core.ProcMaskEmpty,
+			DamageMultiplier: 1,
+			CritMultiplier:   character.DefaultSpellCritMultiplier(),
+			ThreatMultiplier: 1,
 			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 				dmg := sim.Roll(43, 13)
 				res := spell.CalcAndDealDamage(sim, target, dmg, spell.OutcomeMagicHitAndCrit)
