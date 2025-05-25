@@ -86,10 +86,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFrostUH-AllItems-BadgeofTenacity-32658"
+ key: "TestFrostUH-AllItems-BangleofEndlessBlessings-28370"
  value: {
-  dps: 10969.79096
-  tps: 7756.99043
+  dps: 10921.45687
+  tps: 7721.41654
  }
 }
 dps_results: {
@@ -320,10 +320,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFrostUH-AllItems-Defender'sCode-40257"
+ key: "TestFrostUH-AllItems-Despair-28573"
  value: {
-  dps: 10921.45687
-  tps: 7721.41654
+  dps: 11476.45653
+  tps: 8129.89629
  }
 }
 dps_results: {
@@ -649,6 +649,13 @@ dps_results: {
  value: {
   dps: 10965.60338
   tps: 7753.6516
+ }
+}
+dps_results: {
+ key: "TestFrostUH-AllItems-Moroes'LuckyPocketWatch-28528"
+ value: {
+  dps: 10921.45687
+  tps: 7721.41654
  }
 }
 dps_results: {

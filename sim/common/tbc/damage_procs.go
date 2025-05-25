@@ -46,4 +46,13 @@ func init() {
 			},
 		})
 	})
+
+	helpers.NewWeaponDamageProc(28573, helpers.WeaponDamageProc{
+		WeaponProc: helpers.WeaponProc{
+			Name: "Despair",
+			PPM:  0.65,
+		},
+		SpellSchool: core.SpellSchoolPhysical,
+		BasePoints:  600,
+	})
 }

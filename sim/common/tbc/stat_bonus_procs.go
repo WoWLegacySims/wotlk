@@ -74,6 +74,79 @@ func init() {
 	})
 
 	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:       "Shiffar's Nexus-Horn",
+		ID:         28418,
+		AuraID:     34321,
+		Bonus:      stats.Stats{stats.SpellPower: 225},
+		Duration:   time.Second * 10,
+		Callback:   core.CallbackOnSpellHitDealt,
+		ProcMask:   core.ProcMaskSpellDamage,
+		Outcome:    core.OutcomeCrit,
+		ProcChance: 0.2,
+		ICD:        time.Second * 45,
+	})
+
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:       "Lionheart Champion",
+		ID:         28429,
+		AuraID:     34513,
+		Bonus:      stats.Stats{stats.Strength: 100},
+		Duration:   time.Second * 10,
+		Callback:   core.CallbackOnSpellHitDealt,
+		Outcome:    core.OutcomeLanded,
+		ProcChance: 0.07,
+		Weapon:     true,
+	})
+
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:       "Lionheart Executioner",
+		ID:         28430,
+		AuraID:     34513,
+		Bonus:      stats.Stats{stats.Strength: 100},
+		Duration:   time.Second * 10,
+		Callback:   core.CallbackOnSpellHitDealt,
+		Outcome:    core.OutcomeLanded,
+		ProcChance: 0.07,
+		Weapon:     true,
+	})
+
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:     "Drakefirst Hammer",
+		ID:       28437,
+		AuraID:   21165,
+		Bonus:    stats.Stats{stats.MeleeHaste: 212, stats.SpellHaste: 212},
+		Duration: time.Second * 10,
+		Callback: core.CallbackOnSpellHitDealt,
+		Outcome:  core.OutcomeLanded,
+		PPM:      1.5,
+		Weapon:   true,
+	})
+
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:     "Dragonmaw",
+		ID:       28438,
+		AuraID:   21165,
+		Bonus:    stats.Stats{stats.MeleeHaste: 212, stats.SpellHaste: 212},
+		Duration: time.Second * 10,
+		Callback: core.CallbackOnSpellHitDealt,
+		Outcome:  core.OutcomeLanded,
+		PPM:      1.5,
+		Weapon:   true,
+	})
+
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:     "Dragonstrike",
+		ID:       28439,
+		AuraID:   21165,
+		Bonus:    stats.Stats{stats.MeleeHaste: 212, stats.SpellHaste: 212},
+		Duration: time.Second * 10,
+		Callback: core.CallbackOnSpellHitDealt,
+		Outcome:  core.OutcomeLanded,
+		PPM:      1.5,
+		Weapon:   true,
+	})
+
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
 		Name:     "Dragonspine Trophy",
 		ID:       28830,
 		AuraID:   34774,

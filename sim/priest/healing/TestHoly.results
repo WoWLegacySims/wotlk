@@ -100,10 +100,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestHoly-AllItems-BadgeofTenacity-32658"
+ key: "TestHoly-AllItems-BangleofEndlessBlessings-28370"
  value: {
-  tps: 35.61812
-  hps: 4678.20223
+  tps: 35.62739
+  hps: 4845.61106
  }
 }
 dps_results: {
@@ -276,13 +276,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestHoly-AllItems-Deathbringer'sWill-50363"
- value: {
-  tps: 35.61812
-  hps: 4678.20223
- }
-}
-dps_results: {
- key: "TestHoly-AllItems-Defender'sCode-40257"
  value: {
   tps: 35.61812
   hps: 4678.20223
@@ -584,6 +577,13 @@ dps_results: {
 }
 dps_results: {
  key: "TestHoly-AllItems-MarkofVindication-27927"
+ value: {
+  tps: 35.61812
+  hps: 4678.20223
+ }
+}
+dps_results: {
+ key: "TestHoly-AllItems-Moroes'LuckyPocketWatch-28528"
  value: {
   tps: 35.61812
   hps: 4678.20223

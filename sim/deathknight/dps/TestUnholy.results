@@ -92,10 +92,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestUnholy-AllItems-BadgeofTenacity-32658"
+ key: "TestUnholy-AllItems-BangleofEndlessBlessings-28370"
  value: {
-  dps: 9081.37757
-  tps: 5630.11382
+  dps: 9067.17559
+  tps: 5613.00561
   hps: 50.10598
  }
 }
@@ -356,10 +356,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestUnholy-AllItems-Defender'sCode-40257"
+ key: "TestUnholy-AllItems-Despair-28573"
  value: {
-  dps: 9067.17559
-  tps: 5613.00561
+  dps: 9621.78537
+  tps: 5897.00819
   hps: 50.10598
  }
 }
@@ -728,6 +728,14 @@ dps_results: {
  value: {
   dps: 9106.36068
   tps: 5641.80006
+  hps: 50.10598
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-Moroes'LuckyPocketWatch-28528"
+ value: {
+  dps: 9067.17559
+  tps: 5613.00561
   hps: 50.10598
  }
 }

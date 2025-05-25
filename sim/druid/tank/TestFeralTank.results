@@ -108,10 +108,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFeralTank-AllItems-BadgeofTenacity-32658"
+ key: "TestFeralTank-AllItems-BangleofEndlessBlessings-28370"
  value: {
-  dps: 2545.34816
-  tps: 5376.82926
+  dps: 2526.69902
+  tps: 5339.24139
   dtps: 7.24385
  }
 }
@@ -331,14 +331,6 @@ dps_results: {
  value: {
   dps: 2776.40344
   tps: 5856.137
-  dtps: 7.24385
- }
-}
-dps_results: {
- key: "TestFeralTank-AllItems-Defender'sCode-40257"
- value: {
-  dps: 2526.69902
-  tps: 5339.24139
   dtps: 7.24385
  }
 }
@@ -838,6 +830,14 @@ dps_results: {
  value: {
   dps: 2569.7963
   tps: 5413.58595
+  dtps: 7.24385
+ }
+}
+dps_results: {
+ key: "TestFeralTank-AllItems-Moroes'LuckyPocketWatch-28528"
+ value: {
+  dps: 2526.69902
+  tps: 5339.24139
   dtps: 7.24385
  }
 }

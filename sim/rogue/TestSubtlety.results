@@ -93,10 +93,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestSubtlety-AllItems-BadgeofTenacity-32658"
+ key: "TestSubtlety-AllItems-BangleofEndlessBlessings-28370"
  value: {
-  dps: 6228.81785
-  tps: 4422.46067
+  dps: 6181.70164
+  tps: 4389.00817
  }
 }
 dps_results: {
@@ -282,13 +282,6 @@ dps_results: {
  value: {
   dps: 6589.72106
   tps: 4678.70195
- }
-}
-dps_results: {
- key: "TestSubtlety-AllItems-Defender'sCode-40257"
- value: {
-  dps: 6181.70164
-  tps: 4389.00817
  }
 }
 dps_results: {
@@ -579,6 +572,13 @@ dps_results: {
  value: {
   dps: 6218.26833
   tps: 4414.97051
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-Moroes'LuckyPocketWatch-28528"
+ value: {
+  dps: 6181.70164
+  tps: 4389.00817
  }
 }
 dps_results: {

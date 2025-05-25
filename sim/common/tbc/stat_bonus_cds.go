@@ -39,5 +39,12 @@ func init() {
 
 	helpers.NewArmorPenActive(28121, 85, time.Second*20, time.Minute*2)
 
+	helpers.NewDodgeActive(28528, 300, time.Second*10, time.Minute*2)
+
+	core.AddEffectsToTest = false
 	core.NewSimpleStatOffensiveTrinketEffect(32658, stats.Stats{stats.Agility: 150}, time.Second*20, time.Minute*2) // Badge of Tenacity
+
+	core.NewSimpleStatDefensiveTrinketEffect(28484, stats.Stats{stats.Health: 1500, stats.Strength: 150}, time.Second*15, time.Minute*30)
+	core.NewSimpleStatDefensiveTrinketEffect(28485, stats.Stats{stats.Health: 1500, stats.Strength: 150}, time.Second*15, time.Minute*30)
+	core.AddEffectsToTest = true
 }

@@ -93,10 +93,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestArcane-AllItems-BadgeofTenacity-32658"
+ key: "TestArcane-AllItems-BangleofEndlessBlessings-28370"
  value: {
-  dps: 10321.75638
-  tps: 6326.25594
+  dps: 10364.8298
+  tps: 6353.29041
  }
 }
 dps_results: {
@@ -285,10 +285,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestArcane-AllItems-Defender'sCode-40257"
+ key: "TestArcane-AllItems-Despair-28573"
  value: {
-  dps: 10321.75638
-  tps: 6326.25594
+  dps: 10853.2932
+  tps: 6647.2415
  }
 }
 dps_results: {
@@ -598,6 +598,13 @@ dps_results: {
  value: {
   dps: 10332.63005
   tps: 6333.55075
+ }
+}
+dps_results: {
+ key: "TestArcane-AllItems-Moroes'LuckyPocketWatch-28528"
+ value: {
+  dps: 10321.75638
+  tps: 6326.25594
  }
 }
 dps_results: {

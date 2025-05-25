@@ -100,10 +100,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestBalancePhase3-AllItems-BadgeofTenacity-32658"
+ key: "TestBalancePhase3-AllItems-BangleofEndlessBlessings-28370"
  value: {
-  dps: 10990.83674
-  tps: 10556.29621
+  dps: 11012.73726
+  tps: 10575.86039
  }
 }
 dps_results: {
@@ -293,13 +293,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestBalancePhase3-AllItems-Deathbringer'sWill-50363"
- value: {
-  dps: 10990.83674
-  tps: 10556.29621
- }
-}
-dps_results: {
- key: "TestBalancePhase3-AllItems-Defender'sCode-40257"
  value: {
   dps: 10990.83674
   tps: 10556.29621
@@ -739,6 +732,13 @@ dps_results: {
  value: {
   dps: 10990.11842
   tps: 10557.00215
+ }
+}
+dps_results: {
+ key: "TestBalancePhase3-AllItems-Moroes'LuckyPocketWatch-28528"
+ value: {
+  dps: 10990.83674
+  tps: 10556.29621
  }
 }
 dps_results: {

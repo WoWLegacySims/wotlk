@@ -131,10 +131,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestProtectionWarrior-AllItems-BadgeofTenacity-32658"
+ key: "TestProtectionWarrior-AllItems-BangleofEndlessBlessings-28370"
  value: {
-  dps: 1442.98174
-  tps: 3749.9924
+  dps: 1435.50392
+  tps: 3734.3775
  }
 }
 dps_results: {
@@ -369,6 +369,13 @@ dps_results: {
  value: {
   dps: 1566.84874
   tps: 4042.33966
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-Despair-28573"
+ value: {
+  dps: 1435.50392
+  tps: 3734.3775
  }
 }
 dps_results: {
@@ -722,6 +729,13 @@ dps_results: {
  value: {
   dps: 1442.73592
   tps: 3758.17282
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-Moroes'LuckyPocketWatch-28528"
+ value: {
+  dps: 1435.50392
+  tps: 3734.3775
  }
 }
 dps_results: {

@@ -234,6 +234,55 @@ func init() {
 		})
 	})
 
+	core.NewItemEffect(28370, func(a core.Agent) {
+		character := a.GetCharacter()
+
+		regen := 0.15 - float64(max(character.Level-70, 0))*0.005
+
+		procAura := character.GetOrRegisterAura(core.Aura{
+			Label:    "Bangle of Endless Blessings",
+			ActionID: core.ActionID{SpellID: 38334},
+			Duration: time.Second * 15,
+			OnGain: func(aura *core.Aura, sim *core.Simulation) {
+				character.PseudoStats.SpiritRegenRateCasting += regen
+			},
+			OnExpire: func(aura *core.Aura, sim *core.Simulation) {
+				character.PseudoStats.SpiritRegenRateCasting -= regen
+			},
+		})
+
+		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			Name:       "Bangle of Endless Blessings",
+			ActionID:   core.ActionID{SpellID: 38334},
+			Callback:   core.CallbackOnCastComplete,
+			ProcMask:   core.ProcMaskSpellDamage | core.ProcMaskSpellHealing,
+			ProcChance: 0.1,
+			ICD:        time.Second * 50,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				procAura.Activate(sim)
+			},
+		})
+
+		activeAura := character.NewTemporaryStatsAura("Endless Blessings", core.ActionID{SpellID: 34210}, stats.Stats{stats.Spirit: 130}, time.Second*20)
+
+		character.AddMajorCooldown(core.MajorCooldown{
+			Spell: character.RegisterSpell(core.SpellConfig{
+				ActionID: core.ActionID{SpellID: 34210},
+				ProcMask: core.ProcMaskEmpty,
+				Cast: core.CastConfig{
+					CD: core.Cooldown{
+						Timer:    character.NewTimer(),
+						Duration: time.Minute * 2,
+					},
+				},
+				ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
+					activeAura.Activate(sim)
+				},
+			}),
+			Type: core.CooldownTypeMana,
+		})
+	})
+
 	core.NewItemEffect(29996, func(agent core.Agent) { // Rod of the Sun King
 		character := agent.GetCharacter()
 

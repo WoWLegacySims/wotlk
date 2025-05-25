@@ -100,10 +100,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestShadow-AllItems-BadgeofTenacity-32658"
+ key: "TestShadow-AllItems-BangleofEndlessBlessings-28370"
  value: {
-  dps: 6924.85325
-  tps: 6746.29671
+  dps: 6953.02974
+  tps: 6770.84783
  }
 }
 dps_results: {
@@ -279,13 +279,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestShadow-AllItems-Deathbringer'sWill-50363"
- value: {
-  dps: 6924.85325
-  tps: 6746.29671
- }
-}
-dps_results: {
- key: "TestShadow-AllItems-Defender'sCode-40257"
  value: {
   dps: 6924.85325
   tps: 6746.29671
@@ -598,6 +591,13 @@ dps_results: {
  value: {
   dps: 6924.85325
   tps: 6747.15566
+ }
+}
+dps_results: {
+ key: "TestShadow-AllItems-Moroes'LuckyPocketWatch-28528"
+ value: {
+  dps: 6924.85325
+  tps: 6746.29671
  }
 }
 dps_results: {
