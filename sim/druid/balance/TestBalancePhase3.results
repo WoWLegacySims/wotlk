@@ -51,6 +51,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBalancePhase3-AllItems-AlembicofInfernalPower-27896"
+ value: {
+  dps: 10990.83674
+  tps: 10556.29621
+ }
+}
+dps_results: {
  key: "TestBalancePhase3-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 11371.69829
@@ -552,6 +559,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBalancePhase3-AllItems-IconofUnyieldingCourage-28121"
+ value: {
+  dps: 11109.48384
+  tps: 10675.49137
+ }
+}
+dps_results: {
  key: "TestBalancePhase3-AllItems-IdolofMutilation-47668"
  value: {
   dps: 11242.08295
@@ -612,13 +626,6 @@ dps_results: {
  value: {
   dps: 11235.9214
   tps: 10786.40574
- }
-}
-dps_results: {
- key: "TestBalancePhase3-AllItems-IncisorFragment-37723"
- value: {
-  dps: 10990.83674
-  tps: 10556.29621
  }
 }
 dps_results: {
@@ -690,6 +697,48 @@ dps_results: {
  value: {
   dps: 9647.86011
   tps: 9225.71107
+ }
+}
+dps_results: {
+ key: "TestBalancePhase3-AllItems-MarkofConquest-27920"
+ value: {
+  dps: 10990.83674
+  tps: 10556.29621
+ }
+}
+dps_results: {
+ key: "TestBalancePhase3-AllItems-MarkofConquest-27921"
+ value: {
+  dps: 10990.83674
+  tps: 10556.29621
+ }
+}
+dps_results: {
+ key: "TestBalancePhase3-AllItems-MarkofDefiance-27922"
+ value: {
+  dps: 11057.98655
+  tps: 10621.53752
+ }
+}
+dps_results: {
+ key: "TestBalancePhase3-AllItems-MarkofDefiance-27924"
+ value: {
+  dps: 11057.98655
+  tps: 10621.53752
+ }
+}
+dps_results: {
+ key: "TestBalancePhase3-AllItems-MarkofVindication-27926"
+ value: {
+  dps: 10990.11842
+  tps: 10557.00215
+ }
+}
+dps_results: {
+ key: "TestBalancePhase3-AllItems-MarkofVindication-27927"
+ value: {
+  dps: 10990.11842
+  tps: 10557.00215
  }
 }
 dps_results: {

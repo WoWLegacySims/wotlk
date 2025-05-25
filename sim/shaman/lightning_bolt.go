@@ -29,7 +29,7 @@ func (shaman *Shaman) newLightningBoltSpellConfig(isLightningOverload bool, dbc 
 		isLightningOverload,
 		shamaninfo.LightningBolt.GetAllIDs())
 
-	switch shaman.GetRangedWeapon().ID {
+	switch shaman.Ranged().ID {
 	case 28066:
 		spellConfig.ManaCost.FlatModifier -= 15
 	}

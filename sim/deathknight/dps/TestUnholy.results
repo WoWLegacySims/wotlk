@@ -52,6 +52,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestUnholy-AllItems-AlembicofInfernalPower-27896"
+ value: {
+  dps: 9067.17559
+  tps: 5613.00561
+  hps: 50.10598
+ }
+}
+dps_results: {
  key: "TestUnholy-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 9067.17251
@@ -604,6 +612,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestUnholy-AllItems-IconofUnyieldingCourage-28121"
+ value: {
+  dps: 9151.14838
+  tps: 5665.59032
+  hps: 50.10598
+ }
+}
+dps_results: {
  key: "TestUnholy-AllItems-ImpassiveSkyflareDiamond"
  value: {
   dps: 9519.77629
@@ -616,14 +632,6 @@ dps_results: {
  value: {
   dps: 9518.10303
   tps: 5809.46853
-  hps: 50.10598
- }
-}
-dps_results: {
- key: "TestUnholy-AllItems-IncisorFragment-37723"
- value: {
-  dps: 9239.59704
-  tps: 5748.76367
   hps: 50.10598
  }
 }
@@ -673,6 +681,54 @@ dps_results: {
   dps: 9067.2018
   tps: 5613.00914
   hps: 51.97342
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-MarkofConquest-27920"
+ value: {
+  dps: 9106.30028
+  tps: 5641.75268
+  hps: 50.10598
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-MarkofConquest-27921"
+ value: {
+  dps: 9106.30028
+  tps: 5641.75268
+  hps: 50.10598
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-MarkofDefiance-27922"
+ value: {
+  dps: 9067.23563
+  tps: 5613.0051
+  hps: 50.10598
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-MarkofDefiance-27924"
+ value: {
+  dps: 9067.23563
+  tps: 5613.0051
+  hps: 50.10598
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-MarkofVindication-27926"
+ value: {
+  dps: 9106.36068
+  tps: 5641.80006
+  hps: 50.10598
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-MarkofVindication-27927"
+ value: {
+  dps: 9106.36068
+  tps: 5641.80006
+  hps: 50.10598
  }
 }
 dps_results: {
@@ -776,6 +832,14 @@ dps_results: {
  value: {
   dps: 9689.35491
   tps: 5940.40554
+  hps: 50.10598
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-Revenger-28311"
+ value: {
+  dps: 9621.78537
+  tps: 5897.00819
   hps: 50.10598
  }
 }
@@ -1144,6 +1208,14 @@ dps_results: {
  value: {
   dps: 9496.92668
   tps: 5791.75486
+  hps: 50.10598
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-TranquillienFlamberge-28164"
+ value: {
+  dps: 9621.78537
+  tps: 5897.00819
   hps: 50.10598
  }
 }

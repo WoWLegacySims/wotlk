@@ -58,6 +58,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestMM-AllItems-AlembicofInfernalPower-27896"
+ value: {
+  dps: 6992.15362
+  tps: 6119.33729
+ }
+}
+dps_results: {
  key: "TestMM-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 6992.15362
@@ -601,6 +608,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestMM-AllItems-IconofUnyieldingCourage-28121"
+ value: {
+  dps: 7010.67325
+  tps: 6137.85692
+ }
+}
+dps_results: {
  key: "TestMM-AllItems-ImpassiveSkyflareDiamond"
  value: {
   dps: 7107.50762
@@ -612,13 +626,6 @@ dps_results: {
  value: {
   dps: 7104.32493
   tps: 6215.54241
- }
-}
-dps_results: {
- key: "TestMM-AllItems-IncisorFragment-37723"
- value: {
-  dps: 7149.42461
-  tps: 6268.12787
  }
 }
 dps_results: {
@@ -670,6 +677,48 @@ dps_results: {
   dps: 6992.13094
   tps: 6119.32309
   hps: 1.97375
+ }
+}
+dps_results: {
+ key: "TestMM-AllItems-MarkofConquest-27920"
+ value: {
+  dps: 7054.31669
+  tps: 6181.05131
+ }
+}
+dps_results: {
+ key: "TestMM-AllItems-MarkofConquest-27921"
+ value: {
+  dps: 7054.31669
+  tps: 6181.05131
+ }
+}
+dps_results: {
+ key: "TestMM-AllItems-MarkofDefiance-27922"
+ value: {
+  dps: 7002.05253
+  tps: 6128.99408
+ }
+}
+dps_results: {
+ key: "TestMM-AllItems-MarkofDefiance-27924"
+ value: {
+  dps: 7002.05253
+  tps: 6128.99408
+ }
+}
+dps_results: {
+ key: "TestMM-AllItems-MarkofVindication-27926"
+ value: {
+  dps: 7034.73529
+  tps: 6158.49457
+ }
+}
+dps_results: {
+ key: "TestMM-AllItems-MarkofVindication-27927"
+ value: {
+  dps: 7034.73529
+  tps: 6158.49457
  }
 }
 dps_results: {
@@ -765,6 +814,13 @@ dps_results: {
 }
 dps_results: {
  key: "TestMM-AllItems-RelentlessEarthsiegeDiamond"
+ value: {
+  dps: 7250.93454
+  tps: 6360.76106
+ }
+}
+dps_results: {
+ key: "TestMM-AllItems-Revenger-28311"
  value: {
   dps: 7250.93454
   tps: 6360.76106
@@ -1013,6 +1069,13 @@ dps_results: {
  value: {
   dps: 7086.03884
   tps: 6197.29408
+ }
+}
+dps_results: {
+ key: "TestMM-AllItems-TranquillienFlamberge-28164"
+ value: {
+  dps: 7254.49366
+  tps: 6364.55954
  }
 }
 dps_results: {

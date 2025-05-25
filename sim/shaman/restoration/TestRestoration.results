@@ -48,6 +48,10 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestRestoration-AllItems-AlembicofInfernalPower-27896"
+ value: {}
+}
+dps_results: {
  key: "TestRestoration-AllItems-Althor'sAbacus-50359"
  value: {}
 }
@@ -380,15 +384,15 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestRestoration-AllItems-IconofUnyieldingCourage-28121"
+ value: {}
+}
+dps_results: {
  key: "TestRestoration-AllItems-ImpassiveSkyflareDiamond"
  value: {}
 }
 dps_results: {
  key: "TestRestoration-AllItems-ImpassiveStarflareDiamond"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-IncisorFragment-37723"
  value: {}
 }
 dps_results: {
@@ -416,6 +420,30 @@ dps_results: {
  value: {
   hps: 1.92508
  }
+}
+dps_results: {
+ key: "TestRestoration-AllItems-MarkofConquest-27920"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-MarkofConquest-27921"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-MarkofDefiance-27922"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-MarkofDefiance-27924"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-MarkofVindication-27926"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-MarkofVindication-27927"
+ value: {}
 }
 dps_results: {
  key: "TestRestoration-AllItems-NevermeltingIceCrystal-50259"

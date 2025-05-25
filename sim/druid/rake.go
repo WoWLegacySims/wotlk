@@ -15,7 +15,7 @@ func (druid *Druid) registerRakeSpell() {
 	dmg, _ := dbc.GetBPDie(0, druid.Level)
 	dotdmg, _ := dbc.GetBPDie(1, druid.Level)
 
-	switch druid.GetRangedWeapon().ID {
+	switch druid.Ranged().ID {
 	case 27989, 27990:
 		dmg += 30
 	}

@@ -51,6 +51,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBloodTank-AllItems-AlembicofInfernalPower-27896"
+ value: {
+  dps: 2023.51642
+  tps: 6399.46536
+ }
+}
+dps_results: {
  key: "TestBloodTank-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 2023.51642
@@ -524,6 +531,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBloodTank-AllItems-IconofUnyieldingCourage-28121"
+ value: {
+  dps: 2062.22248
+  tps: 6530.02929
+ }
+}
+dps_results: {
  key: "TestBloodTank-AllItems-ImpassiveSkyflareDiamond"
  value: {
   dps: 2025.71279
@@ -535,13 +549,6 @@ dps_results: {
  value: {
   dps: 2024.25028
   tps: 6401.55124
- }
-}
-dps_results: {
- key: "TestBloodTank-AllItems-IncisorFragment-37723"
- value: {
-  dps: 2079.86923
-  tps: 6567.37799
  }
 }
 dps_results: {
@@ -586,6 +593,48 @@ dps_results: {
   dps: 2023.52684
   tps: 6399.61661
   hps: 1.6525
+ }
+}
+dps_results: {
+ key: "TestBloodTank-AllItems-MarkofConquest-27920"
+ value: {
+  dps: 2037.07716
+  tps: 6445.51249
+ }
+}
+dps_results: {
+ key: "TestBloodTank-AllItems-MarkofConquest-27921"
+ value: {
+  dps: 2037.07716
+  tps: 6445.51249
+ }
+}
+dps_results: {
+ key: "TestBloodTank-AllItems-MarkofDefiance-27922"
+ value: {
+  dps: 2023.49798
+  tps: 6399.19774
+ }
+}
+dps_results: {
+ key: "TestBloodTank-AllItems-MarkofDefiance-27924"
+ value: {
+  dps: 2023.49798
+  tps: 6399.19774
+ }
+}
+dps_results: {
+ key: "TestBloodTank-AllItems-MarkofVindication-27926"
+ value: {
+  dps: 2037.07734
+  tps: 6445.51516
+ }
+}
+dps_results: {
+ key: "TestBloodTank-AllItems-MarkofVindication-27927"
+ value: {
+  dps: 2037.07734
+  tps: 6445.51516
  }
 }
 dps_results: {
@@ -670,6 +719,14 @@ dps_results: {
  value: {
   dps: 2039.20035
   tps: 6447.94435
+ }
+}
+dps_results: {
+ key: "TestBloodTank-AllItems-Revenger-28311"
+ value: {
+  dps: 2149.15948
+  tps: 6650.69807
+  hps: 4.89837
  }
 }
 dps_results: {
@@ -943,6 +1000,13 @@ dps_results: {
  value: {
   dps: 2020.22055
   tps: 6388.12181
+ }
+}
+dps_results: {
+ key: "TestBloodTank-AllItems-TranquillienFlamberge-28164"
+ value: {
+  dps: 2121.4233
+  tps: 6704.34436
  }
 }
 dps_results: {

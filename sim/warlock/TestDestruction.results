@@ -51,6 +51,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDestruction-AllItems-AlembicofInfernalPower-27896"
+ value: {
+  dps: 13076.49558
+  tps: 10728.23187
+ }
+}
+dps_results: {
  key: "TestDestruction-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 13450.95209
@@ -432,6 +439,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDestruction-AllItems-IconofUnyieldingCourage-28121"
+ value: {
+  dps: 13076.49558
+  tps: 10728.23187
+ }
+}
+dps_results: {
  key: "TestDestruction-AllItems-ImpassiveSkyflareDiamond"
  value: {
   dps: 13385.69371
@@ -443,13 +457,6 @@ dps_results: {
  value: {
   dps: 13379.79671
   tps: 10985.73523
- }
-}
-dps_results: {
- key: "TestDestruction-AllItems-IncisorFragment-37723"
- value: {
-  dps: 13076.49558
-  tps: 10728.23187
  }
 }
 dps_results: {
@@ -479,6 +486,48 @@ dps_results: {
  value: {
   dps: 8352.67222
   tps: 6666.51889
+ }
+}
+dps_results: {
+ key: "TestDestruction-AllItems-MarkofConquest-27920"
+ value: {
+  dps: 13076.49558
+  tps: 10728.23187
+ }
+}
+dps_results: {
+ key: "TestDestruction-AllItems-MarkofConquest-27921"
+ value: {
+  dps: 13076.49558
+  tps: 10728.23187
+ }
+}
+dps_results: {
+ key: "TestDestruction-AllItems-MarkofDefiance-27922"
+ value: {
+  dps: 13143.72638
+  tps: 10787.4545
+ }
+}
+dps_results: {
+ key: "TestDestruction-AllItems-MarkofDefiance-27924"
+ value: {
+  dps: 13143.72638
+  tps: 10787.4545
+ }
+}
+dps_results: {
+ key: "TestDestruction-AllItems-MarkofVindication-27926"
+ value: {
+  dps: 13078.74015
+  tps: 10731.90007
+ }
+}
+dps_results: {
+ key: "TestDestruction-AllItems-MarkofVindication-27927"
+ value: {
+  dps: 13078.74015
+  tps: 10731.90007
  }
 }
 dps_results: {

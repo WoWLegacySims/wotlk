@@ -96,6 +96,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-AlembicofInfernalPower-27896"
+ value: {
+  dps: 1435.50392
+  tps: 3734.3775
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 1435.50392
@@ -571,8 +578,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-GnomishLightningGenerator-41121"
  value: {
-  dps: 1500.67651
-  tps: 3876.21224
+  dps: 1502.02626
+  tps: 3879.01095
  }
 }
 dps_results: {
@@ -611,6 +618,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-IconofUnyieldingCourage-28121"
+ value: {
+  dps: 1441.61756
+  tps: 3744.98829
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-ImpassiveSkyflareDiamond"
  value: {
   dps: 1433.36682
@@ -622,13 +636,6 @@ dps_results: {
  value: {
   dps: 1432.01612
   tps: 3724.62768
- }
-}
-dps_results: {
- key: "TestProtectionWarrior-AllItems-IncisorFragment-37723"
- value: {
-  dps: 1470.80485
-  tps: 3812.57388
  }
 }
 dps_results: {
@@ -673,6 +680,48 @@ dps_results: {
   dps: 1435.50703
   tps: 3734.38588
   hps: 1.6525
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-MarkofConquest-27920"
+ value: {
+  dps: 1442.56038
+  tps: 3757.69965
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-MarkofConquest-27921"
+ value: {
+  dps: 1442.56038
+  tps: 3757.69965
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-MarkofDefiance-27922"
+ value: {
+  dps: 1435.50392
+  tps: 3734.3775
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-MarkofDefiance-27924"
+ value: {
+  dps: 1435.50392
+  tps: 3734.3775
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-MarkofVindication-27926"
+ value: {
+  dps: 1442.73592
+  tps: 3758.17282
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-MarkofVindication-27927"
+ value: {
+  dps: 1442.73592
+  tps: 3758.17282
  }
 }
 dps_results: {
@@ -771,6 +820,13 @@ dps_results: {
  value: {
   dps: 1467.01251
   tps: 3814.81461
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-Revenger-28311"
+ value: {
+  dps: 1435.50392
+  tps: 3734.3775
  }
 }
 dps_results: {
@@ -902,8 +958,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-StormshroudArmor"
  value: {
-  dps: 1133.33166
-  tps: 2981.30378
+  dps: 1135.61546
+  tps: 2986.03925
  }
 }
 dps_results: {
@@ -965,8 +1021,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-TheFistsofFury"
  value: {
-  dps: 999.55383
-  tps: 2263.83822
+  dps: 1005.50717
+  tps: 2276.18247
  }
 }
 dps_results: {
@@ -1007,8 +1063,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-Thunderbrew'sBootFlask-744"
  value: {
-  dps: 1436.38664
-  tps: 3736.20782
+  dps: 1437.44666
+  tps: 3738.40577
  }
 }
 dps_results: {
@@ -1037,6 +1093,13 @@ dps_results: {
  value: {
   dps: 1428.5058
   tps: 3719.18426
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-TranquillienFlamberge-28164"
+ value: {
+  dps: 1435.50392
+  tps: 3734.3775
  }
 }
 dps_results: {
@@ -1077,8 +1140,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-VestigeofHaldor-37064"
  value: {
-  dps: 1467.78109
-  tps: 3795.18593
+  dps: 1469.00599
+  tps: 3797.72575
  }
 }
 dps_results: {

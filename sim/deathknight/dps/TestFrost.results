@@ -51,6 +51,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFrost-AllItems-AlembicofInfernalPower-27896"
+ value: {
+  dps: 10642.59508
+  tps: 6176.16044
+ }
+}
+dps_results: {
  key: "TestFrost-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 10642.59508
@@ -538,6 +545,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFrost-AllItems-IconofUnyieldingCourage-28121"
+ value: {
+  dps: 10705.47345
+  tps: 6213.3938
+ }
+}
+dps_results: {
  key: "TestFrost-AllItems-ImpassiveSkyflareDiamond"
  value: {
   dps: 10878.38024
@@ -549,13 +563,6 @@ dps_results: {
  value: {
   dps: 10873.23017
   tps: 6314.54645
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-IncisorFragment-37723"
- value: {
-  dps: 10873.09811
-  tps: 6313.89001
  }
 }
 dps_results: {
@@ -600,6 +607,48 @@ dps_results: {
   dps: 10642.55204
   tps: 6176.13462
   hps: 1.95482
+ }
+}
+dps_results: {
+ key: "TestFrost-AllItems-MarkofConquest-27920"
+ value: {
+  dps: 10684.42592
+  tps: 6201.05015
+ }
+}
+dps_results: {
+ key: "TestFrost-AllItems-MarkofConquest-27921"
+ value: {
+  dps: 10684.42592
+  tps: 6201.05015
+ }
+}
+dps_results: {
+ key: "TestFrost-AllItems-MarkofDefiance-27922"
+ value: {
+  dps: 10642.63268
+  tps: 6176.183
+ }
+}
+dps_results: {
+ key: "TestFrost-AllItems-MarkofDefiance-27924"
+ value: {
+  dps: 10642.63268
+  tps: 6176.183
+ }
+}
+dps_results: {
+ key: "TestFrost-AllItems-MarkofVindication-27926"
+ value: {
+  dps: 10684.54875
+  tps: 6201.12385
+ }
+}
+dps_results: {
+ key: "TestFrost-AllItems-MarkofVindication-27927"
+ value: {
+  dps: 10684.54875
+  tps: 6201.12385
  }
 }
 dps_results: {
@@ -691,6 +740,13 @@ dps_results: {
  value: {
   dps: 10574.68755
   tps: 6135.41592
+ }
+}
+dps_results: {
+ key: "TestFrost-AllItems-Revenger-28311"
+ value: {
+  dps: 11141.09939
+  tps: 6475.26302
  }
 }
 dps_results: {
@@ -1020,6 +1076,13 @@ dps_results: {
  value: {
   dps: 10846.66311
   tps: 6298.60622
+ }
+}
+dps_results: {
+ key: "TestFrost-AllItems-TranquillienFlamberge-28164"
+ value: {
+  dps: 11141.09939
+  tps: 6475.26302
  }
 }
 dps_results: {

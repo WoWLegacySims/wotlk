@@ -51,6 +51,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestArms-AllItems-AlembicofInfernalPower-27896"
+ value: {
+  dps: 6387.25574
+  tps: 5157.13116
+ }
+}
+dps_results: {
  key: "TestArms-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 6387.25574
@@ -146,8 +153,8 @@ dps_results: {
 dps_results: {
  key: "TestArms-AllItems-BladeofUnquenchedThirst-31193"
  value: {
-  dps: 7717.85085
-  tps: 6267.75382
+  dps: 7726.26332
+  tps: 6274.4838
  }
 }
 dps_results: {
@@ -434,8 +441,8 @@ dps_results: {
 dps_results: {
  key: "TestArms-AllItems-FieryWarAxe-870"
  value: {
-  dps: 7821.14514
-  tps: 6365.37394
+  dps: 7976.76949
+  tps: 6490.26732
  }
 }
 dps_results: {
@@ -533,8 +540,8 @@ dps_results: {
 dps_results: {
  key: "TestArms-AllItems-GnomishLightningGenerator-41121"
  value: {
-  dps: 6551.9987
-  tps: 5295.20729
+  dps: 6560.72767
+  tps: 5302.19047
  }
 }
 dps_results: {
@@ -561,8 +568,8 @@ dps_results: {
 dps_results: {
  key: "TestArms-AllItems-HelmofFire-8348"
  value: {
-  dps: 6113.04196
-  tps: 4944.66451
+  dps: 6114.31429
+  tps: 4945.68238
  }
 }
 dps_results: {
@@ -570,6 +577,13 @@ dps_results: {
  value: {
   dps: 7579.49299
   tps: 6155.52216
+ }
+}
+dps_results: {
+ key: "TestArms-AllItems-IconofUnyieldingCourage-28121"
+ value: {
+  dps: 6450.71086
+  tps: 5210.56883
  }
 }
 dps_results: {
@@ -584,13 +598,6 @@ dps_results: {
  value: {
   dps: 6607.71529
   tps: 5340.51747
- }
-}
-dps_results: {
- key: "TestArms-AllItems-IncisorFragment-37723"
- value: {
-  dps: 6619.54293
-  tps: 5342.75171
  }
 }
 dps_results: {
@@ -638,6 +645,48 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestArms-AllItems-MarkofConquest-27920"
+ value: {
+  dps: 6469.62839
+  tps: 5225.31714
+ }
+}
+dps_results: {
+ key: "TestArms-AllItems-MarkofConquest-27921"
+ value: {
+  dps: 6469.62839
+  tps: 5225.31714
+ }
+}
+dps_results: {
+ key: "TestArms-AllItems-MarkofDefiance-27922"
+ value: {
+  dps: 6387.25574
+  tps: 5157.13116
+ }
+}
+dps_results: {
+ key: "TestArms-AllItems-MarkofDefiance-27924"
+ value: {
+  dps: 6387.25574
+  tps: 5157.13116
+ }
+}
+dps_results: {
+ key: "TestArms-AllItems-MarkofVindication-27926"
+ value: {
+  dps: 6469.62839
+  tps: 5225.31714
+ }
+}
+dps_results: {
+ key: "TestArms-AllItems-MarkofVindication-27927"
+ value: {
+  dps: 6469.62839
+  tps: 5225.31714
+ }
+}
+dps_results: {
  key: "TestArms-AllItems-NevermeltingIceCrystal-50259"
  value: {
   dps: 6563.13057
@@ -647,8 +696,8 @@ dps_results: {
 dps_results: {
  key: "TestArms-AllItems-NightReaver-1318"
  value: {
-  dps: 9436.65885
-  tps: 7702.66364
+  dps: 9654.12203
+  tps: 7876.63419
  }
 }
 dps_results: {
@@ -736,6 +785,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestArms-AllItems-Revenger-28311"
+ value: {
+  dps: 7722.02535
+  tps: 6279.19078
+  hps: 5.50262
+ }
+}
+dps_results: {
  key: "TestArms-AllItems-RevitalizingSkyflareDiamond"
  value: {
   dps: 6586.10291
@@ -801,8 +858,8 @@ dps_results: {
 dps_results: {
  key: "TestArms-AllItems-ShortswordofVengeance-754"
  value: {
-  dps: 7613.54696
-  tps: 6184.77244
+  dps: 7633.9211
+  tps: 6201.07175
  }
 }
 dps_results: {
@@ -857,15 +914,15 @@ dps_results: {
 dps_results: {
  key: "TestArms-AllItems-StormshroudArmor"
  value: {
-  dps: 5027.61376
-  tps: 4052.03175
+  dps: 5048.15253
+  tps: 4069.35213
  }
 }
 dps_results: {
  key: "TestArms-AllItems-Sul'thrazetheLasher-9372"
  value: {
-  dps: 7677.22195
-  tps: 6245.41402
+  dps: 7698.83115
+  tps: 6262.48373
  }
 }
 dps_results: {
@@ -899,8 +956,8 @@ dps_results: {
 dps_results: {
  key: "TestArms-AllItems-SyphonoftheNathrezim-32262"
  value: {
-  dps: 7740.70061
-  tps: 6282.61163
+  dps: 7824.00644
+  tps: 6349.44632
  }
 }
 dps_results: {
@@ -920,8 +977,8 @@ dps_results: {
 dps_results: {
  key: "TestArms-AllItems-TheFistsofFury"
  value: {
-  dps: 4816.82845
-  tps: 4007.50065
+  dps: 4851.65706
+  tps: 4035.62211
  }
 }
 dps_results: {
@@ -955,15 +1012,15 @@ dps_results: {
 dps_results: {
  key: "TestArms-AllItems-Thunderbrew'sBootFlask-744"
  value: {
-  dps: 6388.2549
-  tps: 5157.93049
+  dps: 6397.36249
+  tps: 5165.21656
  }
 }
 dps_results: {
  key: "TestArms-AllItems-Thunderfury,BlessedBladeoftheWindseeker-19019"
  value: {
-  dps: 7654.97869
-  tps: 6202.01813
+  dps: 7709.97464
+  tps: 6246.01489
  }
 }
 dps_results: {
@@ -985,6 +1042,13 @@ dps_results: {
  value: {
   dps: 6586.10291
   tps: 5323.5719
+ }
+}
+dps_results: {
+ key: "TestArms-AllItems-TranquillienFlamberge-28164"
+ value: {
+  dps: 7605.35737
+  tps: 6182.64451
  }
 }
 dps_results: {
@@ -1025,8 +1089,8 @@ dps_results: {
 dps_results: {
  key: "TestArms-AllItems-VestigeofHaldor-37064"
  value: {
-  dps: 6479.42792
-  tps: 5229.065
+  dps: 6489.22616
+  tps: 5236.90359
  }
 }
 dps_results: {

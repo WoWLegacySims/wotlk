@@ -51,6 +51,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFire-AllItems-AlembicofInfernalPower-27896"
+ value: {
+  dps: 10129.91633
+  tps: 8162.22115
+ }
+}
+dps_results: {
  key: "TestFire-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 10500.69073
@@ -481,6 +488,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFire-AllItems-IconofUnyieldingCourage-28121"
+ value: {
+  dps: 10318.89887
+  tps: 8314.17897
+ }
+}
+dps_results: {
  key: "TestFire-AllItems-ImpassiveSkyflareDiamond"
  value: {
   dps: 10405.38923
@@ -492,13 +506,6 @@ dps_results: {
  value: {
   dps: 10386.41047
   tps: 8367.24379
- }
-}
-dps_results: {
- key: "TestFire-AllItems-IncisorFragment-37723"
- value: {
-  dps: 10129.91633
-  tps: 8162.22115
  }
 }
 dps_results: {
@@ -549,6 +556,48 @@ dps_results: {
   dps: 10122.83422
   tps: 8156.50995
   hps: 2.2991
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-MarkofConquest-27920"
+ value: {
+  dps: 10129.91633
+  tps: 8162.22115
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-MarkofConquest-27921"
+ value: {
+  dps: 10129.91633
+  tps: 8162.22115
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-MarkofDefiance-27922"
+ value: {
+  dps: 10192.21073
+  tps: 8214.08992
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-MarkofDefiance-27924"
+ value: {
+  dps: 10192.21073
+  tps: 8214.08992
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-MarkofVindication-27926"
+ value: {
+  dps: 10100.60394
+  tps: 8140.85109
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-MarkofVindication-27927"
+ value: {
+  dps: 10100.60394
+  tps: 8140.85109
  }
 }
 dps_results: {
@@ -633,6 +682,13 @@ dps_results: {
  value: {
   dps: 10651.35179
   tps: 8580.37465
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-Revenger-28311"
+ value: {
+  dps: 10731.99264
+  tps: 8645.30928
  }
 }
 dps_results: {
@@ -843,6 +899,13 @@ dps_results: {
  value: {
   dps: 10370.03459
   tps: 8353.82002
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-TranquillienFlamberge-28164"
+ value: {
+  dps: 10731.99264
+  tps: 8645.30928
  }
 }
 dps_results: {

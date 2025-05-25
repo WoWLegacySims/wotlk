@@ -58,6 +58,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBM-AllItems-AlembicofInfernalPower-27896"
+ value: {
+  dps: 6167.50043
+  tps: 4174.41012
+ }
+}
+dps_results: {
  key: "TestBM-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 6167.50043
@@ -601,6 +608,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBM-AllItems-IconofUnyieldingCourage-28121"
+ value: {
+  dps: 6220.26389
+  tps: 4208.54832
+ }
+}
+dps_results: {
  key: "TestBM-AllItems-ImpassiveSkyflareDiamond"
  value: {
   dps: 6278.84784
@@ -612,13 +626,6 @@ dps_results: {
  value: {
   dps: 6276.3017
   tps: 4253.9277
- }
-}
-dps_results: {
- key: "TestBM-AllItems-IncisorFragment-37723"
- value: {
-  dps: 6310.76367
-  tps: 4297.96369
  }
 }
 dps_results: {
@@ -670,6 +677,48 @@ dps_results: {
   dps: 6167.02523
   tps: 4174.02666
   hps: 2.08133
+ }
+}
+dps_results: {
+ key: "TestBM-AllItems-MarkofConquest-27920"
+ value: {
+  dps: 6216.39951
+  tps: 4215.02534
+ }
+}
+dps_results: {
+ key: "TestBM-AllItems-MarkofConquest-27921"
+ value: {
+  dps: 6216.39951
+  tps: 4215.02534
+ }
+}
+dps_results: {
+ key: "TestBM-AllItems-MarkofDefiance-27922"
+ value: {
+  dps: 6173.80726
+  tps: 4179.6358
+ }
+}
+dps_results: {
+ key: "TestBM-AllItems-MarkofDefiance-27924"
+ value: {
+  dps: 6173.80726
+  tps: 4179.6358
+ }
+}
+dps_results: {
+ key: "TestBM-AllItems-MarkofVindication-27926"
+ value: {
+  dps: 6201.44993
+  tps: 4200.08525
+ }
+}
+dps_results: {
+ key: "TestBM-AllItems-MarkofVindication-27927"
+ value: {
+  dps: 6201.44993
+  tps: 4200.08525
  }
 }
 dps_results: {
@@ -765,6 +814,13 @@ dps_results: {
 }
 dps_results: {
  key: "TestBM-AllItems-RelentlessEarthsiegeDiamond"
+ value: {
+  dps: 6361.80313
+  tps: 4336.40095
+ }
+}
+dps_results: {
+ key: "TestBM-AllItems-Revenger-28311"
  value: {
   dps: 6361.80313
   tps: 4336.40095
@@ -1013,6 +1069,13 @@ dps_results: {
  value: {
   dps: 6260.19641
   tps: 4239.37942
+ }
+}
+dps_results: {
+ key: "TestBM-AllItems-TranquillienFlamberge-28164"
+ value: {
+  dps: 6367.54577
+  tps: 4341.0093
  }
 }
 dps_results: {

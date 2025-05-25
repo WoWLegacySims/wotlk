@@ -65,6 +65,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtection-AllItems-AlembicofInfernalPower-27896"
+ value: {
+  dps: 3050.57435
+  tps: 7301.57246
+ }
+}
+dps_results: {
  key: "TestProtection-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 3069.34263
@@ -524,6 +531,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtection-AllItems-IconofUnyieldingCourage-28121"
+ value: {
+  dps: 3091.27799
+  tps: 7402.66547
+ }
+}
+dps_results: {
  key: "TestProtection-AllItems-ImpassiveSkyflareDiamond"
  value: {
   dps: 3061.75074
@@ -535,13 +549,6 @@ dps_results: {
  value: {
   dps: 3058.76598
   tps: 7321.07674
- }
-}
-dps_results: {
- key: "TestProtection-AllItems-IncisorFragment-37723"
- value: {
-  dps: 3115.15241
-  tps: 7442.8947
  }
 }
 dps_results: {
@@ -652,6 +659,48 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtection-AllItems-MarkofConquest-27920"
+ value: {
+  dps: 3071.14723
+  tps: 7349.08287
+ }
+}
+dps_results: {
+ key: "TestProtection-AllItems-MarkofConquest-27921"
+ value: {
+  dps: 3071.14723
+  tps: 7349.08287
+ }
+}
+dps_results: {
+ key: "TestProtection-AllItems-MarkofDefiance-27922"
+ value: {
+  dps: 3053.92957
+  tps: 7310.20881
+ }
+}
+dps_results: {
+ key: "TestProtection-AllItems-MarkofDefiance-27924"
+ value: {
+  dps: 3053.92957
+  tps: 7310.20881
+ }
+}
+dps_results: {
+ key: "TestProtection-AllItems-MarkofVindication-27926"
+ value: {
+  dps: 3070.95343
+  tps: 7348.58403
+ }
+}
+dps_results: {
+ key: "TestProtection-AllItems-MarkofVindication-27927"
+ value: {
+  dps: 3070.95343
+  tps: 7348.58403
+ }
+}
+dps_results: {
  key: "TestProtection-AllItems-NevermeltingIceCrystal-50259"
  value: {
   dps: 3088.88908
@@ -740,6 +789,13 @@ dps_results: {
  value: {
   dps: 2986.26901
   tps: 7136.05053
+ }
+}
+dps_results: {
+ key: "TestProtection-AllItems-Revenger-28311"
+ value: {
+  dps: 3050.57435
+  tps: 7301.57246
  }
 }
 dps_results: {
@@ -992,6 +1048,13 @@ dps_results: {
  value: {
   dps: 3027.6041
   tps: 7242.44705
+ }
+}
+dps_results: {
+ key: "TestProtection-AllItems-TranquillienFlamberge-28164"
+ value: {
+  dps: 3050.57435
+  tps: 7301.57246
  }
 }
 dps_results: {

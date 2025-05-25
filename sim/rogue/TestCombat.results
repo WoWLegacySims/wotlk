@@ -51,6 +51,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestCombat-AllItems-AlembicofInfernalPower-27896"
+ value: {
+  dps: 6246.82033
+  tps: 4435.24244
+ }
+}
+dps_results: {
  key: "TestCombat-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 6246.82033
@@ -545,6 +552,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestCombat-AllItems-IconofUnyieldingCourage-28121"
+ value: {
+  dps: 6298.43728
+  tps: 4471.89047
+ }
+}
+dps_results: {
  key: "TestCombat-AllItems-ImpassiveSkyflareDiamond"
  value: {
   dps: 6394.70676
@@ -556,13 +570,6 @@ dps_results: {
  value: {
   dps: 6390.04845
   tps: 4536.9344
- }
-}
-dps_results: {
- key: "TestCombat-AllItems-IncisorFragment-37723"
- value: {
-  dps: 6430.64877
-  tps: 4565.76062
  }
 }
 dps_results: {
@@ -614,6 +621,48 @@ dps_results: {
   dps: 6247.02642
   tps: 4435.38876
   hps: 1.76127
+ }
+}
+dps_results: {
+ key: "TestCombat-AllItems-MarkofConquest-27920"
+ value: {
+  dps: 6286.69123
+  tps: 4463.55078
+ }
+}
+dps_results: {
+ key: "TestCombat-AllItems-MarkofConquest-27921"
+ value: {
+  dps: 6286.69123
+  tps: 4463.55078
+ }
+}
+dps_results: {
+ key: "TestCombat-AllItems-MarkofDefiance-27922"
+ value: {
+  dps: 6246.82033
+  tps: 4435.24244
+ }
+}
+dps_results: {
+ key: "TestCombat-AllItems-MarkofDefiance-27924"
+ value: {
+  dps: 6246.82033
+  tps: 4435.24244
+ }
+}
+dps_results: {
+ key: "TestCombat-AllItems-MarkofVindication-27926"
+ value: {
+  dps: 6286.76155
+  tps: 4463.6007
+ }
+}
+dps_results: {
+ key: "TestCombat-AllItems-MarkofVindication-27927"
+ value: {
+  dps: 6286.76155
+  tps: 4463.6007
  }
 }
 dps_results: {
@@ -709,6 +758,13 @@ dps_results: {
 }
 dps_results: {
  key: "TestCombat-AllItems-RelentlessEarthsiegeDiamond"
+ value: {
+  dps: 6520.26086
+  tps: 4629.38521
+ }
+}
+dps_results: {
+ key: "TestCombat-AllItems-Revenger-28311"
  value: {
   dps: 6520.26086
   tps: 4629.38521
@@ -985,6 +1041,13 @@ dps_results: {
  value: {
   dps: 6373.91735
   tps: 4525.48132
+ }
+}
+dps_results: {
+ key: "TestCombat-AllItems-TranquillienFlamberge-28164"
+ value: {
+  dps: 6520.26086
+  tps: 4629.38521
  }
 }
 dps_results: {

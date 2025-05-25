@@ -19,7 +19,7 @@ func (druid *Druid) registerMangleBearSpell() {
 	}
 	dmg := dbc.Effects[0].BasePoints + 1
 
-	switch druid.GetRangedWeapon().ID {
+	switch druid.Ranged().ID {
 	case 28064:
 		dmg += 52
 	}
@@ -87,7 +87,7 @@ func (druid *Druid) registerMangleCatSpell() {
 	}
 	dmg := dbc.Effects[0].BasePoints + 1
 
-	switch druid.GetRangedWeapon().ID {
+	switch druid.Ranged().ID {
 	case 28064:
 		dmg += 30
 	}

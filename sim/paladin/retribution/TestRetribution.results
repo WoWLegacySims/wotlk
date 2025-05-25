@@ -68,6 +68,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestRetribution-AllItems-AlembicofInfernalPower-27896"
+ value: {
+  dps: 6379.6206
+  tps: 6465.42109
+  dtps: 9.92986
+ }
+}
+dps_results: {
  key: "TestRetribution-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 6424.74456
@@ -626,6 +634,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestRetribution-AllItems-IconofUnyieldingCourage-28121"
+ value: {
+  dps: 6402.21679
+  tps: 6487.92455
+  dtps: 9.92986
+ }
+}
+dps_results: {
  key: "TestRetribution-AllItems-ImpassiveSkyflareDiamond"
  value: {
   dps: 6503.40472
@@ -638,14 +654,6 @@ dps_results: {
  value: {
   dps: 6502.3245
   tps: 6588.12499
-  dtps: 9.92986
- }
-}
-dps_results: {
- key: "TestRetribution-AllItems-IncisorFragment-37723"
- value: {
-  dps: 6540.90324
-  tps: 6626.70372
   dtps: 9.92986
  }
 }
@@ -780,6 +788,54 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestRetribution-AllItems-MarkofConquest-27920"
+ value: {
+  dps: 6421.69919
+  tps: 6507.49968
+  dtps: 9.97881
+ }
+}
+dps_results: {
+ key: "TestRetribution-AllItems-MarkofConquest-27921"
+ value: {
+  dps: 6421.69919
+  tps: 6507.49968
+  dtps: 9.97881
+ }
+}
+dps_results: {
+ key: "TestRetribution-AllItems-MarkofDefiance-27922"
+ value: {
+  dps: 6387.79918
+  tps: 6473.92698
+  dtps: 9.92986
+ }
+}
+dps_results: {
+ key: "TestRetribution-AllItems-MarkofDefiance-27924"
+ value: {
+  dps: 6387.79918
+  tps: 6473.92698
+  dtps: 9.92986
+ }
+}
+dps_results: {
+ key: "TestRetribution-AllItems-MarkofVindication-27926"
+ value: {
+  dps: 6421.79799
+  tps: 6507.90506
+  dtps: 9.92986
+ }
+}
+dps_results: {
+ key: "TestRetribution-AllItems-MarkofVindication-27927"
+ value: {
+  dps: 6421.79799
+  tps: 6507.90506
+  dtps: 9.92986
+ }
+}
+dps_results: {
  key: "TestRetribution-AllItems-NevermeltingIceCrystal-50259"
  value: {
   dps: 6443.10253
@@ -896,6 +952,14 @@ dps_results: {
  value: {
   dps: 6661.02896
   tps: 6746.82945
+  dtps: 9.92986
+ }
+}
+dps_results: {
+ key: "TestRetribution-AllItems-Revenger-28311"
+ value: {
+  dps: 6620.68072
+  tps: 6706.48121
   dtps: 9.92986
  }
 }
@@ -1176,6 +1240,14 @@ dps_results: {
  value: {
   dps: 6527.56941
   tps: 6613.3699
+  dtps: 9.92986
+ }
+}
+dps_results: {
+ key: "TestRetribution-AllItems-TranquillienFlamberge-28164"
+ value: {
+  dps: 6626.60805
+  tps: 6712.39844
   dtps: 9.92986
  }
 }

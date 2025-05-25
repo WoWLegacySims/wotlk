@@ -51,6 +51,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBlood-AllItems-AlembicofInfernalPower-27896"
+ value: {
+  dps: 10149.9043
+  tps: 5133.74273
+ }
+}
+dps_results: {
  key: "TestBlood-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 10149.9043
@@ -517,6 +524,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBlood-AllItems-IconofUnyieldingCourage-28121"
+ value: {
+  dps: 10176.22114
+  tps: 5153.66296
+ }
+}
+dps_results: {
  key: "TestBlood-AllItems-ImpassiveSkyflareDiamond"
  value: {
   dps: 10654.75999
@@ -528,13 +542,6 @@ dps_results: {
  value: {
   dps: 10649.50951
   tps: 5341.08652
- }
-}
-dps_results: {
- key: "TestBlood-AllItems-IncisorFragment-37723"
- value: {
-  dps: 10384.67359
-  tps: 5265.14911
  }
 }
 dps_results: {
@@ -579,6 +586,48 @@ dps_results: {
   dps: 10149.90872
   tps: 5133.74903
   hps: 1.95482
+ }
+}
+dps_results: {
+ key: "TestBlood-AllItems-MarkofConquest-27920"
+ value: {
+  dps: 10191.74305
+  tps: 5155.39731
+ }
+}
+dps_results: {
+ key: "TestBlood-AllItems-MarkofConquest-27921"
+ value: {
+  dps: 10191.74305
+  tps: 5155.39731
+ }
+}
+dps_results: {
+ key: "TestBlood-AllItems-MarkofDefiance-27922"
+ value: {
+  dps: 10149.90267
+  tps: 5133.74801
+ }
+}
+dps_results: {
+ key: "TestBlood-AllItems-MarkofDefiance-27924"
+ value: {
+  dps: 10149.90267
+  tps: 5133.74801
+ }
+}
+dps_results: {
+ key: "TestBlood-AllItems-MarkofVindication-27926"
+ value: {
+  dps: 10191.76016
+  tps: 5155.41853
+ }
+}
+dps_results: {
+ key: "TestBlood-AllItems-MarkofVindication-27927"
+ value: {
+  dps: 10191.76016
+  tps: 5155.41853
  }
 }
 dps_results: {
@@ -663,6 +712,14 @@ dps_results: {
  value: {
   dps: 10839.04778
   tps: 5443.94131
+ }
+}
+dps_results: {
+ key: "TestBlood-AllItems-Revenger-28311"
+ value: {
+  dps: 11750.56323
+  tps: 5948.97631
+  hps: 6.97778
  }
 }
 dps_results: {
@@ -936,6 +993,13 @@ dps_results: {
  value: {
   dps: 10626.94883
   tps: 5328.9828
+ }
+}
+dps_results: {
+ key: "TestBlood-AllItems-TranquillienFlamberge-28164"
+ value: {
+  dps: 11505.7852
+  tps: 5816.32603
  }
 }
 dps_results: {

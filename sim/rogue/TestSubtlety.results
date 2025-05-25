@@ -51,6 +51,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSubtlety-AllItems-AlembicofInfernalPower-27896"
+ value: {
+  dps: 6181.70164
+  tps: 4389.00817
+ }
+}
+dps_results: {
  key: "TestSubtlety-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 6181.70164
@@ -489,6 +496,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSubtlety-AllItems-IconofUnyieldingCourage-28121"
+ value: {
+  dps: 6237.56556
+  tps: 4428.67155
+ }
+}
+dps_results: {
  key: "TestSubtlety-AllItems-ImpassiveSkyflareDiamond"
  value: {
   dps: 6315.34234
@@ -500,13 +514,6 @@ dps_results: {
  value: {
   dps: 6308.46671
   tps: 4479.01136
- }
-}
-dps_results: {
- key: "TestSubtlety-AllItems-IncisorFragment-37723"
- value: {
-  dps: 6335.79329
-  tps: 4498.41324
  }
 }
 dps_results: {
@@ -530,6 +537,48 @@ dps_results: {
   dps: 6180.95247
   tps: 4388.47626
   hps: 1.76794
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-MarkofConquest-27920"
+ value: {
+  dps: 6217.34205
+  tps: 4414.31285
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-MarkofConquest-27921"
+ value: {
+  dps: 6217.34205
+  tps: 4414.31285
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-MarkofDefiance-27922"
+ value: {
+  dps: 6181.70164
+  tps: 4389.00817
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-MarkofDefiance-27924"
+ value: {
+  dps: 6181.70164
+  tps: 4389.00817
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-MarkofVindication-27926"
+ value: {
+  dps: 6218.26833
+  tps: 4414.97051
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-MarkofVindication-27927"
+ value: {
+  dps: 6218.26833
+  tps: 4414.97051
  }
 }
 dps_results: {

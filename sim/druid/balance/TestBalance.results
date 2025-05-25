@@ -51,6 +51,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBalance-AllItems-AlembicofInfernalPower-27896"
+ value: {
+  dps: 7235.482
+  tps: 6924.56306
+ }
+}
+dps_results: {
  key: "TestBalance-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 7540.06149
@@ -552,6 +559,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBalance-AllItems-IconofUnyieldingCourage-28121"
+ value: {
+  dps: 7236.49893
+  tps: 6924.56306
+ }
+}
+dps_results: {
  key: "TestBalance-AllItems-IdolofLunarFury-47670"
  value: {
   dps: 7679.32898
@@ -619,13 +633,6 @@ dps_results: {
  value: {
   dps: 7036.27724
   tps: 6729.07857
- }
-}
-dps_results: {
- key: "TestBalance-AllItems-IncisorFragment-37723"
- value: {
-  dps: 7235.482
-  tps: 6924.56306
  }
 }
 dps_results: {
@@ -697,6 +704,48 @@ dps_results: {
  value: {
   dps: 6526.95704
   tps: 6225.25612
+ }
+}
+dps_results: {
+ key: "TestBalance-AllItems-MarkofConquest-27920"
+ value: {
+  dps: 7235.482
+  tps: 6924.56306
+ }
+}
+dps_results: {
+ key: "TestBalance-AllItems-MarkofConquest-27921"
+ value: {
+  dps: 7235.482
+  tps: 6924.56306
+ }
+}
+dps_results: {
+ key: "TestBalance-AllItems-MarkofDefiance-27922"
+ value: {
+  dps: 7435.69032
+  tps: 7126.5762
+ }
+}
+dps_results: {
+ key: "TestBalance-AllItems-MarkofDefiance-27924"
+ value: {
+  dps: 7435.69032
+  tps: 7126.5762
+ }
+}
+dps_results: {
+ key: "TestBalance-AllItems-MarkofVindication-27926"
+ value: {
+  dps: 7355.14953
+  tps: 7048.34091
+ }
+}
+dps_results: {
+ key: "TestBalance-AllItems-MarkofVindication-27927"
+ value: {
+  dps: 7355.14953
+  tps: 7048.34091
  }
 }
 dps_results: {

@@ -51,6 +51,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeral-AllItems-AlembicofInfernalPower-27896"
+ value: {
+  dps: 6450.65319
+  tps: 4642.85935
+ }
+}
+dps_results: {
  key: "TestFeral-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 6450.65319
@@ -552,6 +559,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeral-AllItems-IconofUnyieldingCourage-28121"
+ value: {
+  dps: 6499.52101
+  tps: 4678.00422
+ }
+}
+dps_results: {
  key: "TestFeral-AllItems-IdolofLunarFury-47670"
  value: {
   dps: 6547.27085
@@ -619,13 +633,6 @@ dps_results: {
  value: {
   dps: 6555.50137
   tps: 4720.06867
- }
-}
-dps_results: {
- key: "TestFeral-AllItems-IncisorFragment-37723"
- value: {
-  dps: 6599.91553
-  tps: 4748.83562
  }
 }
 dps_results: {
@@ -698,6 +705,48 @@ dps_results: {
  value: {
   dps: 5062.71334
   tps: 3698.83038
+ }
+}
+dps_results: {
+ key: "TestFeral-AllItems-MarkofConquest-27920"
+ value: {
+  dps: 6478.03814
+  tps: 4662.30266
+ }
+}
+dps_results: {
+ key: "TestFeral-AllItems-MarkofConquest-27921"
+ value: {
+  dps: 6478.03814
+  tps: 4662.30266
+ }
+}
+dps_results: {
+ key: "TestFeral-AllItems-MarkofDefiance-27922"
+ value: {
+  dps: 6450.69922
+  tps: 4642.89203
+ }
+}
+dps_results: {
+ key: "TestFeral-AllItems-MarkofDefiance-27924"
+ value: {
+  dps: 6450.69922
+  tps: 4642.89203
+ }
+}
+dps_results: {
+ key: "TestFeral-AllItems-MarkofVindication-27926"
+ value: {
+  dps: 6477.88763
+  tps: 4662.1958
+ }
+}
+dps_results: {
+ key: "TestFeral-AllItems-MarkofVindication-27927"
+ value: {
+  dps: 6477.88763
+  tps: 4662.1958
  }
 }
 dps_results: {

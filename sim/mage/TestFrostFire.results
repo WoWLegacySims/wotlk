@@ -51,6 +51,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFrostFire-AllItems-AlembicofInfernalPower-27896"
+ value: {
+  dps: 9194.98583
+  tps: 7390.23428
+ }
+}
+dps_results: {
  key: "TestFrostFire-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 9534.04243
@@ -481,6 +488,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFrostFire-AllItems-IconofUnyieldingCourage-28121"
+ value: {
+  dps: 9359.32001
+  tps: 7521.8291
+ }
+}
+dps_results: {
  key: "TestFrostFire-AllItems-ImpassiveSkyflareDiamond"
  value: {
   dps: 9434.049
@@ -492,13 +506,6 @@ dps_results: {
  value: {
   dps: 9409.48234
   tps: 7560.585
- }
-}
-dps_results: {
- key: "TestFrostFire-AllItems-IncisorFragment-37723"
- value: {
-  dps: 9194.98583
-  tps: 7390.23428
  }
 }
 dps_results: {
@@ -549,6 +556,48 @@ dps_results: {
   dps: 9196.10048
   tps: 7391.30804
   hps: 2.34307
+ }
+}
+dps_results: {
+ key: "TestFrostFire-AllItems-MarkofConquest-27920"
+ value: {
+  dps: 9194.98583
+  tps: 7390.23428
+ }
+}
+dps_results: {
+ key: "TestFrostFire-AllItems-MarkofConquest-27921"
+ value: {
+  dps: 9194.98583
+  tps: 7390.23428
+ }
+}
+dps_results: {
+ key: "TestFrostFire-AllItems-MarkofDefiance-27922"
+ value: {
+  dps: 9255.27698
+  tps: 7440.35781
+ }
+}
+dps_results: {
+ key: "TestFrostFire-AllItems-MarkofDefiance-27924"
+ value: {
+  dps: 9255.27698
+  tps: 7440.35781
+ }
+}
+dps_results: {
+ key: "TestFrostFire-AllItems-MarkofVindication-27926"
+ value: {
+  dps: 9193.95408
+  tps: 7391.27214
+ }
+}
+dps_results: {
+ key: "TestFrostFire-AllItems-MarkofVindication-27927"
+ value: {
+  dps: 9193.95408
+  tps: 7391.27214
  }
 }
 dps_results: {
@@ -633,6 +682,13 @@ dps_results: {
  value: {
   dps: 9675.13085
   tps: 7776.94345
+ }
+}
+dps_results: {
+ key: "TestFrostFire-AllItems-Revenger-28311"
+ value: {
+  dps: 9740.72231
+  tps: 7827.44656
  }
 }
 dps_results: {
@@ -843,6 +899,13 @@ dps_results: {
  value: {
   dps: 9409.01237
   tps: 7562.47354
+ }
+}
+dps_results: {
+ key: "TestFrostFire-AllItems-TranquillienFlamberge-28164"
+ value: {
+  dps: 9740.72231
+  tps: 7827.44656
  }
 }
 dps_results: {
