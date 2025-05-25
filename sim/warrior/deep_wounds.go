@@ -49,7 +49,7 @@ func (warrior *Warrior) applyDeepWounds() {
 			aura.Activate(sim)
 		},
 		OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-			if spell.ProcMask.Matches(core.ProcMaskEmpty) {
+			if result.Target == &warrior.Unit {
 				return
 			}
 			if result.Outcome.Matches(core.OutcomeCrit) {
