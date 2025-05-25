@@ -15,6 +15,12 @@ func (hunter *Hunter) registerMultiShotSpell(timer *core.Timer) {
 	}
 	bp, _ := dbc.GetBPDie(0, hunter.Level)
 
+	var dmgMultAdditive = 0.0
+	switch hunter.Equipment.Hands().ID {
+	case 34991, 33665, 31961, 28335, 42675, 28614, 28806, 35377, 35475, 32134, 16463, 16571, 22862, 23279:
+		dmgMultAdditive = 0.05
+	}
+
 	numHits := min(3, hunter.Env.GetNumTargets())
 
 	hunter.MultiShot = hunter.RegisterSpell(core.SpellConfig{
@@ -49,7 +55,8 @@ func (hunter *Hunter) registerMultiShotSpell(timer *core.Timer) {
 		BonusCrit: 0 +
 			4*float64(hunter.Talents.ImprovedBarrage),
 		DamageMultiplierAdditive: 1 +
-			.04*float64(hunter.Talents.Barrage),
+			.04*float64(hunter.Talents.Barrage) +
+			dmgMultAdditive,
 		DamageMultiplier: 1 *
 			hunter.markedForDeathMultiplier(),
 		CritMultiplier:   hunter.critMultiplier(true, false, false),

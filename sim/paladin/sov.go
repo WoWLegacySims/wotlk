@@ -99,7 +99,7 @@ func (paladin *Paladin) registerSealOfVengeanceSpellAndAura() {
 			}
 		},
 	})
-
+	bonusDamage := paladin.getPreS4GlovesBonus()
 	onJudgementProc := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: 31804}, // Judgement of Vengeance.
 		SpellSchool: core.SpellSchoolHoly,
@@ -122,7 +122,7 @@ func (paladin *Paladin) registerSealOfVengeanceSpellAndAura() {
 				.14*spell.MeleeAttackPower()
 
 			// i = i * (1 + (0.10 * stacks))
-			baseDamage *= 1 + .1*float64(dotSpell.Dot(target).GetStacks())
+			baseDamage *= 1 + .1*float64(dotSpell.Dot(target).GetStacks()) + bonusDamage
 
 			// Secondary Judgements cannot miss if the Primary Judgement hit, only roll for crit.
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialCritOnly)

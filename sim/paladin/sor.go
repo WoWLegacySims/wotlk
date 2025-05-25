@@ -23,7 +23,7 @@ func (paladin *Paladin) registerSealOfRighteousnessSpellAndAura() {
 	 *   - Deals hybrid AP/SP damage * current weapon speed.
 	 *   - CANNOT CRIT.
 	 */
-
+	bonusDamage := paladin.getPreS4GlovesBonus()
 	onJudgementProc := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: 20187}, // Judgement of Righteousness.
 		SpellSchool: core.SpellSchoolHoly,
@@ -44,7 +44,8 @@ func (paladin *Paladin) registerSealOfRighteousnessSpellAndAura() {
 			// i = 1 + 0.2 * AP + 0.32 * HolP
 			baseDamage := 1 +
 				.20*spell.MeleeAttackPower() +
-				.32*spell.SpellPower()
+				.32*spell.SpellPower() +
+				bonusDamage
 
 			// Secondary Judgements cannot miss if the Primary Judgement hit, only roll for crit.
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialCritOnly)

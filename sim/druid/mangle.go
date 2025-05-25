@@ -19,6 +19,11 @@ func (druid *Druid) registerMangleBearSpell() {
 	}
 	dmg := dbc.Effects[0].BasePoints + 1
 
+	switch druid.GetRangedWeapon().ID {
+	case 28064:
+		dmg += 52
+	}
+
 	mangleAuras := druid.NewEnemyAuraArray(core.MangleAura)
 	durReduction := (0.5) * float64(druid.Talents.ImprovedMangle)
 	glyphBonus := core.TernaryFloat64(druid.HasMajorGlyph(proto.DruidMajorGlyph_GlyphOfMangle), 1.1, 1.0)
@@ -81,6 +86,11 @@ func (druid *Druid) registerMangleCatSpell() {
 		return
 	}
 	dmg := dbc.Effects[0].BasePoints + 1
+
+	switch druid.GetRangedWeapon().ID {
+	case 28064:
+		dmg += 30
+	}
 
 	mangleAuras := druid.NewEnemyAuraArray(core.MangleAura)
 	glyphBonus := core.TernaryFloat64(druid.HasMajorGlyph(proto.DruidMajorGlyph_GlyphOfMangle), 1.1, 1.0)

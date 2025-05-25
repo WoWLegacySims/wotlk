@@ -89,6 +89,13 @@ stat_weights_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-AdamantineFigurine-27891"
+ value: {
+  dps: 1436.05129
+  tps: 3736.4962
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 1435.50392
@@ -97,6 +104,13 @@ dps_results: {
 }
 dps_results: {
  key: "TestProtectionWarrior-AllItems-Althor'sAbacus-50366"
+ value: {
+  dps: 1435.50392
+  tps: 3734.3775
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-ArgussianCompass-27770"
  value: {
   dps: 1435.50392
   tps: 3734.3775
@@ -470,6 +484,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-FigurineoftheColossus-27529"
+ value: {
+  dps: 1435.50392
+  tps: 3734.3775
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-FireHardenedHauberk-6972"
  value: {
   dps: 1375.24181
@@ -584,13 +605,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestProtectionWarrior-AllItems-HowlingBlade-6331"
- value: {
-  dps: 1435.50392
-  tps: 3734.3775
- }
-}
-dps_results: {
- key: "TestProtectionWarrior-AllItems-IconoftheSilverCrescent-29370"
  value: {
   dps: 1435.50392
   tps: 3734.3775
@@ -799,13 +813,6 @@ dps_results: {
  value: {
   dps: 1435.50392
   tps: 3734.3775
- }
-}
-dps_results: {
- key: "TestProtectionWarrior-AllItems-SealofthePantheon-36993"
- value: {
-  dps: 1424.09478
-  tps: 3702.46307
  }
 }
 dps_results: {
@@ -1072,6 +1079,13 @@ dps_results: {
  value: {
   dps: 1467.78109
   tps: 3795.18593
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-Warp-ScarabBrooch-27828"
+ value: {
+  dps: 1435.50392
+  tps: 3734.3775
  }
 }
 dps_results: {

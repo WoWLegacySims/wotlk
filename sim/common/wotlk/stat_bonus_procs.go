@@ -437,6 +437,26 @@ func init() {
 		ICD:        time.Second * 45,
 	})
 	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:       "Burnished Quel'Serrar",
+		ID:         49303,
+		AuraID:     69207,
+		Bonus:      stats.Stats{stats.Defense: 100, stats.BonusArmor: 1400},
+		Duration:   time.Second * 10,
+		Callback:   core.CallbackOnSpellHitDealt,
+		ProcChance: 0.0378,
+		Weapon:     true,
+	})
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:       "Burnished Quel'Serrar",
+		ID:         49495,
+		AuraID:     69208,
+		Bonus:      stats.Stats{stats.Defense: 110, stats.BonusArmor: 1550},
+		Duration:   time.Second * 10,
+		Callback:   core.CallbackOnSpellHitDealt,
+		ProcChance: 0.0378,
+		Weapon:     true,
+	})
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
 		Name:       "Needle-Encrusted Scorpion",
 		ID:         50198,
 		AuraID:     71403,
@@ -526,6 +546,32 @@ func init() {
 		Duration:   time.Second * 10,
 		Callback:   core.CallbackOnSpellHitDealt,
 		ProcMask:   core.ProcMaskSpellDamage,
+		Outcome:    core.OutcomeLanded,
+		ProcChance: 0.10,
+		ICD:        time.Second * 60,
+	})
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		// Ashen Band of Unmatched Wisdom
+		Name:       "Frostforged Healer",
+		ID:         50399,
+		AuraID:     72419,
+		Bonus:      stats.Stats{stats.SpellPower: 285},
+		Duration:   time.Second * 10,
+		Callback:   core.CallbackOnHealDealt,
+		ProcMask:   core.ProcMaskSpellHealing,
+		Outcome:    core.OutcomeLanded,
+		ProcChance: 0.10,
+		ICD:        time.Second * 60,
+	})
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		// Ashen Band of Endless Wisdom
+		Name:       "Frostforged Healer",
+		ID:         50400,
+		AuraID:     72419,
+		Bonus:      stats.Stats{stats.SpellPower: 285},
+		Duration:   time.Second * 10,
+		Callback:   core.CallbackOnHealDealt,
+		ProcMask:   core.ProcMaskSpellHealing,
 		Outcome:    core.OutcomeLanded,
 		ProcChance: 0.10,
 		ICD:        time.Second * 60,

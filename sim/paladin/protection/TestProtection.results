@@ -44,6 +44,13 @@ character_stats_results: {
  }
 }
 dps_results: {
+ key: "TestProtection-AllItems-AdamantineFigurine-27891"
+ value: {
+  dps: 3050.57435
+  tps: 7301.57246
+ }
+}
+dps_results: {
  key: "TestProtection-AllItems-AegisBattlegear"
  value: {
   dps: 3273.69246
@@ -69,6 +76,13 @@ dps_results: {
  value: {
   dps: 3071.64935
   tps: 7355.81952
+ }
+}
+dps_results: {
+ key: "TestProtection-AllItems-ArgussianCompass-27770"
+ value: {
+  dps: 3050.57435
+  tps: 7301.57246
  }
 }
 dps_results: {
@@ -397,6 +411,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtection-AllItems-FigurineoftheColossus-27529"
+ value: {
+  dps: 3050.57435
+  tps: 7301.57246
+ }
+}
+dps_results: {
  key: "TestProtection-AllItems-FireHardenedHauberk-6972"
  value: {
   dps: 2883.70282
@@ -503,13 +524,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestProtection-AllItems-IconoftheSilverCrescent-29370"
- value: {
-  dps: 3058.8713
-  tps: 7322.92882
- }
-}
-dps_results: {
  key: "TestProtection-AllItems-ImpassiveSkyflareDiamond"
  value: {
   dps: 3061.75074
@@ -564,6 +578,13 @@ dps_results: {
  value: {
   dps: 3050.57435
   tps: 7301.57246
+ }
+}
+dps_results: {
+ key: "TestProtection-AllItems-LibramofAvengement-27484"
+ value: {
+  dps: 2995.45628
+  tps: 7157.11767
  }
 }
 dps_results: {
@@ -765,13 +786,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestProtection-AllItems-ScarabBrooch-21625"
- value: {
-  dps: 3050.57435
-  tps: 7301.57246
- }
-}
-dps_results: {
- key: "TestProtection-AllItems-SealofthePantheon-36993"
  value: {
   dps: 3050.57435
   tps: 7301.57246
@@ -1034,6 +1048,13 @@ dps_results: {
  value: {
   dps: 3126.10256
   tps: 7440.58186
+ }
+}
+dps_results: {
+ key: "TestProtection-AllItems-Warp-ScarabBrooch-27828"
+ value: {
+  dps: 3065.14769
+  tps: 7340.69039
  }
 }
 dps_results: {

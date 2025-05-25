@@ -13,6 +13,227 @@ func init() {
 		agent.GetCharacter().PseudoStats.BonusDamage += 5
 	})
 
+	core.NewItemEffect(27529, func(a core.Agent) {
+		character := a.GetCharacter()
+		metrics := character.NewHealthMetrics(core.ActionID{SpellID: 33089})
+
+		aura := character.GetOrRegisterAura(core.Aura{
+			Label:    "Vigilance of the Colossus",
+			ActionID: core.ActionID{SpellID: 33089},
+			Duration: time.Second * 20,
+			OnSpellHitTaken: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				if result.Outcome.Matches(core.OutcomeBlock) {
+					character.GainHealth(sim, 120, metrics)
+				}
+			},
+		})
+
+		character.AddMajorCooldown(core.MajorCooldown{
+			Type: core.CooldownTypeSurvival,
+			Spell: character.GetOrRegisterSpell(core.SpellConfig{
+				ActionID: core.ActionID{ItemID: 27529},
+				Cast: core.CastConfig{
+					CD: core.Cooldown{
+						Duration: time.Minute * 2,
+						Timer:    character.NewTimer(),
+					},
+				},
+				ProcMask: core.ProcMaskEmpty,
+				ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
+					aura.Activate(sim)
+				},
+			}),
+		})
+	})
+
+	core.NewItemEffect(27770, func(a core.Agent) {
+		character := a.GetCharacter()
+		shieldStrength := 0.0
+		metrics := character.NewHealthMetrics(core.ActionID{SpellID: 39228})
+
+		aura := character.GetOrRegisterAura(core.Aura{
+			Label:    "Vigilance of the Colossus",
+			ActionID: core.ActionID{SpellID: 39228},
+			Duration: time.Second * 20,
+			OnGain: func(aura *core.Aura, sim *core.Simulation) {
+				shieldStrength = 1150
+			},
+			OnSpellHitTaken: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				if result.Damage > 0 {
+					absorb := min(result.Damage, shieldStrength, 68)
+					shieldStrength -= absorb
+					character.GainHealth(sim, absorb, metrics)
+
+					if shieldStrength == 0 {
+						aura.Deactivate(sim)
+					}
+				}
+			},
+		})
+
+		character.AddMajorCooldown(core.MajorCooldown{
+			Type: core.CooldownTypeSurvival,
+			Spell: character.GetOrRegisterSpell(core.SpellConfig{
+				ActionID: core.ActionID{ItemID: 27770},
+				Cast: core.CastConfig{
+					CD: core.Cooldown{
+						Duration: time.Minute * 2,
+						Timer:    character.NewTimer(),
+					},
+				},
+				ProcMask: core.ProcMaskEmpty,
+				ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
+					aura.Activate(sim)
+				},
+			}),
+		})
+	})
+
+	core.NewItemEffect(27896, func(a core.Agent) {
+		character := a.GetCharacter()
+		metrics := character.NewManaMetrics(core.ActionID{SpellID: 15603})
+
+		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			Name:       "Alembic of Infernal Power",
+			ActionID:   core.ActionID{ItemID: 27896},
+			Callback:   core.CallbackOnSpellHitTaken,
+			ProcMask:   core.ProcMaskDirect,
+			Outcome:    core.OutcomeLanded,
+			ProcChance: 0.02,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				character.AddMana(sim, 260, metrics)
+			},
+		})
+	})
+
+	core.NewItemEffect(27920, func(a core.Agent) {
+		character := a.GetCharacter()
+		healthMetrics := character.NewHealthMetrics(core.ActionID{SpellID: 33510})
+		manaMetrics := character.NewManaMetrics(core.ActionID{SpellID: 33510})
+
+		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			Name:     "Mark of Conquest",
+			ActionID: core.ActionID{ItemID: 27920},
+			Callback: core.CallbackOnSpellHitDealt,
+			ProcMask: core.ProcMaskMelee | core.ProcMaskRanged,
+			Outcome:  core.OutcomeLanded,
+			PPM:      2,
+			ICD:      time.Second * 25,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				if spell.ProcMask.Matches(core.ProcMaskMelee) {
+					amount := sim.Roll(89, 31)
+					character.GainHealth(sim, amount, healthMetrics)
+				} else {
+					amount := sim.Roll(127, 45)
+					character.AddMana(sim, amount, manaMetrics)
+				}
+
+			},
+		})
+	})
+
+	core.NewItemEffect(27921, func(a core.Agent) {
+		character := a.GetCharacter()
+		healthMetrics := character.NewHealthMetrics(core.ActionID{SpellID: 33510})
+		manaMetrics := character.NewManaMetrics(core.ActionID{SpellID: 33510})
+
+		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			Name:     "Mark of Conquest",
+			ActionID: core.ActionID{ItemID: 27921},
+			Callback: core.CallbackOnSpellHitDealt,
+			ProcMask: core.ProcMaskMelee | core.ProcMaskRanged,
+			Outcome:  core.OutcomeLanded,
+			PPM:      2,
+			ICD:      time.Second * 25,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				if spell.ProcMask.Matches(core.ProcMaskMelee) {
+					amount := sim.Roll(89, 31)
+					character.GainHealth(sim, amount, healthMetrics)
+				} else {
+					amount := sim.Roll(127, 45)
+					character.AddMana(sim, amount, manaMetrics)
+				}
+
+			},
+		})
+	})
+
+	core.NewItemEffect(27922, func(a core.Agent) {
+		character := a.GetCharacter()
+		manaMetrics := character.NewManaMetrics(core.ActionID{SpellID: 33511})
+
+		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			Name:       "Mark of Conquest",
+			ActionID:   core.ActionID{ItemID: 27922},
+			Callback:   core.CallbackOnSpellHitDealt,
+			ProcMask:   core.ProcMaskSpellDamage,
+			Outcome:    core.OutcomeLanded,
+			ProcChance: 0.15,
+			ICD:        time.Second * 17,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				amount := sim.Roll(127, 45)
+				character.AddMana(sim, amount, manaMetrics)
+			},
+		})
+	})
+
+	core.NewItemEffect(27924, func(a core.Agent) {
+		character := a.GetCharacter()
+		manaMetrics := character.NewManaMetrics(core.ActionID{SpellID: 33511})
+
+		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			Name:       "Mark of Conquest",
+			ActionID:   core.ActionID{ItemID: 27924},
+			Callback:   core.CallbackOnSpellHitDealt,
+			ProcMask:   core.ProcMaskSpellDamage,
+			Outcome:    core.OutcomeLanded,
+			ProcChance: 0.15,
+			ICD:        time.Second * 17,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				amount := sim.Roll(127, 45)
+				character.AddMana(sim, amount, manaMetrics)
+			},
+		})
+	})
+
+	core.NewItemEffect(27926, func(a core.Agent) {
+		character := a.GetCharacter()
+		manaMetrics := character.NewManaMetrics(core.ActionID{SpellID: 33522})
+
+		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			Name:       "Mark of Conquest",
+			ActionID:   core.ActionID{ItemID: 27926},
+			Callback:   core.CallbackOnSpellHitDealt,
+			ProcMask:   core.ProcMaskSpellDamage,
+			Outcome:    core.OutcomeLanded,
+			ProcChance: 0.15,
+			ICD:        time.Second * 25,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				amount := sim.Roll(127, 45)
+				character.AddMana(sim, amount, manaMetrics)
+			},
+		})
+	})
+
+	core.NewItemEffect(27927, func(a core.Agent) {
+		character := a.GetCharacter()
+		manaMetrics := character.NewManaMetrics(core.ActionID{SpellID: 33522})
+
+		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			Name:       "Mark of Conquest",
+			ActionID:   core.ActionID{ItemID: 27927},
+			Callback:   core.CallbackOnSpellHitDealt,
+			ProcMask:   core.ProcMaskSpellDamage,
+			Outcome:    core.OutcomeLanded,
+			ProcChance: 0.15,
+			ICD:        time.Second * 25,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				amount := sim.Roll(127, 45)
+				character.AddMana(sim, amount, manaMetrics)
+			},
+		})
+	})
+
 	core.NewItemEffect(29996, func(agent core.Agent) { // Rod of the Sun King
 		character := agent.GetCharacter()
 

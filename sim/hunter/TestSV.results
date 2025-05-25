@@ -44,6 +44,13 @@ character_stats_results: {
  }
 }
 dps_results: {
+ key: "TestSV-AllItems-AdamantineFigurine-27891"
+ value: {
+  dps: 7297.66768
+  tps: 6290.98785
+ }
+}
+dps_results: {
  key: "TestSV-AllItems-Ahn'KaharBloodHunter'sBattlegear"
  value: {
   dps: 8642.47291
@@ -69,6 +76,13 @@ dps_results: {
  value: {
   dps: 7582.90793
   tps: 6569.08425
+ }
+}
+dps_results: {
+ key: "TestSV-AllItems-ArgussianCompass-27770"
+ value: {
+  dps: 7308.53125
+  tps: 6298.51763
  }
 }
 dps_results: {
@@ -453,6 +467,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSV-AllItems-FigurineoftheColossus-27529"
+ value: {
+  dps: 7297.66768
+  tps: 6290.98785
+ }
+}
+dps_results: {
  key: "TestSV-AllItems-FireHardenedHauberk-6972"
  value: {
   dps: 7106.00421
@@ -577,13 +598,6 @@ dps_results: {
  value: {
   dps: 7619.19347
   tps: 6596.98211
- }
-}
-dps_results: {
- key: "TestSV-AllItems-IconoftheSilverCrescent-29370"
- value: {
-  dps: 7297.66768
-  tps: 6290.98785
  }
 }
 dps_results: {
@@ -803,13 +817,6 @@ dps_results: {
  value: {
   dps: 7219.38726
   tps: 6262.64617
- }
-}
-dps_results: {
- key: "TestSV-AllItems-SealofthePantheon-36993"
- value: {
-  dps: 7297.66768
-  tps: 6290.98785
  }
 }
 dps_results: {
@@ -1041,6 +1048,13 @@ dps_results: {
  value: {
   dps: 7353.36371
   tps: 6351.05303
+ }
+}
+dps_results: {
+ key: "TestSV-AllItems-Warp-ScarabBrooch-27828"
+ value: {
+  dps: 7297.66768
+  tps: 6290.70455
  }
 }
 dps_results: {

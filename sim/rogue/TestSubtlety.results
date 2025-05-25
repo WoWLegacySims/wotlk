@@ -44,6 +44,13 @@ character_stats_results: {
  }
 }
 dps_results: {
+ key: "TestSubtlety-AllItems-AdamantineFigurine-27891"
+ value: {
+  dps: 6181.70164
+  tps: 4389.00817
+ }
+}
+dps_results: {
  key: "TestSubtlety-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 6181.70164
@@ -52,6 +59,13 @@ dps_results: {
 }
 dps_results: {
  key: "TestSubtlety-AllItems-Althor'sAbacus-50366"
+ value: {
+  dps: 6181.70164
+  tps: 4389.00817
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-ArgussianCompass-27770"
  value: {
   dps: 6181.70164
   tps: 4389.00817
@@ -362,6 +376,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSubtlety-AllItems-FigurineoftheColossus-27529"
+ value: {
+  dps: 6181.70164
+  tps: 4389.00817
+ }
+}
+dps_results: {
  key: "TestSubtlety-AllItems-ForethoughtTalisman-40258"
  value: {
   dps: 6181.70164
@@ -465,13 +486,6 @@ dps_results: {
  value: {
   dps: 6423.40614
   tps: 4560.61836
- }
-}
-dps_results: {
- key: "TestSubtlety-AllItems-IconoftheSilverCrescent-29370"
- value: {
-  dps: 6181.70164
-  tps: 4389.00817
  }
 }
 dps_results: {
@@ -618,13 +632,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestSubtlety-AllItems-ScarabBrooch-21625"
- value: {
-  dps: 6181.70164
-  tps: 4389.00817
- }
-}
-dps_results: {
- key: "TestSubtlety-AllItems-SealofthePantheon-36993"
  value: {
   dps: 6181.70164
   tps: 4389.00817
@@ -831,6 +838,13 @@ dps_results: {
  value: {
   dps: 6272.77211
   tps: 4453.6682
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-Warp-ScarabBrooch-27828"
+ value: {
+  dps: 6181.70164
+  tps: 4389.00817
  }
 }
 dps_results: {

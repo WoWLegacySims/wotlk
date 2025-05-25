@@ -44,6 +44,10 @@ character_stats_results: {
  }
 }
 dps_results: {
+ key: "TestRestoration-AllItems-AdamantineFigurine-27891"
+ value: {}
+}
+dps_results: {
  key: "TestRestoration-AllItems-Althor'sAbacus-50359"
  value: {}
 }
@@ -53,6 +57,10 @@ dps_results: {
 }
 dps_results: {
  key: "TestRestoration-AllItems-ArcaneOrb-7507"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-ArgussianCompass-27770"
  value: {}
 }
 dps_results: {
@@ -246,6 +254,10 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestRestoration-AllItems-FigurineoftheColossus-27529"
+ value: {}
+}
+dps_results: {
  key: "TestRestoration-AllItems-ForethoughtTalisman-40258"
  value: {}
 }
@@ -331,10 +343,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestRestoration-AllItems-HowlingBlade-6331"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-IconoftheSilverCrescent-29370"
  value: {}
 }
 dps_results: {
@@ -520,10 +528,6 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-SealofthePantheon-36993"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-ShadowmoonInsignia-32501"
  value: {}
 }
@@ -636,6 +640,10 @@ dps_results: {
 }
 dps_results: {
  key: "TestRestoration-AllItems-VestigeofHaldor-37064"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-Warp-ScarabBrooch-27828"
  value: {}
 }
 dps_results: {

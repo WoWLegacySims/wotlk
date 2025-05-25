@@ -44,6 +44,13 @@ character_stats_results: {
  }
 }
 dps_results: {
+ key: "TestFeralApl-AllItems-AdamantineFigurine-27891"
+ value: {
+  dps: 9386.27955
+  tps: 6728.72458
+ }
+}
+dps_results: {
  key: "TestFeralApl-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 9386.27955
@@ -62,6 +69,13 @@ dps_results: {
  value: {
   dps: 9935.85601
   tps: 7118.69951
+ }
+}
+dps_results: {
+ key: "TestFeralApl-AllItems-ArgussianCompass-27770"
+ value: {
+  dps: 9386.27955
+  tps: 6728.72458
  }
 }
 dps_results: {
@@ -383,6 +397,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralApl-AllItems-FigurineoftheColossus-27529"
+ value: {
+  dps: 9386.27955
+  tps: 6728.72458
+ }
+}
+dps_results: {
  key: "TestFeralApl-AllItems-ForethoughtTalisman-40258"
  value: {
   dps: 9386.27955
@@ -521,13 +542,6 @@ dps_results: {
  value: {
   dps: 9935.85601
   tps: 7118.69951
- }
-}
-dps_results: {
- key: "TestFeralApl-AllItems-IconoftheSilverCrescent-29370"
- value: {
-  dps: 9386.27955
-  tps: 6728.72458
  }
 }
 dps_results: {
@@ -841,13 +855,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFeralApl-AllItems-SealofthePantheon-36993"
- value: {
-  dps: 9386.27955
-  tps: 6728.72458
- }
-}
-dps_results: {
  key: "TestFeralApl-AllItems-ShadowmoonInsignia-32501"
  value: {
   dps: 9386.27955
@@ -1048,6 +1055,13 @@ dps_results: {
  value: {
   dps: 9535.6328
   tps: 6834.39146
+ }
+}
+dps_results: {
+ key: "TestFeralApl-AllItems-Warp-ScarabBrooch-27828"
+ value: {
+  dps: 9386.27955
+  tps: 6728.72458
  }
 }
 dps_results: {

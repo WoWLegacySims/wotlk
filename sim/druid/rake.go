@@ -15,6 +15,11 @@ func (druid *Druid) registerRakeSpell() {
 	dmg, _ := dbc.GetBPDie(0, druid.Level)
 	dotdmg, _ := dbc.GetBPDie(1, druid.Level)
 
+	switch druid.GetRangedWeapon().ID {
+	case 27989, 27990:
+		dmg += 30
+	}
+
 	dotCanCrit := druid.HasSetBonus(ItemSetLasherweaveBattlegear, 4)
 
 	druid.Rake = druid.RegisterSpell(Cat, core.SpellConfig{

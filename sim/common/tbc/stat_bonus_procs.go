@@ -11,6 +11,69 @@ import (
 func init() {
 	core.AddEffectsToTest = false
 	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:       "Quagmirran's Eye",
+		ID:         27683,
+		AuraID:     33297,
+		Bonus:      stats.Stats{stats.MeleeHaste: 320, stats.SpellHaste: 320},
+		Duration:   time.Second * 6,
+		Callback:   core.CallbackOnSpellHitDealt,
+		ProcMask:   core.ProcMaskSpellDamage,
+		Outcome:    core.OutcomeLanded,
+		ProcChance: 0.1,
+		ICD:        time.Second * 45,
+	})
+
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:     "Blackout Truncheon",
+		ID:       27901,
+		AuraID:   33489,
+		Bonus:    stats.Stats{stats.MeleeHaste: 132, stats.SpellHaste: 132},
+		Duration: time.Second * 10,
+		Callback: core.CallbackOnSpellHitDealt,
+		Outcome:  core.OutcomeLanded,
+		PPM:      1.9,
+		ICD:      time.Second * 45,
+		Weapon:   true,
+	})
+
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:       "Hourglass of the Unraveller",
+		ID:         28034,
+		AuraID:     60066,
+		Bonus:      stats.Stats{stats.AttackPower: 300, stats.RangedAttackPower: 300},
+		Duration:   time.Second * 10,
+		Callback:   core.CallbackOnSpellHitDealt,
+		Outcome:    core.OutcomeCrit,
+		ProcMask:   core.ProcMaskMeleeOrRanged,
+		ProcChance: 0.1,
+		ICD:        time.Second * 50,
+	})
+
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:       "Scarab of the Infinite Cycle",
+		ID:         28190,
+		AuraID:     60061,
+		Bonus:      stats.Stats{stats.MeleeHaste: 320, stats.SpellHaste: 320},
+		Duration:   time.Second * 6,
+		Callback:   core.CallbackOnHealDealt,
+		Outcome:    core.OutcomeLanded,
+		ProcMask:   core.ProcMaskDirect,
+		ProcChance: 0.1,
+		ICD:        time.Second * 45,
+	})
+
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:     "Greatsword of Forlorn Visions",
+		ID:       28367,
+		AuraID:   34199,
+		Bonus:    stats.Stats{stats.BonusArmor: 2750},
+		Duration: time.Second * 10,
+		Callback: core.CallbackOnSpellHitDealt,
+		Outcome:  core.OutcomeLanded,
+		PPM:      1.5,
+	})
+
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
 		Name:     "Dragonspine Trophy",
 		ID:       28830,
 		AuraID:   34774,

@@ -51,6 +51,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestHoly-AllItems-AdamantineFigurine-27891"
+ value: {
+  tps: 35.61812
+  hps: 4678.20223
+ }
+}
+dps_results: {
  key: "TestHoly-AllItems-Althor'sAbacus-50359"
  value: {
   tps: 35.87836
@@ -69,6 +76,13 @@ dps_results: {
  value: {
   tps: 38.99371
   hps: 4650.41289
+ }
+}
+dps_results: {
+ key: "TestHoly-AllItems-ArgussianCompass-27770"
+ value: {
+  tps: 35.66812
+  hps: 4676.94519
  }
 }
 dps_results: {
@@ -352,6 +366,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestHoly-AllItems-FigurineoftheColossus-27529"
+ value: {
+  tps: 35.66812
+  hps: 4676.94519
+ }
+}
+dps_results: {
  key: "TestHoly-AllItems-ForethoughtTalisman-40258"
  value: {
   tps: 35.61812
@@ -454,13 +475,6 @@ dps_results: {
  value: {
   tps: 39.00269
   hps: 4822.76512
- }
-}
-dps_results: {
- key: "TestHoly-AllItems-IconoftheSilverCrescent-29370"
- value: {
-  tps: 35.61812
-  hps: 4761.06388
  }
 }
 dps_results: {
@@ -674,13 +688,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestHoly-AllItems-SealofthePantheon-36993"
- value: {
-  tps: 35.61812
-  hps: 4678.20223
- }
-}
-dps_results: {
  key: "TestHoly-AllItems-ShadowmoonInsignia-32501"
  value: {
   tps: 35.61812
@@ -847,6 +854,13 @@ dps_results: {
  value: {
   tps: 30.75701
   hps: 3360.68024
+ }
+}
+dps_results: {
+ key: "TestHoly-AllItems-Warp-ScarabBrooch-27828"
+ value: {
+  tps: 35.57714
+  hps: 4735.84702
  }
 }
 dps_results: {

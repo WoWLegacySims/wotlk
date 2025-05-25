@@ -230,8 +230,35 @@ func (paladin *Paladin) getItemSetGladiatorsVindicationBonusGloves() float64 {
 	}
 }
 
+func (paladin *Paladin) getPreS4GlovesBonus() float64 {
+	switch paladin.Hands().ID {
+	case 32040, 42631, 27880, 28862, 31631, 31636, 28832, 28710, 28680, 35403, 35413, 35477, 32169, 32159, 32154, 16471, 29613, 29600, 23274, 16410:
+		return 20
+	default:
+		return 0
+	}
+}
+
 func init() {
 	// Librams implemented in seals.go and judgement.go
+
+	core.NewItemEffect(27484, func(agent core.Agent) {
+		paladin := agent.(PaladinAgent).GetPaladin()
+		procAura := paladin.NewTemporaryStatsAura("Libram of Avengement Proc", core.ActionID{SpellID: 48835}, stats.Stats{stats.MeleeCrit: 53, stats.SpellCrit: 53}, time.Second*5)
+
+		paladin.RegisterAura(core.Aura{
+			Label:    "Libram of Avengement",
+			Duration: core.NeverExpires,
+			OnReset: func(aura *core.Aura, sim *core.Simulation) {
+				aura.Activate(sim)
+			},
+			OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				if spell.Flags.Matches(SpellFlagSecondaryJudgement) {
+					procAura.Activate(sim)
+				}
+			},
+		})
+	})
 
 	core.NewItemEffect(37574, func(agent core.Agent) {
 		paladin := agent.(PaladinAgent).GetPaladin()

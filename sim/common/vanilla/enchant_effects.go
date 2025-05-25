@@ -179,7 +179,6 @@ func init() {
 		character := a.GetCharacter()
 
 		procMask := character.GetProcMaskForEnchant(1898)
-		healthMetrics := character.NewHealthMetrics(core.ActionID{SpellID: 20004})
 
 		procSpell := character.RegisterSpell(core.SpellConfig{
 			ActionID:         core.ActionID{SpellID: 20004},
@@ -191,7 +190,7 @@ func init() {
 			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 				res := spell.CalcAndDealDamage(sim, target, 30, spell.OutcomeMagicHitAndCrit)
 				if res.Landed() {
-					character.GainHealth(sim, res.Damage, healthMetrics)
+					spell.CalcAndDealHealing(sim, &character.Unit, res.Damage, spell.OutcomeHealing)
 				}
 			},
 		})
@@ -202,9 +201,6 @@ func init() {
 			ProcMask: procMask,
 			Outcome:  core.OutcomeLanded,
 			PPM:      6.0,
-			CustomCheck: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) bool {
-				return result.Target.MobType == proto.MobType_MobTypeDemon
-			},
 			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 				procSpell.Cast(sim, result.Target)
 			},

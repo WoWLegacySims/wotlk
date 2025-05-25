@@ -96,6 +96,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDisc-AllItems-AdamantineFigurine-27891"
+ value: {
+  tps: 16.24462
+  hps: 3645.52913
+ }
+}
+dps_results: {
  key: "TestDisc-AllItems-Althor'sAbacus-50359"
  value: {
   tps: 16.24462
@@ -114,6 +121,13 @@ dps_results: {
  value: {
   tps: 16.38336
   hps: 3667.79594
+ }
+}
+dps_results: {
+ key: "TestDisc-AllItems-ArgussianCompass-27770"
+ value: {
+  tps: 16.17623
+  hps: 3645.52913
  }
 }
 dps_results: {
@@ -404,6 +418,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDisc-AllItems-FigurineoftheColossus-27529"
+ value: {
+  tps: 16.17623
+  hps: 3645.52913
+ }
+}
+dps_results: {
  key: "TestDisc-AllItems-ForlornSkyflareDiamond"
  value: {
   tps: 13.27119
@@ -499,13 +520,6 @@ dps_results: {
  value: {
   tps: 16.24462
   hps: 3769.7923
- }
-}
-dps_results: {
- key: "TestDisc-AllItems-IconoftheSilverCrescent-29370"
- value: {
-  tps: 16.24462
-  hps: 3703.76565
  }
 }
 dps_results: {
@@ -719,13 +733,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestDisc-AllItems-SealofthePantheon-36993"
- value: {
-  tps: 16.24462
-  hps: 3645.52913
- }
-}
-dps_results: {
  key: "TestDisc-AllItems-ShadowmoonInsignia-32501"
  value: {
   tps: 16.24462
@@ -899,6 +906,13 @@ dps_results: {
  value: {
   tps: 12.25813
   hps: 3037.66364
+ }
+}
+dps_results: {
+ key: "TestDisc-AllItems-Warp-ScarabBrooch-27828"
+ value: {
+  tps: 16.1482
+  hps: 3671.60673
  }
 }
 dps_results: {

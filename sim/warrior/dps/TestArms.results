@@ -44,6 +44,13 @@ character_stats_results: {
  }
 }
 dps_results: {
+ key: "TestArms-AllItems-AdamantineFigurine-27891"
+ value: {
+  dps: 6389.66469
+  tps: 5158.67515
+ }
+}
+dps_results: {
  key: "TestArms-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 6387.25574
@@ -52,6 +59,13 @@ dps_results: {
 }
 dps_results: {
  key: "TestArms-AllItems-Althor'sAbacus-50366"
+ value: {
+  dps: 6387.25574
+  tps: 5157.13116
+ }
+}
+dps_results: {
+ key: "TestArms-AllItems-ArgussianCompass-27770"
  value: {
   dps: 6387.25574
   tps: 5157.13116
@@ -432,6 +446,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestArms-AllItems-FigurineoftheColossus-27529"
+ value: {
+  dps: 6387.25574
+  tps: 5157.13116
+ }
+}
+dps_results: {
  key: "TestArms-AllItems-FireHardenedHauberk-6972"
  value: {
   dps: 6342.47085
@@ -549,13 +570,6 @@ dps_results: {
  value: {
   dps: 7579.49299
   tps: 6155.52216
- }
-}
-dps_results: {
- key: "TestArms-AllItems-IconoftheSilverCrescent-29370"
- value: {
-  dps: 6387.25574
-  tps: 5157.13116
  }
 }
 dps_results: {
@@ -761,13 +775,6 @@ dps_results: {
  value: {
   dps: 6387.25574
   tps: 5157.13116
- }
-}
-dps_results: {
- key: "TestArms-AllItems-SealofthePantheon-36993"
- value: {
-  dps: 6415.80942
-  tps: 5183.2982
  }
 }
 dps_results: {
@@ -1020,6 +1027,13 @@ dps_results: {
  value: {
   dps: 6479.42792
   tps: 5229.065
+ }
+}
+dps_results: {
+ key: "TestArms-AllItems-Warp-ScarabBrooch-27828"
+ value: {
+  dps: 6387.25574
+  tps: 5157.13116
  }
 }
 dps_results: {

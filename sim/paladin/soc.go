@@ -29,6 +29,7 @@ func (paladin *Paladin) registerSealOfCommandSpellAndAura() {
 
 	numHits := min(3, paladin.Env.GetNumTargets()) // primary target + 2 others
 	results := make([]*core.SpellResult, numHits)
+	bonusDamage := paladin.getPreS4GlovesBonus()
 
 	onJudgementProc := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: 20467}, // Judgement of Command
@@ -52,7 +53,8 @@ func (paladin *Paladin) registerSealOfCommandSpellAndAura() {
 				spell.BonusWeaponDamage()
 			baseDamage := 0.19*mhWeaponDamage +
 				0.08*spell.MeleeAttackPower() +
-				0.13*spell.SpellPower()
+				0.13*spell.SpellPower() +
+				bonusDamage
 
 			// Secondary Judgements cannot miss if the Primary Judgement hit, only roll for crit.
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialCritOnly)
