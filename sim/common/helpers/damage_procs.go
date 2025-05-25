@@ -20,7 +20,7 @@ func NewProcDamageEffect(config ProcDamageEffect) {
 		damageSpell := character.RegisterSpell(core.SpellConfig{
 			ActionID:    core.ActionID{ItemID: config.ID},
 			SpellSchool: config.School,
-			ProcMask:    core.ProcMaskEmpty,
+			ProcMask:    core.ProcMaskSpellDamage,
 
 			DamageMultiplier: 1,
 			CritMultiplier:   character.DefaultSpellCritMultiplier(),
