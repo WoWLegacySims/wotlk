@@ -151,6 +151,7 @@ func ApplyImbue(character *Character, imbue proto.WeaponImbue, isMH bool) {
 		return
 	}
 	bonusDamage := 0.0
+
 	switch imbue {
 	case proto.WeaponImbue_BrilliantWizardOil:
 		character.AddStats(stats.Stats{
@@ -215,6 +216,10 @@ func ApplyImbue(character *Character, imbue proto.WeaponImbue, isMH bool) {
 		if character.CurrentTarget.MobType == proto.MobType_MobTypeDemon || character.CurrentTarget.MobType == proto.MobType_MobTypeUndead {
 			character.PseudoStats.MobTypeAttackPower += 150
 		}
+	case proto.WeaponImbue_BlessedWeaponCoating:
+		blessedWeaponCoating(character)
+	case proto.WeaponImbue_RighteousWeaponCoating:
+		righteousWeaponCoating(character)
 	}
 	weapon := character.AutoAttacks.MH()
 	if !isMH {
@@ -243,6 +248,37 @@ func ApplyPetConsumeEffects(pet *Character, ownerConsumes *proto.Consumes) {
 }
 
 var PotionAuraTag = "Potion"
+
+func righteousWeaponCoating(character *Character) {
+	procAura := character.NewTemporaryStatsAura("Righteous Weapon Coating Proc", ActionID{ItemID: 34539}, stats.Stats{stats.AttackPower: 300, stats.RangedAttackPower: 300}, time.Second*10)
+
+	MakeProcTriggerAura(&character.Unit, ProcTrigger{
+		Name:       "Righteous Weapon Coating",
+		ActionID:   ActionID{ItemID: 34539},
+		Callback:   CallbackOnSpellHitDealt,
+		ProcMask:   ProcMaskMeleeOrRanged,
+		ICD:        time.Second * 45,
+		Outcome:    OutcomeLanded,
+		ProcChance: 1,
+		Handler: func(sim *Simulation, spell *Spell, result *SpellResult) {
+			procAura.Activate(sim)
+		},
+	})
+}
+
+func blessedWeaponCoating(character *Character) {
+	metrics := character.NewManaMetrics(ActionID{ItemID: 34538})
+	MakeProcTriggerAura(&character.Unit, ProcTrigger{
+		Name:     "Blessed Weapon Coating",
+		ActionID: ActionID{ItemID: 34538},
+		Callback: CallbackOnCastComplete,
+		PPM:      1,
+		ICD:      time.Second * 45,
+		Handler: func(sim *Simulation, spell *Spell, result *SpellResult) {
+			character.AddMana(sim, 165, metrics)
+		},
+	})
+}
 
 func registerPotionCD(agent Agent, consumes *proto.Consumes) {
 	character := agent.GetCharacter()
