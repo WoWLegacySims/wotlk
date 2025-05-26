@@ -201,6 +201,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDemonology-AllItems-CorruptorRaiment"
+ value: {
+  dps: 9207.67262
+  tps: 7463.13493
+ }
+}
+dps_results: {
  key: "TestDemonology-AllItems-DarkCoven'sRegalia"
  value: {
   dps: 12616.08005
@@ -566,6 +573,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDemonology-AllItems-OblivionRaiment"
+ value: {
+  dps: 8829.6089
+  tps: 7103.95836
+ }
+}
+dps_results: {
  key: "TestDemonology-AllItems-PendantoftheVioletEye-28727"
  value: {
   dps: 13055.92935
@@ -836,6 +850,13 @@ dps_results: {
  value: {
   dps: 13124.78951
   tps: 11123.9986
+ }
+}
+dps_results: {
+ key: "TestDemonology-AllItems-VoidheartRaiment"
+ value: {
+  dps: 9143.35313
+  tps: 7319.55912
  }
 }
 dps_results: {

@@ -328,6 +328,9 @@ func (shaman *Shaman) applyFlurry() {
 	if shaman.HasSetBonus(ItemSetEarthshatterBattlegear, 4) {
 		bonus += 0.05
 	}
+	if shaman.HasSetBonus(ItemSetCataclysmHarness, 4) {
+		bonus += 0.05
+	}
 
 	inverseBonus := 1 / bonus
 

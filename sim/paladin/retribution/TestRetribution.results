@@ -312,6 +312,22 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestRetribution-AllItems-CrystalforgeArmor"
+ value: {
+  dps: 4883.49978
+  tps: 4965.07678
+  dtps: 8.9031
+ }
+}
+dps_results: {
+ key: "TestRetribution-AllItems-CrystalforgeBattlegear"
+ value: {
+  dps: 5159.1016
+  tps: 5240.56352
+  dtps: 9.23894
+ }
+}
+dps_results: {
  key: "TestRetribution-AllItems-DarkmoonCard:Crusade-31856"
  value: {
   dps: 6470.66223
@@ -715,6 +731,22 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestRetribution-AllItems-JusticarArmor"
+ value: {
+  dps: 4987.33709
+  tps: 5068.91409
+  dtps: 8.9031
+ }
+}
+dps_results: {
+ key: "TestRetribution-AllItems-JusticarBattlegear"
+ value: {
+  dps: 21506.06421
+  tps: 21587.47402
+  dtps: 9.23894
+ }
+}
+dps_results: {
  key: "TestRetribution-AllItems-LastWord-50179"
  value: {
   dps: 6817.91358
@@ -809,6 +841,14 @@ dps_results: {
   tps: 6465.9263
   dtps: 9.48402
   hps: 1.95482
+ }
+}
+dps_results: {
+ key: "TestRetribution-AllItems-LightbringerArmor"
+ value: {
+  dps: 4364.89654
+  tps: 4445.74796
+  dtps: 8.9031
  }
 }
 dps_results: {

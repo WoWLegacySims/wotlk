@@ -1,6 +1,8 @@
 package druid
 
 import (
+	"time"
+
 	"github.com/WoWLegacySims/wotlk/sim/core"
 )
 
@@ -20,6 +22,10 @@ func (druid *Druid) registerInnervateCD() {
 	var innervateSpell *DruidSpell
 
 	innervateCD := core.InnervateCD
+
+	if druid.HasSetBonus(ItemSetMalorneRegalia, 4) {
+		innervateCD -= time.Second * 48
+	}
 
 	var innervateAura *core.Aura
 	var innervateManaThreshold float64

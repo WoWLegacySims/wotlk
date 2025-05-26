@@ -22,6 +22,9 @@ func (rogue *Rogue) registerSliceAndDice() {
 	if rogue.HasMajorGlyph(proto.RogueMajorGlyph_GlyphOfSliceAndDice) {
 		durationBonus += time.Second * 3
 	}
+	if rogue.HasSetBonus(Tier4, 2) {
+		durationBonus += time.Second * 3
+	}
 	rogue.sliceAndDiceDurations = [6]time.Duration{
 		0,
 		time.Duration(float64(time.Second*9+durationBonus) * durationMultiplier),
@@ -66,6 +69,7 @@ func (rogue *Rogue) registerSliceAndDice() {
 			IgnoreHaste: true,
 			ModifyCast: func(sim *core.Simulation, spell *core.Spell, cast *core.Cast) {
 				spell.SetMetricsSplit(spell.Unit.ComboPoints())
+				rogue.applyDeathmantle(sim, spell, cast)
 			},
 		},
 		ExtraCastCondition: func(sim *core.Simulation, target *core.Unit) bool {

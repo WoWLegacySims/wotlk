@@ -100,6 +100,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSmite-AllItems-AvatarRegalia"
+ value: {
+  dps: 1282.43772
+  tps: 1115.34232
+ }
+}
+dps_results: {
  key: "TestSmite-AllItems-BangleofEndlessBlessings-28370"
  value: {
   dps: 1653.42143
@@ -534,6 +541,13 @@ dps_results: {
  value: {
   dps: 1605.0262
   tps: 1389.93574
+ }
+}
+dps_results: {
+ key: "TestSmite-AllItems-IncarnateRaiment"
+ value: {
+  dps: 1244.07675
+  tps: 1083.11838
  }
 }
 dps_results: {

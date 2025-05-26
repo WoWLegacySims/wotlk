@@ -3,34 +3,9 @@ package priest
 import (
 	"time"
 
-	"github.com/WoWLegacySims/wotlk/sim/common/helpers"
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
-
-var ItemSetAbsolution = core.NewItemSet(core.ItemSet{
-	Name: "Absolution Regalia",
-	Bonuses: map[int32]core.ApplyEffect{
-		2: func(agent core.Agent) {
-			// Implemented in swp.go
-		},
-		4: func(agent core.Agent) {
-			// Implemented in mindblast.go
-		},
-	},
-})
-
-var ItemSetVestmentsOfAbsolution = core.NewItemSet(core.ItemSet{
-	Name: "Vestments of Absolution",
-	Bonuses: map[int32]core.ApplyEffect{
-		2: func(agent core.Agent) {
-			// Implemented in prayer_of_healing.go
-		},
-		4: func(agent core.Agent) {
-			// Implemented in greater_heal.go
-		},
-	},
-})
 
 var ItemSetValorous = core.NewItemSet(core.ItemSet{
 	Name: "Garb of Faith",
@@ -226,7 +201,3 @@ var ItemSetGladiatorsRaiment = core.NewItemSet(core.ItemSet{
 		},
 	},
 })
-
-func init() {
-	helpers.NewSpiritActive(30665, 300, time.Second*20, time.Minute*2)
-}

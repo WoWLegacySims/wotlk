@@ -7,40 +7,6 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
-/////////////////////////////////////////////////////////////////
-// TBC Item set
-/////////////////////////////////////////////////////////////////
-
-var ItemSetOnslaughtArmor = core.NewItemSet(core.ItemSet{
-	Name: "Onslaught Armor",
-	Bonuses: map[int32]core.ApplyEffect{
-		2: func(agent core.Agent) {
-			// Increases the health bonus from your Commanding Shout ability by 170.
-		},
-		4: func(agent core.Agent) {
-			// Increases the damage of your Shield Slam ability by 10%.
-			// Handled in shield_slam.go.
-		},
-	},
-})
-
-var ItemSetOnslaughtBattlegear = core.NewItemSet(core.ItemSet{
-	Name: "Onslaught Battlegear",
-	Bonuses: map[int32]core.ApplyEffect{
-		2: func(agent core.Agent) {
-			// Reduces the rage cost of your Execute ability by 3.
-		},
-		4: func(agent core.Agent) {
-			// Increases the damage of your Mortal Strike and Bloodthirst abilities by 5%.
-			// Handled in bloodthirst.go and mortal_strike.go.
-		},
-	},
-})
-
-/////////////////////////////////////////////////////////////////
-// Wrath Item set
-/////////////////////////////////////////////////////////////////
-
 var ItemSetGladiatorsBattlegear = core.NewItemSet(core.ItemSet{
 	Name: "Gladiator's Battlegear",
 	Bonuses: map[int32]core.ApplyEffect{
@@ -275,27 +241,3 @@ var ItemSetYmirjarLordsBattlegear = core.NewItemSet(core.ItemSet{
 		},
 	},
 })
-
-func init() {
-	core.NewItemEffect(32485, func(a core.Agent) {
-		character := a.(WarriorAgent).GetWarrior()
-		metrics := character.NewHealthMetrics(core.ActionID{ItemID: 32485})
-
-		aura := character.NewTemporaryStatsAura("Fire Blood", core.ActionID{SpellID: 40459}, stats.Stats{stats.Strength: 55}, time.Second*12)
-
-		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
-			Name:       "Ashtongue Talisman of Valor",
-			ActionID:   core.ActionID{ItemID: 32485},
-			Callback:   core.CallbackOnSpellHitDealt,
-			ProcMask:   core.ProcMaskMeleeSpecial,
-			Outcome:    core.OutcomeLanded,
-			ProcChance: 0.25,
-			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				if spell.IsSpell(character.MortalStrike) || spell.IsSpell(character.Bloodthirst) || spell.IsSpell(character.ShieldSlam) {
-					aura.Activate(sim)
-					character.GainHealth(sim, 330, metrics)
-				}
-			},
-		})
-	})
-}

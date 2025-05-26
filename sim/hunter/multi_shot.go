@@ -31,8 +31,9 @@ func (hunter *Hunter) registerMultiShotSpell(timer *core.Timer) {
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagAPL,
 
 		ManaCost: core.ManaCostOptions{
-			BaseCost:   0.09,
-			Multiplier: 1 - 0.03*float64(hunter.Talents.Efficiency),
+			BaseCost: 0.09,
+			Multiplier: (1 - 0.03*float64(hunter.Talents.Efficiency)) *
+				core.TernaryFloat64(hunter.HasSetBonus(ItemSetDemonStalker, 4), 0.9, 1),
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{

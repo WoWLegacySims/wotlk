@@ -86,6 +86,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSubtlety-AllItems-AssassinationArmor"
+ value: {
+  dps: 4470.94883
+  tps: 3174.37367
+ }
+}
+dps_results: {
  key: "TestSubtlety-AllItems-AustereEarthsiegeDiamond"
  value: {
   dps: 6290.40376
@@ -296,6 +303,13 @@ dps_results: {
  value: {
   dps: 6589.72106
   tps: 4678.70195
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-Deathmantle"
+ value: {
+  dps: 5037.48726
+  tps: 3576.61595
  }
 }
 dps_results: {
@@ -607,6 +621,13 @@ dps_results: {
  value: {
   dps: 6181.70164
   tps: 4389.00817
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-Netherblade"
+ value: {
+  dps: 4707.22411
+  tps: 3342.12912
  }
 }
 dps_results: {

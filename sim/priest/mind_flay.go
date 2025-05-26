@@ -26,7 +26,8 @@ func (priest *Priest) getMindFlayTickSpell(numTicks int32, bp float64, coef floa
 			core.TernaryFloat64(priest.HasSetBonus(ItemSetZabras, 4), 5, 0),
 		DamageMultiplier: 1 +
 			0.02*float64(priest.Talents.Darkness) +
-			0.01*float64(priest.Talents.TwinDisciplines),
+			0.01*float64(priest.Talents.TwinDisciplines) +
+			core.TernaryFloat64(priest.HasSetBonus(ItemSetIncarnateRegalia, 4), 0.05, 0),
 		CritMultiplier:   priest.SpellCritMultiplier(1, float64(priest.Talents.ShadowPower)/5),
 		ThreatMultiplier: 1 - 0.08*float64(priest.Talents.ShadowAffinity),
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {

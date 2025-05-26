@@ -93,6 +93,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestCombat-AllItems-AssassinationArmor"
+ value: {
+  dps: 4675.2921
+  tps: 3319.45739
+ }
+}
+dps_results: {
  key: "TestCombat-AllItems-AustereEarthsiegeDiamond"
  value: {
   dps: 6373.91735
@@ -345,6 +352,13 @@ dps_results: {
  value: {
   dps: 6753.73626
   tps: 4795.15274
+ }
+}
+dps_results: {
+ key: "TestCombat-AllItems-Deathmantle"
+ value: {
+  dps: 5220.77608
+  tps: 3706.75101
  }
 }
 dps_results: {
@@ -698,6 +712,13 @@ dps_results: {
  value: {
   dps: 6246.82033
   tps: 4435.24244
+ }
+}
+dps_results: {
+ key: "TestCombat-AllItems-Netherblade"
+ value: {
+  dps: 4905.92588
+  tps: 3483.20737
  }
 }
 dps_results: {

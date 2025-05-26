@@ -834,6 +834,22 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralTank-AllItems-MalorneHarness"
+ value: {
+  dps: 2124.52444
+  tps: 4500.2109
+  dtps: 6.91745
+ }
+}
+dps_results: {
+ key: "TestFeralTank-AllItems-MalorneRegalia"
+ value: {
+  dps: 1965.00706
+  tps: 4161.81468
+  dtps: 7.24385
+ }
+}
+dps_results: {
  key: "TestFeralTank-AllItems-MarkofConquest-27920"
  value: {
   dps: 2580.44364
@@ -926,6 +942,22 @@ dps_results: {
  value: {
   dps: 2099.4258
   tps: 4513.03981
+  dtps: 7.24385
+ }
+}
+dps_results: {
+ key: "TestFeralTank-AllItems-NordrassilHarness"
+ value: {
+  dps: 2148.19602
+  tps: 4526.14602
+  dtps: 6.91745
+ }
+}
+dps_results: {
+ key: "TestFeralTank-AllItems-NordrassilRegalia"
+ value: {
+  dps: 1997.12423
+  tps: 4244.1143
   dtps: 7.24385
  }
 }

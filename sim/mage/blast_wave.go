@@ -18,6 +18,8 @@ func (mage *Mage) registerBlastWaveSpell() {
 	bp, die := dbc.GetBPDie(0, mage.Level)
 	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(mage.Level)
 
+	cooldown := 30 - core.TernaryInt32(mage.HasSetBonus(ItemSetAldorRegalia, 2), 4, 0)
+
 	mage.BlastWave = mage.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellRanks:  mageinfo.BlastWave.GetAllIDs(),
@@ -33,7 +35,7 @@ func (mage *Mage) registerBlastWaveSpell() {
 			},
 			CD: core.Cooldown{
 				Timer:    mage.NewTimer(),
-				Duration: time.Second * 30,
+				Duration: time.Second * time.Duration(cooldown),
 			},
 		},
 		BonusCrit: float64(mage.Talents.CriticalMass+mage.Talents.WorldInFlames) * 2,

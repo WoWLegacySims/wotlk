@@ -24,6 +24,69 @@ var ItemSetTidefury = core.NewItemSet(core.ItemSet{
 	},
 })
 
+var ItemSetCycloneRegalia = core.NewItemSet(core.ItemSet{
+	Name: "Cyclone Regalia",
+	Bonuses: map[int32]core.ApplyEffect{
+		2: func(agent core.Agent) {
+			// Handled in weapon_imbues.go
+		},
+		4: func(agent core.Agent) {
+			shaman := agent.(ShamanAgent).GetShaman()
+
+			procAura := shaman.RegisterAura(core.Aura{
+				Label:    "Cyclone Regalia 4pc Proc",
+				Duration: time.Second * 15,
+				OnGain: func(aura *core.Aura, sim *core.Simulation) {
+					aura.Unit.PseudoStats.CostReduction += 270
+				},
+				OnExpire: func(aura *core.Aura, sim *core.Simulation) {
+					aura.Unit.PseudoStats.CostReduction -= 270
+				},
+				OnCastComplete: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell) {
+					aura.Deactivate(sim)
+				},
+			})
+
+			shaman.RegisterAura(core.Aura{
+				Label:    "Cyclone Regalia 4pc",
+				Duration: core.NeverExpires,
+				OnReset: func(aura *core.Aura, sim *core.Simulation) {
+					aura.Activate(sim)
+				},
+				OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+					if spell.ProcMask.Matches(core.ProcMaskMeleeOrRanged) {
+						return
+					}
+					if !result.Outcome.Matches(core.OutcomeCrit) || sim.RandomFloat("cycl4p") > 0.11 {
+						return // if not a crit or didn't proc, don't activate
+					}
+					procAura.Activate(sim)
+				},
+			})
+		},
+	},
+})
+
+var ItemSetCataclysmRegalia = core.NewItemSet(core.ItemSet{
+	Name: "Cataclysm Regalia",
+	Bonuses: map[int32]core.ApplyEffect{
+		4: func(agent core.Agent) {
+			shaman := agent.(ShamanAgent).GetShaman()
+			manaMetrics := shaman.NewManaMetrics(core.ActionID{SpellID: 37237})
+			core.MakeProcTriggerAura(&shaman.Unit, core.ProcTrigger{
+				Name:       "Cataclysm Regalia 4PC",
+				Callback:   core.CallbackOnSpellHitDealt,
+				ProcMask:   core.ProcMaskSpell,
+				Outcome:    core.OutcomeCrit,
+				ProcChance: 0.25,
+				Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+					shaman.AddMana(sim, 120, manaMetrics)
+				},
+			})
+		},
+	},
+})
+
 var ItemSetSkyshatterRegalia = core.NewItemSet(core.ItemSet{
 	Name: "Skyshatter Regalia",
 	Bonuses: map[int32]core.ApplyEffect{
@@ -44,6 +107,35 @@ var ItemSetSkyshatterRegalia = core.NewItemSet(core.ItemSet{
 		4: func(agent core.Agent) {
 			// Increases damage done by Lightning Bolt by 5%.
 			// Implemented in lightning_bolt.go.
+		},
+	},
+})
+
+// Cyclone Harness
+// (2) Set : Your Strength of Earth Totem ability grants an additional 12 strength.
+// (4) Set : Your Stormstrike ability does an additional 30 damage per weapon.
+
+var ItemSetCycloneHarness = core.NewItemSet(core.ItemSet{
+	Name: "Cyclone Harness",
+	Bonuses: map[int32]core.ApplyEffect{
+		2: func(agent core.Agent) {
+			// NYI
+		},
+		4: func(agent core.Agent) {
+			// stormstrike.go
+		},
+	},
+})
+
+// Cataclysm Harness
+// (2) Set : Your melee attacks have a chance to reduce the cast time of your next Lesser Healing Wave by 1.5 sec. (Proc chance: 2%)
+// (4) Set : You gain 5% additional haste from your Flurry ability.
+
+var ItemSetCataclysmHarness = core.NewItemSet(core.ItemSet{
+	Name: "Cataclysm Harness",
+	Bonuses: map[int32]core.ApplyEffect{
+		4: func(agent core.Agent) {
+			// shaman.go
 		},
 	},
 })

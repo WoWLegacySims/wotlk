@@ -400,6 +400,20 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-DestroyerArmor"
+ value: {
+  dps: 1181.94824
+  tps: 3098.38414
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-DestroyerBattlegear"
+ value: {
+  dps: 1216.11144
+  tps: 3154.95004
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-DestructiveSkyflareDiamond"
  value: {
   dps: 1433.9909
@@ -1219,6 +1233,20 @@ dps_results: {
  value: {
   dps: 1469.00599
   tps: 3797.72575
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-WarbringerArmor"
+ value: {
+  dps: 1155.19876
+  tps: 3036.28198
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-WarbringerBattlegear"
+ value: {
+  dps: 1196.98655
+  tps: 3124.45162
  }
 }
 dps_results: {

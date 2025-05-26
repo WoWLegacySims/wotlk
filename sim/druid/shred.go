@@ -17,6 +17,10 @@ func (druid *Druid) registerShredSpell() {
 	flatDamageBonus := dmg + core.TernaryFloat64(druid.Ranged().ID == 29390, 39, 0) +
 		core.TernaryFloat64(druid.Ranged().ID == 40713, 90, 0)
 
+	if druid.HasSetBonus(ItemSetNordrassilHarness, 4) {
+		flatDamageBonus += 33
+	}
+
 	hasGlyphofShred := druid.HasMajorGlyph(proto.DruidMajorGlyph_GlyphOfShred)
 	maxRipTicks := druid.MaxRipTicks()
 

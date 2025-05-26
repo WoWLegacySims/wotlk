@@ -176,6 +176,10 @@ func (shaman *Shaman) ApplyFlametongueImbueToItem(item *core.Item, isDownranked 
 	}
 
 	spBonus, _ := dbcPassive.GetBPDie(1, shaman.Level)
+	if shaman.HasSetBonus(ItemSetCycloneRegalia, 2) {
+		spBonus += 20
+	}
+
 	enchantID := dbc.Effects[0].MiscValueA
 
 	spMod := 1.0 + 0.1*float64(shaman.Talents.ElementalWeapons)

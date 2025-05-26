@@ -45,6 +45,9 @@ func (shaman *Shaman) newStormstrikeHitSpell(isMH bool) func(*core.Simulation, *
 	if shaman.Ranged().ID == TotemOfTheDancingFlame {
 		flatDamageBonus += 155
 	}
+	if shaman.HasSetBonus(ItemSetCycloneHarness, 4) {
+		flatDamageBonus += 30
+	}
 
 	var procMask core.ProcMask
 	if isMH {

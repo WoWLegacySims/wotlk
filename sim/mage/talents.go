@@ -284,7 +284,7 @@ func (mage *Mage) registerPresenceOfMindCD() {
 		return
 	}
 
-	cooldown := 120.0
+	cooldown := 120.0 - core.TernaryFloat64(mage.HasSetBonus(ItemSetAldorRegalia, 2), 24, 0)
 	if mage.Talents.ArcaneFlows > 0 {
 		cooldown *= 1 - (.15 * float64(mage.Talents.ArcaneFlows))
 	}

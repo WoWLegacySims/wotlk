@@ -100,6 +100,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestHoly-AllItems-AvatarRegalia"
+ value: {
+  tps: 34.03195
+  hps: 3573.9073
+ }
+}
+dps_results: {
  key: "TestHoly-AllItems-BangleofEndlessBlessings-28370"
  value: {
   tps: 35.62739
@@ -524,6 +531,13 @@ dps_results: {
  value: {
   tps: 35.14797
   hps: 4720.34318
+ }
+}
+dps_results: {
+ key: "TestHoly-AllItems-IncarnateRaiment"
+ value: {
+  tps: 32.42209
+  hps: 3540.91268
  }
 }
 dps_results: {

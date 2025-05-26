@@ -44,7 +44,8 @@ func (warlock *Warlock) registerCorruptionSpell() {
 			0.01*float64(warlock.Talents.Contagion) +
 			0.02*float64(warlock.Talents.ImprovedCorruption) +
 			core.TernaryFloat64(warlock.Talents.SiphonLife, 0.05, 0) +
-			core.TernaryFloat64(warlock.HasSetBonus(ItemSetGuldansRegalia, 4), 0.1, 0),
+			core.TernaryFloat64(warlock.HasSetBonus(ItemSetGuldansRegalia, 4), 0.1, 0) +
+			core.TernaryFloat64(warlock.HasSetBonus(ItemSetCorruptorRaiment, 4), 0.05, 0),
 		CritMultiplier:   warlock.SpellCritMultiplier(1, 1),
 		ThreatMultiplier: 1 - 0.1*float64(warlock.Talents.ImprovedDrainSoul),
 
@@ -52,7 +53,7 @@ func (warlock *Warlock) registerCorruptionSpell() {
 			Aura: core.Aura{
 				Label: "Corruption",
 			},
-			NumberOfTicks:       ticks,
+			NumberOfTicks:       ticks + core.TernaryInt32(warlock.HasSetBonus(ItemSetVoidheartRaiment, 4), 1, 0),
 			TickLength:          time.Second * 3,
 			AffectedByCastSpeed: warlock.HasMajorGlyph(proto.WarlockMajorGlyph_GlyphOfQuickDecay),
 

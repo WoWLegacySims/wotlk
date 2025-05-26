@@ -100,6 +100,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestShadow-AllItems-AvatarRegalia"
+ value: {
+  dps: 5373.50654
+  tps: 5222.34705
+ }
+}
+dps_results: {
  key: "TestShadow-AllItems-BangleofEndlessBlessings-28370"
  value: {
   dps: 6953.02974
@@ -534,6 +541,13 @@ dps_results: {
  value: {
   dps: 6788.45709
   tps: 6609.93762
+ }
+}
+dps_results: {
+ key: "TestShadow-AllItems-IncarnateRaiment"
+ value: {
+  dps: 5209.0026
+  tps: 5059.36023
  }
 }
 dps_results: {

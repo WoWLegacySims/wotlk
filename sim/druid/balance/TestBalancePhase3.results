@@ -735,6 +735,20 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBalancePhase3-AllItems-MalorneHarness"
+ value: {
+  dps: 4666.69866
+  tps: 4265.07229
+ }
+}
+dps_results: {
+ key: "TestBalancePhase3-AllItems-MalorneRegalia"
+ value: {
+  dps: 5960.93873
+  tps: 5544.29012
+ }
+}
+dps_results: {
  key: "TestBalancePhase3-AllItems-MarkofConquest-27920"
  value: {
   dps: 10990.83674
@@ -816,6 +830,20 @@ dps_results: {
  value: {
   dps: 9214.02101
   tps: 8795.32296
+ }
+}
+dps_results: {
+ key: "TestBalancePhase3-AllItems-NordrassilHarness"
+ value: {
+  dps: 4725.13303
+  tps: 4323.77725
+ }
+}
+dps_results: {
+ key: "TestBalancePhase3-AllItems-NordrassilRegalia"
+ value: {
+  dps: 6260.5457
+  tps: 5833.19725
  }
 }
 dps_results: {

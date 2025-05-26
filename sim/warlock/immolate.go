@@ -49,7 +49,8 @@ func (warlock *Warlock) registerImmolateSpell() {
 			0.03*float64(warlock.Talents.Emberstorm) +
 			0.1*float64(warlock.Talents.ImprovedImmolate) +
 			core.TernaryFloat64(warlock.HasSetBonus(ItemSetDeathbringerGarb, 2), 0.1, 0) +
-			core.TernaryFloat64(warlock.HasSetBonus(ItemSetGuldansRegalia, 4), 0.1, 0),
+			core.TernaryFloat64(warlock.HasSetBonus(ItemSetGuldansRegalia, 4), 0.1, 0) +
+			core.TernaryFloat64(warlock.HasSetBonus(ItemSetCorruptorRaiment, 4), 0.05, 0),
 		CritMultiplier:   warlock.SpellCritMultiplier(1, float64(warlock.Talents.Ruin)/5),
 		ThreatMultiplier: 1 - 0.1*float64(warlock.Talents.DestructiveReach),
 
@@ -69,7 +70,7 @@ func (warlock *Warlock) registerImmolateSpell() {
 					warlock.Incinerate.DamageMultiplierAdditive -= fireAndBrimstoneBonus
 				},
 			},
-			NumberOfTicks: 5 + warlock.Talents.MoltenCore,
+			NumberOfTicks: 5 + warlock.Talents.MoltenCore + core.TernaryInt32(warlock.HasSetBonus(ItemSetVoidheartRaiment, 4), 1, 0),
 			TickLength:    time.Second * 3,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {

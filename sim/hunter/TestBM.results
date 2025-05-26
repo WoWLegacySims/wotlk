@@ -151,6 +151,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBM-AllItems-BeastLordArmor"
+ value: {
+  dps: 4931.18148
+  tps: 3255.18069
+ }
+}
+dps_results: {
  key: "TestBM-AllItems-BlackBowoftheBetrayer-32336"
  value: {
   dps: 5876.08796
@@ -380,6 +387,13 @@ dps_results: {
  value: {
   dps: 6517.5772
   tps: 4486.72331
+ }
+}
+dps_results: {
+ key: "TestBM-AllItems-DemonStalkerArmor"
+ value: {
+  dps: 5042.6303
+  tps: 3335.60285
  }
 }
 dps_results: {
@@ -873,6 +887,13 @@ dps_results: {
  value: {
   dps: 6271.39506
   tps: 4251.39078
+ }
+}
+dps_results: {
+ key: "TestBM-AllItems-RiftStalkerArmor"
+ value: {
+  dps: 5191.41711
+  tps: 3451.59252
  }
 }
 dps_results: {

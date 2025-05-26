@@ -62,6 +62,10 @@ func (warlock *Warlock) NewWarlockPet() *WarlockPet {
 	wp.AddStatDependency(stats.Strength, stats.AttackPower, 2)
 	wp.AddStat(stats.AttackPower, -20)
 
+	if warlock.HasSetBonus(ItemSetOblivionRaiment, 2) {
+		wp.AddStat(stats.MP5, 45)
+	}
+
 	if warlock.Options.Summon == proto.Warlock_Options_Imp {
 		// imps are mages
 		wp.Class = proto.Class_ClassMage

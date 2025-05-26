@@ -22,6 +22,10 @@ func (warlock *Warlock) registerSeedSpell() {
 	bpExp, dieExp := dbcExp.GetBPDie(0, warlock.Level)
 	coefExp := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(warlock.Level)
 
+	if warlock.HasSetBonus(ItemSetOblivionRaiment, 4) {
+		bp += 180
+	}
+
 	seedExplosion := warlock.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: dbcExp.SpellID},
 		SpellSchool: core.SpellSchoolShadow,

@@ -7,6 +7,39 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
+var ItemSetBeastLord = core.NewItemSet(core.ItemSet{
+	Name: "Beast Lord Armor",
+	Bonuses: map[int32]core.ApplyEffect{
+		2: func(agent core.Agent) {
+		},
+		4: func(agent core.Agent) {
+			// Handled in kill_command.go
+		},
+	},
+})
+
+var ItemSetDemonStalker = core.NewItemSet(core.ItemSet{
+	Name: "Demon Stalker Armor",
+	Bonuses: map[int32]core.ApplyEffect{
+		2: func(agent core.Agent) {
+		},
+		4: func(agent core.Agent) {
+			// Handled in multi_shot.go
+		},
+	},
+})
+
+var ItemSetRiftStalker = core.NewItemSet(core.ItemSet{
+	Name: "Rift Stalker Armor",
+	Bonuses: map[int32]core.ApplyEffect{
+		2: func(agent core.Agent) {
+		},
+		4: func(agent core.Agent) {
+			// Handled in steady_shot.go
+		},
+	},
+})
+
 var ItemSetGronnstalker = core.NewItemSet(core.ItemSet{
 	Name: "Gronnstalker's Armor",
 	Bonuses: map[int32]core.ApplyEffect{

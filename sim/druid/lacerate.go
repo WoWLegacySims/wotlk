@@ -20,6 +20,10 @@ func (druid *Druid) registerLacerateSpell() {
 		initialDamage += 8
 	}
 
+	if druid.HasSetBonus(ItemSetNordrassilHarness, 4) {
+		tickDamage += 3
+	}
+
 	initialDamageMul := 1 *
 		core.TernaryFloat64(druid.HasSetBonus(ItemSetLasherweaveBattlegear, 2), 1.2, 1) *
 		core.TernaryFloat64(druid.HasSetBonus(ItemSetDreamwalkerBattlegear, 2), 1.05, 1)

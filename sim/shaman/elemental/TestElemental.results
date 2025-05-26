@@ -278,6 +278,20 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestElemental-AllItems-CataclysmHarness"
+ value: {
+  dps: 3987.39512
+  tps: 2336.59118
+ }
+}
+dps_results: {
+ key: "TestElemental-AllItems-CataclysmRegalia"
+ value: {
+  dps: 4684.20193
+  tps: 2759.71791
+ }
+}
+dps_results: {
  key: "TestElemental-AllItems-CelestialOrb-7515"
  value: {
   dps: 5806.44239
@@ -317,6 +331,20 @@ dps_results: {
  value: {
   dps: 5849.53688
   tps: 3437.61665
+ }
+}
+dps_results: {
+ key: "TestElemental-AllItems-CycloneHarness"
+ value: {
+  dps: 3924.22459
+  tps: 2301.22929
+ }
+}
+dps_results: {
+ key: "TestElemental-AllItems-CycloneRegalia"
+ value: {
+  dps: 4361.03709
+  tps: 2557.13831
  }
 }
 dps_results: {

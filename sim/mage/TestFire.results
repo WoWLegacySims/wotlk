@@ -51,6 +51,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFire-AllItems-AldorRegalia"
+ value: {
+  dps: 6478.50819
+  tps: 5219.53084
+ }
+}
+dps_results: {
  key: "TestFire-AllItems-AlembicofInfernalPower-27896"
  value: {
   dps: 10129.91633
@@ -962,6 +969,13 @@ dps_results: {
  value: {
   dps: 10370.03459
   tps: 8353.82002
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-TirisfalRegalia"
+ value: {
+  dps: 6707.71174
+  tps: 5403.41424
  }
 }
 dps_results: {

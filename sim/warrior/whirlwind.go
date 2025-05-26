@@ -38,7 +38,7 @@ func (warrior *Warrior) registerWhirlwindSpell() {
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | SpellFlagBloodsurge | core.SpellFlagAPL,
 
 		RageCost: core.RageCostOptions{
-			Cost: 25 - float64(warrior.Talents.FocusedRage),
+			Cost: 25 - float64(warrior.Talents.FocusedRage) - core.TernaryFloat64(warrior.HasSetBonus(ItemSetWarbringerBattlegear, 2), 5, 0),
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{

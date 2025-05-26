@@ -145,6 +145,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDisc-AllItems-AvatarRegalia"
+ value: {
+  tps: 13.59679
+  hps: 3175.03269
+ }
+}
+dps_results: {
  key: "TestDisc-AllItems-BangleofEndlessBlessings-28370"
  value: {
   tps: 16.13592
@@ -569,6 +576,13 @@ dps_results: {
  value: {
   tps: 13.27119
   hps: 3776.87516
+ }
+}
+dps_results: {
+ key: "TestDisc-AllItems-IncarnateRaiment"
+ value: {
+  tps: 12.34291
+  hps: 3116.67938
  }
 }
 dps_results: {

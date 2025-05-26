@@ -201,6 +201,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDestruction-AllItems-CorruptorRaiment"
+ value: {
+  dps: 9165.53143
+  tps: 7346.66565
+ }
+}
+dps_results: {
  key: "TestDestruction-AllItems-DarkCoven'sRegalia"
  value: {
   dps: 12593.01344
@@ -566,6 +573,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDestruction-AllItems-OblivionRaiment"
+ value: {
+  dps: 8819.79227
+  tps: 7048.19129
+ }
+}
+dps_results: {
  key: "TestDestruction-AllItems-PendantoftheVioletEye-28727"
  value: {
   dps: 13095.72121
@@ -836,6 +850,13 @@ dps_results: {
  value: {
   dps: 13094.53835
   tps: 10752.05616
+ }
+}
+dps_results: {
+ key: "TestDestruction-AllItems-VoidheartRaiment"
+ value: {
+  dps: 9065.70782
+  tps: 7233.52879
  }
 }
 dps_results: {

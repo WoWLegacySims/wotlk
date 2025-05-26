@@ -30,6 +30,7 @@ func (paladin *Paladin) registerSealOfCommandSpellAndAura() {
 	numHits := min(3, paladin.Env.GetNumTargets()) // primary target + 2 others
 	results := make([]*core.SpellResult, numHits)
 	bonusDamage := paladin.getPreS4GlovesBonus()
+	bonusDamage += core.TernaryFloat64(paladin.HasSetBonus(ItemSetJusticarBattlegear, 2), 33, 0)
 
 	onJudgementProc := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: 20467}, // Judgement of Command
@@ -43,7 +44,9 @@ func (paladin *Paladin) registerSealOfCommandSpellAndAura() {
 		DamageMultiplier: 1 *
 			(1 + paladin.getItemSetLightswornBattlegearBonus4() +
 				paladin.getMajorGlyphOfJudgementBonus() + paladin.getTalentTheArtOfWarBonus()) *
-			(1 + paladin.getTalentTwoHandedWeaponSpecializationBonus()),
+			(1 + paladin.getTalentTwoHandedWeaponSpecializationBonus()) *
+			(1 + core.TernaryFloat64(paladin.HasSetBonus(ItemSetJusticarBattlegear, 4), 0.1, 0)) *
+			(1 + core.TernaryFloat64(paladin.HasSetBonus(ItemSetJusticarArmor, 2), 0.1, 0)),
 		CritMultiplier:   paladin.MeleeCritMultiplier(),
 		ThreatMultiplier: 1,
 

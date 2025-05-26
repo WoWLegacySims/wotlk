@@ -456,6 +456,14 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestRestoration-AllItems-MalorneHarness"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-MalorneRegalia"
+ value: {}
+}
+dps_results: {
  key: "TestRestoration-AllItems-MarkofConquest-27920"
  value: {}
 }
@@ -501,6 +509,14 @@ dps_results: {
 }
 dps_results: {
  key: "TestRestoration-AllItems-NightsongGarb"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-NordrassilHarness"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-NordrassilRegalia"
  value: {}
 }
 dps_results: {

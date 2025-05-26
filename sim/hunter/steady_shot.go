@@ -81,7 +81,8 @@ func (hunter *Hunter) registerSteadyShotSpell() {
 		},
 
 		BonusCrit: 0 +
-			2*float64(hunter.Talents.SurvivalInstincts),
+			2*float64(hunter.Talents.SurvivalInstincts) +
+			core.TernaryFloat64(hunter.HasSetBonus(ItemSetRiftStalker, 4), 5, 0),
 		DamageMultiplierAdditive: 1 +
 			.03*float64(hunter.Talents.FerociousInspiration) +
 			core.TernaryFloat64(hunter.HasSetBonus(ItemSetGronnstalker, 4), .1, 0),

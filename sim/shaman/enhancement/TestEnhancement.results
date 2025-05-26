@@ -235,6 +235,20 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestEnhancement-AllItems-CataclysmHarness"
+ value: {
+  dps: 5785.16885
+  tps: 3438.23662
+ }
+}
+dps_results: {
+ key: "TestEnhancement-AllItems-CataclysmRegalia"
+ value: {
+  dps: 5605.28002
+  tps: 3316.97529
+ }
+}
+dps_results: {
  key: "TestEnhancement-AllItems-CelestialOrb-7515"
  value: {
   dps: 4889.932
@@ -275,6 +289,20 @@ dps_results: {
   dps: 7287.24046
   tps: 4398.0868
   hps: 64
+ }
+}
+dps_results: {
+ key: "TestEnhancement-AllItems-CycloneHarness"
+ value: {
+  dps: 5492.01705
+  tps: 3251.57715
+ }
+}
+dps_results: {
+ key: "TestEnhancement-AllItems-CycloneRegalia"
+ value: {
+  dps: 5506.01982
+  tps: 3245.19539
  }
 }
 dps_results: {

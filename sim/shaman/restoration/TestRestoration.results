@@ -156,6 +156,14 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestRestoration-AllItems-CataclysmHarness"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-CataclysmRegalia"
+ value: {}
+}
+dps_results: {
  key: "TestRestoration-AllItems-CelestialOrb-7515"
  value: {}
 }
@@ -180,6 +188,14 @@ dps_results: {
  value: {
   hps: 64
  }
+}
+dps_results: {
+ key: "TestRestoration-AllItems-CycloneHarness"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-CycloneRegalia"
+ value: {}
 }
 dps_results: {
  key: "TestRestoration-AllItems-DarkmoonCard:Crusade-31856"

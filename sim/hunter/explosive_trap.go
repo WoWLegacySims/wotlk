@@ -36,7 +36,7 @@ func (hunter *Hunter) registerExplosiveTrapSpell(timer *core.Timer) {
 			},
 			CD: core.Cooldown{
 				Timer:    timer,
-				Duration: time.Second*30 - time.Second*2*time.Duration(hunter.Talents.Resourcefulness),
+				Duration: time.Second*30 - time.Second*2*time.Duration(hunter.Talents.Resourcefulness) - time.Second*time.Duration(core.TernaryInt32(hunter.HasSetBonus(ItemSetBeastLord, 2), 4, 0)),
 			},
 		},
 

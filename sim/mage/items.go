@@ -7,21 +7,6 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
-// T6 Sunwell
-var ItemSetTempestRegalia = core.NewItemSet(core.ItemSet{
-	Name: "Tempest Regalia",
-	Bonuses: map[int32]core.ApplyEffect{
-		2: func(agent core.Agent) {
-			// Increases the duration of your Evocation ability by 2 sec.
-			// Implemented in evocation.go.
-		},
-		4: func(agent core.Agent) {
-			// Increases the damage of your Fireball, Frostbolt, and Arcane Missles abilities by 5%.
-			// Implemented in the files for those spells.
-		},
-	},
-})
-
 // T7 Naxx
 var ItemSetFrostfireGarb = core.NewItemSet(core.ItemSet{
 	Name: "Frostfire Garb",
@@ -132,22 +117,3 @@ var ItemSetGladiatorsRegalia = core.NewItemSet(core.ItemSet{
 		},
 	},
 })
-
-func init() {
-	core.NewItemEffect(32488, func(a core.Agent) {
-		character := a.GetCharacter()
-		aura := character.NewTemporaryStatsAura("Insight of the Ashtongue", core.ActionID{SpellID: 40483}, stats.Stats{stats.SpellHaste: 145}, time.Second*5)
-
-		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
-			Name:       "Ashtongue Talisman of Insight",
-			ActionID:   core.ActionID{ItemID: 32488},
-			Callback:   core.CallbackOnSpellHitDealt,
-			ProcMask:   core.ProcMaskSpellDamage,
-			Outcome:    core.OutcomeCrit,
-			ProcChance: 0.5,
-			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				aura.Activate(sim)
-			},
-		})
-	})
-}

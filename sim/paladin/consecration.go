@@ -16,7 +16,6 @@ func (paladin *Paladin) registerConsecrationSpell() {
 		return
 	}
 	bp, _ := dbc.GetBPDie(0, paladin.Level)
-	// TODO: Properly implement max rank consecration.
 	bonusSpellPower := 0 +
 		core.TernaryFloat64(paladin.Ranged().ID == 27917, 47*0.8, 0) +
 		core.TernaryFloat64(paladin.Ranged().ID == 40337, 141, 0) // Libram of Resurgence
@@ -42,7 +41,7 @@ func (paladin *Paladin) registerConsecrationSpell() {
 			},
 		},
 
-		DamageMultiplier: 1,
+		DamageMultiplier: 1 * core.TernaryFloat64(paladin.HasSetBonus(ItemSetLightbringerArmor, 4), 1.1, 1),
 		ThreatMultiplier: 1,
 
 		Dot: core.DotConfig{

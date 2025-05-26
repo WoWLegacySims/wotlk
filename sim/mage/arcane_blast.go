@@ -42,7 +42,7 @@ func (mage *Mage) registerArcaneBlastSpell() {
 
 		ManaCost: core.ManaCostOptions{
 			BaseCost:   0.07,
-			Multiplier: 1 - .01*float64(mage.Talents.ArcaneFocus),
+			Multiplier: (1 - .01*float64(mage.Talents.ArcaneFocus)) * core.TernaryFloat64(mage.HasSetBonus(ItemSetTirisfalRegalia, 2), 1.05, 1),
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
@@ -56,7 +56,8 @@ func (mage *Mage) registerArcaneBlastSpell() {
 			float64(mage.Talents.Incineration)*2 +
 			core.TernaryFloat64(mage.HasSetBonus(ItemSetKhadgarsRegalia, 4), 5, 0),
 		DamageMultiplier: 1 *
-			(1 + .04*float64(mage.Talents.TormentTheWeak)),
+			(1 + .04*float64(mage.Talents.TormentTheWeak)) *
+			(core.TernaryFloat64(mage.HasSetBonus(ItemSetTirisfalRegalia, 2), 1.05, 1)),
 		DamageMultiplierAdditive: 1 +
 			.02*float64(mage.Talents.SpellImpact),
 		CritMultiplier:   mage.SpellCritMultiplier(1, mage.bonusCritDamage),

@@ -99,7 +99,7 @@ func (paladin *Paladin) registerSealOfVengeanceSpellAndAura() {
 			}
 		},
 	})
-	bonusDamage := paladin.getPreS4GlovesBonus()
+	bonusDamage := paladin.getPreS4GlovesBonus() + core.TernaryFloat64(paladin.HasSetBonus(ItemSetJusticarBattlegear, 2), 33, 0)
 	onJudgementProc := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: 31804}, // Judgement of Vengeance.
 		SpellSchool: core.SpellSchoolHoly,
@@ -138,7 +138,8 @@ func (paladin *Paladin) registerSealOfVengeanceSpellAndAura() {
 		// (mult * weaponScaling / stacks)
 		DamageMultiplier: 1 *
 			(1 + paladin.getItemSetLightswornBattlegearBonus4() + paladin.getItemSetAegisPlateBonus2() + paladin.getTalentSealsOfThePureBonus()) *
-			(1 + paladin.getTalentTwoHandedWeaponSpecializationBonus()) * .33 / 5,
+			(1 + paladin.getTalentTwoHandedWeaponSpecializationBonus()) *
+			(1 + core.TernaryFloat64(paladin.HasSetBonus(ItemSetJusticarArmor, 2), 0.1, 0)) * .33 / 5,
 		CritMultiplier:   paladin.MeleeCritMultiplier(),
 		ThreatMultiplier: 1,
 

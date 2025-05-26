@@ -25,6 +25,11 @@ func (druid *Druid) registerStarfireSpell() {
 
 	hasGlyph := druid.HasMajorGlyph(proto.DruidMajorGlyph_GlyphOfStarfire)
 
+	nordrassilMult := 1.0
+	if druid.HasSetBonus(ItemSetNordrassilRegalia, 4) {
+		nordrassilMult = 1.1
+	}
+
 	starfireGlyphSpell := druid.RegisterSpell(Humanoid|Moonkin, core.SpellConfig{
 		ActionID: core.ActionID{SpellID: 54845},
 		ProcMask: core.ProcMaskSuppressedProc,
@@ -68,6 +73,9 @@ func (druid *Druid) registerStarfireSpell() {
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			baseDamage := sim.Roll(bp, die) + ((spell.SpellPower() + idolSpellPower) * spellCoeff) + (spell.SpellPower() * bonusCoeff)
+			if druid.Moonfire.Dot(target).IsActive() || druid.InsectSwarm.Dot(target).IsActive() {
+				baseDamage *= nordrassilMult
+			}
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 			if result.Landed() && hasGlyph {
 				starfireGlyphSpell.Cast(sim, target)

@@ -3,7 +3,6 @@ package rogue
 import (
 	"time"
 
-	"github.com/WoWLegacySims/wotlk/sim/common/helpers"
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
@@ -132,73 +131,3 @@ var Tier7 = core.NewItemSet(core.ItemSet{
 		},
 	},
 })
-
-var Tier6 = core.NewItemSet(core.ItemSet{
-	Name: "Slayer's Armor",
-	Bonuses: map[int32]core.ApplyEffect{
-		2: func(agent core.Agent) {
-			// Increases the haste from your Slice and Dice ability by 5%.
-			// Handled in slice_and_dice.go.
-		},
-		4: func(agent core.Agent) {
-			// Increases the damage dealt by your Backstab, Sinister Strike, Mutilate, and Hemorrhage abilities by 6%.
-			// Handled in the corresponding ability files.
-		},
-	},
-})
-
-func init() {
-	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
-		Name:       "Warp-Spring-Coil",
-		ID:         30450,
-		AuraID:     37174,
-		Bonus:      stats.Stats{stats.ArmorPenetration: 142},
-		Duration:   time.Second * 15,
-		Callback:   core.CallbackOnSpellHitDealt,
-		ProcMask:   core.ProcMaskMeleeMHSpecial,
-		Outcome:    core.OutcomeLanded,
-		ProcChance: 0.25,
-		ICD:        time.Second * 30,
-	})
-
-	core.NewItemEffect(32492, func(agent core.Agent) {
-		rogue := agent.(RogueAgent).GetRogue()
-		procAura := rogue.NewTemporaryStatsAura("Ashtongue Talisman Proc", core.ActionID{ItemID: 32492}, stats.Stats{stats.MeleeCrit: 145}, time.Second*10)
-
-		var numPoints int32
-
-		rogue.RegisterAura(core.Aura{
-			Label:    "Ashtongue Talisman",
-			Duration: core.NeverExpires,
-			OnReset: func(aura *core.Aura, sim *core.Simulation) {
-				numPoints = 0
-				aura.Activate(sim)
-			},
-			OnCastComplete: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell) {
-				if !spell.Flags.Matches(SpellFlagFinisher) {
-					return
-				}
-
-				// Need to store the points because they get spent before OnSpellHit is called.
-				numPoints = rogue.ComboPoints()
-
-				if spell == rogue.SliceAndDice {
-					// SND won't call OnSpellHit, so we have to add the effect now.
-					if p := 0.2 * float64(numPoints); sim.Proc(p, "AshtongueTalismanOfLethality") {
-						procAura.Activate(sim)
-					}
-				}
-			},
-			OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				if !spell.Flags.Matches(SpellFlagFinisher) {
-					return
-				}
-
-				if p := 0.2 * float64(numPoints); sim.Proc(p, "AshtongueTalismanOfLethality") {
-					procAura.Activate(sim)
-				}
-			},
-		})
-	})
-
-}

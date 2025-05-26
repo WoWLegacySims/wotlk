@@ -3,45 +3,9 @@ package paladin
 import (
 	"time"
 
-	"github.com/WoWLegacySims/wotlk/sim/common/helpers"
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
-
-// Tier 6 ret
-var ItemSetLightbringerBattlegear = core.NewItemSet(core.ItemSet{
-	Name: "Lightbringer Battlegear",
-	Bonuses: map[int32]core.ApplyEffect{
-		2: func(agent core.Agent) {
-			paladin := agent.(PaladinAgent).GetPaladin()
-			manaMetrics := paladin.NewManaMetrics(core.ActionID{SpellID: 38428})
-
-			paladin.RegisterAura(core.Aura{
-				Label:    "Lightbringer Battlegear 2pc",
-				Duration: core.NeverExpires,
-				OnReset: func(aura *core.Aura, sim *core.Simulation) {
-					aura.Activate(sim)
-				},
-				OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-					if !spell.ProcMask.Matches(core.ProcMaskMelee) {
-						return
-					}
-					if sim.RandomFloat("lightbringer 2pc") > 0.2 {
-						return
-					}
-					paladin.AddMana(sim, 50, manaMetrics)
-				},
-			})
-		},
-		4: func(agent core.Agent) {
-			// Implemented in hammer_of_wrath.go
-		},
-	},
-})
-
-func (paladin *Paladin) getItemSetLightbringerBattlegearBonus4() float64 {
-	return core.TernaryFloat64(paladin.HasSetBonus(ItemSetLightbringerBattlegear, 4), .1, 0)
-}
 
 // Tier 7 ret
 var ItemSetRedemptionBattlegear = core.NewItemSet(core.ItemSet{
@@ -242,50 +206,6 @@ func (paladin *Paladin) getPreS4GlovesBonus() float64 {
 
 func init() {
 	// Librams implemented in seals.go and judgement.go
-
-	core.NewItemEffect(27484, func(agent core.Agent) {
-		paladin := agent.(PaladinAgent).GetPaladin()
-		procAura := paladin.NewTemporaryStatsAura("Libram of Avengement Proc", core.ActionID{SpellID: 48835}, stats.Stats{stats.MeleeCrit: 53, stats.SpellCrit: 53}, time.Second*5)
-
-		paladin.RegisterAura(core.Aura{
-			Label:    "Libram of Avengement",
-			Duration: core.NeverExpires,
-			OnReset: func(aura *core.Aura, sim *core.Simulation) {
-				aura.Activate(sim)
-			},
-			OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				if spell.Flags.Matches(SpellFlagSecondaryJudgement) {
-					procAura.Activate(sim)
-				}
-			},
-		})
-	})
-
-	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
-		Name:       "Tome of Fiery Redemption",
-		ID:         30447,
-		AuraID:     37198,
-		Bonus:      stats.Stats{stats.SpellPower: 290},
-		Duration:   time.Second * 15,
-		Callback:   core.CallbackOnCastComplete,
-		ProcMask:   core.ProcMaskSpell,
-		ProcChance: 0.15,
-		ICD:        time.Second * 45,
-	})
-
-	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
-		Name:       "Libram of Divine Judgement",
-		ID:         33503,
-		AuraID:     43747,
-		Bonus:      stats.Stats{stats.AttackPower: 200},
-		Duration:   time.Second * 10,
-		Callback:   core.CallbackOnSpellHitDealt,
-		Outcome:    core.OutcomeLanded,
-		ProcChance: 0.4,
-		CustomCheck: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) bool {
-			return spell.IsSpellAction(20467)
-		},
-	})
 
 	core.NewItemEffect(37574, func(agent core.Agent) {
 		paladin := agent.(PaladinAgent).GetPaladin()
