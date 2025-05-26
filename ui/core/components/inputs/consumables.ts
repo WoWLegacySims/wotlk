@@ -224,8 +224,8 @@ export const IMBUE_CONFIG = [
 { config : {actionId: ActionId.fromItemId(3240), value: WeaponImbue.CoarseWeightStone}, stats: [Stat.StatAttackPower],level: 5, type: "blunt"},
 { config : {actionId: ActionId.fromItemId(2862), value: WeaponImbue.RoughSharpeningStone }, stats: [Stat.StatAttackPower],level: 1, type: "sharp"},
 { config : {actionId: ActionId.fromItemId(3239), value: WeaponImbue.RoughWeightStone}, stats: [Stat.StatAttackPower],level: 1, type: "blunt"},
-{ config : {actionId: ActionId.fromItemId(3239), value: WeaponImbue.RighteousWeaponCoating}, stats: [Stat.StatAttackPower],level: 70},
-{ config : {actionId: ActionId.fromItemId(3239), value: WeaponImbue.BlessedWeaponCoating}, stats: [Stat.StatMP5],level: 70},
+{ config : {actionId: ActionId.fromItemId(34539), value: WeaponImbue.RighteousWeaponCoating}, stats: [Stat.StatAttackPower],level: 70},
+{ config : {actionId: ActionId.fromItemId(34538), value: WeaponImbue.BlessedWeaponCoating}, stats: [Stat.StatMP5],level: 70},
 { config : {actionId: ActionId.fromItemId(30696), value: WeaponImbue.ConsecratedWeapon}, stats: [Stat.StatAttackPower], condition: player => { return player.isClass(Class.ClassPaladin) && player.getEquippedItem(ItemSlot.ItemSlotMainHand)!.item.ilvl < 138 && player.hasTrinketEquipped(30696)
 }},
 ] as ImbueConsumableStatOption[];
