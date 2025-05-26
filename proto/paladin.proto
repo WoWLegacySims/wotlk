@@ -153,15 +153,15 @@ enum PaladinSeal {
 }
 
 enum PaladinJudgement {
-	JudgementOfWisdom = 0;
-	JudgementOfLight = 1;
-	NoJudgement = 2;
+	NoJudgement = 0;
+	JudgementOfWisdom = 1;
+	JudgementOfLight = 2;
 }
 
 message RetributionPaladin {
 	message Rotation {
 	}
-	
+
 	message Options {
 		PaladinJudgement judgement = 1;
 		PaladinSeal seal = 2;

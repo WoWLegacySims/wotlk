@@ -63,12 +63,21 @@ func (ret *RetributionPaladin) Reset(sim *core.Simulation) {
 
 	switch ret.Seal {
 	case proto.PaladinSeal_Vengeance:
+		if ret.SealOfVengeanceAura == nil {
+			return
+		}
 		ret.CurrentSeal = ret.SealOfVengeanceAura
 		ret.SealOfVengeanceAura.Activate(sim)
 	case proto.PaladinSeal_Command:
+		if ret.SealOfCommandAura == nil {
+			return
+		}
 		ret.CurrentSeal = ret.SealOfCommandAura
 		ret.SealOfCommandAura.Activate(sim)
 	case proto.PaladinSeal_Righteousness:
+		if ret.SealOfRighteousnessAura == nil {
+			return
+		}
 		ret.CurrentSeal = ret.SealOfRighteousnessAura
 		ret.SealOfRighteousnessAura.Activate(sim)
 	}

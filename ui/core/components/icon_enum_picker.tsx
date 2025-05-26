@@ -163,7 +163,7 @@ export class IconEnumPicker<ModObject, T> extends Input<ModObject, T> {
 
 	update() {
 		super.update();
-		this.setActive(this.enabled && !this.config.equals(this.currentValue, this.config.zeroValue));
+		this.updateState(this.currentValue)
 	}
 
 	getInputElem(): HTMLElement {
@@ -176,7 +176,7 @@ export class IconEnumPicker<ModObject, T> extends Input<ModObject, T> {
 
 	setInputValue(newValue: T) {
 		this.currentValue = newValue;
-		this.setActive(this.enabled && !this.config.equals(this.currentValue, this.config.zeroValue));
+		this.updateState(this.currentValue)
 
 		this.buttonText.textContent = '';
 		this.buttonText.style.display = 'none';
@@ -195,8 +195,26 @@ export class IconEnumPicker<ModObject, T> extends Input<ModObject, T> {
 		}
 	}
 
+	updateState(value: T) {
+		const valueConf = this.config.values.find(v => this.config.equals(value,v.value))
+		if(valueConf && (!valueConf.showWhen || valueConf.showWhen(this.modObject))) {
+			this.setError(false)
+			if(this.enabled && !this.config.equals(value, this.config.zeroValue)) this.setActive(true);
+			else this.setActive(false)
+		}
+		else {
+			this.setError(true)
+			this.setActive(false)
+		}
+	}
+
 	setActive(active: boolean) {
 		if (active) this.buttonElem.classList.add('active');
 		else this.buttonElem.classList.remove('active');
+	}
+
+	setError(error: boolean) {
+		if (error) this.buttonElem.classList.add('error');
+		else this.buttonElem.classList.remove('error');
 	}
 }

@@ -21,6 +21,11 @@
       border-color: $success;
       filter: none;
     }
+
+	&.error {
+		border-color: $error;
+		filter: none;
+	}
   }
 
   .icon-picker-button,

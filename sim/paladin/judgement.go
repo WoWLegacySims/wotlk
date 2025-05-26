@@ -11,8 +11,8 @@ import (
 // Shared conditions required to be able to cast any Judgement.
 //
 //nolint:unused
-func (paladin *Paladin) canJudgement(sim *core.Simulation) bool {
-	return paladin.CurrentSeal != nil && paladin.CurrentSeal.IsActive() && paladin.JudgementOfLight.IsReady(sim)
+func (paladin *Paladin) canJudgement() bool {
+	return paladin.CurrentSeal != nil && paladin.CurrentSeal.IsActive()
 }
 
 func (paladin *Paladin) registerJudgementOfWisdomSpell(cdTimer *core.Timer) {
@@ -43,6 +43,9 @@ func (paladin *Paladin) registerJudgementOfWisdomSpell(cdTimer *core.Timer) {
 					core.TernaryDuration(paladin.HasSetBonus(ItemSetRedemptionBattlegear, 4), 1*time.Second, 0) -
 					core.TernaryDuration(paladin.HasSetBonus(ItemSetGladiatorsVindication, 4), 1*time.Second, 0),
 			},
+		},
+		ExtraCastCondition: func(sim *core.Simulation, target *core.Unit) bool {
+			return paladin.canJudgement()
 		},
 		DamageMultiplier: 1 + core.TernaryFloat64(paladin.HasSetBonus(ItemSetJusticarBattlegear, 4), 0.1, 0),
 
@@ -90,6 +93,9 @@ func (paladin *Paladin) registerJudgementOfLightSpell(cdTimer *core.Timer) {
 					core.TernaryDuration(paladin.HasSetBonus(ItemSetRedemptionBattlegear, 4), 1*time.Second, 0) -
 					core.TernaryDuration(paladin.HasSetBonus(ItemSetGladiatorsVindication, 4), 1*time.Second, 0),
 			},
+		},
+		ExtraCastCondition: func(sim *core.Simulation, target *core.Unit) bool {
+			return paladin.canJudgement()
 		},
 		DamageMultiplier: 1 + core.TernaryFloat64(paladin.HasSetBonus(ItemSetJusticarBattlegear, 4), 0.1, 0),
 
