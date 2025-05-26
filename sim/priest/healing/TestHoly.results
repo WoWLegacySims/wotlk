@@ -611,6 +611,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestHoly-AllItems-PendantoftheVioletEye-28727"
+ value: {
+  tps: 36.20749
+  hps: 4745.5254
+ }
+}
+dps_results: {
  key: "TestHoly-AllItems-PersistentEarthshatterDiamond"
  value: {
   tps: 35.14797
@@ -685,6 +692,13 @@ dps_results: {
  value: {
   tps: 35.0129
   hps: 4781.0781
+ }
+}
+dps_results: {
+ key: "TestHoly-AllItems-Riftmaker-29182"
+ value: {
+  tps: 39.00269
+  hps: 4822.76512
  }
 }
 dps_results: {
@@ -776,6 +790,13 @@ dps_results: {
  value: {
   tps: 42.67823
   hps: 4842.23565
+ }
+}
+dps_results: {
+ key: "TestHoly-AllItems-SpyglassoftheHiddenFleet-30620"
+ value: {
+  tps: 35.66812
+  hps: 4676.94519
  }
 }
 dps_results: {

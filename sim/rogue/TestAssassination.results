@@ -589,6 +589,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestAssassination-AllItems-PendantoftheVioletEye-28727"
+ value: {
+  dps: 6504.2226
+  tps: 4617.99805
+ }
+}
+dps_results: {
  key: "TestAssassination-AllItems-PersistentEarthshatterDiamond"
  value: {
   dps: 6717.07289
@@ -656,6 +663,13 @@ dps_results: {
  value: {
   dps: 6690.74662
   tps: 4750.4301
+ }
+}
+dps_results: {
+ key: "TestAssassination-AllItems-Riftmaker-29182"
+ value: {
+  dps: 6801.83469
+  tps: 4829.30263
  }
 }
 dps_results: {
@@ -747,6 +761,13 @@ dps_results: {
  value: {
   dps: 6666.73976
   tps: 4733.38523
+ }
+}
+dps_results: {
+ key: "TestAssassination-AllItems-SpyglassoftheHiddenFleet-30620"
+ value: {
+  dps: 6504.2226
+  tps: 4617.99805
  }
 }
 dps_results: {
@@ -894,6 +915,13 @@ dps_results: {
  value: {
   dps: 6504.2226
   tps: 4617.99805
+ }
+}
+dps_results: {
+ key: "TestAssassination-AllItems-Warp-SpringCoil-30450"
+ value: {
+  dps: 6559.35757
+  tps: 4657.14387
  }
 }
 dps_results: {

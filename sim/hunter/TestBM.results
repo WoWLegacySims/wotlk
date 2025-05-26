@@ -362,13 +362,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestBM-AllItems-Despair-28573"
- value: {
-  dps: 6361.80313
-  tps: 4336.40095
- }
-}
-dps_results: {
  key: "TestBM-AllItems-DestructiveSkyflareDiamond"
  value: {
   dps: 6280.24164
@@ -757,6 +750,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBM-AllItems-PendantoftheVioletEye-28727"
+ value: {
+  dps: 6246.95404
+  tps: 4239.15849
+ }
+}
+dps_results: {
  key: "TestBM-AllItems-PersistentEarthshatterDiamond"
  value: {
   dps: 6277.57816
@@ -827,17 +827,17 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestBM-AllItems-Revenger-28311"
- value: {
-  dps: 6361.80313
-  tps: 4336.40095
- }
-}
-dps_results: {
  key: "TestBM-AllItems-RevitalizingSkyflareDiamond"
  value: {
   dps: 6271.39506
   tps: 4251.39078
+ }
+}
+dps_results: {
+ key: "TestBM-AllItems-Riftmaker-29182"
+ value: {
+  dps: 6387.48155
+  tps: 4355.37339
  }
 }
 dps_results: {
@@ -943,6 +943,13 @@ dps_results: {
  value: {
   dps: 6251.09109
   tps: 4243.49377
+ }
+}
+dps_results: {
+ key: "TestBM-AllItems-SpyglassoftheHiddenFleet-30620"
+ value: {
+  dps: 6167.50043
+  tps: 4174.41012
  }
 }
 dps_results: {
@@ -1076,13 +1083,6 @@ dps_results: {
  value: {
   dps: 6260.19641
   tps: 4239.37942
- }
-}
-dps_results: {
- key: "TestBM-AllItems-TranquillienFlamberge-28164"
- value: {
-  dps: 6367.54577
-  tps: 4341.0093
  }
 }
 dps_results: {

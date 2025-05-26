@@ -589,6 +589,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSubtlety-AllItems-PendantoftheVioletEye-28727"
+ value: {
+  dps: 6181.70164
+  tps: 4389.00817
+ }
+}
+dps_results: {
  key: "TestSubtlety-AllItems-PersistentEarthshatterDiamond"
  value: {
   dps: 6313.9439
@@ -656,6 +663,13 @@ dps_results: {
  value: {
   dps: 6290.40376
   tps: 4466.18667
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-Riftmaker-29182"
+ value: {
+  dps: 6423.40614
+  tps: 4560.61836
  }
 }
 dps_results: {
@@ -747,6 +761,13 @@ dps_results: {
  value: {
   dps: 6253.62843
   tps: 4440.07619
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-SpyglassoftheHiddenFleet-30620"
+ value: {
+  dps: 6181.70164
+  tps: 4389.00817
  }
 }
 dps_results: {
@@ -894,6 +915,13 @@ dps_results: {
  value: {
   dps: 6181.70164
   tps: 4389.00817
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-Warp-SpringCoil-30450"
+ value: {
+  dps: 6267.29147
+  tps: 4449.77694
  }
 }
 dps_results: {

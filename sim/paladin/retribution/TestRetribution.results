@@ -368,14 +368,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestRetribution-AllItems-Despair-28573"
- value: {
-  dps: 6723.42098
-  tps: 6809.22147
-  dtps: 9.92986
- }
-}
-dps_results: {
  key: "TestRetribution-AllItems-DestructiveSkyflareDiamond"
  value: {
   dps: 6510.4071
@@ -860,6 +852,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestRetribution-AllItems-PendantoftheVioletEye-28727"
+ value: {
+  dps: 6379.6206
+  tps: 6462.53264
+  dtps: 9.92986
+ }
+}
+dps_results: {
  key: "TestRetribution-AllItems-PersistentEarthshatterDiamond"
  value: {
   dps: 6516.45235
@@ -960,14 +960,6 @@ dps_results: {
  value: {
   dps: 6661.02896
   tps: 6746.82945
-  dtps: 9.92986
- }
-}
-dps_results: {
- key: "TestRetribution-AllItems-Revenger-28311"
- value: {
-  dps: 6620.68072
-  tps: 6706.48121
   dtps: 9.92986
  }
 }
@@ -1096,6 +1088,14 @@ dps_results: {
  value: {
   dps: 6463.89031
   tps: 6551.53191
+  dtps: 9.92986
+ }
+}
+dps_results: {
+ key: "TestRetribution-AllItems-SpyglassoftheHiddenFleet-30620"
+ value: {
+  dps: 6379.6206
+  tps: 6465.42109
   dtps: 9.92986
  }
 }
@@ -1244,18 +1244,18 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestRetribution-AllItems-TomeoftheLightbringer-32368"
+ key: "TestRetribution-AllItems-TomeofFieryRedemption-30447"
  value: {
-  dps: 6527.56941
-  tps: 6613.3699
+  dps: 6390.86208
+  tps: 6476.66256
   dtps: 9.92986
  }
 }
 dps_results: {
- key: "TestRetribution-AllItems-TranquillienFlamberge-28164"
+ key: "TestRetribution-AllItems-TomeoftheLightbringer-32368"
  value: {
-  dps: 6626.60805
-  tps: 6712.39844
+  dps: 6527.56941
+  tps: 6613.3699
   dtps: 9.92986
  }
 }

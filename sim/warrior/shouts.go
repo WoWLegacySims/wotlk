@@ -39,9 +39,10 @@ func (warrior *Warrior) makeShoutSpellHelper(actionID core.ActionID, allyAuras c
 
 func (warrior *Warrior) registerShouts() {
 	dbc := warriorinfo.BattleShout.GetMaxRank(warrior.Level)
+	solarian := core.TernaryFloat64(warrior.HasTrinketEquipped(30466), 110, 0)
 	if dbc != nil {
 		warrior.BattleShout = warrior.makeShoutSpellHelper(core.ActionID{SpellID: dbc.SpellID}, warrior.NewAllyAuraArray(func(unit *core.Unit) *core.Aura {
-			return core.BattleShoutAura(unit, warrior.Talents.CommandingPresence, warrior.Talents.BoomingVoice, warrior.HasMinorGlyph(proto.WarriorMinorGlyph_GlyphOfBattle))
+			return core.BattleShoutAura(unit, warrior.Talents.CommandingPresence, warrior.Talents.BoomingVoice, warrior.HasMinorGlyph(proto.WarriorMinorGlyph_GlyphOfBattle), solarian)
 		}))
 	}
 	dbc = warriorinfo.CommandingShout.GetMaxRank(warrior.Level)

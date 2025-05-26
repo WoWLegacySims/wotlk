@@ -32,6 +32,8 @@ func (shaman *Shaman) newLightningBoltSpellConfig(isLightningOverload bool, dbc 
 	switch shaman.Ranged().ID {
 	case 28066:
 		spellConfig.ManaCost.FlatModifier -= 15
+	case 29389:
+		spellConfig.ManaCost.FlatModifier -= 27
 	}
 
 	if shaman.HasMajorGlyph(proto.ShamanMajorGlyph_GlyphOfLightningBolt) {

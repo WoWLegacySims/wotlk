@@ -283,6 +283,36 @@ func init() {
 		})
 	})
 
+	core.NewItemEffect(29182, func(a core.Agent) {
+		character := a.GetCharacter()
+		procMask := character.GetProcMaskForItem(29182)
+
+		aura := character.CurrentTarget.GetOrRegisterAura(core.Aura{
+			Label:    "Temporal Rift",
+			ActionID: core.ActionID{SpellID: 35353},
+			Duration: time.Second * 10,
+			OnGain: func(aura *core.Aura, sim *core.Simulation) {
+				aura.Unit.MultiplyAttackSpeed(sim, 1/1.1)
+			},
+			OnExpire: func(aura *core.Aura, sim *core.Simulation) {
+				aura.Unit.MultiplyAttackSpeed(sim, 1.01)
+			},
+		})
+
+		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			Name:     "Riftmaker",
+			ActionID: core.ActionID{ItemID: 29182},
+			Callback: core.CallbackOnSpellHitDealt,
+			ProcMask: procMask,
+			Outcome:  core.OutcomeLanded,
+			PPM:      2,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				aura.Activate(sim)
+			},
+		})
+
+	})
+
 	core.NewItemEffect(29996, func(agent core.Agent) { // Rod of the Sun King
 		character := agent.GetCharacter()
 
@@ -320,6 +350,40 @@ func init() {
 					}
 				}
 			},
+		})
+	})
+
+	core.NewItemEffect(30620, func(a core.Agent) {
+		character := a.GetCharacter()
+
+		character.AddMajorCooldown(core.MajorCooldown{
+			Type: core.CooldownTypeSurvival,
+			Spell: character.GetOrRegisterSpell(core.SpellConfig{
+				ActionID:    core.ActionID{ItemID: 30620},
+				SpellSchool: core.SpellSchoolNature,
+				ProcMask:    core.ProcMaskSpellHealing,
+				Cast: core.CastConfig{
+					CD: core.Cooldown{
+						Timer:    character.NewTimer(),
+						Duration: time.Minute * 2,
+					},
+				},
+				Hot: core.DotConfig{
+					Aura: core.Aura{
+						Label:    "Spyglass of the Hidden Fleet",
+						ActionID: core.ActionID{SpellID: 38325},
+					},
+					SelfOnly:      true,
+					NumberOfTicks: 4,
+					TickLength:    time.Second * 3,
+					OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
+						dot.SnapshotBaseDamage = 325
+					},
+					OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
+						dot.CalcAndDealPeriodicSnapshotHealing(sim, target, dot.OutcomeTick)
+					},
+				},
+			}),
 		})
 	})
 

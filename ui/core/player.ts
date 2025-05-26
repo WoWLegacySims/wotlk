@@ -632,6 +632,10 @@ export class Player<SpecType extends Spec> {
 		return this.gear.getEquippedItem(slot);
 	}
 
+	hasTrinketEquipped(id: number): boolean {
+		return this.getEquippedItem(ItemSlot.ItemSlotTrinket1)?.id == id || this.getEquippedItem(ItemSlot.ItemSlotTrinket2)?.id == id
+	}
+
 	getGear(): Gear {
 		return this.gear;
 	}

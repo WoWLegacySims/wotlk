@@ -3,6 +3,7 @@ package paladin
 import (
 	"time"
 
+	"github.com/WoWLegacySims/wotlk/sim/common/helpers"
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
@@ -258,6 +259,18 @@ func init() {
 				}
 			},
 		})
+	})
+
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:       "Tome of Fiery Redemption",
+		ID:         30447,
+		AuraID:     37198,
+		Bonus:      stats.Stats{stats.SpellPower: 290},
+		Duration:   time.Second * 15,
+		Callback:   core.CallbackOnCastComplete,
+		ProcMask:   core.ProcMaskSpell,
+		ProcChance: 0.15,
+		ICD:        time.Second * 45,
 	})
 
 	core.NewItemEffect(37574, func(agent core.Agent) {

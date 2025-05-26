@@ -538,6 +538,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDemonology-AllItems-PendantoftheVioletEye-28727"
+ value: {
+  dps: 13055.92935
+  tps: 11051.74638
+ }
+}
+dps_results: {
  key: "TestDemonology-AllItems-PersistentEarthshatterDiamond"
  value: {
   dps: 13405.04261
@@ -689,6 +696,13 @@ dps_results: {
  value: {
   dps: 13160.36486
   tps: 11160.62185
+ }
+}
+dps_results: {
+ key: "TestDemonology-AllItems-SpyglassoftheHiddenFleet-30620"
+ value: {
+  dps: 12995.96519
+  tps: 10993.83107
  }
 }
 dps_results: {

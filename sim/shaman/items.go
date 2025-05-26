@@ -65,6 +65,25 @@ var ItemSetSkyshatterHarness = core.NewItemSet(core.ItemSet{
 })
 
 func init() {
+	core.NewItemEffect(30663, func(a core.Agent) {
+		character := a.GetCharacter()
+		metrics := character.NewManaMetrics(core.ActionID{SpellID: 37243})
+
+		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			Name:        "Fathom-Brooch of the Tidewalker",
+			ActionID:    core.ActionID{ItemID: 30663},
+			Callback:    core.CallbackOnCastComplete,
+			ProcMask:    core.ProcMaskSpell,
+			SpellSchool: core.SpellSchoolNature,
+			Outcome:     core.OutcomeLanded,
+			ProcChance:  0.15,
+			ICD:         time.Second * 40,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				character.AddMana(sim, 335, metrics)
+			},
+		})
+	})
+
 	core.NewItemEffect(33506, func(agent core.Agent) {
 		shaman := agent.(ShamanAgent).GetShaman()
 		procAura := shaman.NewTemporaryStatsAura("Skycall Totem Proc", core.ActionID{SpellID: 43751}, stats.Stats{stats.SpellHaste: 101}, time.Second*10)

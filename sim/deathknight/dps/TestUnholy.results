@@ -356,14 +356,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestUnholy-AllItems-Despair-28573"
- value: {
-  dps: 9621.78537
-  tps: 5897.00819
-  hps: 50.10598
- }
-}
-dps_results: {
  key: "TestUnholy-AllItems-DestructiveSkyflareDiamond"
  value: {
   dps: 9523.99262
@@ -756,6 +748,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestUnholy-AllItems-PendantoftheVioletEye-28727"
+ value: {
+  dps: 9067.17559
+  tps: 5613.00561
+  hps: 50.10598
+ }
+}
+dps_results: {
  key: "TestUnholy-AllItems-PersistentEarthshatterDiamond"
  value: {
   dps: 9522.03142
@@ -840,14 +840,6 @@ dps_results: {
  value: {
   dps: 9689.35491
   tps: 5940.40554
-  hps: 50.10598
- }
-}
-dps_results: {
- key: "TestUnholy-AllItems-Revenger-28311"
- value: {
-  dps: 9621.78537
-  tps: 5897.00819
   hps: 50.10598
  }
 }
@@ -1060,6 +1052,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestUnholy-AllItems-SpyglassoftheHiddenFleet-30620"
+ value: {
+  dps: 9067.17559
+  tps: 5613.00561
+  hps: 50.84166
+ }
+}
+dps_results: {
  key: "TestUnholy-AllItems-StormshroudArmor"
  value: {
   dps: 6567.61134
@@ -1216,14 +1216,6 @@ dps_results: {
  value: {
   dps: 9496.92668
   tps: 5791.75486
-  hps: 50.10598
- }
-}
-dps_results: {
- key: "TestUnholy-AllItems-TranquillienFlamberge-28164"
- value: {
-  dps: 9621.78537
-  tps: 5897.00819
   hps: 50.10598
  }
 }

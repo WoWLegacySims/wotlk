@@ -320,13 +320,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFrost-AllItems-Despair-28573"
- value: {
-  dps: 11141.09939
-  tps: 6475.26302
- }
-}
-dps_results: {
  key: "TestFrost-AllItems-DestructiveSkyflareDiamond"
  value: {
   dps: 10884.01674
@@ -673,6 +666,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFrost-AllItems-PendantoftheVioletEye-28727"
+ value: {
+  dps: 10642.59508
+  tps: 6176.16044
+ }
+}
+dps_results: {
  key: "TestFrost-AllItems-PersistentEarthshatterDiamond"
  value: {
   dps: 10873.54111
@@ -747,13 +747,6 @@ dps_results: {
  value: {
   dps: 10574.68755
   tps: 6135.41592
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-Revenger-28311"
- value: {
-  dps: 11141.09939
-  tps: 6475.26302
  }
 }
 dps_results: {
@@ -946,6 +939,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFrost-AllItems-SpyglassoftheHiddenFleet-30620"
+ value: {
+  dps: 10642.59508
+  tps: 6176.16044
+ }
+}
+dps_results: {
  key: "TestFrost-AllItems-StormshroudArmor"
  value: {
   dps: 8096.99462
@@ -1083,13 +1083,6 @@ dps_results: {
  value: {
   dps: 10846.66311
   tps: 6298.60622
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-TranquillienFlamberge-28164"
- value: {
-  dps: 11141.09939
-  tps: 6475.26302
  }
 }
 dps_results: {

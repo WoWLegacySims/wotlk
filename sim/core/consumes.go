@@ -211,6 +211,10 @@ func ApplyImbue(character *Character, imbue proto.WeaponImbue, isMH bool) {
 		bonusDamage = 2
 	case proto.WeaponImbue_RoughWeightStone:
 		bonusDamage = 2
+	case proto.WeaponImbue_ConsecratedWeapon:
+		if character.CurrentTarget.MobType == proto.MobType_MobTypeDemon || character.CurrentTarget.MobType == proto.MobType_MobTypeUndead {
+			character.PseudoStats.MobTypeAttackPower += 150
+		}
 	}
 	weapon := character.AutoAttacks.MH()
 	if !isMH {

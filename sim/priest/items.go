@@ -3,6 +3,7 @@ package priest
 import (
 	"time"
 
+	"github.com/WoWLegacySims/wotlk/sim/common/helpers"
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
@@ -227,4 +228,5 @@ var ItemSetGladiatorsRaiment = core.NewItemSet(core.ItemSet{
 })
 
 func init() {
+	helpers.NewSpiritActive(30665, 300, time.Second*20, time.Minute*2)
 }

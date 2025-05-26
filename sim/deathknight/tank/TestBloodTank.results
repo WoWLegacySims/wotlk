@@ -320,13 +320,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestBloodTank-AllItems-Despair-28573"
- value: {
-  dps: 2209.84518
-  tps: 6760.38096
- }
-}
-dps_results: {
  key: "TestBloodTank-AllItems-DestructiveSkyflareDiamond"
  value: {
   dps: 2026.23012
@@ -659,6 +652,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBloodTank-AllItems-PendantoftheVioletEye-28727"
+ value: {
+  dps: 2023.51642
+  tps: 6399.46536
+ }
+}
+dps_results: {
  key: "TestBloodTank-AllItems-PersistentEarthshatterDiamond"
  value: {
   dps: 2028.79437
@@ -726,14 +726,6 @@ dps_results: {
  value: {
   dps: 2039.20035
   tps: 6447.94435
- }
-}
-dps_results: {
- key: "TestBloodTank-AllItems-Revenger-28311"
- value: {
-  dps: 2149.15948
-  tps: 6650.69807
-  hps: 4.89837
  }
 }
 dps_results: {
@@ -867,6 +859,13 @@ dps_results: {
  value: {
   dps: 2047.94517
   tps: 6486.19592
+ }
+}
+dps_results: {
+ key: "TestBloodTank-AllItems-SpyglassoftheHiddenFleet-30620"
+ value: {
+  dps: 2023.51642
+  tps: 6399.46536
  }
 }
 dps_results: {
@@ -1007,13 +1006,6 @@ dps_results: {
  value: {
   dps: 2020.22055
   tps: 6388.12181
- }
-}
-dps_results: {
- key: "TestBloodTank-AllItems-TranquillienFlamberge-28164"
- value: {
-  dps: 2121.4233
-  tps: 6704.34436
  }
 }
 dps_results: {

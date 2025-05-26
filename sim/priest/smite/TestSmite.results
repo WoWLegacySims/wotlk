@@ -622,6 +622,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSmite-AllItems-PendantoftheVioletEye-28727"
+ value: {
+  dps: 1683.3312
+  tps: 1460.95251
+ }
+}
+dps_results: {
  key: "TestSmite-AllItems-PersistentEarthshatterDiamond"
  value: {
   dps: 1604.3898
@@ -696,6 +703,13 @@ dps_results: {
  value: {
   dps: 1616.64594
   tps: 1400.79463
+ }
+}
+dps_results: {
+ key: "TestSmite-AllItems-Riftmaker-29182"
+ value: {
+  dps: 1630.06979
+  tps: 1411.69967
  }
 }
 dps_results: {
@@ -794,6 +808,13 @@ dps_results: {
  value: {
   dps: 1738.46719
   tps: 1516.27407
+ }
+}
+dps_results: {
+ key: "TestSmite-AllItems-SpyglassoftheHiddenFleet-30620"
+ value: {
+  dps: 1630.06979
+  tps: 1411.69967
  }
 }
 dps_results: {

@@ -770,6 +770,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralTank-AllItems-LivingRootoftheWildheart-30664"
+ value: {
+  dps: 2526.69902
+  tps: 5339.24139
+  dtps: 7.24385
+ }
+}
+dps_results: {
  key: "TestFeralTank-AllItems-Malfurion'sBattlegear"
  value: {
   dps: 2647.0539
@@ -882,6 +890,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralTank-AllItems-PendantoftheVioletEye-28727"
+ value: {
+  dps: 2533.88579
+  tps: 5350.76039
+  dtps: 7.24385
+ }
+}
+dps_results: {
  key: "TestFeralTank-AllItems-PersistentEarthshatterDiamond"
  value: {
   dps: 2530.85088
@@ -974,6 +990,14 @@ dps_results: {
  value: {
   dps: 2523.37257
   tps: 5328.39735
+  dtps: 7.24385
+ }
+}
+dps_results: {
+ key: "TestFeralTank-AllItems-Riftmaker-29182"
+ value: {
+  dps: 2556.71651
+  tps: 5391.85831
   dtps: 7.24385
  }
 }
@@ -1086,6 +1110,14 @@ dps_results: {
  value: {
   dps: 2606.44522
   tps: 5500.25548
+  dtps: 7.24385
+ }
+}
+dps_results: {
+ key: "TestFeralTank-AllItems-SpyglassoftheHiddenFleet-30620"
+ value: {
+  dps: 2526.69902
+  tps: 5339.24139
   dtps: 7.24385
  }
 }

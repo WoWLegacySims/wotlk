@@ -2,6 +2,7 @@ package core
 
 import (
 	"fmt"
+
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 	"google.golang.org/protobuf/encoding/protojson"

@@ -29,6 +29,7 @@ export interface ConsumableInputConfig<T> extends ActionInputConfig<T> {
 export interface ConsumableStatOption<T> extends ItemStatOption<T> {
 	config: ConsumableInputConfig<T>,
 	level?: number,
+	condition?: (player:Player<any>) => boolean
 }
 
 export interface ImbueConsumableStatOption extends ConsumableStatOption<WeaponImbue> {
@@ -223,6 +224,8 @@ export const IMBUE_CONFIG = [
 { config : {actionId: ActionId.fromItemId(3240), value: WeaponImbue.CoarseWeightStone}, stats: [Stat.StatAttackPower],level: 5, type: "blunt"},
 { config : {actionId: ActionId.fromItemId(2862), value: WeaponImbue.RoughSharpeningStone }, stats: [Stat.StatAttackPower],level: 1, type: "sharp"},
 { config : {actionId: ActionId.fromItemId(3239), value: WeaponImbue.RoughWeightStone}, stats: [Stat.StatAttackPower],level: 1, type: "blunt"},
+{ config : {actionId: ActionId.fromItemId(30696), value: WeaponImbue.ConsecratedWeapon}, stats: [Stat.StatAttackPower], condition: player => { return player.isClass(Class.ClassPaladin) && player.getEquippedItem(ItemSlot.ItemSlotMainHand)!.item.ilvl < 138 && player.hasTrinketEquipped(30696)
+}},
 ] as ImbueConsumableStatOption[];
 
 export const makeMHImbueInput = makeConsumeInputFactory({
@@ -233,7 +236,9 @@ export const makeMHImbueInput = makeConsumeInputFactory({
 	},
 	filter: (option,player) => {
 		const opt = option as ImbueConsumableStatOption
-		return (!opt.level || player.getLevel() >= opt.level) && (!opt.type || opt.type === "sharp" && player.getGear().hasSharpMHWeapon() || opt.type === "blunt" && player.getGear().hasBluntMHWeapon())
+		console.log("filtering")
+		return (!opt.level || player.getLevel() >= opt.level) &&
+		(!opt.type || (opt.type === "sharp" && player.getGear().hasSharpMHWeapon()) || (opt.type === "blunt" && player.getGear().hasBluntMHWeapon())) && (!opt.condition || opt.condition(player))
 	},
 });
 export const makeOHImbueInput = makeConsumeInputFactory({
@@ -244,7 +249,7 @@ export const makeOHImbueInput = makeConsumeInputFactory({
 	},
 	filter: (option,player) => {
 		const opt = option as ImbueConsumableStatOption
-		return (!opt.level || player.getLevel() >= opt.level) && (!opt.type || opt.type === "sharp" && player.getGear().hasSharpOHWeapon() || opt.type === "blunt" && player.getGear().hasBluntOHWeapon())
+		return (!opt.level || player.getLevel() >= opt.level) && (!opt.type || (opt.type === "sharp" && player.getGear().hasSharpOHWeapon()) || (opt.type === "blunt" && player.getGear().hasBluntOHWeapon())) && (!opt.condition || opt.condition(player))
 	},
 });
 

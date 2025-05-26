@@ -481,6 +481,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestElemental-AllItems-Fathom-BroochoftheTidewalker-30663"
+ value: {
+  dps: 6072.06856
+  tps: 3580.116
+ }
+}
+dps_results: {
  key: "TestElemental-AllItems-FieryWarAxe-870"
  value: {
   dps: 6282.40423
@@ -796,6 +803,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestElemental-AllItems-PendantoftheVioletEye-28727"
+ value: {
+  dps: 6005.91741
+  tps: 3532.78753
+ }
+}
+dps_results: {
  key: "TestElemental-AllItems-PersistentEarthshatterDiamond"
  value: {
   dps: 6088.85887
@@ -877,6 +891,13 @@ dps_results: {
  value: {
   dps: 6164.3922
   tps: 3606.93934
+ }
+}
+dps_results: {
+ key: "TestElemental-AllItems-Riftmaker-29182"
+ value: {
+  dps: 6282.40423
+  tps: 3676.87605
  }
 }
 dps_results: {
@@ -1003,6 +1024,13 @@ dps_results: {
  value: {
   dps: 6463.28399
   tps: 3811.28524
+ }
+}
+dps_results: {
+ key: "TestElemental-AllItems-SpyglassoftheHiddenFleet-30620"
+ value: {
+  dps: 5849.53688
+  tps: 3437.61665
  }
 }
 dps_results: {

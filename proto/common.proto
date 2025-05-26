@@ -346,6 +346,7 @@ enum WeaponImbue {
 	CoarseWeightStone = 22;
 	RoughSharpeningStone = 23;
 	RoughWeightStone = 24;
+	ConsecratedWeapon = 25;
 }
 
 enum PetFood {

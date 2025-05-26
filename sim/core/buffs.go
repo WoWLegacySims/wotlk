@@ -367,7 +367,7 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 	}
 
 	if raidBuffs.BattleShout > 0 {
-		MakePermanent(BattleShoutAura(&character.Unit, GetTristateValueInt32(raidBuffs.BattleShout, 0, 5), 0, false))
+		MakePermanent(BattleShoutAura(&character.Unit, GetTristateValueInt32(raidBuffs.BattleShout, 0, 5), 0, false, 0))
 	}
 	if individualBuffs.BlessingOfMight > 0 {
 		MakePermanent(BlessingOfMightAura(&character.Unit, GetTristateValueInt32(individualBuffs.BlessingOfMight, 0, 2)))
@@ -1535,7 +1535,7 @@ func spellPowerBonusEffect(aura *Aura, spellPowerBonus float64) *ExclusiveEffect
 	})
 }
 
-func BattleShoutAura(unit *Unit, commandingPresencePts int32, boomingVoicePts int32, minorGlyph bool) *Aura {
+func BattleShoutAura(unit *Unit, commandingPresencePts int32, boomingVoicePts int32, minorGlyph bool, bonus float64) *Aura {
 	dbc := warriorinfo.BattleShout.GetMaxRank(unit.Level)
 	if dbc == nil {
 		return nil
@@ -1548,7 +1548,7 @@ func BattleShoutAura(unit *Unit, commandingPresencePts int32, boomingVoicePts in
 		Duration:   time.Duration(float64(time.Minute*2)*(1+0.25*float64(boomingVoicePts))) + TernaryDuration(minorGlyph, 2*time.Minute, 0),
 		BuildPhase: CharacterBuildPhaseBuffs,
 	})
-	attackPowerBonusEffect(aura, math.Floor(value*(1+0.05*float64(commandingPresencePts))))
+	attackPowerBonusEffect(aura, math.Floor(value*(1+0.05*float64(commandingPresencePts)))+bonus)
 	return aura
 }
 

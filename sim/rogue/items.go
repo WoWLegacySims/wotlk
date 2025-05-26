@@ -3,6 +3,7 @@ package rogue
 import (
 	"time"
 
+	"github.com/WoWLegacySims/wotlk/sim/common/helpers"
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
@@ -147,6 +148,19 @@ var Tier6 = core.NewItemSet(core.ItemSet{
 })
 
 func init() {
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:       "Warp-Spring-Coil",
+		ID:         30450,
+		AuraID:     37174,
+		Bonus:      stats.Stats{stats.ArmorPenetration: 142},
+		Duration:   time.Second * 15,
+		Callback:   core.CallbackOnSpellHitDealt,
+		ProcMask:   core.ProcMaskMeleeMHSpecial,
+		Outcome:    core.OutcomeLanded,
+		ProcChance: 0.25,
+		ICD:        time.Second * 30,
+	})
+
 	core.NewItemEffect(32492, func(agent core.Agent) {
 		rogue := agent.(RogueAgent).GetRogue()
 		procAura := rogue.NewTemporaryStatsAura("Ashtongue Talisman Proc", core.ActionID{ItemID: 32492}, stats.Stats{stats.MeleeCrit: 145}, time.Second*10)

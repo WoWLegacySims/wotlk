@@ -285,13 +285,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestArcane-AllItems-Despair-28573"
- value: {
-  dps: 10853.2932
-  tps: 6647.2415
- }
-}
-dps_results: {
  key: "TestArcane-AllItems-DestructiveSkyflareDiamond"
  value: {
   dps: 10527.31491
@@ -629,6 +622,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestArcane-AllItems-PendantoftheVioletEye-28727"
+ value: {
+  dps: 10378.32353
+  tps: 6358.92267
+ }
+}
+dps_results: {
  key: "TestArcane-AllItems-PersistentEarthshatterDiamond"
  value: {
   dps: 10496.30462
@@ -692,17 +692,17 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestArcane-AllItems-Revenger-28311"
- value: {
-  dps: 10853.2932
-  tps: 6647.2415
- }
-}
-dps_results: {
  key: "TestArcane-AllItems-RevitalizingSkyflareDiamond"
  value: {
   dps: 10513.30566
   tps: 6440.81283
+ }
+}
+dps_results: {
+ key: "TestArcane-AllItems-Riftmaker-29182"
+ value: {
+  dps: 10853.2932
+  tps: 6647.2415
  }
 }
 dps_results: {
@@ -787,6 +787,13 @@ dps_results: {
  value: {
   dps: 10542.62349
   tps: 6459.04887
+ }
+}
+dps_results: {
+ key: "TestArcane-AllItems-SpyglassoftheHiddenFleet-30620"
+ value: {
+  dps: 10321.75638
+  tps: 6326.25594
  }
 }
 dps_results: {
@@ -906,13 +913,6 @@ dps_results: {
  value: {
   dps: 10533.26432
   tps: 6451.57787
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-TranquillienFlamberge-28164"
- value: {
-  dps: 10853.2932
-  tps: 6647.2415
  }
 }
 dps_results: {

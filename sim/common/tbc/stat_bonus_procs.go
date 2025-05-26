@@ -147,6 +147,42 @@ func init() {
 	})
 
 	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:       "Masquerade Gown",
+		ID:         28578,
+		AuraID:     34584,
+		Bonus:      stats.Stats{stats.Spirit: 145},
+		Duration:   time.Second * 15,
+		Callback:   core.CallbackOnCastComplete,
+		ProcMask:   core.ProcMaskSpellHealing | core.ProcMaskSpellDamage,
+		ProcChance: 0.1,
+		ICD:        time.Second * 30,
+	})
+
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:       "Robe of the Elder Scribes",
+		ID:         28602,
+		AuraID:     34597,
+		Bonus:      stats.Stats{stats.SpellPower: 130},
+		Callback:   core.CallbackOnSpellHitDealt,
+		ProcMask:   core.ProcMaskSpellDamage,
+		Outcome:    core.OutcomeLanded,
+		Duration:   time.Second * 10,
+		ProcChance: 0.2,
+		ICD:        time.Second * 45,
+	})
+
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:     "Eye of Magtheridon",
+		ID:       28789,
+		AuraID:   34747,
+		Bonus:    stats.Stats{stats.SpellPower: 170},
+		Callback: core.CallbackOnSpellHitDealt,
+		ProcMask: core.ProcMaskSpellDamage,
+		Outcome:  core.OutcomeMiss,
+		Duration: time.Second * 10,
+	})
+
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
 		Name:     "Dragonspine Trophy",
 		ID:       28830,
 		AuraID:   34774,
@@ -196,6 +232,66 @@ func init() {
 		Outcome:    core.OutcomeLanded,
 		ProcChance: 0.1,
 		ICD:        time.Second * 60,
+	})
+
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:     "The Bladefist",
+		ID:       29348,
+		AuraID:   35131,
+		Bonus:    stats.Stats{stats.MeleeHaste: 180, stats.SpellHaste: 180},
+		Duration: time.Second * 10,
+		Outcome:  core.OutcomeLanded,
+		PPM:      3,
+		Weapon:   true,
+	})
+
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:     "Heartrazor",
+		ID:       29962,
+		AuraID:   36041,
+		Bonus:    stats.Stats{stats.AttackPower: 270, stats.RangedAttackPower: 270},
+		Duration: time.Second * 10,
+		Outcome:  core.OutcomeLanded,
+		PPM:      2.2,
+		Weapon:   true,
+	})
+
+	core.NewItemEffect(30090, func(a core.Agent) {
+		character := a.GetCharacter()
+		procmask := character.GetProcMaskForItem(30090)
+
+		aura := character.NewTemporaryStatsAura("World Breaker", core.ActionID{SpellID: 36111}, stats.Stats{stats.MeleeCrit: 900}, time.Second*4)
+		aura.OnSpellHitDealt = func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+			if !spell.ProcMask.Matches(core.ProcMaskMelee) {
+				return
+			}
+			aura.Deactivate(sim)
+		}
+
+		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			Name:     "World Breaker",
+			ActionID: core.ActionID{ItemID: 30090},
+			Callback: core.CallbackOnSpellHitDealt,
+			ProcMask: procmask,
+			Outcome:  core.OutcomeLanded,
+			PPM:      1,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				aura.Activate(sim)
+			},
+		})
+	})
+
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:       "Sextant of Unstable Currents",
+		ID:         30626,
+		AuraID:     38348,
+		Bonus:      stats.Stats{stats.SpellPower: 190},
+		Duration:   time.Second * 15,
+		Callback:   core.CallbackOnSpellHitDealt,
+		ProcMask:   core.ProcMaskSpell,
+		Outcome:    core.OutcomeCrit,
+		ProcChance: 0.2,
+		ICD:        time.Second * 45,
 	})
 
 	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{

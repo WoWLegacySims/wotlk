@@ -287,6 +287,44 @@ var ItemSetMalfurionsBattlegear = core.NewItemSet(core.ItemSet{
 
 func init() {
 
+	core.NewItemEffect(30664, func(agent core.Agent) {
+		druid := agent.(DruidAgent).GetDruid()
+
+		var procAura *core.Aura
+		if druid.InForm(Moonkin) {
+			procAura = druid.NewTemporaryStatsAura("Living Root Moonkin Proc", core.ActionID{SpellID: 37343}, stats.Stats{stats.SpellPower: 209}, time.Second*15)
+		} else if druid.InForm(Bear) {
+			procAura = druid.NewTemporaryStatsAura("Living Root Bear Proc", core.ActionID{SpellID: 37340}, stats.Stats{stats.Armor: 4070}, time.Second*15)
+		} else if druid.InForm(Cat) {
+			procAura = druid.NewTemporaryStatsAura("Living Root Cat Proc", core.ActionID{SpellID: 37341}, stats.Stats{stats.Strength: 64}, time.Second*15)
+		} else {
+			return
+		}
+
+		druid.RegisterAura(core.Aura{
+			Label:    "Living Root of the Wildheart",
+			Duration: core.NeverExpires,
+			OnReset: func(aura *core.Aura, sim *core.Simulation) {
+				aura.Activate(sim)
+			},
+			OnCastComplete: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell) {
+				if druid.InForm(Moonkin) && sim.RandomFloat("Living Root of the Wildheart") < 0.03 {
+					procAura.Activate(sim)
+				}
+			},
+			OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				if !spell.ProcMask.Matches(core.ProcMaskMelee) {
+					return
+				}
+				if sim.RandomFloat("Living Root of the Wildheart") > 0.03 {
+					return
+				}
+
+				procAura.Activate(sim)
+			},
+		})
+	})
+
 	core.NewItemEffect(32486, func(agent core.Agent) {
 		druid := agent.(DruidAgent).GetDruid()
 

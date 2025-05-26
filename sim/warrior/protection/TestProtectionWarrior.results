@@ -372,13 +372,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestProtectionWarrior-AllItems-Despair-28573"
- value: {
-  dps: 1435.50392
-  tps: 3734.3775
- }
-}
-dps_results: {
  key: "TestProtectionWarrior-AllItems-DestructiveSkyflareDiamond"
  value: {
   dps: 1433.9909
@@ -767,6 +760,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-PendantoftheVioletEye-28727"
+ value: {
+  dps: 1435.50392
+  tps: 3734.3775
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-PersistentEarthshatterDiamond"
  value: {
   dps: 1442.00361
@@ -837,17 +837,17 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestProtectionWarrior-AllItems-Revenger-28311"
- value: {
-  dps: 1435.50392
-  tps: 3734.3775
- }
-}
-dps_results: {
  key: "TestProtectionWarrior-AllItems-RevitalizingSkyflareDiamond"
  value: {
   dps: 1428.5058
   tps: 3719.18426
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-Riftmaker-29182"
+ value: {
+  dps: 1435.50392
+  tps: 3734.3775
  }
 }
 dps_results: {
@@ -967,6 +967,13 @@ dps_results: {
  value: {
   dps: 1467.74637
   tps: 3803.98863
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-SpyglassoftheHiddenFleet-30620"
+ value: {
+  dps: 1435.50392
+  tps: 3734.3775
  }
 }
 dps_results: {
@@ -1107,13 +1114,6 @@ dps_results: {
  value: {
   dps: 1428.5058
   tps: 3719.18426
- }
-}
-dps_results: {
- key: "TestProtectionWarrior-AllItems-TranquillienFlamberge-28164"
- value: {
-  dps: 1435.50392
-  tps: 3734.3775
  }
 }
 dps_results: {

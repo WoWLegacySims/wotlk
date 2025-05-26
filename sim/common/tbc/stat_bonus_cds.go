@@ -18,8 +18,11 @@ func init() {
 	helpers.NewSpellPowerActive(33829, 211, time.Second*20, time.Minute*2) // Hex Shrunken Head
 	helpers.NewSpellPowerActive(38288, 153, time.Second*20, time.Minute*2) // Direbrew Hops
 	helpers.NewSpellPowerActive(38290, 155, time.Second*20, time.Minute*2) // Dark Iron Smoking Pipe
-
+	helpers.NewSpellPowerActive(29132, 150, time.Second*15, time.Second*90)
+	helpers.NewSpellPowerActive(29179, 150, time.Second*15, time.Second*90)
 	helpers.NewSpellPowerActive(34429, 320, time.Second*15, time.Second*90) // Shifting Naaru Sliver
+	helpers.NewSpellPowerActive(30293, 127, time.Second*15, time.Second*90)
+	helpers.NewSpellPowerActive(30340, 125, time.Second*15, time.Second*90)
 
 	helpers.NewHasteActive(32483, 175, time.Second*20, time.Minute*2) // Skull of Gul'dan
 	helpers.NewHasteActive(28288, 260, time.Second*10, time.Minute*2)
@@ -28,9 +31,12 @@ func init() {
 	helpers.NewAttackPowerActive(33831, 278, time.Second*20, time.Minute*2) // Berserkers Call
 	helpers.NewAttackPowerActive(38287, 278, time.Second*20, time.Minute*2) // Empty Direbrew Mug
 	helpers.NewAttackPowerActive(28041, 200, time.Second*15, time.Second*90)
+	helpers.NewAttackPowerActive(29776, 200, time.Second*20, time.Minute*2)
 
 	helpers.NewBlockValueActive(29387, 200, time.Second*40, time.Minute*2) // Gnomeregan Autoblocker
 	helpers.NewBlockValueActive(38289, 200, time.Second*40, time.Minute*2) // Coren's Lucky Coin
+
+	helpers.NewBlockValueActive(30300, 125, time.Second*15, time.Second*90)
 
 	helpers.NewHealthActive(32501, 1750, time.Second*20, time.Minute*3) // Shadowmoon Insignia
 	helpers.NewHealthActive(28042, 900, time.Second*15, time.Minute*5)
@@ -46,5 +52,6 @@ func init() {
 
 	core.NewSimpleStatDefensiveTrinketEffect(28484, stats.Stats{stats.Health: 1500, stats.Strength: 150}, time.Second*15, time.Minute*30)
 	core.NewSimpleStatDefensiveTrinketEffect(28485, stats.Stats{stats.Health: 1500, stats.Strength: 150}, time.Second*15, time.Minute*30)
+	core.NewSimpleStatDefensiveTrinketEffect(30629, stats.Stats{stats.Defense: 165, stats.AttackPower: -330, stats.RangedAttackPower: .330}, time.Second*15, time.Minute*3)
 	core.AddEffectsToTest = true
 }
