@@ -295,23 +295,34 @@ export const IronshieldPotion     = { actionId: ActionId.fromItemId(22849), valu
 export const HeroicPotion         = { actionId: ActionId.fromItemId(22837), value: Potions.HeroicPotion };
 
 export const POTIONS_CONFIG = [
-  { config: RunicHealingPotion,   stats: [Stat.StatStamina] },
-  { config: RunicHealingInjector, stats: [Stat.StatStamina] },
-  { config: RunicManaPotion,      stats: [Stat.StatIntellect] },
-  { config: RunicManaInjector,    stats: [Stat.StatIntellect] },
-  { config: IndestructiblePotion, stats: [Stat.StatArmor] },
-  { config: InsaneStrengthPotion, stats: [Stat.StatStrength] },
-  { config: HeroicPotion,         stats: [Stat.StatStamina] },
-  { config: PotionOfSpeed,        stats: [Stat.StatMeleeHaste, Stat.StatSpellHaste] },
-  { config: PotionOfWildMagic,    stats: [Stat.StatMeleeCrit, Stat.StatSpellCrit, Stat.StatSpellPower] },
+  { config: RunicHealingPotion,   stats: [Stat.StatStamina],level:70 },
+  { config: RunicHealingInjector, stats: [Stat.StatStamina],level:70 },
+  { config: RunicManaPotion,      stats: [Stat.StatIntellect],level:70 },
+  { config: RunicManaInjector,    stats: [Stat.StatIntellect],level:70 },
+  { config: IndestructiblePotion, stats: [Stat.StatArmor],level:70 },
+  { config: InsaneStrengthPotion, stats: [Stat.StatStrength],level:70 },
+  { config: HeroicPotion,         stats: [Stat.StatStamina],level:70 },
+  { config: PotionOfSpeed,        stats: [Stat.StatMeleeHaste, Stat.StatSpellHaste],level:70 },
+  { config: PotionOfWildMagic,    stats: [Stat.StatMeleeCrit, Stat.StatSpellCrit, Stat.StatSpellPower],level:70 },
+
+  { config: DestructionPotion,    stats: [Stat.StatMeleeCrit, Stat.StatSpellCrit, Stat.StatSpellPower],level:60 },
+  { config: HastePotion,          stats: [Stat.StatMeleeHaste, Stat.StatSpellHaste],level:60 },
+  { config: IronshieldPotion,     stats: [Stat.StatArmor],level:60 },
+  { config: SuperManaPotion,      stats: [Stat.StatIntellect],level:60 },
+  { config: FelManaPotion,        stats: [Stat.StatRangedAttackPower],level:60 },
+
 ] as ConsumableStatOption<Potions>[];
 
 export const PRE_POTIONS_CONFIG = [
-  { config: IndestructiblePotion, stats: [Stat.StatArmor] },
-  { config: InsaneStrengthPotion, stats: [Stat.StatStrength] },
-  { config: HeroicPotion,         stats: [Stat.StatStamina] },
-  { config: PotionOfSpeed,        stats: [Stat.StatMeleeHaste, Stat.StatSpellHaste] },
-  { config: PotionOfWildMagic,    stats: [Stat.StatMeleeCrit, Stat.StatSpellCrit, Stat.StatSpellPower] },
+  { config: IndestructiblePotion, stats: [Stat.StatArmor],level:60 },
+  { config: InsaneStrengthPotion, stats: [Stat.StatStrength],level:60 },
+  { config: HeroicPotion,         stats: [Stat.StatStamina],level:60 },
+  { config: PotionOfSpeed,        stats: [Stat.StatMeleeHaste, Stat.StatSpellHaste],level:60 },
+  { config: PotionOfWildMagic,    stats: [Stat.StatMeleeCrit, Stat.StatSpellCrit, Stat.StatSpellPower],level:60 },
+
+  { config: DestructionPotion,    stats: [Stat.StatMeleeCrit, Stat.StatSpellCrit, Stat.StatSpellPower],level:60 },
+  { config: HastePotion,          stats: [Stat.StatMeleeHaste, Stat.StatSpellHaste],level:60 },
+  { config: IronshieldPotion,     stats: [Stat.StatArmor],level:60 },
 ] as ConsumableStatOption<Potions>[];
 
 export const makePotionsInput = makeConsumeInputFactory({consumesFieldName: 'defaultPotion'});
