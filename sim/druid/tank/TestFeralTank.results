@@ -463,6 +463,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralTank-AllItems-Figurine-SeasprayAlbatross-35703"
+ value: {
+  dps: 2581.4671
+  tps: 5447.03842
+  dtps: 7.24385
+ }
+}
+dps_results: {
  key: "TestFeralTank-AllItems-FigurineoftheColossus-27529"
  value: {
   dps: 2581.4671
@@ -541,6 +549,14 @@ dps_results: {
   dps: 2116.81879
   tps: 4515.83673
   dtps: 7.83473
+ }
+}
+dps_results: {
+ key: "TestFeralTank-AllItems-GlimmeringNaaruSliver-34430"
+ value: {
+  dps: 2581.4671
+  tps: 5447.03842
+  dtps: 7.24385
  }
 }
 dps_results: {

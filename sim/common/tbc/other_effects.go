@@ -431,25 +431,6 @@ func init() {
 		})
 	})
 
-	core.NewItemEffect(31322, func(a core.Agent) {
-		character := a.GetCharacter()
-		procmask := character.GetProcMaskForItem(31322)
-		metrics := character.NewManaMetrics(core.ActionID{SpellID: 38284})
-
-		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
-			Name:     "The Hammer of Destiniy",
-			ActionID: core.ActionID{ItemID: 31322},
-			Callback: core.CallbackOnSpellHitDealt,
-			ProcMask: procmask,
-			Outcome:  core.OutcomeLanded,
-			PPM:      2.5,
-			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				amount := sim.Roll(169, 61)
-				character.AddMana(sim, amount, metrics)
-			},
-		})
-	})
-
 	core.NewItemEffect(31328, func(agent core.Agent) { //Beast-tamer's Shoulders
 		for _, pet := range agent.GetCharacter().Pets {
 			if pet.IsGuardian() {

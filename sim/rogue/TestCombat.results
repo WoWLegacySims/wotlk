@@ -446,6 +446,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestCombat-AllItems-Figurine-SeasprayAlbatross-35703"
+ value: {
+  dps: 6246.82033
+  tps: 4435.24244
+ }
+}
+dps_results: {
  key: "TestCombat-AllItems-FigurineoftheColossus-27529"
  value: {
   dps: 6246.82033
@@ -500,6 +507,13 @@ dps_results: {
  value: {
   dps: 6136.64224
   tps: 4357.01599
+ }
+}
+dps_results: {
+ key: "TestCombat-AllItems-GlimmeringNaaruSliver-34430"
+ value: {
+  dps: 6246.82033
+  tps: 4435.24244
  }
 }
 dps_results: {

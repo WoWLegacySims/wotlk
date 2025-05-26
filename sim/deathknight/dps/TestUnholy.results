@@ -500,6 +500,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestUnholy-AllItems-Figurine-SeasprayAlbatross-35703"
+ value: {
+  dps: 9067.17559
+  tps: 5613.00561
+  hps: 50.10598
+ }
+}
+dps_results: {
  key: "TestUnholy-AllItems-FigurineoftheColossus-27529"
  value: {
   dps: 9067.17559
@@ -569,6 +577,14 @@ dps_results: {
   dps: 9018.14305
   tps: 5476.87817
   hps: 49.80206
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-GlimmeringNaaruSliver-34430"
+ value: {
+  dps: 9067.17559
+  tps: 5613.00561
+  hps: 50.10598
  }
 }
 dps_results: {

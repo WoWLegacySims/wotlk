@@ -1,6 +1,8 @@
 package tbc
 
 import (
+	"time"
+
 	"github.com/WoWLegacySims/wotlk/sim/common/helpers"
 	"github.com/WoWLegacySims/wotlk/sim/core"
 )
@@ -136,6 +138,21 @@ func init() {
 				damageSpell.Cast(sim, spell.Unit)
 			},
 		})
+	})
+
+	helpers.NewProcDamageEffect(helpers.ProcDamageEffect{
+		ID:         34470,
+		School:     core.SpellSchoolShadow,
+		BasePoints: 284,
+		Die:        191,
+		Trigger: core.ProcTrigger{
+			Name:       "Timbal's Focusing Crystal",
+			ActionID:   core.ActionID{ItemID: 34470},
+			Callback:   core.CallbackOnPeriodicDamageDealt,
+			ProcMask:   core.ProcMaskSpellDamage,
+			ProcChance: 0.1,
+			ICD:        time.Second * 15,
+		},
 	})
 
 	core.AddEffectsToTest = true

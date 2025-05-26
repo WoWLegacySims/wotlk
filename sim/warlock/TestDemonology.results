@@ -362,6 +362,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDemonology-AllItems-Figurine-SeasprayAlbatross-35703"
+ value: {
+  dps: 13001.44511
+  tps: 10996.75587
+ }
+}
+dps_results: {
  key: "TestDemonology-AllItems-FigurineoftheColossus-27529"
  value: {
   dps: 13004.31296
@@ -401,6 +408,13 @@ dps_results: {
  value: {
   dps: 10683.70439
   tps: 8774.9522
+ }
+}
+dps_results: {
+ key: "TestDemonology-AllItems-GlimmeringNaaruSliver-34430"
+ value: {
+  dps: 13101.25254
+  tps: 11086.21292
  }
 }
 dps_results: {

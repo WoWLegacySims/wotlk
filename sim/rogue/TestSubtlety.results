@@ -390,6 +390,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSubtlety-AllItems-Figurine-SeasprayAlbatross-35703"
+ value: {
+  dps: 6181.70164
+  tps: 4389.00817
+ }
+}
+dps_results: {
  key: "TestSubtlety-AllItems-FigurineoftheColossus-27529"
  value: {
   dps: 6181.70164
@@ -437,6 +444,13 @@ dps_results: {
  value: {
   dps: 5870.09639
   tps: 4167.76844
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-GlimmeringNaaruSliver-34430"
+ value: {
+  dps: 6181.70164
+  tps: 4389.00817
  }
 }
 dps_results: {

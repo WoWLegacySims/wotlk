@@ -25,6 +25,7 @@ func init() {
 	helpers.NewSpellPowerActive(30340, 125, time.Second*15, time.Second*90)
 	helpers.NewSpellPowerActive(31615, 120, time.Second*15, time.Second*90)
 	helpers.NewSpellPowerActive(33828, 211, time.Second*20, time.Minute*2)
+	helpers.NewSpellPowerActive(35700, 150, time.Second*20, time.Minute*2)
 
 	helpers.NewHasteActive(32483, 175, time.Second*20, time.Minute*2) // Skull of Gul'dan
 	helpers.NewHasteActive(28288, 260, time.Second*10, time.Minute*2)
@@ -35,6 +36,7 @@ func init() {
 	helpers.NewAttackPowerActive(28041, 200, time.Second*15, time.Second*90)
 	helpers.NewAttackPowerActive(29776, 200, time.Second*20, time.Minute*2)
 	helpers.NewAttackPowerActive(31617, 200, time.Second*15, time.Second*90)
+	helpers.NewAttackPowerActive(35702, 320, time.Second*15, time.Second*90)
 
 	helpers.NewBlockValueActive(29387, 200, time.Second*40, time.Minute*2) // Gnomeregan Autoblocker
 	helpers.NewBlockValueActive(38289, 200, time.Second*40, time.Minute*2) // Coren's Lucky Coin
@@ -52,6 +54,7 @@ func init() {
 	helpers.NewArmorPenActive(28121, 85, time.Second*20, time.Minute*2)
 
 	helpers.NewDodgeActive(28528, 300, time.Second*10, time.Minute*2)
+	helpers.NewDodgeActive(35693, 165, time.Second*20, time.Minute*2)
 
 	core.AddEffectsToTest = false
 	core.NewSimpleStatOffensiveTrinketEffect(32658, stats.Stats{stats.Agility: 150}, time.Second*20, time.Minute*2) // Badge of Tenacity
@@ -61,6 +64,8 @@ func init() {
 	core.NewBattleMasterTrinketEffect(34050, 1750)
 	core.NewBattleMasterTrinketEffect(34162, 1750)
 	core.NewBattleMasterTrinketEffect(34163, 1750)
+	core.NewBattleMasterTrinketEffect(35326, 1750)
+	core.NewBattleMasterTrinketEffect(35327, 1750)
 
 	core.NewSimpleStatDefensiveTrinketEffect(28484, stats.Stats{stats.Health: 1500, stats.Strength: 150}, time.Second*15, time.Minute*30)
 	core.NewSimpleStatDefensiveTrinketEffect(28485, stats.Stats{stats.Health: 1500, stats.Strength: 150}, time.Second*15, time.Minute*30)

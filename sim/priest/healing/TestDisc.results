@@ -432,6 +432,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDisc-AllItems-Figurine-SeasprayAlbatross-35703"
+ value: {
+  tps: 16.12464
+  hps: 3645.52913
+ }
+}
+dps_results: {
  key: "TestDisc-AllItems-FigurineoftheColossus-27529"
  value: {
   tps: 16.17623
@@ -478,6 +485,13 @@ dps_results: {
  value: {
   tps: 14.26828
   hps: 3900.83664
+ }
+}
+dps_results: {
+ key: "TestDisc-AllItems-GlimmeringNaaruSliver-34430"
+ value: {
+  tps: 16.26587
+  hps: 3689.58347
  }
 }
 dps_results: {
