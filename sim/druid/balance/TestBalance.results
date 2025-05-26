@@ -236,10 +236,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBalance-AllItems-DarkmoonCard:Crusade-31856"
+ value: {
+  dps: 7235.82557
+  tps: 6924.56306
+ }
+}
+dps_results: {
  key: "TestBalance-AllItems-DarkmoonCard:Greatness-44255"
  value: {
   dps: 7915.86376
   tps: 7622.29613
+ }
+}
+dps_results: {
+ key: "TestBalance-AllItems-DarkmoonCard:Wrath-31857"
+ value: {
+  dps: 7256.08456
+  tps: 6943.52059
  }
 }
 dps_results: {
@@ -567,6 +581,13 @@ dps_results: {
 }
 dps_results: {
  key: "TestBalance-AllItems-IdolofMutilation-47668"
+ value: {
+  dps: 7136.66459
+  tps: 6825.74565
+ }
+}
+dps_results: {
+ key: "TestBalance-AllItems-IdolofTerror-33509"
  value: {
   dps: 7136.66459
   tps: 6825.74565
@@ -1050,10 +1071,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBalance-AllItems-TheHammerofDestiny-31322"
+ value: {
+  dps: 7235.482
+  tps: 6924.56306
+ }
+}
+dps_results: {
  key: "TestBalance-AllItems-TheLightningCapacitor-28785"
  value: {
   dps: 6973.82031
   tps: 6656.09518
+ }
+}
+dps_results: {
+ key: "TestBalance-AllItems-TheNightBlade-31331"
+ value: {
+  dps: 7235.482
+  tps: 6924.56306
  }
 }
 dps_results: {

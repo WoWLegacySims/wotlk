@@ -82,6 +82,7 @@ type Character struct {
 	defensiveTrinketCD *Timer
 	offensiveTrinketCD *Timer
 	conjuredCD         *Timer
+	battlemasterCD     *Timer
 
 	Pets []*Pet // cached in AddPet, for advance()
 }
@@ -714,6 +715,9 @@ func (character *Character) GetOffensiveTrinketCD() *Timer {
 	return character.GetOrInitTimer(&character.offensiveTrinketCD)
 }
 func (character *Character) GetConjuredCD() *Timer {
+	return character.GetOrInitTimer(&character.conjuredCD)
+}
+func (character *Character) GetBattleMasterCD() *Timer {
 	return character.GetOrInitTimer(&character.conjuredCD)
 }
 

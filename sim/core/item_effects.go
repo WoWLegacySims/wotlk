@@ -150,3 +150,12 @@ func NewSimpleStatDefensiveTrinketEffect(itemID int32, bonus stats.Stats, durati
 		}
 	}, nil)
 }
+
+func NewBattleMasterTrinketEffect(itemID int32, bonus float64) {
+	NewSimpleStatItemActiveEffect(itemID, stats.Stats{stats.Health: bonus}, time.Second*15, time.Minute*3, func(character *Character) Cooldown {
+		return Cooldown{
+			Timer:    character.GetBattleMasterCD(),
+			Duration: time.Minute * 3,
+		}
+	}, nil)
+}

@@ -208,10 +208,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDestruction-AllItems-DarkmoonCard:Crusade-31856"
+ value: {
+  dps: 13076.49558
+  tps: 10728.23187
+ }
+}
+dps_results: {
  key: "TestDestruction-AllItems-DarkmoonCard:Greatness-44255"
  value: {
   dps: 13171.09899
   tps: 10813.66281
+ }
+}
+dps_results: {
+ key: "TestDestruction-AllItems-DarkmoonCard:Wrath-31857"
+ value: {
+  dps: 13083.40954
+  tps: 10734.45443
  }
 }
 dps_results: {

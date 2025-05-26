@@ -164,11 +164,10 @@ func init() {
 			ProcMask: procMask,
 			Outcome:  core.OutcomeLanded,
 			PPM:      6.0,
-			CustomCheck: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) bool {
-				return result.Target.MobType == proto.MobType_MobTypeDemon
-			},
 			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				procSpell.Cast(sim, result.Target)
+				if result.Target.MobType == proto.MobType_MobTypeDemon {
+					procSpell.Cast(sim, result.Target)
+				}
 			},
 		})
 

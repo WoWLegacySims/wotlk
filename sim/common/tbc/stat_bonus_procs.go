@@ -308,6 +308,40 @@ func init() {
 	})
 
 	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:     "Singing Crystal Axe",
+		ID:       31318,
+		AuraID:   38282,
+		Bonus:    stats.Stats{stats.MeleeHaste: 400, stats.SpellHaste: 400},
+		Duration: time.Second * 10,
+		Callback: core.CallbackOnSpellHitDealt,
+		Outcome:  core.OutcomeLanded,
+		PPM:      1,
+	})
+
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:     "Don Santos's Famous Hunting Rifle",
+		ID:       31323,
+		AuraID:   38293,
+		Bonus:    stats.Stats{stats.AttackPower: 250, stats.RangedAttackPower: 250},
+		Duration: time.Second * 10,
+		Outcome:  core.OutcomeLanded,
+		PPM:      1.6,
+	})
+
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:       "Blade of Wizardry",
+		ID:         31336,
+		AuraID:     38317,
+		Bonus:      stats.Stats{stats.MeleeHaste: 280, stats.SpellHaste: 280},
+		Duration:   time.Second * 6,
+		Callback:   core.CallbackOnSpellHitDealt,
+		ProcMask:   core.ProcMaskSpellDamage,
+		Outcome:    core.OutcomeLanded,
+		ProcChance: 0.15,
+		ICD:        time.Second * 50,
+	})
+
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
 		Name:        "Bullwark Of Azzinoth",
 		ID:          32375,
 		AuraID:      40407,
@@ -321,6 +355,18 @@ func init() {
 	})
 
 	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:       "Memento of Tyrande",
+		ID:         32496,
+		AuraID:     37656,
+		Duration:   time.Second * 15,
+		Bonus:      stats.Stats{stats.MP5: 95},
+		Callback:   core.CallbackOnCastComplete,
+		ProcMask:   core.ProcMaskSpell,
+		ProcChance: 0.1,
+		ICD:        time.Second * 50,
+	})
+
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
 		Name:     "Madness of the Betrayer",
 		ID:       32505,
 		AuraID:   42083,
@@ -330,6 +376,31 @@ func init() {
 		ProcMask: core.ProcMaskMeleeOrRanged,
 		Outcome:  core.OutcomeLanded,
 		PPM:      3,
+	})
+
+	core.NewItemEffect(32654, func(a core.Agent) {
+		character := a.GetCharacter()
+
+		character.PseudoStats.BonusDamage += 7
+
+		aura := character.NewTemporaryStatsAura("Valor", core.ActionID{SpellID: 40724}, stats.Stats{stats.AttackPower: 216, stats.RangedAttackPower: 216}, time.Second*10)
+
+		character.AddMajorCooldown(core.MajorCooldown{
+			Type: core.CooldownTypeDPS,
+			Spell: character.GetOrRegisterSpell(core.SpellConfig{
+				ActionID: core.ActionID{ItemID: 32654},
+				Cast: core.CastConfig{
+					CD: core.Cooldown{
+						Timer:    character.NewTimer(),
+						Duration: time.Minute,
+					},
+				},
+				ProcMask: core.ProcMaskEmpty,
+				ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
+					aura.Activate(sim)
+				},
+			}),
+		})
 	})
 
 	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{

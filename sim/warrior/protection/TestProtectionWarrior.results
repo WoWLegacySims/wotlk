@@ -124,6 +124,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-AshtongueTalismanofValor-32485"
+ value: {
+  dps: 1437.19506
+  tps: 3737.75936
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-AustereEarthsiegeDiamond"
  value: {
   dps: 1435.50392
@@ -231,6 +238,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-Blinkstrike-31332"
+ value: {
+  dps: 1435.50392
+  tps: 3734.3775
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-BloodlustBrooch-29383"
  value: {
   dps: 1448.89647
@@ -316,10 +330,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-DarkmoonCard:Crusade-31856"
+ value: {
+  dps: 1445.24639
+  tps: 3754.89917
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-DarkmoonCard:Greatness-44255"
  value: {
   dps: 1476.32124
   tps: 3828.30966
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-DarkmoonCard:Wrath-31857"
+ value: {
+  dps: 1437.09454
+  tps: 3737.41808
  }
 }
 dps_results: {
@@ -672,6 +700,13 @@ dps_results: {
  value: {
   dps: 1435.50392
   tps: 3734.3775
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-LeggingsofBeastMastery-31328"
+ value: {
+  dps: 1352.4277
+  tps: 3523.08386
  }
 }
 dps_results: {
@@ -1061,7 +1096,21 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-TheHammerofDestiny-31322"
+ value: {
+  dps: 1435.50392
+  tps: 3734.3775
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-TheLightningCapacitor-28785"
+ value: {
+  dps: 1435.50392
+  tps: 3734.3775
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-TheNightBlade-31331"
  value: {
   dps: 1435.50392
   tps: 3734.3775

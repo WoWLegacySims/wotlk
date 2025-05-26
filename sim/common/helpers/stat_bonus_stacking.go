@@ -22,11 +22,15 @@ type StackingStatBonusEffect struct {
 	ProcChance float64
 	ICD        time.Duration
 	PPM        float64
+	Weapon     bool
 }
 
 func NewStackingStatBonusEffect(config StackingStatBonusEffect) {
 	core.NewItemEffect(config.ID, func(agent core.Agent) {
 		character := agent.GetCharacter()
+		if config.Weapon {
+			config.ProcMask = character.GetProcMaskForItem(config.ID)
+		}
 
 		auraID := core.ActionID{SpellID: config.AuraID}
 		if auraID.IsEmptyAction() {

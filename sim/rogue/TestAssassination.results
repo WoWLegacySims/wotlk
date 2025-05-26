@@ -236,10 +236,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestAssassination-AllItems-DarkmoonCard:Crusade-31856"
+ value: {
+  dps: 6596.10206
+  tps: 4683.23246
+ }
+}
+dps_results: {
  key: "TestAssassination-AllItems-DarkmoonCard:Greatness-44255"
  value: {
   dps: 6721.69915
   tps: 4772.40639
+ }
+}
+dps_results: {
+ key: "TestAssassination-AllItems-DarkmoonCard:Wrath-31857"
+ value: {
+  dps: 6514.32756
+  tps: 4625.17257
  }
 }
 dps_results: {
@@ -838,6 +852,13 @@ dps_results: {
  value: {
   dps: 6564.52871
   tps: 4660.81538
+ }
+}
+dps_results: {
+ key: "TestAssassination-AllItems-TheNightBlade-31331"
+ value: {
+  dps: 6801.83469
+  tps: 4829.30263
  }
 }
 dps_results: {

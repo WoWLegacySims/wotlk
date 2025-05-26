@@ -273,6 +273,20 @@ func init() {
 		ICD:        time.Second * 45,
 	})
 
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:       "Libram of Divine Judgement",
+		ID:         33503,
+		AuraID:     43747,
+		Bonus:      stats.Stats{stats.AttackPower: 200},
+		Duration:   time.Second * 10,
+		Callback:   core.CallbackOnSpellHitDealt,
+		Outcome:    core.OutcomeLanded,
+		ProcChance: 0.4,
+		CustomCheck: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) bool {
+			return spell.IsSpellAction(20467)
+		},
+	})
+
 	core.NewItemEffect(37574, func(agent core.Agent) {
 		paladin := agent.(PaladinAgent).GetPaladin()
 		procAura := paladin.NewTemporaryStatsAura("Libram of Furious Blows Proc", core.ActionID{SpellID: 48835}, stats.Stats{stats.MeleeCrit: 61, stats.SpellCrit: 61}, time.Second*5)

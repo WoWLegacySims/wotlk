@@ -105,6 +105,13 @@ func (druid *Druid) GetDynamicPredStrikeStats() stats.Stats {
 	return s
 }
 
+func (druid *Druid) getFormManaReduction() float64 {
+	if druid.MainHand().ID == 31344 {
+		return 200.0
+	}
+	return 0.0
+}
+
 func (druid *Druid) registerCatFormSpell() {
 	actionID := core.ActionID{SpellID: 768}
 
@@ -211,8 +218,9 @@ func (druid *Druid) registerCatFormSpell() {
 		Flags:    core.SpellFlagNoOnCastComplete | core.SpellFlagAPL,
 
 		ManaCost: core.ManaCostOptions{
-			BaseCost:   0.35,
-			Multiplier: (1 - 0.2*float64(druid.Talents.KingOfTheJungle)) * (1 - 0.1*float64(druid.Talents.NaturalShapeshifter)),
+			BaseCost:     0.35,
+			Multiplier:   (1 - 0.2*float64(druid.Talents.KingOfTheJungle)) * (1 - 0.1*float64(druid.Talents.NaturalShapeshifter)),
+			FlatModifier: -druid.getFormManaReduction(),
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
@@ -348,8 +356,9 @@ func (druid *Druid) registerBearFormSpell() {
 		Flags:    core.SpellFlagNoOnCastComplete | core.SpellFlagAPL,
 
 		ManaCost: core.ManaCostOptions{
-			BaseCost:   0.35,
-			Multiplier: (1 - 0.2*float64(druid.Talents.KingOfTheJungle)) * (1 - 0.1*float64(druid.Talents.NaturalShapeshifter)),
+			BaseCost:     0.35,
+			Multiplier:   (1 - 0.2*float64(druid.Talents.KingOfTheJungle)) * (1 - 0.1*float64(druid.Talents.NaturalShapeshifter)),
+			FlatModifier: -druid.getFormManaReduction(),
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{

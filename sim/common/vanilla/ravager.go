@@ -74,10 +74,10 @@ func init() {
 			ProcMask: procmask,
 			Outcome:  core.OutcomeLanded,
 			PPM:      0.7,
-			CustomCheck: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) bool {
-				return character.ChanneledDot == nil
-			},
 			Handler: func(sim *core.Simulation, _ *core.Spell, result *core.SpellResult) {
+				if character.ChanneledDot != nil {
+					return
+				}
 				character.AutoAttacks.StopMeleeUntil(sim, time.Second*9, false)
 				spell.Cast(sim, &character.Unit)
 			},

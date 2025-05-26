@@ -207,6 +207,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestRetribution-AllItems-Blinkstrike-31332"
+ value: {
+  dps: 6620.68072
+  tps: 6706.48121
+  dtps: 9.92986
+ }
+}
+dps_results: {
  key: "TestRetribution-AllItems-BloodlustBrooch-29383"
  value: {
   dps: 6485.04375
@@ -304,10 +312,26 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestRetribution-AllItems-DarkmoonCard:Crusade-31856"
+ value: {
+  dps: 6470.66223
+  tps: 6556.46272
+  dtps: 9.92986
+ }
+}
+dps_results: {
  key: "TestRetribution-AllItems-DarkmoonCard:Greatness-44255"
  value: {
   dps: 6379.6206
   tps: 6464.8969
+  dtps: 9.92986
+ }
+}
+dps_results: {
+ key: "TestRetribution-AllItems-DarkmoonCard:Wrath-31857"
+ value: {
+  dps: 6385.47419
+  tps: 6471.27468
   dtps: 9.92986
  }
 }
@@ -691,10 +715,26 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestRetribution-AllItems-LeggingsofBeastMastery-31328"
+ value: {
+  dps: 6149.11447
+  tps: 6234.03277
+  dtps: 9.92986
+ }
+}
+dps_results: {
  key: "TestRetribution-AllItems-LibramofAvengement-27484"
  value: {
   dps: 6544.94979
   tps: 6630.75028
+  dtps: 9.92986
+ }
+}
+dps_results: {
+ key: "TestRetribution-AllItems-LibramofDivineJudgement-33503"
+ value: {
+  dps: 6527.56941
+  tps: 6613.3699
   dtps: 9.92986
  }
 }
@@ -855,7 +895,7 @@ dps_results: {
  key: "TestRetribution-AllItems-PendantoftheVioletEye-28727"
  value: {
   dps: 6379.6206
-  tps: 6462.53264
+  tps: 6465.22714
   dtps: 9.92986
  }
 }
@@ -1176,6 +1216,14 @@ dps_results: {
  value: {
   dps: 6379.6206
   tps: 6465.42109
+  dtps: 9.92986
+ }
+}
+dps_results: {
+ key: "TestRetribution-AllItems-TheHammerofDestiny-31322"
+ value: {
+  dps: 6683.9055
+  tps: 6769.57314
   dtps: 9.92986
  }
 }

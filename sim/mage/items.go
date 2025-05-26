@@ -132,3 +132,22 @@ var ItemSetGladiatorsRegalia = core.NewItemSet(core.ItemSet{
 		},
 	},
 })
+
+func init() {
+	core.NewItemEffect(32488, func(a core.Agent) {
+		character := a.GetCharacter()
+		aura := character.NewTemporaryStatsAura("Insight of the Ashtongue", core.ActionID{SpellID: 40483}, stats.Stats{stats.SpellHaste: 145}, time.Second*5)
+
+		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			Name:       "Ashtongue Talisman of Insight",
+			ActionID:   core.ActionID{ItemID: 32488},
+			Callback:   core.CallbackOnSpellHitDealt,
+			ProcMask:   core.ProcMaskSpellDamage,
+			Outcome:    core.OutcomeCrit,
+			ProcChance: 0.5,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				aura.Activate(sim)
+			},
+		})
+	})
+}

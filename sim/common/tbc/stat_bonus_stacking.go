@@ -27,13 +27,13 @@ func init() {
 			Name:     "Pendant of the Violet Eye",
 			Callback: core.CallbackOnCastComplete,
 			Duration: time.Second * 20,
-			CustomCheck: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) bool {
+			Handler: func(sim *core.Simulation, spell *core.Spell, _ *core.SpellResult) {
 				var i any = spell.Cost
 				_, ok := i.(core.ManaCost)
-				return ok && spell.CurCast.Cost > 0
-			},
-			Handler: func(sim *core.Simulation, _ *core.Spell, _ *core.SpellResult) {
-				stackAura.Activate(sim)
+				if ok && spell.CurCast.Cost > 0 {
+					stackAura.Activate(sim)
+				}
+
 			},
 		})
 		useAura.OnExpire = func(aura *core.Aura, sim *core.Simulation) {
@@ -57,6 +57,93 @@ func init() {
 			}),
 		})
 
+	})
+
+	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{
+		Name:      "The Night Blade",
+		ID:        31331,
+		AuraID:    38307,
+		Duration:  time.Second * 10,
+		MaxStacks: 3,
+		Bonus:     stats.Stats{stats.ArmorPenetration: 62},
+		Callback:  core.CallbackOnSpellHitDealt,
+		Weapon:    true,
+	})
+
+	core.NewItemEffect(31856, func(agent core.Agent) {
+		character := agent.GetCharacter()
+
+		apAura := character.GetOrRegisterAura(core.Aura{
+			Label:     "Aura of the Crusader",
+			ActionID:  core.ActionID{SpellID: 39439},
+			Duration:  time.Second * 10,
+			MaxStacks: 20,
+			OnStacksChange: func(aura *core.Aura, sim *core.Simulation, oldStacks, newStacks int32) {
+				character.AddStatsDynamic(sim, stats.Stats{stats.AttackPower: 6, stats.RangedAttackPower: 6}.Multiply(float64(newStacks-oldStacks)))
+			},
+		})
+
+		spAura := character.GetOrRegisterAura(core.Aura{
+			Label:     "Aura of the Crusader",
+			ActionID:  core.ActionID{SpellID: 39441},
+			Duration:  time.Second * 10,
+			MaxStacks: 10,
+			OnStacksChange: func(aura *core.Aura, sim *core.Simulation, oldStacks, newStacks int32) {
+				character.AddStatsDynamic(sim, stats.Stats{stats.SpellPower: 8}.Multiply(float64(newStacks-oldStacks)))
+			},
+		})
+
+		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			ActionID: core.ActionID{ItemID: 31856},
+			Name:     "Darkmoon Card: Crusade",
+			Callback: core.CallbackOnSpellHitDealt,
+			ProcMask: core.ProcMaskDirect,
+			Outcome:  core.OutcomeLanded,
+			Handler: func(sim *core.Simulation, spell *core.Spell, _ *core.SpellResult) {
+				if spell.ProcMask.Matches(core.ProcMaskMeleeOrRanged) {
+					apAura.Activate(sim)
+					apAura.AddStack(sim)
+				}
+				if spell.ProcMask.Matches(core.ProcMaskSpellDamage) {
+					spAura.Activate(sim)
+					spAura.AddStack(sim)
+				}
+			},
+		})
+	})
+
+	core.NewItemEffect(31857, func(agent core.Agent) {
+		character := agent.GetCharacter()
+
+		aura := character.GetOrRegisterAura(core.Aura{
+			Label:     "Aura of Wrath",
+			ActionID:  core.ActionID{SpellID: 39443},
+			Duration:  time.Second * 10,
+			MaxStacks: 20,
+			OnStacksChange: func(aura *core.Aura, sim *core.Simulation, oldStacks, newStacks int32) {
+				character.AddStatsDynamic(sim, stats.Stats{stats.MeleeCrit: 17, stats.SpellCrit: 17}.Multiply(float64(newStacks-oldStacks)))
+			},
+			OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				if result.Outcome.Matches(core.OutcomeCrit) {
+					aura.Deactivate(sim)
+				}
+			},
+		})
+
+		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			ActionID: core.ActionID{ItemID: 31857},
+			Name:     "Darkmoon Card: Wrath",
+			Callback: core.CallbackOnSpellHitDealt,
+			ProcMask: core.ProcMaskDirect,
+			Outcome:  core.OutcomeLanded,
+			Handler: func(sim *core.Simulation, _ *core.Spell, result *core.SpellResult) {
+				if !result.Outcome.Matches(core.OutcomeCrit) {
+					return
+				}
+				aura.Activate(sim)
+				aura.AddStack(sim)
+			},
+		})
 	})
 
 	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{

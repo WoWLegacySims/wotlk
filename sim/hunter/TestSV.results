@@ -207,6 +207,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSV-AllItems-Blinkstrike-31332"
+ value: {
+  dps: 7619.19347
+  tps: 6596.98211
+ }
+}
+dps_results: {
  key: "TestSV-AllItems-BloodlustBrooch-29383"
  value: {
   dps: 7384.60162
@@ -306,10 +313,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSV-AllItems-DarkmoonCard:Crusade-31856"
+ value: {
+  dps: 7371.21315
+  tps: 6358.0412
+ }
+}
+dps_results: {
  key: "TestSV-AllItems-DarkmoonCard:Greatness-44255"
  value: {
   dps: 7535.5363
   tps: 6514.1896
+ }
+}
+dps_results: {
+ key: "TestSV-AllItems-DarkmoonCard:Wrath-31857"
+ value: {
+  dps: 7306.73894
+  tps: 6300.10545
  }
 }
 dps_results: {
@@ -658,6 +679,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSV-AllItems-LeggingsofBeastMastery-31328"
+ value: {
+  dps: 7155.93108
+  tps: 6156.8398
+ }
+}
+dps_results: {
  key: "TestSV-AllItems-LeyOrb-7508"
  value: {
   dps: 7582.90793
@@ -753,7 +781,7 @@ dps_results: {
  key: "TestSV-AllItems-PendantoftheVioletEye-28727"
  value: {
   dps: 7325.50069
-  tps: 6314.63527
+  tps: 6316.29725
  }
 }
 dps_results: {
@@ -1030,10 +1058,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSV-AllItems-TheHammerofDestiny-31322"
+ value: {
+  dps: 7648.87472
+  tps: 6622.04182
+ }
+}
+dps_results: {
  key: "TestSV-AllItems-TheLightningCapacitor-28785"
  value: {
   dps: 7304.24388
   tps: 6297.38271
+ }
+}
+dps_results: {
+ key: "TestSV-AllItems-TheNightBlade-31331"
+ value: {
+  dps: 7619.19347
+  tps: 6596.98211
  }
 }
 dps_results: {

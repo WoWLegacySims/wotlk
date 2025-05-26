@@ -180,6 +180,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestUnholy-AllItems-Blinkstrike-31332"
+ value: {
+  dps: 9621.78537
+  tps: 5897.00819
+  hps: 50.10598
+ }
+}
+dps_results: {
  key: "TestUnholy-AllItems-BloodlustBrooch-29383"
  value: {
   dps: 9176.17252
@@ -276,10 +284,26 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestUnholy-AllItems-DarkmoonCard:Crusade-31856"
+ value: {
+  dps: 9150.51832
+  tps: 5675.43803
+  hps: 50.10598
+ }
+}
+dps_results: {
  key: "TestUnholy-AllItems-DarkmoonCard:Greatness-44255"
  value: {
   dps: 9351.31008
   tps: 5753.13136
+  hps: 50.10598
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-DarkmoonCard:Wrath-31857"
+ value: {
+  dps: 9079.28614
+  tps: 5623.03915
   hps: 50.10598
  }
 }
@@ -665,6 +689,14 @@ dps_results: {
   dps: 9621.78537
   tps: 5897.00819
   hps: 50.10598
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-LeggingsofBeastMastery-31328"
+ value: {
+  dps: 8792.21426
+  tps: 5346.74673
+  hps: 48.12149
  }
 }
 dps_results: {
@@ -1152,6 +1184,14 @@ dps_results: {
  value: {
   dps: 9067.17559
   tps: 5613.00561
+  hps: 50.10598
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-TheHammerofDestiny-31322"
+ value: {
+  dps: 9621.78537
+  tps: 5897.00819
   hps: 50.10598
  }
 }

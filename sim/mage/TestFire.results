@@ -86,6 +86,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFire-AllItems-AshtongueTalismanofInsight-32488"
+ value: {
+  dps: 10347.59896
+  tps: 8334.92646
+ }
+}
+dps_results: {
  key: "TestFire-AllItems-AustereEarthsiegeDiamond"
  value: {
   dps: 10329.22204
@@ -148,6 +155,13 @@ dps_results: {
  value: {
   dps: 7285.06971
   tps: 5864.66949
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-Blinkstrike-31332"
+ value: {
+  dps: 10731.99264
+  tps: 8645.30928
  }
 }
 dps_results: {
@@ -229,10 +243,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFire-AllItems-DarkmoonCard:Crusade-31856"
+ value: {
+  dps: 10129.91633
+  tps: 8162.22115
+ }
+}
+dps_results: {
  key: "TestFire-AllItems-DarkmoonCard:Greatness-44255"
  value: {
   dps: 10304.56767
   tps: 8305.10415
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-DarkmoonCard:Wrath-31857"
+ value: {
+  dps: 10200.24134
+  tps: 8219.5948
  }
 }
 dps_results: {
@@ -864,6 +892,13 @@ dps_results: {
  value: {
   dps: 10197.4916
   tps: 8231.99178
+ }
+}
+dps_results: {
+ key: "TestFire-AllItems-TheNightBlade-31331"
+ value: {
+  dps: 10731.99264
+  tps: 8645.30928
  }
 }
 dps_results: {

@@ -236,10 +236,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSubtlety-AllItems-DarkmoonCard:Crusade-31856"
+ value: {
+  dps: 6261.93329
+  tps: 4445.97263
+ }
+}
+dps_results: {
  key: "TestSubtlety-AllItems-DarkmoonCard:Greatness-44255"
  value: {
   dps: 6308.26567
   tps: 4478.86862
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-DarkmoonCard:Wrath-31857"
+ value: {
+  dps: 6175.71108
+  tps: 4384.75486
  }
 }
 dps_results: {
@@ -838,6 +852,13 @@ dps_results: {
  value: {
   dps: 6195.6036
   tps: 4398.87856
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-TheNightBlade-31331"
+ value: {
+  dps: 6423.40614
+  tps: 4560.61836
  }
 }
 dps_results: {

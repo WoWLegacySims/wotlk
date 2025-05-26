@@ -165,6 +165,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFrost-AllItems-Blinkstrike-31332"
+ value: {
+  dps: 11141.09939
+  tps: 6475.26302
+ }
+}
+dps_results: {
  key: "TestFrost-AllItems-BloodlustBrooch-29383"
  value: {
   dps: 10744.45277
@@ -250,10 +257,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFrost-AllItems-DarkmoonCard:Crusade-31856"
+ value: {
+  dps: 10734.31188
+  tps: 6231.19052
+ }
+}
+dps_results: {
  key: "TestFrost-AllItems-DarkmoonCard:Greatness-44255"
  value: {
   dps: 10874.43067
   tps: 6305.49527
+ }
+}
+dps_results: {
+ key: "TestFrost-AllItems-DarkmoonCard:Wrath-31857"
+ value: {
+  dps: 10654.94473
+  tps: 6183.57023
  }
 }
 dps_results: {
@@ -592,6 +613,13 @@ dps_results: {
  value: {
   dps: 11141.09939
   tps: 6475.26302
+ }
+}
+dps_results: {
+ key: "TestFrost-AllItems-LeggingsofBeastMastery-31328"
+ value: {
+  dps: 10134.97651
+  tps: 5880.49343
  }
 }
 dps_results: {
@@ -1027,6 +1055,13 @@ dps_results: {
  value: {
   dps: 10642.59508
   tps: 6176.16044
+ }
+}
+dps_results: {
+ key: "TestFrost-AllItems-TheHammerofDestiny-31322"
+ value: {
+  dps: 11141.09939
+  tps: 6475.26302
  }
 }
 dps_results: {

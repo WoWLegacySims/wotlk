@@ -3,6 +3,7 @@ package tbc
 import (
 	"time"
 
+	"github.com/WoWLegacySims/wotlk/sim/common/helpers"
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
@@ -428,6 +429,41 @@ func init() {
 				procSpell.Cast(sim, result.Target)
 			},
 		})
+	})
+
+	core.NewItemEffect(31322, func(a core.Agent) {
+		character := a.GetCharacter()
+		procmask := character.GetProcMaskForItem(31322)
+		metrics := character.NewManaMetrics(core.ActionID{SpellID: 38284})
+
+		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			Name:     "The Hammer of Destiniy",
+			ActionID: core.ActionID{ItemID: 31322},
+			Callback: core.CallbackOnSpellHitDealt,
+			ProcMask: procmask,
+			Outcome:  core.OutcomeLanded,
+			PPM:      2.5,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				amount := sim.Roll(169, 61)
+				character.AddMana(sim, amount, metrics)
+			},
+		})
+	})
+
+	core.NewItemEffect(31328, func(agent core.Agent) { //Beast-tamer's Shoulders
+		for _, pet := range agent.GetCharacter().Pets {
+			if pet.IsGuardian() {
+				continue // not sure if this applies to guardians.
+			}
+			pet.AddStats(stats.Stats{stats.AttackPower: 70, stats.Armor: 490, stats.Stamina: 52})
+		}
+	})
+
+	helpers.NewWeaponExtraAttackProc(31332, helpers.WeaponExtraAttack{
+		WeaponProc: helpers.WeaponProc{
+			Name: "Blinkstrike",
+			PPM:  1.54,
+		},
 	})
 
 	core.NewItemEffect(32262, func(agent core.Agent) {

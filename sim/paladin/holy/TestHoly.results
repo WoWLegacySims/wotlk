@@ -130,6 +130,10 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestHoly-AllItems-Blinkstrike-31332"
+ value: {}
+}
+dps_results: {
  key: "TestHoly-AllItems-BloodlustBrooch-29383"
  value: {}
 }
@@ -170,6 +174,14 @@ dps_results: {
  value: {
   hps: 64
  }
+}
+dps_results: {
+ key: "TestHoly-AllItems-DarkmoonCard:Crusade-31856"
+ value: {}
+}
+dps_results: {
+ key: "TestHoly-AllItems-DarkmoonCard:Wrath-31857"
+ value: {}
 }
 dps_results: {
  key: "TestHoly-AllItems-DazzlingLongsword-869"
@@ -364,7 +376,15 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestHoly-AllItems-LeggingsofBeastMastery-31328"
+ value: {}
+}
+dps_results: {
  key: "TestHoly-AllItems-LibramofAvengement-27484"
+ value: {}
+}
+dps_results: {
+ key: "TestHoly-AllItems-LibramofDivineJudgement-33503"
  value: {}
 }
 dps_results: {
@@ -599,6 +619,10 @@ dps_results: {
 }
 dps_results: {
  key: "TestHoly-AllItems-TheGreenTower-1204"
+ value: {}
+}
+dps_results: {
+ key: "TestHoly-AllItems-TheHammerofDestiny-31322"
  value: {}
 }
 dps_results: {

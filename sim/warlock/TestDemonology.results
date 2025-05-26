@@ -208,10 +208,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDemonology-AllItems-DarkmoonCard:Crusade-31856"
+ value: {
+  dps: 13004.32204
+  tps: 11002.72402
+ }
+}
+dps_results: {
  key: "TestDemonology-AllItems-DarkmoonCard:Greatness-44255"
  value: {
   dps: 13123.93111
   tps: 11115.18172
+ }
+}
+dps_results: {
+ key: "TestDemonology-AllItems-DarkmoonCard:Wrath-31857"
+ value: {
+  dps: 13013.81975
+  tps: 11012.22173
  }
 }
 dps_results: {

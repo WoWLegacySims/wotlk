@@ -320,10 +320,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestElemental-AllItems-DarkmoonCard:Crusade-31856"
+ value: {
+  dps: 5849.53688
+  tps: 3437.61665
+ }
+}
+dps_results: {
  key: "TestElemental-AllItems-DarkmoonCard:Greatness-44255"
  value: {
   dps: 6424.39258
   tps: 3780.36815
+ }
+}
+dps_results: {
+ key: "TestElemental-AllItems-DarkmoonCard:Wrath-31857"
+ value: {
+  dps: 5858.46988
+  tps: 3442.20012
  }
 }
 dps_results: {
@@ -709,6 +723,13 @@ dps_results: {
  value: {
   dps: 6282.40423
   tps: 3676.87605
+ }
+}
+dps_results: {
+ key: "TestElemental-AllItems-LeggingsofBeastMastery-31328"
+ value: {
+  dps: 5388.00088
+  tps: 3159.12245
  }
 }
 dps_results: {
@@ -1111,10 +1132,24 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestElemental-AllItems-TheHammerofDestiny-31322"
+ value: {
+  dps: 6282.40423
+  tps: 3676.87605
+ }
+}
+dps_results: {
  key: "TestElemental-AllItems-TheLightningCapacitor-28785"
  value: {
   dps: 5921.43437
   tps: 3507.11538
+ }
+}
+dps_results: {
+ key: "TestElemental-AllItems-TheNightBlade-31331"
+ value: {
+  dps: 6282.40423
+  tps: 3676.87605
  }
 }
 dps_results: {
