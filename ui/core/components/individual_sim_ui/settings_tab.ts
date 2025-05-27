@@ -99,7 +99,7 @@ export class SettingsTab extends SimTab {
 
 		this.configureIconSection(
 			playerIconGroup,
-			this.simUI.individualConfig.playerIconInputs.map(iconInput => IconInputs.buildIconInput(playerIconGroup, this.simUI.player, iconInput)),
+			this.simUI.individualConfig.playerIconInputs.map(iconInput => IconInputs.buildIconInput(playerIconGroup, this.simUI, iconInput)),
 			true,
 		);
 

@@ -215,6 +215,10 @@ export class RaidSimUI extends SimUI {
 		return linkUrl.toString();
 	}
 
+	getLevel(): number {
+		return 80 //@todo raidsim levelled
+	}
+
 	fromProto(eventID: EventID, settings: RaidSimSettings) {
 		TypedEvent.freezeAllAndDo(() => {
 			if (settings.settings) {

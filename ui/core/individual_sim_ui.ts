@@ -206,6 +206,7 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 		this.raidSimResultsManager = null;
 		this.prevEpIterations = 0;
 		this.prevEpSimResult = null;
+		this.levelChangeEmitter = this.player.levelChangeEmitter;
 
 		if (
 			(config.itemSwapSlots || []).length > 0 &&
@@ -261,7 +262,7 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 		});
 		this.addWarning({
 			updateOn: TypedEvent.onAny([
-				this.player.levelChangeEmitter,
+				this.levelChangeEmitter,
 				this.player.talentsChangeEmitter,
 			]),
 			getContent: () => {
@@ -618,6 +619,10 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 
 	toLink(): string {
 		return Exporters.IndividualLinkExporter.createLink(this);
+	}
+
+	getLevel(): number {
+		return this.player.getLevel();
 	}
 
 	fromProto(

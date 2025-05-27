@@ -1,5 +1,6 @@
-import { Stat, TristateEffect } from "../../proto/common";
-import { ActionId } from "../../proto_utils/action_id";
+import * as AURAS from "../../constants/auras";
+import { Expansion, Stat, TristateEffect } from "../../proto/common";
+import { ActionId, ActionIDMap } from "../../proto_utils/action_id";
 import {
   makeBooleanDebuffInput,
   makeBooleanIndividualBuffInput,
@@ -25,238 +26,241 @@ import { IconPickerStatOption, PickerStatOptions } from "./stat_options";
 ///////////////////////////////////////////////////////////////////////////
 
 export const AllStatsBuff = InputHelpers.makeMultiIconInput([
-	makeTristateRaidBuffInput({actionId: ActionId.fromSpellId(48470), impId: ActionId.fromSpellId(17051), fieldName: 'giftOfTheWild'}),
-	makeBooleanRaidBuffInput({actionId: ActionId.fromItemId(49634), fieldName: 'drumsOfTheWild'}),
+	makeTristateRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.MARKOFTHEWILD), impId: ActionId.fromSpellId(17051), fieldName: 'giftOfTheWild'}),
+	makeBooleanRaidBuffInput({actionId: ActionId.fromItemId(49634), fieldName: 'drumsOfTheWild', showWhen: player => player.getLevel() >= 80}),
 ], 'Stats');
 
 export const AllStatsPercentBuff = InputHelpers.makeMultiIconInput([
-	makeBooleanIndividualBuffInput({actionId: ActionId.fromSpellId(25898), fieldName: 'blessingOfKings'}),
-	makeBooleanRaidBuffInput({actionId: ActionId.fromItemId(49633), fieldName: 'drumsOfForgottenKings'}),
-	makeBooleanIndividualBuffInput({actionId: ActionId.fromSpellId(25899), fieldName: 'blessingOfSanctuary'}),
+	makeBooleanIndividualBuffInput({actionId: ActionId.fromSpellId(25898), fieldName: 'blessingOfKings', showWhen: player => player.getLevel() >= 20}),
+	makeBooleanRaidBuffInput({actionId: ActionId.fromItemId(49633), fieldName: 'drumsOfForgottenKings', showWhen: player => player.getLevel() >= 80}),
+	makeBooleanIndividualBuffInput({actionId: ActionId.fromSpellId(25899), fieldName: 'blessingOfSanctuary', showWhen: player => player.getLevel() >= 30}),
 ], 'Stats %');
 
 export const ArmorBuff = InputHelpers.makeMultiIconInput([
-	makeTristateRaidBuffInput({actionId: ActionId.fromSpellId(48942), impId: ActionId.fromSpellId(20140), fieldName: 'devotionAura'}),
-	makeTristateRaidBuffInput({actionId: ActionId.fromSpellId(58753), impId: ActionId.fromSpellId(16293), fieldName: 'stoneskinTotem'}),
-	makeBooleanRaidBuffInput({actionId: ActionId.fromItemId(43468), fieldName: 'scrollOfProtection'}),
+	makeTristateRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.DEVOTIONAURA), impId: ActionId.fromSpellId(20140), fieldName: 'devotionAura'}),
+	makeTristateRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.STONESKINTOTEM), impId: ActionId.fromSpellId(16293), fieldName: 'stoneskinTotem', showWhen: player => player.getLevel() >= 4}),
+	makeBooleanRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.ARMOR), fieldName: 'scrollOfProtection'}),
 ], 'Armor');
 
 export const AttackPowerBuff = InputHelpers.makeMultiIconInput([
-	makeTristateIndividualBuffInput({actionId: ActionId.fromSpellId(48934), impId: ActionId.fromSpellId(20045), fieldName: 'blessingOfMight'}),
-	makeTristateRaidBuffInput({actionId: ActionId.fromSpellId(47436), impId: ActionId.fromSpellId(12861), fieldName: 'battleShout'}),
+	makeTristateIndividualBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.BLESSINGOFMIGHT), impId: ActionId.fromSpellId(20045), fieldName: 'blessingOfMight', showWhen: player => player.getLevel() >= 4}),
+	makeTristateRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.BATTLESHOUT), impId: ActionId.fromSpellId(12861), fieldName: 'battleShout'}),
 ], 'AP');
 
 export const AttackPowerPercentBuff = InputHelpers.makeMultiIconInput([
-	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(53138), fieldName: 'abominationsMight'}),
-	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(30809), fieldName: 'unleashedRage'}),
-	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(19506), fieldName: 'trueshotAura'}),
+	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(53138), fieldName: 'abominationsMight', showWhen: player => player.getLevel() >= 58}),
+	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(30809), fieldName: 'unleashedRage', showWhen: player => player.getLevel() >= 37}),
+	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(19506), fieldName: 'trueshotAura', showWhen: player => player.getLevel() >= 40}),
 ], 'Atk Pwr %');
 
 export const Bloodlust = withLabel(
-  makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(2825), fieldName: 'bloodlust'}),
+  makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(2825), fieldName: 'bloodlust', showWhen: player => player.getLevel() >= 70}),
   'Lust',
 );
 
 export const DamagePercentBuff = InputHelpers.makeMultiIconInput([
-	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(31869), fieldName: 'sanctifiedRetribution'}),
-	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(31583), fieldName: 'arcaneEmpowerment'}),
-	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(34460), fieldName: 'ferociousInspiration'}),
+	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(31869), fieldName: 'sanctifiedRetribution', showWhen: player => player.getLevel() >= 30}),
+	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(31583), fieldName: 'arcaneEmpowerment', showWhen: player => player.getLevel() >= 42}),
+	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(34460), fieldName: 'ferociousInspiration', showWhen: player => player.getLevel() >= 42}),
 ], 'Dmg %');
 
 export const DamageReductionPercentBuff = InputHelpers.makeMultiIconInput([
-	makeBooleanIndividualBuffInput({actionId: ActionId.fromSpellId(57472), fieldName: 'renewedHope'}),
-	makeBooleanIndividualBuffInput({actionId: ActionId.fromSpellId(25899), fieldName: 'blessingOfSanctuary'}),
-	makeBooleanIndividualBuffInput({actionId: ActionId.fromSpellId(50720), fieldName: 'vigilance'}),
+	makeBooleanIndividualBuffInput({actionId: ActionId.fromSpellId(57472), fieldName: 'renewedHope', showWhen: player => player.getLevel() >= 45}),
+	makeBooleanIndividualBuffInput({actionId: ActionId.fromSpellId(25899), fieldName: 'blessingOfSanctuary', showWhen: player => player.getLevel() >= 30}),
+	makeBooleanIndividualBuffInput({actionId: ActionId.fromSpellId(50720), fieldName: 'vigilance', showWhen: player => player.getLevel() >= 40}),
 ], 'Mit %');
 
 export const DefensiveCooldownBuff = InputHelpers.makeMultiIconInput([
-	makeMultistateIndividualBuffInput({actionId: ActionId.fromSpellId(6940), numStates: 11, fieldName: 'handOfSacrifices'}),
-	makeMultistateIndividualBuffInput({actionId: ActionId.fromSpellId(53530), numStates: 11, fieldName: 'divineGuardians'}),
-	makeMultistateIndividualBuffInput({actionId: ActionId.fromSpellId(33206), numStates: 11, fieldName: 'painSuppressions'}),
-	makeMultistateIndividualBuffInput({actionId: ActionId.fromSpellId(47788), numStates: 11, fieldName: 'guardianSpirits'}),
+	makeMultistateIndividualBuffInput({actionId: ActionId.fromSpellId(6940), numStates: 11, fieldName: 'handOfSacrifices', showWhen: player => player.getLevel() >= 46}),
+	makeMultistateIndividualBuffInput({actionId: ActionId.fromSpellId(53530), numStates: 11, fieldName: 'divineGuardians', showWhen: player => player.getLevel() >= 26}),
+	makeMultistateIndividualBuffInput({actionId: ActionId.fromSpellId(33206), numStates: 11, fieldName: 'painSuppressions', showWhen: player => player.getLevel() >= 50}),
+	makeMultistateIndividualBuffInput({actionId: ActionId.fromSpellId(47788), numStates: 11, fieldName: 'guardianSpirits', showWhen: player => player.getLevel() >= 60}),
 ], 'Defensive CDs');
 
 export const HastePercentBuff = InputHelpers.makeMultiIconInput([
-	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(53648), fieldName: 'swiftRetribution'}),
-	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(48396), fieldName: 'moonkinAura', value: TristateEffect.TristateEffectImproved}),
+	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(53648), fieldName: 'swiftRetribution', showWhen: player => player.getLevel() >= 52}),
+	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(48396), fieldName: 'moonkinAura', value: TristateEffect.TristateEffectImproved, showWhen: player => player.getLevel() >= 43}),
 ], 'Haste %');
 
 export const HealthBuff = InputHelpers.makeMultiIconInput([
-	makeTristateRaidBuffInput({actionId: ActionId.fromSpellId(47440), impId: ActionId.fromSpellId(12861), fieldName: 'commandingShout'}),
-	makeTristateRaidBuffInput({actionId: ActionId.fromSpellId(47982), impId: ActionId.fromSpellId(18696), fieldName: 'bloodPact'}),
+	makeTristateRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.COMMANDINGSHOUT), impId: ActionId.fromSpellId(12861), fieldName: 'commandingShout', showWhen: player => player.getLevel() >= 68}),
+	makeTristateRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.BLOODPACT), impId: ActionId.fromSpellId(18696), fieldName: 'bloodPact', showWhen: player => player.getLevel() >= 4}),
 ], 'Health');
 
 export const IntellectBuff = InputHelpers.makeMultiIconInput([
-	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(43002), fieldName: 'arcaneBrilliance'}),
-	makeTristateRaidBuffInput({actionId: ActionId.fromSpellId(57567), impId: ActionId.fromSpellId(54038), fieldName: 'felIntelligence'}),
-	makeBooleanRaidBuffInput({actionId: ActionId.fromItemId(37092), fieldName: 'scrollOfIntellect'}),
+	makeBooleanRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.ARCANEINTELLECT), fieldName: 'arcaneBrilliance'}),
+	makeTristateRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.FELINTELLIGENCE), impId: ActionId.fromSpellId(54038), fieldName: 'felIntelligence', showWhen: player => player.getLevel() >= 32}),
+	makeBooleanRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.INTELLECT), fieldName: 'scrollOfIntellect'}),
 ], 'Int');
 
 export const MeleeCritBuff = InputHelpers.makeMultiIconInput([
-	makeTristateRaidBuffInput({actionId: ActionId.fromSpellId(17007), impId: ActionId.fromSpellId(34300), fieldName: 'leaderOfThePack'}),
-	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(29801), fieldName: 'rampage'}),
+	makeTristateRaidBuffInput({actionId: ActionId.fromSpellId(17007), impId: ActionId.fromSpellId(34300), fieldName: 'leaderOfThePack', showWhen: player => player.getLevel() >= 40}),
+	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(29801), fieldName: 'rampage', showWhen: player => player.getLevel() >= 50}),
 ], 'Melee Crit');
 
 export const MeleeHasteBuff = InputHelpers.makeMultiIconInput([
-	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(55610), fieldName: 'icyTalons'}),
-	makeTristateRaidBuffInput({actionId: ActionId.fromSpellId(65990), impId: ActionId.fromSpellId(29193), fieldName: 'windfuryTotem'}),
+	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(55610), fieldName: 'icyTalons', showWhen: player => player.getLevel() >= 58}),
+	makeTristateRaidBuffInput({actionId: ActionId.fromSpellId(65990), impId: ActionId.fromSpellId(29193), fieldName: 'windfuryTotem', showWhen: player => player.getLevel() >= 30}),
 ], 'Melee Haste');
 
 export const MP5Buff = InputHelpers.makeMultiIconInput([
-	makeTristateIndividualBuffInput({actionId: ActionId.fromSpellId(48938), impId: ActionId.fromSpellId(20245), fieldName: 'blessingOfWisdom'}),
-	makeTristateRaidBuffInput({actionId: ActionId.fromSpellId(58774), impId: ActionId.fromSpellId(16206), fieldName: 'manaSpringTotem'}),
+	makeTristateIndividualBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.BLESSINGOFWISDOM), impId: ActionId.fromSpellId(20245), fieldName: 'blessingOfWisdom', showWhen: player => player.getLevel() >= 14}),
+	makeTristateRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.MANASPRINGTOTEM), impId: ActionId.fromSpellId(16206), fieldName: 'manaSpringTotem', showWhen: player => player.getLevel() >= 26}),
 ], 'MP5');
 
 export const ReplenishmentBuff = InputHelpers.makeMultiIconInput([
-	makeBooleanIndividualBuffInput({actionId: ActionId.fromSpellId(48160), fieldName: 'vampiricTouch'}),
-	makeBooleanIndividualBuffInput({actionId: ActionId.fromSpellId(31878), fieldName: 'judgementsOfTheWise'}),
-	makeBooleanIndividualBuffInput({actionId: ActionId.fromSpellId(53292), fieldName: 'huntingParty'}),
-	makeBooleanIndividualBuffInput({actionId: ActionId.fromSpellId(54118), fieldName: 'improvedSoulLeech'}),
-	makeBooleanIndividualBuffInput({actionId: ActionId.fromSpellId(44561), fieldName: 'enduringWinter'}),
+	makeBooleanIndividualBuffInput({actionId: ActionId.fromSpellId(48160), fieldName: 'vampiricTouch', showWhen: player => player.getLevel() >= 50}),
+	makeBooleanIndividualBuffInput({actionId: ActionId.fromSpellId(31878), fieldName: 'judgementsOfTheWise', showWhen: player => player.getLevel() >= 40}),
+	makeBooleanIndividualBuffInput({actionId: ActionId.fromSpellId(53292), fieldName: 'huntingParty', showWhen: player => player.getLevel() >= 55}),
+	makeBooleanIndividualBuffInput({actionId: ActionId.fromSpellId(54118), fieldName: 'improvedSoulLeech', showWhen: player => player.getLevel() >= 45}),
+	makeBooleanIndividualBuffInput({actionId: ActionId.fromSpellId(44561), fieldName: 'enduringWinter', showWhen: player => player.getLevel() >= 51}),
 ], 'Replen');
 
 export const ResistanceBuff = InputHelpers.makeMultiIconInput([
-	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(48170), fieldName: 'shadowProtection'}),
-	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(58749), fieldName: 'natureResistanceTotem'}),
-	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(49071), fieldName: 'aspectOfTheWild'}),
-	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(48945), fieldName: 'frostResistanceAura'}),
-	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(58745), fieldName: 'frostResistanceTotem'}),
+	makeBooleanRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.SHADOWPROTECTION), fieldName: 'shadowProtection', showWhen: player => player.getLevel() >= 30}),
+	makeBooleanRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.SHADOWRESISTANCEAURA), fieldName: 'shadowResistanceAura', showWhen: player => player.getLevel() >= 24}),
+	makeBooleanRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.NATURERESISTANCETOTEM), fieldName: 'natureResistanceTotem', showWhen: player => player.getLevel() >= 30}),
+	makeBooleanRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.ASPECTOFTHEWILD), fieldName: 'aspectOfTheWild', showWhen: player => player.getLevel() >= 46}),
+	makeBooleanRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.FROSTRESISTANCEAURA), fieldName: 'frostResistanceAura', showWhen: player => player.getLevel() >= 32}),
+	makeBooleanRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.FROSTRESISTANCETOTEM), fieldName: 'frostResistanceTotem', showWhen: player => player.getLevel() >= 24}),
+	makeBooleanRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.FIRERESISTANCETOTEM), fieldName: 'fireResistanceTotem', showWhen: player => player.getLevel() >= 24}),
+	makeBooleanRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.FIRERESISTANCEAURA), fieldName: 'fireResistanceAura', showWhen: player => player.getLevel() >= 24}),
 ], 'Resistances');
 
 export const RevitalizeBuff = InputHelpers.makeMultiIconInput([
-  makeMultistateMultiplierIndividualBuffInput(ActionId.fromSpellId(26982), 101, 10, 'revitalizeRejuvination'),
-  makeMultistateMultiplierIndividualBuffInput(ActionId.fromSpellId(53251), 101, 10, 'revitalizeWildGrowth'),
+  makeMultistateMultiplierIndividualBuffInput(ActionId.fromSpellId(26982), 101, 10, 'revitalizeRejuvination', player => player.getLevel() >= 42),
+  makeMultistateMultiplierIndividualBuffInput(ActionId.fromSpellId(53251), 101, 10, 'revitalizeWildGrowth', player => player.getLevel() >= 60),
 ], 'Revit', ActionId.fromSpellId(48545))
 
 export const SpellCritBuff = InputHelpers.makeMultiIconInput([
-	makeTristateRaidBuffInput({actionId: ActionId.fromSpellId(24907), impId: ActionId.fromSpellId(48396), fieldName: 'moonkinAura'}),
-	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(51470), fieldName: 'elementalOath'}),
+	makeTristateRaidBuffInput({actionId: ActionId.fromSpellId(24907), impId: ActionId.fromSpellId(48396), fieldName: 'moonkinAura', showWhen: player => player.getLevel() >= 40}),
+	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(51470), fieldName: 'elementalOath', showWhen: player => player.getLevel() >= 46}),
 ], 'Spell Crit');
 
 export const SpellHasteBuff = withLabel(
-  makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(3738), fieldName: 'wrathOfAirTotem'}),
+  makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(3738), fieldName: 'wrathOfAirTotem', showWhen: player => player.getLevel() >= 64}),
   'Spell Haste',
 );
 
 export const SpellPowerBuff = InputHelpers.makeMultiIconInput([
-	makeMultistateRaidBuffInput({actionId: ActionId.fromSpellId(47240), numStates: 2000, fieldName: 'demonicPactSp', multiplier: 20}),
-	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(57722), fieldName: 'totemOfWrath'}),
-	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(58656), fieldName: 'flametongueTotem'}),
+	makeMultistateRaidBuffInput({actionId: ActionId.fromSpellId(47240), numStates: 2000, fieldName: 'demonicPactSp', multiplier: 20, showWhen: player => player.getLevel() >= 55}),
+	makeBooleanRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.TOTEMOFWRATH), fieldName: 'totemOfWrath', showWhen: player => player.getLevel() >= 50}),
+	makeBooleanRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.FLAMETONGUETOTEM), fieldName: 'flametongueTotem', showWhen: player => player.getLevel() >= 28}),
 ], 'Spell Power');
 
 export const SpiritBuff = InputHelpers.makeMultiIconInput([
-	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(48073), fieldName: 'divineSpirit'}),
-	makeTristateRaidBuffInput({actionId: ActionId.fromSpellId(57567), impId: ActionId.fromSpellId(54038), fieldName: 'felIntelligence'}),
-	makeBooleanRaidBuffInput({actionId: ActionId.fromItemId(37098), fieldName: 'scrollOfSpirit'}),
+	makeBooleanRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.DIVINESPIRIT), fieldName: 'divineSpirit', showWhen: player => player.getLevel() >= 30}),
+	makeTristateRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.FELINTELLIGENCE), impId: ActionId.fromSpellId(54038), fieldName: 'felIntelligence', showWhen: player => player.getLevel() >= 32}),
+	makeBooleanRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.SPIRIT), fieldName: 'scrollOfSpirit'}),
 ], 'Spirit');
 
 export const StaminaBuff = InputHelpers.makeMultiIconInput([
-	makeTristateRaidBuffInput({actionId: ActionId.fromSpellId(48161), impId: ActionId.fromSpellId(14767), fieldName: 'powerWordFortitude'}),
-	makeBooleanRaidBuffInput({actionId: ActionId.fromItemId(37094), fieldName: 'scrollOfStamina'}),
+	makeTristateRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.POWERWORDFORTITUDE), impId: ActionId.fromSpellId(14767), fieldName: 'powerWordFortitude'}),
+	makeBooleanRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.STAMINA), fieldName: 'scrollOfStamina'}),
 ], 'Stamina');
 
 export const StrengthAndAgilityBuff = InputHelpers.makeMultiIconInput([
-	makeTristateRaidBuffInput({actionId: ActionId.fromSpellId(58643), impId: ActionId.fromSpellId(52456), fieldName: 'strengthOfEarthTotem'}),
-	makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(57623), fieldName: 'hornOfWinter'}),
-	makeBooleanRaidBuffInput({actionId: ActionId.fromItemId(43464), fieldName: 'scrollOfAgility'}),
-	makeBooleanRaidBuffInput({actionId: ActionId.fromItemId(43466), fieldName: 'scrollOfStrength'}),
+	makeTristateRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.STRENGTHOFEARTHTOTEM), impId: ActionId.fromSpellId(52456), fieldName: 'strengthOfEarthTotem', showWhen: player => player.getLevel() >= 10}),
+	makeBooleanRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.HORNOFWINTER), fieldName: 'hornOfWinter', showWhen: player => player.getLevel() >= 65}),
+	makeBooleanRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.AGILITY), fieldName: 'scrollOfAgility'}),
+	makeBooleanRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.STRENGTH), fieldName: 'scrollOfStrength'}),
 ], 'Str/Agi');
 
 // Misc Buffs
-export const StrengthOfWrynn = makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(73828), fieldName: 'strengthOfWrynn'});
-export const RetributionAura = makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(54043), fieldName: 'retributionAura'});
-export const BraidedEterniumChain = makeBooleanPartyBuffInput({actionId: ActionId.fromSpellId(31025), fieldName: 'braidedEterniumChain'});
-export const ChainOfTheTwilightOwl = makeBooleanPartyBuffInput({actionId: ActionId.fromSpellId(31035), fieldName: 'chainOfTheTwilightOwl'});
+export const StrengthOfWrynn = makeBooleanRaidBuffInput({actionId: ActionId.fromSpellId(73828), fieldName: 'strengthOfWrynn', showWhen: player => player.getLevel() >= 80});
+export const RetributionAura = makeBooleanRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.RETRIBUTIONAURA), fieldName: 'retributionAura', showWhen: player => player.getLevel() >= 16});
+export const BraidedEterniumChain = makeBooleanPartyBuffInput({actionId: ActionId.fromSpellId(31025), fieldName: 'braidedEterniumChain', showWhen: player => player.getLevel() >= 70});
+export const ChainOfTheTwilightOwl = makeBooleanPartyBuffInput({actionId: ActionId.fromSpellId(31035), fieldName: 'chainOfTheTwilightOwl', showWhen: player => player.getLevel() >= 70});
 export const HeroicPresence = makeBooleanPartyBuffInput({actionId: ActionId.fromSpellId(6562), fieldName: 'heroicPresence'});
-export const EyeOfTheNight = makeBooleanPartyBuffInput({actionId: ActionId.fromSpellId(31033), fieldName: 'eyeOfTheNight'});
-export const Thorns = makeTristateRaidBuffInput({actionId: ActionId.fromSpellId(53307), impId: ActionId.fromSpellId(16840), fieldName: 'thorns'});
-export const ManaTideTotem = makeMultistatePartyBuffInput(ActionId.fromSpellId(16190), 5, 'manaTideTotems');
-export const Innervate = makeMultistateIndividualBuffInput({actionId: ActionId.fromSpellId(29166), numStates: 11, fieldName: 'innervates'});
-export const PowerInfusion = makeMultistateIndividualBuffInput({actionId: ActionId.fromSpellId(10060), numStates: 11, fieldName: 'powerInfusions'});
-export const FocusMagic = makeBooleanIndividualBuffInput({actionId: ActionId.fromSpellId(54648), fieldName: 'focusMagic'});
-export const TricksOfTheTrade = makeMultistateIndividualBuffInput({actionId: ActionId.fromSpellId(57933), numStates: 20, fieldName: 'tricksOfTheTrades'});
-export const UnholyFrenzy = makeMultistateIndividualBuffInput({actionId: ActionId.fromSpellId(49016), numStates: 11, fieldName: 'unholyFrenzy'});
+export const EyeOfTheNight = makeBooleanPartyBuffInput({actionId: ActionId.fromSpellId(31033), fieldName: 'eyeOfTheNight', showWhen: player => player.getLevel() >= 70});
+export const Thorns = makeTristateRaidBuffInput({actionId: ActionIDMap.fromSpellId(AURAS.THORNS), impId: ActionId.fromSpellId(16840), fieldName: 'thorns', showWhen: player => player.getLevel() >= 6});
+export const ManaTideTotem = makeMultistatePartyBuffInput(ActionId.fromSpellId(16190), 5, 'manaTideTotems', party => party.getPlayer(0)!.getLevel() >= 40);
+export const Innervate = makeMultistateIndividualBuffInput({actionId: ActionId.fromSpellId(29166), numStates: 11, fieldName: 'innervates', showWhen: player => player.getLevel() >= 40});
+export const PowerInfusion = makeMultistateIndividualBuffInput({actionId: ActionId.fromSpellId(10060), numStates: 11, fieldName: 'powerInfusions', showWhen: player => player.getLevel() >= 40});
+export const FocusMagic = makeBooleanIndividualBuffInput({actionId: ActionId.fromSpellId(54648), fieldName: 'focusMagic', showWhen: player => player.getLevel() >= 20});
+export const TricksOfTheTrade = makeMultistateIndividualBuffInput({actionId: ActionId.fromSpellId(57933), numStates: 20, fieldName: 'tricksOfTheTrades', showWhen: player => player.getLevel() >= 75});
+export const UnholyFrenzy = makeMultistateIndividualBuffInput({actionId: ActionId.fromSpellId(49016), numStates: 11, fieldName: 'unholyFrenzy', showWhen: player => player.getLevel() >= 58});
 
 ///////////////////////////////////////////////////////////////////////////
 //                                 DEBUFFS
 ///////////////////////////////////////////////////////////////////////////
 
 export const MajorArmorDebuff = InputHelpers.makeMultiIconInput([
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(7386), fieldName: 'sunderArmor'}),
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(8647), fieldName: 'exposeArmor'}),
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(55754), fieldName: 'acidSpit'}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(7386), fieldName: 'sunderArmor', showWhen: player => player.getLevel() >= 10}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(8647), fieldName: 'exposeArmor', showWhen: player => player.getLevel() >= 14}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(55754), fieldName: 'acidSpit', showWhen: player => player.getLevel() >= 60}),
 ], 'Major ArP');
 
 export const MinorArmorDebuff = InputHelpers.makeMultiIconInput([
-	makeTristateDebuffInput({actionId: ActionId.fromSpellId(770), impId: ActionId.fromSpellId(33602), fieldName: 'faerieFire'}),
-	makeTristateDebuffInput({actionId: ActionId.fromSpellId(50511), impId: ActionId.fromSpellId(18180), fieldName: 'curseOfWeakness'}),
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(56631), fieldName: 'sting'}),
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(53598), fieldName: 'sporeCloud'}),
+	makeTristateDebuffInput({actionId: ActionId.fromSpellId(770), impId: ActionId.fromSpellId(33602), fieldName: 'faerieFire', showWhen: player => player.getLevel() >= 18}),
+	makeTristateDebuffInput({actionId:ActionIDMap.fromSpellId(AURAS.CURSEOFWEAKNESS), impId: ActionId.fromSpellId(18180), fieldName: 'curseOfWeakness', showWhen: player => player.getLevel() >= 4}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(56631), fieldName: 'sting', showWhen: player => player.getLevel() >= 60 && player.getExpansion() >= Expansion.ExpansionTbc}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(53598), fieldName: 'sporeCloud', showWhen: player => player.getLevel() >= 60 && player.getExpansion() >= Expansion.ExpansionTbc}),
 ], 'Minor ArP');
 
 export const AttackPowerDebuff = InputHelpers.makeMultiIconInput([
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(26016), fieldName: 'vindication'}),
-	makeTristateDebuffInput({actionId: ActionId.fromSpellId(47437), impId: ActionId.fromSpellId(12879), fieldName: 'demoralizingShout'}),
-	makeTristateDebuffInput({actionId: ActionId.fromSpellId(48560), impId: ActionId.fromSpellId(16862), fieldName: 'demoralizingRoar'}),
-	makeTristateDebuffInput({actionId: ActionId.fromSpellId(50511), impId: ActionId.fromSpellId(18180), fieldName: 'curseOfWeakness'}),
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(55487), fieldName: 'demoralizingScreech'}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(26016), fieldName: 'vindication', showWhen: player => player.getLevel() >= 21}),
+	makeTristateDebuffInput({actionId: ActionIDMap.fromSpellId(AURAS.DEMORALIZINGSHOUT), impId: ActionId.fromSpellId(12879), fieldName: 'demoralizingShout', showWhen: player => player.getLevel() >= 14}),
+	makeTristateDebuffInput({actionId: ActionIDMap.fromSpellId(AURAS.DEMORALIZINGROAR), impId: ActionId.fromSpellId(16862), fieldName: 'demoralizingRoar', showWhen: player => player.getLevel() >= 10}),
+	makeTristateDebuffInput({actionId: ActionIDMap.fromSpellId(AURAS.CURSEOFWEAKNESS), impId: ActionId.fromSpellId(18180), fieldName: 'curseOfWeakness', showWhen: player => player.getLevel() >= 4}),
+	makeBooleanDebuffInput({actionId: ActionIDMap.fromSpellId(AURAS.DEMORALIZINGSCREECH), fieldName: 'demoralizingScreech', showWhen: player => player.getLevel() >= 10}),
 ], 'Atk Pwr');
 
 export const BleedDebuff = InputHelpers.makeMultiIconInput([
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(48564), fieldName: 'mangle'}),
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(46855), fieldName: 'trauma'}),
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(57393), fieldName: 'stampede'}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(48564), fieldName: 'mangle', showWhen: player => player.getLevel() >= 50}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(46855), fieldName: 'trauma', showWhen: player => player.getLevel() >= 36}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(57393), fieldName: 'stampede', showWhen: player => player.getLevel() >= 68 && player.getExpansion() == Expansion.ExpansionWotlk}),
 ], 'Bleed');
 
 export const CritDebuff = InputHelpers.makeMultiIconInput([
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(30706), fieldName: 'totemOfWrath'}),
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(20337), fieldName: 'heartOfTheCrusader'}),
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(58410), fieldName: 'masterPoisoner'}),
+	makeBooleanDebuffInput({actionId: ActionIDMap.fromSpellId(AURAS.TOTEMOFWRATH), fieldName: 'totemOfWrath', showWhen: player => player.getLevel() >= 50}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(20337), fieldName: 'heartOfTheCrusader', showWhen: player => player.getLevel() >= 17}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(58410), fieldName: 'masterPoisoner', showWhen: player => player.getLevel() >= 52}),
 ], 'Crit');
 
 export const MeleeAttackSpeedDebuff = InputHelpers.makeMultiIconInput([
-	makeTristateDebuffInput({actionId: ActionId.fromSpellId(47502), impId: ActionId.fromSpellId(12666), fieldName: 'thunderClap'}),
-	makeTristateDebuffInput({actionId: ActionId.fromSpellId(55095), impId: ActionId.fromSpellId(51456), fieldName: 'frostFever'}),
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(53696), fieldName: 'judgementsOfTheJust'}),
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(48485), fieldName: 'infectedWounds'}),
+	makeTristateDebuffInput({actionId: ActionIDMap.fromSpellId(AURAS.THUNDERCLAP), impId: ActionId.fromSpellId(12666), fieldName: 'thunderClap', showWhen: player => player.getLevel() >= 6}),
+	makeTristateDebuffInput({actionId: ActionId.fromSpellId(55095), impId: ActionId.fromSpellId(51456), fieldName: 'frostFever', showWhen: player => player.getLevel() >= 58}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(53696), fieldName: 'judgementsOfTheJust', showWhen: player => player.getLevel() >= 56}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(48485), fieldName: 'infectedWounds', showWhen: player => player.getLevel() >= 47}),
 ], 'Atk Speed');
 
 export const MeleeHitDebuff = InputHelpers.makeMultiIconInput([
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(65855), fieldName: 'insectSwarm'}),
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(3043), fieldName: 'scorpidSting'}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(65855), fieldName: 'insectSwarm', showWhen: player => player.getLevel() >= 30}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(3043), fieldName: 'scorpidSting', showWhen: player => player.getLevel() >= 22}),
 ], 'Miss');
 
 export const PhysicalDamageDebuff = InputHelpers.makeMultiIconInput([
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(29859), fieldName: 'bloodFrenzy'}),
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(58413), fieldName: 'savageCombat'}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(29859), fieldName: 'bloodFrenzy', showWhen: player => player.getLevel() >= 51}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(58413), fieldName: 'savageCombat', showWhen: player => player.getLevel() >= 51}),
 ], 'Phys Vuln');
 
 export const SpellCritDebuff = InputHelpers.makeMultiIconInput([
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(17803), fieldName: 'shadowMastery'}),
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(12873), fieldName: 'improvedScorch'}),
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(28593), fieldName: 'wintersChill'}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(17803), fieldName: 'shadowMastery', showWhen: player => player.getLevel() >= 10}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(12873), fieldName: 'improvedScorch', showWhen: player => player.getLevel() >= 25}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(28593), fieldName: 'wintersChill', showWhen: player => player.getLevel() >= 35}),
 ], 'Spell Crit');
 
 export const SpellHitDebuff = InputHelpers.makeMultiIconInput([
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(33198), fieldName: 'misery'}),
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(33602), fieldName: 'faerieFire', value: TristateEffect.TristateEffectImproved}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(33198), fieldName: 'misery', showWhen: player => player.getLevel() >= 47}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(33602), fieldName: 'faerieFire', value: TristateEffect.TristateEffectImproved, showWhen: player => player.getLevel() >= 42}),
 ], 'Spell Hit');
 
 export const SpellDamageDebuff = InputHelpers.makeMultiIconInput([
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(51161), fieldName: 'ebonPlaguebringer'}),
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(48511), fieldName: 'earthAndMoon'}),
-	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(47865), fieldName: 'curseOfElements'}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(51161), fieldName: 'ebonPlaguebringer', showWhen: player => player.getLevel() >= 58}),
+	makeBooleanDebuffInput({actionId: ActionId.fromSpellId(48511), fieldName: 'earthAndMoon', showWhen: player => player.getLevel() >= 57}),
+	makeBooleanDebuffInput({actionId: ActionIDMap.fromSpellId(AURAS.CURSEOFTHEELEMENTS), fieldName: 'curseOfElements', showWhen: player => player.getLevel() >= 32}),
 ], 'Spell Dmg');
 
 export const HuntersMark = withLabel(
-  makeQuadstateDebuffInput({actionId: ActionId.fromSpellId(53338), impId: ActionId.fromSpellId(19423), impId2: ActionId.fromItemId(42907), fieldName: 'huntersMark'}),
+  makeQuadstateDebuffInput({actionId: ActionIDMap.fromSpellId(AURAS.HUNTERSMARK), impId: ActionId.fromSpellId(19423), impId2: ActionId.fromItemId(42907), fieldName: 'huntersMark', showWhen: player => player.getLevel() >= 6}),
   'Mark',
 );
-export const JudgementOfWisdom = withLabel(makeBooleanDebuffInput({actionId: ActionId.fromSpellId(53408), fieldName: 'judgementOfWisdom'}), 'JoW');
-export const JudgementOfLight = makeBooleanDebuffInput({actionId: ActionId.fromSpellId(20271), fieldName: 'judgementOfLight'});
-export const ShatteringThrow = makeMultistateIndividualBuffInput({actionId: ActionId.fromSpellId(64382), numStates: 20, fieldName: 'shatteringThrows'});
-export const GiftOfArthas = makeBooleanDebuffInput({actionId: ActionId.fromSpellId(11374), fieldName: 'giftOfArthas'});
-export const CrystalYield = makeBooleanDebuffInput({actionId: ActionId.fromSpellId(15235), fieldName: 'crystalYield'});
+export const JudgementOfWisdom = withLabel(makeBooleanDebuffInput({actionId: ActionId.fromSpellId(53408), fieldName: 'judgementOfWisdom', showWhen: player => player.getLevel() >= 12}), 'JoW');
+export const JudgementOfLight = makeBooleanDebuffInput({actionId: ActionId.fromSpellId(20271), fieldName: 'judgementOfLight', showWhen: player => player.getLevel() >= 4});
+export const ShatteringThrow = makeMultistateIndividualBuffInput({actionId: ActionId.fromSpellId(64382), numStates: 20, fieldName: 'shatteringThrows', showWhen: player => player.getLevel() >= 80});
+export const GiftOfArthas = makeBooleanDebuffInput({actionId: ActionId.fromSpellId(11374), fieldName: 'giftOfArthas', showWhen: player => player.getLevel() >= 38});
+export const CrystalYield = makeBooleanDebuffInput({actionId: ActionId.fromSpellId(15235), fieldName: 'crystalYield', showWhen: player => player.getLevel() >= 47});
 
 ///////////////////////////////////////////////////////////////////////////
 //                                 CONFIGS

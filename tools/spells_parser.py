@@ -12,6 +12,16 @@ SPELL_DURATION = "SpellDuration.csv"
 BASE_DIR = ""
 OUT_PATH = "sim/spellinfo/"
 
+def CleanName(name: str):
+    remove = "()'-:"
+    for c in remove:
+        name = name.replace(c,"")
+    return ''.join(name.split())
+
+
+AURAS = ["Aspect of the Wild","Horn of Winter","Mark of the Wild","Thorns","Hunter's Mark","Arcane Intellect","Blessing of Might","Blessing of Wisdom","Retribution Aura","Devotion Aura","Fire Resistance Aura","Frost Resistance Aura","Shadow Resistance Aura","Divine Spirit","Inner Fire","Power Word: Fortitude","Shadow Protection","Earthliving Weapon","Fire Resistance Totem","Flametongue Totem","Flametongue Weapon","Frost Resistance Totem","Frostbrand Weapon","Rockbiter Weapon","Lightning Shield","Water Shield","Mana Spring Totem","Nature Resistance Totem","Stoneskin Totem","Strength of Earth Totem","Totem of Wrath","Windfury Weapon","Curse of the Elements","Curse of Weakness","Fel Intelligence","Blood Pact","Battle Shout","Commanding Shout","Demoralizing Shout","Thunder Clap","Demoralizing Roar","Demoralizing Screech","Intellect","Stamina","Spirit","Agility","Strength","Armor","Deadly Poison","Instant Poison","Wound Poison","Magma Totem","Searing Totem","Healing Stream Totem","Create Firestone","Create Spellstone","Fel Armor"]
+AURAS = list(map(lambda x: CleanName(x),AURAS))
+
 SPELLS = {
     "deathknight": {
         "Blood Boil": [48721,49939,49940,49941],
@@ -411,6 +421,9 @@ def ApplySpellinfoCorrections(spellInfo: SpellInfo):
         case 61290:
             spellInfo.Effects[1].TriggerSpell = 61291
 
+    if(spellInfo.SpellID in [8096,8097,8098,12176,33078,43195,48099,48100,8099,8100,8101,12178,33081,43198,48101,48102,8112,8113,8114,12177,33080,43197,48103,48104,8115,8116,8117,12174,33077,43194,58450,58451,8118,8119,8120,12179,33082,43199,58448,58449,8091,8094,8095,12175,33079,43196,58452,58453]):
+        spellInfo.MinLevel = max(0,int(spellInfo.MinLevel)-10)
+
 def GenIndexedDb(file : str):
     db = {}
     with open(file) as tsv:
@@ -437,7 +450,7 @@ SPELLDBC = GenIntIndexedDb(DIR_PATH + SPELL)
 CASTTIMEDBC = GenIntIndexedDb(DIR_PATH + SPELL_CAST_TIMES)
 DURATIONDBC = GenIntIndexedDb(DIR_PATH + SPELL_DURATION)
 
-def WriteFile(cls: str, output: str):
+def WriteGoFile(cls: str, output: str):
     path = BASE_DIR + OUT_PATH + cls + "info"
     if (not os.path.exists(path)): os.mkdir(path)
     fname = path + "/spells_gen.go"
@@ -446,7 +459,14 @@ def WriteFile(cls: str, output: str):
     f.write(output)
     f.close()
 
-def GenHeader(cls: str):
+def WriteTsFile(output: str):
+    file = BASE_DIR + "ui/core/constants/auras.ts"
+    print(f"Writing stats to: {file}")
+    f = open(file, "w")
+    f.write(output)
+    f.close()
+
+def GenGoHeader(cls: str):
     output = f"""
 package {cls}info
 // **************************************
@@ -479,16 +499,9 @@ def GetDBC(id: int):
     except:
         print(f"{id} was not found")
 
-def CleanName(name: str):
-    remove = "()'-:"
-    for c in remove:
-        name = name.replace(c,"")
-    return ''.join(name.split())
-
 def GenSpellInfo(name: str, ids: List[int]):
-    output = f"var {CleanName(name)} = &spellinfo.SpellDBC{{SpellInfos: []*spellinfo.SpellInfo{{\n"
+    spellinfos = []
     for id in ids:
-        output += "{"
         dbc = GetDBC(id)
         if (dbc == None): continue
         if(dbc[Off["Name"]] != name): print(f"Error: ID:{id} {name} does not match {dbc[Off["Name"]]}")
@@ -517,6 +530,23 @@ def GenSpellInfo(name: str, ids: List[int]):
             spellInfo.Effects.append(effect)
 
         ApplySpellinfoCorrections(spellInfo)
+        spellinfos.append(spellInfo)
+
+    return spellinfos, CleanName(name)
+
+
+def GenSpells(cls: str):
+    spells = dict[str,SpellInfo]()
+    for spell in SPELLS[cls]:
+        spellinfo, name = GenSpellInfo(spell, SPELLS[cls][spell])
+        spells[name] = spellinfo
+
+    return spells
+
+def GenGoSpellInfo(name: str, spellinfos: List[SpellInfo]):
+    output = f"var {name} = &spellinfo.SpellDBC{{SpellInfos: []*spellinfo.SpellInfo{{\n"
+    for spellInfo in spellinfos:
+        output += "{"
         output += f"SpellID:{spellInfo.SpellID},MinLevel:{spellInfo.MinLevel},MaxLevel:{spellInfo.MaxLevel},Duration:{spellInfo.Duration},CastTime: {spellInfo.CastTime} * time.Millisecond,BaseCost: {spellInfo.BaseCost},ManaCost: {spellInfo.ManaCost}"
         if (spellInfo.Rank): output += f",Rank: {spellInfo.Rank}"
         output += ",Effects: [3]spellinfo.SpellEffect{"
@@ -525,25 +555,59 @@ def GenSpellInfo(name: str, ids: List[int]):
 
         output += "},},\n"
     output += "}}\n"
-    return output, CleanName(name)
+    return output
 
-
-def GenSpells(cls: str):
-    output = GenHeader(cls)
-    spells = []
-    for spell in SPELLS[cls]:
-        text, name = GenSpellInfo(spell, SPELLS[cls][spell])
+def WriteGoSpells(cls: str, spells: dict[str,List[SpellInfo]]):
+    output = GenGoHeader(cls)
+    spellnames = []
+    for spell in spells.keys():
+        text = GenGoSpellInfo(spell,spells[spell])
         output += text
-        spells.append(name)
+        spellnames.append(spell)
 
-    output += f"\n var AllSpells = []*spellinfo.SpellDBC{{{','.join(spells)}}}"
+    output += f"\n var AllSpells = []*spellinfo.SpellDBC{{{','.join(spellnames)}}}"
 
-    WriteFile(cls, output)
+    WriteGoFile(cls, output)
 
+def WriteTsSpells(spelldata: dict[str,dict[str,List[SpellInfo]]]):
+    output = ""
+    for cls in spelldata.keys():
+        for spellname in spelldata[cls].keys():
+            if(spellname in AURAS):
+                output += f"\nexport const {spellname.upper()} = ["
+                output += ",".join(map(lambda spell: f"{{level:{spell.MinLevel},id:{spell.SpellID}}}",spelldata[cls][spellname]))
+                output += "];"
 
+    output += f"\nexport const FLAMETONGUEWEAPONDR = ["
+    lastlevel = 0
+    ft = []
+    ranks = spelldata["shaman"]["FlametongueWeapon"]
+    ranks.reverse()
+    for spell in ranks:
+        if (lastlevel != 0):
+            ft.append(f"{{level:{lastlevel},id:{spell.SpellID}}}")
+        lastlevel = int(spell.MinLevel)
+    ft.reverse()
+    output += ",".join(ft)
+    output += "]"
+
+    output += f"\nexport const DEMONARMOR = ["
+    spells = []
+    for spell in spelldata["warlock"]["DemonSkin"]:
+        spells.append(f"{{level:{spell.MinLevel},id:{spell.SpellID}}}")
+
+    for spell in spelldata["warlock"]["DemonArmor"]:
+        spells.append(f"{{level:{spell.MinLevel},id:{spell.SpellID}}}")
+    output += ",".join(spells)
+    output += "]"
+    WriteTsFile(output)
 
 if __name__ == "__main__":
-
+    spelldata = dict[str, dict[str,SpellInfo]]()
     for cls in SPELLS:
-        GenSpells(cls)
+        spelldata[cls] = GenSpells(cls)
 
+    for cls in spelldata.keys():
+        WriteGoSpells(cls, spelldata[cls])
+
+    WriteTsSpells(spelldata)

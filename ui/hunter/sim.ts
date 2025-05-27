@@ -77,7 +77,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecHunter, {
 		// Warning when too many Pet talent points are used without BM talented.
 		(simUI: IndividualSimUI<Spec.SpecHunter>) => {
 			return {
-				updateOn: TypedEvent.onAny([simUI.player.talentsChangeEmitter, simUI.player.specOptionsChangeEmitter, simUI.player.levelChangeEmitter]),
+				updateOn: TypedEvent.onAny([simUI.player.talentsChangeEmitter, simUI.player.specOptionsChangeEmitter, simUI.levelChangeEmitter]),
 				getContent: () => {
 					const specOptions = simUI.player.getSpecOptions();
 					const petTalents = specOptions.petTalents || HunterPetTalents.create();

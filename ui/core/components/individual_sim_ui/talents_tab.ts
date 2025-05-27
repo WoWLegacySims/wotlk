@@ -110,7 +110,7 @@ export class TalentsTab extends SimTab {
 
   private buildHunterPetPicker(parentElem: HTMLElement) {
     new HunterPetTalentsPicker(parentElem, this.simUI, this.simUI.player as Player<Spec.SpecHunter>);
-    new IconEnumPicker(parentElem, this.simUI.player as Player<Spec.SpecHunter>, makePetTypeInputConfig());
+    new IconEnumPicker(parentElem, this.simUI.player as Player<Spec.SpecHunter>, makePetTypeInputConfig(),this.simUI);
   }
 
   private buildSavedTalentsPicker() {

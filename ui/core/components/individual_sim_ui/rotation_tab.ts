@@ -134,7 +134,7 @@ export class RotationTab extends SimTab {
 		if (this.simUI.individualConfig.rotationIconInputs?.length) {
 			this.configureIconSection(
 				rotationIconGroup,
-				this.simUI.individualConfig.rotationIconInputs.map(iconInput => IconInputs.buildIconInput(rotationIconGroup, this.simUI.player, iconInput)),
+				this.simUI.individualConfig.rotationIconInputs.map(iconInput => IconInputs.buildIconInput(rotationIconGroup, this.simUI, iconInput)),
 				true
 			);
 		}
@@ -150,7 +150,7 @@ export class RotationTab extends SimTab {
 		});
 		cooldownsContentBlock.rootElem.classList.add(cssClass);
 
-		new CooldownsPicker(cooldownsContentBlock.bodyElement, this.simUI.player);
+		new CooldownsPicker(cooldownsContentBlock.bodyElement, this.simUI);
 	}
 
 	private configureInputSection(sectionElem: HTMLElement, sectionConfig: InputSection) {

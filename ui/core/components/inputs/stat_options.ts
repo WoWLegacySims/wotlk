@@ -41,11 +41,10 @@ export interface IconEnumPickerStatOption extends PickerStatOption<
   IconEnumPickerConfig<Player<any>, any>
 > {}
 
-export type ItemStatOptions<T> = ItemStatOption<T>
 export type PickerStatOptions = IconPickerStatOption | MultiIconPickerStatOption | IconEnumPickerStatOption
-export type StatOptions<T, Options extends ItemStatOptions<T> | PickerStatOptions> = Array<Options>
+export type StatOptions<T, Options extends ItemStatOption<T> | PickerStatOptions> = Array<Options>
 
-export function relevantStatOptions<T, OptionsType extends ItemStatOptions<T> | PickerStatOptions>(
+export function relevantStatOptions<T, OptionsType extends ItemStatOption<T> | PickerStatOptions>(
 	options: StatOptions<T, OptionsType>,
 	simUI: IndividualSimUI<Spec>,
 ): StatOptions<T, OptionsType> {

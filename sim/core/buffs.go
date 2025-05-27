@@ -161,27 +161,27 @@ func init() {
 
 	for _, buff := range commoninfo.Agility.SpellInfos {
 		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
-		Buffs[ScrollOfAgility][buff.MinLevel-10] = stats.Stats{stats.Agility: value}
+		Buffs[ScrollOfAgility][buff.MinLevel] = stats.Stats{stats.Agility: value}
 	}
 	for _, buff := range commoninfo.Armor.SpellInfos {
 		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
-		Buffs[ScrollOfProtection][buff.MinLevel-10] = stats.Stats{stats.Armor: value}
+		Buffs[ScrollOfProtection][buff.MinLevel] = stats.Stats{stats.Armor: value}
 	}
 	for _, buff := range commoninfo.Intellect.SpellInfos {
 		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
-		Buffs[ScrollOfIntellect][buff.MinLevel-10] = stats.Stats{stats.Intellect: value}
+		Buffs[ScrollOfIntellect][buff.MinLevel] = stats.Stats{stats.Intellect: value}
 	}
 	for _, buff := range commoninfo.Spirit.SpellInfos {
 		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
-		Buffs[ScrollOfSpirit][buff.MinLevel-10] = stats.Stats{stats.Spirit: value}
+		Buffs[ScrollOfSpirit][buff.MinLevel] = stats.Stats{stats.Spirit: value}
 	}
 	for _, buff := range commoninfo.Stamina.SpellInfos {
 		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
-		Buffs[ScrollOfStamina][buff.MinLevel-10] = stats.Stats{stats.Stamina: value}
+		Buffs[ScrollOfStamina][buff.MinLevel] = stats.Stats{stats.Stamina: value}
 	}
 	for _, buff := range commoninfo.Strength.SpellInfos {
 		value := buff.Effects[0].BasePoints + buff.Effects[0].Die
-		Buffs[ScrollOfStrength][buff.MinLevel-10] = stats.Stats{stats.Strength: value}
+		Buffs[ScrollOfStrength][buff.MinLevel] = stats.Stats{stats.Strength: value}
 	}
 }
 

@@ -1,10 +1,9 @@
-import { UnitReference, UnitReference_Type as UnitType } from '../core/proto/common.js';
-import { Spec } from '../core/proto/common.js';
-import { ActionId } from '../core/proto_utils/action_id.js';
-import { Player } from '../core/player.js';
-import { EventID, TypedEvent } from '../core/typed_event.js';
-
 import * as InputHelpers from '../core/components/input_helpers.js';
+import { INNERFIRE } from '../core/constants/auras.js';
+import { Player } from '../core/player.js';
+import { Spec,UnitReference, UnitReference_Type as UnitType  } from '../core/proto/common.js';
+import { ActionId, ActionIDMap } from '../core/proto_utils/action_id.js';
+import { EventID, TypedEvent } from '../core/typed_event.js';
 
 // Configuration for spec-specific UI elements on the settings tab.
 // These don't need to be in a separate file but it keeps things cleaner.
@@ -28,7 +27,8 @@ export const SelfPowerInfusion = InputHelpers.makeSpecOptionsBooleanIconInput<Sp
 
 export const InnerFire = InputHelpers.makeSpecOptionsBooleanIconInput<Spec.SpecHealingPriest>({
 	fieldName: 'useInnerFire',
-	id: ActionId.fromSpellId(48168),
+	id: ActionIDMap.fromSpellId(INNERFIRE),
+	showWhen: player => player.getLevel() >= 12
 });
 
 export const Shadowfiend = InputHelpers.makeSpecOptionsBooleanIconInput<Spec.SpecHealingPriest>({

@@ -3,8 +3,61 @@ import { ActionID as ActionIdProto , OtherAction } from '../proto/common.js';
 import { IconData ,
 	UIItem as Item,
 } from '../proto/ui.js';
-import { wait } from '../utils.js';
 import { Database } from './database.js';
+
+
+interface ActionIDs {
+	[key:number]: ActionId
+}
+
+interface ActionIDInput {
+	level: number,
+	id: number,
+	tag?: number,
+}
+
+export class ActionIDMap {
+	readonly actionIds: ActionIDs;
+
+	private constructor(actionIds: ActionIDs){
+		this.actionIds = actionIds;
+	}
+
+	getActionId(level: number):ActionId | null {
+		let maxLevel = 0;
+		Object.keys(this.actionIds).forEach(k => {
+			const actionLevel = parseInt(k);
+			if(actionLevel <= level && actionLevel > maxLevel) maxLevel = actionLevel;
+		})
+		if (maxLevel)
+			return this.actionIds[maxLevel];
+		return null
+	}
+
+	static fromSpellId(pairs: ActionIDInput[]): ActionIDMap {
+		const actionids:ActionIDs = {};
+		pairs.forEach(pair => {
+			actionids[pair.level] = ActionId.fromSpellId(pair.id,pair.tag);
+		})
+		return new ActionIDMap(actionids);
+	}
+
+	static fromItemId(pairs: ActionIDInput[]): ActionIDMap {
+		const actionids:ActionIDs = {};
+		pairs.forEach(pair => {
+			actionids[pair.level] = ActionId.fromItemId(pair.id,pair.tag);
+		})
+		return new ActionIDMap(actionids);
+	}
+
+	static fromOtherId(pairs: ActionIDInput[]): ActionIDMap {
+		const actionids:ActionIDs = {};
+		pairs.forEach(pair => {
+			actionids[pair.level] = ActionId.fromOtherId(pair.id,pair.tag);
+		})
+		return new ActionIDMap(actionids);
+	}
+}
 
 // Uniquely identifies a specific item / spell / thing in WoW. This object is immutable.
 export class ActionId {

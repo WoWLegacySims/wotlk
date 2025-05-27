@@ -530,7 +530,7 @@ export class Player<SpecType extends Spec> {
 				t.level = t.level - this.level + newLevel;
 			});
 			this.level = newLevel;
-			this.levelChangeEmitter.emit(eventID);
+			this.levelChangeEmitter.emit(TypedEvent.nextEventID());
 		}
 	}
 

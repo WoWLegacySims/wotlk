@@ -51,7 +51,7 @@ export class ConsumesPicker extends Component {
 		const conjuredElem = this.rootElem.querySelector('.consumes-conjured') as HTMLElement;
 
 		this.buildPickers({
-			changeEmitters: [this.simUI.player.levelChangeEmitter],
+			changeEmitters: [this.simUI.levelChangeEmitter],
 			containerElem: rowElem,
 			options: [
 				{
@@ -97,7 +97,7 @@ export class ConsumesPicker extends Component {
 		const guardianElixirsElem = this.rootElem.querySelector('.consumes-guardian-elixirs') as HTMLElement;
 
 		this.buildPickers({
-			changeEmitters: [this.simUI.player.levelChangeEmitter],
+			changeEmitters: [this.simUI.levelChangeEmitter],
 			containerElem: rowElem,
 			options: [
 				{
@@ -139,7 +139,7 @@ export class ConsumesPicker extends Component {
 		const ohElem = this.rootElem.querySelector('.consumes-weapon-oh') as HTMLElement;
 
 		this.buildPickers({
-			changeEmitters: [this.simUI.player.gearChangeEmitter, this.simUI.player.levelChangeEmitter],
+			changeEmitters: [this.simUI.player.gearChangeEmitter, this.simUI.levelChangeEmitter],
 			containerElem: rowElem,
 			options: [{
 				getConfig: () => ConsumablesInputs.makeMHImbueInput(
@@ -172,7 +172,7 @@ export class ConsumesPicker extends Component {
 		const foodsElem = this.rootElem.querySelector('.consumes-food') as HTMLElement;
 
 		this.buildPickers({
-			changeEmitters: [this.simUI.player.levelChangeEmitter],
+			changeEmitters: [this.simUI.levelChangeEmitter],
 			containerElem: rowElem,
 			options: [
 				{
@@ -244,7 +244,7 @@ export class ConsumesPicker extends Component {
 			this.rootElem.appendChild(fragment.children[0] as HTMLElement);
 			const petConsumesElem = this.rootElem.querySelector('.consumes-pet') as HTMLElement;
 
-			this.simUI.individualConfig.petConsumeInputs.map(iconInput => buildIconInput(petConsumesElem, this.simUI.player, iconInput));
+			this.simUI.individualConfig.petConsumeInputs.map(iconInput => buildIconInput(petConsumesElem, this.simUI, iconInput));
 		}
 	}
 
@@ -271,7 +271,7 @@ export class ConsumesPicker extends Component {
 				}
 
 				if (isShown) {
-					buildIconInput(optionSet.parentElem, this.simUI.player, config);
+					buildIconInput(optionSet.parentElem, this.simUI, config);
 				}
 				else optionSet.parentElem.classList.add('hide')
 				if(!isShown && ((value: any): value is TypedIconEnumPickerConfig<Player<Spec>, number> => value.setValue !== undefined)(config)) config.setValue(0,this.simUI.player,0);

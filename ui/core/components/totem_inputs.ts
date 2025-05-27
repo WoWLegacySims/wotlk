@@ -1,31 +1,32 @@
 import { IconEnumPicker } from '../components/icon_enum_picker.js';
 import { IconPicker } from '../components/icon_picker.js';
+import * as InputHelpers from '../components/input_helpers.js';
+import { FLAMETONGUETOTEM, HEALINGSTREAMTOTEM, MAGMATOTEM, MANASPRINGTOTEM, SEARINGTOTEM, STONESKINTOTEM, STRENGTHOFEARTHTOTEM, TOTEMOFWRATH } from '../constants/auras.js';
+import { IndividualSimUI } from '../individual_sim_ui.js';
+import { Player } from '../player.js';
+import { Spec } from '../proto/common.js';
 import {
 	AirTotem,
 	EarthTotem,
 	FireTotem,
-	WaterTotem,
 	ShamanTotems,
+	WaterTotem,
 } from '../proto/shaman.js';
-import { Spec } from '../proto/common.js';
-import { ActionId } from '../proto_utils/action_id.js';
-import { Player } from '../player.js';
-import { IndividualSimUI } from '../individual_sim_ui.js';
-import { EventID } from '../typed_event.js';
-import * as InputHelpers from '../components/input_helpers.js';
+import { ActionId, ActionIDMap } from '../proto_utils/action_id.js';
 import { ShamanSpecs } from '../proto_utils/utils.js';
+import { EventID } from '../typed_event.js';
 import { ContentBlock } from './content_block.js';
 import { Input } from './input.js';
 
 export function TotemsSection(parentElem: HTMLElement, simUI: IndividualSimUI<ShamanSpecs>): ContentBlock {
-	let contentBlock = new ContentBlock(parentElem, 'totems-settings', {
+	const contentBlock = new ContentBlock(parentElem, 'totems-settings', {
 		header: { title: 'Totems' }
 	});
 
-	let totemDropdownGroup = Input.newGroupContainer();
+	const totemDropdownGroup = Input.newGroupContainer();
 	totemDropdownGroup.classList.add('totem-dropdowns-container', 'icon-group');
 
-	let fireElementalContainer = document.createElement('div');
+	const fireElementalContainer = document.createElement('div');
 	fireElementalContainer.classList.add('fire-elemental-input-container');
 
 	contentBlock.bodyElement.appendChild(totemDropdownGroup);
@@ -38,8 +39,8 @@ export function TotemsSection(parentElem: HTMLElement, simUI: IndividualSimUI<Sh
 		numColumns: 1,
 		values: [
 			{ color: '#ffdfba', value: EarthTotem.NoEarthTotem },
-			{ actionId: ActionId.fromSpellId(58643), value: EarthTotem.StrengthOfEarthTotem },
-			{ actionId: ActionId.fromSpellId(58753), value: EarthTotem.StoneskinTotem },
+			{ actionId: ActionIDMap.fromSpellId(STRENGTHOFEARTHTOTEM), value: EarthTotem.StrengthOfEarthTotem },
+			{ actionId: ActionIDMap.fromSpellId(STONESKINTOTEM), value: EarthTotem.StoneskinTotem },
 			{ actionId: ActionId.fromSpellId(8143), value: EarthTotem.TremorTotem },
 		],
 		equals: (a: EarthTotem, b: EarthTotem) => a == b,
@@ -53,7 +54,7 @@ export function TotemsSection(parentElem: HTMLElement, simUI: IndividualSimUI<Sh
 			newOptions.totems!.earth = newValue;
 			player.setSpecOptions(eventID, newOptions);
 		},
-	});
+	},simUI);
 
 	const waterTotemPicker = new IconEnumPicker(totemDropdownGroup, simUI.player, {
 		extraCssClasses: [
@@ -62,8 +63,8 @@ export function TotemsSection(parentElem: HTMLElement, simUI: IndividualSimUI<Sh
 		numColumns: 1,
 		values: [
 			{ color: '#bae1ff', value: WaterTotem.NoWaterTotem },
-			{ actionId: ActionId.fromSpellId(58774), value: WaterTotem.ManaSpringTotem },
-			{ actionId: ActionId.fromSpellId(58757), value: WaterTotem.HealingStreamTotem },
+			{ actionId: ActionIDMap.fromSpellId(MANASPRINGTOTEM), value: WaterTotem.ManaSpringTotem },
+			{ actionId: ActionIDMap.fromSpellId(HEALINGSTREAMTOTEM), value: WaterTotem.HealingStreamTotem },
 		],
 		equals: (a: WaterTotem, b: WaterTotem) => a == b,
 		zeroValue: WaterTotem.NoWaterTotem,
@@ -76,7 +77,7 @@ export function TotemsSection(parentElem: HTMLElement, simUI: IndividualSimUI<Sh
 			newOptions.totems!.water = newValue;
 			player.setSpecOptions(eventID, newOptions);
 		},
-	});
+	},simUI);
 
 	const fireTotemPicker = new IconEnumPicker(totemDropdownGroup, simUI.player, {
 		extraCssClasses: [
@@ -85,10 +86,10 @@ export function TotemsSection(parentElem: HTMLElement, simUI: IndividualSimUI<Sh
 		numColumns: 1,
 		values: [
 			{ color: '#ffb3ba', value: FireTotem.NoFireTotem },
-			{ actionId: ActionId.fromSpellId(58734), value: FireTotem.MagmaTotem },
-			{ actionId: ActionId.fromSpellId(58704), value: FireTotem.SearingTotem },
-			{ actionId: ActionId.fromSpellId(57722), value: FireTotem.TotemOfWrath, showWhen: (player: Player<ShamanSpecs>) => player.getTalents().totemOfWrath },
-			{ actionId: ActionId.fromSpellId(58656), value: FireTotem.FlametongueTotem },
+			{ actionId: ActionIDMap.fromSpellId(MAGMATOTEM), value: FireTotem.MagmaTotem },
+			{ actionId: ActionIDMap.fromSpellId(SEARINGTOTEM), value: FireTotem.SearingTotem },
+			{ actionId: ActionIDMap.fromSpellId(TOTEMOFWRATH), value: FireTotem.TotemOfWrath, showWhen: (player: Player<ShamanSpecs>) => player.getTalents().totemOfWrath },
+			{ actionId: ActionIDMap.fromSpellId(FLAMETONGUETOTEM), value: FireTotem.FlametongueTotem },
 		],
 		equals: (a: FireTotem, b: FireTotem) => a == b,
 		zeroValue: FireTotem.NoFireTotem,
@@ -101,7 +102,7 @@ export function TotemsSection(parentElem: HTMLElement, simUI: IndividualSimUI<Sh
 			newOptions.totems!.fire = newValue;
 			player.setSpecOptions(eventID, newOptions);
 		},
-	});
+	},simUI);
 
 	const airTotemPicker = new IconEnumPicker(totemDropdownGroup, simUI.player, {
 		extraCssClasses: [
@@ -124,9 +125,9 @@ export function TotemsSection(parentElem: HTMLElement, simUI: IndividualSimUI<Sh
 			newOptions.totems!.air = newValue;
 			player.setSpecOptions(eventID, newOptions);
 		},
-	});
+	},simUI);
 
-	// Enchancement Shaman uses the Fire Elemental Inputs with custom inputs.
+	// Enhancement Shaman uses the Fire Elemental Inputs with custom inputs.
 	if (simUI.player.spec != Spec.SpecEnhancementShaman) {
 		const fireElementalBooleanIconInput = InputHelpers.makeBooleanIconInput<ShamanSpecs, ShamanTotems, Player<ShamanSpecs>>({
 			getModObject: (player: Player<ShamanSpecs>) => player,
@@ -139,7 +140,7 @@ export function TotemsSection(parentElem: HTMLElement, simUI: IndividualSimUI<Sh
 			changeEmitter: (player: Player<Spec.SpecEnhancementShaman>) => player.specOptionsChangeEmitter,
 		}, ActionId.fromSpellId(2894), "useFireElemental");
 
-		new IconPicker(fireElementalContainer, simUI.player, fireElementalBooleanIconInput);
+		new IconPicker(fireElementalContainer, simUI.player, fireElementalBooleanIconInput,simUI);
 	}
 
 	return contentBlock;

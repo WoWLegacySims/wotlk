@@ -1,21 +1,24 @@
+import { Tooltip } from 'bootstrap';
+import { IndividualSimUI } from 'ui/core/individual_sim_ui.js';
+
+import { Player } from '../../player.js';
+import { ActionID as ActionIdProto , Cooldown } from '../../proto/common.js';
+import { ActionId } from '../../proto_utils/action_id.js';
+import { EventID, TypedEvent } from '../../typed_event.js';
 import { Component } from '../component.js';
 import { IconEnumPicker, IconEnumValueConfig } from '../icon_enum_picker.js';
 import { NumberListPicker } from '../number_list_picker.js';
-import { Player } from '../../player.js';
-import { EventID, TypedEvent } from '../../typed_event.js';
-import { ActionID as ActionIdProto } from '../../proto/common.js';
-import { Cooldown } from '../../proto/common.js';
-import { ActionId } from '../../proto_utils/action_id.js';
-import { Tooltip } from 'bootstrap';
 
 export class CooldownsPicker extends Component {
+	readonly simUI: IndividualSimUI<any>;
 	readonly player: Player<any>;
 
 	private cooldownPickers: Array<HTMLElement>;
 
-	constructor(parentElem: HTMLElement, player: Player<any>) {
+	constructor(parentElem: HTMLElement, simUI: IndividualSimUI<any>) {
 		super(parentElem, 'cooldowns-picker-root');
-		this.player = player;
+		this.simUI = simUI;
+		this.player = simUI.player;
 		this.cooldownPickers = [];
 
 		TypedEvent.onAny([this.player.rotationChangeEmitter, this.player.sim.unitMetadataEmitter]).on(eventID => {
@@ -50,7 +53,7 @@ export class CooldownsPicker extends Component {
 
 			const timingsPicker = this.makeTimingsPicker(row, i);
 
-			let deleteButtonFragment = document.createElement('fragment');
+			const deleteButtonFragment = document.createElement('fragment');
 			deleteButtonFragment.innerHTML = `
 				<a
 					href="javascript:void(0)"
@@ -105,7 +108,7 @@ export class CooldownsPicker extends Component {
 
 				player.setSimpleCooldowns(eventID, newCooldowns);
 			},
-		});
+		},this.simUI);
 		return actionPicker;
 	}
 
