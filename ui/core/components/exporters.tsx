@@ -2,7 +2,6 @@ import { default as pako } from 'pako';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { element, ref } from 'tsx-vanilla';
 
-import * as Mechanics from '../constants/mechanics';
 import { IndividualSimUI } from '../individual_sim_ui';
 import { RaidSimRequest } from '../proto/api';
 import { PseudoStat, Spec, Stat } from '../proto/common';
@@ -282,6 +281,7 @@ export class IndividualWowheadGearPlannerExporter<SpecType extends Spec> extends
 
 		const gear = player.getGear();
 		const isBlacksmithing = player.isBlacksmithing();
+		const canUseExtraSockets = player.canUseExtraSockets()
 		gear.getItemSlots()
 			.sort((slot1, slot2) => IndividualWowheadGearPlannerImporter.slotIDs[slot1] - IndividualWowheadGearPlannerImporter.slotIDs[slot2])
 			.forEach(itemSlot => {
@@ -295,7 +295,7 @@ export class IndividualWowheadGearPlannerExporter<SpecType extends Spec> extends
 					slotId = slotId | 0b10000000;
 				}
 				bytes.push(slotId);
-				bytes.push(item.curEquippedGems(isBlacksmithing).length << 5);
+				bytes.push(item.curEquippedGems(isBlacksmithing,canUseExtraSockets).length << 5);
 				bytes = bytes.concat(to2Bytes(item.item.id));
 
 				if (item.enchant) {
@@ -303,7 +303,7 @@ export class IndividualWowheadGearPlannerExporter<SpecType extends Spec> extends
 					bytes = bytes.concat(to2Bytes(item.enchant.spellId));
 				}
 
-				item.gems.slice(0, item.numSockets(isBlacksmithing)).forEach((gem, i) => {
+				item.gems.slice(0, item.numSockets(isBlacksmithing,canUseExtraSockets)).forEach((gem, i) => {
 					if (gem) {
 						bytes.push(i << 5);
 						bytes = bytes.concat(to2Bytes(gem.id));

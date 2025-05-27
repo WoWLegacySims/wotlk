@@ -1,26 +1,15 @@
-import { EquipmentSpec, ItemSwap } from '../proto/common.js';
-import { GemColor } from '../proto/common.js';
-import { ItemSlot } from '../proto/common.js';
-import { ItemSpec } from '../proto/common.js';
-import { Profession } from '../proto/common.js';
-import { SimDatabase } from '../proto/common.js';
-import { SimItem } from '../proto/common.js';
-import { SimEnchant } from '../proto/common.js';
-import { SimGem } from '../proto/common.js';
-import { equalsOrBothNull } from '../utils.js';
-import { distinct, getEnumValues } from '../utils.js';
-import { isBluntWeaponType, isSharpWeaponType } from '../proto_utils/utils.js';
+import { EquipmentSpec, GemColor , ItemSlot , ItemSpec , ItemSwap , Profession , SimDatabase , SimEnchant , SimGem,SimItem  } from '../proto/common.js';
 import {
 	UIEnchant as Enchant,
 	UIGem as Gem,
 	UIItem as Item,
 } from '../proto/ui.js';
-
-import { isMetaGemActive } from './gems.js';
-import { gemMatchesSocket } from './gems.js';
+import { isBluntWeaponType, isSharpWeaponType } from '../proto_utils/utils.js';
+import { distinct, equalsOrBothNull , getEnumValues } from '../utils.js';
 import { EquippedItem } from './equipped_item.js';
-import { validWeaponCombo } from './utils.js';
+import { gemMatchesSocket,isMetaGemActive  } from './gems.js';
 import { Stats } from './stats.js';
+import { validWeaponCombo } from './utils.js';
 
 type InternalGear = Record<ItemSlot, EquippedItem | null>;
 
@@ -180,21 +169,21 @@ export class Gear extends BaseGear {
 		});
 	}
 
-	getAllGems(isBlacksmithing: boolean): Array<Gem> {
+	getAllGems(isBlacksmithing: boolean,canUseExtraSockets: boolean): Array<Gem> {
 		return this.asArray()
-			.map(ei => ei == null ? [] : ei.curEquippedGems(isBlacksmithing))
+			.map(ei => ei == null ? [] : ei.curEquippedGems(isBlacksmithing,canUseExtraSockets))
 			.flat();
 	}
 
-	getNonMetaGems(isBlacksmithing: boolean): Array<Gem> {
-		return this.getAllGems(isBlacksmithing).filter(gem => gem.color != GemColor.GemColorMeta);
+	getNonMetaGems(isBlacksmithing: boolean,canUseExtraSockets: boolean): Array<Gem> {
+		return this.getAllGems(isBlacksmithing,canUseExtraSockets).filter(gem => gem.color != GemColor.GemColorMeta);
 	}
 
-	statsFromGems(isBlacksmithing: boolean): Stats {
+	statsFromGems(isBlacksmithing: boolean,canUseExtraSockets: boolean): Stats {
 		let stats = new Stats();
 
 		// Stats from just the gems.
-		const gems = this.getAllGems(isBlacksmithing);
+		const gems = this.getAllGems(isBlacksmithing,canUseExtraSockets);
 		for (let i = 0; i < gems.length; i++) {
 			stats = stats.add(new Stats(gems[i].stats));
 		}
@@ -208,20 +197,20 @@ export class Gear extends BaseGear {
 		return stats;
 	}
 
-	getGemsOfColor(color: GemColor, isBlacksmithing: boolean): Array<Gem> {
-		return this.getAllGems(isBlacksmithing).filter(gem => gem.color == color);
+	getGemsOfColor(color: GemColor, isBlacksmithing: boolean,canUseExtraSockets: boolean): Array<Gem> {
+		return this.getAllGems(isBlacksmithing,canUseExtraSockets).filter(gem => gem.color == color);
 	}
 
-	getJCGems(isBlacksmithing: boolean): Array<Gem> {
-		return this.getAllGems(isBlacksmithing).filter(gem => gem.requiredProfession == Profession.Jewelcrafting);
+	getJCGems(isBlacksmithing: boolean,canUseExtraSockets:boolean): Array<Gem> {
+		return this.getAllGems(isBlacksmithing,canUseExtraSockets).filter(gem => gem.requiredProfession == Profession.Jewelcrafting);
 	}
 
 	getMetaGem(): Gem | null {
-		return this.getGemsOfColor(GemColor.GemColorMeta, true)[0] || null;
+		return this.getGemsOfColor(GemColor.GemColorMeta, true, true)[0] || null;
 	}
 
-	gemColorCounts(isBlacksmithing: boolean): ({ red: number, yellow: number, blue: number }) {
-		const gems = this.getAllGems(isBlacksmithing);
+	gemColorCounts(isBlacksmithing: boolean,canUseExtraSockets:boolean): ({ red: number, yellow: number, blue: number }) {
+		const gems = this.getAllGems(isBlacksmithing,canUseExtraSockets);
 		return {
 			red: gems.filter(gem => gemMatchesSocket(gem, GemColor.GemColorRed)).length,
 			yellow: gems.filter(gem => gemMatchesSocket(gem, GemColor.GemColorYellow)).length,
@@ -230,20 +219,20 @@ export class Gear extends BaseGear {
 	}
 
 	// Returns true if this gear set has a meta gem AND the other gems meet the meta's conditions.
-	hasActiveMetaGem(isBlacksmithing: boolean): boolean {
+	hasActiveMetaGem(isBlacksmithing: boolean,canUseExtraSockets:boolean): boolean {
 		const metaGem = this.getMetaGem();
 		if (!metaGem) {
 			return false;
 		}
 
-		const gemColorCounts = this.gemColorCounts(isBlacksmithing);
+		const gemColorCounts = this.gemColorCounts(isBlacksmithing,canUseExtraSockets);
 		return isMetaGemActive(
 			metaGem,
 			gemColorCounts.red, gemColorCounts.yellow, gemColorCounts.blue);
 	}
 
-	hasInactiveMetaGem(isBlacksmithing: boolean): boolean {
-		return this.getMetaGem() != null && !this.hasActiveMetaGem(isBlacksmithing);
+	hasInactiveMetaGem(isBlacksmithing: boolean,canUseExtraSockets:boolean): boolean {
+		return this.getMetaGem() != null && !this.hasActiveMetaGem(isBlacksmithing,canUseExtraSockets);
 	}
 
 	withGem(itemSlot: ItemSlot, socketIdx: number, gem: Gem | null): Gear {
@@ -256,15 +245,15 @@ export class Gear extends BaseGear {
 		return this;
 	}
 
-	withSingleGemSubstitution(oldGem: Gem | null, newGem: Gem | null, isBlacksmithing: boolean): Gear {
-		for (var slot of this.getItemSlots()) {
+	withSingleGemSubstitution(oldGem: Gem | null, newGem: Gem | null, isBlacksmithing: boolean,canUseExtraSockets:boolean): Gear {
+		for (const slot of this.getItemSlots()) {
 			const item = this.getEquippedItem(slot);
 
 			if (!item) {
 				continue;
 			}
 
-			const currentGems = item!.curGems(isBlacksmithing);
+			const currentGems = item!.curGems(isBlacksmithing,canUseExtraSockets);
 
 			if (currentGems.includes(oldGem)) {
 				const socketIdx = currentGems.indexOf(oldGem);
@@ -302,7 +291,7 @@ export class Gear extends BaseGear {
 	withoutGems(): Gear {
 		let curGear: Gear = this;
 
-		for (var slot of this.getItemSlots()) {
+		for (const slot of this.getItemSlots()) {
 			const item = this.getEquippedItem(slot);
 
 			if (item) {
@@ -314,17 +303,24 @@ export class Gear extends BaseGear {
 	}
 
 	// Removes bonus gems from blacksmith profession bonus.
-	withoutBlacksmithSockets(): Gear {
+	withoutSockets(isBlacksmith:boolean, canUseExtraSockets: boolean): Gear {
 		let curGear: Gear = this;
 
-		const wristItem = this.getEquippedItem(ItemSlot.ItemSlotWrist);
-		if (wristItem) {
-			curGear = curGear.withEquippedItem(ItemSlot.ItemSlotWrist, wristItem.withGem(null, wristItem.numPossibleSockets - 1), true);
+		if(!isBlacksmith || !canUseExtraSockets) {
+			const wristItem = this.getEquippedItem(ItemSlot.ItemSlotWrist);
+			if (wristItem) {
+				curGear = curGear.withEquippedItem(ItemSlot.ItemSlotWrist, wristItem.withGem(null, wristItem.numPossibleSockets - 1), true);
+			}
+			const handsItem = this.getEquippedItem(ItemSlot.ItemSlotHands);
+			if (handsItem) {
+				curGear = curGear.withEquippedItem(ItemSlot.ItemSlotHands, handsItem.withGem(null, handsItem.numPossibleSockets - 1), true);
+			}
 		}
-
-		const handsItem = this.getEquippedItem(ItemSlot.ItemSlotHands);
-		if (handsItem) {
-			curGear = curGear.withEquippedItem(ItemSlot.ItemSlotHands, handsItem.withGem(null, handsItem.numPossibleSockets - 1), true);
+		if(!canUseExtraSockets) {
+			const waistItem = this.getEquippedItem(ItemSlot.ItemSlotWaist);
+			if (waistItem) {
+				curGear = curGear.withEquippedItem(ItemSlot.ItemSlotWaist, waistItem.withGem(null, waistItem.numPossibleSockets - 1), true);
+			}
 		}
 
 		return curGear;

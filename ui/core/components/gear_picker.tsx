@@ -195,15 +195,15 @@ export class ItemRenderer extends Component {
 		newItem.allSocketColors().forEach((socketColor, gemIdx) => {
 			const gemContainer = createGemContainer(socketColor, newItem.gems[gemIdx]);
 
-			if (gemIdx == newItem.numPossibleSockets - 1 && [ItemType.ItemTypeWrist, ItemType.ItemTypeHands].includes(newItem.item.type)) {
+			if (gemIdx == newItem.numPossibleSockets - 1 && [ItemType.ItemTypeWrist, ItemType.ItemTypeHands, ItemType.ItemTypeWaist].includes(newItem.item.type)) {
 				const updateProfession = () => {
-					if (this.player.isBlacksmithing()) {
+					if((newItem.item.type == ItemType.ItemTypeWaist || this.player.isBlacksmithing()) && this.player.canUseExtraSockets()){
 						gemContainer.classList.remove('hide');
 					} else {
 						gemContainer.classList.add('hide');
 					}
 				};
-				this.player.professionChangeEmitter.on(updateProfession);
+				TypedEvent.onAny([this.player.professionChangeEmitter,this.player.levelChangeEmitter,this.player.sim.expansionChangeEmitter]).on(updateProfession);
 				updateProfession();
 			}
 			this.socketsContainerElem.appendChild(gemContainer);
@@ -261,7 +261,7 @@ export class ItemPicker extends Component {
 		player.gearChangeEmitter.on(() => {
 			this.item = player.getEquippedItem(slot);
 		});
-		player.professionChangeEmitter.on(() => {
+		TypedEvent.onAny([player.professionChangeEmitter,player.levelChangeEmitter,simUI.sim.expansionChangeEmitter]).on(() => {
 			if (this._equippedItem != null) {
 				this.player.setWowheadData(this._equippedItem, this.itemElem.iconElem);
 			}
@@ -536,7 +536,7 @@ export class SelectorModal extends BaseModal {
 		}
 
 		const socketBonusEP = this.player.computeStatsEP(new Stats(equippedItem.item.socketBonus)) / (equippedItem.item.gemSockets.length || 1);
-		equippedItem.curSocketColors(this.player.isBlacksmithing()).forEach((socketColor, socketIdx) => {
+		equippedItem.curSocketColors(this.player.isBlacksmithing(),this.player.canUseExtraSockets()).forEach((socketColor, socketIdx) => {
 			this.addTab<Gem>(
 				'Gem ' + (socketIdx + 1),
 				this.player.getGems(socketColor).map((gem: Gem) => {

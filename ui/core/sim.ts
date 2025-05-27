@@ -166,16 +166,17 @@ export class Sim {
 				let gearChanged = false;
 
 				const isBlacksmith = [player.profession1, player.profession2].includes(Profession.Blacksmithing);
+				const canUseExtraSockets = player.level >= 70 && this.expansion == Expansion.ExpansionWotlk
 
 				// Disable meta gem if inactive.
-				if (gear.hasInactiveMetaGem(isBlacksmith)) {
+				if (gear.hasInactiveMetaGem(isBlacksmith,canUseExtraSockets)) {
 					gear = gear.withoutMetaGem();
 					gearChanged = true;
 				}
 
 				// Remove bonus sockets if not blacksmith.
-				if (!isBlacksmith) {
-					gear = gear.withoutBlacksmithSockets();
+				if (!isBlacksmith || !canUseExtraSockets) {
+					gear = gear.withoutSockets(isBlacksmith, canUseExtraSockets);
 					gearChanged = true;
 				}
 

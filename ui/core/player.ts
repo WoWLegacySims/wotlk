@@ -586,6 +586,10 @@ export class Player<SpecType extends Spec> {
 		return this.hasProfession(Profession.Blacksmithing);
 	}
 
+	canUseExtraSockets(): boolean {
+		return this.getExpansion() == Expansion.ExpansionWotlk && this.getLevel() >= 70
+	}
+
 	getFaction(): Faction {
 		return raceToFaction[this.getRace()];
 	}
@@ -1143,15 +1147,16 @@ export class Player<SpecType extends Spec> {
 		parts.push(`domain=${langPrefix}wotlk`);
 
 		const isBlacksmithing = this.hasProfession(Profession.Blacksmithing);
+		const canUseExtraSockets = this.canUseExtraSockets()
 		if (equippedItem.gems.length > 0) {
-			parts.push('gems=' + equippedItem.curGems(isBlacksmithing).map(gem => gem ? gem.id : 0).join(':'));
+			parts.push('gems=' + equippedItem.curGems(isBlacksmithing,canUseExtraSockets).map(gem => gem ? gem.id : 0).join(':'));
 		}
 		if (equippedItem.enchant != null) {
 			parts.push('ench=' + equippedItem.enchant.effectId);
 		}
 		parts.push('pcs=' + this.gear.asArray().filter(ei => ei != null).map(ei => ei!.item.id).join(':'));
 
-		if (equippedItem.hasExtraSocket(isBlacksmithing)) {
+		if (equippedItem.hasExtraSocket(isBlacksmithing,canUseExtraSockets)) {
 			parts.push('sock');
 		}
 

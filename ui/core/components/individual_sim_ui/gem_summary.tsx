@@ -28,7 +28,7 @@ export class GemSummary extends Component {
 		this.container = new ContentBlock(this.rootElem, 'gem-summary-container', {
 			header: { title: 'Gem Summary' },
 		});
-		player.gearChangeEmitter.on(() => this.updateTable());
+		TypedEvent.onAny([player.levelChangeEmitter,player.sim.expansionChangeEmitter,player.gearChangeEmitter]).on(() => this.updateTable());
 
 		const headerElement = this.container.headerElement;
 		if (headerElement) {
@@ -52,7 +52,7 @@ export class GemSummary extends Component {
 
 	private updateTable() {
 		this.container.bodyElement.innerHTML = ``;
-		const fullGemList = this.player.getGear().getAllGems(this.player.isBlacksmithing());
+		const fullGemList = this.player.getGear().getAllGems(this.player.isBlacksmithing(),this.player.canUseExtraSockets());
 		const gemCounts: Record<string, GemSummaryData> = {};
 
 		for (const gem of fullGemList) {
