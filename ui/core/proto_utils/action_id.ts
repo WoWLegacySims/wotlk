@@ -3,6 +3,7 @@ import { ActionID as ActionIdProto , OtherAction } from '../proto/common.js';
 import { IconData ,
 	UIItem as Item,
 } from '../proto/ui.js';
+import { wait } from '../utils.js';
 import { Database } from './database.js';
 
 // Uniquely identifies a specific item / spell / thing in WoW. This object is immutable.
@@ -185,11 +186,7 @@ export class ActionId {
 		let name = baseName;
 		switch (baseName) {
 			case 'Explosive Shot':
-				if (this.spellId == 60053) {
-					name += ' (R4)';
-				} else if (this.spellId == 60052) {
-					name += ' (R3)';
-				}
+				name += ` (Rank ${this.tag})`
 				break;
 			case 'Explosive Trap':
 				if (this.tag == 1) {
@@ -210,11 +207,7 @@ export class ActionId {
 				break;
 			case 'Fireball':
 			case 'Flamestrike':
-				if (this.tag == 8) {
-					name += ' (Rank 8)';
-				} else if (this.tag == 9) {
-					name += ' (Rank 9)';
-				}
+				name += ` (Rank ${this.tag})`
 				break;
 			case 'Pyroblast':
 				if (this.tag) name += ' (DoT)';
@@ -422,6 +415,7 @@ export class ActionId {
 
 		const idString = this.toProtoString();
 		const iconOverrideId = idOverrides[idString] || null;
+
 
 		let iconUrl = ActionId.makeIconUrl(tooltipData['icon']);
 		if (iconOverrideId) {
