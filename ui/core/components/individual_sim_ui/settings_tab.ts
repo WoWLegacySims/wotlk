@@ -117,7 +117,7 @@ export class SettingsTab extends SimTab {
 		new EnumPicker(contentBlock.bodyElement, this.simUI.player, {
 			label: 'Expansion',
 			values: [{name: "WOTLK", value: Expansion.ExpansionWotlk}, {name: "TBC", value: Expansion.ExpansionTbc},{name: "Vanilla", value: Expansion.ExpansionVanilla}],
-			changedEvent: sim => sim.expansionChangeEmitter,
+			changedEvent: sim => sim.sim.expansionChangeEmitter,
 			getValue: sim => sim.getExpansion(),
 			setValue: (eventID, sim, newValue) => sim.setExpansion(eventID, newValue),
 		});

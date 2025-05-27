@@ -137,7 +137,7 @@ export class Sim {
 			this.encounter.changeEmitter,
 		]);
 
-		TypedEvent.onAny([this.raid.changeEmitter, this.encounter.changeEmitter]).on(eventID => this.updateCharacterStats(eventID));
+		TypedEvent.onAny([this.raid.changeEmitter, this.encounter.changeEmitter,this.expansionChangeEmitter]).on(eventID => this.updateCharacterStats(eventID));
 	}
 
 	waitForInit(): Promise<void> {

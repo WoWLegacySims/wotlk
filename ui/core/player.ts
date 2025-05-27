@@ -275,7 +275,6 @@ export class Player<SpecType extends Spec> {
 	readonly professionChangeEmitter = new TypedEvent<void>('PlayerProfession');
 	readonly raceChangeEmitter = new TypedEvent<void>('PlayerRace');
 	readonly levelChangeEmitter = new TypedEvent<void>('PlayerLevel');
-	readonly expansionChangeEmitter = new TypedEvent<void>('PlayerExpansion');
 	readonly rotationChangeEmitter = new TypedEvent<void>('PlayerRotation');
 	readonly talentsChangeEmitter = new TypedEvent<void>('PlayerTalents');
 	readonly glyphsChangeEmitter = new TypedEvent<void>('PlayerGlyphs');
@@ -329,7 +328,6 @@ export class Player<SpecType extends Spec> {
 			this.professionChangeEmitter,
 			this.raceChangeEmitter,
 			this.levelChangeEmitter,
-			this.expansionChangeEmitter,
 			this.rotationChangeEmitter,
 			this.talentsChangeEmitter,
 			this.glyphsChangeEmitter,

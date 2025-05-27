@@ -66,7 +66,7 @@ function makeConsumeInputFactory<T extends number>(args: ConsumeInputFactoryArgs
 			})),
 			equals: (a: T, b: T) => a == b,
 			zeroValue: 0 as T,
-			changedEvent: (player: Player<any>) => TypedEvent.onAny([player.consumesChangeEmitter, player.gearChangeEmitter, player.levelChangeEmitter, player.professionChangeEmitter]),
+			changedEvent: (player: Player<any>) => TypedEvent.onAny([player.consumesChangeEmitter, player.gearChangeEmitter, player.levelChangeEmitter, player.professionChangeEmitter, player.sim.expansionChangeEmitter]),
 			showWhen: (player: Player<any>) => !args.showWhen || args.showWhen(player),
 			getValue: (player: Player<any>) => player.getConsumes()[args.consumesFieldName] as T,
 			setValue: (eventID: EventID, player: Player<any>, newValue: number) => {
@@ -238,7 +238,6 @@ export const makeMHImbueInput = makeConsumeInputFactory({
 	},
 	filter: (option,player) => {
 		const opt = option as ImbueConsumableStatOption
-		console.log("filtering")
 		return (!opt.level || player.getLevel() >= opt.level) &&
 		(!opt.type || (opt.type === "sharp" && player.getGear().hasSharpMHWeapon()) || (opt.type === "blunt" && player.getGear().hasBluntMHWeapon())) && (!opt.condition || opt.condition(player))
 	},
