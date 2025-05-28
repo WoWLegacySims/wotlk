@@ -191,7 +191,7 @@ func (unit *Unit) RegisterSpell(config SpellConfig) *Spell {
 
 	if config.Cast.CastTime == nil {
 		config.Cast.CastTime = func(spell *Spell) time.Duration {
-			return spell.Unit.ApplyCastSpeedForSpell(spell.DefaultCast.CastTime, spell)
+			return spell.Unit.ApplyCastSpeedForSpell(spell.CurCast.CastTime, spell)
 		}
 	}
 
