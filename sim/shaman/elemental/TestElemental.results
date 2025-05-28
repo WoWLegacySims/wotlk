@@ -1148,43 +1148,43 @@ dps_results: {
 dps_results: {
  key: "TestElemental-Settings-Orc-p1-Adaptive-advanced-FullBuffs-LongMultiTarget"
  value: {
-  dps: 6846.35815
-  tps: 4445.45943
+  dps: 6910.50103
+  tps: 4475.04317
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Orc-p1-Adaptive-advanced-FullBuffs-LongSingleTarget"
  value: {
-  dps: 6738.46317
-  tps: 3970.79798
+  dps: 6682.08206
+  tps: 3936.36655
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Orc-p1-Adaptive-advanced-FullBuffs-ShortSingleTarget"
  value: {
-  dps: 7711.84597
-  tps: 4578.28628
+  dps: 7730.86846
+  tps: 4556.30664
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Orc-p1-Adaptive-advanced-NoBuffs-LongMultiTarget"
  value: {
-  dps: 3370.12621
-  tps: 2269.9635
+  dps: 3421.12559
+  tps: 2299.38822
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Orc-p1-Adaptive-advanced-NoBuffs-LongSingleTarget"
  value: {
-  dps: 3373.97256
-  tps: 1970.35277
+  dps: 3361.4143
+  tps: 1956.24377
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Orc-p1-Adaptive-advanced-NoBuffs-ShortSingleTarget"
  value: {
-  dps: 5440.45877
-  tps: 3217.85899
+  dps: 5561.23366
+  tps: 3337.76414
  }
 }
 dps_results: {
@@ -1232,43 +1232,43 @@ dps_results: {
 dps_results: {
  key: "TestElemental-Settings-Orc-p1-EleFireElemental-advanced-FullBuffs-LongMultiTarget"
  value: {
-  dps: 8892.65986
-  tps: 4517.03435
+  dps: 8854.09415
+  tps: 4495.2892
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Orc-p1-EleFireElemental-advanced-FullBuffs-LongSingleTarget"
  value: {
-  dps: 7050.15274
-  tps: 3959.82506
+  dps: 7097.58003
+  tps: 3980.09863
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Orc-p1-EleFireElemental-advanced-FullBuffs-ShortSingleTarget"
  value: {
-  dps: 8326.20685
-  tps: 4517.15577
+  dps: 8495.56526
+  tps: 4576.97799
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Orc-p1-EleFireElemental-advanced-NoBuffs-LongMultiTarget"
  value: {
-  dps: 4908.22065
-  tps: 2251.029
+  dps: 4933.08605
+  tps: 2265.78155
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Orc-p1-EleFireElemental-advanced-NoBuffs-LongSingleTarget"
  value: {
-  dps: 3606.02607
-  tps: 1941.75992
+  dps: 3606.70077
+  tps: 1937.10254
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Orc-p1-EleFireElemental-advanced-NoBuffs-ShortSingleTarget"
  value: {
-  dps: 6006.38037
-  tps: 3225.53029
+  dps: 6119.3954
+  tps: 3304.27573
  }
 }
 dps_results: {
@@ -1316,43 +1316,43 @@ dps_results: {
 dps_results: {
  key: "TestElemental-Settings-Troll-p1-Adaptive-advanced-FullBuffs-LongMultiTarget"
  value: {
-  dps: 6873.99043
-  tps: 4461.36007
+  dps: 6890.24636
+  tps: 4467.03526
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Troll-p1-Adaptive-advanced-FullBuffs-LongSingleTarget"
  value: {
-  dps: 6707.21472
-  tps: 3959.64989
+  dps: 6703.27534
+  tps: 3943.91331
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Troll-p1-Adaptive-advanced-FullBuffs-ShortSingleTarget"
  value: {
-  dps: 7892.42136
-  tps: 4743.23715
+  dps: 7655.83467
+  tps: 4512.865
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Troll-p1-Adaptive-advanced-NoBuffs-LongMultiTarget"
  value: {
-  dps: 3336.29917
-  tps: 2249.04599
+  dps: 3407.79448
+  tps: 2297.7692
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Troll-p1-Adaptive-advanced-NoBuffs-LongSingleTarget"
  value: {
-  dps: 3324.56994
-  tps: 1936.97354
+  dps: 3298.41004
+  tps: 1920.54787
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Troll-p1-Adaptive-advanced-NoBuffs-ShortSingleTarget"
  value: {
-  dps: 5488.66714
-  tps: 3259.45589
+  dps: 5503.93236
+  tps: 3304.4914
  }
 }
 dps_results: {
@@ -1400,43 +1400,43 @@ dps_results: {
 dps_results: {
  key: "TestElemental-Settings-Troll-p1-EleFireElemental-advanced-FullBuffs-LongMultiTarget"
  value: {
-  dps: 8639.59052
-  tps: 4469.5549
+  dps: 8593.28779
+  tps: 4445.71037
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Troll-p1-EleFireElemental-advanced-FullBuffs-LongSingleTarget"
  value: {
-  dps: 6967.75745
-  tps: 3934.32765
+  dps: 6943.59487
+  tps: 3912.37901
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Troll-p1-EleFireElemental-advanced-FullBuffs-ShortSingleTarget"
  value: {
-  dps: 8399.94618
-  tps: 4657.72654
+  dps: 8333.8368
+  tps: 4535.54364
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Troll-p1-EleFireElemental-advanced-NoBuffs-LongMultiTarget"
  value: {
-  dps: 4781.98568
-  tps: 2257.99533
+  dps: 4772.1692
+  tps: 2247.83784
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Troll-p1-EleFireElemental-advanced-NoBuffs-LongSingleTarget"
  value: {
-  dps: 3555.54661
-  tps: 1935.03078
+  dps: 3551.37707
+  tps: 1933.12826
  }
 }
 dps_results: {
  key: "TestElemental-Settings-Troll-p1-EleFireElemental-advanced-NoBuffs-ShortSingleTarget"
  value: {
-  dps: 6017.04223
-  tps: 3282.14855
+  dps: 5993.00836
+  tps: 3272.70492
  }
 }
 dps_results: {
