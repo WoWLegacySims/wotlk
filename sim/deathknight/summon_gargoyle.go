@@ -15,7 +15,7 @@ func (dk *Deathknight) registerSummonGargoyleCD() {
 	dk.SummonGargoyleAura = dk.RegisterAura(core.Aura{
 		Label:    "Summon Gargoyle",
 		ActionID: core.ActionID{SpellID: 49206},
-		Duration: time.Second * 30,
+		Duration: time.Second * 32, // +4s flying out
 	})
 
 	dk.SummonGargoyle = dk.RegisterSpell(core.SpellConfig{
@@ -36,19 +36,19 @@ func (dk *Deathknight) registerSummonGargoyleCD() {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, _ *core.Unit, _ *core.Spell) {
-			dk.Gargoyle.EnableWithTimeout(sim, dk.Gargoyle, time.Second*30)
+			dk.Gargoyle.EnableWithTimeout(sim, dk.Gargoyle, time.Second*32)
 			dk.Gargoyle.CancelGCDTimer(sim)
 
 			// Add a dummy aura to show in metrics
 			dk.SummonGargoyleAura.Activate(sim)
 
-			// Start casting after a 2.5s delay to simulate the summon animation
+			// Start casting after a 2s delay to simulate the summon animation
 			pa := core.PendingAction{
-				NextActionAt: sim.CurrentTime + dk.GargoyleSummonDelay,
+				NextActionAt: sim.CurrentTime + time.Second*2,
 				Priority:     core.ActionPriorityAuto,
 				OnAction: func(s *core.Simulation) {
 					dk.OnGargoyleStartFirstCast()
-					dk.Gargoyle.GargoyleStrike.Cast(sim, dk.CurrentTarget)
+					dk.Gargoyle.ExecuteCustomRotation(sim)
 				},
 			}
 			sim.AddPendingAction(&pa)
@@ -138,6 +138,9 @@ func (garg *GargoylePet) registerGargoyleStrikeSpell() {
 			DefaultCast: core.Cast{
 				CastTime: time.Millisecond * 2000,
 				GCD:      core.GCDDefault,
+			},
+			CastTime: func(spell *core.Spell) time.Duration {
+				return max(spell.Unit.ApplyCastSpeedForSpell(spell.CurCast.CastTime, spell), time.Second)
 			},
 		},
 
