@@ -15,9 +15,9 @@ export const MainHandImbue = InputHelpers.makeSpecOptionsEnumIconInput<Spec.Spec
 	numColumns: 1,
 	values: [
 		{ value: Poison.NoPoison, tooltip: 'No Main Hand Poison' },
-		{ actionId: ActionIDMap.fromItemId(DEADLYPOISON), value: Poison.DeadlyPoison, showWhen: player => player.getLevel() >= 30 },
-		{ actionId: ActionIDMap.fromItemId(INSTANTPOISON), value: Poison.InstantPoison, showWhen: player => player.getLevel() >= 20 },
-		{ actionId: ActionIDMap.fromItemId(WOUNDPOISON), value: Poison.WoundPoison, showWhen: player => player.getLevel() >= 32 },
+		{ actionId: ActionIDMap.fromSpellId(DEADLYPOISON), value: Poison.DeadlyPoison, showWhen: player => player.getLevel() >= 30 },
+		{ actionId: ActionIDMap.fromSpellId(INSTANTPOISON), value: Poison.InstantPoison, showWhen: player => player.getLevel() >= 20 },
+		{ actionId: ActionIDMap.fromSpellId(WOUNDPOISON), value: Poison.WoundPoison, showWhen: player => player.getLevel() >= 32 },
 	],
 });
 
@@ -26,9 +26,9 @@ export const OffHandImbue = InputHelpers.makeSpecOptionsEnumIconInput<Spec.SpecR
 	numColumns: 1,
 	values: [
 		{ value: Poison.NoPoison, tooltip: 'No Off Hand Poison' },
-		{ actionId: ActionIDMap.fromItemId(DEADLYPOISON), value: Poison.DeadlyPoison, showWhen: player => player.getLevel() >= 30 },
-		{ actionId: ActionIDMap.fromItemId(INSTANTPOISON), value: Poison.InstantPoison, showWhen: player => player.getLevel() >= 20 },
-		{ actionId: ActionIDMap.fromItemId(WOUNDPOISON), value: Poison.WoundPoison, showWhen: player => player.getLevel() >= 32 },
+		{ actionId: ActionIDMap.fromSpellId(DEADLYPOISON), value: Poison.DeadlyPoison, showWhen: player => player.getLevel() >= 30 },
+		{ actionId: ActionIDMap.fromSpellId(INSTANTPOISON), value: Poison.InstantPoison, showWhen: player => player.getLevel() >= 20 },
+		{ actionId: ActionIDMap.fromSpellId(WOUNDPOISON), value: Poison.WoundPoison, showWhen: player => player.getLevel() >= 32 },
 	],
 });
 
