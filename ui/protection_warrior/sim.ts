@@ -38,6 +38,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecProtectionWarrior, {
 
 	// All stats for which EP should be calculated.
 	epStats: [
+		Stat.StatHealth,
 		Stat.StatStamina,
 		Stat.StatStrength,
 		Stat.StatAgility,
