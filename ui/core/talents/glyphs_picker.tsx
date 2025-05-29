@@ -101,7 +101,7 @@ class GlyphPicker extends Input<Player<any>, number> {
 
 	constructor(parent: HTMLElement, player: Player<any>, glyphOptions: Array<GlyphData>, glyphField: keyof Glyphs, isMajor: boolean) {
 		super(parent, 'glyph-picker-root', player, {
-			changedEvent: (player: Player<any>) => player.glyphsChangeEmitter,
+			changedEvent: (player: Player<any>) => TypedEvent.onAny([player.glyphsChangeEmitter,player.levelChangeEmitter]),
 			getValue: (player: Player<any>) => player.getGlyphs()[glyphField] as number,
 			setValue: (eventID: EventID, player: Player<any>, newValue: number) => {
 				const glyphs = player.getGlyphs();

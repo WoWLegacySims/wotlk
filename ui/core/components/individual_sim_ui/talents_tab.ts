@@ -48,7 +48,7 @@ export class TalentsTab extends SimTab {
     new TalentsPicker(parentElem, this.simUI.player, {
       klass: this.simUI.player.getClass(),
       trees: classTalentsConfig[this.simUI.player.getClass()],
-      changedEvent: (player: Player<any>) => player.talentsChangeEmitter,
+      changedEvent: (player: Player<any>) => TypedEvent.onAny([player.talentsChangeEmitter,player.levelChangeEmitter]),
       getValue: (player: Player<any>) => player.getTalentsString(),
       setValue: (eventID: EventID, player: Player<any>, newValue: string) => {
         player.setTalentsString(eventID, newValue);

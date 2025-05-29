@@ -136,7 +136,7 @@ export class HunterPetTalentsPicker extends Component {
 			const picker = new TalentsPicker(pickerContainer, player, {
 				klass: player.getClass(),
 				trees: talentsConfig,
-				changedEvent: (player: Player<Spec.SpecHunter>) => player.specOptionsChangeEmitter,
+				changedEvent: (player: Player<Spec.SpecHunter>) => TypedEvent.onAny([player.specOptionsChangeEmitter,player.levelChangeEmitter]),
 				getValue: (_player: Player<Spec.SpecHunter>) => protoToTalentString(this.getPetTalentsFromPlayer(), talentsConfig),
 				setValue: (eventID: EventID, player: Player<Spec.SpecHunter>, newValue: string) => {
 					const options = player.getSpecOptions();
