@@ -100,6 +100,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBlood-AllItems-BattlewornThrashBlade-44096"
+ value: {
+  dps: 11630.49658
+  tps: 5883.22295
+ }
+}
+dps_results: {
  key: "TestBlood-AllItems-BaubleofTrueBlood-50354"
  value: {
   dps: 10149.90595
@@ -488,13 +495,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestBlood-AllItems-FuturesightRune-38763"
- value: {
-  dps: 10149.9043
-  tps: 5133.74273
- }
-}
-dps_results: {
  key: "TestBlood-AllItems-Gem-studdedLeatherBelt-4262"
  value: {
   dps: 10303.0612
@@ -590,8 +590,8 @@ dps_results: {
 dps_results: {
  key: "TestBlood-AllItems-Jang'thrazetheProtector-9380"
  value: {
-  dps: 11591.59705
-  tps: 5852.55852
+  dps: 11591.59368
+  tps: 5852.55643
  }
 }
 dps_results: {
@@ -684,6 +684,13 @@ dps_results: {
  value: {
   dps: 59075.93474
   tps: 33998.16125
+ }
+}
+dps_results: {
+ key: "TestBlood-AllItems-NoiseMachine-40865"
+ value: {
+  dps: 10149.9043
+  tps: 5133.74273
  }
 }
 dps_results: {

@@ -157,6 +157,7 @@ var ItemSetSkyshatterHarness = core.NewItemSet(core.ItemSet{
 })
 
 func init() {
+	core.AddEffectsToTest = false
 	core.NewItemEffect(30663, func(a core.Agent) {
 		character := a.GetCharacter()
 		metrics := character.NewManaMetrics(core.ActionID{SpellID: 37243})
@@ -269,6 +270,7 @@ func init() {
 		})
 		statAura.Icd = triggerAura.Icd
 	})
+	core.AddEffectsToTest = true
 }
 
 func registerSpellPVPTotem(name string, itemId int32, spellId int32, sp float64, seconds float64) {

@@ -121,6 +121,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtection-AllItems-BattlewornThrashBlade-44096"
+ value: {
+  dps: 3050.57435
+  tps: 7301.57246
+ }
+}
+dps_results: {
  key: "TestProtection-AllItems-BaubleofTrueBlood-50354"
  value: {
   dps: 3050.68475
@@ -495,13 +502,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestProtection-AllItems-FuturesightRune-38763"
- value: {
-  dps: 3057.07509
-  tps: 7318.30539
- }
-}
-dps_results: {
  key: "TestProtection-AllItems-Gem-studdedLeatherBelt-4262"
  value: {
   dps: 2930.19916
@@ -658,6 +658,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtection-AllItems-LibramofDefiance-47664"
+ value: {
+  dps: 2986.26901
+  tps: 7136.05053
+ }
+}
+dps_results: {
  key: "TestProtection-AllItems-LibramofDivineJudgement-33503"
  value: {
   dps: 2986.26901
@@ -789,6 +796,13 @@ dps_results: {
  value: {
   dps: 3088.88908
   tps: 7393.51592
+ }
+}
+dps_results: {
+ key: "TestProtection-AllItems-NoiseMachine-40865"
+ value: {
+  dps: 3057.17995
+  tps: 7318.57527
  }
 }
 dps_results: {

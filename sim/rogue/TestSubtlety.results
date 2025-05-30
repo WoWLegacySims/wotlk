@@ -439,13 +439,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestSubtlety-AllItems-FuturesightRune-38763"
- value: {
-  dps: 6181.70164
-  tps: 4389.00817
- }
-}
-dps_results: {
  key: "TestSubtlety-AllItems-Gem-studdedLeatherBelt-4262"
  value: {
   dps: 5986.55608
@@ -635,6 +628,13 @@ dps_results: {
  value: {
   dps: 6198.54885
   tps: 4400.96968
+ }
+}
+dps_results: {
+ key: "TestSubtlety-AllItems-NoiseMachine-40865"
+ value: {
+  dps: 6181.70164
+  tps: 4389.00817
  }
 }
 dps_results: {

@@ -108,6 +108,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestUnholy-AllItems-BattlewornThrashBlade-44096"
+ value: {
+  dps: 9675.58103
+  tps: 5884.92519
+  hps: 50.10598
+ }
+}
+dps_results: {
  key: "TestUnholy-AllItems-BaubleofTrueBlood-50354"
  value: {
   dps: 9129.32509
@@ -564,14 +572,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestUnholy-AllItems-FuturesightRune-38763"
- value: {
-  dps: 9129.31487
-  tps: 5611.02544
-  hps: 50.10598
- }
-}
-dps_results: {
  key: "TestUnholy-AllItems-Gem-studdedLeatherBelt-4262"
  value: {
   dps: 9073.56743
@@ -792,6 +792,14 @@ dps_results: {
  value: {
   dps: 9675.58103
   tps: 5884.92519
+  hps: 50.10598
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-NoiseMachine-40865"
+ value: {
+  dps: 9129.31487
+  tps: 5611.02544
   hps: 50.10598
  }
 }
@@ -1060,6 +1068,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestUnholy-AllItems-SignetoftheDarkBrotherhood-38675"
+ value: {
+  dps: 9129.31487
+  tps: 5611.02544
+  hps: 50.10598
+ }
+}
+dps_results: {
  key: "TestUnholy-AllItems-Sindragosa'sFlawlessFang-50361"
  value: {
   dps: 9129.31487
@@ -1080,6 +1096,14 @@ dps_results: {
  value: {
   dps: 9129.31487
   tps: 5611.02544
+  hps: 50.10598
+ }
+}
+dps_results: {
+ key: "TestUnholy-AllItems-SoulHarvester'sCharm-38674"
+ value: {
+  dps: 9152.6148
+  tps: 5629.35289
   hps: 50.10598
  }
 }

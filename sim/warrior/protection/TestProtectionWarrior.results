@@ -152,6 +152,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-BattlewornThrashBlade-44096"
+ value: {
+  dps: 1435.50392
+  tps: 3734.3775
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-BaubleofTrueBlood-50354"
  value: {
   dps: 1435.56216
@@ -582,13 +589,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestProtectionWarrior-AllItems-FuturesightRune-38763"
- value: {
-  dps: 1435.50392
-  tps: 3734.3775
- }
-}
-dps_results: {
  key: "TestProtectionWarrior-AllItems-Gem-studdedLeatherBelt-4262"
  value: {
   dps: 1375.374
@@ -803,6 +803,13 @@ dps_results: {
 }
 dps_results: {
  key: "TestProtectionWarrior-AllItems-NightReaver-1318"
+ value: {
+  dps: 1435.50392
+  tps: 3734.3775
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-NoiseMachine-40865"
  value: {
   dps: 1435.50392
   tps: 3734.3775

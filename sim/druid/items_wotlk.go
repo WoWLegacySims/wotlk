@@ -262,7 +262,7 @@ var ItemSetMalfurionsBattlegear = core.NewItemSet(core.ItemSet{
 })
 
 func init() {
-
+	core.AddEffectsToTest = false
 	// This Idol is badly listed on Wowhead, not accessible from UI
 	core.NewItemEffect(50457, func(agent core.Agent) {
 		druid := agent.(DruidAgent).GetDruid()
@@ -311,6 +311,66 @@ func init() {
 				}
 			},
 		}))
+	})
+
+	core.NewItemEffect(37573, func(agent core.Agent) {
+		druid := agent.(DruidAgent).GetDruid()
+
+		procAura := druid.NewTemporaryStatsAura("Idol of the Plainstalker Proc", core.ActionID{SpellID: 43738}, stats.Stats{stats.Agility: 55}, time.Second*10)
+
+		core.MakeProcTriggerAura(&druid.Unit, core.ProcTrigger{
+			Name:       "Idol of the Plainstalker",
+			Callback:   core.CallbackOnSpellHitDealt,
+			Outcome:    core.OutcomeLanded,
+			ProcChance: 0.75,
+			ICD:        time.Second * 10,
+			CustomCheck: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) bool {
+				return druid.IsMangle(spell)
+			},
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				procAura.Activate(sim)
+			},
+		})
+	})
+
+	core.NewItemEffect(38295, func(agent core.Agent) {
+		druid := agent.(DruidAgent).GetDruid()
+
+		procAura := druid.NewTemporaryStatsAura("Idol of the Wastes Proc", core.ActionID{SpellID: 52021}, stats.Stats{stats.Strength: 61}, time.Second*10)
+
+		core.MakeProcTriggerAura(&druid.Unit, core.ProcTrigger{
+			Name:       "Idol of the Wastes",
+			Callback:   core.CallbackOnSpellHitDealt,
+			Outcome:    core.OutcomeLanded,
+			ProcChance: 0.75,
+			ICD:        time.Second * 10,
+			CustomCheck: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) bool {
+				return druid.Shred.IsEqual(spell) || druid.SwipeBear.IsEqual(spell) || druid.SwipeCat.IsEqual(spell)
+			},
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				procAura.Activate(sim)
+			},
+		})
+	})
+
+	core.NewItemEffect(38360, func(agent core.Agent) {
+		druid := agent.(DruidAgent).GetDruid()
+
+		procAura := druid.NewTemporaryStatsAura("Idol of Arcane Terror Proc", core.ActionID{SpellID: 57909}, stats.Stats{stats.Spirit: 131}, time.Second*10)
+
+		core.MakeProcTriggerAura(&druid.Unit, core.ProcTrigger{
+			Name:       "Idol of Arcane Terror",
+			Callback:   core.CallbackOnSpellHitDealt,
+			Outcome:    core.OutcomeLanded,
+			ProcChance: 0.4,
+			ICD:        time.Second * 10,
+			CustomCheck: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) bool {
+				return druid.Moonfire.IsEqual(spell)
+			},
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				procAura.Activate(sim)
+			},
+		})
 	})
 
 	core.NewItemEffect(45509, func(agent core.Agent) {
@@ -501,4 +561,6 @@ func init() {
 	makeGladiatorMoonkinIdolEffect(42584, 60722, 84, 10, "Furious Gladiator's Idol of Steadfastness")
 	makeGladiatorMoonkinIdolEffect(42585, 60724, 101, 10, "Relentless Gladiator's Idol of Steadfastness")
 	makeGladiatorMoonkinIdolEffect(51437, 60726, 119, 10, "Wrathful Gladiator's Idol of Steadfastness")
+
+	core.AddEffectsToTest = true
 }

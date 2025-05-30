@@ -9,6 +9,7 @@ import (
 )
 
 func init() {
+	core.AddEffectsToTest = false
 	core.NewItemEffect(28727, func(a core.Agent) {
 		character := a.GetCharacter()
 
@@ -157,4 +158,5 @@ func init() {
 		ProcChance: 0.1,
 		ICD:        time.Second * 45,
 	})
+	core.AddEffectsToTest = true
 }

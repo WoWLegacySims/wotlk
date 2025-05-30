@@ -206,7 +206,7 @@ func (paladin *Paladin) getPreS4GlovesBonus() float64 {
 
 func init() {
 	// Librams implemented in seals.go and judgement.go
-
+	core.AddEffectsToTest = false
 	core.NewItemEffect(37574, func(agent core.Agent) {
 		paladin := agent.(PaladinAgent).GetPaladin()
 		procAura := paladin.NewTemporaryStatsAura("Libram of Furious Blows Proc", core.ActionID{SpellID: 48835}, stats.Stats{stats.MeleeCrit: 61, stats.SpellCrit: 61}, time.Second*5)
@@ -465,6 +465,24 @@ func init() {
 		})
 	})
 
+	core.NewItemEffect(47664, func(agent core.Agent) {
+		paladin := agent.(PaladinAgent).GetPaladin()
+		procAura := paladin.NewTemporaryStatsAura("Libram of Defiance Proc", core.ActionID{SpellID: 67378}, stats.Stats{stats.Dodge: 200}, time.Second*18)
+
+		core.MakeProcTriggerAura(&paladin.Unit, core.ProcTrigger{
+			Name:       "Libram of Defiance",
+			ActionID:   core.ActionID{ItemID: 47664},
+			Callback:   core.CallbackOnCastComplete,
+			ProcChance: 0.8,
+			CustomCheck: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) bool {
+				return spell.IsSpell(paladin.HammerOfTheRighteous)
+			},
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				procAura.Activate(sim)
+			},
+		})
+	})
+
 	core.NewItemEffect(32489, func(agent core.Agent) {
 		paladin := agent.(PaladinAgent).GetPaladin()
 
@@ -505,5 +523,5 @@ func init() {
 			},
 		})
 	})
-
+	core.AddEffectsToTest = true
 }

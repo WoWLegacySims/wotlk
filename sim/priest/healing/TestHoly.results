@@ -170,6 +170,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestHoly-AllItems-BookofStars-43661"
+ value: {
+  tps: 40.56556
+  hps: 4681.23461
+ }
+}
+dps_results: {
  key: "TestHoly-AllItems-BracingEarthsiegeDiamond"
  value: {
   tps: 35.14797
@@ -401,6 +408,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestHoly-AllItems-FireEater'sGuide-43660"
+ value: {
+  dps: 3.32843
+  tps: 42.33813
+  hps: 4671.66704
+ }
+}
+dps_results: {
  key: "TestHoly-AllItems-ForethoughtTalisman-40258"
  value: {
   tps: 35.61812
@@ -419,13 +434,6 @@ dps_results: {
  value: {
   tps: 35.14797
   hps: 4739.18723
- }
-}
-dps_results: {
- key: "TestHoly-AllItems-FuturesightRune-38763"
- value: {
-  tps: 35.47348
-  hps: 4931.28206
  }
 }
 dps_results: {
@@ -583,6 +591,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestHoly-AllItems-ManualofClouds-43664"
+ value: {
+  tps: 38.98747
+  hps: 4813.34682
+ }
+}
+dps_results: {
  key: "TestHoly-AllItems-MarkofConquest-27920"
  value: {
   tps: 35.61812
@@ -650,6 +665,13 @@ dps_results: {
  value: {
   tps: 39.00269
   hps: 4822.76512
+ }
+}
+dps_results: {
+ key: "TestHoly-AllItems-NoiseMachine-40865"
+ value: {
+  tps: 35.61812
+  hps: 4745.83708
  }
 }
 dps_results: {
@@ -842,6 +864,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestHoly-AllItems-StormboundTome-43663"
+ value: {
+  tps: 39.00423
+  hps: 4687.91103
+ }
+}
+dps_results: {
  key: "TestHoly-AllItems-SwiftSkyflareDiamond"
  value: {
   tps: 35.14797
@@ -945,6 +974,13 @@ dps_results: {
  value: {
   tps: 35.14797
   hps: 4739.18723
+ }
+}
+dps_results: {
+ key: "TestHoly-AllItems-TomeofKings-43656"
+ value: {
+  tps: 38.90089
+  hps: 4772.88727
  }
 }
 dps_results: {

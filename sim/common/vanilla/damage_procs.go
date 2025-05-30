@@ -170,7 +170,9 @@ func init() {
 		ExtraDie:         5,
 		ExtraSpellSchool: core.SpellSchoolShadow,
 	})
+
 	core.AddEffectsToTest = false
+
 	helpers.NewWeaponDamageProc(810, helpers.WeaponDamageProc{
 		WeaponProc: helpers.WeaponProc{
 			Name: "Hammer of the Northern Wind",

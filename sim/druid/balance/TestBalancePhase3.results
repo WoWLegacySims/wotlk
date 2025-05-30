@@ -172,6 +172,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBalancePhase3-AllItems-BookofStars-43661"
+ value: {
+  dps: 10931.62881
+  tps: 10481.4427
+ }
+}
+dps_results: {
  key: "TestBalancePhase3-AllItems-BracingEarthsiegeDiamond"
  value: {
   dps: 11241.67491
@@ -432,6 +439,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBalancePhase3-AllItems-FireEater'sGuide-43660"
+ value: {
+  dps: 11022.57061
+  tps: 10569.46437
+ }
+}
+dps_results: {
  key: "TestBalancePhase3-AllItems-ForethoughtTalisman-40258"
  value: {
   dps: 11227.01346
@@ -464,13 +478,6 @@ dps_results: {
  value: {
   dps: 11307.237
   tps: 10842.43121
- }
-}
-dps_results: {
- key: "TestBalancePhase3-AllItems-FuturesightRune-38763"
- value: {
-  dps: 11153.75293
-  tps: 10708.7273
  }
 }
 dps_results: {
@@ -587,6 +594,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBalancePhase3-AllItems-IdolofArcaneTerror-38360"
+ value: {
+  dps: 11255.04703
+  tps: 10792.90253
+ }
+}
+dps_results: {
  key: "TestBalancePhase3-AllItems-IdolofMutilation-47668"
  value: {
   dps: 11242.08295
@@ -622,6 +636,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBalancePhase3-AllItems-IdolofthePlainstalker-37573"
+ value: {
+  dps: 11242.08295
+  tps: 10780.32074
+ }
+}
+dps_results: {
  key: "TestBalancePhase3-AllItems-IdoloftheRavenGoddess-32387"
  value: {
   dps: 11374.47722
@@ -633,6 +654,13 @@ dps_results: {
  value: {
   dps: 11294.56216
   tps: 10830.81154
+ }
+}
+dps_results: {
+ key: "TestBalancePhase3-AllItems-IdoloftheWastes-38295"
+ value: {
+  dps: 11242.08295
+  tps: 10780.32074
  }
 }
 dps_results: {
@@ -749,6 +777,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBalancePhase3-AllItems-ManualofClouds-43664"
+ value: {
+  dps: 11049.11657
+  tps: 10598.52302
+ }
+}
+dps_results: {
  key: "TestBalancePhase3-AllItems-MarkofConquest-27920"
  value: {
   dps: 10990.83674
@@ -830,6 +865,13 @@ dps_results: {
  value: {
   dps: 9214.02101
   tps: 8795.32296
+ }
+}
+dps_results: {
+ key: "TestBalancePhase3-AllItems-NoiseMachine-40865"
+ value: {
+  dps: 11124.88298
+  tps: 10683.0484
  }
 }
 dps_results: {
@@ -1050,6 +1092,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBalancePhase3-AllItems-StormboundTome-43663"
+ value: {
+  dps: 11033.82733
+  tps: 10581.33189
+ }
+}
+dps_results: {
  key: "TestBalancePhase3-AllItems-StormshroudArmor"
  value: {
   dps: 6151.31342
@@ -1173,6 +1222,13 @@ dps_results: {
  value: {
   dps: 11231.49051
   tps: 10778.92545
+ }
+}
+dps_results: {
+ key: "TestBalancePhase3-AllItems-TomeofKings-43656"
+ value: {
+  dps: 11057.35832
+  tps: 10611.97239
  }
 }
 dps_results: {

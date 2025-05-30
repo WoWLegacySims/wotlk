@@ -114,6 +114,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestArcane-AllItems-BattlewornThrashBlade-44096"
+ value: {
+  dps: 10853.2932
+  tps: 6647.2415
+ }
+}
+dps_results: {
  key: "TestArcane-AllItems-BaubleofTrueBlood-50354"
  value: {
   dps: 10312.65796
@@ -190,6 +197,13 @@ dps_results: {
  value: {
   dps: 10853.2932
   tps: 6647.2415
+ }
+}
+dps_results: {
+ key: "TestArcane-AllItems-BookofStars-43661"
+ value: {
+  dps: 10203.50414
+  tps: 6245.94147
  }
 }
 dps_results: {
@@ -425,6 +439,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestArcane-AllItems-FireEater'sGuide-43660"
+ value: {
+  dps: 10330.6036
+  tps: 6327.23365
+ }
+}
+dps_results: {
  key: "TestArcane-AllItems-ForethoughtTalisman-40258"
  value: {
   dps: 10530.31192
@@ -450,13 +471,6 @@ dps_results: {
  value: {
   dps: 8260.6262
   tps: 5065.77427
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-FuturesightRune-38763"
- value: {
-  dps: 10480.48531
-  tps: 6419.81282
  }
 }
 dps_results: {
@@ -601,6 +615,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestArcane-AllItems-ManualofClouds-43664"
+ value: {
+  dps: 10334.879
+  tps: 6329.69665
+ }
+}
+dps_results: {
  key: "TestArcane-AllItems-MarkofConquest-27920"
  value: {
   dps: 10321.75638
@@ -668,6 +689,13 @@ dps_results: {
  value: {
   dps: 10853.2932
   tps: 6647.2415
+ }
+}
+dps_results: {
+ key: "TestArcane-AllItems-NoiseMachine-40865"
+ value: {
+  dps: 10440.12574
+  tps: 6396.49049
  }
 }
 dps_results: {
@@ -846,6 +874,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestArcane-AllItems-StormboundTome-43663"
+ value: {
+  dps: 10311.98362
+  tps: 6317.37331
+ }
+}
+dps_results: {
  key: "TestArcane-AllItems-Sul'thrazetheLasher-9372"
  value: {
   dps: 10853.2932
@@ -976,6 +1011,13 @@ dps_results: {
  value: {
   dps: 7196.94723
   tps: 4418.97909
+ }
+}
+dps_results: {
+ key: "TestArcane-AllItems-TomeofKings-43656"
+ value: {
+  dps: 10288.59061
+  tps: 6303.02426
  }
 }
 dps_results: {

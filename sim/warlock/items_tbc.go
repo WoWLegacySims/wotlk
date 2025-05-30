@@ -101,6 +101,7 @@ var ItemSetMaleficRaiment = core.NewItemSet(core.ItemSet{
 })
 
 func init() {
+	core.AddEffectsToTest = false
 	core.NewItemEffect(32493, func(agent core.Agent) {
 		warlock := agent.(WarlockAgent).GetWarlock()
 		procAura := warlock.NewTemporaryStatsAura("Ashtongue Talisman Proc", core.ActionID{SpellID: 40478}, stats.Stats{stats.SpellPower: 220}, time.Second*5)
@@ -118,4 +119,5 @@ func init() {
 			},
 		})
 	})
+	core.AddEffectsToTest = true
 }

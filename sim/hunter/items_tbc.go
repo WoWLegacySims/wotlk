@@ -53,6 +53,7 @@ var ItemSetGronnstalker = core.NewItemSet(core.ItemSet{
 })
 
 func init() {
+	core.AddEffectsToTest = false
 	core.NewItemEffect(32336, func(agent core.Agent) {
 		hunter := agent.(HunterAgent).GetHunter()
 		const manaGain = 8.0
@@ -96,5 +97,5 @@ func init() {
 			},
 		})
 	})
-
+	core.AddEffectsToTest = true
 }

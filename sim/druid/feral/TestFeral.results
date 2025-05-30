@@ -172,6 +172,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeral-AllItems-BookofStars-43661"
+ value: {
+  dps: 6741.46327
+  tps: 4852.62512
+ }
+}
+dps_results: {
  key: "TestFeral-AllItems-BracingEarthsiegeDiamond"
  value: {
   dps: 6569.30929
@@ -432,6 +439,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeral-AllItems-FireEater'sGuide-43660"
+ value: {
+  dps: 6745.26632
+  tps: 4854.727
+ }
+}
+dps_results: {
  key: "TestFeral-AllItems-ForethoughtTalisman-40258"
  value: {
   dps: 6484.07681
@@ -464,13 +478,6 @@ dps_results: {
  value: {
   dps: 6582.61995
   tps: 4739.32286
- }
-}
-dps_results: {
- key: "TestFeral-AllItems-FuturesightRune-38763"
- value: {
-  dps: 6484.07681
-  tps: 4666.59012
  }
 }
 dps_results: {
@@ -587,6 +594,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeral-AllItems-IdolofArcaneTerror-38360"
+ value: {
+  dps: 6582.61995
+  tps: 4739.32286
+ }
+}
+dps_results: {
  key: "TestFeral-AllItems-IdolofLunarFury-47670"
  value: {
   dps: 6582.61995
@@ -629,6 +643,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeral-AllItems-IdolofthePlainstalker-37573"
+ value: {
+  dps: 6582.61995
+  tps: 4739.32286
+ }
+}
+dps_results: {
  key: "TestFeral-AllItems-IdoloftheRavenGoddess-32387"
  value: {
   dps: 6647.73593
@@ -640,6 +661,13 @@ dps_results: {
  value: {
   dps: 6582.61995
   tps: 4739.32286
+ }
+}
+dps_results: {
+ key: "TestFeral-AllItems-IdoloftheWastes-38295"
+ value: {
+  dps: 6634.85958
+  tps: 4776.413
  }
 }
 dps_results: {
@@ -757,6 +785,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeral-AllItems-ManualofClouds-43664"
+ value: {
+  dps: 6723.88185
+  tps: 4839.61881
+ }
+}
+dps_results: {
  key: "TestFeral-AllItems-MarkofConquest-27920"
  value: {
   dps: 6511.46176
@@ -838,6 +873,13 @@ dps_results: {
  value: {
   dps: 5134.51958
   tps: 3711.39596
+ }
+}
+dps_results: {
+ key: "TestFeral-AllItems-NoiseMachine-40865"
+ value: {
+  dps: 6484.07681
+  tps: 4666.59012
  }
 }
 dps_results: {
@@ -1058,6 +1100,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeral-AllItems-StormboundTome-43663"
+ value: {
+  dps: 6746.63492
+  tps: 4855.6987
+ }
+}
+dps_results: {
  key: "TestFeral-AllItems-StormshroudArmor"
  value: {
   dps: 5477.70432
@@ -1181,6 +1230,13 @@ dps_results: {
  value: {
   dps: 6569.30929
   tps: 4729.94707
+ }
+}
+dps_results: {
+ key: "TestFeral-AllItems-TomeofKings-43656"
+ value: {
+  dps: 6746.18329
+  tps: 4855.82202
  }
 }
 dps_results: {

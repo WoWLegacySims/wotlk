@@ -401,13 +401,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestAffliction-AllItems-FuturesightRune-38763"
- value: {
-  dps: 14139.2019
-  tps: 12982.93734
- }
-}
-dps_results: {
  key: "TestAffliction-AllItems-Gladiator'sFelshroud"
  value: {
   dps: 11402.67582
@@ -566,6 +559,13 @@ dps_results: {
  value: {
   dps: 14719.69859
   tps: 13557.21088
+ }
+}
+dps_results: {
+ key: "TestAffliction-AllItems-NoiseMachine-40865"
+ value: {
+  dps: 14140.09773
+  tps: 12983.61345
  }
 }
 dps_results: {

@@ -458,10 +458,6 @@ var ItemDenyList = map[int32]struct{}{
 	38694: {}, // "Family" Shoulderpads heirloom
 	39263: {}, // "Dissevered Leggings"
 
-	41587: {},
-	41588: {},
-	41589: {},
-	41590: {},
 	45084: {}, // 'Book of Crafting Secrets' heirloom
 
 	// '10 man' onyxia head rewards

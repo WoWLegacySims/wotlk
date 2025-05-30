@@ -9,6 +9,7 @@ import (
 )
 
 func init() {
+	core.AddEffectsToTest = false
 	core.NewItemEffect(833, func(a core.Agent) {
 		character := a.GetCharacter()
 
@@ -434,4 +435,5 @@ func init() {
 			Spell: spell,
 		})
 	})
+	core.AddEffectsToTest = true
 }

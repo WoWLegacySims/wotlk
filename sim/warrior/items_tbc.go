@@ -227,6 +227,7 @@ var ItemSetOnslaughtBattlegear = core.NewItemSet(core.ItemSet{
 })
 
 func init() {
+	core.AddEffectsToTest = false
 	core.NewItemEffect(32485, func(a core.Agent) {
 		character := a.(WarriorAgent).GetWarrior()
 		metrics := character.NewHealthMetrics(core.ActionID{ItemID: 32485})
@@ -248,4 +249,5 @@ func init() {
 			},
 		})
 	})
+	core.AddEffectsToTest = true
 }

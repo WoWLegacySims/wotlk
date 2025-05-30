@@ -50,12 +50,6 @@ func init() {
 			hsa.Get(character).Icd = triggerAura.Icd
 		})
 	}
-	core.AddEffectsToTest = false
-	newDMCGreatnessEffect(42987)
-	newDMCGreatnessEffect(44253)
-	newDMCGreatnessEffect(44254)
-	core.AddEffectsToTest = true
-	newDMCGreatnessEffect(44255)
 
 	newDeathsChoiceEffect := func(itemID int32, auraIDs map[stats.Stat]core.ActionID, name string, amount float64) {
 		core.NewItemEffect(itemID, func(agent core.Agent) {
@@ -99,9 +93,15 @@ func init() {
 		stats.Agility:  core.ActionID{SpellID: 67772},
 	}
 
-	newDeathsChoiceEffect(47115, normalAuraIDs, "Deaths Verdict", 450)
+	core.AddEffectsToTest = false
+	newDMCGreatnessEffect(42987)
+	newDMCGreatnessEffect(44253)
+	newDMCGreatnessEffect(44254)
 	newDeathsChoiceEffect(47131, heroicAuraIDs, "Deaths Verdict H", 510)
-
 	newDeathsChoiceEffect(47303, normalAuraIDs, "Deaths Choice", 450)
 	newDeathsChoiceEffect(47464, heroicAuraIDs, "Deaths Choice H", 510)
+	core.AddEffectsToTest = true
+	newDMCGreatnessEffect(44255)
+	newDeathsChoiceEffect(47115, normalAuraIDs, "Deaths Verdict", 450)
+
 }

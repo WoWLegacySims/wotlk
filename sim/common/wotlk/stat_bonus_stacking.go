@@ -85,6 +85,16 @@ func init() {
 		ProcChance: 0.5,
 	})
 	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{
+		Name:      "The Dusk Blade",
+		ID:        43613,
+		AuraID:    59043,
+		Duration:  time.Second * 10,
+		MaxStacks: 3,
+		Bonus:     stats.Stats{stats.ArmorPenetration: 15},
+		Callback:  core.CallbackOnSpellHitDealt,
+		Weapon:    true,
+	})
+	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{
 		Name:      "Eye of the Broodmother",
 		ID:        45308,
 		AuraID:    65006,

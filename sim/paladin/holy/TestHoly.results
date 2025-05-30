@@ -88,6 +88,10 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestHoly-AllItems-BattlewornThrashBlade-44096"
+ value: {}
+}
+dps_results: {
  key: "TestHoly-AllItems-BaubleofTrueBlood-50354"
  value: {
   tps: 5.83559
@@ -308,10 +312,6 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestHoly-AllItems-FuturesightRune-38763"
- value: {}
-}
-dps_results: {
  key: "TestHoly-AllItems-Gem-studdedLeatherBelt-4262"
  value: {
   hps: 3.80842
@@ -408,6 +408,10 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestHoly-AllItems-LibramofDefiance-47664"
+ value: {}
+}
+dps_results: {
  key: "TestHoly-AllItems-LibramofDivineJudgement-33503"
  value: {}
 }
@@ -487,6 +491,10 @@ dps_results: {
 }
 dps_results: {
  key: "TestHoly-AllItems-NevermeltingIceCrystal-50259"
+ value: {}
+}
+dps_results: {
+ key: "TestHoly-AllItems-NoiseMachine-40865"
  value: {}
 }
 dps_results: {

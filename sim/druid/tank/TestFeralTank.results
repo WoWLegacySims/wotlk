@@ -190,6 +190,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralTank-AllItems-BookofStars-43661"
+ value: {
+  dps: 2582.66964
+  tps: 5451.47861
+  dtps: 7.24385
+ }
+}
+dps_results: {
  key: "TestFeralTank-AllItems-BracingEarthsiegeDiamond"
  value: {
   dps: 2558.19785
@@ -479,6 +487,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralTank-AllItems-FireEater'sGuide-43660"
+ value: {
+  dps: 2572.52663
+  tps: 5424.39265
+  dtps: 7.24385
+ }
+}
+dps_results: {
  key: "TestFeralTank-AllItems-ForethoughtTalisman-40258"
  value: {
   dps: 2581.4671
@@ -515,14 +531,6 @@ dps_results: {
  value: {
   dps: 2525.26297
   tps: 5328.89172
-  dtps: 7.24385
- }
-}
-dps_results: {
- key: "TestFeralTank-AllItems-FuturesightRune-38763"
- value: {
-  dps: 2581.4671
-  tps: 5447.03842
   dtps: 7.24385
  }
 }
@@ -656,6 +664,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralTank-AllItems-IdolofArcaneTerror-38360"
+ value: {
+  dps: 2525.26297
+  tps: 5328.89172
+  dtps: 7.24385
+ }
+}
+dps_results: {
  key: "TestFeralTank-AllItems-IdolofLunarFury-47670"
  value: {
   dps: 2525.26297
@@ -674,8 +690,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralTank-AllItems-IdolofTerror-33509"
  value: {
-  dps: 2528.865
-  tps: 5339.39451
+  dps: 2530.98773
+  tps: 5342.16768
   dtps: 7.24385
  }
 }
@@ -704,6 +720,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralTank-AllItems-IdolofthePlainstalker-37573"
+ value: {
+  dps: 2522.50456
+  tps: 5330.93666
+  dtps: 7.24385
+ }
+}
+dps_results: {
  key: "TestFeralTank-AllItems-IdoloftheRavenGoddess-32387"
  value: {
   dps: 2541.34192
@@ -716,6 +740,14 @@ dps_results: {
  value: {
   dps: 2525.26297
   tps: 5328.89172
+  dtps: 7.24385
+ }
+}
+dps_results: {
+ key: "TestFeralTank-AllItems-IdoloftheWastes-38295"
+ value: {
+  dps: 2532.19986
+  tps: 5336.87977
   dtps: 7.24385
  }
 }
@@ -850,6 +882,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralTank-AllItems-ManualofClouds-43664"
+ value: {
+  dps: 2581.4671
+  tps: 5447.03842
+  dtps: 7.24385
+ }
+}
+dps_results: {
  key: "TestFeralTank-AllItems-MarkofConquest-27920"
  value: {
   dps: 2580.44364
@@ -942,6 +982,14 @@ dps_results: {
  value: {
   dps: 2099.4258
   tps: 4513.03981
+  dtps: 7.24385
+ }
+}
+dps_results: {
+ key: "TestFeralTank-AllItems-NoiseMachine-40865"
+ value: {
+  dps: 2581.4671
+  tps: 5447.03842
   dtps: 7.24385
  }
 }
@@ -1194,6 +1242,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralTank-AllItems-StormboundTome-43663"
+ value: {
+  dps: 2573.45888
+  tps: 5426.35234
+  dtps: 7.24385
+ }
+}
+dps_results: {
  key: "TestFeralTank-AllItems-StormshroudArmor"
  value: {
   dps: 2100.27895
@@ -1334,6 +1390,14 @@ dps_results: {
  value: {
   dps: 2558.19785
   tps: 5393.323
+  dtps: 7.24385
+ }
+}
+dps_results: {
+ key: "TestFeralTank-AllItems-TomeofKings-43656"
+ value: {
+  dps: 2598.17652
+  tps: 5473.3215
   dtps: 7.24385
  }
 }

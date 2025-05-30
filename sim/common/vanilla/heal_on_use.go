@@ -8,7 +8,7 @@ import (
 )
 
 func init() {
-
+	core.AddEffectsToTest = false
 	core.NewItemEffect(2802, func(a core.Agent) {
 		character := a.GetCharacter()
 
@@ -94,4 +94,5 @@ func init() {
 			}),
 		})
 	})
+	core.AddEffectsToTest = true
 }

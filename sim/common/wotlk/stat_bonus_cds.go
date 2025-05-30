@@ -46,6 +46,7 @@ func init() {
 	helpers.NewSpellPowerActive(38073, 120, time.Second*15, time.Minute*2) // Will of the Red Dragonflight
 	helpers.NewSpellPowerActive(38213, 149, time.Second*20, time.Minute*2) // Harbringer's Wrath
 	helpers.NewSpellPowerActive(38527, 183, time.Second*20, time.Minute*2) // Strike of the Seas
+	helpers.NewSpellPowerActive(38257, 183, time.Second*20, time.Minute*2)
 	helpers.NewSpellPowerActive(38760, 145, time.Second*20, time.Minute*2) // Mendicant's Charm
 	helpers.NewSpellPowerActive(38762, 145, time.Second*20, time.Minute*2) // Insignia of Bloody Fire
 	helpers.NewSpellPowerActive(38765, 202, time.Second*20, time.Minute*2) // Rune of Infinite Power

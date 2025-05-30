@@ -82,15 +82,15 @@ func ApplyProcTriggerCallback(unit *Unit, aura *Aura, config ProcTrigger) {
 		if config.Harmful && result.Damage == 0 {
 			return
 		}
+		if config.CustomCheck != nil && !config.CustomCheck(aura, sim, spell, result) {
+			return
+		}
 		if icd.Duration != 0 && !icd.IsReady(sim) {
 			return
 		}
 		if config.ProcChance != 1 && sim.RandomFloat(config.Name) > config.ProcChance {
 			return
 		} else if config.PPM != 0 && !ppmm.Proc(sim, spell.ProcMask, config.Name) {
-			return
-		}
-		if config.CustomCheck != nil && !config.CustomCheck(aura, sim, spell, result) {
 			return
 		}
 

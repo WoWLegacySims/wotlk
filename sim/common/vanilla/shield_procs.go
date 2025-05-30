@@ -7,6 +7,7 @@ import (
 )
 
 func init() {
+	core.AddEffectsToTest = false
 	core.NewItemEffect(9380, func(a core.Agent) {
 		character := a.GetCharacter()
 		shieldStrength := 0.0
@@ -17,7 +18,7 @@ func init() {
 			ActionID: core.ActionID{ItemID: 9380},
 			Shield: core.ShieldConfig{
 				Aura: core.Aura{
-					Label:    "Elemental Protection",
+					Label:    "Jang'thraze the Protector",
 					ActionID: core.ActionID{SpellID: 10618},
 					Duration: time.Second * 20,
 					OnGain: func(aura *core.Aura, sim *core.Simulation) {
@@ -54,4 +55,5 @@ func init() {
 			},
 		})
 	})
+	core.AddEffectsToTest = true
 }

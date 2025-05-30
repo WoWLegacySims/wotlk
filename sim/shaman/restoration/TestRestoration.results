@@ -136,6 +136,10 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestRestoration-AllItems-BookofStars-43661"
+ value: {}
+}
+dps_results: {
  key: "TestRestoration-AllItems-BracingEarthsiegeDiamond"
  value: {}
 }
@@ -318,6 +322,13 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestRestoration-AllItems-FireEater'sGuide-43660"
+ value: {
+  dps: 3.49405
+  tps: 3.49405
+ }
+}
+dps_results: {
  key: "TestRestoration-AllItems-FireHardenedHauberk-6972"
  value: {}
 }
@@ -347,10 +358,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestRestoration-AllItems-FuriousGladiator'sTotemofSurvival-42603"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-FuturesightRune-38763"
  value: {}
 }
 dps_results: {
@@ -458,6 +465,10 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestRestoration-AllItems-ManualofClouds-43664"
+ value: {}
+}
+dps_results: {
  key: "TestRestoration-AllItems-MarkofConquest-27920"
  value: {}
 }
@@ -499,6 +510,10 @@ dps_results: {
 }
 dps_results: {
  key: "TestRestoration-AllItems-NightReaver-1318"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-NoiseMachine-40865"
  value: {}
 }
 dps_results: {
@@ -634,6 +649,12 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestRestoration-AllItems-StormboundTome-43663"
+ value: {
+  dtps: 3.54379
+ }
+}
+dps_results: {
  key: "TestRestoration-AllItems-StormshroudArmor"
  value: {}
 }
@@ -718,6 +739,10 @@ dps_results: {
 }
 dps_results: {
  key: "TestRestoration-AllItems-TirelessStarflareDiamond"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-TomeofKings-43656"
  value: {}
 }
 dps_results: {

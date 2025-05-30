@@ -7,7 +7,7 @@ import (
 )
 
 func init() {
-
+	core.AddEffectsToTest = false
 	core.NewItemEffect(31322, func(a core.Agent) {
 		character := a.GetCharacter()
 		procmask := character.GetProcMaskForItem(31322)
@@ -94,4 +94,5 @@ func init() {
 			}),
 		})
 	})
+	core.AddEffectsToTest = true
 }

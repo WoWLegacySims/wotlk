@@ -145,7 +145,7 @@ var ItemSetLightbringerArmor = core.NewItemSet(core.ItemSet{
 })
 
 func init() {
-
+	core.AddEffectsToTest = false
 	core.NewItemEffect(27484, func(agent core.Agent) {
 		paladin := agent.(PaladinAgent).GetPaladin()
 		procAura := paladin.NewTemporaryStatsAura("Libram of Avengement Proc", core.ActionID{SpellID: 48835}, stats.Stats{stats.MeleeCrit: 53, stats.SpellCrit: 53}, time.Second*5)
@@ -189,4 +189,5 @@ func init() {
 			return spell.IsSpellAction(20467)
 		},
 	})
+	core.AddEffectsToTest = true
 }

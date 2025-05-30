@@ -7,6 +7,7 @@ import (
 )
 
 func init() {
+	core.AddEffectsToTest = false
 	core.NewItemEffect(744, func(a core.Agent) {
 		character := a.GetCharacter()
 
@@ -89,4 +90,65 @@ func init() {
 			Type:  core.CooldownTypeDPS,
 		})
 	})
+
+	core.NewItemEffect(43660, func(a core.Agent) {
+		character := a.GetCharacter()
+
+		spell := character.RegisterSpell(core.SpellConfig{
+			ActionID:         core.ActionID{SpellID: 59197},
+			SpellSchool:      core.SpellSchoolFire,
+			ProcMask:         core.ProcMaskEmpty,
+			DamageMultiplier: 1,
+			CritMultiplier:   character.DefaultSpellCritMultiplier(),
+			ThreatMultiplier: 1,
+			Cast: core.CastConfig{
+				CD: core.Cooldown{
+					Duration: time.Minute * 2,
+					Timer:    character.NewTimer(),
+				},
+				IgnoreHaste: true,
+			},
+			ApplyEffects: func(sim *core.Simulation, _ *core.Unit, spell *core.Spell) {
+				for _, target := range sim.Encounter.TargetUnits {
+					dmg := sim.Roll(277, 45)
+					spell.CalcAndDealDamage(sim, target, dmg, spell.OutcomeMagicHitAndCrit)
+				}
+			},
+		})
+
+		character.AddMajorCooldown(core.MajorCooldown{
+			Spell: spell,
+			Type:  core.CooldownTypeDPS,
+		})
+	})
+
+	core.NewItemEffect(43663, func(a core.Agent) {
+		character := a.GetCharacter()
+
+		spell := character.RegisterSpell(core.SpellConfig{
+			ActionID:         core.ActionID{SpellID: 59199},
+			SpellSchool:      core.SpellSchoolNature,
+			ProcMask:         core.ProcMaskEmpty,
+			DamageMultiplier: 1,
+			CritMultiplier:   character.DefaultSpellCritMultiplier(),
+			ThreatMultiplier: 1,
+			Cast: core.CastConfig{
+				CD: core.Cooldown{
+					Duration: time.Minute * 2,
+					Timer:    character.NewTimer(),
+				},
+				IgnoreHaste: true,
+			},
+			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
+				dmg := sim.Roll(11, 789)
+				spell.CalcAndDealDamage(sim, target, dmg, spell.OutcomeMagicHitAndCrit)
+			},
+		})
+
+		character.AddMajorCooldown(core.MajorCooldown{
+			Spell: spell,
+			Type:  core.CooldownTypeDPS,
+		})
+	})
+	core.AddEffectsToTest = true
 }

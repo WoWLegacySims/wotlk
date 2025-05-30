@@ -558,11 +558,50 @@ func (dk *Deathknight) registerItems() {
 		}))
 	})
 
+	core.AddEffectsToTest = false
+
+	addItemEffect(38674, func(a core.Agent) {
+		dk := a.(DeathKnightAgent).GetDeathKnight()
+		procAura := dk.NewTemporaryStatsAura("Soul Harvester's Charm Proc", core.ActionID{SpellID: 52419}, stats.Stats{stats.Parry: 90}, time.Second*10)
+
+		core.MakeProcTriggerAura(&dk.Unit, core.ProcTrigger{
+			Name:       "Soul Harvester's Charm",
+			ActionID:   core.ActionID{ItemID: 38674},
+			Callback:   core.CallbackOnSpellHitTaken,
+			ProcMask:   core.ProcMaskMelee,
+			Outcome:    core.OutcomeLanded,
+			ProcChance: 1,
+			ICD:        time.Second * 30,
+			CustomCheck: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) bool {
+				return dk.CurrentHealthPercent() <= 0.35
+			},
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				procAura.Activate(sim)
+			},
+		})
+	})
+
+	addItemEffect(38675, func(a core.Agent) {
+		dk := a.(DeathKnightAgent).GetDeathKnight()
+		procAura := dk.NewTemporaryStatsAura("Signet of the Dark Brotherhood Proc", core.ActionID{SpellID: 52424}, stats.Stats{stats.Strength: 120}, time.Second*10)
+
+		core.MakeProcTriggerAura(&dk.Unit, core.ProcTrigger{
+			Name:       "Signet of the Dark Brotherhood",
+			ActionID:   core.ActionID{ItemID: 38675},
+			Callback:   core.CallbackOnSpellHitTaken,
+			Outcome:    core.OutcomeParry,
+			ProcChance: 0.3,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				procAura.Activate(sim)
+			},
+		})
+	})
+
 	// Sigils
 
 	addItemEffect(40714, func(agent core.Agent) {
 		dk := agent.(DeathKnightAgent).GetDeathKnight()
-		procAura := dk.NewTemporaryStatsAura("Sigil of the Unfaltering Knight Proc", core.ActionID{SpellID: 62146}, stats.Stats{stats.Defense: 53.0 / dk.DefenseRatingPerDefense}, time.Second*30)
+		procAura := dk.NewTemporaryStatsAura("Sigil of the Unfaltering Knight Proc", core.ActionID{SpellID: 62146}, stats.Stats{stats.Defense: 53.0}, time.Second*30)
 
 		core.MakePermanent(dk.GetOrRegisterAura(core.Aura{
 			Label: "Sigil of the Unfaltering Knight",
@@ -727,6 +766,8 @@ func (dk *Deathknight) registerItems() {
 	CreateGladiatorsSigil(42621, "Furious", 144, 10)
 	CreateGladiatorsSigil(42622, "Relentless", 172, 10)
 	CreateGladiatorsSigil(51417, "Wrathful", 204, 10)
+
+	core.AddEffectsToTest = true
 }
 
 func CreateGladiatorsSigil(id int32, name string, ap float64, seconds time.Duration) {

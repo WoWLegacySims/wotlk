@@ -404,13 +404,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestDestruction-AllItems-FuturesightRune-38763"
- value: {
-  dps: 13244.07793
-  tps: 10871.87609
- }
-}
-dps_results: {
  key: "TestDestruction-AllItems-Gladiator'sFelshroud"
  value: {
   dps: 10551.78029
@@ -570,6 +563,13 @@ dps_results: {
  value: {
   dps: 13327.66825
   tps: 10944.37115
+ }
+}
+dps_results: {
+ key: "TestDestruction-AllItems-NoiseMachine-40865"
+ value: {
+  dps: 13190.92639
+  tps: 10826.04608
  }
 }
 dps_results: {

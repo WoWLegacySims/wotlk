@@ -132,6 +132,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestRetribution-AllItems-BattlewornThrashBlade-44096"
+ value: {
+  dps: 6620.68072
+  tps: 6706.48121
+  dtps: 9.92986
+ }
+}
+dps_results: {
  key: "TestRetribution-AllItems-BaubleofTrueBlood-50354"
  value: {
   dps: 6379.59916
@@ -593,14 +601,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestRetribution-AllItems-FuturesightRune-38763"
- value: {
-  dps: 6395.25013
-  tps: 6481.05062
-  dtps: 9.92986
- }
-}
-dps_results: {
  key: "TestRetribution-AllItems-Gem-studdedLeatherBelt-4262"
  value: {
   dps: 6345.70171
@@ -725,8 +725,8 @@ dps_results: {
 dps_results: {
  key: "TestRetribution-AllItems-Jang'thrazetheProtector-9380"
  value: {
-  dps: 6620.51735
-  tps: 6706.31783
+  dps: 6620.68072
+  tps: 6706.48121
   dtps: 9.92986
  }
 }
@@ -775,6 +775,14 @@ dps_results: {
  value: {
   dps: 6544.94979
   tps: 6630.75028
+  dtps: 9.92986
+ }
+}
+dps_results: {
+ key: "TestRetribution-AllItems-LibramofDefiance-47664"
+ value: {
+  dps: 6527.56941
+  tps: 6613.3699
   dtps: 9.92986
  }
 }
@@ -944,6 +952,14 @@ dps_results: {
  value: {
   dps: 14500.21472
   tps: 14579.63148
+  dtps: 9.92986
+ }
+}
+dps_results: {
+ key: "TestRetribution-AllItems-NoiseMachine-40865"
+ value: {
+  dps: 6395.50222
+  tps: 6481.30271
   dtps: 9.92986
  }
 }

@@ -121,6 +121,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSV-AllItems-BattlewornThrashBlade-44096"
+ value: {
+  dps: 7619.19347
+  tps: 6596.98211
+ }
+}
+dps_results: {
  key: "TestSV-AllItems-BaubleofTrueBlood-50354"
  value: {
   dps: 7298.74244
@@ -232,6 +239,13 @@ dps_results: {
  value: {
   dps: 7619.19347
   tps: 6596.98211
+ }
+}
+dps_results: {
+ key: "TestSV-AllItems-BookofStars-43661"
+ value: {
+  dps: 7549.72742
+  tps: 6536.77293
  }
 }
 dps_results: {
@@ -516,6 +530,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSV-AllItems-FireEater'sGuide-43660"
+ value: {
+  dps: 7633.52856
+  tps: 6610.98995
+ }
+}
+dps_results: {
  key: "TestSV-AllItems-FireHardenedHauberk-6972"
  value: {
   dps: 7106.00421
@@ -548,13 +569,6 @@ dps_results: {
  value: {
   dps: 7439.57811
   tps: 6419.14055
- }
-}
-dps_results: {
- key: "TestSV-AllItems-FuturesightRune-38763"
- value: {
-  dps: 7297.66768
-  tps: 6290.98785
  }
 }
 dps_results: {
@@ -729,6 +743,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSV-AllItems-ManualofClouds-43664"
+ value: {
+  dps: 7625.55235
+  tps: 6602.77281
+ }
+}
+dps_results: {
  key: "TestSV-AllItems-MarkofConquest-27920"
  value: {
   dps: 7332.8912
@@ -803,6 +824,13 @@ dps_results: {
  value: {
   dps: 7619.19347
   tps: 6596.98211
+ }
+}
+dps_results: {
+ key: "TestSV-AllItems-NoiseMachine-40865"
+ value: {
+  dps: 7297.66768
+  tps: 6290.98785
  }
 }
 dps_results: {
@@ -1016,6 +1044,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSV-AllItems-StormboundTome-43663"
+ value: {
+  dps: 7641.38827
+  tps: 6618.21885
+ }
+}
+dps_results: {
  key: "TestSV-AllItems-StormshroudArmor"
  value: {
   dps: 5694.88759
@@ -1160,6 +1195,13 @@ dps_results: {
  value: {
   dps: 7439.57811
   tps: 6419.14055
+ }
+}
+dps_results: {
+ key: "TestSV-AllItems-TomeofKings-43656"
+ value: {
+  dps: 7633.92998
+  tps: 6610.26057
  }
 }
 dps_results: {

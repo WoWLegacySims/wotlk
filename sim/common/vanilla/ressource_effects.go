@@ -7,6 +7,7 @@ import (
 )
 
 func init() {
+	core.AddEffectsToTest = false
 	core.NewItemEffect(940, func(a core.Agent) {
 		character := a.GetCharacter()
 
@@ -206,4 +207,38 @@ func init() {
 			Type: core.CooldownTypeMana,
 		})
 	})
+
+	core.NewItemEffect(43661, func(a core.Agent) {
+		character := a.GetCharacter()
+		if !(character.HasManaBar()) {
+			return
+		}
+
+		metrics := character.NewManaMetrics(core.ActionID{ItemID: 43661})
+
+		character.AddMajorCooldown(core.MajorCooldown{
+			Spell: character.RegisterSpell(core.SpellConfig{
+				ActionID:    core.ActionID{SpellID: 59198},
+				SpellSchool: core.SpellSchoolPhysical,
+				Cast: core.CastConfig{
+					CD: core.Cooldown{
+						Duration: time.Minute * 2,
+						Timer:    character.NewTimer(),
+					},
+					DefaultCast: core.Cast{
+						GCD: core.GCDDefault,
+					},
+				},
+				ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
+					amount := sim.Roll(314, 71)
+					character.AddMana(sim, amount, metrics)
+				},
+			}),
+			ShouldActivate: func(s *core.Simulation, c *core.Character) bool {
+				return (c.MaxMana() - c.CurrentMana()) > 385
+			},
+			Type: core.CooldownTypeMana,
+		})
+	})
+	core.AddEffectsToTest = true
 }

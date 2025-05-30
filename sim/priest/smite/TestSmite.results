@@ -172,6 +172,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSmite-AllItems-BookofStars-43661"
+ value: {
+  dps: 1599.33932
+  tps: 1390.70715
+ }
+}
+dps_results: {
  key: "TestSmite-AllItems-BracingEarthsiegeDiamond"
  value: {
   dps: 1605.89665
@@ -411,6 +418,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSmite-AllItems-FireEater'sGuide-43660"
+ value: {
+  dps: 1574.38253
+  tps: 1365.16572
+ }
+}
+dps_results: {
  key: "TestSmite-AllItems-ForethoughtTalisman-40258"
  value: {
   dps: 1657.19076
@@ -429,13 +443,6 @@ dps_results: {
  value: {
   dps: 1604.51925
   tps: 1390.03577
- }
-}
-dps_results: {
- key: "TestSmite-AllItems-FuturesightRune-38763"
- value: {
-  dps: 1668.07215
-  tps: 1446.38899
  }
 }
 dps_results: {
@@ -594,6 +601,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSmite-AllItems-ManualofClouds-43664"
+ value: {
+  dps: 1581.72945
+  tps: 1371.74836
+ }
+}
+dps_results: {
  key: "TestSmite-AllItems-MarkofConquest-27920"
  value: {
   dps: 1626.2844
@@ -661,6 +675,13 @@ dps_results: {
  value: {
   dps: 1626.2844
   tps: 1407.77319
+ }
+}
+dps_results: {
+ key: "TestSmite-AllItems-NoiseMachine-40865"
+ value: {
+  dps: 1643.82585
+  tps: 1422.86372
  }
 }
 dps_results: {
@@ -860,6 +881,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestSmite-AllItems-StormboundTome-43663"
+ value: {
+  dps: 1584.9697
+  tps: 1373.97405
+ }
+}
+dps_results: {
  key: "TestSmite-AllItems-SwiftSkyflareDiamond"
  value: {
   dps: 1599.00967
@@ -962,6 +990,13 @@ dps_results: {
  value: {
   dps: 1604.51925
   tps: 1390.03577
+ }
+}
+dps_results: {
+ key: "TestSmite-AllItems-TomeofKings-43656"
+ value: {
+  dps: 1572.54253
+  tps: 1363.26186
  }
 }
 dps_results: {

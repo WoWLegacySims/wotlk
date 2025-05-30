@@ -100,6 +100,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFrost-AllItems-BattlewornThrashBlade-44096"
+ value: {
+  dps: 11141.09939
+  tps: 6475.26302
+ }
+}
+dps_results: {
  key: "TestFrost-AllItems-BaubleofTrueBlood-50354"
  value: {
   dps: 10642.46432
@@ -502,13 +509,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFrost-AllItems-FuturesightRune-38763"
- value: {
-  dps: 10642.59508
-  tps: 6176.16044
- }
-}
-dps_results: {
  key: "TestFrost-AllItems-Gem-studdedLeatherBelt-4262"
  value: {
   dps: 10559.8092
@@ -705,6 +705,13 @@ dps_results: {
  value: {
   dps: 11141.09939
   tps: 6475.26302
+ }
+}
+dps_results: {
+ key: "TestFrost-AllItems-NoiseMachine-40865"
+ value: {
+  dps: 10642.59508
+  tps: 6176.16044
  }
 }
 dps_results: {
@@ -946,6 +953,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFrost-AllItems-SignetoftheDarkBrotherhood-38675"
+ value: {
+  dps: 10642.59508
+  tps: 6176.16044
+ }
+}
+dps_results: {
  key: "TestFrost-AllItems-Sindragosa'sFlawlessFang-50361"
  value: {
   dps: 10642.59508
@@ -964,6 +978,13 @@ dps_results: {
  value: {
   dps: 10642.59508
   tps: 6176.16044
+ }
+}
+dps_results: {
+ key: "TestFrost-AllItems-SoulHarvester'sCharm-38674"
+ value: {
+  dps: 10667.50126
+  tps: 6191.10414
  }
 }
 dps_results: {

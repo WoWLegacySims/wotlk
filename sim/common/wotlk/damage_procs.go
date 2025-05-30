@@ -41,6 +41,22 @@ func init() {
 	})
 
 	helpers.NewProcDamageEffect(helpers.ProcDamageEffect{
+		ID: 38579,
+		Trigger: core.ProcTrigger{
+			Name:       "Venomous Tome",
+			Callback:   core.CallbackOnSpellHitTaken,
+			ProcMask:   core.ProcMaskMelee,
+			Outcome:    core.OutcomeLanded,
+			ProcChance: 0.15,
+			ICD:        time.Second * 45,
+			ActionID:   core.ActionID{ItemID: 51415},
+		},
+		School:     core.SpellSchoolNature,
+		BasePoints: 92,
+		Die:        15,
+	})
+
+	helpers.NewProcDamageEffect(helpers.ProcDamageEffect{
 		ID: 39889,
 		Trigger: core.ProcTrigger{
 			Name:       "Horn of Agent Fury",
@@ -87,6 +103,15 @@ func init() {
 		Die:        525,
 	})
 
+	helpers.NewWeaponDamageProc(41746, helpers.WeaponDamageProc{
+		WeaponProc: helpers.WeaponProc{
+			Name: "Brunnhildar Bow",
+		},
+		SpellSchool: core.SpellSchoolFrost,
+		BasePoints:  3,
+		Die:         3,
+	})
+
 	helpers.NewProcDamageEffect(helpers.ProcDamageEffect{
 		ID: 42990,
 		Trigger: core.ProcTrigger{
@@ -100,6 +125,40 @@ func init() {
 		School:     core.SpellSchoolShadow,
 		BasePoints: 1749,
 		Die:        501,
+	})
+
+	helpers.NewWeaponDamageProc(43600, helpers.WeaponDamageProc{
+		WeaponProc: helpers.WeaponProc{
+			Name: "Brunnhildar Harpoon",
+		},
+		SpellSchool: core.SpellSchoolFrost,
+		BasePoints:  3,
+		Die:         3,
+	})
+
+	helpers.NewWeaponDamageProc(43601, helpers.WeaponDamageProc{
+		WeaponProc: helpers.WeaponProc{
+			Name: "Brunnhildar Great Axe",
+		},
+		SpellSchool: core.SpellSchoolFrost,
+		BasePoints:  3,
+		Die:         3,
+	})
+
+	helpers.NewWeaponExtraAttackProc(44096, helpers.WeaponExtraAttack{
+		WeaponProc: helpers.WeaponProc{
+			Name: "Battleworn Trash Blade",
+			PPM:  1,
+		},
+	})
+
+	helpers.NewWeaponDamageProc(44505, helpers.WeaponDamageProc{
+		WeaponProc: helpers.WeaponProc{
+			Name:   "Dustbringer",
+			Chance: 0.02,
+		},
+		SpellSchool: core.SpellSchoolFire,
+		BasePoints:  70,
 	})
 
 	core.NewItemEffect(49302, func(a core.Agent) {
@@ -171,6 +230,24 @@ func init() {
 				spell.Cast(sim, result.Target)
 			},
 		})
+	})
+
+	helpers.NewWeaponDamageProc(49437, helpers.WeaponDamageProc{
+		WeaponProc: helpers.WeaponProc{
+			Name:   "Rusted Gutgore Ripper",
+			Chance: 0.03,
+		},
+		SpellSchool: core.SpellSchoolShadow,
+		BasePoints:  360,
+	})
+
+	helpers.NewWeaponDamageProc(49465, helpers.WeaponDamageProc{
+		WeaponProc: helpers.WeaponProc{
+			Name:   "Tarnished Gutgore Ripper",
+			Chance: 0.03,
+		},
+		SpellSchool: core.SpellSchoolShadow,
+		BasePoints:  390,
 	})
 
 	core.NewItemEffect(49496, func(a core.Agent) {

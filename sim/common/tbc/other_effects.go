@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-
+	core.AddEffectsToTest = false
 	core.NewItemEffect(24114, func(agent core.Agent) { // Braided Eternium Chain
 		agent.GetCharacter().PseudoStats.BonusDamage += 5
 	})
@@ -497,5 +497,5 @@ func init() {
 			},
 		})
 	})
-
+	core.AddEffectsToTest = true
 }

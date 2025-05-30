@@ -172,6 +172,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBalance-AllItems-BookofStars-43661"
+ value: {
+  dps: 6650.0616
+  tps: 6336.29924
+ }
+}
+dps_results: {
  key: "TestBalance-AllItems-BracingEarthsiegeDiamond"
  value: {
   dps: 7000.66597
@@ -432,6 +439,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBalance-AllItems-FireEater'sGuide-43660"
+ value: {
+  dps: 6442.38091
+  tps: 6126.36576
+ }
+}
+dps_results: {
  key: "TestBalance-AllItems-ForethoughtTalisman-40258"
  value: {
   dps: 7424.35531
@@ -464,13 +478,6 @@ dps_results: {
  value: {
   dps: 7191.22746
   tps: 6875.91274
- }
-}
-dps_results: {
- key: "TestBalance-AllItems-FuturesightRune-38763"
- value: {
-  dps: 7369.9667
-  tps: 7050.09833
  }
 }
 dps_results: {
@@ -587,6 +594,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBalance-AllItems-IdolofArcaneTerror-38360"
+ value: {
+  dps: 7148.41595
+  tps: 6836.58449
+ }
+}
+dps_results: {
  key: "TestBalance-AllItems-IdolofLunarFury-47670"
  value: {
   dps: 7679.32898
@@ -629,6 +643,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBalance-AllItems-IdolofthePlainstalker-37573"
+ value: {
+  dps: 7136.66459
+  tps: 6825.74565
+ }
+}
+dps_results: {
  key: "TestBalance-AllItems-IdoloftheRavenGoddess-32387"
  value: {
   dps: 7321.49277
@@ -640,6 +661,13 @@ dps_results: {
  value: {
   dps: 7177.81545
   tps: 6863.84618
+ }
+}
+dps_results: {
+ key: "TestBalance-AllItems-IdoloftheWastes-38295"
+ value: {
+  dps: 7136.66459
+  tps: 6825.74565
  }
 }
 dps_results: {
@@ -756,6 +784,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBalance-AllItems-ManualofClouds-43664"
+ value: {
+  dps: 6732.97255
+  tps: 6420.73011
+ }
+}
+dps_results: {
  key: "TestBalance-AllItems-MarkofConquest-27920"
  value: {
   dps: 7235.482
@@ -837,6 +872,13 @@ dps_results: {
  value: {
   dps: 6171.94775
   tps: 5869.19105
+ }
+}
+dps_results: {
+ key: "TestBalance-AllItems-NoiseMachine-40865"
+ value: {
+  dps: 7342.68037
+  tps: 7025.42978
  }
 }
 dps_results: {
@@ -1057,6 +1099,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestBalance-AllItems-StormboundTome-43663"
+ value: {
+  dps: 6536.83209
+  tps: 6222.19184
+ }
+}
+dps_results: {
  key: "TestBalance-AllItems-StormshroudArmor"
  value: {
   dps: 3200.63844
@@ -1180,6 +1229,13 @@ dps_results: {
  value: {
   dps: 6992.48587
   tps: 6681.42646
+ }
+}
+dps_results: {
+ key: "TestBalance-AllItems-TomeofKings-43656"
+ value: {
+  dps: 6658.18953
+  tps: 6347.18356
  }
 }
 dps_results: {

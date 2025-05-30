@@ -215,6 +215,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDisc-AllItems-BookofStars-43661"
+ value: {
+  tps: 17.6625
+  hps: 3649.64508
+ }
+}
+dps_results: {
  key: "TestDisc-AllItems-BracingEarthsiegeDiamond"
  value: {
   tps: 13.27119
@@ -453,6 +460,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDisc-AllItems-FireEater'sGuide-43660"
+ value: {
+  dps: 3.53923
+  tps: 19.60086
+  hps: 3705.97629
+ }
+}
+dps_results: {
  key: "TestDisc-AllItems-ForlornSkyflareDiamond"
  value: {
   tps: 13.27119
@@ -464,13 +479,6 @@ dps_results: {
  value: {
   tps: 13.27119
   hps: 3781.90432
- }
-}
-dps_results: {
- key: "TestDisc-AllItems-FuturesightRune-38763"
- value: {
-  tps: 16.19477
-  hps: 3688.8842
  }
 }
 dps_results: {
@@ -628,6 +636,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDisc-AllItems-ManualofClouds-43664"
+ value: {
+  tps: 16.16026
+  hps: 3697.92925
+ }
+}
+dps_results: {
  key: "TestDisc-AllItems-MarkofConquest-27920"
  value: {
   tps: 16.24462
@@ -695,6 +710,13 @@ dps_results: {
  value: {
   tps: 16.24462
   hps: 3769.7923
+ }
+}
+dps_results: {
+ key: "TestDisc-AllItems-NoiseMachine-40865"
+ value: {
+  tps: 16.24462
+  hps: 3689.58347
  }
 }
 dps_results: {
@@ -894,6 +916,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDisc-AllItems-StormboundTome-43663"
+ value: {
+  tps: 16.13318
+  hps: 3709.52844
+ }
+}
+dps_results: {
  key: "TestDisc-AllItems-SwiftSkyflareDiamond"
  value: {
   tps: 13.27119
@@ -997,6 +1026,13 @@ dps_results: {
  value: {
   tps: 13.27119
   hps: 3781.90432
+ }
+}
+dps_results: {
+ key: "TestDisc-AllItems-TomeofKings-43656"
+ value: {
+  tps: 15.81616
+  hps: 3691.9326
  }
 }
 dps_results: {

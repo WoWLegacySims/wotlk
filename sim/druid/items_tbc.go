@@ -129,7 +129,7 @@ var ItemSetThunderheartHarness = core.NewItemSet(core.ItemSet{
 })
 
 func init() {
-
+	core.AddEffectsToTest = false
 	core.NewItemEffect(30664, func(agent core.Agent) {
 		druid := agent.(DruidAgent).GetDruid()
 
@@ -264,4 +264,5 @@ func init() {
 			},
 		})
 	})
+	core.AddEffectsToTest = true
 }

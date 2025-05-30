@@ -102,6 +102,7 @@ var D3 = core.NewItemSet(core.ItemSet{
 })
 
 func init() {
+	core.AddEffectsToTest = false
 	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
 		Name:       "Warp-Spring-Coil",
 		ID:         30450,
@@ -154,5 +155,5 @@ func init() {
 			},
 		})
 	})
-
+	core.AddEffectsToTest = true
 }

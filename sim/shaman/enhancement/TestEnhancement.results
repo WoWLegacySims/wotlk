@@ -200,6 +200,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestEnhancement-AllItems-BookofStars-43661"
+ value: {
+  dps: 4886.26897
+  tps: 2782.37249
+ }
+}
+dps_results: {
  key: "TestEnhancement-AllItems-BracingEarthsiegeDiamond"
  value: {
   dps: 7377.48155
@@ -516,6 +523,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestEnhancement-AllItems-FireEater'sGuide-43660"
+ value: {
+  dps: 4862.13053
+  tps: 2776.55552
+ }
+}
+dps_results: {
  key: "TestEnhancement-AllItems-FireHardenedHauberk-6972"
  value: {
   dps: 6881.12809
@@ -569,13 +583,6 @@ dps_results: {
  value: {
   dps: 7523.09657
   tps: 4557.70514
- }
-}
-dps_results: {
- key: "TestEnhancement-AllItems-FuturesightRune-38763"
- value: {
-  dps: 7344.93868
-  tps: 4430.65602
  }
 }
 dps_results: {
@@ -750,6 +757,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestEnhancement-AllItems-ManualofClouds-43664"
+ value: {
+  dps: 4858.83953
+  tps: 2772.7856
+ }
+}
+dps_results: {
  key: "TestEnhancement-AllItems-MarkofConquest-27920"
  value: {
   dps: 7319.09926
@@ -824,6 +838,13 @@ dps_results: {
  value: {
   dps: 7533.05765
   tps: 4566.63189
+ }
+}
+dps_results: {
+ key: "TestEnhancement-AllItems-NoiseMachine-40865"
+ value: {
+  dps: 7345.86925
+  tps: 4431.18133
  }
 }
 dps_results: {
@@ -1065,6 +1086,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestEnhancement-AllItems-StormboundTome-43663"
+ value: {
+  dps: 4875.8432
+  tps: 2787.25144
+ }
+}
+dps_results: {
  key: "TestEnhancement-AllItems-StormshroudArmor"
  value: {
   dps: 5555.35414
@@ -1209,6 +1237,13 @@ dps_results: {
  value: {
   dps: 7372.77651
   tps: 4457.82616
+ }
+}
+dps_results: {
+ key: "TestEnhancement-AllItems-TomeofKings-43656"
+ value: {
+  dps: 4887.41869
+  tps: 2780.29089
  }
 }
 dps_results: {

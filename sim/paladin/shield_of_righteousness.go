@@ -15,6 +15,9 @@ func (paladin *Paladin) registerShieldOfRighteousnessSpell() {
 		return
 	}
 	bp, _ := dbc.GetBPDie(0, paladin.Level)
+	if paladin.Ranged().ID == 38363 {
+		bp += 96
+	}
 
 	var aegisPlateProcAura *core.Aura
 	if paladin.HasSetBonus(ItemSetAegisPlate, 4) {

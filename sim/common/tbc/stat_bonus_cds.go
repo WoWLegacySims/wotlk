@@ -66,6 +66,10 @@ func init() {
 	core.NewBattleMasterTrinketEffect(34163, 1750)
 	core.NewBattleMasterTrinketEffect(35326, 1750)
 	core.NewBattleMasterTrinketEffect(35327, 1750)
+	core.NewBattleMasterTrinketEffect(41587, 1750)
+	core.NewBattleMasterTrinketEffect(41588, 1750)
+	core.NewBattleMasterTrinketEffect(41589, 1750)
+	core.NewBattleMasterTrinketEffect(41590, 1750)
 
 	core.NewSimpleStatDefensiveTrinketEffect(28484, stats.Stats{stats.Health: 1500, stats.Strength: 150}, time.Second*15, time.Minute*30)
 	core.NewSimpleStatDefensiveTrinketEffect(28485, stats.Stats{stats.Health: 1500, stats.Strength: 150}, time.Second*15, time.Minute*30)
