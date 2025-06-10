@@ -247,8 +247,6 @@ export class Individual80UImporter<SpecType extends Spec> extends Importer {
 
 		// Parse all the settings.
 		const charLevel = importJson?.character?.level;
-		const hasReforge = importJson?.items?.some((item: any) => !!item?.reforge);
-		const hasMastery = importJson?.stats?.masteryRating > 0;
 
 		const charClass = nameToClass((importJson?.character?.gameClass as string) || '');
 		if (charClass == Class.ClassUnknown) {
@@ -470,6 +468,76 @@ export class IndividualWowheadGearPlannerImporter<SpecType extends Spec> extends
 		[ItemSlot.ItemSlotOffHand]: 17,
 		[ItemSlot.ItemSlotRanged]: 18,
 	};
+}
+
+export class IndividualAddonImporter<SpecType extends Spec> extends Importer {
+	private readonly simUI: IndividualSimUI<SpecType>;
+	constructor(parent: HTMLElement, simUI: IndividualSimUI<SpecType>) {
+		super(parent, simUI, 'Addon Import', true);
+		this.simUI = simUI;
+
+		this.descriptionElem.innerHTML = `
+			<p>
+				Import settings from the <a href="https://github.com/WoWLegacySims/exporter/releases" target="_blank">WoWSims Importer In-Game Addon</a>.
+			</p>
+			<p>
+				This feature imports gear, race, talents, glyphs, and professions. It does NOT import buffs, debuffs, consumes, rotation, or custom stats.
+			</p>
+			<p>
+				To import, paste the output from the addon below and click, 'Import'.
+			</p>
+		`;
+	}
+
+	async onImport(data: string) {
+		const importJson = JSON.parse(data);
+
+		// Parse all the settings.
+		const charClass = nameToClass((importJson['class'] as string) || '');
+		if (charClass == Class.ClassUnknown) {
+			throw new Error('Could not parse Class!');
+		}
+
+		const race = nameToRace((importJson['race'] as string) || '');
+		if (race == Race.RaceUnknown) {
+			throw new Error('Could not parse Race!');
+		}
+
+		const professions = (importJson['professions'] as Array<{ name: string; level: number }>).map(profData => nameToProfession(profData.name));
+		professions.forEach((prof, i) => {
+			if (prof == Profession.ProfessionUnknown) {
+				throw new Error(`Could not parse profession '${importJson['professions'][i]}'`);
+			}
+		});
+
+		const talentsStr = (importJson['talents'] as string) || '';
+		const glyphsConfig = classGlyphsConfig[charClass];
+
+		const db = await Database.get();
+		const majorGlyphIDs = (importJson['glyphs']['major'] as Array<string | JsonObject>).map(g => glyphToID(g, db, glyphsConfig.majorGlyphs));
+		const minorGlyphIDs = (importJson['glyphs']['minor'] as Array<string | JsonObject>).map(g => glyphToID(g, db, glyphsConfig.minorGlyphs));
+
+		const glyphs = Glyphs.create({
+			major1: majorGlyphIDs[0] || 0,
+			major2: majorGlyphIDs[1] || 0,
+			major3: majorGlyphIDs[2] || 0,
+			minor1: minorGlyphIDs[0] || 0,
+			minor2: minorGlyphIDs[1] || 0,
+			minor3: minorGlyphIDs[2] || 0,
+		});
+
+		const gearJson = importJson['gear'];
+		gearJson.items = (gearJson.items as Array<any>).filter(item => item != null);
+		delete gearJson.version;
+		(gearJson.items as Array<any>).forEach(item => {
+			if (item.gems) {
+				item.gems = (item.gems as Array<any>).map(gem => gem || 0);
+			}
+		});
+		const equipmentSpec = EquipmentSpec.fromJson(gearJson);
+
+		this.finishIndividualImport(this.simUI, charClass, race, equipmentSpec, talentsStr, glyphs, professions);
+	}
 }
 
 function glyphNameToID(glyphName: string, glyphsConfig: Record<number, GlyphConfig>): number {
