@@ -447,6 +447,11 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 			_parent => new Importers.IndividualWowheadGearPlannerImporter(this.rootElem, this),
 			false,
 		);
+		this.simHeader.addImportLink(
+			'Addon',
+			_parent => new Importers.IndividualAddonImporter(this.rootElem, this),
+			true,
+		);
 
 		this.simHeader.addExportLink(
 			'Link',
