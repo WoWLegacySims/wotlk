@@ -704,6 +704,7 @@ message ItemSpec {
 	int32 id = 2;
 	int32 enchant = 3;
 	repeated int32 gems = 4;
+	int32 random_suffix = 5;
 }
 
 message EquipmentSpec {
