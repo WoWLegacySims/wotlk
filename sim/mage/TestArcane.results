@@ -58,13 +58,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestArcane-AllItems-AlembicofInfernalPower-27896"
- value: {
-  dps: 10321.75638
-  tps: 6326.25594
- }
-}
-dps_results: {
  key: "TestArcane-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 10658.07568
@@ -79,20 +72,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestArcane-AllItems-ArcaneOrb-7507"
- value: {
-  dps: 10186.90739
-  tps: 6237.27978
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-ArgussianCompass-27770"
- value: {
-  dps: 10321.75638
-  tps: 6326.25594
- }
-}
-dps_results: {
  key: "TestArcane-AllItems-AshtongueTalismanofInsight-32488"
  value: {
   dps: 10555.08855
@@ -104,20 +83,6 @@ dps_results: {
  value: {
   dps: 10496.30462
   tps: 6429.64812
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-BangleofEndlessBlessings-28370"
- value: {
-  dps: 10364.8298
-  tps: 6353.29041
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-BattlewornThrashBlade-44096"
- value: {
-  dps: 10853.2932
-  tps: 6647.2415
  }
 }
 dps_results: {
@@ -144,38 +109,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestArcane-AllItems-BlackenedNaaruSliver-34427"
- value: {
-  dps: 10458.51842
-  tps: 6407.06833
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-BladeofUnquenchedThirst-31193"
- value: {
-  dps: 10853.2932
-  tps: 6647.2415
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-BlazingEmblem-2802"
- value: {
-  dps: 10321.75638
-  tps: 6326.25594
- }
-}
-dps_results: {
  key: "TestArcane-AllItems-BlessedRegaliaofUndeadCleansing"
  value: {
   dps: 7894.33421
   tps: 4840.28192
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-Blinkstrike-31332"
- value: {
-  dps: 10853.2932
-  tps: 6647.2415
  }
 }
 dps_results: {
@@ -200,13 +137,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestArcane-AllItems-BookofStars-43661"
- value: {
-  dps: 10203.50414
-  tps: 6245.94147
- }
-}
-dps_results: {
  key: "TestArcane-AllItems-BracingEarthsiegeDiamond"
  value: {
   dps: 10542.50425
@@ -214,31 +144,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestArcane-AllItems-BraidedEterniumChain-24114"
- value: {
-  dps: 10530.84993
-  tps: 6446.29339
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-CelestialOrb-7515"
- value: {
-  dps: 10241.10627
-  tps: 6266.98874
- }
-}
-dps_results: {
  key: "TestArcane-AllItems-ChaoticSkyflareDiamond"
  value: {
   dps: 10853.2932
   tps: 6647.2415
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-ColdBasiliskEye-5079"
- value: {
-  dps: 10321.75638
-  tps: 6326.25594
  }
 }
 dps_results: {
@@ -264,13 +173,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestArcane-AllItems-DarkmoonCard:Crusade-31856"
- value: {
-  dps: 10321.75638
-  tps: 6326.25594
- }
-}
-dps_results: {
  key: "TestArcane-AllItems-DarkmoonCard:Greatness-44255"
  value: {
   dps: 10632.60122
@@ -278,42 +180,7 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestArcane-AllItems-DarkmoonCard:Wrath-31857"
- value: {
-  dps: 10330.07377
-  tps: 6331.28904
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-DazzlingLongsword-869"
- value: {
-  dps: 10853.2932
-  tps: 6647.2415
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-Death'sChoice-47303"
- value: {
-  dps: 10321.75638
-  tps: 6326.25594
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-Death'sChoice-47464"
- value: {
-  dps: 10321.75638
-  tps: 6326.25594
- }
-}
-dps_results: {
  key: "TestArcane-AllItems-Death'sVerdict-47115"
- value: {
-  dps: 10321.75638
-  tps: 6326.25594
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-Death'sVerdict-47131"
  value: {
   dps: 10321.75638
   tps: 6326.25594
@@ -362,24 +229,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestArcane-AllItems-EmbalmedShroud-7691"
- value: {
-  dps: 9159.04862
-  tps: 5611.1991
- }
-}
-dps_results: {
  key: "TestArcane-AllItems-EmberSkyflareDiamond"
  value: {
   dps: 10580.35336
   tps: 6480.83508
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-EnergyCloak-9397"
- value: {
-  dps: 10137.09732
-  tps: 6208.07509
  }
 }
 dps_results: {
@@ -425,27 +278,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestArcane-AllItems-Figurine-SeasprayAlbatross-35703"
- value: {
-  dps: 10335.89106
-  tps: 6335.39175
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-FigurineoftheColossus-27529"
- value: {
-  dps: 10321.75638
-  tps: 6326.25594
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-FireEater'sGuide-43660"
- value: {
-  dps: 10330.6036
-  tps: 6327.23365
- }
-}
-dps_results: {
  key: "TestArcane-AllItems-ForethoughtTalisman-40258"
  value: {
   dps: 10530.31192
@@ -481,13 +313,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestArcane-AllItems-GlimmeringNaaruSliver-34430"
- value: {
-  dps: 10450.89037
-  tps: 6406.11548
- }
-}
-dps_results: {
  key: "TestArcane-AllItems-GlowingTwilightScale-54573"
  value: {
   dps: 10678.74334
@@ -516,13 +341,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestArcane-AllItems-HandofJustice-11815"
- value: {
-  dps: 10321.75638
-  tps: 6326.25594
- }
-}
-dps_results: {
  key: "TestArcane-AllItems-Heartpierce-49982"
  value: {
   dps: 10853.2932
@@ -531,13 +349,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestArcane-AllItems-Heartpierce-50641"
- value: {
-  dps: 10853.2932
-  tps: 6647.2415
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-HowlingBlade-6331"
  value: {
   dps: 10853.2932
   tps: 6647.2415
@@ -579,13 +390,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestArcane-AllItems-Jang'thrazetheProtector-9380"
- value: {
-  dps: 10853.2932
-  tps: 6647.2415
- }
-}
-dps_results: {
  key: "TestArcane-AllItems-Khadgar'sRegalia"
  value: {
   dps: 9027.82294
@@ -600,67 +404,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestArcane-AllItems-LeyOrb-7508"
- value: {
-  dps: 10186.90739
-  tps: 6237.27978
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-Lifestone-833"
- value: {
-  dps: 10326.43266
-  tps: 6330.24027
-  hps: 2.34307
- }
-}
-dps_results: {
  key: "TestArcane-AllItems-ManualofClouds-43664"
  value: {
   dps: 10334.879
   tps: 6329.69665
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-MarkofConquest-27920"
- value: {
-  dps: 10321.75638
-  tps: 6326.25594
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-MarkofConquest-27921"
- value: {
-  dps: 10321.75638
-  tps: 6326.25594
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-MarkofDefiance-27922"
- value: {
-  dps: 10415.95562
-  tps: 6382.67236
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-MarkofDefiance-27924"
- value: {
-  dps: 10415.95562
-  tps: 6382.67236
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-MarkofVindication-27926"
- value: {
-  dps: 10332.63005
-  tps: 6333.55075
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-MarkofVindication-27927"
- value: {
-  dps: 10332.63005
-  tps: 6333.55075
  }
 }
 dps_results: {
@@ -689,20 +436,6 @@ dps_results: {
  value: {
   dps: 10853.2932
   tps: 6647.2415
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-NoiseMachine-40865"
- value: {
-  dps: 10440.12574
-  tps: 6396.49049
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-PendantoftheVioletEye-28727"
- value: {
-  dps: 10378.32353
-  tps: 6358.92267
  }
 }
 dps_results: {
@@ -776,35 +509,7 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestArcane-AllItems-Riftmaker-29182"
- value: {
-  dps: 10853.2932
-  tps: 6647.2415
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-RingofSaviors-1447"
- value: {
-  dps: 10437.58437
-  tps: 6392.77964
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-RobesofInsight-940"
- value: {
-  dps: 9983.80726
-  tps: 6119.11836
- }
-}
-dps_results: {
  key: "TestArcane-AllItems-RuneofRepulsion-40372"
- value: {
-  dps: 10321.75638
-  tps: 6326.25594
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-ScarabBrooch-21625"
  value: {
   dps: 10321.75638
   tps: 6326.25594
@@ -867,20 +572,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestArcane-AllItems-SpyglassoftheHiddenFleet-30620"
- value: {
-  dps: 10321.75638
-  tps: 6326.25594
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-StormboundTome-43663"
- value: {
-  dps: 10311.98362
-  tps: 6317.37331
- }
-}
-dps_results: {
  key: "TestArcane-AllItems-Sul'thrazetheLasher-9372"
  value: {
   dps: 10853.2932
@@ -906,13 +597,6 @@ dps_results: {
  value: {
   dps: 10496.30462
   tps: 6429.64812
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-SwordofDecay-1727"
- value: {
-  dps: 10853.2932
-  tps: 6647.2415
  }
 }
 dps_results: {
@@ -951,13 +635,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestArcane-AllItems-TheNightBlade-31331"
- value: {
-  dps: 10853.2932
-  tps: 6647.2415
- }
-}
-dps_results: {
  key: "TestArcane-AllItems-TheSkullofGul'dan-32483"
  value: {
   dps: 10656.04288
@@ -969,20 +646,6 @@ dps_results: {
  value: {
   dps: 8572.2204
   tps: 5276.54062
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-Thunderbrew'sBootFlask-744"
- value: {
-  dps: 10358.45825
-  tps: 6345.05642
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-Thunderfury,BlessedBladeoftheWindseeker-19019"
- value: {
-  dps: 10853.2932
-  tps: 6647.2415
  }
 }
 dps_results: {
@@ -1011,13 +674,6 @@ dps_results: {
  value: {
   dps: 7196.94723
   tps: 4418.97909
- }
-}
-dps_results: {
- key: "TestArcane-AllItems-TomeofKings-43656"
- value: {
-  dps: 10288.59061
-  tps: 6303.02426
  }
 }
 dps_results: {

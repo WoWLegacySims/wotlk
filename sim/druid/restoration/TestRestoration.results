@@ -48,10 +48,6 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-AlembicofInfernalPower-27896"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-Althor'sAbacus-50359"
  value: {}
 }
@@ -60,27 +56,7 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-ArcaneOrb-7507"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-ArgussianCompass-27770"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-AshtongueTalismanofEquilibrium-32486"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-AustereEarthsiegeDiamond"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-BangleofEndlessBlessings-28370"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-BarbaricBelt-4264"
  value: {}
 }
 dps_results: {
@@ -100,18 +76,6 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-BlackenedNaaruSliver-34427"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-BladeofUnquenchedThirst-31193"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-BlazingEmblem-2802"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-BlessedRegaliaofUndeadCleansing"
  value: {}
 }
@@ -120,31 +84,11 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-BookofStars-43661"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-BracingEarthsiegeDiamond"
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-BraidedEterniumChain-24114"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-BrutalGladiator'sIdolofResolve-35019"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-CelestialOrb-7515"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-ChaoticSkyflareDiamond"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-ColdBasiliskEye-5079"
  value: {}
 }
 dps_results: {
@@ -162,39 +106,11 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestRestoration-AllItems-DarkmoonCard:Crusade-31856"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-DarkmoonCard:Greatness-44255"
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-DarkmoonCard:Wrath-31857"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-DeadlyGladiator'sIdolofResolve-42588"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-DeadlyGladiator'sIdolofSteadfastness-42583"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-Death'sChoice-47303"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-Death'sChoice-47464"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-Death'sVerdict-47115"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-Death'sVerdict-47131"
  value: {}
 }
 dps_results: {
@@ -230,15 +146,7 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-EmbalmedShroud-7691"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-EmberSkyflareDiamond"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-EnergyCloak-9397"
  value: {}
 }
 dps_results: {
@@ -266,21 +174,6 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-Figurine-SeasprayAlbatross-35703"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-FigurineoftheColossus-27529"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-FireEater'sGuide-43660"
- value: {
-  dps: 3.27519
-  tps: 3.27519
- }
-}
-dps_results: {
  key: "TestRestoration-AllItems-ForethoughtTalisman-40258"
  value: {}
 }
@@ -293,29 +186,11 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-FuriousGladiator'sIdolofResolve-42589"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-FuriousGladiator'sIdolofSteadfastness-42584"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-Gem-studdedLeatherBelt-4262"
- value: {
-  hps: 3.67775
- }
-}
-dps_results: {
  key: "TestRestoration-AllItems-Gladiator'sSanctuary"
  value: {}
 }
 dps_results: {
  key: "TestRestoration-AllItems-Gladiator'sWildhide"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-GlimmeringNaaruSliver-34430"
  value: {}
 }
 dps_results: {
@@ -338,18 +213,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestRestoration-AllItems-HandofJustice-11815"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-HatefulGladiator'sIdolofResolve-42587"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-HatefulGladiator'sIdolofSteadfastness-42582"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-Heartpierce-49982"
  value: {}
 }
@@ -358,66 +221,7 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-HelmofFire-8348"
- value: {
-  dps: 3.48947
-  tps: 3.48947
- }
-}
-dps_results: {
- key: "TestRestoration-AllItems-HowlingBlade-6331"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-IconofUnyieldingCourage-28121"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-IdolofArcaneTerror-38360"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-IdolofLunarFury-47670"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-IdolofMutilation-47668"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-IdolofTerror-33509"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-IdoloftheCorruptor-45509"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-IdoloftheCryingMoon-50456"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-IdoloftheLunarEclipse-50457"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-IdolofthePlainstalker-37573"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-IdoloftheRavenGoddess-32387"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-IdoloftheUnseenMoon-33510"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-IdoloftheWastes-38295"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-IdoloftheWhiteStag-32257"
  value: {}
 }
 dps_results: {
@@ -453,20 +257,6 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-LeyOrb-7508"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-Lifestone-833"
- value: {
-  hps: 1.76342
- }
-}
-dps_results: {
- key: "TestRestoration-AllItems-LivingRootoftheWildheart-30664"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-Malfurion'sBattlegear"
  value: {}
 }
@@ -484,30 +274,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestRestoration-AllItems-ManualofClouds-43664"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-MarkofConquest-27920"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-MarkofConquest-27921"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-MarkofDefiance-27922"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-MarkofDefiance-27924"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-MarkofVindication-27926"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-MarkofVindication-27927"
  value: {}
 }
 dps_results: {
@@ -535,19 +301,11 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-NoiseMachine-40865"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-NordrassilHarness"
  value: {}
 }
 dps_results: {
  key: "TestRestoration-AllItems-NordrassilRegalia"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-PendantoftheVioletEye-28727"
  value: {}
 }
 dps_results: {
@@ -587,47 +345,11 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-RelentlessGladiator'sIdolofResolve-42591"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-RelentlessGladiator'sIdolofSteadfastness-42585"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-RevitalizingSkyflareDiamond"
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-Riftmaker-29182"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-RingofSaviors-1447"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-RobesofInsight-940"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-RodoftheSunKing-29996"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-RuneofRepulsion-40372"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-SavageGladiator'sIdolofResolve-42574"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-SavageGladiator'sIdolofSteadfastness-42575"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-ScarabBrooch-21625"
  value: {}
 }
 dps_results: {
@@ -655,17 +377,6 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-SpyglassoftheHiddenFleet-30620"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-StormboundTome-43663"
- value: {
-  dps: 4.18059
-  tps: 4.18059
- }
-}
-dps_results: {
  key: "TestRestoration-AllItems-StormshroudArmor"
  value: {}
 }
@@ -682,10 +393,6 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-SyphonoftheNathrezim-32262"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-TalismanofTrollDivinity-37734"
  value: {}
 }
@@ -698,27 +405,12 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-TheHammerofDestiny-31322"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-TheLightningCapacitor-28785"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-TheNightBlade-31331"
  value: {}
 }
 dps_results: {
  key: "TestRestoration-AllItems-TheSkullofGul'dan-32483"
  value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-Thunderbrew'sBootFlask-744"
- value: {
-  dps: 0.90299
-  tps: 0.90299
- }
 }
 dps_results: {
  key: "TestRestoration-AllItems-ThunderheartHarness"
@@ -741,10 +433,6 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-TomeofKings-43656"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-TrenchantEarthshatterDiamond"
  value: {}
 }
@@ -761,23 +449,11 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-VengefulGladiator'sIdolofResolve-33947"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-VestigeofHaldor-37064"
  value: {}
 }
 dps_results: {
  key: "TestRestoration-AllItems-Warp-ScarabBrooch-27828"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-WrathfulGladiator'sIdolofResolve-51429"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-WrathfulGladiator'sIdolofSteadfastness-51437"
  value: {}
 }
 dps_results: {

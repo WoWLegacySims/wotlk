@@ -51,13 +51,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFrost-AllItems-AlembicofInfernalPower-27896"
- value: {
-  dps: 10642.59508
-  tps: 6176.16044
- }
-}
-dps_results: {
  key: "TestFrost-AllItems-Althor'sAbacus-50359"
  value: {
   dps: 10642.59508
@@ -72,38 +65,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFrost-AllItems-ArgussianCompass-27770"
- value: {
-  dps: 10642.59508
-  tps: 6176.16044
- }
-}
-dps_results: {
  key: "TestFrost-AllItems-AustereEarthsiegeDiamond"
  value: {
   dps: 10853.75799
   tps: 6302.83115
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-BangleofEndlessBlessings-28370"
- value: {
-  dps: 10642.59508
-  tps: 6176.16044
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-BarbaricBelt-4264"
- value: {
-  dps: 10579.69227
-  tps: 6151.09135
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-BattlewornThrashBlade-44096"
- value: {
-  dps: 11141.09939
-  tps: 6475.26302
  }
 }
 dps_results: {
@@ -130,27 +95,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFrost-AllItems-Beast-tamer'sShoulders-30892"
- value: {
-  dps: 10448.84178
-  tps: 6072.51004
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-BlackenedNaaruSliver-34427"
- value: {
-  dps: 10813.86084
-  tps: 6277.6789
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-BlazingEmblem-2802"
- value: {
-  dps: 10642.59508
-  tps: 6176.16044
- }
-}
-dps_results: {
  key: "TestFrost-AllItems-BlessedBattlegearofUndeadSlaying"
  value: {
   dps: 8625.35846
@@ -169,13 +113,6 @@ dps_results: {
  value: {
   dps: 8213.08787
   tps: 4764.58884
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-Blinkstrike-31332"
- value: {
-  dps: 11141.09939
-  tps: 6475.26302
  }
 }
 dps_results: {
@@ -200,20 +137,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFrost-AllItems-BraidedEterniumChain-24114"
- value: {
-  dps: 10872.86146
-  tps: 6322.38944
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-BrutalHauberk-7133"
- value: {
-  dps: 10112.4245
-  tps: 5873.27002
- }
-}
-dps_results: {
  key: "TestFrost-AllItems-Bryntroll,theBoneArbiter-50415"
  value: {
   dps: 11141.09939
@@ -232,13 +155,6 @@ dps_results: {
  value: {
   dps: 11146.19161
   tps: 6478.32332
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-ColdBasiliskEye-5079"
- value: {
-  dps: 10642.59508
-  tps: 6176.16044
  }
 }
 dps_results: {
@@ -264,24 +180,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFrost-AllItems-DarkmoonCard:Crusade-31856"
- value: {
-  dps: 10734.31188
-  tps: 6231.19052
- }
-}
-dps_results: {
  key: "TestFrost-AllItems-DarkmoonCard:Greatness-44255"
  value: {
   dps: 10874.43067
   tps: 6305.49527
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-DarkmoonCard:Wrath-31857"
- value: {
-  dps: 10654.94473
-  tps: 6183.57023
  }
 }
 dps_results: {
@@ -299,38 +201,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFrost-AllItems-DazzlingLongsword-869"
- value: {
-  dps: 11141.09939
-  tps: 6475.26302
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-DeadlyGladiator'sSigilofStrife-42620"
- value: {
-  dps: 10572.84247
-  tps: 6134.30887
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-Death'sChoice-47303"
- value: {
-  dps: 11190.45939
-  tps: 6488.91006
- }
-}
-dps_results: {
  key: "TestFrost-AllItems-Death'sVerdict-47115"
  value: {
   dps: 11189.88296
   tps: 6489.28575
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-Death'sVerdict-47131"
- value: {
-  dps: 11262.72101
-  tps: 6530.59401
  }
 }
 dps_results: {
@@ -369,13 +243,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFrost-AllItems-DragonscaleBreastplate-8367"
- value: {
-  dps: 10135.15377
-  tps: 5886.92114
- }
-}
-dps_results: {
  key: "TestFrost-AllItems-EffulgentSkyflareDiamond"
  value: {
   dps: 10846.66311
@@ -383,24 +250,10 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFrost-AllItems-EmbalmedShroud-7691"
- value: {
-  dps: 10004.81045
-  tps: 5803.64629
- }
-}
-dps_results: {
  key: "TestFrost-AllItems-EmberSkyflareDiamond"
  value: {
   dps: 10846.66311
   tps: 6298.60622
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-EnergyCloak-9397"
- value: {
-  dps: 10697.31754
-  tps: 6223.15391
  }
 }
 dps_results: {
@@ -453,27 +306,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFrost-AllItems-Figurine-SeasprayAlbatross-35703"
- value: {
-  dps: 10642.59508
-  tps: 6176.16044
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-FigurineoftheColossus-27529"
- value: {
-  dps: 10642.59508
-  tps: 6176.16044
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-FireHardenedHauberk-6972"
- value: {
-  dps: 10112.4245
-  tps: 5873.27002
- }
-}
-dps_results: {
  key: "TestFrost-AllItems-FlurryAxe-871"
  value: {
   dps: 11141.09939
@@ -502,28 +334,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFrost-AllItems-FuriousGladiator'sSigilofStrife-42621"
- value: {
-  dps: 10573.69404
-  tps: 6134.81981
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-Gem-studdedLeatherBelt-4262"
- value: {
-  dps: 10559.8092
-  tps: 6139.2563
-  hps: 2.01144
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-GlimmeringNaaruSliver-34430"
- value: {
-  dps: 10642.59508
-  tps: 6176.16044
- }
-}
-dps_results: {
  key: "TestFrost-AllItems-GlowingTwilightScale-54573"
  value: {
   dps: 10642.59508
@@ -549,27 +359,6 @@ dps_results: {
  value: {
   dps: 10857.23547
   tps: 6304.88264
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-HandofJustice-11815"
- value: {
-  dps: 10684.56516
-  tps: 6201.45354
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-HatefulGladiator'sSigilofStrife-42619"
- value: {
-  dps: 10571.03187
-  tps: 6133.22251
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-HelmofFire-8348"
- value: {
-  dps: 10057.20879
-  tps: 5833.9537
  }
 }
 dps_results: {
@@ -609,13 +398,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFrost-AllItems-Jang'thrazetheProtector-9380"
- value: {
-  dps: 11141.09939
-  tps: 6475.26302
- }
-}
-dps_results: {
  key: "TestFrost-AllItems-LastWord-50179"
  value: {
   dps: 11141.09939
@@ -627,63 +409,6 @@ dps_results: {
  value: {
   dps: 11141.09939
   tps: 6475.26302
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-LeggingsofBeastMastery-31328"
- value: {
-  dps: 10134.97651
-  tps: 5880.49343
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-Lifestone-833"
- value: {
-  dps: 10642.55204
-  tps: 6176.13462
-  hps: 1.95482
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-MarkofConquest-27920"
- value: {
-  dps: 10684.42592
-  tps: 6201.05015
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-MarkofConquest-27921"
- value: {
-  dps: 10684.42592
-  tps: 6201.05015
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-MarkofDefiance-27922"
- value: {
-  dps: 10642.63268
-  tps: 6176.183
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-MarkofDefiance-27924"
- value: {
-  dps: 10642.63268
-  tps: 6176.183
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-MarkofVindication-27926"
- value: {
-  dps: 10684.54875
-  tps: 6201.12385
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-MarkofVindication-27927"
- value: {
-  dps: 10684.54875
-  tps: 6201.12385
  }
 }
 dps_results: {
@@ -705,20 +430,6 @@ dps_results: {
  value: {
   dps: 11141.09939
   tps: 6475.26302
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-NoiseMachine-40865"
- value: {
-  dps: 10642.59508
-  tps: 6176.16044
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-PendantoftheVioletEye-28727"
- value: {
-  dps: 10642.59508
-  tps: 6176.16044
  }
 }
 dps_results: {
@@ -792,13 +503,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFrost-AllItems-RelentlessGladiator'sSigilofStrife-42622"
- value: {
-  dps: 10574.68755
-  tps: 6135.41592
- }
-}
-dps_results: {
  key: "TestFrost-AllItems-RevitalizingSkyflareDiamond"
  value: {
   dps: 10846.66311
@@ -806,42 +510,7 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFrost-AllItems-RingofSaviors-1447"
- value: {
-  dps: 10779.27303
-  tps: 6267.09541
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-RobesofInsight-940"
- value: {
-  dps: 10098.57377
-  tps: 5865.18657
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-RodoftheSunKing-29996"
- value: {
-  dps: 11141.09939
-  tps: 6475.26302
- }
-}
-dps_results: {
  key: "TestFrost-AllItems-RuneofRepulsion-40372"
- value: {
-  dps: 10642.59508
-  tps: 6176.16044
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-SavageGladiator'sSigilofStrife-42618"
- value: {
-  dps: 10570.75482
-  tps: 6133.05628
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-ScarabBrooch-21625"
  value: {
   dps: 10642.59508
   tps: 6176.16044
@@ -904,62 +573,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFrost-AllItems-SigilofDeflection-45144"
- value: {
-  dps: 10568.58459
-  tps: 6131.75414
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-SigilofHauntedDreams-40715"
- value: {
-  dps: 10586.79891
-  tps: 6142.68274
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-SigilofInsolence-47672"
- value: {
-  dps: 10568.58459
-  tps: 6131.75414
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-SigilofVirulence-47673"
- value: {
-  dps: 11005.24144
-  tps: 6386.8116
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-SigiloftheBoneGryphon-50462"
- value: {
-  dps: 10568.58459
-  tps: 6131.75414
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-SigiloftheHangedMan-50459"
- value: {
-  dps: 11055.11977
-  tps: 6416.07962
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-SigiloftheUnfalteringKnight-40714"
- value: {
-  dps: 10568.58459
-  tps: 6131.75414
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-SignetoftheDarkBrotherhood-38675"
- value: {
-  dps: 10642.59508
-  tps: 6176.16044
- }
-}
-dps_results: {
  key: "TestFrost-AllItems-Sindragosa'sFlawlessFang-50361"
  value: {
   dps: 10642.59508
@@ -981,13 +594,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFrost-AllItems-SoulHarvester'sCharm-38674"
- value: {
-  dps: 10667.50126
-  tps: 6191.10414
- }
-}
-dps_results: {
  key: "TestFrost-AllItems-SoulPreserver-37111"
  value: {
   dps: 10642.59508
@@ -999,13 +605,6 @@ dps_results: {
  value: {
   dps: 10785.04646
   tps: 6261.63127
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-SpyglassoftheHiddenFleet-30620"
- value: {
-  dps: 10642.59508
-  tps: 6176.16044
  }
 }
 dps_results: {
@@ -1044,20 +643,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFrost-AllItems-SwordofDecay-1727"
- value: {
-  dps: 11141.09939
-  tps: 6475.26302
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-SyphonoftheNathrezim-32262"
- value: {
-  dps: 11141.09939
-  tps: 6475.26302
- }
-}
-dps_results: {
  key: "TestFrost-AllItems-TalismanofTrollDivinity-37734"
  value: {
   dps: 10642.59508
@@ -1093,13 +678,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFrost-AllItems-TheHammerofDestiny-31322"
- value: {
-  dps: 11141.09939
-  tps: 6475.26302
- }
-}
-dps_results: {
  key: "TestFrost-AllItems-TheLightningCapacitor-28785"
  value: {
   dps: 10668.54382
@@ -1118,20 +696,6 @@ dps_results: {
  value: {
   dps: 9179.12578
   tps: 5312.1298
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-Thunderbrew'sBootFlask-744"
- value: {
-  dps: 10662.47771
-  tps: 6188.41639
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-Thunderfury,BlessedBladeoftheWindseeker-19019"
- value: {
-  dps: 11141.09939
-  tps: 6475.26302
  }
 }
 dps_results: {
@@ -1170,13 +734,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestFrost-AllItems-TruesilverBreastplate-7939"
- value: {
-  dps: 10108.66853
-  tps: 5871.19748
- }
-}
-dps_results: {
  key: "TestFrost-AllItems-UndeadSlayer'sBlessedArmor"
  value: {
   dps: 8478.6049
@@ -1202,13 +759,6 @@ dps_results: {
  value: {
   dps: 10642.59508
   tps: 6176.16044
- }
-}
-dps_results: {
- key: "TestFrost-AllItems-WrathfulGladiator'sSigilofStrife-51417"
- value: {
-  dps: 10575.82298
-  tps: 6136.09718
  }
 }
 dps_results: {
