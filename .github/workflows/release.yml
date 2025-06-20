@@ -84,6 +84,5 @@ jobs:
           generateReleaseNotes: true
           makeLatest: true
           artifactErrorsFailBuild: true
-          artifacts: |
-            ../save/*.zip
+          artifacts: "../save/*.zip"
 
