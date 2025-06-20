@@ -82,9 +82,6 @@ func (dk *Deathknight) NewGhoulPet(permanent bool) *GhoulPet {
 	ghoulPetBaseStats := core.PetBaseStats[core.Pet_RisenGhoul][dk.Level].Stats.Add(stats.Stats{stats.MeleeHit: -nocsHit, stats.Expertise: -nocsHit * dk.GetPetExpertiseScale()})
 	ghoulPetBasePercentageStats := stats.Stats{stats.MeleeCrit: 5}
 
-	minDamage := float64(dk.Level) - float64(dk.Level)/4
-	maxDamage := float64(dk.Level) + float64(dk.Level)/4
-
 	ghoulPet := &GhoulPet{
 		Pet:     core.NewPet("Ghoul", &dk.Character, ghoulPetBaseStats, ghoulPetBasePercentageStats, dk.ghoulStatInheritance(), permanent, !permanent),
 		dkOwner: dk,
@@ -98,8 +95,8 @@ func (dk *Deathknight) NewGhoulPet(permanent bool) *GhoulPet {
 
 	ghoulPet.EnableAutoAttacks(ghoulPet, core.AutoAttackOptions{
 		MainHand: core.Weapon{
-			BaseDamageMin:     minDamage,
-			BaseDamageMax:     maxDamage,
+			BaseDamageMin:     0,
+			BaseDamageMax:     0,
 			SwingSpeed:        2,
 			CritMultiplier:    2,
 			AttackPowerPerDPS: 17.5,

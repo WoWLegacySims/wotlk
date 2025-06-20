@@ -71,8 +71,8 @@ func (priest *Priest) NewShadowfiend() *Shadowfiend {
 
 	shadowfiend.EnableAutoAttacks(shadowfiend, core.AutoAttackOptions{
 		MainHand: core.Weapon{
-			BaseDamageMin:        float64(shadowfiend.Level)*2.5 - float64(shadowfiend.Level),
-			BaseDamageMax:        float64(shadowfiend.Level)*2.5 + float64(shadowfiend.Level),
+			BaseDamageMin:        float64(shadowfiend.Level) * 1.5,
+			BaseDamageMax:        float64(shadowfiend.Level) * 3.5,
 			SwingSpeed:           1.5,
 			NormalizedSwingSpeed: 1.5,
 			CritMultiplier:       2,
