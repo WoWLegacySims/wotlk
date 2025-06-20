@@ -12,7 +12,7 @@ on:
         description: 'Version Tag'
         default: 'v0.0.0'
         required: true
-        
+
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
@@ -41,8 +41,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.3.1
         with:
-          ref: ${{ github.event.inputs.ref }}
-          
+          ref: 80
+
       - name: Test
         run: |
           make test
@@ -50,7 +50,32 @@ jobs:
       - name: Build 🔧
         run: |
           make clean && VERSION=${{ github.event.inputs.tag }} make release
-          
+
+      - name: Save
+        run: |
+          mkdir save && mv release/80 save/80
+
+      - name: Checkout
+        uses: actions/checkout@v2.3.1
+        with:
+          ref: all
+
+      - name: Test
+        run: |
+          make test
+
+      - name: Build 🔧
+        run: |
+          make clean && VERSION=${{ github.event.inputs.tag }} make release
+
+      - name: Save
+        run: |
+          mv release/all save/all
+
+      - name: Rename
+        run: |
+          cd save && for file in */*; do d=$(dirname "$file"); mv -- "$file" "${d%%@*}-$(basename "$file")"; done
+
       - name: Release
         uses: ncipollo/release-action@v1
         with:
@@ -60,10 +85,5 @@ jobs:
           makeLatest: true
           artifactErrorsFailBuild: true
           artifacts: |
-            wowsimcli-amd64-linux.zip
-            wowsimcli-windows.exe.zip
-            wowsimwotlk-amd64-darwin.zip
-            wowsimwotlk-arm64-darwin.zip
-            wowsimwotlk-amd64-linux.zip
-            wowsimwotlk-windows.exe.zip
-            
+            save/*.zip
+
