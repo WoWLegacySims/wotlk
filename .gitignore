@@ -14,6 +14,7 @@ binary_dist
 sim/web/__debug_bin
 /wowsimwotlkcli*
 /wowsimwotlk*
+/release
 
 # temporary files
 *.results.tmp
