@@ -92,6 +92,7 @@ func (dk *Deathknight) NewGargoyle() *GargoylePet {
 				stats.AttackPower: ownerStats[stats.AttackPower],
 				stats.SpellHit:    ownerStats[stats.MeleeHit] * dk.GetPetSpellHitScale(),
 				stats.SpellHaste:  ownerStats[stats.MeleeHaste] * PetSpellHasteScale,
+				stats.Intellect:   ownerStats[stats.Intellect] * 0.3,
 			}
 		}, false, true),
 		dkOwner: dk,
@@ -126,7 +127,8 @@ func (garg *GargoylePet) ExecuteCustomRotation(sim *core.Simulation) {
 }
 
 func (garg *GargoylePet) registerGargoyleStrikeSpell() {
-	attackPowerModifier := (1.0 + 0.04*float64(garg.dkOwner.Talents.Impurity)) / 3.0
+	attackPowerModifier := (0.75 * (1 + 0.04*float64(garg.dkOwner.Talents.Impurity))) * 0.453
+	flatDamage := float64(garg.Level-60) * 3.0
 
 	garg.GargoyleStrike = garg.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: 51963},
@@ -136,10 +138,6 @@ func (garg *GargoylePet) registerGargoyleStrikeSpell() {
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
 				CastTime: time.Millisecond * 2000,
-				GCD:      core.GCDDefault,
-			},
-			CastTime: func(spell *core.Spell) time.Duration {
-				return max(spell.Unit.ApplyCastSpeedForSpell(spell.CurCast.CastTime, spell), time.Second)
 			},
 		},
 
@@ -148,7 +146,7 @@ func (garg *GargoylePet) registerGargoyleStrikeSpell() {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 2.05*sim.RollFloat(51, 69) + attackPowerModifier*spell.MeleeAttackPower()
+			baseDamage := sim.Roll(51, 69) + attackPowerModifier*spell.MeleeAttackPower() + flatDamage
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 			spell.DealDamage(sim, result)
 		},
