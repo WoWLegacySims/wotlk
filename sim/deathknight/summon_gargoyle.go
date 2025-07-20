@@ -48,7 +48,7 @@ func (dk *Deathknight) registerSummonGargoyleCD() {
 				Priority:     core.ActionPriorityAuto,
 				OnAction: func(s *core.Simulation) {
 					dk.OnGargoyleStartFirstCast()
-					dk.Gargoyle.ExecuteCustomRotation(sim)
+					dk.Gargoyle.ExecuteCustomRotation(s)
 				},
 			}
 			sim.AddPendingAction(&pa)
@@ -72,6 +72,7 @@ type GargoylePet struct {
 	dkOwner *Deathknight
 
 	GargoyleStrike *core.Spell
+	doWait         bool
 }
 
 func (dk *Deathknight) NewGargoyle() *GargoylePet {
@@ -97,6 +98,7 @@ func (dk *Deathknight) NewGargoyle() *GargoylePet {
 			}
 		}, false, true),
 		dkOwner: dk,
+		doWait:  false,
 	}
 
 	// NightOfTheDead
@@ -124,7 +126,12 @@ func (garg *GargoylePet) Reset(_ *core.Simulation) {
 }
 
 func (garg *GargoylePet) ExecuteCustomRotation(sim *core.Simulation) {
-	garg.GargoyleStrike.Cast(sim, garg.CurrentTarget)
+	if garg.doWait {
+		garg.WaitUntil(sim, sim.CurrentTime+time.Millisecond*time.Duration(sim.Roll(0, 1000)))
+	} else {
+		garg.GargoyleStrike.Cast(sim, garg.CurrentTarget)
+	}
+	garg.doWait = !garg.doWait
 }
 
 func (garg *GargoylePet) registerGargoyleStrikeSpell() {
