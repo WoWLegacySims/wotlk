@@ -7,6 +7,9 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
+const SLEEP_CHANCE = 0.2
+const TICK_RATE = 400 * time.Millisecond
+
 func (dk *Deathknight) registerSummonGargoyleCD() {
 	if !dk.Talents.SummonGargoyle {
 		return
@@ -48,7 +51,8 @@ func (dk *Deathknight) registerSummonGargoyleCD() {
 				Priority:     core.ActionPriorityAuto,
 				OnAction: func(s *core.Simulation) {
 					dk.OnGargoyleStartFirstCast()
-					dk.Gargoyle.ExecuteCustomRotation(sim)
+					dk.Gargoyle.nextUpdate = s.CurrentTime
+					dk.Gargoyle.ExecuteCustomRotation(s)
 				},
 			}
 			sim.AddPendingAction(&pa)
@@ -72,6 +76,7 @@ type GargoylePet struct {
 	dkOwner *Deathknight
 
 	GargoyleStrike *core.Spell
+	nextUpdate     time.Duration
 }
 
 func (dk *Deathknight) NewGargoyle() *GargoylePet {
@@ -124,7 +129,16 @@ func (garg *GargoylePet) Reset(_ *core.Simulation) {
 }
 
 func (garg *GargoylePet) ExecuteCustomRotation(sim *core.Simulation) {
-	garg.GargoyleStrike.Cast(sim, garg.CurrentTarget)
+	if garg.nextUpdate > sim.CurrentTime {
+		garg.WaitUntil(sim, garg.nextUpdate)
+	} else {
+		if sim.RandomFloat("GargoyleStrike") < SLEEP_CHANCE {
+			garg.WaitUntil(sim, sim.CurrentTime+TICK_RATE)
+		} else {
+			garg.GargoyleStrike.Cast(sim, garg.CurrentTarget)
+			garg.nextUpdate = sim.CurrentTime + garg.GargoyleStrike.CurCast.CastTime.Truncate(TICK_RATE) + TICK_RATE
+		}
+	}
 }
 
 func (garg *GargoylePet) registerGargoyleStrikeSpell() {
