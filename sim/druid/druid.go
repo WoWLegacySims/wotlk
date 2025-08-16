@@ -31,6 +31,7 @@ type Druid struct {
 
 	Barkskin             *DruidSpell
 	Berserk              *DruidSpell
+	Claw                 *DruidSpell
 	DemoralizingRoar     *DruidSpell
 	Enrage               *DruidSpell
 	FaerieFire           *DruidSpell
@@ -220,6 +221,7 @@ func (druid *Druid) RegisterFeralCatSpells() {
 	druid.registerBerserkCD()
 	druid.registerCatFormSpell()
 	druid.registerBearFormSpell()
+	druid.registerClawSpell()
 	druid.registerEnrageSpell()
 	druid.registerFerociousBiteSpell()
 	druid.registerMangleBearSpell()

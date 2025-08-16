@@ -197,7 +197,9 @@ func (druid *Druid) registerCatFormSpell() {
 				druid.manageCooldownsEnabled()
 				druid.UpdateManaRegenRates()
 
-				druid.TigersFuryAura.Deactivate(sim)
+				if druid.TigersFuryAura != nil {
+					druid.TigersFuryAura.Deactivate(sim)
+				}
 
 				// These buffs stay up, but corresponding changes don't
 				if druid.SavageRoarAura.IsActive() {
