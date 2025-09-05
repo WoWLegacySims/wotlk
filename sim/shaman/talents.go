@@ -202,13 +202,21 @@ func (shaman *Shaman) registerElementalMasteryCD() {
 		ActionID: eleMasterActionID,
 		Duration: core.NeverExpires,
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
-			shaman.ChainLightning.CastTimeMultiplier -= 1
-			shaman.LavaBurst.CastTimeMultiplier -= 1
+			if shaman.ChainLightning != nil {
+				shaman.ChainLightning.CastTimeMultiplier -= 1
+			}
+			if shaman.LavaBurst != nil {
+				shaman.LavaBurst.CastTimeMultiplier -= 1
+			}
 			shaman.LightningBolt.CastTimeMultiplier -= 1
 		},
 		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
-			shaman.ChainLightning.CastTimeMultiplier += 1
-			shaman.LavaBurst.CastTimeMultiplier += 1
+			if shaman.ChainLightning != nil {
+				shaman.ChainLightning.CastTimeMultiplier += 1
+			}
+			if shaman.LavaBurst != nil {
+				shaman.LavaBurst.CastTimeMultiplier += 1
+			}
 			shaman.LightningBolt.CastTimeMultiplier += 1
 		},
 		OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
@@ -272,13 +280,21 @@ func (shaman *Shaman) registerNaturesSwiftnessCD() {
 		ActionID: actionID,
 		Duration: core.NeverExpires,
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
-			shaman.ChainLightning.CastTimeMultiplier -= 1
-			shaman.LavaBurst.CastTimeMultiplier -= 1
+if shaman.ChainLightning != nil {
+				shaman.ChainLightning.CastTimeMultiplier -= 1
+			}
+			if shaman.LavaBurst != nil {
+				shaman.LavaBurst.CastTimeMultiplier -= 1
+			}
 			shaman.LightningBolt.CastTimeMultiplier -= 1
 		},
 		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
-			shaman.ChainLightning.CastTimeMultiplier += 1
-			shaman.LavaBurst.CastTimeMultiplier += 1
+if shaman.ChainLightning != nil {
+				shaman.ChainLightning.CastTimeMultiplier += 1
+			}
+			if shaman.LavaBurst != nil {
+				shaman.LavaBurst.CastTimeMultiplier += 1
+			}
 			shaman.LightningBolt.CastTimeMultiplier += 1
 		},
 		OnCastComplete: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell) {
