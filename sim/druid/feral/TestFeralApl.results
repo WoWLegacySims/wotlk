@@ -67,8 +67,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-AustereEarthsiegeDiamond"
  value: {
-  dps: 9734.86601
-  tps: 6975.99662
+  dps: 9734.63136
+  tps: 6975.83001
  }
 }
 dps_results: {
@@ -81,8 +81,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-BandoftheEternalChampion-29301"
  value: {
-  dps: 9769.26965
-  tps: 7000.12405
+  dps: 9769.03181
+  tps: 6999.95518
  }
 }
 dps_results: {
@@ -95,8 +95,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-BandoftheEternalSage-29305"
  value: {
-  dps: 9697.63024
-  tps: 6949.33486
+  dps: 9697.3924
+  tps: 6949.16599
  }
 }
 dps_results: {
@@ -118,8 +118,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-BeamingEarthsiegeDiamond"
  value: {
-  dps: 9736.96323
-  tps: 6977.63521
+  dps: 9736.72858
+  tps: 6977.46861
  }
 }
 dps_results: {
@@ -139,22 +139,22 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-BladeofUnquenchedThirst-31193"
  value: {
-  dps: 9991.8784
-  tps: 7158.62499
+  dps: 9991.63706
+  tps: 7158.45363
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-BlessedRegaliaofUndeadCleansing"
  value: {
-  dps: 7274.32479
-  tps: 5226.76875
+  dps: 7273.82537
+  tps: 5226.41416
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-BracingEarthsiegeDiamond"
  value: {
-  dps: 9734.86601
-  tps: 6836.47668
+  dps: 9734.63136
+  tps: 6836.31341
  }
 }
 dps_results: {
@@ -167,15 +167,15 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-BrutalGladiator'sIdolofResolve-35019"
  value: {
-  dps: 9699.48571
-  tps: 6950.57745
+  dps: 9699.24437
+  tps: 6950.4061
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-ChaoticSkyflareDiamond"
  value: {
-  dps: 9971.66007
-  tps: 7144.26997
+  dps: 9971.41873
+  tps: 7144.09862
  }
 }
 dps_results: {
@@ -210,15 +210,15 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-DarkmoonCard:Berserker!-42989"
  value: {
-  dps: 9592.80428
-  tps: 6875.35715
+  dps: 9592.75732
+  tps: 6875.32381
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-DarkmoonCard:Death-42990"
  value: {
-  dps: 9628.95539
-  tps: 6901.09922
+  dps: 9628.90843
+  tps: 6901.06588
  }
 }
 dps_results: {
@@ -231,8 +231,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-DeadlyGladiator'sIdolofResolve-42588"
  value: {
-  dps: 9699.48571
-  tps: 6950.57745
+  dps: 9699.24437
+  tps: 6950.4061
  }
 }
 dps_results: {
@@ -245,8 +245,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-DeathKnight'sAnguish-38212"
  value: {
-  dps: 9570.62121
-  tps: 6859.60717
+  dps: 9570.57426
+  tps: 6859.57383
  }
 }
 dps_results: {
@@ -259,8 +259,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-Deathbringer'sWill-50363"
  value: {
-  dps: 10108.25293
-  tps: 7241.10132
+  dps: 10108.21593
+  tps: 7241.07506
  }
 }
 dps_results: {
@@ -273,8 +273,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-DestructiveSkyflareDiamond"
  value: {
-  dps: 9747.97231
-  tps: 6985.37688
+  dps: 9747.73766
+  tps: 6985.21027
  }
 }
 dps_results: {
@@ -287,8 +287,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-DislodgedForeignObject-50353"
  value: {
-  dps: 9706.88777
-  tps: 6956.05727
+  dps: 9706.85249
+  tps: 6956.03223
  }
 }
 dps_results: {
@@ -301,43 +301,43 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-DreamwalkerBattlegear"
  value: {
-  dps: 7982.48838
-  tps: 5729.41532
+  dps: 7980.78761
+  tps: 5728.20778
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-DreamwalkerGarb"
  value: {
-  dps: 6874.28287
-  tps: 4944.68344
+  dps: 6874.14276
+  tps: 4944.58396
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-EffulgentSkyflareDiamond"
  value: {
-  dps: 9734.86601
-  tps: 6975.99662
+  dps: 9734.63136
+  tps: 6975.83001
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-EmberSkyflareDiamond"
  value: {
-  dps: 9734.86601
-  tps: 6975.99662
+  dps: 9734.63136
+  tps: 6975.83001
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-EnigmaticSkyflareDiamond"
  value: {
-  dps: 9736.96323
-  tps: 6977.63521
+  dps: 9736.72858
+  tps: 6977.46861
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-EnigmaticStarflareDiamond"
  value: {
-  dps: 9723.99231
-  tps: 6968.42586
+  dps: 9723.75766
+  tps: 6968.25926
  }
 }
 dps_results: {
@@ -357,29 +357,29 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-EternalEarthsiegeDiamond"
  value: {
-  dps: 9734.86601
-  tps: 6975.99662
+  dps: 9734.63136
+  tps: 6975.83001
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-ExtractofNecromanticPower-40373"
  value: {
-  dps: 9623.63722
-  tps: 6897.09896
+  dps: 9623.59027
+  tps: 6897.06562
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-EyeoftheBroodmother-45308"
  value: {
-  dps: 9567.66573
-  tps: 6857.73313
+  dps: 9567.61877
+  tps: 6857.6998
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-Felstriker-12590"
  value: {
-  dps: 9976.62246
-  tps: 7147.79327
+  dps: 9976.38112
+  tps: 7147.62191
  }
 }
 dps_results: {
@@ -399,29 +399,29 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-ForgeEmber-37660"
  value: {
-  dps: 9553.77161
-  tps: 6847.86831
+  dps: 9553.72465
+  tps: 6847.83497
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-ForlornSkyflareDiamond"
  value: {
-  dps: 9734.86601
-  tps: 6975.99662
+  dps: 9734.63136
+  tps: 6975.83001
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-ForlornStarflareDiamond"
  value: {
-  dps: 9734.86601
-  tps: 6975.99662
+  dps: 9734.63136
+  tps: 6975.83001
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-FuriousGladiator'sIdolofResolve-42589"
  value: {
-  dps: 9699.48571
-  tps: 6950.57745
+  dps: 9699.24437
+  tps: 6950.4061
  }
 }
 dps_results: {
@@ -448,8 +448,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-Gladiator'sWildhide"
  value: {
-  dps: 6879.04615
-  tps: 4946.34527
+  dps: 6878.90326
+  tps: 4946.24382
  }
 }
 dps_results: {
@@ -469,8 +469,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-GnomishLightningGenerator-41121"
  value: {
-  dps: 9602.18383
-  tps: 6881.79227
+  dps: 9602.13687
+  tps: 6881.75893
  }
 }
 dps_results: {
@@ -483,8 +483,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-HatefulGladiator'sIdolofResolve-42587"
  value: {
-  dps: 9699.48571
-  tps: 6950.57745
+  dps: 9699.24437
+  tps: 6950.4061
  }
 }
 dps_results: {
@@ -504,50 +504,50 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-IdolofLunarFury-47670"
  value: {
-  dps: 9699.48571
-  tps: 6950.57745
+  dps: 9699.24437
+  tps: 6950.4061
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-IdoloftheCorruptor-45509"
  value: {
-  dps: 9699.48571
-  tps: 6950.57745
+  dps: 9699.24437
+  tps: 6950.4061
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-IdoloftheCryingMoon-50456"
  value: {
-  dps: 10022.656
-  tps: 7180.4023
+  dps: 10022.41466
+  tps: 7180.23094
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-IdoloftheLunarEclipse-50457"
  value: {
-  dps: 9699.48571
-  tps: 6950.57745
+  dps: 9699.24437
+  tps: 6950.4061
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-IdoloftheRavenGoddess-32387"
  value: {
-  dps: 9740.0836
-  tps: 6979.40195
+  dps: 9739.84225
+  tps: 6979.2306
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-IdoloftheUnseenMoon-33510"
  value: {
-  dps: 9699.48571
-  tps: 6950.57745
+  dps: 9699.24437
+  tps: 6950.4061
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-IdoloftheWhiteStag-32257"
  value: {
-  dps: 9699.48571
-  tps: 6950.57745
+  dps: 9699.24437
+  tps: 6950.4061
  }
 }
 dps_results: {
@@ -560,15 +560,15 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-ImpassiveSkyflareDiamond"
  value: {
-  dps: 9736.96323
-  tps: 6977.63521
+  dps: 9736.72858
+  tps: 6977.46861
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-ImpassiveStarflareDiamond"
  value: {
-  dps: 9723.99231
-  tps: 6968.42586
+  dps: 9723.75766
+  tps: 6968.25926
  }
 }
 dps_results: {
@@ -581,15 +581,15 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-InsightfulEarthsiegeDiamond"
  value: {
-  dps: 9734.86601
-  tps: 6975.99662
+  dps: 9734.63136
+  tps: 6975.83001
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-InvigoratingEarthsiegeDiamond"
  value: {
-  dps: 9763.32374
-  tps: 6996.2016
+  dps: 9763.08909
+  tps: 6996.035
   hps: 14.99226
  }
 }
@@ -610,15 +610,15 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-LastWord-50179"
  value: {
-  dps: 10141.0374
-  tps: 7264.52788
+  dps: 10140.79606
+  tps: 7264.35652
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-LastWord-50708"
  value: {
-  dps: 10165.60471
-  tps: 7281.97066
+  dps: 10165.36337
+  tps: 7281.79931
  }
 }
 dps_results: {
@@ -652,8 +652,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-Malfurion'sRegalia"
  value: {
-  dps: 6885.5546
-  tps: 4954.63082
+  dps: 6885.53981
+  tps: 4954.62032
  }
 }
 dps_results: {
@@ -666,29 +666,29 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-NevermeltingIceCrystal-50259"
  value: {
-  dps: 9610.59625
-  tps: 6887.76508
+  dps: 9610.35491
+  tps: 6887.59373
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-Nibelung-49992"
  value: {
-  dps: 9976.62246
-  tps: 7147.79327
+  dps: 9976.38112
+  tps: 7147.62191
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-Nibelung-50648"
  value: {
-  dps: 9976.62246
-  tps: 7147.79327
+  dps: 9976.38112
+  tps: 7147.62191
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-NightsongBattlegear"
  value: {
-  dps: 8379.81173
-  tps: 6012.78627
+  dps: 8379.69178
+  tps: 6012.70111
  }
 }
 dps_results: {
@@ -708,15 +708,15 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-PersistentEarthshatterDiamond"
  value: {
-  dps: 9757.90322
-  tps: 6992.35303
+  dps: 9757.66857
+  tps: 6992.18643
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-PersistentEarthsiegeDiamond"
  value: {
-  dps: 9763.32374
-  tps: 6996.2016
+  dps: 9763.08909
+  tps: 6996.035
  }
 }
 dps_results: {
@@ -743,15 +743,15 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-PowerfulEarthshatterDiamond"
  value: {
-  dps: 9734.86601
-  tps: 6975.99662
+  dps: 9734.63136
+  tps: 6975.83001
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-PowerfulEarthsiegeDiamond"
  value: {
-  dps: 9734.86601
-  tps: 6975.99662
+  dps: 9734.63136
+  tps: 6975.83001
  }
 }
 dps_results: {
@@ -778,29 +778,29 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-RelentlessEarthsiegeDiamond"
  value: {
-  dps: 9976.62246
-  tps: 7147.79327
+  dps: 9976.38112
+  tps: 7147.62191
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-RelentlessGladiator'sIdolofResolve-42591"
  value: {
-  dps: 9699.48571
-  tps: 6950.57745
+  dps: 9699.24437
+  tps: 6950.4061
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-RevitalizingSkyflareDiamond"
  value: {
-  dps: 9734.86601
-  tps: 6975.99662
+  dps: 9734.63136
+  tps: 6975.83001
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-RodoftheSunKing-29996"
  value: {
-  dps: 10012.68196
-  tps: 7173.39551
+  dps: 10012.44062
+  tps: 7173.22416
  }
 }
 dps_results: {
@@ -813,8 +813,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-SavageGladiator'sIdolofResolve-42574"
  value: {
-  dps: 9699.48571
-  tps: 6950.57745
+  dps: 9699.24437
+  tps: 6950.4061
  }
 }
 dps_results: {
@@ -883,8 +883,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-SouloftheDead-40382"
  value: {
-  dps: 9576.3286
-  tps: 6863.7342
+  dps: 9576.28165
+  tps: 6863.70086
  }
 }
 dps_results: {
@@ -897,36 +897,36 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-StormshroudArmor"
  value: {
-  dps: 7473.14726
-  tps: 5368.08228
+  dps: 7472.96258
+  tps: 5367.95115
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-SwiftSkyflareDiamond"
  value: {
-  dps: 9763.32374
-  tps: 6996.2016
+  dps: 9763.08909
+  tps: 6996.035
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-SwiftStarflareDiamond"
  value: {
-  dps: 9757.90322
-  tps: 6992.35303
+  dps: 9757.66857
+  tps: 6992.18643
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-SwiftWindfireDiamond"
  value: {
-  dps: 9748.41731
-  tps: 6985.61804
+  dps: 9748.18266
+  tps: 6985.45143
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-SyphonoftheNathrezim-32262"
  value: {
-  dps: 10011.29506
-  tps: 7172.41081
+  dps: 10011.05372
+  tps: 7172.23946
  }
 }
 dps_results: {
@@ -967,8 +967,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-ThunderheartRegalia"
  value: {
-  dps: 5630.12465
-  tps: 4057.14305
+  dps: 5629.17168
+  tps: 4056.46644
  }
 }
 dps_results: {
@@ -995,85 +995,85 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-TirelessSkyflareDiamond"
  value: {
-  dps: 9734.86601
-  tps: 6975.99662
+  dps: 9734.63136
+  tps: 6975.83001
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-TirelessStarflareDiamond"
  value: {
-  dps: 9734.86601
-  tps: 6975.99662
+  dps: 9734.63136
+  tps: 6975.83001
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-TrenchantEarthshatterDiamond"
  value: {
-  dps: 9734.86601
-  tps: 6975.99662
+  dps: 9734.63136
+  tps: 6975.83001
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-TrenchantEarthsiegeDiamond"
  value: {
-  dps: 9734.86601
-  tps: 6975.99662
+  dps: 9734.63136
+  tps: 6975.83001
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-TsunamiTalisman-30627"
  value: {
-  dps: 9557.51376
-  tps: 6850.60002
+  dps: 9557.10134
+  tps: 6850.3072
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-UndeadSlayer'sBlessedArmor"
  value: {
-  dps: 7572.29058
-  tps: 5438.24967
+  dps: 7571.84711
+  tps: 5437.93481
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-Val'anyr,HammerofAncientKings-46017"
  value: {
-  dps: 7364.86841
-  tps: 5293.52268
+  dps: 7364.68778
+  tps: 5293.39443
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-VengefulGladiator'sIdolofResolve-33947"
  value: {
-  dps: 9699.48571
-  tps: 6950.57745
+  dps: 9699.24437
+  tps: 6950.4061
  }
 }
 dps_results: {
  key: "TestFeralApl-AllItems-WrathfulGladiator'sIdolofResolve-51429"
  value: {
-  dps: 9699.48571
-  tps: 6950.57745
+  dps: 9699.24437
+  tps: 6950.4061
  }
 }
 dps_results: {
  key: "TestFeralApl-Average-Default"
  value: {
-  dps: 9970.27764
-  tps: 7143.19763
+  dps: 9970.22122
+  tps: 7143.15757
  }
 }
 dps_results: {
  key: "TestFeralApl-Settings-Tauren-p3-Default-default-FullBuffs-LongMultiTarget"
  value: {
-  dps: 9976.62246
-  tps: 7147.79327
+  dps: 9976.38112
+  tps: 7147.62191
  }
 }
 dps_results: {
  key: "TestFeralApl-Settings-Tauren-p3-Default-default-FullBuffs-LongSingleTarget"
  value: {
-  dps: 9976.62246
-  tps: 7147.79327
+  dps: 9976.38112
+  tps: 7147.62191
  }
 }
 dps_results: {
@@ -1086,15 +1086,15 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-Settings-Tauren-p3-Default-default-NoBuffs-LongMultiTarget"
  value: {
-  dps: 6047.31055
-  tps: 4356.26171
+  dps: 6047.17387
+  tps: 4356.16467
  }
 }
 dps_results: {
  key: "TestFeralApl-Settings-Tauren-p3-Default-default-NoBuffs-LongSingleTarget"
  value: {
-  dps: 6047.31055
-  tps: 4356.26171
+  dps: 6047.17387
+  tps: 4356.16467
  }
 }
 dps_results: {
