@@ -35,6 +35,9 @@ func (druid *Druid) registerBerserkCD() {
 			for _, spell := range affectedSpells {
 				spell.CostMultiplier -= 0.5
 			}
+			if druid.TigersFuryAura != nil {
+				druid.TigersFuryAura.Deactivate(sim)
+			}
 		},
 		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
 			for _, spell := range affectedSpells {
