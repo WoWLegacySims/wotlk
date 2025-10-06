@@ -74,6 +74,6 @@ export const DefaultOptions = RetributionPaladinOptions.create({
 export const DefaultConsumes = Consumes.create({
 	defaultPotion: Potions.PotionOfSpeed,
 	defaultConjured: Conjured.ConjuredDarkRune,
-	flask: Flask.FlaskOfEndlessRage,
-	food: Food.FoodDragonfinFilet,
+	flask: Flask.FlaskofEndlessRage,
+	food: Food.DragonfinFilet,
 });
