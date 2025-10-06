@@ -14,7 +14,7 @@ func TestSingleAuraExclusiveDurationNoOverwrite(t *testing.T) {
 		Level:       83,
 		auraTracker: newAuraTracker(),
 	}
-	mangle := MangleAura(&target)
+	mangle := MangleAura(&target, 0)
 	trauma := MakePermanent(TraumaAura(&target, 2))
 
 	// Trauma in this case should *never* be overwritten
@@ -39,7 +39,7 @@ func TestSingleAuraExclusiveDurationOverwrite(t *testing.T) {
 		Level:       83,
 		auraTracker: newAuraTracker(),
 	}
-	mangle := MangleAura(&target)
+	mangle := MangleAura(&target, 0)
 	trauma := TraumaAura(&target, 2)
 
 	trauma.Activate(sim)

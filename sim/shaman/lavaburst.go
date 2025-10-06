@@ -5,15 +5,20 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/shamaninfo"
 )
 
 func (shaman *Shaman) registerLavaBurstSpell() {
-	actionID := core.ActionID{SpellID: 60043}
+	dbc := shamaninfo.LavaBurst.GetMaxRank(shaman.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, shaman.Level)
+	coef := (dbc.GetCoefficient(0) + 0.05*float64(shaman.Talents.Shamanism) + core.TernaryFloat64(shaman.HasMajorGlyph(proto.ShamanMajorGlyph_GlyphOfLava), 0.1, 0)) * dbc.GetLevelPenalty(shaman.Level)
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 	dmgBonus := core.TernaryFloat64(shaman.Ranged().ID == VentureCoLightningRod, 121, 0) +
 		core.TernaryFloat64(shaman.Ranged().ID == ThunderfallTotem, 215, 0)
-	spellCoeff := 0.5714 +
-		0.05*float64(shaman.Talents.Shamanism) +
-		core.TernaryFloat64(shaman.HasMajorGlyph(proto.ShamanMajorGlyph_GlyphOfLava), 0.1, 0)
 
 	var lvbDotSpell *core.Spell
 	if shaman.HasSetBonus(ItemSetThrallsRegalia, 4) {
@@ -47,6 +52,7 @@ func (shaman *Shaman) registerLavaBurstSpell() {
 
 	shaman.LavaBurst = shaman.RegisterSpell(core.SpellConfig{
 		ActionID:    actionID,
+		SpellRanks:  shamaninfo.LavaBurst.GetAllIDs(),
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       SpellFlagFocusable | core.SpellFlagAPL,
@@ -66,13 +72,13 @@ func (shaman *Shaman) registerLavaBurstSpell() {
 			},
 		},
 
-		BonusHitRating:   float64(shaman.Talents.ElementalPrecision) * core.SpellHitRatingPerHitChance,
+		BonusHit:         float64(shaman.Talents.ElementalPrecision),
 		DamageMultiplier: 1 + 0.01*float64(shaman.Talents.Concussion) + 0.02*float64(shaman.Talents.CallOfFlame),
 		CritMultiplier:   shaman.ElementalCritMultiplier([]float64{0, 0.06, 0.12, 0.24}[shaman.Talents.LavaFlows] + core.TernaryFloat64(shaman.HasSetBonus(ItemSetEarthShatterGarb, 4), 0.1, 0)),
 		ThreatMultiplier: shaman.spellThreatMultiplier(),
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := dmgBonus + sim.Roll(1192, 1518) + spellCoeff*spell.SpellPower()
+			baseDamage := dmgBonus + sim.Roll(bp, die) + coef*spell.SpellPower()
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 			if lvbDotSpell != nil && result.Landed() {
 				dot := lvbDotSpell.Dot(target)

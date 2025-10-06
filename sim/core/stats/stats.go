@@ -196,6 +196,14 @@ func (stats Stats) Add(other Stats) Stats {
 	return stats
 }
 
+// Adds two Stats exclusively together, in-place.
+func (stats Stats) AddExclusive(other Stats) Stats {
+	for k := range stats {
+		stats[k] = max(stats[k], other[k])
+	}
+	return stats
+}
+
 // Adds another to Stats to this, in-place. For performance, only.
 func (stats *Stats) AddInplace(other *Stats) {
 	for k := range stats {
@@ -323,6 +331,13 @@ type PseudoStats struct {
 	MobTypeAttackPower float64 // Bonus AP against mobs of the current type.
 	MobTypeSpellPower  float64 // Bonus SP against mobs of the current type.
 
+	FireSpellPower   float64
+	ArcaneSpellPower float64
+	ShadowSpellPower float64
+	FrostSpellPower  float64
+	HolySpellPower   float64
+	NatureSpellPower float64
+
 	ThreatMultiplier float64 // Modulates the threat generated. Affected by things like salv.
 
 	DamageDealtMultiplier       float64            // All damage
@@ -355,12 +370,13 @@ type PseudoStats struct {
 	ReducedCritTakenChance float64 // Reduces chance to be crit.
 
 	BonusRangedAttackPowerTaken float64 // Hunters mark
-	BonusSpellCritRatingTaken   float64 // Imp Shadow Bolt / Imp Scorch / Winter's Chill debuff
-	BonusCritRatingTaken        float64 // Totem of Wrath / Master Poisoner / Heart of the Crusader
-	BonusMeleeHitRatingTaken    float64 // Formerly Imp FF and SW Radiance;
-	BonusSpellHitRatingTaken    float64 // Imp FF
+	BonusSpellCritTaken         float64 // Imp Shadow Bolt / Imp Scorch / Winter's Chill debuff
+	BonusCritTaken              float64 // Totem of Wrath / Master Poisoner / Heart of the Crusader
+	BonusMeleeHitTaken          float64 // Formerly Imp FF and SW Radiance;
+	BonusSpellHitTaken          float64 // Imp FF
 
 	BonusPhysicalDamageTaken float64 // Hemo, Gift of Arthas, etc
+	BonusSpellDamageTaken    float64 // Hemo, Gift of Arthas, etc
 	BonusHealingTaken        float64 // Talisman of Troll Divinity
 
 	DamageTakenMultiplier       float64            // All damage

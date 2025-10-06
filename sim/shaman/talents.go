@@ -14,18 +14,18 @@ func (shaman *Shaman) ApplyTalents() {
 		shaman.AddStat(stats.SpellPower, 280*0.3)
 	}
 
-	shaman.AddStat(stats.MeleeCrit, core.CritRatingPerCritChance*1*float64(shaman.Talents.ThunderingStrikes))
-	shaman.AddStat(stats.SpellCrit, core.CritRatingPerCritChance*1*float64(shaman.Talents.ThunderingStrikes))
-	shaman.AddStat(stats.Dodge, core.DodgeRatingPerDodgeChance*1*float64(shaman.Talents.Anticipation))
+	shaman.AddStat(stats.MeleeCrit, shaman.CritRatingPerCritChance*1*float64(shaman.Talents.ThunderingStrikes))
+	shaman.AddStat(stats.SpellCrit, shaman.CritRatingPerCritChance*1*float64(shaman.Talents.ThunderingStrikes))
+	shaman.AddStat(stats.Dodge, shaman.DodgeRatingPerDodgeChance*1*float64(shaman.Talents.Anticipation))
 	shaman.PseudoStats.SchoolDamageDealtMultiplier[stats.SchoolIndexPhysical] *= []float64{1, 1.04, 1.07, 1.1}[shaman.Talents.WeaponMastery]
 
-	shaman.AddStat(stats.Expertise, 3*core.ExpertisePerQuarterPercentReduction*float64(shaman.Talents.UnleashedRage))
+	shaman.AddStat(stats.Expertise, 3*shaman.ExpertisePerQuarterPercentReduction*float64(shaman.Talents.UnleashedRage))
 
 	if shaman.Talents.DualWieldSpecialization > 0 && shaman.HasOHWeapon() {
-		shaman.AddStat(stats.MeleeHit, core.MeleeHitRatingPerHitChance*2*float64(shaman.Talents.DualWieldSpecialization))
+		shaman.AddStat(stats.MeleeHit, shaman.MeleeHitRatingPerHitChance*2*float64(shaman.Talents.DualWieldSpecialization))
 	}
 
-	shaman.AddStat(stats.SpellCrit, float64(shaman.Talents.BlessingOfTheEternals)*2*core.CritRatingPerCritChance)
+	shaman.AddStat(stats.SpellCrit, float64(shaman.Talents.BlessingOfTheEternals)*2*shaman.CritRatingPerCritChance)
 	if shaman.Talents.Toughness > 0 {
 		shaman.MultiplyStat(stats.Stamina, 1.0+0.02*float64(shaman.Talents.Toughness))
 	}
@@ -148,7 +148,7 @@ func (shaman *Shaman) applyElementalDevastation() {
 		return
 	}
 
-	critBonus := 3.0 * float64(shaman.Talents.ElementalDevastation) * core.CritRatingPerCritChance
+	critBonus := 3.0 * float64(shaman.Talents.ElementalDevastation) * shaman.CritRatingPerCritChance
 	procAura := shaman.NewTemporaryStatsAura("Elemental Devastation Proc", core.ActionID{SpellID: 30160}, stats.Stats{stats.MeleeCrit: critBonus}, time.Second*10)
 
 	shaman.RegisterAura(core.Aura{
@@ -202,13 +202,21 @@ func (shaman *Shaman) registerElementalMasteryCD() {
 		ActionID: eleMasterActionID,
 		Duration: core.NeverExpires,
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
-			shaman.ChainLightning.CastTimeMultiplier -= 1
-			shaman.LavaBurst.CastTimeMultiplier -= 1
+			if shaman.ChainLightning != nil {
+				shaman.ChainLightning.CastTimeMultiplier -= 1
+			}
+			if shaman.LavaBurst != nil {
+				shaman.LavaBurst.CastTimeMultiplier -= 1
+			}
 			shaman.LightningBolt.CastTimeMultiplier -= 1
 		},
 		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
-			shaman.ChainLightning.CastTimeMultiplier += 1
-			shaman.LavaBurst.CastTimeMultiplier += 1
+			if shaman.ChainLightning != nil {
+				shaman.ChainLightning.CastTimeMultiplier += 1
+			}
+			if shaman.LavaBurst != nil {
+				shaman.LavaBurst.CastTimeMultiplier += 1
+			}
 			shaman.LightningBolt.CastTimeMultiplier += 1
 		},
 		OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
@@ -272,13 +280,21 @@ func (shaman *Shaman) registerNaturesSwiftnessCD() {
 		ActionID: actionID,
 		Duration: core.NeverExpires,
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
-			shaman.ChainLightning.CastTimeMultiplier -= 1
-			shaman.LavaBurst.CastTimeMultiplier -= 1
+if shaman.ChainLightning != nil {
+				shaman.ChainLightning.CastTimeMultiplier -= 1
+			}
+			if shaman.LavaBurst != nil {
+				shaman.LavaBurst.CastTimeMultiplier -= 1
+			}
 			shaman.LightningBolt.CastTimeMultiplier -= 1
 		},
 		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
-			shaman.ChainLightning.CastTimeMultiplier += 1
-			shaman.LavaBurst.CastTimeMultiplier += 1
+if shaman.ChainLightning != nil {
+				shaman.ChainLightning.CastTimeMultiplier += 1
+			}
+			if shaman.LavaBurst != nil {
+				shaman.LavaBurst.CastTimeMultiplier += 1
+			}
 			shaman.LightningBolt.CastTimeMultiplier += 1
 		},
 		OnCastComplete: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell) {
@@ -326,6 +342,9 @@ func (shaman *Shaman) applyFlurry() {
 	bonus := 1.0 + 0.06*float64(shaman.Talents.Flurry)
 
 	if shaman.HasSetBonus(ItemSetEarthshatterBattlegear, 4) {
+		bonus += 0.05
+	}
+	if shaman.HasSetBonus(ItemSetCataclysmHarness, 4) {
 		bonus += 0.05
 	}
 

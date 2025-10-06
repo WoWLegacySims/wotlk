@@ -27,8 +27,8 @@ func (unit *Unit) GetDiminishedDodgeChance() float64 {
 	// diminished Dodge % = (D * Cd)/((k*Cd) + D)
 
 	dodgeChance :=
-		unit.stats[stats.Dodge]/DodgeRatingPerDodgeChance/100 +
-			unit.stats[stats.Defense]*DefenseRatingToChanceReduction
+		unit.stats[stats.Dodge]/unit.DodgeRatingPerDodgeChance/100 +
+			unit.stats[stats.Defense]*unit.GetDefenseRatingToChanceReduction()
 
 	if unit.PseudoStats.CanParry {
 		return (dodgeChance * Diminish_Cd_Nondruid) / (Diminish_kCd_Nondruid + dodgeChance)
@@ -43,8 +43,8 @@ func (unit *Unit) GetDiminishedParryChance() float64 {
 	// diminished Parry % = (P * Cp)/((k*Cp) + P)
 
 	parryChance :=
-		unit.stats[stats.Parry]/ParryRatingPerParryChance/100 +
-			unit.stats[stats.Defense]*DefenseRatingToChanceReduction
+		unit.stats[stats.Parry]/unit.ParryRatingPerParryChance/100 +
+			unit.stats[stats.Defense]*unit.GetDefenseRatingToChanceReduction()
 
 	return (parryChance * Diminish_Cp) / (Diminish_kCp + parryChance)
 
@@ -55,11 +55,19 @@ func (unit *Unit) GetDiminishedMissChance() float64 {
 	// undiminished Miss % = M
 	// diminished Miss % = (M * Cm)/((k*Cm) + M)
 
-	missChance := unit.stats[stats.Defense] * DefenseRatingToChanceReduction
+	missChance := unit.stats[stats.Defense] * unit.GetDefenseRatingToChanceReduction()
 
 	if unit.PseudoStats.CanParry {
 		return (missChance * Diminish_Cm) / (Diminish_kCm_Nondruid + missChance)
 	} else {
 		return (missChance * Diminish_Cm) / (Diminish_kCm_Druid + missChance)
 	}
+}
+
+func (unit *Unit) GetDefenseRatingToChanceReduction() float64 {
+	return (1.0 / unit.DefenseRatingPerDefense) * MissDodgeParryBlockCritChancePerDefense / 100
+}
+
+func (unit *Unit) GetResilienceRatingPerCritDamageReductionPercent() float64 {
+	return unit.ResilienceRatingPerCritReductionChance / 2.2
 }

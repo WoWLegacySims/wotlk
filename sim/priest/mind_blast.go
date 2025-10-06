@@ -5,10 +5,17 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/priestinfo"
 )
 
 func (priest *Priest) registerMindBlastSpell() {
-	spellCoeff := 0.429 * (1 + 0.05*float64(priest.Talents.Misery))
+	dbc := priestinfo.MindBlast.GetMaxRank(priest.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, priest.Level)
+	coef := dbc.GetCoefficient(0)
+	spellCoeff := coef * (1 + 0.05*float64(priest.Talents.Misery)) * dbc.GetLevelPenalty(priest.Level)
 	hasGlyphOfShadow := priest.HasGlyph(int32(proto.PriestMajorGlyph_GlyphOfShadow))
 
 	var replSrc core.ReplenishmentSource
@@ -28,7 +35,8 @@ func (priest *Priest) registerMindBlastSpell() {
 	})
 
 	priest.MindBlast = priest.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48127},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  priestinfo.MindBlast.GetAllIDs(),
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagAPL,
@@ -50,8 +58,8 @@ func (priest *Priest) registerMindBlastSpell() {
 			},
 		},
 
-		BonusHitRating:  0 + float64(priest.Talents.ShadowFocus)*1*core.SpellHitRatingPerHitChance,
-		BonusCritRating: float64(priest.Talents.MindMelt) * 2 * core.CritRatingPerCritChance,
+		BonusHit:  0 + float64(priest.Talents.ShadowFocus),
+		BonusCrit: float64(priest.Talents.MindMelt) * 2,
 		DamageMultiplier: 1 *
 			(1 + 0.02*float64(priest.Talents.Darkness)) *
 			core.TernaryFloat64(priest.HasSetBonus(ItemSetAbsolution, 4), 1.1, 1),
@@ -59,7 +67,7 @@ func (priest *Priest) registerMindBlastSpell() {
 		ThreatMultiplier: 1 - 0.08*float64(priest.Talents.ShadowAffinity),
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(997, 1053) + spellCoeff*spell.SpellPower()
+			baseDamage := sim.Roll(bp, die) + spellCoeff*spell.SpellPower()
 			baseDamage *= priest.MindBlastModifier
 
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
@@ -85,7 +93,7 @@ func (priest *Priest) registerMindBlastSpell() {
 			}
 		},
 		ExpectedInitialDamage: func(sim *core.Simulation, target *core.Unit, spell *core.Spell, _ bool) *core.SpellResult {
-			baseDamage := (997.0+1053.0)/2 + spellCoeff*spell.SpellPower()
+			baseDamage := bp + die/2 + spellCoeff*spell.SpellPower()
 			return spell.CalcDamage(sim, target, baseDamage, spell.OutcomeExpectedMagicHitAndCrit)
 		},
 	})

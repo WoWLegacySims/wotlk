@@ -5,18 +5,27 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/rogueinfo"
 )
 
 func (rogue *Rogue) registerEviscerate() {
+	dbc := rogueinfo.Eviscerate.GetMaxRank(rogue.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, rogue.Level)
+	combo := dbc.Effects[0].PointsPerCombo
+	combo += core.TernaryFloat64(rogue.HasSetBonus(Tier5, 2), 40, 0)
 	rogue.Eviscerate = rogue.RegisterSpell(core.SpellConfig{
-		ActionID:     core.ActionID{SpellID: 48668},
+		ActionID:     core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:   rogueinfo.Eviscerate.GetAllIDs(),
 		SpellSchool:  core.SpellSchoolPhysical,
 		ProcMask:     core.ProcMaskMeleeMHSpecial,
 		Flags:        core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | rogue.finisherFlags() | SpellFlagColdBlooded | core.SpellFlagAPL,
 		MetricSplits: 6,
 
 		EnergyCost: core.EnergyCostOptions{
-			Cost:          35,
+			Cost:          35 - core.TernaryFloat64(rogue.HasSetBonus(D3, 4), 10, 0),
 			Refund:        0.4 * float64(rogue.Talents.QuickRecovery),
 			RefundMetrics: rogue.QuickRecoveryMetrics,
 		},
@@ -27,14 +36,15 @@ func (rogue *Rogue) registerEviscerate() {
 			IgnoreHaste: true,
 			ModifyCast: func(sim *core.Simulation, spell *core.Spell, cast *core.Cast) {
 				spell.SetMetricsSplit(spell.Unit.ComboPoints())
+				rogue.applyDeathmantle(sim, spell, cast)
 			},
 		},
 		ExtraCastCondition: func(sim *core.Simulation, target *core.Unit) bool {
 			return rogue.ComboPoints() > 0
 		},
 
-		BonusCritRating: core.TernaryFloat64(
-			rogue.HasMajorGlyph(proto.RogueMajorGlyph_GlyphOfEviscerate), 10*core.CritRatingPerCritChance, 0.0),
+		BonusCrit: core.TernaryFloat64(
+			rogue.HasMajorGlyph(proto.RogueMajorGlyph_GlyphOfEviscerate), 10, 0.0),
 		DamageMultiplier: 1 +
 			[]float64{0.0, 0.07, 0.14, 0.2}[rogue.Talents.ImprovedEviscerate] +
 			0.02*float64(rogue.Talents.FindWeakness) +
@@ -45,12 +55,11 @@ func (rogue *Rogue) registerEviscerate() {
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			rogue.BreakStealth(sim)
 			comboPoints := rogue.ComboPoints()
-			flatBaseDamage := 127 + 370*float64(comboPoints)
+			flatBaseDamage := sim.Roll(bp, die) + combo*float64(comboPoints)
 			// tooltip implies 3..7% AP scaling, but testing shows it's fixed at 7% (3.4.0.46158)
 			apRatio := 0.07 * float64(comboPoints)
 
 			baseDamage := flatBaseDamage +
-				254.0*sim.RandomFloat("Eviscerate") +
 				apRatio*spell.MeleeAttackPower() +
 				spell.BonusWeaponDamage()
 

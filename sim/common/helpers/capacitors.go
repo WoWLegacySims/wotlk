@@ -27,17 +27,17 @@ type CapacitorDamageEffect struct {
 	MaxStacks int32
 	Trigger   core.ProcTrigger
 
-	School core.SpellSchool
-	MinDmg float64
-	MaxDmg float64
+	School     core.SpellSchool
+	BasePoints float64
+	Die        float64
 }
 
 func NewCapacitorDamageEffect(config CapacitorDamageEffect) {
 	core.NewItemEffect(config.ID, func(agent core.Agent) {
 		character := agent.GetCharacter()
 
-		minDmg := config.MinDmg
-		maxDmg := config.MaxDmg
+		bp := config.BasePoints
+		die := config.Die
 		damageSpell := character.RegisterSpell(core.SpellConfig{
 			ActionID:    core.ActionID{ItemID: config.ID},
 			SpellSchool: config.School,
@@ -48,7 +48,7 @@ func NewCapacitorDamageEffect(config CapacitorDamageEffect) {
 			ThreatMultiplier: 1,
 
 			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-				spell.CalcAndDealDamage(sim, target, sim.Roll(minDmg, maxDmg), spell.OutcomeMagicHitAndCrit)
+				spell.CalcAndDealDamage(sim, target, sim.Roll(bp, die), spell.OutcomeMagicHitAndCrit)
 			},
 		})
 

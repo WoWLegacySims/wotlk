@@ -22,6 +22,7 @@ func (druid *Druid) registerBerserkCD() {
 		Duration: (time.Second * 15) + glyphBonus,
 		OnInit: func(aura *core.Aura, sim *core.Simulation) {
 			affectedSpells = core.FilterSlice([]*DruidSpell{
+				druid.Claw,
 				druid.MangleCat,
 				druid.FerociousBite,
 				druid.Rake,

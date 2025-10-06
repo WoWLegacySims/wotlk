@@ -101,7 +101,7 @@ func init() {
 				if !icd.IsReady(sim) {
 					return
 				}
-				if spell.ActionID.SpellID == 49238 && sim.RandomFloat("totem of elemental plane") < 0.15 {
+				if spell.IsSpell(shaman.LightningBolt) && sim.RandomFloat("totem of elemental plane") < 0.15 {
 					procAura.Activate(sim)
 					icd.Use(sim)
 				}
@@ -128,7 +128,7 @@ func init() {
 				if !icd.IsReady(sim) {
 					return
 				}
-				if spell.ActionID.SpellID == 49238 && sim.RandomFloat("totem of elemental plane") < 0.7 {
+				if spell.ActionID.IsSpell(shaman.LightningBolt) && sim.RandomFloat("totem of elemental plane") < 0.7 {
 					procAura.Activate(sim)
 					icd.Use(sim) // put on CD
 				}
@@ -276,3 +276,26 @@ var ItemSetGladiatorsWartide = core.NewItemSet(core.ItemSet{
 		},
 	},
 })
+
+func init() {
+	core.AddEffectsToTest = false
+	core.NewItemEffect(37575, func(agent core.Agent) {
+		shaman := agent.(ShamanAgent).GetShaman()
+		procAura := shaman.NewTemporaryStatsAura("Totem of the Tundra proc", core.ActionID{SpellID: 48838}, stats.Stats{stats.AttackPower: 94}, time.Second*10)
+
+		core.MakeProcTriggerAura(&shaman.Unit, core.ProcTrigger{
+			Name:       "Totem of the Tundra",
+			Callback:   core.CallbackOnSpellHitDealt,
+			Outcome:    core.OutcomeLanded,
+			ProcChance: 0.5,
+			CustomCheck: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) bool {
+				return spell.Flags.Matches(SpellFlagShock)
+			},
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				procAura.Activate(sim)
+			},
+		})
+	})
+
+	core.AddEffectsToTest = true
+}

@@ -1159,7 +1159,7 @@ const idToCategoryMap: Record<number, number> = {
 	[3043]: MELEE_ACTION_CATEGORY + 0.3, // Scorpid Sting
 	[53238]: MELEE_ACTION_CATEGORY + 0.31, // Piercing Shots
 	[63672]: MELEE_ACTION_CATEGORY + 0.32, // Black Arrow
-	[49067]: MELEE_ACTION_CATEGORY + 0.33, // Explosive Trap
+	[49065]: MELEE_ACTION_CATEGORY + 0.33, // Explosive Trap
 	[58434]: MELEE_ACTION_CATEGORY + 0.34, // Volley
 
 	// Paladin
@@ -1221,7 +1221,7 @@ const idToCategoryMap: Record<number, number> = {
 	[60043]: SPELL_ACTION_CATEGORY + 0.31, // Lava Burst
 	[49238]: SPELL_ACTION_CATEGORY + 0.32, // Lightning Bolt
 	[49271]: SPELL_ACTION_CATEGORY + 0.33, // Chain Lightning
-	[61657]: SPELL_ACTION_CATEGORY + 0.41, // Fire Nova
+	[61654]: SPELL_ACTION_CATEGORY + 0.41, // Fire Nova
 	[58734]: SPELL_ACTION_CATEGORY + 0.42, // Magma Totem
 	[58704]: SPELL_ACTION_CATEGORY + 0.43, // Searing Totem
 	[49281]: SPELL_ACTION_CATEGORY + 0.51, // Lightning Shield
@@ -1254,7 +1254,7 @@ const idToCategoryMap: Record<number, number> = {
 	[42859]: SPELL_ACTION_CATEGORY + 0.03, // Scorch
 	[42891]: SPELL_ACTION_CATEGORY + 0.1, // Pyroblast
 	[42846]: SPELL_ACTION_CATEGORY + 0.1, // Arcane Missiles
-	[44572]: SPELL_ACTION_CATEGORY + 0.1, // Deep Freeze
+	[71757]: SPELL_ACTION_CATEGORY + 0.1, // Deep Freeze
 	[44781]: SPELL_ACTION_CATEGORY + 0.2, // Arcane Barrage
 	[42914]: SPELL_ACTION_CATEGORY + 0.2, // Ice Lance
 	[55360]: SPELL_ACTION_CATEGORY + 0.2, // Living Bomb
@@ -1283,7 +1283,7 @@ const idToCategoryMap: Record<number, number> = {
 	[47486]: MELEE_ACTION_CATEGORY + 0.1, // Mortal Strike
 	[30356]: MELEE_ACTION_CATEGORY + 0.1, // Shield Slam
 	[47498]: MELEE_ACTION_CATEGORY + 0.21, // Devastate
-	[47467]: MELEE_ACTION_CATEGORY + 0.22, // Sunder Armor
+	[7386]: MELEE_ACTION_CATEGORY + 0.22, // Sunder Armor
 	[57823]: MELEE_ACTION_CATEGORY + 0.23, // Revenge
 	[1680]: MELEE_ACTION_CATEGORY + 0.24, // Whirlwind
 	[7384]: MELEE_ACTION_CATEGORY + 0.25, // Overpower
@@ -1309,7 +1309,7 @@ const idToCategoryMap: Record<number, number> = {
 	[63560]: MELEE_ACTION_CATEGORY + 0.25, // Ghoul Frenzy
 	[50536]: MELEE_ACTION_CATEGORY + 0.25, // Unholy Blight
 	[57623]: MELEE_ACTION_CATEGORY + 0.25, // HoW
-	[59131]: MELEE_ACTION_CATEGORY + 0.3, // Icy touch
+	[49909]: MELEE_ACTION_CATEGORY + 0.3, // Icy touch
 	[49921]: MELEE_ACTION_CATEGORY + 0.3, // Plague strike
 	[51271]: MELEE_ACTION_CATEGORY + 0.35, // UA
 	[45529]: MELEE_ACTION_CATEGORY + 0.35, // BT

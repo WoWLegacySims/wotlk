@@ -118,7 +118,7 @@ func (ai *Gormok25HAI) registerImpaleSpell(target *core.Target) {
 			TickLength:    time.Second * 2,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				dot.SnapshotBaseDamage = sim.Roll(3938, 5062)
+				dot.SnapshotBaseDamage = sim.RollFloat(3938, 5062)
 				dot.SnapshotBaseDamage *= float64(dot.Aura.GetStacks())
 
 				if !isRollover {
@@ -182,7 +182,7 @@ func (ai *Gormok25HAI) registerStaggeringStompSpell(target *core.Target) {
 
 				// TODO - Filter targets to melee only, right now it just hits everyone
 				// TODO - Should this ignore armor? Damage in logs seems inconsistent
-				baseDamage := sim.Roll(11700, 12300)
+				baseDamage := sim.RollFloat(11700, 12300)
 				spell.CalcAndDealDamage(sim, aoeTarget, baseDamage, spell.OutcomeAlwaysHit)
 				// TODO - Interrupts spellcasting for 8 seconds. Does NOT stun or knockdown
 			}

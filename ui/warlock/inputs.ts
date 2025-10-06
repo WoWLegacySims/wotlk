@@ -1,14 +1,13 @@
+import * as InputHelpers from '../core/components/input_helpers.js';
+import { CREATEFIRESTONE, CREATESPELLSTONE, DEMONARMOR, FELARMOR } from '../core/constants/auras.js';
+import { Player } from '../core/player.js';
+import { Spec } from '../core/proto/common.js';
 import {
-	Warlock_Options_WeaponImbue as WeaponImbue,
 	Warlock_Options_Armor as Armor,
 	Warlock_Options_Summon as Summon,
+	Warlock_Options_WeaponImbue as WeaponImbue,
 } from '../core/proto/warlock.js';
-
-import { Spec } from '../core/proto/common.js';
-import { ActionId } from '../core/proto_utils/action_id.js';
-import { Player } from '../core/player.js';
-
-import * as InputHelpers from '../core/components/input_helpers.js';
+import { ActionId, ActionIDMap } from '../core/proto_utils/action_id.js';
 
 // Configuration for spec-specific UI elements on the settings tab.
 // These don't need to be in a separate file but it keeps things cleaner.
@@ -17,8 +16,8 @@ export const ArmorInput = InputHelpers.makeSpecOptionsEnumIconInput<Spec.SpecWar
 	fieldName: 'armor',
 	values: [
 		{ value: Armor.NoArmor, tooltip: 'No Armor' },
-		{ actionId: ActionId.fromSpellId(47893), value: Armor.FelArmor },
-		{ actionId: ActionId.fromSpellId(47889), value: Armor.DemonArmor },
+		{ actionId: ActionIDMap.fromSpellId(FELARMOR), value: Armor.FelArmor, showWhen: player => player.getLevel() >= 62 },
+		{ actionId: ActionIDMap.fromSpellId(DEMONARMOR), value: Armor.DemonArmor },
 	],
 });
 
@@ -26,8 +25,8 @@ export const WeaponImbueInput = InputHelpers.makeSpecOptionsEnumIconInput<Spec.S
 	fieldName: 'weaponImbue',
 	values: [
 		{ value: WeaponImbue.NoWeaponImbue, tooltip: 'No Weapon Stone' },
-		{ actionId: ActionId.fromItemId(41174), value: WeaponImbue.GrandFirestone },
-		{ actionId: ActionId.fromItemId(41196), value: WeaponImbue.GrandSpellstone },
+		{ actionId: ActionIDMap.fromSpellId(CREATEFIRESTONE), value: WeaponImbue.GrandFirestone, showWhen: player => player.getLevel() >= 28 },
+		{ actionId: ActionIDMap.fromSpellId(CREATESPELLSTONE), value: WeaponImbue.GrandSpellstone, showWhen: player => player.getLevel() >= 36 },
 	],
 });
 

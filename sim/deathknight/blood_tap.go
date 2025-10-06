@@ -7,6 +7,9 @@ import (
 )
 
 func (dk *Deathknight) registerBloodTapSpell() {
+	if dk.Level < 64 {
+		return
+	}
 	actionID := core.ActionID{SpellID: 45529}
 	cdTimer := dk.NewTimer()
 	cd := time.Minute * 1

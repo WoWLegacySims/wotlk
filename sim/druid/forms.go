@@ -1,14 +1,16 @@
 package druid
 
 import (
+	"math"
+
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
-	"math"
 )
 
 type DruidForm uint8
 
+// @todo
 const (
 	Humanoid DruidForm = 1 << iota
 	Bear
@@ -46,9 +48,10 @@ func (druid *Druid) ClearForm(sim *core.Simulation) {
 }
 
 func (druid *Druid) GetCatWeapon() core.Weapon {
+	level := float64(min(60, druid.Level))
 	return core.Weapon{
-		BaseDamageMin:        43,
-		BaseDamageMax:        66,
+		BaseDamageMin:        0.85 * level,
+		BaseDamageMax:        1.25 * level,
 		SwingSpeed:           1.0,
 		NormalizedSwingSpeed: 1.0,
 		CritMultiplier:       druid.MeleeCritMultiplier(Cat),
@@ -57,9 +60,10 @@ func (druid *Druid) GetCatWeapon() core.Weapon {
 }
 
 func (druid *Druid) GetBearWeapon() core.Weapon {
+	level := float64(min(60, druid.Level))
 	return core.Weapon{
-		BaseDamageMin:        109,
-		BaseDamageMax:        165,
+		BaseDamageMin:        0.85 * level * 2.5,
+		BaseDamageMax:        1.25 * level * 2.5,
 		SwingSpeed:           2.5,
 		NormalizedSwingSpeed: 2.5,
 		CritMultiplier:       druid.MeleeCritMultiplier(Bear),
@@ -71,7 +75,7 @@ func (druid *Druid) GetBearWeapon() core.Weapon {
 func (druid *Druid) GetFormShiftStats() stats.Stats {
 	s := stats.Stats{
 		stats.AttackPower: float64(druid.Talents.PredatoryStrikes) * 0.5 * float64(druid.Level),
-		stats.MeleeCrit:   float64(druid.Talents.SharpenedClaws) * 2 * core.CritRatingPerCritChance,
+		stats.MeleeCrit:   float64(druid.Talents.SharpenedClaws) * 2 * druid.CritRatingPerCritChance,
 	}
 
 	if weapon := druid.GetMHWeapon(); weapon != nil {
@@ -101,6 +105,13 @@ func (druid *Druid) GetDynamicPredStrikeStats() stats.Stats {
 	return s
 }
 
+func (druid *Druid) getFormManaReduction() float64 {
+	if druid.MainHand().ID == 31344 {
+		return 200.0
+	}
+	return 0.0
+}
+
 func (druid *Druid) registerCatFormSpell() {
 	actionID := core.ActionID{SpellID: 768}
 
@@ -108,7 +119,7 @@ func (druid *Druid) registerCatFormSpell() {
 
 	statBonus := druid.GetFormShiftStats().Add(stats.Stats{
 		stats.AttackPower: float64(druid.Level) * 2,
-		stats.MeleeCrit:   2 * float64(druid.Talents.MasterShapeshifter) * core.CritRatingPerCritChance,
+		stats.MeleeCrit:   2 * float64(druid.Talents.MasterShapeshifter) * druid.CritRatingPerCritChance,
 	})
 
 	agiApDep := druid.NewDynamicStatDependency(stats.Agility, stats.AttackPower, 1)
@@ -186,7 +197,9 @@ func (druid *Druid) registerCatFormSpell() {
 				druid.manageCooldownsEnabled()
 				druid.UpdateManaRegenRates()
 
-				druid.TigersFuryAura.Deactivate(sim)
+				if druid.TigersFuryAura != nil {
+					druid.TigersFuryAura.Deactivate(sim)
+				}
 
 				// These buffs stay up, but corresponding changes don't
 				if druid.SavageRoarAura.IsActive() {
@@ -207,8 +220,9 @@ func (druid *Druid) registerCatFormSpell() {
 		Flags:    core.SpellFlagNoOnCastComplete | core.SpellFlagAPL,
 
 		ManaCost: core.ManaCostOptions{
-			BaseCost:   0.35,
-			Multiplier: (1 - 0.2*float64(druid.Talents.KingOfTheJungle)) * (1 - 0.1*float64(druid.Talents.NaturalShapeshifter)),
+			BaseCost:     0.35,
+			Multiplier:   (1 - 0.2*float64(druid.Talents.KingOfTheJungle)) * (1 - 0.1*float64(druid.Talents.NaturalShapeshifter)),
+			FlatModifier: -druid.getFormManaReduction(),
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
@@ -344,8 +358,9 @@ func (druid *Druid) registerBearFormSpell() {
 		Flags:    core.SpellFlagNoOnCastComplete | core.SpellFlagAPL,
 
 		ManaCost: core.ManaCostOptions{
-			BaseCost:   0.35,
-			Multiplier: (1 - 0.2*float64(druid.Talents.KingOfTheJungle)) * (1 - 0.1*float64(druid.Talents.NaturalShapeshifter)),
+			BaseCost:     0.35,
+			Multiplier:   (1 - 0.2*float64(druid.Talents.KingOfTheJungle)) * (1 - 0.1*float64(druid.Talents.NaturalShapeshifter)),
+			FlatModifier: -druid.getFormManaReduction(),
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{

@@ -97,6 +97,7 @@ type Rogue struct {
 	DirtyDeedsAura       *core.Aura
 	HonorAmongThieves    *core.Aura
 	StealthAura          *core.Aura
+	DeathmantleProcAura  *core.Aura
 
 	masterPoisonerDebuffAuras core.AuraArray
 	savageCombatDebuffAuras   core.AuraArray
@@ -143,10 +144,6 @@ func (rogue *Rogue) HasMinorGlyph(glyph proto.RogueMinorGlyph) bool {
 }
 
 func (rogue *Rogue) Initialize() {
-	// Update auto crit multipliers now that we have the targets.
-	rogue.AutoAttacks.MHConfig().CritMultiplier = rogue.MeleeCritMultiplier(false)
-	rogue.AutoAttacks.OHConfig().CritMultiplier = rogue.MeleeCritMultiplier(false)
-
 	if rogue.Talents.QuickRecovery > 0 {
 		rogue.QuickRecoveryMetrics = rogue.NewEnergyMetrics(core.ActionID{SpellID: 31245})
 	}
@@ -230,15 +227,15 @@ func NewRogue(character *core.Character, options *proto.Player) *Rogue {
 	rogue.ApplyEnergyTickMultiplier([]float64{0, 0.08, 0.16, 0.25}[rogue.Talents.Vitality])
 
 	rogue.EnableAutoAttacks(rogue, core.AutoAttackOptions{
-		MainHand:       rogue.WeaponFromMainHand(0), // Set crit multiplier later when we have targets.
-		OffHand:        rogue.WeaponFromOffHand(0),  // Set crit multiplier later when we have targets.
+		MainHand:       rogue.WeaponFromMainHand(rogue.MeleeCritMultiplier(false)), // Set crit multiplier later when we have targets.
+		OffHand:        rogue.WeaponFromOffHand(rogue.MeleeCritMultiplier(false)),  // Set crit multiplier later when we have targets.
 		AutoSwingMelee: true,
 	})
 	rogue.applyPoisons()
 
 	rogue.AddStatDependency(stats.Strength, stats.AttackPower, 1)
 	rogue.AddStatDependency(stats.Agility, stats.AttackPower, 1)
-	rogue.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritPerAgiMaxLevel[character.Class]*core.CritRatingPerCritChance)
+	rogue.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritPerAgi[character.Class][rogue.Level]*rogue.CritRatingPerCritChance)
 
 	return rogue
 }

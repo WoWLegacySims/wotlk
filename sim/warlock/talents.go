@@ -8,6 +8,7 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warlockinfo"
 )
 
 func (warlock *Warlock) ApplyTalents() {
@@ -30,10 +31,10 @@ func (warlock *Warlock) ApplyTalents() {
 	warlock.setupDemonicPact()
 
 	// Suppression (Add 1% hit per point)
-	warlock.AddStat(stats.SpellHit, float64(warlock.Talents.Suppression)*core.SpellHitRatingPerHitChance)
+	warlock.AddStat(stats.SpellHit, float64(warlock.Talents.Suppression)*warlock.SpellHitRatingPerHitChance)
 
 	// Backlash (Add 1% crit per point)
-	warlock.AddStat(stats.SpellCrit, float64(warlock.Talents.Backlash)*core.CritRatingPerCritChance)
+	warlock.AddStat(stats.SpellCrit, float64(warlock.Talents.Backlash)*warlock.CritRatingPerCritChance)
 
 	warlock.applyDeathsEmbrace()
 
@@ -47,8 +48,8 @@ func (warlock *Warlock) ApplyTalents() {
 	// Demonic Tactics, applies even without pet out
 	if warlock.Talents.DemonicTactics > 0 {
 		warlock.AddStats(stats.Stats{
-			stats.MeleeCrit: float64(warlock.Talents.DemonicTactics) * 2 * core.CritRatingPerCritChance,
-			stats.SpellCrit: float64(warlock.Talents.DemonicTactics) * 2 * core.CritRatingPerCritChance,
+			stats.MeleeCrit: float64(warlock.Talents.DemonicTactics) * 2 * warlock.CritRatingPerCritChance,
+			stats.SpellCrit: float64(warlock.Talents.DemonicTactics) * 2 * warlock.CritRatingPerCritChance,
 		})
 	}
 
@@ -81,10 +82,20 @@ func (warlock *Warlock) applyDeathsEmbrace() {
 
 func (warlock *Warlock) applyWeaponImbue() {
 	if warlock.Options.WeaponImbue == proto.Warlock_Options_GrandFirestone {
-		warlock.AddStat(stats.SpellCrit, 49*(1+1.5*float64(warlock.Talents.MasterConjuror)))
+		dbc := warlockinfo.CreateFirestone.GetMaxRank(warlock.Level)
+		if dbc != nil {
+
+			bp := dbc.Effects[0].BasePoints
+			warlock.AddStat(stats.SpellCrit, bp*(1+1.5*float64(warlock.Talents.MasterConjuror)))
+		}
 	}
 	if warlock.Options.WeaponImbue == proto.Warlock_Options_GrandSpellstone {
-		warlock.AddStat(stats.SpellHaste, 60*(1+1.5*float64(warlock.Talents.MasterConjuror)))
+		dbc := warlockinfo.CreateSpellstone.GetMaxRank(warlock.Level)
+		if dbc != nil {
+
+			bp := dbc.Effects[0].BasePoints
+			warlock.AddStat(stats.SpellHaste, bp*(1+1.5*float64(warlock.Talents.MasterConjuror)))
+		}
 	}
 }
 
@@ -135,12 +146,12 @@ func (warlock *Warlock) setupEmpoweredImp() {
 		},
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
 			for _, spell := range affectedSpells {
-				spell.BonusCritRating += 100 * core.CritRatingPerCritChance
+				spell.BonusCrit += 100
 			}
 		},
 		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
 			for _, spell := range affectedSpells {
-				spell.BonusCritRating -= 100 * core.CritRatingPerCritChance
+				spell.BonusCrit -= 100
 			}
 		},
 		OnCastComplete: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell) {
@@ -272,7 +283,7 @@ func (warlock *Warlock) setupEradication() {
 	})
 }
 
-func (warlock *Warlock) ShadowEmbraceDebuffAura(target *core.Unit) *core.Aura {
+func (warlock *Warlock) ShadowEmbraceDebuffAura(target *core.Unit, _ int32) *core.Aura {
 	shadowEmbraceBonus := 0.01 * float64(warlock.Talents.ShadowEmbrace)
 
 	return target.GetOrRegisterAura(core.Aura{
@@ -359,7 +370,7 @@ func (warlock *Warlock) setupMoltenCore() {
 
 	castReduction := 0.1 * float64(warlock.Talents.MoltenCore)
 	moltenCoreDamageBonus := 1 + 0.06*float64(warlock.Talents.MoltenCore)
-	moltenCoreCritBonus := 5 * float64(warlock.Talents.MoltenCore) * core.CritRatingPerCritChance
+	moltenCoreCritBonus := 5 * float64(warlock.Talents.MoltenCore)
 
 	warlock.MoltenCoreAura = warlock.RegisterAura(core.Aura{
 		Label:     "Molten Core Proc Aura",
@@ -371,14 +382,14 @@ func (warlock *Warlock) setupMoltenCore() {
 			warlock.Incinerate.CastTimeMultiplier -= castReduction
 			warlock.Incinerate.DefaultCast.GCD = time.Duration(float64(warlock.Incinerate.DefaultCast.GCD) * (1 - castReduction))
 			warlock.SoulFire.DamageMultiplier *= moltenCoreDamageBonus
-			warlock.SoulFire.BonusCritRating += moltenCoreCritBonus
+			warlock.SoulFire.BonusCrit += moltenCoreCritBonus
 		},
 		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
 			warlock.Incinerate.DamageMultiplier /= moltenCoreDamageBonus
 			warlock.Incinerate.CastTimeMultiplier += castReduction
 			warlock.Incinerate.DefaultCast.GCD = time.Duration(float64(warlock.Incinerate.DefaultCast.GCD) / (1 - castReduction))
 			warlock.SoulFire.DamageMultiplier /= moltenCoreDamageBonus
-			warlock.SoulFire.BonusCritRating -= moltenCoreCritBonus
+			warlock.SoulFire.BonusCrit -= moltenCoreCritBonus
 		},
 		OnCastComplete: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell) {
 			if spell == warlock.Incinerate || spell == warlock.SoulFire {
@@ -584,7 +595,7 @@ func (warlock *Warlock) setupDemonicPact() {
 			if warlock.DemonicPactAura.IsActive() {
 				lastBonus = warlock.DemonicPactAura.ExclusiveEffects[0].Priority
 			}
-			newSPBonus := math.Round(dpMult * (warlock.GetStat(stats.SpellPower) - lastBonus))
+			newSPBonus := math.Round(dpMult * (warlock.GetStat(stats.SpellPower) + max(spell.Unit.PseudoStats.ArcaneSpellPower, spell.Unit.PseudoStats.FireSpellPower, spell.Unit.PseudoStats.ShadowSpellPower, spell.Unit.PseudoStats.NatureSpellPower, spell.Unit.PseudoStats.FrostSpellPower) - lastBonus))
 
 			warlock.updateDPASP(sim)
 			for _, dpAura := range demonicPactAuras {

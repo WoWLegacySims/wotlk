@@ -7,6 +7,9 @@ import (
 )
 
 func (paladin *Paladin) registerDivineStormSpell() {
+	if !paladin.Talents.DivineStorm {
+		return
+	}
 	bonusDmg := core.TernaryFloat64(paladin.Ranged().ID == 45510, 235, 0) + // Libram of Discord
 		core.TernaryFloat64(paladin.Ranged().ID == 38362, 81, 0) // Venture Co. Libram of Retribution
 	numHits := min(4, paladin.Env.GetNumTargets())
@@ -33,7 +36,7 @@ func (paladin *Paladin) registerDivineStormSpell() {
 			},
 		},
 
-		BonusCritRating: core.TernaryFloat64(paladin.HasSetBonus(ItemSetAegisBattlegear, 4), 10, 0) * core.CritRatingPerCritChance,
+		BonusCrit: core.TernaryFloat64(paladin.HasSetBonus(ItemSetAegisBattlegear, 4), 10, 0),
 		// base 1.1 multiplier, can be further improved by 10% via taow for a grand total of 1.21. NOTE: Unlike cs, ds tooltip IS NOT updated to reflect this.
 		DamageMultiplierAdditive: 1 +
 			paladin.getTalentTheArtOfWarBonus() +

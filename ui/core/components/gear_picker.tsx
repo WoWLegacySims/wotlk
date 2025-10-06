@@ -5,7 +5,7 @@ import { element, fragment, ref } from 'tsx-vanilla';
 import { setItemQualityCssClass } from '../css_utils';
 import { IndividualSimUI } from '../individual_sim_ui.js';
 import { Player } from '../player';
-import { Class, GemColor, ItemQuality, ItemSlot, ItemSpec, ItemType } from '../proto/common';
+import { Class, Expansion, GemColor, ItemQuality, ItemSlot, ItemSpec, ItemType } from '../proto/common';
 import { DatabaseFilters, RepFaction, UIEnchant as Enchant, UIGem as Gem, UIItem as Item, UIItem_FactionRestriction } from '../proto/ui.js';
 import { ActionId } from '../proto_utils/action_id';
 import { getEnchantDescription, getUniqueEnchantString } from '../proto_utils/enchants';
@@ -19,9 +19,9 @@ import { EventID, TypedEvent } from '../typed_event';
 import { formatDeltaTextElem } from '../utils';
 import { BaseModal } from './base_modal';
 import { Component } from './component';
-import { FiltersMenu } from './filters_menu';
+import { GemFiltersMenu, ItemFiltersMenu } from './filters_menu';
 import {
-	makePhaseSelector,
+	makeExpansionSelector,
 	makeShow1hWeaponsSelector,
 	makeShow2hWeaponsSelector,
 	makeShowEPValuesSelector,
@@ -173,8 +173,8 @@ export class ItemRenderer extends Component {
 			.asActionId()
 			.fill()
 			.then(filledId => {
-				filledId.setBackgroundAndHref(this.iconElem);
-				filledId.setWowheadHref(this.nameElem);
+				filledId.setBackgroundAndHref(this.iconElem, this.player.getLevel());
+				filledId.setWowheadHref(this.nameElem, this.player.getLevel());
 			});
 
 		if (newItem.enchant) {
@@ -183,10 +183,10 @@ export class ItemRenderer extends Component {
 			});
 			// Make enchant text hover have a tooltip.
 			if (newItem.enchant.spellId) {
-				this.enchantElem.href = ActionId.makeSpellUrl(newItem.enchant.spellId);
+				this.enchantElem.href = ActionId.makeSpellUrl(newItem.enchant.spellId, this.player.getLevel());
 				this.enchantElem.dataset.wowhead = `domain=wotlk&spell=${newItem.enchant.spellId}`;
 			} else {
-				this.enchantElem.href = ActionId.makeItemUrl(newItem.enchant.itemId);
+				this.enchantElem.href = ActionId.makeItemUrl(newItem.enchant.itemId, this.player.getLevel());
 				this.enchantElem.dataset.wowhead = `domain=wotlk&item=${newItem.enchant.itemId}`;
 			}
 			this.enchantElem.dataset.whtticon = 'false';
@@ -195,15 +195,15 @@ export class ItemRenderer extends Component {
 		newItem.allSocketColors().forEach((socketColor, gemIdx) => {
 			const gemContainer = createGemContainer(socketColor, newItem.gems[gemIdx]);
 
-			if (gemIdx == newItem.numPossibleSockets - 1 && [ItemType.ItemTypeWrist, ItemType.ItemTypeHands].includes(newItem.item.type)) {
+			if (gemIdx == newItem.numPossibleSockets - 1 && [ItemType.ItemTypeWrist, ItemType.ItemTypeHands, ItemType.ItemTypeWaist].includes(newItem.item.type)) {
 				const updateProfession = () => {
-					if (this.player.isBlacksmithing()) {
+					if((newItem.item.type == ItemType.ItemTypeWaist || this.player.isBlacksmithing()) && this.player.canUseExtraSockets()){
 						gemContainer.classList.remove('hide');
 					} else {
 						gemContainer.classList.add('hide');
 					}
 				};
-				this.player.professionChangeEmitter.on(updateProfession);
+				TypedEvent.onAny([this.player.professionChangeEmitter,this.player.levelChangeEmitter,this.player.sim.expansionChangeEmitter]).on(updateProfession);
 				updateProfession();
 			}
 			this.socketsContainerElem.appendChild(gemContainer);
@@ -261,7 +261,7 @@ export class ItemPicker extends Component {
 		player.gearChangeEmitter.on(() => {
 			this.item = player.getEquippedItem(slot);
 		});
-		player.professionChangeEmitter.on(() => {
+		TypedEvent.onAny([player.professionChangeEmitter,player.levelChangeEmitter,simUI.sim.expansionChangeEmitter]).on(() => {
 			if (this._equippedItem != null) {
 				this.player.setWowheadData(this._equippedItem, this.itemElem.iconElem);
 			}
@@ -358,7 +358,7 @@ export class IconItemSwapPicker extends Component {
 		if (newItem) {
 			this.iconAnchor.classList.add('active');
 
-			newItem.asActionId().fillAndSet(this.iconAnchor, true, true);
+			newItem.asActionId().fillAndSet(this.iconAnchor, true, true, this.player.getLevel());
 			this.player.setWowheadData(newItem, this.iconAnchor);
 
 			newItem.allSocketColors().forEach((socketColor, gemIdx) => {
@@ -425,7 +425,7 @@ export class SelectorModal extends BaseModal {
 			<div className="d-flex align-items-center form-text mt-3">
 				<i className="fas fa-circle-exclamation fa-xl me-2"></i>
 				<span>
-					If gear is missing, check the selected phase and your gear filters.
+					If gear is missing, check the selected expansion and your gear filters.
 					<br />
 					If the problem persists, save any un-saved data, click the
 					<i className="fas fa-cog mx-1"></i>
@@ -465,9 +465,10 @@ export class SelectorModal extends BaseModal {
 					name: item.name,
 					quality: item.quality,
 					heroic: item.heroic,
-					phase: item.phase,
+					ilvl: item.ilvl,
 					baseEP: this.player.computeItemEP(item, slot),
 					ignoreEPFilter: false,
+					expansion: item.expansion,
 					onEquip: (eventID, item: Item) => {
 						const equippedItem = gearData.getEquippedItem();
 						if (equippedItem) {
@@ -496,10 +497,10 @@ export class SelectorModal extends BaseModal {
 					actionId: enchant.spellId ? ActionId.fromSpellId(enchant.spellId) : ActionId.fromItemId(enchant.itemId),
 					name: enchant.name,
 					quality: enchant.quality,
-					phase: enchant.phase || 1,
 					baseEP: this.player.computeStatsEP(new Stats(enchant.stats)),
 					ignoreEPFilter: true,
 					heroic: false,
+					expansion: enchant.expansion,
 					onEquip: (eventID, enchant: Enchant) => {
 						const equippedItem = gearData.getEquippedItem();
 						if (equippedItem) gearData.equipItem(eventID, equippedItem.withEnchant(enchant));
@@ -535,7 +536,7 @@ export class SelectorModal extends BaseModal {
 		}
 
 		const socketBonusEP = this.player.computeStatsEP(new Stats(equippedItem.item.socketBonus)) / (equippedItem.item.gemSockets.length || 1);
-		equippedItem.curSocketColors(this.player.isBlacksmithing()).forEach((socketColor, socketIdx) => {
+		equippedItem.curSocketColors(this.player.isBlacksmithing(),this.player.canUseExtraSockets()).forEach((socketColor, socketIdx) => {
 			this.addTab<Gem>(
 				'Gem ' + (socketIdx + 1),
 				this.player.getGems(socketColor).map((gem: Gem) => {
@@ -545,10 +546,10 @@ export class SelectorModal extends BaseModal {
 						actionId: ActionId.fromItemId(gem.id),
 						name: gem.name,
 						quality: gem.quality,
-						phase: gem.phase,
 						heroic: false,
 						baseEP: this.player.computeStatsEP(new Stats(gem.stats)),
 						ignoreEPFilter: true,
+						expansion: gem.expansion,
 						onEquip: (eventID, gem: Gem) => {
 							const equippedItem = gearData.getEquippedItem();
 							if (equippedItem) gearData.equipItem(eventID, equippedItem.withGem(gem, socketIdx));
@@ -690,13 +691,11 @@ export class SelectorModal extends BaseModal {
 		// Add event handlers
 		gearData.changeEvent.on(invokeUpdate);
 
-		this.player.sim.phaseChangeEmitter.on(applyFilter);
 		this.player.sim.filtersChangeEmitter.on(applyFilter);
 		this.player.sim.showEPValuesChangeEmitter.on(hideOrShowEPValues);
 
 		this.addOnDisposeCallback(() => {
 			gearData.changeEvent.off(invokeUpdate);
-			this.player.sim.phaseChangeEmitter.off(applyFilter);
 			this.player.sim.filtersChangeEmitter.off(applyFilter);
 			this.player.sim.showEPValuesChangeEmitter.off(hideOrShowEPValues);
 			ilist.dispose();
@@ -727,10 +726,11 @@ export interface ItemData<T> {
 	id: number;
 	actionId: ActionId;
 	quality: ItemQuality;
-	phase: number;
 	baseEP: number;
 	ignoreEPFilter: boolean;
 	heroic: boolean;
+	ilvl?: number;
+	expansion: Expansion;
 	onEquip: (eventID: EventID, item: T) => void;
 }
 
@@ -740,23 +740,23 @@ interface ItemDataWithIdx<T> {
 }
 
 const emptySlotIcons: Record<ItemSlot, string> = {
-	[ItemSlot.ItemSlotHead]: '/sims/wotlk/BRANCH/assets/item_slots/head.jpg',
-	[ItemSlot.ItemSlotNeck]: '/sims/wotlk/BRANCH/assets/item_slots/neck.jpg',
-	[ItemSlot.ItemSlotShoulder]: '/sims/wotlk/BRANCH/assets/item_slots/shoulders.jpg',
-	[ItemSlot.ItemSlotBack]: '/sims/wotlk/BRANCH/assets/item_slots/shirt.jpg',
-	[ItemSlot.ItemSlotChest]: '/sims/wotlk/BRANCH/assets/item_slots/chest.jpg',
-	[ItemSlot.ItemSlotWrist]: '/sims/wotlk/BRANCH/assets/item_slots/wrists.jpg',
-	[ItemSlot.ItemSlotHands]: '/sims/wotlk/BRANCH/assets/item_slots/hands.jpg',
-	[ItemSlot.ItemSlotWaist]: '/sims/wotlk/BRANCH/assets/item_slots/waist.jpg',
-	[ItemSlot.ItemSlotLegs]: '/sims/wotlk/BRANCH/assets/item_slots/legs.jpg',
-	[ItemSlot.ItemSlotFeet]: '/sims/wotlk/BRANCH/assets/item_slots/feet.jpg',
-	[ItemSlot.ItemSlotFinger1]: '/sims/wotlk/BRANCH/assets/item_slots/finger.jpg',
-	[ItemSlot.ItemSlotFinger2]: '/sims/wotlk/BRANCH/assets/item_slots/finger.jpg',
-	[ItemSlot.ItemSlotTrinket1]: '/sims/wotlk/BRANCH/assets/item_slots/trinket.jpg',
-	[ItemSlot.ItemSlotTrinket2]: '/sims/wotlk/BRANCH/assets/item_slots/trinket.jpg',
-	[ItemSlot.ItemSlotMainHand]: '/sims/wotlk/BRANCH/assets/item_slots/mainhand.jpg',
-	[ItemSlot.ItemSlotOffHand]: '/sims/wotlk/BRANCH/assets/item_slots/offhand.jpg',
-	[ItemSlot.ItemSlotRanged]: '/sims/wotlk/BRANCH/assets/item_slots/ranged.jpg',
+	[ItemSlot.ItemSlotHead]: '/sims/wotlk/all/assets/item_slots/head.jpg',
+	[ItemSlot.ItemSlotNeck]: '/sims/wotlk/all/assets/item_slots/neck.jpg',
+	[ItemSlot.ItemSlotShoulder]: '/sims/wotlk/all/assets/item_slots/shoulders.jpg',
+	[ItemSlot.ItemSlotBack]: '/sims/wotlk/all/assets/item_slots/shirt.jpg',
+	[ItemSlot.ItemSlotChest]: '/sims/wotlk/all/assets/item_slots/chest.jpg',
+	[ItemSlot.ItemSlotWrist]: '/sims/wotlk/all/assets/item_slots/wrists.jpg',
+	[ItemSlot.ItemSlotHands]: '/sims/wotlk/all/assets/item_slots/hands.jpg',
+	[ItemSlot.ItemSlotWaist]: '/sims/wotlk/all/assets/item_slots/waist.jpg',
+	[ItemSlot.ItemSlotLegs]: '/sims/wotlk/all/assets/item_slots/legs.jpg',
+	[ItemSlot.ItemSlotFeet]: '/sims/wotlk/all/assets/item_slots/feet.jpg',
+	[ItemSlot.ItemSlotFinger1]: '/sims/wotlk/all/assets/item_slots/finger.jpg',
+	[ItemSlot.ItemSlotFinger2]: '/sims/wotlk/all/assets/item_slots/finger.jpg',
+	[ItemSlot.ItemSlotTrinket1]: '/sims/wotlk/all/assets/item_slots/trinket.jpg',
+	[ItemSlot.ItemSlotTrinket2]: '/sims/wotlk/all/assets/item_slots/trinket.jpg',
+	[ItemSlot.ItemSlotMainHand]: '/sims/wotlk/all/assets/item_slots/mainhand.jpg',
+	[ItemSlot.ItemSlotOffHand]: '/sims/wotlk/all/assets/item_slots/offhand.jpg',
+	[ItemSlot.ItemSlotRanged]: '/sims/wotlk/all/assets/item_slots/ranged.jpg',
 };
 export function getEmptySlotIconUrl(slot: ItemSlot): string {
 	return emptySlotIcons[slot];
@@ -813,8 +813,8 @@ export class ItemList<T> {
 			<div id={tabContentId} className={`selector-modal-tab-pane tab-pane fade ${selected ? 'active show' : ''}`}>
 				<div className="selector-modal-filters">
 					<input className="selector-modal-search form-control" type="text" placeholder="Search..." />
-					{label == 'Items' && <button className="selector-modal-filters-button btn btn-primary">Filters</button>}
-					<div className="selector-modal-phase-selector"></div>
+					{(label != SelectorModalTabs.Enchants) && <button className="selector-modal-filters-button btn btn-primary">Filters</button>}
+					<div className="selector-modal-expansion-selector"></div>
 					<div className="sim-input selector-modal-boolean-option selector-modal-show-1h-weapons"></div>
 					<div className="sim-input selector-modal-boolean-option selector-modal-show-2h-weapons"></div>
 					<div className="sim-input selector-modal-boolean-option selector-modal-show-matching-gems"></div>
@@ -865,11 +865,14 @@ export class ItemList<T> {
 			(this.tabContent.getElementsByClassName('selector-modal-show-matching-gems')[0] as HTMLElement).style.display = 'none';
 		}
 
-		makePhaseSelector(this.tabContent.getElementsByClassName('selector-modal-phase-selector')[0] as HTMLElement, player.sim);
+		makeExpansionSelector(this.tabContent.getElementsByClassName('selector-modal-expansion-selector')[0] as HTMLElement, player.sim);
 
-		if (label == 'Items') {
+		if (label == SelectorModalTabs.Items) {
 			const filtersButton = this.tabContent.getElementsByClassName('selector-modal-filters-button')[0] as HTMLElement;
-			filtersButton.addEventListener('click', () => new FiltersMenu(parent, player, slot));
+			filtersButton.addEventListener('click', () => new ItemFiltersMenu(parent, player, slot));
+		} else if (label != SelectorModalTabs.Enchants) {
+			const filtersButton = this.tabContent.getElementsByClassName('selector-modal-filters-button')[0] as HTMLElement;
+			filtersButton.addEventListener('click', () => new GemFiltersMenu(parent, player));
 		}
 
 		this.listElem = this.tabContent.getElementsByClassName('selector-modal-list')[0] as HTMLElement;
@@ -1014,11 +1017,12 @@ export class ItemList<T> {
 		} else if (this.label.startsWith('Gem')) {
 			itemIdxs = this.player.filterGemData(itemIdxs, i => this.itemData[i].item as unknown as Gem, this.slot, this.socketColor);
 		}
+		const filters = this.player.sim.getFilters();
 
 		itemIdxs = itemIdxs.filter(i => {
 			const listItemData = this.itemData[i];
 
-			if (listItemData.phase > this.player.sim.getPhase()) {
+			if (listItemData.expansion > filters.maxExpansion) {
 				return false;
 			}
 
@@ -1153,7 +1157,7 @@ export class ItemList<T> {
 		});
 
 		itemData.actionId.fill().then(filledId => {
-			filledId.setWowheadHref(anchorElem.value!);
+			filledId.setWowheadHref(anchorElem.value!, this.player.getLevel());
 			iconElem.value!.src = filledId.iconUrl;
 		});
 
@@ -1244,9 +1248,9 @@ export class ItemList<T> {
 			const src = source.source.crafted;
 
 			if (src.spellId) {
-				return makeAnchor(ActionId.makeSpellUrl(src.spellId), professionNames.get(src.profession) ?? 'Unknown');
+				return makeAnchor(ActionId.makeSpellUrl(src.spellId, this.player.getLevel()), professionNames.get(src.profession) ?? 'Unknown');
 			}
-			return makeAnchor(ActionId.makeItemUrl(item.id), professionNames.get(src.profession) ?? 'Unknown');
+			return makeAnchor(ActionId.makeItemUrl(item.id, this.player.getLevel()), professionNames.get(src.profession) ?? 'Unknown');
 		} else if (source.source.oneofKind == 'drop') {
 			const src = source.source.drop;
 			const zone = sim.db.getZone(src.zoneId);
@@ -1283,10 +1287,10 @@ export class ItemList<T> {
 				<span>
 					Quest
 					{item.factionRestriction == UIItem_FactionRestriction.ALLIANCE_ONLY && (
-						<img src="/sims/wotlk/BRANCH/assets/img/alliance.png" className="ms-1" width="15" height="15" />
+						<img src="/sims/wotlk/all/assets/img/alliance.png" className="ms-1" width="15" height="15" />
 					)}
 					{item.factionRestriction == UIItem_FactionRestriction.HORDE_ONLY && (
-						<img src="/sims/wotlk/BRANCH/assets/img/horde.png" className="ms-1" width="15" height="15" />
+						<img src="/sims/wotlk/all/assets/img/horde.png" className="ms-1" width="15" height="15" />
 					)}
 					<br />
 					{src.name}
@@ -1300,16 +1304,16 @@ export class ItemList<T> {
 				);
 			const src = source.source.rep;
 			return makeAnchor(
-				ActionId.makeItemUrl(item.id),
+				ActionId.makeItemUrl(item.id, this.player.getLevel()),
 				<>
 					{factionNames.map(name => (
 						<span>
 							{name}
 							{item.factionRestriction == UIItem_FactionRestriction.ALLIANCE_ONLY && (
-								<img src="/sims/wotlk/BRANCH/assets/img/alliance.png" className="ms-1" width="15" height="15" />
+								<img src="/sims/wotlk/all/assets/img/alliance.png" className="ms-1" width="15" height="15" />
 							)}
 							{item.factionRestriction == UIItem_FactionRestriction.HORDE_ONLY && (
-								<img src="/sims/wotlk/BRANCH/assets/img/horde.png" className="ms-1" width="15" height="15" />
+								<img src="/sims/wotlk/all/assets/img/horde.png" className="ms-1" width="15" height="15" />
 							)}
 							<br />
 						</span>

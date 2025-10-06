@@ -3,14 +3,22 @@ package deathknight
 import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/deathknightinfo"
 )
 
-var DeathCoilActionID = core.ActionID{SpellID: 49895}
-
 func (dk *Deathknight) registerDeathCoilSpell() {
-	bonusFlatDamage := 443 + dk.sigilOfTheWildBuckBonus() + dk.sigilOfTheVengefulHeartDeathCoil()
+	dbc := deathknightinfo.DeathCoil.GetMaxRank(dk.Level)
+	if dbc == nil {
+		return
+	}
+	damage := dbc.Effects[0].BasePoints + 1
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
+
+	bonusFlatDamage := damage + dk.sigilOfTheWildBuckBonus() + dk.sigilOfTheVengefulHeartDeathCoil()
 	dk.DeathCoil = dk.RegisterSpell(core.SpellConfig{
-		ActionID:    DeathCoilActionID,
+		ActionID:    actionID,
+		SpellRanks:  deathknightinfo.DeathCoil.GetAllIDs(),
 		Flags:       core.SpellFlagAPL,
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
@@ -24,7 +32,7 @@ func (dk *Deathknight) registerDeathCoilSpell() {
 			},
 		},
 
-		BonusCritRating: dk.darkrunedBattlegearCritBonus() * core.CritRatingPerCritChance,
+		BonusCrit: dk.darkrunedBattlegearCritBonus(),
 		DamageMultiplier: (1 + float64(dk.Talents.Morbidity)*0.05) +
 			core.TernaryFloat64(dk.HasMajorGlyph(proto.DeathknightMajorGlyph_GlyphOfDarkDeath), 0.15, 0.0),
 		CritMultiplier:   dk.DefaultMeleeCritMultiplier(),
@@ -42,14 +50,22 @@ func (dk *Deathknight) registerDeathCoilSpell() {
 }
 
 func (dk *Deathknight) registerDrwDeathCoilSpell() {
-	bonusFlatDamage := 443 + dk.sigilOfTheWildBuckBonus() + dk.sigilOfTheVengefulHeartDeathCoil()
+	dbc := deathknightinfo.DeathCoil.GetMaxRank(dk.Level)
+	if dbc == nil {
+		return
+	}
+	damage := dbc.Effects[0].BasePoints + 1
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
+
+	bonusFlatDamage := damage + dk.sigilOfTheWildBuckBonus() + dk.sigilOfTheVengefulHeartDeathCoil()
 
 	dk.RuneWeapon.DeathCoil = dk.RuneWeapon.RegisterSpell(core.SpellConfig{
-		ActionID:    DeathCoilActionID,
+		ActionID:    actionID,
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
 
-		BonusCritRating: dk.darkrunedBattlegearCritBonus() * core.CritRatingPerCritChance,
+		BonusCrit: dk.darkrunedBattlegearCritBonus(),
 		DamageMultiplier: (1.0 + float64(dk.Talents.Morbidity)*0.05) *
 			core.TernaryFloat64(dk.HasMajorGlyph(proto.DeathknightMajorGlyph_GlyphOfDarkDeath), 1.15, 1.0),
 		CritMultiplier:   dk.RuneWeapon.DefaultMeleeCritMultiplier(),

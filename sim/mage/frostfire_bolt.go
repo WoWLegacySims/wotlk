@@ -5,14 +5,22 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/mageinfo"
 )
 
 func (mage *Mage) registerFrostfireBoltSpell() {
-	spellCoeff := 3.0/3.5 + .05*float64(mage.Talents.EmpoweredFire)
+	dbc := mageinfo.FrostfireBolt.GetMaxRank(mage.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(1, mage.Level)
+	spellCoeff := (dbc.GetCoefficient(1) + .05*float64(mage.Talents.EmpoweredFire)) * dbc.GetLevelPenalty(mage.Level)
+	dotdmg, _ := dbc.GetBPDie(2, mage.Level)
 	bonusPeriodicDamageMultiplier := -core.TernaryFloat64(mage.HasMajorGlyph(proto.MageMajorGlyph_GlyphOfFrostfire), .02, 0)
 
 	mage.FrostfireBolt = mage.RegisterSpell(core.SpellConfig{
-		ActionID:     core.ActionID{SpellID: 47610},
+		ActionID:     core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:   mageinfo.FrostfireBolt.GetAllIDs(),
 		SpellSchool:  core.SpellSchoolFire | core.SpellSchoolFrost,
 		ProcMask:     core.ProcMaskSpellDamage,
 		Flags:        SpellFlagMage | BarrageSpells | HotStreakSpells | core.SpellFlagAPL,
@@ -29,12 +37,12 @@ func (mage *Mage) registerFrostfireBoltSpell() {
 		},
 
 		// FFB double-dips the bonus from Precision, so add it again here.
-		BonusHitRating: float64(mage.Talents.Precision) * core.SpellHitRatingPerHitChance,
-		BonusCritRating: 0 +
-			core.TernaryFloat64(mage.HasSetBonus(ItemSetKhadgarsRegalia, 4), 5*core.CritRatingPerCritChance, 0) +
-			core.TernaryFloat64(mage.HasMajorGlyph(proto.MageMajorGlyph_GlyphOfFrostfire), 2*core.CritRatingPerCritChance, 0) +
-			2*float64(mage.Talents.CriticalMass)*core.CritRatingPerCritChance +
-			1*float64(mage.Talents.ImprovedScorch)*core.CritRatingPerCritChance,
+		BonusHit: float64(mage.Talents.Precision),
+		BonusCrit: 0 +
+			core.TernaryFloat64(mage.HasSetBonus(ItemSetKhadgarsRegalia, 4), 5, 0) +
+			core.TernaryFloat64(mage.HasMajorGlyph(proto.MageMajorGlyph_GlyphOfFrostfire), 2, 0) +
+			2*float64(mage.Talents.CriticalMass) +
+			1*float64(mage.Talents.ImprovedScorch),
 		DamageMultiplier: 1 *
 			// Need to re-apply these frost talents because FFB only inherits the fire multipliers from core.
 			(1 + .02*float64(mage.Talents.PiercingIce)) *
@@ -54,7 +62,7 @@ func (mage *Mage) registerFrostfireBoltSpell() {
 			NumberOfTicks: 3,
 			TickLength:    time.Second * 3,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, _ bool) {
-				dot.SnapshotBaseDamage = 90 / 3
+				dot.SnapshotBaseDamage = dotdmg
 				dot.Spell.DamageMultiplierAdditive += bonusPeriodicDamageMultiplier
 				dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(dot.Spell.Unit.AttackTables[target.UnitIndex])
 				dot.Spell.DamageMultiplierAdditive -= bonusPeriodicDamageMultiplier
@@ -65,17 +73,17 @@ func (mage *Mage) registerFrostfireBoltSpell() {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(722, 838) + spellCoeff*spell.SpellPower()
+			baseDamage := sim.Roll(bp, die) + spellCoeff*spell.SpellPower()
 
 			// FFB also double-dips the bonus from debuff crit modifiers:
 			//  1) Totem of Wrath / Heart of the Crusader / Master Poisoner
 			//  2) Shadow Mastery / Improved Scorch / Winter's Chill
 			// Luckily, each of those effects has its own dedicated pseudostat, so we
 			// can implement this by modifying the crit of this spell before the calc.
-			doubleDipBonus := target.PseudoStats.BonusCritRatingTaken + target.PseudoStats.BonusSpellCritRatingTaken
-			spell.BonusCritRating += doubleDipBonus
+			doubleDipBonus := (target.PseudoStats.BonusCritTaken + target.PseudoStats.BonusSpellCritTaken)
+			spell.BonusCrit += doubleDipBonus
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
-			spell.BonusCritRating -= doubleDipBonus
+			spell.BonusCrit -= doubleDipBonus
 
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {
 				if result.Landed() {

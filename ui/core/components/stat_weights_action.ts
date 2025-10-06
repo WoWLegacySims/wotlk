@@ -1,24 +1,19 @@
-import { StatWeightsResult, StatWeightValues, ProgressMetrics } from '../proto/api.js';
-import { ItemSlot } from '../proto/common.js';
-import { GemColor } from '../proto/common.js';
-import { Profession } from '../proto/common.js';
-import { Stat, PseudoStat, UnitStats } from '../proto/common.js';
-import { Stats, UnitStat } from '../proto_utils/stats.js';
-import { Gear } from '../proto_utils/gear.js';
-import { getClassStatName } from '../proto_utils/names.js';
-import { IndividualSimUI } from '../individual_sim_ui.js';
-import { EventID, TypedEvent } from '../typed_event.js';
-import { Player } from '../player.js';
-import { formatDeltaTextElem, stDevToConf90 } from '../utils.js';
+import { Tooltip } from 'bootstrap';
+
 import { BooleanPicker } from '../components/boolean_picker.js';
 import { NumberPicker } from '../components/number_picker.js';
-import { combinationsWithDups, permutations, sum } from '../utils.js';
+import { IndividualSimUI } from '../individual_sim_ui.js';
+import { Player } from '../player.js';
+import { ProgressMetrics,StatWeightsResult, StatWeightValues } from '../proto/api.js';
+import { GemColor , ItemSlot , Profession , PseudoStat, Stat, UnitStats } from '../proto/common.js';
 import { UIGem as Gem } from '../proto/ui.js';
-
+import { Gear } from '../proto_utils/gear.js';
 import * as Gems from '../proto_utils/gems.js';
-
+import { getClassStatName } from '../proto_utils/names.js';
+import { Stats, UnitStat } from '../proto_utils/stats.js';
+import { EventID, TypedEvent } from '../typed_event.js';
+import { combinationsWithDups, formatDeltaTextElem, permutations, stDevToConf90 , sum } from '../utils.js';
 import { BaseModal } from './base_modal.js';
-import { Tooltip } from 'bootstrap';
 import { ResultsViewer } from './results_viewer.js';
 
 export function addStatWeightsAction(simUI: IndividualSimUI<any>, epStats: Array<Stat>, epPseudoStats: Array<PseudoStat> | undefined, epReferenceStat: Stat) {
@@ -60,7 +55,7 @@ class EpWeightsMenu extends BaseModal {
 	private epStats: Array<Stat>;
 	private epPseudoStats: Array<PseudoStat>;
 	private epReferenceStat: Stat;
-	private showAllStats: boolean = false;
+	private showAllStats = false;
 
 	constructor(simUI: IndividualSimUI<any>, epStats: Array<Stat>, epPseudoStats: Array<PseudoStat>, epReferenceStat: Stat) {
 		super(simUI.rootElem, 'ep-weights-menu', getModalConfig(simUI));
@@ -264,7 +259,7 @@ class EpWeightsMenu extends BaseModal {
 		};
 
 		const getStatFromName = (value: string) => {
-			for (let stat of this.epStats) {
+			for (const stat of this.epStats) {
 				if (getNameFromStat(stat) == value) {
 					return stat;
 				}
@@ -281,7 +276,7 @@ class EpWeightsMenu extends BaseModal {
 
 		const epRefSelects = this.rootElem.querySelectorAll('.ref-stat-select') as NodeListOf<HTMLSelectElement>;
 		epRefSelects.forEach((epSelect: HTMLSelectElement, idx: number) => {
-			this.epStats.forEach((stat) => {
+			this.epStats.forEach(stat => {
 				epSelect.options[epSelect.options.length] = new Option(getNameFromStat(stat));
 			});
 			if (epSelect.classList.contains('damage-metrics')) {
@@ -507,7 +502,7 @@ class EpWeightsMenu extends BaseModal {
 	}
 
 	private makeTableRowCells(stat: UnitStat, statWeights: StatWeightValues|undefined, className: string, epTotal: number, epRatio: number): string {
-		var weightCell, epCell;
+		let weightCell, epCell;
 		if (statWeights) {
 			const weightAvg = stat.getProtoValue(statWeights.weights!);
 			const weightStdev = stat.getProtoValue(statWeights.weightsStdev!)
@@ -521,7 +516,7 @@ class EpWeightsMenu extends BaseModal {
 			epCell = weightCell
 		}
 
-		let template = document.createElement('template');
+		const template = document.createElement('template');
 		template.innerHTML = `
 			<td class="stdev-cell ${className} type-weight">
 				${weightCell}
@@ -535,7 +530,7 @@ class EpWeightsMenu extends BaseModal {
 
 		if (epRatio == 0) {
 			const cells = template.content.querySelectorAll('.stdev-cell')
-			cells.forEach((cell) => cell.classList.add('unused-ep'));
+			cells.forEach(cell => cell.classList.add('unused-ep'));
 			return template.innerHTML;
 		}
 
@@ -564,7 +559,7 @@ class EpWeightsMenu extends BaseModal {
 	}
 
 	private calculateEp(weights: StatWeightsResult) {
-		var result = StatWeightsResult.clone(weights);
+		const result = StatWeightsResult.clone(weights);
 		const normaliseValue = (refStat: Stat, values: StatWeightValues) => {
 			const refUnitStat = UnitStat.fromStat(refStat);
 			const refWeight = refUnitStat.getProtoValue(values.weights!);
@@ -651,16 +646,17 @@ class EpWeightsMenu extends BaseModal {
 
 		const gear = this.simUI.player.getGear();
 		const allGems = this.simUI.sim.db.getGems();
-		const phase = this.simUI.sim.getPhase();
+		const expansion = this.simUI.sim.getExpansion();
 		const isBlacksmithing = this.simUI.player.isBlacksmithing();
 		const isJewelcrafting = this.simUI.player.hasProfession(Profession.Jewelcrafting);
+		const canUseExtraSockets = this.simUI.player.canUseExtraSockets()
 
-		const optimizedGear = EpWeightsMenu.optimizeGemsForWeights(epWeights, gear, allGems, phase, isBlacksmithing, isJewelcrafting);
+		const optimizedGear = EpWeightsMenu.optimizeGemsForWeights(epWeights, gear, allGems, expansion, isBlacksmithing, isJewelcrafting, canUseExtraSockets);
 		this.simUI.player.setGear(eventID, optimizedGear);
 	}
 
-	private static optimizeGemsForWeights(epWeights: Stats, gear: Gear, allGems: Array<Gem>, phase: number, isBlacksmithing: boolean, isJewelcrafting: boolean): Gear {
-		const unrestrictedGems = allGems.filter(gem => Gems.isUnrestrictedGem(gem, phase));
+	private static optimizeGemsForWeights(epWeights: Stats, gear: Gear, allGems: Array<Gem>, expansion: number, isBlacksmithing: boolean, isJewelcrafting: boolean,canUseExtraSockets: boolean): Gear {
+		const unrestrictedGems = allGems.filter(gem => Gems.isUnrestrictedGem(gem, expansion));
 
 		const {
 			bestGemForColor: bestGemForColor,
@@ -680,7 +676,7 @@ class EpWeightsMenu extends BaseModal {
 				return;
 			}
 			//const item = equippedItem.item;
-			const socketColors = equippedItem.curSocketColors(isBlacksmithing);
+			const socketColors = equippedItem.curSocketColors(isBlacksmithing,canUseExtraSockets);
 
 			// Compare whether its better to match sockets + get socket bonus, or just use best gems.
 			const bestGemEPNotMatchingSockets = sum(socketColors.map(socketColor => socketColor == GemColor.GemColorMeta ? 0 : bestGemEP));
@@ -704,14 +700,14 @@ class EpWeightsMenu extends BaseModal {
 		});
 		gear = new Gear(items);
 
-		const allSockets: Array<{ itemSlot: ItemSlot, socketIdx: number }> = Object.keys(items).map((itemSlotStr) => {
+		const allSockets: Array<{ itemSlot: ItemSlot, socketIdx: number }> = Object.keys(items).map(itemSlotStr => {
 			const itemSlot = parseInt(itemSlotStr) as ItemSlot;
 			const item = items[itemSlot];
 			if (!item) {
 				return [];
 			}
 
-			const numSockets = item.numSockets(isBlacksmithing);
+			const numSockets = item.numSockets(isBlacksmithing,canUseExtraSockets);
 			return [...Array(numSockets).keys()]
 				.filter(socketIdx => item.item.gemSockets[socketIdx] != GemColor.GemColorMeta)
 				.map(socketIdx => {
@@ -722,7 +718,7 @@ class EpWeightsMenu extends BaseModal {
 				});
 		}).flat();
 		const threeSocketCombos = permutations(allSockets, 3);
-		const calculateGearGemsEP = (gear: Gear): number => gear.statsFromGems(isBlacksmithing).computeEP(epWeights);
+		const calculateGearGemsEP = (gear: Gear): number => gear.statsFromGems(isBlacksmithing,canUseExtraSockets).computeEP(epWeights);
 
 		// Now make adjustments to satisfy meta condition.
 		// Use a wrapper function so we can return for readability.
@@ -739,7 +735,7 @@ class EpWeightsMenu extends BaseModal {
 			}
 
 			// If there are very few non-meta gem slots, just skip because it's annoying to deal with.
-			if (gear.getAllGems(isBlacksmithing).length - 1 < 3) {
+			if (gear.getAllGems(isBlacksmithing,canUseExtraSockets).length - 1 < 3) {
 				return gear;
 			}
 
@@ -762,7 +758,7 @@ class EpWeightsMenu extends BaseModal {
 						curItems[itemSlot] = curItems[itemSlot]!.withGem(bestGemForColor[gemColor], socketIdx);
 					}
 					const curGear = new Gear(curItems);
-					if (curGear.hasActiveMetaGem(isBlacksmithing)) {
+					if (curGear.hasActiveMetaGem(isBlacksmithing,canUseExtraSockets)) {
 						const curGearEP = calculateGearGemsEP(curGear);
 						if (curGearEP > bestGearEP) {
 							bestGear = curGear;
@@ -806,7 +802,7 @@ class EpWeightsMenu extends BaseModal {
 				}
 
 				const curGear = new Gear(curItems);
-				if (curGear.hasActiveMetaGem(isBlacksmithing)) {
+				if (curGear.hasActiveMetaGem(isBlacksmithing,canUseExtraSockets)) {
 					const curGearEP = calculateGearGemsEP(curGear);
 					if (curGearEP > bestGearEP) {
 						bestGear = curGear;

@@ -8,6 +8,9 @@ import (
 )
 
 func (druid *Druid) registerEnrageSpell() {
+	if druid.Level < 12 {
+		return
+	}
 	actionID := core.ActionID{SpellID: 5229}
 	rageMetrics := druid.NewRageMetrics(actionID)
 

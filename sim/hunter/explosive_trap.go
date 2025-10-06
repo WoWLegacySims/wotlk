@@ -5,14 +5,23 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/hunterinfo"
 )
 
 func (hunter *Hunter) registerExplosiveTrapSpell(timer *core.Timer) {
+	dbc := hunterinfo.ExplosiveTrapEffect.GetMaxRank(hunter.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, hunter.Level)
+	dotDmg, _ := dbc.GetBPDie(1, hunter.Level)
+
 	hasGlyph := hunter.HasMajorGlyph(proto.HunterMajorGlyph_GlyphOfExplosiveTrap)
 	bonusPeriodicDamageMultiplier := .10 * float64(hunter.Talents.TrapMastery)
 
 	hunter.ExplosiveTrap = hunter.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 49067},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  hunterinfo.ExplosiveTrap.GetAllIDs(),
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagAPL,
@@ -27,7 +36,7 @@ func (hunter *Hunter) registerExplosiveTrapSpell(timer *core.Timer) {
 			},
 			CD: core.Cooldown{
 				Timer:    timer,
-				Duration: time.Second*30 - time.Second*2*time.Duration(hunter.Talents.Resourcefulness),
+				Duration: time.Second*30 - time.Second*2*time.Duration(hunter.Talents.Resourcefulness) - time.Second*time.Duration(core.TernaryInt32(hunter.HasSetBonus(ItemSetBeastLord, 2), 4, 0)),
 			},
 		},
 
@@ -45,7 +54,7 @@ func (hunter *Hunter) registerExplosiveTrapSpell(timer *core.Timer) {
 			TickLength:    time.Second * 2,
 
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
-				baseDamage := 90 + 0.1*dot.Spell.RangedAttackPower(target)
+				baseDamage := dotDmg + 0.1*dot.Spell.RangedAttackPower(target)
 				dot.Spell.DamageMultiplierAdditive += bonusPeriodicDamageMultiplier
 				for _, aoeTarget := range sim.Encounter.TargetUnits {
 					if hasGlyph {
@@ -71,7 +80,7 @@ func (hunter *Hunter) registerExplosiveTrapSpell(timer *core.Timer) {
 					DoAt: 0,
 					OnAction: func(sim *core.Simulation) {
 						for _, aoeTarget := range sim.Encounter.TargetUnits {
-							baseDamage := sim.Roll(523, 671) + 0.1*spell.RangedAttackPower(aoeTarget)
+							baseDamage := sim.Roll(bp, die) + 0.1*spell.RangedAttackPower(aoeTarget)
 							baseDamage *= sim.Encounter.AOECapMultiplier()
 							spell.CalcAndDealDamage(sim, aoeTarget, baseDamage, spell.OutcomeRangedHitAndCritNoBlock)
 						}
@@ -80,7 +89,7 @@ func (hunter *Hunter) registerExplosiveTrapSpell(timer *core.Timer) {
 				})
 			} else {
 				for _, aoeTarget := range sim.Encounter.TargetUnits {
-					baseDamage := sim.Roll(523, 671) + 0.1*spell.RangedAttackPower(aoeTarget)
+					baseDamage := sim.Roll(bp, die) + 0.1*spell.RangedAttackPower(aoeTarget)
 					baseDamage *= sim.Encounter.AOECapMultiplier()
 					spell.CalcAndDealDamage(sim, aoeTarget, baseDamage, spell.OutcomeRangedHitAndCritNoBlock)
 				}

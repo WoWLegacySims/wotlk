@@ -3,12 +3,18 @@ package warrior
 import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warriorinfo"
 )
 
 func (warrior *Warrior) registerDevastateSpell() {
 	if !warrior.Talents.Devastate {
 		return
 	}
+	dbc := warriorinfo.Devastate.GetMaxRank(warrior.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(2, warrior.Level)
 
 	hasGlyph := warrior.HasMajorGlyph(proto.WarriorMajorGlyph_GlyphOfDevastate)
 	flatThreatBonus := core.TernaryFloat64(hasGlyph, 630, 315)
@@ -18,7 +24,8 @@ func (warrior *Warrior) registerDevastateSpell() {
 	overallMulti := core.TernaryFloat64(warrior.HasSetBonus(ItemSetWrynnsPlate, 2), 1.05, 1.00)
 
 	warrior.Devastate = warrior.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 47498},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  warriorinfo.Devastate.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
@@ -37,8 +44,8 @@ func (warrior *Warrior) registerDevastateSpell() {
 			return warrior.CanApplySunderAura(target)
 		},
 
-		BonusCritRating: 5*core.CritRatingPerCritChance*float64(warrior.Talents.SwordAndBoard) +
-			core.TernaryFloat64(warrior.HasSetBonus(ItemSetSiegebreakerPlate, 2), 10*core.CritRatingPerCritChance, 0),
+		BonusCrit: 5*float64(warrior.Talents.SwordAndBoard) +
+			core.TernaryFloat64(warrior.HasSetBonus(ItemSetSiegebreakerPlate, 2), 10, 0),
 
 		DamageMultiplier: overallMulti,
 		CritMultiplier:   warrior.critMultiplier(mh),
@@ -50,7 +57,7 @@ func (warrior *Warrior) registerDevastateSpell() {
 			sunderBonus := 0.0
 			saStacks := warrior.SunderArmorAuras.Get(target).GetStacks()
 			if saStacks != 0 {
-				sunderBonus = 242 * float64(min(saStacks+1, 5))
+				sunderBonus = bp * float64(min(saStacks+1, 5))
 			}
 
 			baseDamage := (weaponMulti * spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower())) + sunderBonus

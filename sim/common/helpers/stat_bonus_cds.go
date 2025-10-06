@@ -45,7 +45,7 @@ var NewHealthActive = testFirstOnly(func(itemID int32, bonus float64, duration t
 })
 
 var NewArmorActive = testFirstOnly(func(itemID int32, bonus float64, duration time.Duration, cooldown time.Duration) {
-	core.NewSimpleStatDefensiveTrinketEffect(itemID, stats.Stats{stats.Armor: bonus}, duration, cooldown)
+	core.NewSimpleStatDefensiveTrinketEffect(itemID, stats.Stats{stats.BonusArmor: bonus}, duration, cooldown)
 })
 
 var NewBlockValueActive = testFirstOnly(func(itemID int32, bonus float64, duration time.Duration, cooldown time.Duration) {

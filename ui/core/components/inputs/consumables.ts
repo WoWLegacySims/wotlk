@@ -1,41 +1,47 @@
 import { Player } from "../../player";
 import {
-	BattleElixir,
 	Class,
 	Conjured,
 	Consumes,
-	Explosive,
-	Flask,
-	Food,
-	GuardianElixir,
+	Explosive_Big,
+	Explosive_Medium,
+	Explosive_Small,
+	ItemSlot,
 	PetFood,
 	Potions,
+	Profession,
 	Spec,
 	Stat,
+	WeaponImbue,
 } from "../../proto/common";
+import {BattleElixir,Flask,GuardianElixir} from '../../proto/consumes_gen.js'
 import { ActionId } from "../../proto_utils/action_id";
 import { EventID, TypedEvent } from "../../typed_event";
-
 import { IconEnumValueConfig } from "../icon_enum_picker";
 import { makeBooleanConsumeInput } from "../icon_inputs";
-
-import { ActionInputConfig, ItemStatOption } from "./stat_options";
-
 import * as InputHelpers from '../input_helpers';
+import { ActionInputConfig, ItemStatOption } from "./stat_options";
 
 export interface ConsumableInputConfig<T> extends ActionInputConfig<T> {
 	value: T,
 }
 
 export interface ConsumableStatOption<T> extends ItemStatOption<T> {
-	config: ConsumableInputConfig<T>
+	config: ConsumableInputConfig<T>,
+	level?: number,
+	condition?: (player:Player<any>) => boolean
+}
+
+export interface ImbueConsumableStatOption extends ConsumableStatOption<WeaponImbue> {
+	type?: string,
 }
 
 export interface ConsumeInputFactoryArgs<T extends number> {
 	consumesFieldName: keyof Consumes,
 	// Additional callback if logic besides syncing consumes is required
 	onSet?: (eventactionId: EventID, player: Player<any>, newValue: T) => void
-	showWhen?: (player: Player<any>) => boolean
+	showWhen?: (player: Player<any>) => boolean,
+	filter?: (option: ConsumableStatOption<T>, player: Player<any>) => boolean
 }
 
 function makeConsumeInputFactory<T extends number>(args: ConsumeInputFactoryArgs<T>): (options: ConsumableStatOption<T>[], tooltip?: string) => InputHelpers.TypedIconEnumPickerConfig<Player<any>, T> {
@@ -51,20 +57,20 @@ function makeConsumeInputFactory<T extends number>(args: ConsumeInputFactoryArgs
 					actionId: option.config.actionId,
 					showWhen: (player: Player<any>) =>
 						(!option.config.showWhen || option.config.showWhen(player)) &&
-						(option.config.faction || player.getFaction()) == player.getFaction()
+						(option.config.faction || player.getFaction()) == player.getFaction() &&
+						(!args.filter || args.filter(option, player))
 				} as IconEnumValueConfig<Player<any>, T>;
 				if (option.config.value) rtn.value = option.config.value
 
 				return rtn
 			})),
 			equals: (a: T, b: T) => a == b,
-			zeroValue: 0 as T,	
-			changedEvent: (player: Player<any>) => TypedEvent.onAny([player.consumesChangeEmitter, player.gearChangeEmitter]),
+			zeroValue: 0 as T,
+			changedEvent: (player: Player<any>) => TypedEvent.onAny([player.consumesChangeEmitter, player.gearChangeEmitter, player.levelChangeEmitter, player.professionChangeEmitter, player.sim.expansionChangeEmitter]),
 			showWhen: (player: Player<any>) => !args.showWhen || args.showWhen(player),
 			getValue: (player: Player<any>) => player.getConsumes()[args.consumesFieldName] as T,
 			setValue: (eventID: EventID, player: Player<any>, newValue: number) => {
 				const newConsumes = player.getConsumes();
-
 				if (newConsumes[args.consumesFieldName] === newValue){
 					return;
 				}
@@ -87,7 +93,7 @@ function makeConsumeInputFactory<T extends number>(args: ConsumeInputFactoryArgs
 ///////////////////////////////////////////////////////////////////////////
 
 export const ConjuredDarkRune = { actionId: ActionId.fromItemId(12662), value: Conjured.ConjuredDarkRune };
-export const ConjuredFlameCap = { actionId: ActionId.fromItemId(22788), value: Conjured.ConjuredFlameCap };
+export const ConjuredFlameCap = { actionId: ActionId.fromItemId(22788), value: Conjured.ConjuredFlameCap};
 export const ConjuredHealthstone = { actionId: ActionId.fromItemId(22105), value: Conjured.ConjuredHealthstone };
 export const ConjuredRogueThistleTea = {
   actionId: ActionId.fromItemId(7676),
@@ -108,129 +114,76 @@ export const makeConjuredInput = makeConsumeInputFactory({consumesFieldName: 'de
 //                                 EXPLOSIVES
 ///////////////////////////////////////////////////////////////////////////
 
-export const ExplosiveSaroniteBomb    = { actionId: ActionId.fromItemId(41119), value: Explosive.ExplosiveSaroniteBomb };
-export const ExplosiveCobaltFragBomb  = { actionId: ActionId.fromItemId(40771), value: Explosive.ExplosiveCobaltFragBomb };
-
 export const EXPLOSIVES_CONFIG = [
-	{ config: ExplosiveSaroniteBomb, stats: [] },
-	{ config: ExplosiveCobaltFragBomb, stats: [] },
-] as ConsumableStatOption<Explosive>[];
+	{ config: { actionId: ActionId.fromItemId(41119), value: Explosive_Small.ExplosiveSaroniteBomb, showWhen: player => player.hasProfession(Profession.Engineering) }, stats: []},
+	{ config: { actionId: ActionId.fromItemId(40771), value: Explosive_Small.ExplosiveCobaltFragBomb, showWhen: player => player.hasProfession(Profession.Engineering) }, stats: []},
+	{ config: { actionId: ActionId.fromItemId(23826), value: Explosive_Small.TheBiggerOne, showWhen: player => player.hasProfession(Profession.Engineering) }, stats: []},
+	{ config: { actionId: ActionId.fromItemId(18588), value: Explosive_Small.EzThroDynamiteII}, stats: []},
+	{ config: { actionId: ActionId.fromItemId(6714), value: Explosive_Small.EzThroDynamite}, stats: []},
+	{ config: { actionId: ActionId.fromItemId(18641), value: Explosive_Small.DenseDynamite, showWhen: player => player.hasProfession(Profession.Engineering) }, stats: []},
+	{ config: { actionId: ActionId.fromItemId(4378), value: Explosive_Small.HeavyDynamite, showWhen: player => player.hasProfession(Profession.Engineering) }, stats: []},
+] as ConsumableStatOption<Explosive_Small>[];
 
-export const makeExplosivesInput = makeConsumeInputFactory({consumesFieldName: 'fillerExplosive'});
+export const BIG_EXPLOSIVES_CONFIG = [
+	{ config: {actionId: ActionId.fromItemId(42641), value: Explosive_Big.ThermalSapper, showWhen: player => player.hasProfession(Profession.Engineering)}, stats: []},
+	{ config: {actionId: ActionId.fromItemId(23827), value: Explosive_Big.SuperSapperCharge, showWhen: player => player.hasProfession(Profession.Engineering)}, stats: []},
+	{ config: {actionId: ActionId.fromItemId(10646), value: Explosive_Big.GoblinSapperCharge, showWhen: player => player.hasProfession(Profession.Engineering)}, stats: []},
+] as ConsumableStatOption<Explosive_Big>[];
 
-export const ThermalSapper = makeBooleanConsumeInput({actionId: ActionId.fromItemId(42641), fieldName: 'thermalSapper'});
-export const ExplosiveDecoy = makeBooleanConsumeInput({actionId: ActionId.fromItemId(40536), fieldName: 'explosiveDecoy'});
+export const DECOY_EXPLOSIVE_CONFIG = [
+	{ config: {actionId: ActionId.fromItemId(40536), value: Explosive_Medium.ExplosiveDecoy, showWhen: player => player.hasProfession(Profession.Engineering)}, stats: []},
+] as ConsumableStatOption<Explosive_Medium>[];
+
+export const makeExplosivesInput = makeConsumeInputFactory({
+	consumesFieldName: 'explosiveSmall'
+});
+
+export const makeBigExplosivesInput = makeConsumeInputFactory({
+	consumesFieldName: 'explosiveBig'
+});
+
+export const makeDecoyExplosivesInput = makeConsumeInputFactory({
+	consumesFieldName: 'explosiveMedium'
+});
 
 ///////////////////////////////////////////////////////////////////////////
 //                                 FLASKS + ELIXIRS
 ///////////////////////////////////////////////////////////////////////////
 
 // Flasks
-export const FlaskOfTheFrostWyrm      = { actionId: ActionId.fromItemId(46376), value: Flask.FlaskOfTheFrostWyrm };
-export const FlaskOfEndlessRage       = { actionId: ActionId.fromItemId(46377), value: Flask.FlaskOfEndlessRage };
-export const FlaskOfPureMojo          = { actionId: ActionId.fromItemId(46378), value: Flask.FlaskOfPureMojo };
-export const FlaskOfStoneblood        = { actionId: ActionId.fromItemId(46379), value: Flask.FlaskOfStoneblood };
-export const LesserFlaskOfToughness   = { actionId: ActionId.fromItemId(40079), value: Flask.LesserFlaskOfToughness };
-export const LesserFlaskOfResistance  = { actionId: ActionId.fromItemId(44939), value: Flask.LesserFlaskOfResistance };
-export const FlaskOfBlindingLight     = { actionId: ActionId.fromItemId(22861), value: Flask.FlaskOfBlindingLight };
-export const FlaskOfMightyRestoration = { actionId: ActionId.fromItemId(22853), value: Flask.FlaskOfMightyRestoration };
-export const FlaskOfPureDeath         = { actionId: ActionId.fromItemId(22866), value: Flask.FlaskOfPureDeath };
-export const FlaskOfRelentlessAssault = { actionId: ActionId.fromItemId(22854), value: Flask.FlaskOfRelentlessAssault };
-export const FlaskOfSupremePower      = { actionId: ActionId.fromItemId(13512), value: Flask.FlaskOfSupremePower };
-export const FlaskOfFortification     = { actionId: ActionId.fromItemId(22851), value: Flask.FlaskOfFortification };
-export const FlaskOfChromaticWonder   = { actionId: ActionId.fromItemId(33208), value: Flask.FlaskOfChromaticWonder };
-
-export const FLASKS_CONFIG = [
-  { config: FlaskOfTheFrostWyrm,      stats: [Stat.StatSpellPower] },
-  { config: FlaskOfEndlessRage,       stats: [Stat.StatAttackPower, Stat.StatRangedAttackPower] },
-  { config: FlaskOfPureMojo,          stats: [Stat.StatMP5] },
-  { config: FlaskOfStoneblood,        stats: [Stat.StatStamina] },
-  { config: LesserFlaskOfToughness,   stats: [Stat.StatResilience] },
-  { config: LesserFlaskOfResistance,  stats: [Stat.StatArcaneResistance, Stat.StatFireResistance, Stat.StatFrostResistance, Stat.StatNatureResistance, Stat.StatShadowResistance] },
-] as ConsumableStatOption<Flask>[];
 
 export const makeFlasksInput = makeConsumeInputFactory({
-  consumesFieldName: 'flask',
-  onSet: (eventID: EventID, player: Player<any>, newValue: Flask) => {
-    if (newValue) {
-      const newConsumes = player.getConsumes();
-      newConsumes.battleElixir = BattleElixir.BattleElixirUnknown;
-      newConsumes.guardianElixir = GuardianElixir.GuardianElixirUnknown;
-      player.setConsumes(eventID, newConsumes);
-    }
-  }
+    consumesFieldName: 'flask',
+    onSet: (eventID: EventID, player: Player<any>, newValue: Flask) => {
+        if (newValue) {
+        	const newConsumes = player.getConsumes();
+      		newConsumes.battleElixir = BattleElixir.BattleElixirUnknown;
+      		newConsumes.guardianElixir = GuardianElixir.GuardianElixirUnknown;
+      		player.setConsumes(eventID, newConsumes);
+    	}
+  	},
+	filter: (option,player) => {
+		return !option.level || player.getLevel() >= option.level
+	},
 });
 
 // Battle Elixirs
-export const ElixirOfAccuracy         = { actionId: ActionId.fromItemId(44325), value: BattleElixir.ElixirOfAccuracy };
-export const ElixirOfArmorPiercing    = { actionId: ActionId.fromItemId(44330), value: BattleElixir.ElixirOfArmorPiercing };
-export const ElixirOfDeadlyStrikes    = { actionId: ActionId.fromItemId(44327), value: BattleElixir.ElixirOfDeadlyStrikes };
-export const ElixirOfExpertise        = { actionId: ActionId.fromItemId(44329), value: BattleElixir.ElixirOfExpertise };
-export const ElixirOfLightningSpeed   = { actionId: ActionId.fromItemId(44331), value: BattleElixir.ElixirOfLightningSpeed };
-export const ElixirOfMightyAgility    = { actionId: ActionId.fromItemId(39666), value: BattleElixir.ElixirOfMightyAgility };
-export const ElixirOfMightyStrength   = { actionId: ActionId.fromItemId(40073), value: BattleElixir.ElixirOfMightyStrength };
-export const GurusElixir              = { actionId: ActionId.fromItemId(40076), value: BattleElixir.GurusElixir };
-export const SpellpowerElixir         = { actionId: ActionId.fromItemId(40070), value: BattleElixir.SpellpowerElixir };
-export const WrathElixir              = { actionId: ActionId.fromItemId(40068), value: BattleElixir.WrathElixir };
-export const AdeptsElixir             = { actionId: ActionId.fromItemId(28103), value: BattleElixir.AdeptsElixir };
-export const ElixirOfDemonslaying     = { actionId: ActionId.fromItemId(9224),  value: BattleElixir.ElixirOfDemonslaying };
-export const ElixirOfMajorAgility     = { actionId: ActionId.fromItemId(22831), value: BattleElixir.ElixirOfMajorAgility };
-export const ElixirOfMajorFirePower   = { actionId: ActionId.fromItemId(22833), value: BattleElixir.ElixirOfMajorFirePower };
-export const ElixirOfMajorFrostPower  = { actionId: ActionId.fromItemId(22827), value: BattleElixir.ElixirOfMajorFrostPower };
-export const ElixirOfMajorShadowPower = { actionId: ActionId.fromItemId(22835), value: BattleElixir.ElixirOfMajorShadowPower };
-export const ElixirOfMajorStrength    = { actionId: ActionId.fromItemId(22824), value: BattleElixir.ElixirOfMajorStrength };
-export const ElixirOfMastery          = { actionId: ActionId.fromItemId(28104), value: BattleElixir.ElixirOfMastery };
-export const ElixirOfTheMongoose      = { actionId: ActionId.fromItemId(13452), value: BattleElixir.ElixirOfTheMongoose };
-export const FelStrengthElixir        = { actionId: ActionId.fromItemId(31679), value: BattleElixir.FelStrengthElixir };
-export const GreaterArcaneElixir      = { actionId: ActionId.fromItemId(13454), value: BattleElixir.GreaterArcaneElixir };
-
-export const BATTLE_ELIXIRS_CONFIG = [
-  { config: ElixirOfAccuracy,       stats: [Stat.StatMeleeHit, Stat.StatSpellHit] },
-  { config: ElixirOfArmorPiercing,  stats: [Stat.StatArmorPenetration] },
-  { config: ElixirOfDeadlyStrikes,  stats: [Stat.StatMeleeCrit, Stat.StatSpellCrit] },
-  { config: ElixirOfExpertise,      stats: [Stat.StatExpertise] },
-  { config: ElixirOfLightningSpeed, stats: [Stat.StatMeleeHaste, Stat.StatSpellHaste] },
-  { config: ElixirOfMightyAgility,  stats: [Stat.StatAgility] },
-  { config: ElixirOfMightyStrength, stats: [Stat.StatStrength] },
-  { config: GurusElixir,            stats: [Stat.StatStamina, Stat.StatAgility, Stat.StatStrength, Stat.StatSpirit, Stat.StatIntellect] },
-  { config: SpellpowerElixir,       stats: [Stat.StatSpellPower] },
-  { config: WrathElixir,            stats: [Stat.StatAttackPower, Stat.StatRangedAttackPower] },
-] as ConsumableStatOption<BattleElixir>[];
 
 export const makeBattleElixirsInput = makeConsumeInputFactory({
-  consumesFieldName: 'battleElixir',
-  onSet: (eventID: EventID, player: Player<any>, newValue: BattleElixir) => {
-    if (newValue) {
-      const newConsumes = player.getConsumes();
-      newConsumes.flask = Flask.FlaskUnknown;
-      player.setConsumes(eventID, newConsumes);
-    }
-  }
+    consumesFieldName: 'battleElixir',
+    onSet: (eventID: EventID, player: Player<any>, newValue: BattleElixir) => {
+	    if (newValue) {
+            const newConsumes = player.getConsumes();
+            newConsumes.flask = Flask.FlaskUnknown;
+    	    player.setConsumes(eventID, newConsumes);
+		}
+  	},
+  	filter: (option,player) => {
+		return !option.level || player.getLevel() >= option.level
+	},
 });
 
 // Guardian Elixirs
-export const ElixirOfMightyDefense    = { actionId: ActionId.fromItemId(44328), value: GuardianElixir.ElixirOfMightyDefense };
-export const ElixirOfMightyFortitude  = { actionId: ActionId.fromItemId(40078), value: GuardianElixir.ElixirOfMightyFortitude };
-export const ElixirOfMightyMageblood  = { actionId: ActionId.fromItemId(40109), value: GuardianElixir.ElixirOfMightyMageblood };
-export const ElixirOfMightyThoughts   = { actionId: ActionId.fromItemId(44332), value: GuardianElixir.ElixirOfMightyThoughts };
-export const ElixirOfProtection       = { actionId: ActionId.fromItemId(40097), value: GuardianElixir.ElixirOfProtection };
-export const ElixirOfSpirit           = { actionId: ActionId.fromItemId(40072), value: GuardianElixir.ElixirOfSpirit };
-export const GiftOfArthas             = { actionId: ActionId.fromItemId(9088),  value: GuardianElixir.GiftOfArthas };
-export const ElixirOfDraenicWisdom    = { actionId: ActionId.fromItemId(32067), value: GuardianElixir.ElixirOfDraenicWisdom };
-export const ElixirOfIronskin         = { actionId: ActionId.fromItemId(32068), value: GuardianElixir.ElixirOfIronskin };
-export const ElixirOfMajorDefense     = { actionId: ActionId.fromItemId(22834), value: GuardianElixir.ElixirOfMajorDefense };
-export const ElixirOfMajorFortitude   = { actionId: ActionId.fromItemId(32062), value: GuardianElixir.ElixirOfMajorFortitude };
-export const ElixirOfMajorMageblood   = { actionId: ActionId.fromItemId(22840), value: GuardianElixir.ElixirOfMajorMageblood };
-
-export const GUARDIAN_ELIXIRS_CONFIG = [
-  { config: ElixirOfMightyDefense,    stats: [Stat.StatDefense] },
-  { config: ElixirOfMightyFortitude,  stats: [Stat.StatStamina] },
-  { config: ElixirOfMightyMageblood,  stats: [Stat.StatMP5] },
-  { config: ElixirOfMightyThoughts,   stats: [Stat.StatIntellect] },
-  { config: ElixirOfProtection,       stats: [Stat.StatArmor] },
-  { config: ElixirOfSpirit,           stats: [Stat.StatSpirit] },
-  { config: GiftOfArthas,             stats: [Stat.StatStamina] },
-] as ConsumableStatOption<GuardianElixir>[];
 
 export const makeGuardianElixirsInput = makeConsumeInputFactory({
 	consumesFieldName: 'guardianElixir',
@@ -240,52 +193,76 @@ export const makeGuardianElixirsInput = makeConsumeInputFactory({
 			newConsumes.flask = Flask.FlaskUnknown;
 			player.setConsumes(eventID, newConsumes);
 		}
-	}
+	},
+	filter: (option,player) => {
+		return !option.level || player.getLevel() >= option.level
+	},
+});
+
+export const IMBUE_CONFIG = [
+{ config : {actionId: ActionId.fromItemId(20749), value: WeaponImbue.BrilliantWizardOil}, stats: [Stat.StatSpellCrit, Stat.StatSpellPower],level: 45},
+{ config : {actionId: ActionId.fromItemId(20748), value: WeaponImbue.BrilliantManaOil}, stats: [Stat.StatMP5, Stat.StatSpellPower],level: 45},
+{ config : {actionId: ActionId.fromItemId(22522), value: WeaponImbue.SuperiorWizardOil}, stats: [Stat.StatSpellPower],level: 58},
+{ config : {actionId: ActionId.fromItemId(22521), value: WeaponImbue.SuperiorManaOil}, stats: [Stat.StatMP5],level: 58},
+{ config : {actionId: ActionId.fromItemId(20750), value: WeaponImbue.WizardOil}, stats: [Stat.StatSpellPower],level: 40},
+{ config : {actionId: ActionId.fromItemId(20747), value: WeaponImbue.LesserManaOil}, stats: [Stat.StatMP5],level: 30},
+{ config : {actionId: ActionId.fromItemId(20746), value: WeaponImbue.LesserWizardOil}, stats: [Stat.StatSpellPower],level: 30},
+{ config : {actionId: ActionId.fromItemId(20745), value: WeaponImbue.MinorManaOil}, stats: [Stat.StatMP5],level: 5},
+{ config : {actionId: ActionId.fromItemId(20744), value: WeaponImbue.MinorWizardOil}, stats: [Stat.StatSpellPower],level: 5},
+{ config : {actionId: ActionId.fromItemId(23529), value: WeaponImbue.AdamantiteSharpeningStone}, stats: [Stat.StatMeleeCrit, Stat.StatAttackPower],level: 60, type: "sharp"},
+{ config : {actionId: ActionId.fromItemId(28421), value: WeaponImbue.AdamantiteWeightStone}, stats: [Stat.StatMeleeCrit, Stat.StatAttackPower],level: 60, type: "blunt"},
+{ config : {actionId: ActionId.fromItemId(23528), value: WeaponImbue.FelSharpeningStone}, stats: [Stat.StatAttackPower],level: 50, type: "sharp"},
+{ config : {actionId: ActionId.fromItemId(28420), value: WeaponImbue.FelWeightstone}, stats: [Stat.StatAttackPower],level: 50, type: "blunt"},
+{ config : {actionId: ActionId.fromItemId(18262), value: WeaponImbue.ElementalSharpeningStone}, stats: [Stat.StatMeleeCrit],level: 50},
+{ config : {actionId: ActionId.fromItemId(12404), value: WeaponImbue.DenseSharpeningStone}, stats: [Stat.StatAttackPower],level: 35, type: "sharp"},
+{ config : {actionId: ActionId.fromItemId(12643), value: WeaponImbue.DenseWeightstone}, stats: [Stat.StatAttackPower],level: 35, type: "blunt"},
+{ config : {actionId: ActionId.fromItemId(7964), value: WeaponImbue.SolidSharpeningStone}, stats: [Stat.StatAttackPower],level: 25, type: "sharp"},
+{ config : {actionId: ActionId.fromItemId(7965), value: WeaponImbue.SolidWeightStone}, stats: [Stat.StatAttackPower],level: 25, type: "blunt"},
+{ config : {actionId: ActionId.fromItemId(2871), value: WeaponImbue.HeavySharpeningStone}, stats: [Stat.StatAttackPower],level: 15, type: "sharp"},
+{ config : {actionId: ActionId.fromItemId(3241), value: WeaponImbue.HeavyWeightStone,}, stats: [Stat.StatAttackPower],level: 15, type: "blunt"},
+{ config : {actionId: ActionId.fromItemId(2863), value: WeaponImbue.CoarseSharpeningStone}, stats: [Stat.StatAttackPower],level: 5, type: "sharp"},
+{ config : {actionId: ActionId.fromItemId(3240), value: WeaponImbue.CoarseWeightStone}, stats: [Stat.StatAttackPower],level: 5, type: "blunt"},
+{ config : {actionId: ActionId.fromItemId(2862), value: WeaponImbue.RoughSharpeningStone }, stats: [Stat.StatAttackPower],level: 1, type: "sharp"},
+{ config : {actionId: ActionId.fromItemId(3239), value: WeaponImbue.RoughWeightStone}, stats: [Stat.StatAttackPower],level: 1, type: "blunt"},
+{ config : {actionId: ActionId.fromItemId(34539), value: WeaponImbue.RighteousWeaponCoating}, stats: [Stat.StatAttackPower,Stat.StatRangedAttackPower],level: 70},
+{ config : {actionId: ActionId.fromItemId(34538), value: WeaponImbue.BlessedWeaponCoating}, stats: [Stat.StatMP5],level: 70},
+{ config : {actionId: ActionId.fromItemId(30696), value: WeaponImbue.ConsecratedWeapon}, stats: [Stat.StatAttackPower], condition: player => { return player.isClass(Class.ClassPaladin) && player.getEquippedItem(ItemSlot.ItemSlotMainHand)!.item.ilvl < 138 && player.hasTrinketEquipped(30696)
+}},
+] as ImbueConsumableStatOption[];
+
+export const makeMHImbueInput = makeConsumeInputFactory({
+	consumesFieldName: 'mhImbue',
+	showWhen: player => {
+		const mh = player.getGear().getEquippedItem(ItemSlot.ItemSlotMainHand);
+		return mh != null && mh?.item.ilvl <= 165;
+	},
+	filter: (option,player) => {
+		const opt = option as ImbueConsumableStatOption
+		return (!opt.level || player.getLevel() >= opt.level) &&
+		(!opt.type || (opt.type === "sharp" && player.getGear().hasSharpMHWeapon()) || (opt.type === "blunt" && player.getGear().hasBluntMHWeapon())) && (!opt.condition || opt.condition(player))
+	},
+});
+export const makeOHImbueInput = makeConsumeInputFactory({
+	consumesFieldName: 'ohImbue',
+	showWhen: player => {
+		const oh = player.getGear().getEquippedItem(ItemSlot.ItemSlotOffHand);
+		return oh != null && oh?.item.ilvl <= 165;
+	},
+	filter: (option,player) => {
+		const opt = option as ImbueConsumableStatOption
+		return (!opt.level || player.getLevel() >= opt.level) && (!opt.type || (opt.type === "sharp" && player.getGear().hasSharpOHWeapon()) || (opt.type === "blunt" && player.getGear().hasBluntOHWeapon())) && (!opt.condition || opt.condition(player))
+	},
 });
 
 ///////////////////////////////////////////////////////////////////////////
 //                                 FOOD
 ///////////////////////////////////////////////////////////////////////////
 
-export const FoodFishFeast              = { actionId: ActionId.fromItemId(43015), value: Food.FoodFishFeast };
-export const FoodGreatFeast             = { actionId: ActionId.fromItemId(34753), value: Food.FoodGreatFeast };
-export const FoodBlackenedDragonfin     = { actionId: ActionId.fromItemId(42999), value: Food.FoodBlackenedDragonfin };
-export const FoodHeartyRhino            = { actionId: ActionId.fromItemId(42995), value: Food.FoodHeartyRhino };
-export const FoodMegaMammothMeal        = { actionId: ActionId.fromItemId(34754), value: Food.FoodMegaMammothMeal };
-export const FoodSpicedWormBurger       = { actionId: ActionId.fromItemId(34756), value: Food.FoodSpicedWormBurger };
-export const FoodRhinoliciousWormsteak  = { actionId: ActionId.fromItemId(42994), value: Food.FoodRhinoliciousWormsteak };
-export const FoodImperialMantaSteak     = { actionId: ActionId.fromItemId(34769), value: Food.FoodImperialMantaSteak };
-export const FoodSnapperExtreme         = { actionId: ActionId.fromItemId(42996), value: Food.FoodSnapperExtreme };
-export const FoodMightyRhinoDogs        = { actionId: ActionId.fromItemId(34758), value: Food.FoodMightyRhinoDogs };
-export const FoodFirecrackerSalmon      = { actionId: ActionId.fromItemId(34767), value: Food.FoodFirecrackerSalmon };
-export const FoodCuttlesteak            = { actionId: ActionId.fromItemId(42998), value: Food.FoodCuttlesteak };
-export const FoodDragonfinFilet         = { actionId: ActionId.fromItemId(43000), value: Food.FoodDragonfinFilet };
-
-export const FoodBlackenedBasilisk  = { actionId: ActionId.fromItemId(27657), value: Food.FoodBlackenedBasilisk };
-export const FoodGrilledMudfish     = { actionId: ActionId.fromItemId(27664), value: Food.FoodGrilledMudfish };
-export const FoodRavagerDog         = { actionId: ActionId.fromItemId(27655), value: Food.FoodRavagerDog };
-export const FoodRoastedClefthoof   = { actionId: ActionId.fromItemId(27658), value: Food.FoodRoastedClefthoof };
-export const FoodSpicyHotTalbuk     = { actionId: ActionId.fromItemId(33872), value: Food.FoodSpicyHotTalbuk };
-export const FoodSkullfishSoup      = { actionId: ActionId.fromItemId(33825), value: Food.FoodSkullfishSoup };
-export const FoodFishermansFeast    = { actionId: ActionId.fromItemId(33052), value: Food.FoodFishermansFeast };
-
-export const FOOD_CONFIG = [
-  { config: FoodFishFeast,              stats: [Stat.StatStamina, Stat.StatAttackPower, Stat.StatRangedAttackPower, Stat.StatSpellPower] },
-  { config: FoodGreatFeast,             stats: [Stat.StatStamina, Stat.StatAttackPower, Stat.StatRangedAttackPower, Stat.StatSpellPower] },
-  { config: FoodBlackenedDragonfin,     stats: [Stat.StatAgility] },
-  { config: FoodDragonfinFilet,         stats: [Stat.StatStrength] },
-  { config: FoodCuttlesteak,            stats: [Stat.StatSpirit] },
-  { config: FoodMegaMammothMeal,        stats: [Stat.StatAttackPower, Stat.StatRangedAttackPower] },
-  { config: FoodHeartyRhino,            stats: [Stat.StatArmorPenetration] },
-  { config: FoodRhinoliciousWormsteak,  stats: [Stat.StatExpertise] },
-  { config: FoodFirecrackerSalmon,      stats: [Stat.StatSpellPower] },
-  { config: FoodSnapperExtreme,         stats: [Stat.StatMeleeHit, Stat.StatSpellHit] },
-  { config: FoodSpicedWormBurger,       stats: [Stat.StatMeleeCrit, Stat.StatSpellCrit] },
-  { config: FoodImperialMantaSteak,     stats: [Stat.StatMeleeHaste, Stat.StatSpellHaste] },
-  { config: FoodMightyRhinoDogs,        stats: [Stat.StatMP5] },
-] as ConsumableStatOption<Food>[];
-
-export const makeFoodInput = makeConsumeInputFactory({consumesFieldName: 'food'});
+export const makeFoodInput = makeConsumeInputFactory({
+	consumesFieldName: 'food',
+	filter: (option,player) => {
+		return !option.level || player.getLevel() >= option.level
+	},});
 
 ///////////////////////////////////////////////////////////////////////////
 //                                 PET
@@ -317,23 +294,34 @@ export const IronshieldPotion     = { actionId: ActionId.fromItemId(22849), valu
 export const HeroicPotion         = { actionId: ActionId.fromItemId(22837), value: Potions.HeroicPotion };
 
 export const POTIONS_CONFIG = [
-  { config: RunicHealingPotion,   stats: [Stat.StatStamina] },
-  { config: RunicHealingInjector, stats: [Stat.StatStamina] },
-  { config: RunicManaPotion,      stats: [Stat.StatIntellect] },
-  { config: RunicManaInjector,    stats: [Stat.StatIntellect] },
-  { config: IndestructiblePotion, stats: [Stat.StatArmor] },
-  { config: InsaneStrengthPotion, stats: [Stat.StatStrength] },
-  { config: HeroicPotion,         stats: [Stat.StatStamina] },
-  { config: PotionOfSpeed,        stats: [Stat.StatMeleeHaste, Stat.StatSpellHaste] },
-  { config: PotionOfWildMagic,    stats: [Stat.StatMeleeCrit, Stat.StatSpellCrit, Stat.StatSpellPower] },
+  { config: RunicHealingPotion,   stats: [Stat.StatStamina],level:70 },
+  { config: RunicHealingInjector, stats: [Stat.StatStamina],level:70 },
+  { config: RunicManaPotion,      stats: [Stat.StatIntellect],level:70 },
+  { config: RunicManaInjector,    stats: [Stat.StatIntellect],level:70 },
+  { config: IndestructiblePotion, stats: [Stat.StatArmor],level:70 },
+  { config: InsaneStrengthPotion, stats: [Stat.StatStrength],level:70 },
+  { config: HeroicPotion,         stats: [Stat.StatStamina],level:70 },
+  { config: PotionOfSpeed,        stats: [Stat.StatMeleeHaste, Stat.StatSpellHaste],level:70 },
+  { config: PotionOfWildMagic,    stats: [Stat.StatMeleeCrit, Stat.StatSpellCrit, Stat.StatSpellPower],level:70 },
+
+  { config: DestructionPotion,    stats: [Stat.StatMeleeCrit, Stat.StatSpellCrit, Stat.StatSpellPower],level:60 },
+  { config: HastePotion,          stats: [Stat.StatMeleeHaste, Stat.StatSpellHaste],level:60 },
+  { config: IronshieldPotion,     stats: [Stat.StatArmor],level:60 },
+  { config: SuperManaPotion,      stats: [Stat.StatIntellect],level:60 },
+  { config: FelManaPotion,        stats: [Stat.StatRangedAttackPower],level:60 },
+
 ] as ConsumableStatOption<Potions>[];
 
 export const PRE_POTIONS_CONFIG = [
-  { config: IndestructiblePotion, stats: [Stat.StatArmor] },
-  { config: InsaneStrengthPotion, stats: [Stat.StatStrength] },
-  { config: HeroicPotion,         stats: [Stat.StatStamina] },
-  { config: PotionOfSpeed,        stats: [Stat.StatMeleeHaste, Stat.StatSpellHaste] },
-  { config: PotionOfWildMagic,    stats: [Stat.StatMeleeCrit, Stat.StatSpellCrit, Stat.StatSpellPower] },
+  { config: IndestructiblePotion, stats: [Stat.StatArmor],level:60 },
+  { config: InsaneStrengthPotion, stats: [Stat.StatStrength],level:60 },
+  { config: HeroicPotion,         stats: [Stat.StatStamina],level:60 },
+  { config: PotionOfSpeed,        stats: [Stat.StatMeleeHaste, Stat.StatSpellHaste],level:60 },
+  { config: PotionOfWildMagic,    stats: [Stat.StatMeleeCrit, Stat.StatSpellCrit, Stat.StatSpellPower],level:60 },
+
+  { config: DestructionPotion,    stats: [Stat.StatMeleeCrit, Stat.StatSpellCrit, Stat.StatSpellPower],level:60 },
+  { config: HastePotion,          stats: [Stat.StatMeleeHaste, Stat.StatSpellHaste],level:60 },
+  { config: IronshieldPotion,     stats: [Stat.StatArmor],level:60 },
 ] as ConsumableStatOption<Potions>[];
 
 export const makePotionsInput = makeConsumeInputFactory({consumesFieldName: 'defaultPotion'});

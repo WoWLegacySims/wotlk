@@ -109,6 +109,9 @@ func (dk *Deathknight) registerBloodPresenceAura(timer *core.Timer) {
 }
 
 func (dk *Deathknight) registerFrostPresenceAura(timer *core.Timer) {
+	if dk.Level < 57 {
+		return
+	}
 
 	dk.FrostPresence = dk.RegisterSpell(core.SpellConfig{
 		ActionID: core.ActionID{SpellID: 48263},
@@ -169,6 +172,9 @@ func (dk *Deathknight) registerFrostPresenceAura(timer *core.Timer) {
 }
 
 func (dk *Deathknight) registerUnholyPresenceAura(timer *core.Timer) {
+	if dk.Level < 70 {
+		return
+	}
 	threatMultSubversion := 1.0 - dk.subversionThreatBonus()
 
 	dk.UnholyPresence = dk.RegisterSpell(core.SpellConfig{

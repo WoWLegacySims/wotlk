@@ -5,15 +5,22 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/hunterinfo"
 )
 
 func (hunter *Hunter) registerAimedShotSpell(timer *core.Timer) {
 	if !hunter.Talents.AimedShot {
 		return
 	}
+	dbc := hunterinfo.AimedShot.GetMaxRank(hunter.Level)
+	if dbc == nil {
+		return
+	}
+	dmg, _ := dbc.GetBPDie(0, hunter.Level)
 
 	hunter.AimedShot = hunter.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 49050},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  hunterinfo.AimedShot.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskRangedSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagAPL,
@@ -35,9 +42,9 @@ func (hunter *Hunter) registerAimedShotSpell(timer *core.Timer) {
 			},
 		},
 
-		BonusCritRating: 0 +
-			4*core.CritRatingPerCritChance*float64(hunter.Talents.ImprovedBarrage) +
-			core.TernaryFloat64(hunter.Talents.TrueshotAura && hunter.HasMajorGlyph(proto.HunterMajorGlyph_GlyphOfTrueshotAura), 10*core.CritRatingPerCritChance, 0),
+		BonusCrit: 0 +
+			4*float64(hunter.Talents.ImprovedBarrage) +
+			core.TernaryFloat64(hunter.Talents.TrueshotAura && hunter.HasMajorGlyph(proto.HunterMajorGlyph_GlyphOfTrueshotAura), 10, 0),
 		DamageMultiplierAdditive: 1 +
 			.04*float64(hunter.Talents.Barrage),
 		DamageMultiplier: 1 *
@@ -50,7 +57,7 @@ func (hunter *Hunter) registerAimedShotSpell(timer *core.Timer) {
 				hunter.AutoAttacks.Ranged().BaseDamage(sim) +
 				hunter.AmmoDamageBonus +
 				spell.BonusWeaponDamage() +
-				408
+				dmg
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeRangedHitAndCrit)
 		},
 	})

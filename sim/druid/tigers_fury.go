@@ -4,20 +4,27 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/druidinfo"
 )
 
 func (druid *Druid) registerTigersFurySpell() {
-	actionID := core.ActionID{SpellID: 50213}
+	dbc := druidinfo.TigersFury.GetMaxRank(druid.Level)
+	if dbc == nil {
+		return
+	}
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 	energyMetrics := druid.NewEnergyMetrics(actionID)
 	instantEnergy := 20.0 * float64(druid.Talents.KingOfTheJungle)
 
-	dmgBonus := 80.0
+	dmgBonus, _ := dbc.GetBPDie(0, druid.Level)
 	cdReduction := core.TernaryDuration(druid.HasSetBonus(ItemSetDreamwalkerBattlegear, 4), time.Second*3, 0)
 
 	druid.TigersFuryAura = druid.RegisterAura(core.Aura{
-		Label:    "Tiger's Fury Aura",
-		ActionID: actionID,
-		Duration: 6 * time.Second,
+		Label:     "Tiger's Fury Aura",
+		AuraRanks: druidinfo.TigersFury.GetAllIDs(),
+		ActionID:  actionID,
+		Duration:  6 * time.Second,
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
 			druid.PseudoStats.BonusDamage += dmgBonus
 		},
@@ -27,8 +34,9 @@ func (druid *Druid) registerTigersFurySpell() {
 	})
 
 	spell := druid.RegisterSpell(Cat, core.SpellConfig{
-		ActionID: actionID,
-		Flags:    core.SpellFlagAPL,
+		ActionID:   actionID,
+		SpellRanks: druidinfo.TigersFury.GetAllIDs(),
+		Flags:      core.SpellFlagAPL,
 		Cast: core.CastConfig{
 			CD: core.Cooldown{
 				Timer:    druid.NewTimer(),

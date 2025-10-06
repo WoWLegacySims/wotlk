@@ -36,7 +36,7 @@ func (dk *Deathknight) newRuneStrikeSpell(isMH bool) *core.Spell {
 			return dk.RuneStrikeAura.IsActive()
 		},
 
-		BonusCritRating: (dk.annihilationCritBonus() + runeStrikeGlyphCritBonus) * core.CritRatingPerCritChance,
+		BonusCrit: (dk.annihilationCritBonus() + runeStrikeGlyphCritBonus),
 		DamageMultiplier: 1.5 *
 			dk.darkrunedPlateRuneStrikeDamageBonus(),
 		CritMultiplier:   dk.DefaultMeleeCritMultiplier(),
@@ -86,6 +86,9 @@ func (dk *Deathknight) newRuneStrikeSpell(isMH bool) *core.Spell {
 }
 
 func (dk *Deathknight) registerRuneStrikeSpell() {
+	if dk.Level < 67 {
+		return
+	}
 	dk.RuneStrikeQueue = dk.RegisterSpell(core.SpellConfig{
 		ActionID: RuneStrikeActionID.WithTag(0),
 		Flags:    core.SpellFlagAPL,
@@ -118,6 +121,9 @@ func (dk *Deathknight) registerRuneStrikeSpell() {
 }
 
 func (dk *Deathknight) registerDrwRuneStrikeSpell() {
+	if dk.Level < 67 {
+		return
+	}
 	runeStrikeGlyphCritBonus := core.TernaryFloat64(dk.HasMajorGlyph(proto.DeathknightMajorGlyph_GlyphOfRuneStrike), 10.0, 0.0)
 
 	dk.RuneWeapon.RuneStrike = dk.RuneWeapon.RegisterSpell(core.SpellConfig{
@@ -126,7 +132,7 @@ func (dk *Deathknight) registerDrwRuneStrikeSpell() {
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage,
 
-		BonusCritRating: (dk.annihilationCritBonus() + runeStrikeGlyphCritBonus) * core.CritRatingPerCritChance,
+		BonusCrit: (dk.annihilationCritBonus() + runeStrikeGlyphCritBonus),
 		DamageMultiplier: 1.5 *
 			dk.darkrunedPlateRuneStrikeDamageBonus(),
 		CritMultiplier:   dk.DefaultMeleeCritMultiplier(),

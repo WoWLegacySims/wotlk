@@ -5,20 +5,35 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/hunterinfo"
 )
 
 func (hunter *Hunter) registerMultiShotSpell(timer *core.Timer) {
+	dbc := hunterinfo.MultiShot.GetMaxRank(hunter.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, hunter.Level)
+
+	var dmgMultAdditive = 0.0
+	switch hunter.Equipment.Hands().ID {
+	case 34991, 33665, 31961, 28335, 42675, 28614, 28806, 35377, 35475, 32134, 16463, 16571, 22862, 23279:
+		dmgMultAdditive = 0.05
+	}
+
 	numHits := min(3, hunter.Env.GetNumTargets())
 
 	hunter.MultiShot = hunter.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 49048},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  hunterinfo.MultiShot.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskRangedSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagAPL,
 
 		ManaCost: core.ManaCostOptions{
-			BaseCost:   0.09,
-			Multiplier: 1 - 0.03*float64(hunter.Talents.Efficiency),
+			BaseCost: 0.09,
+			Multiplier: (1 - 0.03*float64(hunter.Talents.Efficiency)) *
+				core.TernaryFloat64(hunter.HasSetBonus(ItemSetDemonStalker, 4), 0.9, 1),
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
@@ -38,10 +53,11 @@ func (hunter *Hunter) registerMultiShotSpell(timer *core.Timer) {
 			},
 		},
 
-		BonusCritRating: 0 +
-			4*core.CritRatingPerCritChance*float64(hunter.Talents.ImprovedBarrage),
+		BonusCrit: 0 +
+			4*float64(hunter.Talents.ImprovedBarrage),
 		DamageMultiplierAdditive: 1 +
-			.04*float64(hunter.Talents.Barrage),
+			.04*float64(hunter.Talents.Barrage) +
+			dmgMultAdditive,
 		DamageMultiplier: 1 *
 			hunter.markedForDeathMultiplier(),
 		CritMultiplier:   hunter.critMultiplier(true, false, false),
@@ -51,7 +67,7 @@ func (hunter *Hunter) registerMultiShotSpell(timer *core.Timer) {
 			sharedDmg := hunter.AutoAttacks.Ranged().BaseDamage(sim) +
 				hunter.AmmoDamageBonus +
 				spell.BonusWeaponDamage() +
-				408
+				bp
 
 			curTarget := target
 			for hitIndex := int32(0); hitIndex < numHits; hitIndex++ {

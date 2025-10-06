@@ -2,15 +2,22 @@ package deathknight
 
 import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/deathknightinfo"
 )
 
-var IcyTouchActionID = core.ActionID{SpellID: 59131}
-
 func (dk *Deathknight) registerIcyTouchSpell() {
+	dbc := deathknightinfo.IcyTouch.GetMaxRank(dk.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, dk.Level)
+	actionID := core.ActionID{SpellID: dbc.SpellID}
+
 	sigilBonus := dk.sigilOfTheFrozenConscienceBonus()
 
 	dk.IcyTouch = dk.RegisterSpell(core.SpellConfig{
-		ActionID:    IcyTouchActionID,
+		ActionID:    actionID,
+		SpellRanks:  deathknightinfo.IcyTouch.GetAllIDs(),
 		Flags:       core.SpellFlagAPL,
 		SpellSchool: core.SpellSchoolFrost,
 		ProcMask:    core.ProcMaskSpellDamage,
@@ -26,13 +33,13 @@ func (dk *Deathknight) registerIcyTouchSpell() {
 			},
 		},
 
-		BonusCritRating:  dk.rimeCritBonus() * core.CritRatingPerCritChance,
+		BonusCrit:        dk.rimeCritBonus(),
 		DamageMultiplier: 1 + 0.05*float64(dk.Talents.ImprovedIcyTouch),
 		CritMultiplier:   dk.DefaultMeleeCritMultiplier(),
 		ThreatMultiplier: 1.0,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := (sim.Roll(227, 245) + sigilBonus + 0.1*dk.getImpurityBonus(spell)) *
+			baseDamage := (sim.Roll(bp, die) + sigilBonus + 0.1*dk.getImpurityBonus(spell)) *
 				dk.glacielRotBonus(target) *
 				dk.RoRTSBonus(target) *
 				dk.mercilessCombatBonus(sim)
@@ -50,21 +57,27 @@ func (dk *Deathknight) registerIcyTouchSpell() {
 	})
 }
 func (dk *Deathknight) registerDrwIcyTouchSpell() {
+	dbc := deathknightinfo.IcyTouch.GetMaxRank(dk.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, dk.Level)
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 	sigilBonus := dk.sigilOfTheFrozenConscienceBonus()
 
 	dk.RuneWeapon.IcyTouch = dk.RuneWeapon.RegisterSpell(core.SpellConfig{
-		ActionID:    IcyTouchActionID,
+		ActionID:    actionID,
 		SpellSchool: core.SpellSchoolFrost,
 		ProcMask:    core.ProcMaskSpellDamage,
 		//Flags:       core.SpellFlagIgnoreAttackerModifiers,
 
-		BonusCritRating:  dk.rimeCritBonus() * core.CritRatingPerCritChance,
+		BonusCrit:        dk.rimeCritBonus(),
 		DamageMultiplier: 1 + 0.05*float64(dk.Talents.ImprovedIcyTouch),
 		CritMultiplier:   dk.DefaultMeleeCritMultiplier(),
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(227, 245) + sigilBonus + 0.1*dk.RuneWeapon.getImpurityBonus(spell)
+			baseDamage := sim.Roll(bp, die) + sigilBonus + 0.1*dk.RuneWeapon.getImpurityBonus(spell)
 
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 			if result.Landed() {

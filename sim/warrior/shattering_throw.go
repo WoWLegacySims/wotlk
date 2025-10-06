@@ -8,6 +8,9 @@ import (
 )
 
 func (warrior *Warrior) RegisterShatteringThrowCD() {
+	if warrior.Level < 71 {
+		return
+	}
 	hasGlyph := warrior.HasMinorGlyph(proto.WarriorMinorGlyph_GlyphOfShatteringThrow)
 	shattDebuffs := warrior.NewEnemyAuraArray(core.ShatteringThrowAura)
 

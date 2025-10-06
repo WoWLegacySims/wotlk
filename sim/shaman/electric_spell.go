@@ -24,7 +24,7 @@ const (
 )
 
 // Shared precomputation logic for LB and CL.
-func (shaman *Shaman) newElectricSpellConfig(actionID core.ActionID, baseCost float64, baseCastTime time.Duration, isLightningOverload bool) core.SpellConfig {
+func (shaman *Shaman) newElectricSpellConfig(actionID core.ActionID, baseCost float64, baseCastTime time.Duration, isLightningOverload bool, spellRanks map[int32]bool) core.SpellConfig {
 	mask := core.ProcMaskSpellDamage
 	if isLightningOverload {
 		mask = core.ProcMaskProc
@@ -35,6 +35,7 @@ func (shaman *Shaman) newElectricSpellConfig(actionID core.ActionID, baseCost fl
 	}
 	spell := core.SpellConfig{
 		ActionID:     actionID,
+		SpellRanks:   spellRanks,
 		SpellSchool:  core.SpellSchoolNature,
 		ProcMask:     mask,
 		Flags:        flags,
@@ -54,10 +55,10 @@ func (shaman *Shaman) newElectricSpellConfig(actionID core.ActionID, baseCost fl
 			},
 		},
 
-		BonusHitRating: float64(shaman.Talents.ElementalPrecision) * core.SpellHitRatingPerHitChance,
-		BonusCritRating: 0 +
-			float64(shaman.Talents.TidalMastery)*core.CritRatingPerCritChance +
-			core.TernaryFloat64(shaman.Talents.CallOfThunder, 5*core.CritRatingPerCritChance, 0),
+		BonusHit: float64(shaman.Talents.ElementalPrecision),
+		BonusCrit: 0 +
+			float64(shaman.Talents.TidalMastery) +
+			core.TernaryFloat64(shaman.Talents.CallOfThunder, 5, 0),
 		DamageMultiplier: 1 + 0.01*float64(shaman.Talents.Concussion),
 		CritMultiplier:   shaman.ElementalCritMultiplier(0),
 		ThreatMultiplier: shaman.spellThreatMultiplier(),

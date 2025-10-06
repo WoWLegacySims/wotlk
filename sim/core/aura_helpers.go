@@ -82,15 +82,15 @@ func ApplyProcTriggerCallback(unit *Unit, aura *Aura, config ProcTrigger) {
 		if config.Harmful && result.Damage == 0 {
 			return
 		}
+		if config.CustomCheck != nil && !config.CustomCheck(aura, sim, spell, result) {
+			return
+		}
 		if icd.Duration != 0 && !icd.IsReady(sim) {
 			return
 		}
 		if config.ProcChance != 1 && sim.RandomFloat(config.Name) > config.ProcChance {
 			return
 		} else if config.PPM != 0 && !ppmm.Proc(sim, spell.ProcMask, config.Name) {
-			return
-		}
-		if config.CustomCheck != nil && !config.CustomCheck(aura, sim, spell, result) {
 			return
 		}
 
@@ -183,6 +183,9 @@ func MakeStackingAura(character *Character, config StackingStatAura) *Aura {
 
 // Returns the same Aura for chaining.
 func MakePermanent(aura *Aura) *Aura {
+	if aura == nil {
+		return nil
+	}
 	aura.Duration = NeverExpires
 	if aura.OnReset == nil {
 		aura.OnReset = func(aura *Aura, sim *Simulation) {

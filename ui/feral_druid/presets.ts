@@ -1,29 +1,24 @@
+import * as PresetUtils from '../core/preset_utils.js';
 import {
 	Consumes,
-	Food,
-	Potions,
-	Flask,
 	Glyphs,
+	Potions,
 	Spec,
 } from '../core/proto/common.js';
-import { SavedTalents } from '../core/proto/ui.js';
-
+import {Flask,Food} from '../core/proto/consumes_gen.js'
 import {
-	FeralDruid_Rotation as FeralDruidRotation,
-	FeralDruid_Options as FeralDruidOptions,
 	DruidMajorGlyph,
 	DruidMinorGlyph,
+	FeralDruid_Options as FeralDruidOptions,
+	FeralDruid_Rotation as FeralDruidRotation,
+	FeralDruid_Rotation_AplType,
 	FeralDruid_Rotation_BearweaveType,
 	FeralDruid_Rotation_BiteModeType,
-	FeralDruid_Rotation_AplType,
 } from '../core/proto/druid.js';
-
-import * as PresetUtils from '../core/preset_utils.js';
-
+import { SavedTalents } from '../core/proto/ui.js';
 // Preset options for this spec.
 // Eventually we will import these values for the raid sim too, so its good to
 // keep them in a separate file.
-
 import PreraidGear from './gear_sets/preraid.gear.json';
 export const PRERAID_PRESET = PresetUtils.makePresetGear('Preraid Preset', PreraidGear);
 import P1Gear from './gear_sets/p1.gear.json';
@@ -92,7 +87,7 @@ export const DefaultOptions = FeralDruidOptions.create({
 });
 
 export const DefaultConsumes = Consumes.create({
-	flask: Flask.FlaskOfEndlessRage,
-	food: Food.FoodDragonfinFilet,
+	flask: Flask.FlaskofEndlessRage,
+	food: Food.DragonfinFilet,
 	defaultPotion: Potions.PotionOfSpeed,
 });

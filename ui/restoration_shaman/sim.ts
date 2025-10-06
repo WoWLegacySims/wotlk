@@ -57,7 +57,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecRestorationShaman, {
 	],
 	modifyDisplayStats: (player: Player<Spec.SpecRestorationShaman>) => {
 		let stats = new Stats();
-		stats = stats.addStat(Stat.StatSpellCrit, player.getTalents().tidalMastery * 1 * Ratings.CRIT_RATING_PER_CRIT_CHANCE);
+		stats = stats.addStat(Stat.StatSpellCrit, player.getTalents().tidalMastery * 1 * Ratings.GET_CRIT_RATING_PER_CRIT_CHANCE(player.getLevel()));
 		return {
 			talents: stats,
 		};

@@ -5,6 +5,9 @@ import (
 )
 
 func (paladin *Paladin) ActivateRighteousFury() {
+	if paladin.Level < 16 {
+		return
+	}
 
 	var holySpells []*core.Spell
 	paladin.OnSpellRegistered(func(spell *core.Spell) {

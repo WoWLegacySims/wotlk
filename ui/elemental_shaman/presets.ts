@@ -1,32 +1,27 @@
+import * as PresetUtils from '../core/preset_utils.js';
 import {
 	Consumes,
 	Faction,
-	Flask,
-	Food,
 	Glyphs,
 	Potions,
   Profession,
 } from '../core/proto/common.js';
-import { SavedTalents } from '../core/proto/ui.js';
-
+import {Flask,Food} from '../core/proto/consumes_gen.js'
 import {
-  ElementalShaman_Options as ElementalShamanOptions,
-  ShamanShield,
-  ShamanMajorGlyph,
-  ShamanMinorGlyph,
   AirTotem,
   EarthTotem,
+  ElementalShaman_Options as ElementalShamanOptions,
   FireTotem,
-  WaterTotem,
+  ShamanMajorGlyph,
+  ShamanMinorGlyph,
+  ShamanShield,
   ShamanTotems,
+  WaterTotem,
 } from '../core/proto/shaman.js';
-
-import * as PresetUtils from '../core/preset_utils.js';
-
+import { SavedTalents } from '../core/proto/ui.js';
 // Preset options for this spec.
 // Eventually we will import these values for the raid sim too, so its good to
 // keep them in a separate file.
-
 import PreraidGear from './gear_sets/preraid.gear.json';
 export const PRERAID_PRESET = PresetUtils.makePresetGear('Pre-raid Preset', PreraidGear);
 import P1Gear from './gear_sets/p1.gear.json';
@@ -82,6 +77,6 @@ export const OtherDefaults = {
 
 export const DefaultConsumes = Consumes.create({
   defaultPotion: Potions.PotionOfWildMagic,
-  flask: Flask.FlaskOfTheFrostWyrm,
-  food: Food.FoodFishFeast,
+  flask: Flask.FlaskoftheFrostWyrm,
+  food: Food.FishFeast,
 });

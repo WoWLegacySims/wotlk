@@ -5,14 +5,24 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/mageinfo"
 )
 
 func (mage *Mage) registerArcaneMissilesSpell() {
-	spellCoeff := 1/3.5 + 0.03*float64(mage.Talents.ArcaneEmpowerment)
+	dbc := mageinfo.ArcaneMissiles.GetMaxRank(mage.Level)
+	dbcDmg := mageinfo.ArcaneMissilesDamage.GetMaxRank(mage.Level)
+	if dbc == nil || dbcDmg == nil {
+		return
+	}
+
+	ticks := dbc.Duration / dbc.Effects[1].AuraPeriod
+	bp, _ := dbcDmg.GetBPDie(0, mage.Level)
+
+	spellCoeff := (dbcDmg.GetCoefficient(0) + 0.03*float64(mage.Talents.ArcaneEmpowerment)) * dbcDmg.GetLevelPenalty(mage.Level)
 	hasT8_4pc := mage.HasSetBonus(ItemSetKirinTorGarb, 4)
 
 	mage.ArcaneMissilesTickSpell = mage.GetOrRegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 42845},
+		ActionID:    core.ActionID{SpellID: dbcDmg.SpellID},
 		SpellSchool: core.SpellSchoolArcane,
 		// unlike Mind Flay, this CAN proc JoW. It can also proc trinkets without the "can proc from proc" flag
 		// such as illustration of the dragon soul
@@ -20,15 +30,15 @@ func (mage *Mage) registerArcaneMissilesSpell() {
 		ProcMask:         core.ProcMaskSpellDamage | core.ProcMaskNotInSpellbook,
 		Flags:            SpellFlagMage | core.SpellFlagNoLogs,
 		MissileSpeed:     20,
-		BonusHitRating:   float64(mage.Talents.ArcaneFocus) * core.SpellHitRatingPerHitChance,
-		BonusCritRating:  core.TernaryFloat64(mage.HasSetBonus(ItemSetKhadgarsRegalia, 4), 5*core.CritRatingPerCritChance, 0),
+		BonusHit:         float64(mage.Talents.ArcaneFocus),
+		BonusCrit:        core.TernaryFloat64(mage.HasSetBonus(ItemSetKhadgarsRegalia, 4), 5, 0),
 		DamageMultiplier: 1 + .04*float64(mage.Talents.TormentTheWeak),
 		DamageMultiplierAdditive: 1 +
 			core.TernaryFloat64(mage.HasSetBonus(ItemSetTempestRegalia, 4), .05, 0),
 		CritMultiplier:   mage.SpellCritMultiplier(1, mage.bonusCritDamage+core.TernaryFloat64(mage.HasMajorGlyph(proto.MageMajorGlyph_GlyphOfArcaneMissiles), .25, 0)),
 		ThreatMultiplier: 1 - 0.2*float64(mage.Talents.ArcaneSubtlety),
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			damage := 362 + spellCoeff*spell.SpellPower()
+			damage := bp + spellCoeff*spell.SpellPower()
 			result := spell.CalcDamage(sim, target, damage, spell.OutcomeMagicHitAndCrit)
 
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {
@@ -38,11 +48,12 @@ func (mage *Mage) registerArcaneMissilesSpell() {
 	})
 
 	mage.ArcaneMissiles = mage.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 42846},
-		SpellSchool:    core.SpellSchoolArcane,
-		ProcMask:       core.ProcMaskSpellDamage,
-		Flags:          SpellFlagMage | core.SpellFlagChanneled | core.SpellFlagAPL,
-		BonusHitRating: float64(mage.Talents.ArcaneFocus) * core.SpellHitRatingPerHitChance,
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  mageinfo.ArcaneMissiles.GetAllIDs(),
+		SpellSchool: core.SpellSchoolArcane,
+		ProcMask:    core.ProcMaskSpellDamage,
+		Flags:       SpellFlagMage | core.SpellFlagChanneled | core.SpellFlagAPL,
+		BonusHit:    float64(mage.Talents.ArcaneFocus),
 		ManaCost: core.ManaCostOptions{
 			BaseCost:   0.31,
 			Multiplier: 1 - .01*float64(mage.Talents.ArcaneFocus),
@@ -73,7 +84,7 @@ func (mage *Mage) registerArcaneMissilesSpell() {
 					mage.ArcaneBlastAura.Deactivate(sim)
 				},
 			},
-			NumberOfTicks:       5,
+			NumberOfTicks:       ticks,
 			TickLength:          time.Second,
 			AffectedByCastSpeed: true,
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {

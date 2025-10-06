@@ -1,18 +1,14 @@
-import { GemColor } from '../proto/common.js';
-import { ItemSpec } from '../proto/common.js';
-import { ItemType } from '../proto/common.js';
-import { Profession } from '../proto/common.js';
+import { GemColor , ItemSpec , ItemType , Profession } from '../proto/common.js';
 import {
 	UIEnchant as Enchant,
 	UIGem as Gem,
 	UIItem as Item,
 } from '../proto/ui.js';
 import { distinct } from '../utils.js';
-
 import { ActionId } from './action_id.js';
-import { enchantAppliesToItem } from './utils.js';
 import { gemEligibleForSocket, gemMatchesSocket } from './gems.js';
 import { Stats } from './stats.js';
+import { enchantAppliesToItem } from './utils.js';
 
 export function getWeaponDPS(item: Item): number {
 	return ((item.weaponDamageMin + item.weaponDamageMax) / 2) / (item.weaponSpeed || 1);
@@ -35,7 +31,7 @@ export class EquippedItem {
 		this._enchant = enchant || null;
 		this._gems = gems || [];
 
-		this.numPossibleSockets = this.numSockets(true);
+		this.numPossibleSockets = this.numSockets(true,true);
 
 		// Fill gems with null so we always have the same number of gems as gem slots.
 		if (this._gems.length < this.numPossibleSockets) {
@@ -206,19 +202,19 @@ export class EquippedItem {
 			&& this._gems[this._gems.length - 1] != null;
 	}
 
-	hasExtraSocket(isBlacksmithing: boolean): boolean {
-		return this.item.type == ItemType.ItemTypeWaist ||
-			(isBlacksmithing && [ItemType.ItemTypeWrist, ItemType.ItemTypeHands].includes(this.item.type));
+	hasExtraSocket(isBlacksmithing: boolean, canUseExtraSockets: boolean): boolean {
+		return canUseExtraSockets && (this.item.type == ItemType.ItemTypeWaist ||
+			(isBlacksmithing && [ItemType.ItemTypeWrist, ItemType.ItemTypeHands].includes(this.item.type)));
 	}
 
-	numSockets(isBlacksmithing: boolean): number {
-		return this._item.gemSockets.length + (this.hasExtraSocket(isBlacksmithing) ? 1 : 0);
+	numSockets(isBlacksmithing: boolean,canUseExtraSockets:boolean): number {
+		return this._item.gemSockets.length + (this.hasExtraSocket(isBlacksmithing,canUseExtraSockets) ? 1 : 0);
 	}
 
 	numSocketsOfColor(color: GemColor | null): number {
-		let numSockets: number = 0;
+		let numSockets = 0;
 
-		for (var socketColor of this._item.gemSockets) {
+		for (const socketColor of this._item.gemSockets) {
 			if (socketColor == color) {
 				numSockets += 1;
 			}
@@ -238,19 +234,19 @@ export class EquippedItem {
 	allSocketColors(): Array<GemColor> {
 		return this.couldHaveExtraSocket() ? this._item.gemSockets.concat([GemColor.GemColorPrismatic]) : this._item.gemSockets;
 	}
-	curSocketColors(isBlacksmithing: boolean): Array<GemColor> {
-		return this.hasExtraSocket(isBlacksmithing) ? this._item.gemSockets.concat([GemColor.GemColorPrismatic]) : this._item.gemSockets;
+	curSocketColors(isBlacksmithing: boolean,canUseExtraSockets: boolean): Array<GemColor> {
+		return this.hasExtraSocket(isBlacksmithing,canUseExtraSockets) ? this._item.gemSockets.concat([GemColor.GemColorPrismatic]) : this._item.gemSockets;
 	}
 
-	curGems(isBlacksmithing: boolean): Array<Gem|null> {
-		return this._gems.slice(0, this.numSockets(isBlacksmithing));
+	curGems(isBlacksmithing: boolean,canUseExtraSockets: boolean): Array<Gem|null> {
+		return this._gems.slice(0, this.numSockets(isBlacksmithing,canUseExtraSockets));
 	}
-	curEquippedGems(isBlacksmithing: boolean): Array<Gem> {
-		return this.curGems(isBlacksmithing).filter(g => g != null) as Array<Gem>;
+	curEquippedGems(isBlacksmithing: boolean,canUseExtraSockets:boolean): Array<Gem> {
+		return this.curGems(isBlacksmithing,canUseExtraSockets).filter(g => g != null) as Array<Gem>;
 	}
 
 	getProfessionRequirements(): Array<Profession> {
-		let profs: Array<Profession> = [];
+		const profs: Array<Profession> = [];
 		if (this._item.requiredProfession != Profession.ProfessionUnknown) {
 			profs.push(this._item.requiredProfession);
 		}
@@ -268,7 +264,7 @@ export class EquippedItem {
 		return distinct(profs);
 	}
 	getFailedProfessionRequirements(professions: Array<Profession>): Array<Item | Gem | Enchant> {
-		let failed: Array<Item | Gem | Enchant> = [];
+		const failed: Array<Item | Gem | Enchant> = [];
 		if (this._item.requiredProfession != Profession.ProfessionUnknown && !professions.includes(this._item.requiredProfession)) {
 			failed.push(this._item);
 		}

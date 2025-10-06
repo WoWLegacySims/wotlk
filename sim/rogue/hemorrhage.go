@@ -5,6 +5,7 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/rogueinfo"
 )
 
 func (rogue *Rogue) registerHemorrhageSpell() {
@@ -12,7 +13,14 @@ func (rogue *Rogue) registerHemorrhageSpell() {
 		return
 	}
 
-	actionID := core.ActionID{SpellID: 48660}
+	dbc := rogueinfo.Hemorrhage.GetMaxRank(rogue.Level)
+	if dbc == nil {
+		return
+	}
+
+	bonus, _ := dbc.GetBPDie(2, rogue.Level)
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 
 	var numPlayers int
 	for _, u := range rogue.Env.Raid.AllUnits {
@@ -26,15 +34,16 @@ func (rogue *Rogue) registerHemorrhageSpell() {
 	// Hemo debuff disabled except in raid sim
 	// in a raid environment each melee will get very little debuffs, which is hard to model
 	if numPlayers >= 2 {
-		bonusDamage := 75.0
+		bonusDamage := bonus
 		if rogue.HasMajorGlyph(proto.RogueMajorGlyph_GlyphOfHemorrhage) {
 			bonusDamage *= 1.4
 		}
 
-		hemoAuras = rogue.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+		hemoAuras = rogue.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 			return target.GetOrRegisterAura(core.Aura{
 				Label:     "Hemorrhage",
 				ActionID:  actionID,
+				AuraRanks: rogueinfo.Hemorrhage.GetAllIDs(),
 				Duration:  time.Second * 15,
 				MaxStacks: 10,
 				OnGain: func(aura *core.Aura, sim *core.Simulation) {
@@ -59,6 +68,7 @@ func (rogue *Rogue) registerHemorrhageSpell() {
 
 	rogue.Hemorrhage = rogue.RegisterSpell(core.SpellConfig{
 		ActionID:    actionID,
+		SpellRanks:  rogueinfo.Hemorrhage.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | SpellFlagBuilder | SpellFlagColdBlooded | core.SpellFlagAPL,
@@ -74,8 +84,8 @@ func (rogue *Rogue) registerHemorrhageSpell() {
 			IgnoreHaste: true,
 		},
 
-		BonusCritRating: core.TernaryFloat64(rogue.HasSetBonus(Tier9, 4), 5*core.CritRatingPerCritChance, 0) +
-			[]float64{0, 2, 4, 6}[rogue.Talents.TurnTheTables]*core.CritRatingPerCritChance,
+		BonusCrit: core.TernaryFloat64(rogue.HasSetBonus(Tier9, 4), 5, 0) +
+			float64(rogue.Talents.TurnTheTables)*2,
 
 		DamageMultiplier: core.TernaryFloat64(rogue.HasDagger(core.MainHand), 1.6, 1.1) * (1 +
 			0.02*float64(rogue.Talents.FindWeakness) +

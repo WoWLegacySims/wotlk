@@ -9,6 +9,7 @@ import (
 )
 
 func init() {
+	core.AddEffectsToTest = false
 	core.NewItemEffect(38212, func(agent core.Agent) {
 		character := agent.GetCharacter()
 
@@ -84,6 +85,16 @@ func init() {
 		ProcChance: 0.5,
 	})
 	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{
+		Name:      "The Dusk Blade",
+		ID:        43613,
+		AuraID:    59043,
+		Duration:  time.Second * 10,
+		MaxStacks: 3,
+		Bonus:     stats.Stats{stats.ArmorPenetration: 15},
+		Callback:  core.CallbackOnSpellHitDealt,
+		Weapon:    true,
+	})
+	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{
 		Name:      "Eye of the Broodmother",
 		ID:        45308,
 		AuraID:    65006,
@@ -92,8 +103,6 @@ func init() {
 		Bonus:     stats.Stats{stats.SpellPower: 26},
 		Callback:  core.CallbackOnHealDealt | core.CallbackOnSpellHitDealt | core.CallbackOnPeriodicHealDealt | core.CallbackOnPeriodicDamageDealt,
 	})
-
-	core.AddEffectsToTest = false
 
 	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{
 		Name:      "Solance of the Defeated",
@@ -386,6 +395,5 @@ func init() {
 		Outcome:     core.OutcomeLanded,
 		IsDefensive: true,
 	})
-
 	core.AddEffectsToTest = true
 }

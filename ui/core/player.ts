@@ -1,4 +1,5 @@
 import { getLanguageCode } from './constants/lang.js';
+import { MIN_LEVEL, MIN_LEVEL_DK } from './constants/mechanics.js';
 import * as Ratings from './constants/ratings.js';
 import { MAX_PARTY_SIZE,Party } from './party.js';
 import {
@@ -14,6 +15,7 @@ import {
 	Class,
 	Consumes,
 	Cooldowns,
+	Expansion,
 	Faction,
 	GemColor,
 	Glyphs,
@@ -32,7 +34,6 @@ import {
 } from './proto/common.js';
 import {
 	DungeonDifficulty,
-	Expansion,
 	RaidFilterOption,
 	SourceFilterOption,
 	UIEnchant as Enchant,
@@ -232,6 +233,7 @@ export class Player<SpecType extends Spec> {
 	private enableItemSwap = false;
 	private itemSwapGear: ItemSwapGear = new ItemSwapGear({});
 	private race: Race;
+	private level = 80;
 	private profession1: Profession = 0;
 	private profession2: Profession = 0;
 	aplRotation: APLRotation = APLRotation.create();
@@ -272,6 +274,7 @@ export class Player<SpecType extends Spec> {
 	readonly itemSwapChangeEmitter = new TypedEvent<void>('PlayerItemSwap');
 	readonly professionChangeEmitter = new TypedEvent<void>('PlayerProfession');
 	readonly raceChangeEmitter = new TypedEvent<void>('PlayerRace');
+	readonly levelChangeEmitter = new TypedEvent<void>('PlayerLevel');
 	readonly rotationChangeEmitter = new TypedEvent<void>('PlayerRotation');
 	readonly talentsChangeEmitter = new TypedEvent<void>('PlayerTalents');
 	readonly glyphsChangeEmitter = new TypedEvent<void>('PlayerGlyphs');
@@ -296,6 +299,7 @@ export class Player<SpecType extends Spec> {
 
 		this.spec = spec;
 		this.race = specToEligibleRaces[this.spec][0];
+
 		this.specTypeFunctions = specTypeFunctions[this.spec] as SpecTypeFunctions<SpecType>;
 		this.specOptions = this.specTypeFunctions.optionsCreate();
 
@@ -323,6 +327,7 @@ export class Player<SpecType extends Spec> {
 			this.itemSwapChangeEmitter,
 			this.professionChangeEmitter,
 			this.raceChangeEmitter,
+			this.levelChangeEmitter,
 			this.rotationChangeEmitter,
 			this.talentsChangeEmitter,
 			this.glyphsChangeEmitter,
@@ -514,6 +519,39 @@ export class Player<SpecType extends Spec> {
 		}
 	}
 
+	getLevel(): number {
+		return this.level
+	}
+	setLevel(eventID: EventID, newLevel: number) {
+		const minLevel = this.getMinLevel()
+		newLevel = Math.min(Math.max(newLevel, minLevel), this.getMaxLevel());
+		if (newLevel != this.level) {
+			this.sim.encounter.targets.forEach(t => {
+				t.level = t.level - this.level + newLevel;
+			});
+			this.level = newLevel;
+			this.levelChangeEmitter.emit(TypedEvent.nextEventID());
+		}
+	}
+
+	getMinLevel() {
+		return this.isClass(Class.ClassDeathknight) ? MIN_LEVEL_DK : MIN_LEVEL;
+	}
+
+	getMaxLevel() {
+		return this.sim.getMaxLevel()
+	}
+
+	getExpansion(): Expansion {
+		return this.sim.getExpansion()
+	}
+	setExpansion(eventID: EventID, newExpansion: Expansion) {
+		const maxLevel = this.sim.setExpansion(eventID, newExpansion)
+		if (this.level > maxLevel) {
+			this.setLevel(eventID,maxLevel);
+		}
+	}
+
 	getProfession1(): Profession {
 		return this.profession1;
 	}
@@ -546,6 +584,10 @@ export class Player<SpecType extends Spec> {
 	}
 	isBlacksmithing(): boolean {
 		return this.hasProfession(Profession.Blacksmithing);
+	}
+
+	canUseExtraSockets(): boolean {
+		return this.getExpansion() == Expansion.ExpansionWotlk && this.getLevel() >= 70
 	}
 
 	getFaction(): Faction {
@@ -590,6 +632,10 @@ export class Player<SpecType extends Spec> {
 
 	getEquippedItem(slot: ItemSlot): EquippedItem | null {
 		return this.gear.getEquippedItem(slot);
+	}
+
+	hasTrinketEquipped(id: number): boolean {
+		return this.getEquippedItem(ItemSlot.ItemSlotTrinket1)?.id == id || this.getEquippedItem(ItemSlot.ItemSlotTrinket2)?.id == id
 	}
 
 	getGear(): Gear {
@@ -665,9 +711,9 @@ export class Player<SpecType extends Spec> {
 	}
 
 	getMeleeCritCapInfo(): MeleeCritCapInfo {
-		const meleeCrit = (this.currentStats.finalStats?.stats[Stat.StatMeleeCrit] || 0.0) / Ratings.CRIT_RATING_PER_CRIT_CHANCE;
-		const meleeHit = (this.currentStats.finalStats?.stats[Stat.StatMeleeHit] || 0.0) / Ratings.MELEE_HIT_RATING_PER_HIT_CHANCE;
-		const expertise = (this.currentStats.finalStats?.stats[Stat.StatExpertise] || 0.0) / Ratings.EXPERTISE_PER_QUARTER_PERCENT_REDUCTION / 4;
+		const meleeCrit = (this.currentStats.finalStats?.stats[Stat.StatMeleeCrit] || 0.0) / Ratings.GET_CRIT_RATING_PER_CRIT_CHANCE(this.getLevel());
+		const meleeHit = (this.currentStats.finalStats?.stats[Stat.StatMeleeHit] || 0.0) / Ratings.GET_MELEE_HIT_RATING_PER_HIT_CHANCE(this.getLevel());
+		const expertise = (this.currentStats.finalStats?.stats[Stat.StatExpertise] || 0.0) / Ratings.GET_EXPERTISE_PER_QUARTER_PERCENT_REDUCTION(this.getLevel()) / 4;
 		//const agility = (this.currentStats.finalStats?.stats[Stat.StatAgility] || 0.0) / this.getClass();
 		const suppression = 4.8;
 		const glancing = 24.0;
@@ -811,6 +857,17 @@ export class Player<SpecType extends Spec> {
 			this.talents = playerTalentStringToProto(this.spec, this.talentsString) as SpecTalents<SpecType>;
 		}
 		return this.talents!;
+	}
+
+	getMaxTalentPoints(): number {
+		return Math.max(0, this.getLevel()-9);
+	}
+
+	getMaxPetTalentPoints(): number {
+		if (this.spec != Spec.SpecHunter) return 0;
+		let points = Math.floor(this.getLevel()/4);
+		if (!(this as Player<Spec.SpecHunter>).getTalents().beastMastery) points -= 4;
+		return Math.max(0,points);
 	}
 
 	getTalentsString(): string {
@@ -1059,7 +1116,7 @@ export class Player<SpecType extends Spec> {
 
 		// Compare whether its better to match sockets + get socket bonus, or just use best gems.
 		const bestGemEPNotMatchingSockets = sum(item.gemSockets.map(socketColor => {
-			const gems = this.sim.db.getGems(socketColor).filter(gem => isUnrestrictedGem(gem, this.sim.getPhase()));
+			const gems = this.sim.db.getGems(socketColor).filter(gem => isUnrestrictedGem(gem, this.sim.getExpansion()));
 			if (gems.length > 0) {
 				return Math.max(...gems.map(gem => this.computeGemEP(gem)));
 			} else {
@@ -1068,7 +1125,7 @@ export class Player<SpecType extends Spec> {
 		}));
 
 		const bestGemEPMatchingSockets = sum(item.gemSockets.map(socketColor => {
-			const gems = this.sim.db.getGems(socketColor).filter(gem => isUnrestrictedGem(gem, this.sim.getPhase()) && gemMatchesSocket(gem, socketColor));
+			const gems = this.sim.db.getGems(socketColor).filter(gem => isUnrestrictedGem(gem, this.sim.getExpansion()) && gemMatchesSocket(gem, socketColor));
 			if (gems.length > 0) {
 				return Math.max(...gems.map(gem => this.computeGemEP(gem)));
 			} else {
@@ -1090,15 +1147,16 @@ export class Player<SpecType extends Spec> {
 		parts.push(`domain=${langPrefix}wotlk`);
 
 		const isBlacksmithing = this.hasProfession(Profession.Blacksmithing);
+		const canUseExtraSockets = this.canUseExtraSockets()
 		if (equippedItem.gems.length > 0) {
-			parts.push('gems=' + equippedItem.curGems(isBlacksmithing).map(gem => gem ? gem.id : 0).join(':'));
+			parts.push('gems=' + equippedItem.curGems(isBlacksmithing,canUseExtraSockets).map(gem => gem ? gem.id : 0).join(':'));
 		}
 		if (equippedItem.enchant != null) {
 			parts.push('ench=' + equippedItem.enchant.effectId);
 		}
 		parts.push('pcs=' + this.gear.asArray().filter(ei => ei != null).map(ei => ei!.item.id).join(':'));
 
-		if (equippedItem.hasExtraSocket(isBlacksmithing)) {
+		if (equippedItem.hasExtraSocket(isBlacksmithing,canUseExtraSockets)) {
 			parts.push('sock');
 		}
 
@@ -1167,6 +1225,15 @@ export class Player<SpecType extends Spec> {
 			itemData = filterItems(itemData, item => !item.sources.some(itemSrc => itemSrc.source.oneofKind == 'quest'));
 		}
 
+		if (filters.minIlvl > 0)
+			itemData = filterItems(itemData, item => filters.minIlvl <= item.ilvl)
+
+		if (filters.maxIlvl > 0)
+			itemData = filterItems(itemData, item => filters.maxIlvl >= item.ilvl)
+
+		if (filters.itemQualities.length > 0)
+			itemData = filterItems(itemData, item => filters.itemQualities.includes(item.quality))
+
 		for (const [srcOptionStr, difficulty] of Object.entries(Player.DIFFICULTY_SRCS)) {
 			const srcOption = parseInt(srcOptionStr) as SourceFilterOption;
 			if (!filters.sources.includes(srcOption)) {
@@ -1181,13 +1248,6 @@ export class Player<SpecType extends Spec> {
 							itemSrc.source.oneofKind == 'drop' && itemSrc.source.drop.difficulty == normalDifficulty && itemSrc.source.drop.category == AL_CATEGORY_HARD_MODE));
 				}
 			}
-		}
-
-		if (!filters.raids.includes(RaidFilterOption.RaidVanilla)) {
-			itemData = filterItems(itemData, item => item.expansion != Expansion.ExpansionVanilla);
-		}
-		if (!filters.raids.includes(RaidFilterOption.RaidTbc)) {
-			itemData = filterItems(itemData, item => item.expansion != Expansion.ExpansionTbc);
 		}
 		for (const [raidOptionStr, zoneId] of Object.entries(Player.RAID_IDS)) {
 			const raidOption = parseInt(raidOptionStr) as RaidFilterOption;
@@ -1260,6 +1320,9 @@ export class Player<SpecType extends Spec> {
 		return enchantData.filter(enchantElem => {
 			const enchant = getEnchantFunc(enchantElem);
 
+			if (this.getLevel() < enchant.level)
+				return false
+
 			if (!enchantAppliesToItem(enchant, currentEquippedItem.item)) {
 				return false;
 			}
@@ -1281,6 +1344,9 @@ export class Player<SpecType extends Spec> {
 			if (filters.matchingGemsOnly && !gemMatchesSocket(gem, socketColor)) {
 				return false;
 			}
+
+			if (filters.itemQualities.length > 0 && !filters.itemQualities.includes(gem.quality))
+				return false
 
 			return true;
 		});
@@ -1342,6 +1408,8 @@ export class Player<SpecType extends Spec> {
 			PlayerProto.mergePartial(player, {
 				name: this.getName(),
 				race: this.getRace(),
+				expansion: this.getExpansion(),
+				level: this.getLevel(),
 				profession1: this.getProfession1(),
 				profession2: this.getProfession2(),
 				reactionTimeMs: this.getReactionTime(),
@@ -1403,6 +1471,8 @@ export class Player<SpecType extends Spec> {
 				this.setRace(eventID, proto.race);
 				this.setProfession1(eventID, proto.profession1);
 				this.setProfession2(eventID, proto.profession2);
+				this.setExpansion(eventID, proto.expansion);
+				this.setLevel(eventID, proto.level);
 				this.setReactionTime(eventID, proto.reactionTimeMs);
 				this.setChannelClipDelay(eventID, proto.channelClipDelayMs);
 				this.setInFrontOfTarget(eventID, proto.inFrontOfTarget);

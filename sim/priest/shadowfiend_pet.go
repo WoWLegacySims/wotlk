@@ -15,19 +15,16 @@ type Shadowfiend struct {
 	ShadowcrawlAura *core.Aura
 }
 
-var baseStats = stats.Stats{
-	stats.Strength:    314,
-	stats.Agility:     90,
-	stats.Stamina:     348,
-	stats.Intellect:   201,
-	stats.AttackPower: -20,
+var basePercentageStats = stats.Stats{
 	// with 3% crit debuff, shadowfiend crits around 9-12% (TODO: verify and narrow down)
-	stats.MeleeCrit: 8 * core.CritRatingPerCritChance,
+	stats.MeleeCrit: 8,
 }
 
 func (priest *Priest) NewShadowfiend() *Shadowfiend {
+	baseStats := core.PetBaseStats[core.Pet_Shadowfiend][priest.Level].Stats
+
 	shadowfiend := &Shadowfiend{
-		Pet:    core.NewPet("Shadowfiend", &priest.Character, baseStats, priest.shadowfiendStatInheritance(), false, false),
+		Pet:    core.NewPet("Shadowfiend", &priest.Character, baseStats, basePercentageStats, priest.shadowfiendStatInheritance(), false, false),
 		Priest: priest,
 	}
 
@@ -74,8 +71,8 @@ func (priest *Priest) NewShadowfiend() *Shadowfiend {
 
 	shadowfiend.EnableAutoAttacks(shadowfiend, core.AutoAttackOptions{
 		MainHand: core.Weapon{
-			BaseDamageMin:        110,
-			BaseDamageMax:        145,
+			BaseDamageMin:        float64(shadowfiend.Level) * 1.5,
+			BaseDamageMax:        float64(shadowfiend.Level) * 3.5,
 			SwingSpeed:           1.5,
 			NormalizedSwingSpeed: 1.5,
 			CritMultiplier:       2,
@@ -94,21 +91,16 @@ func (priest *Priest) NewShadowfiend() *Shadowfiend {
 }
 
 func (priest *Priest) shadowfiendStatInheritance() core.PetStatInheritance {
-	return func(ownerStats stats.Stats) stats.Stats {
-		inheritableSP := ownerStats[stats.SpellPower] - 0.04*float64(priest.Talents.TwistedFaith)*ownerStats[stats.Spirit]
-		// Shadow fiend gets a "Spell Bonus" that adds bonus damage to each attack
-		// for simplicity, we will just convert this added damage as if it were AP
-		// Spell Bonus SP coefficient: 30%
-		// Spell Bonus Damage coefficient: 106%
-		// Damage to DPS coefficient: 1/1.5 (1.5 speed weapon)
-		// DPS to AP coefficient: 14
-		spellBonusAPEquivalent := inheritableSP * 0.3 * 1.06 * 14 / 1.5
+	return func(ownerStats stats.Stats, ownerPseudoStats stats.PseudoStats) stats.Stats {
 
 		return stats.Stats{ //still need to nail down shadow fiend crit scaling, but removing owner crit scaling after further investigation
-			stats.AttackPower: inheritableSP*0.57 + spellBonusAPEquivalent,
-			// never misses
-			stats.MeleeHit:  8 * core.MeleeHitRatingPerHitChance,
-			stats.Expertise: 14 * core.ExpertisePerQuarterPercentReduction * 4,
+			// 3 x sp to ap, lol
+			stats.AttackPower: (ownerStats[stats.SpellPower] + ownerPseudoStats.ShadowSpellPower) * 3,
+			stats.SpellPower:  (ownerStats[stats.SpellPower] + ownerPseudoStats.ShadowSpellPower) * 0.3,
+			stats.MeleeHit:    priest.CalculateHitInheritance(stats.SpellHit, stats.MeleeHit),
+			stats.Expertise:   priest.CalculateHitInheritance(stats.SpellHit, stats.Expertise),
+			stats.Stamina:     ownerStats[stats.Stamina] * 0.65,
+			stats.Intellect:   ownerStats[stats.Intellect] * 0.3,
 		}
 	}
 }

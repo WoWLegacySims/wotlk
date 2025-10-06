@@ -77,10 +77,53 @@ class ClassLevelStats:
     Intellect: int
     Spirit: int
 
+class PetLevelStats:
+    ID: int
+    Level: int
+    BaseHP: int
+    BaseMana: int
+    Armor: int
+    Strength: int
+    Agility: int
+    Stamina: int
+    Intellect: int
+    Spirit: int
+    Min_dmg: int
+    Max_dmg: int
+
+Pets = {
+    1: "Hunter",
+    89: "Infernal",
+    416: "Imp",
+    417: "Felhunter",
+    510: "WaterElementalTemp",
+    1860: "Voidwalker",
+    1863: "Succubus",
+    15438: "GreaterFireElemental",
+    17252: "Felguard",
+    19668: "Shadowfiend",
+    26125: "RisenGhoul",
+    37994: "WaterElementalPerm"
+}
+
 def GetClass(Class: int):
     return ["Warrior","Paladin","Hunter","Rogue","Priest","Deathknight","Shaman","Mage","Warlock","","Druid"][Class-1]
 
-def GenExtraStatsGoFile(cs: ClassStats, ls: List[ClassLevelStats]):
+def GenGORatingPerLevel(rating: dict, variable: str, key: str):
+    output = f"var {variable} = map[int32]float64{{"
+    for i in range(1,84):
+        output += f"{i}:{rating[key][i-1]},"
+    output += '''}\n'''
+    return output
+
+def GenGOArmorPen(rating: dict):
+    output = f"var {"ArmorPenPerPercentArmor"} = map[int32]float64{{"
+    for i in range(1,84):
+        output += f"{i}:{float(rating["armor pen"][i-1])/1.1},"
+    output += '''}\n'''
+    return output
+
+def GenExtraStatsGoFile(cs: ClassStats, ls: List[ClassLevelStats], pets: List[PetLevelStats]):
     header = '''
 package core
 
@@ -95,56 +138,99 @@ import (
 
 '''
     output = header
-    output += f"const ExpertisePerQuarterPercentReduction = {cs.CombatRatings['expertise'][BASE_LEVEL-1]}\n"
-    output += f"const HasteRatingPerHastePercent = {cs.CombatRatings['haste melee'][BASE_LEVEL-1]}\n"
-    output += f"const CritRatingPerCritChance = {cs.CombatRatings['crit melee'][BASE_LEVEL-1]}\n"
-    output += f"const MeleeHitRatingPerHitChance = {cs.CombatRatings['hit melee'][BASE_LEVEL-1]}\n"
-    output += f"const SpellHitRatingPerHitChance = {cs.CombatRatings['hit spell'][BASE_LEVEL-1]}\n"
-    output += f"const DefenseRatingPerDefense = {cs.CombatRatings['defense skill'][BASE_LEVEL-1]}\n"
-    output += f"const DodgeRatingPerDodgeChance = {cs.CombatRatings['dodge'][BASE_LEVEL-1]}\n"
-    output += f"const ParryRatingPerParryChance = {cs.CombatRatings['parry'][BASE_LEVEL-1]}\n"
-    output += f"const BlockRatingPerBlockChance = {cs.CombatRatings['block'][BASE_LEVEL-1]}\n"
-    output += f"const ResilienceRatingPerCritReductionChance = {cs.CombatRatings['crit taken melee'][BASE_LEVEL-1]}\n"
-    output += f"const ArmorPenPerPercentArmor = {float(cs.CombatRatings['armor pen'][BASE_LEVEL-1])/1.1}\n"
-    output += f"const MPPerSpirit = {float(cs.MpPerSpirit['Paladin'][BASE_LEVEL-1])}\n"
-    output += f"const CritPerInt = {float(cs.SCrit[str(BASE_LEVEL)][2])*100}\n"
+    output += GenGORatingPerLevel(cs.CombatRatings,"ExpertisePerQuarterPercentReduction","expertise")
+    output += GenGORatingPerLevel(cs.CombatRatings,"HasteRatingPerHastePercent","haste melee")
+    output += GenGORatingPerLevel(cs.CombatRatings,"CritRatingPerCritChance","crit melee")
+    output += GenGORatingPerLevel(cs.CombatRatings,"MeleeHitRatingPerHitChance","hit melee")
+    output += GenGORatingPerLevel(cs.CombatRatings,"SpellHitRatingPerHitChance","hit spell")
+    output += GenGORatingPerLevel(cs.CombatRatings,"DefenseRatingPerDefense","defense skill")
+    output += GenGORatingPerLevel(cs.CombatRatings,"DodgeRatingPerDodgeChance","dodge")
+    output += GenGORatingPerLevel(cs.CombatRatings,"ParryRatingPerParryChance","parry")
+    output += GenGORatingPerLevel(cs.CombatRatings,"BlockRatingPerBlockChance","block")
+    output += GenGORatingPerLevel(cs.CombatRatings,"ResilienceRatingPerCritReductionChance","crit taken melee")
+    output += GenGOArmorPen(cs.CombatRatings)
+    output += GenGORatingPerLevel(cs.MpPerSpirit,"MPPerSpirit","Paladin")
 
-    output += '''var CritPerAgiMaxLevel = map[proto.Class]float64{
-proto.Class_ClassUnknown: 0.0,'''
-    for c in ["Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Death Knight", "Shaman", "Mage", "Warlock", "Druid"]:
-        cName = c.split()
-        if len(cName) > 1:
-            cName[1] = cName[1].lower()
-        cName = ''.join(cName)
-        mc = float(cs.MCrit[str(BASE_LEVEL)][Offs[c]])*100
-        output += f"\nproto.Class_Class{cName}: {mc:.6},"
-    output += "\n}\n"
+    output += '''\nvar CritPerAgi = map[proto.Class]map[int32]float64{
+proto.Class_ClassUnknown:{},'''
 
-    output += '''var BaseCrit = map[proto.Class]stats.Stats{
-proto.Class_ClassUnknown: {},'''
     for c in ["Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Death Knight", "Shaman", "Mage", "Warlock", "Druid"]:
         cName = c.split()
         if len(cName) > 1:
             cName[1] = cName[1].lower()
         cName = ''.join(cName)
         output += f"\nproto.Class_Class{cName}: {{"
-        scb = float(cs.SCritBase["1"][Offs[c]])*100
-        mcb = float(cs.MCritBase["1"][Offs[c]])*100
-        output += f"\n stats.SpellCrit: {scb:.6}*CritRatingPerCritChance,"
-        output += f"\n stats.MeleeCrit: {mcb:.6}*CritRatingPerCritChance,"
-        output += "\n},"
+        for i in range(1,84):
+            mc = float(cs.MCrit[str(i)][Offs[c]])*100
+            output += f"{i}:{mc:.6f},"
+        output += '''},'''
     output += "\n}\n"
 
-    output += '''var ClassBaseStats = map[proto.Class]stats.Stats{\nproto.Class_ClassUnknown: {'''
+    output += '''\nvar SpellCritPerInt = map[proto.Class]map[int32]float64{
+proto.Class_ClassUnknown:{},'''
+
+    for c in ["Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Death Knight", "Shaman", "Mage", "Warlock", "Druid"]:
+        cName = c.split()
+        if len(cName) > 1:
+            cName[1] = cName[1].lower()
+        cName = ''.join(cName)
+        output += f"\nproto.Class_Class{cName}: {{"
+        for i in range(1,84):
+            mc = float(cs.SCrit[str(i)][Offs[c]])*100
+            output += f"{i}:{mc:.6f},"
+        output += '''},'''
+    output += "\n}\n"
+
+    output += '''var BaseCrit = map[proto.Class]map[int32]stats.Stats{
+proto.Class_ClassUnknown: {},'''
+
+    for c in ["Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Death Knight", "Shaman", "Mage", "Warlock", "Druid"]:
+        cName = c.split()
+        if len(cName) > 1:
+            cName[1] = cName[1].lower()
+        cName = ''.join(cName)
+        output += f"\nproto.Class_Class{cName}: {{"
+        for i in range(1,84):
+            scb = float(cs.SCritBase["1"][Offs[c]])*100
+            mcb = float(cs.MCritBase["1"][Offs[c]])*100
+            output += f"{i}: {{stats.SpellCrit: {scb:.6f}, stats.MeleeCrit: {mcb:.6f}}},"
+        output += "},"
+    output += "\n}\n"
+
+    output += '''var ClassBaseStats = map[proto.Class]map[int32]stats.Stats{\nproto.Class_ClassUnknown: {'''
     currentClass = 0
     for l in ls:
         if (currentClass != l.Class):
             currentClass = l.Class
             output += f"}},\nproto.Class_Class{GetClass(l.Class)}: {{\n"
-
-        output += f"stats.Health: {l.BaseHP}, stats.Mana: {l.BaseMana}, stats.Strength: {l.Strength}, stats.Agility: {l.Agility}, stats.Stamina: {l.Stamina}, stats.Intellect: {l.Intellect}, stats.Spirit: {l.Spirit},\n"
+        output += f"{l.Level}: {{stats.Health: {l.BaseHP}, stats.Mana: {l.BaseMana}, stats.Strength: {l.Strength}, stats.Agility: {l.Agility}, stats.Stamina: {l.Stamina}, stats.Intellect: {l.Intellect}, stats.Spirit: {l.Spirit}}},\n"
     output += "\n},\n}\n"
 
+    output += '''var PetBaseStats = map[int32]map[int32]PetStat{\nPet_Unknown: { 1: {Stats: stats.Stats{stats.Strength: 22, stats.Agility: 22, stats.Stamina: 25, stats.Intellect: 28, stats.Spirit: 27}}'''
+    currentPet = 0
+    for p in pets:
+        if (currentPet != p.ID):
+            currentPet = p.ID
+            output += f"}},\nPet_{Pets[p.ID]}: {{\n"
+        output += f"{p.Level}: {{Min_dmg: {p.Min_dmg}, Max_dmg: {p.Max_dmg} ,Stats: stats.Stats{{stats.Health: {p.BaseHP}, stats.Mana: {p.BaseMana}, stats.Armor: {p.Armor}, stats.Strength: {p.Strength}, stats.Agility: {p.Agility}, stats.Stamina: {p.Stamina}, stats.Intellect: {p.Intellect}, stats.Spirit: {p.Spirit}}}}},\n"
+    output += "\n},\n}\n"
+
+    return output
+
+def GenTSRatingPerLevel(rating: dict, variable: str, key: str):
+    output = f"const {variable}: Stat = {{"
+    for i in range(1,84):
+        output += f"{i}:{rating[key][i-1]},"
+    output += '''}\n'''
+    output += f"export function GET_{variable}(level: number): number{{ return {variable}[level];}}\n"
+    return output
+
+def GenTSArmorPen(rating: dict):
+    output = f"const {"ARMOR_PEN_PER_PERCENT_ARMOR"}: Stat = {{"
+    for i in range(1,84):
+        output += f"{i}:{float(rating["armor pen"][i-1])/1.1},"
+    output += '''}\n'''
+    output += f"export function GET_{"ARMOR_PEN_PER_PERCENT_ARMOR"}(level: number): number{{ return {"ARMOR_PEN_PER_PERCENT_ARMOR"}[level];}}\n"
     return output
 
 def GenExtraStatsTSFile(cs: ClassStats):
@@ -153,31 +239,32 @@ def GenExtraStatsTSFile(cs: ClassStats):
 // AUTO GENERATED BY BASE_STATS_PARSER.PY
 // **************************************
 
+interface Stat {
+	[key: number]: number
+}
+
 '''
 
     output = header
-    output += f"export const EXPERTISE_PER_QUARTER_PERCENT_REDUCTION = {cs.CombatRatings['expertise'][BASE_LEVEL-1]}\n"
-    output += f"export const HASTE_RATING_PER_HASTE_PERCENT = {cs.CombatRatings['haste melee'][BASE_LEVEL-1]}\n"
-    output += f"export const CRIT_RATING_PER_CRIT_CHANCE = {cs.CombatRatings['crit melee'][BASE_LEVEL-1]}\n"
-    output += f"export const MELEE_HIT_RATING_PER_HIT_CHANCE = {cs.CombatRatings['hit melee'][BASE_LEVEL-1]}\n"
-    output += f"export const SPELL_HIT_RATING_PER_HIT_CHANCE = {cs.CombatRatings['hit spell'][BASE_LEVEL-1]}\n"
-    output += f"export const DEFENSE_RATING_PER_DEFENSE = {cs.CombatRatings['defense skill'][BASE_LEVEL-1]}\n"
-    output += f"export const DODGE_RATING_PER_DODGE_CHANCE = {cs.CombatRatings['dodge'][BASE_LEVEL-1]}\n"
-    output += f"export const PARRY_RATING_PER_PARRY_CHANCE = {cs.CombatRatings['parry'][BASE_LEVEL-1]}\n"
-    output += f"export const BLOCK_RATING_PER_BLOCK_CHANCE = {cs.CombatRatings['block'][BASE_LEVEL-1]}\n"
-    output += f"export const RESILIENCE_RATING_PER_CRIT_REDUCTION_CHANCE = {cs.CombatRatings['crit taken melee'][BASE_LEVEL-1]}\n"
-    output += f"export const ARMOR_PEN_PER_PERCENT_ARMOR = {float(cs.CombatRatings['armor pen'][BASE_LEVEL-1])/1.1}\n"
-    output += f"export const MP_PER_SPIRIT = {float(cs.MpPerSpirit['Paladin'][BASE_LEVEL-1])}\n"
-    output += f"export const CRIT_PER_INT = {float(cs.SCrit[str(BASE_LEVEL)][2])*100}\n"
+    output += GenTSRatingPerLevel(cs.CombatRatings,"EXPERTISE_PER_QUARTER_PERCENT_REDUCTION","weapon skill")
+    output += GenTSRatingPerLevel(cs.CombatRatings,"HASTE_RATING_PER_HASTE_PERCENT","haste melee")
+    output += GenTSRatingPerLevel(cs.CombatRatings,"CRIT_RATING_PER_CRIT_CHANCE","crit melee")
+    output += GenTSRatingPerLevel(cs.CombatRatings,"MELEE_HIT_RATING_PER_HIT_CHANCE","hit melee")
+    output += GenTSRatingPerLevel(cs.CombatRatings,"SPELL_HIT_RATING_PER_HIT_CHANCE","hit spell")
+    output += GenTSRatingPerLevel(cs.CombatRatings,"DEFENSE_RATING_PER_DEFENSE","defense skill")
+    output += GenTSRatingPerLevel(cs.CombatRatings,"DODGE_RATING_PER_DODGE_CHANCE","dodge")
+    output += GenTSRatingPerLevel(cs.CombatRatings,"PARRY_RATING_PER_PARRY_CHANCE","parry")
+    output += GenTSRatingPerLevel(cs.CombatRatings,"BLOCK_RATING_PER_BLOCK_CHANCE","block")
+    output += GenTSRatingPerLevel(cs.CombatRatings,"RESILIENCE_RATING_PER_CRIT_REDUCTION_CHANCE","crit taken melee")
+    output += GenTSArmorPen(cs.CombatRatings)
     return output
-
 
 
 if __name__ == "__main__":
     db = mysql.connector.connect(host="localhost", user="root", password="root", database="acore_world")
 
     cursor = db.cursor()
-    cursor.execute("SELECT * FROM player_class_stats WHERE Level = 80")
+    cursor.execute("SELECT * FROM player_class_stats")
     results = cursor.fetchall()
     stats = []
     for x in results:
@@ -193,6 +280,26 @@ if __name__ == "__main__":
         level.Spirit = x[7]
         stats.append(level)
 
+
+    cursor.execute(f"SELECT * FROM pet_levelstats WHERE pet_levelstats.creature_entry IN ({','.join(Pets.keys)})")
+    results = cursor.fetchall()
+    pets = []
+    for x in results:
+        pet = PetLevelStats()
+        pet.ID = x[0]
+        pet.Level = x[1]
+        pet.BaseHP = x[2]
+        pet.BaseMana = x[3]
+        pet.Armor = x[4]
+        pet.Strength = x[5]
+        pet.Agility = x[6]
+        pet.Stamina = x[7]
+        pet.Intellect = x[8]
+        pet.Spirit = x[9]
+        pet.Min_dmg = x[10]
+        pet.Max_dmg = x[11]
+        pets.append(pet)
+
     args = ClassStats()
     args.MCrit = GenIndexedDb(BASE_DIR + DIR_PATH + MELEE_CRIT)
     args.SCrit = GenIndexedDb(BASE_DIR + DIR_PATH + SPELL_CRIT)
@@ -201,7 +308,7 @@ if __name__ == "__main__":
     args.CombatRatings = GenRowIndexedDb(BASE_DIR + DIR_PATH + COMBAT_RATINGS)
     args.MpPerSpirit = GenRowIndexedDb(BASE_DIR + DIR_PATH + MP_PER_SPIRIT)
 
-    output = GenExtraStatsGoFile(args, stats)
+    output = GenExtraStatsGoFile(args, stats, pets)
     fname = BASE_DIR + GO_OUTPUT_PATH
     print(f"Writing stats to: {fname}")
     f = open(fname, "w")

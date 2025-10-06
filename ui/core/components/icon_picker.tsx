@@ -1,7 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { element, ref } from 'tsx-vanilla';
 
-import { ActionId } from '../proto_utils/action_id.js';
+import { IndividualSimUI } from '../individual_sim_ui.js';
+import { Spec } from '../proto/common.js';
+import { ActionId, ActionIDMap } from '../proto_utils/action_id.js';
+import { SimUI } from '../sim_ui.js';
 import { TypedEvent } from '../typed_event.js';
 import { isRightClick } from '../utils.js';
 import { Input, InputConfig } from './input.js';
@@ -12,7 +15,7 @@ import { Input, InputConfig } from './input.js';
 // ModObject is the object being modified (Sim, Player, or Target).
 // ValueType is either number or boolean.
 export interface IconPickerConfig<ModObject, ValueType> extends InputConfig<ModObject, ValueType> {
-	actionId: ActionId;
+	actionId: ActionIDMap | ActionId;
 
 	// The number of possible 'states' this icon can have. Most inputs will use 2
 	// for a bi-state icon (on or off). 0 indicates an unlimited number of states.
@@ -36,22 +39,29 @@ export class IconPicker<ModObject, ValueType> extends Input<ModObject, ValueType
 	private readonly improvedAnchor: HTMLAnchorElement;
 	private readonly improvedAnchor2: HTMLAnchorElement;
 	private readonly counterElem: HTMLElement;
+	private simUI: SimUI
 
 	private currentValue: number;
 
-	constructor(parent: HTMLElement, modObj: ModObject, config: IconPickerConfig<ModObject, ValueType>) {
+	private currentID: ActionId|null;
+
+	constructor(parent: HTMLElement, modObj: ModObject, config: IconPickerConfig<ModObject, ValueType>, simUI: SimUI) {
 		super(parent, 'icon-picker-root', modObj, config);
 		this.rootElem.classList.add('icon-picker');
 		this.active = false;
 		this.config = config;
 		this.currentValue = 0;
-
+		this.simUI = simUI
 		this.rootAnchor = document.createElement('a');
 		this.rootAnchor.classList.add('icon-picker-button');
 		this.rootAnchor.dataset.whtticon = 'false';
 		this.rootAnchor.dataset.disableWowheadTouchTooltip = 'true';
 		this.rootAnchor.target = '_blank';
 		this.rootElem.prepend(this.rootAnchor);
+		if(config.actionId instanceof ActionIDMap)
+			this.currentID = config.actionId.getActionId(simUI.getLevel())
+		else
+			this.currentID = config.actionId
 
 		const useImprovedIcons = Boolean(this.config.improvedId);
 		if (useImprovedIcons) {
@@ -85,13 +95,22 @@ export class IconPicker<ModObject, ValueType> extends Input<ModObject, ValueType
 		this.improvedAnchor2 = ia2.value!;
 		this.counterElem = ce.value!;
 
-		this.config.actionId.fillAndSet(this.rootAnchor, true, true);
+		if(this.currentID)
+			this.currentID.fillAndSet(this.rootAnchor, true, true, simUI.getLevel());
+
+		if (config.actionId instanceof ActionIDMap) {
+			simUI.levelChangeEmitter.on(() => {
+				this.currentID = (config.actionId as ActionIDMap).getActionId(simUI.getLevel())
+				if(this.currentID)
+					this.currentID.fillAndSet(this.rootAnchor, true, true, simUI.getLevel());
+			})
+		}
 
 		if (this.config.states >= 3 && this.config.improvedId) {
-			this.config.improvedId.fillAndSet(this.improvedAnchor, true, true);
+			this.config.improvedId.fillAndSet(this.improvedAnchor, true, true, simUI.getLevel());
 		}
 		if (this.config.states >= 4 && this.config.improvedId2) {
-			this.config.improvedId2.fillAndSet(this.improvedAnchor2, true, true);
+			this.config.improvedId2.fillAndSet(this.improvedAnchor2, true, true, simUI.getLevel());
 		}
 
 		this.init();
@@ -159,13 +178,13 @@ export class IconPicker<ModObject, ValueType> extends Input<ModObject, ValueType
 		if (v == 0) {
 			return null;
 		} else if (v == 1) {
-			return this.config.actionId;
+			return this.currentID;
 		} else if (v == 2 && this.config.improvedId) {
 			return this.config.improvedId;
 		} else if (v == 3 && this.config.improvedId2) {
 			return this.config.improvedId2;
 		} else {
-			return this.config.actionId;
+			return this.currentID;
 		}
 	}
 

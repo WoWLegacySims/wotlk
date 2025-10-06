@@ -15,7 +15,7 @@ func (rogue *Rogue) registerThistleTeaCD() {
 	actionID := core.ActionID{ItemID: 7676}
 	energyMetrics := rogue.NewEnergyMetrics(actionID)
 
-	const energyRegen = 20.0
+	energyRegen := 100.0 - float64(2*max(0, rogue.Level-40))
 
 	thistleTeaSpell := rogue.RegisterSpell(core.SpellConfig{
 		ActionID: actionID,

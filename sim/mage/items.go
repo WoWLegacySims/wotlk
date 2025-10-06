@@ -7,21 +7,6 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
-// T6 Sunwell
-var ItemSetTempestRegalia = core.NewItemSet(core.ItemSet{
-	Name: "Tempest Regalia",
-	Bonuses: map[int32]core.ApplyEffect{
-		2: func(agent core.Agent) {
-			// Increases the duration of your Evocation ability by 2 sec.
-			// Implemented in evocation.go.
-		},
-		4: func(agent core.Agent) {
-			// Increases the damage of your Fireball, Frostbolt, and Arcane Missles abilities by 5%.
-			// Implemented in the files for those spells.
-		},
-	},
-})
-
 // T7 Naxx
 var ItemSetFrostfireGarb = core.NewItemSet(core.ItemSet{
 	Name: "Frostfire Garb",

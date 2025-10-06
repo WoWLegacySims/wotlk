@@ -11,11 +11,14 @@ import (
 // Shared conditions required to be able to cast any Judgement.
 //
 //nolint:unused
-func (paladin *Paladin) canJudgement(sim *core.Simulation) bool {
-	return paladin.CurrentSeal != nil && paladin.CurrentSeal.IsActive() && paladin.JudgementOfLight.IsReady(sim)
+func (paladin *Paladin) canJudgement() bool {
+	return paladin.CurrentSeal != nil && paladin.CurrentSeal.IsActive()
 }
 
 func (paladin *Paladin) registerJudgementOfWisdomSpell(cdTimer *core.Timer) {
+	if paladin.Level < 12 {
+		return
+	}
 	jowAuras := paladin.NewEnemyAuraArray(core.JudgementOfWisdomAura)
 
 	paladin.JudgementOfWisdom = paladin.RegisterSpell(core.SpellConfig{
@@ -41,6 +44,10 @@ func (paladin *Paladin) registerJudgementOfWisdomSpell(cdTimer *core.Timer) {
 					core.TernaryDuration(paladin.HasSetBonus(ItemSetGladiatorsVindication, 4), 1*time.Second, 0),
 			},
 		},
+		ExtraCastCondition: func(sim *core.Simulation, target *core.Unit) bool {
+			return paladin.canJudgement()
+		},
+		DamageMultiplier: 1 + core.TernaryFloat64(paladin.HasSetBonus(ItemSetJusticarBattlegear, 4), 0.1, 0),
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			// Primary Judgements cannot crit or be dodged, parried, or blocked-- only miss. (Unless target is a hunter.)
@@ -58,6 +65,9 @@ func (paladin *Paladin) registerJudgementOfWisdomSpell(cdTimer *core.Timer) {
 }
 
 func (paladin *Paladin) registerJudgementOfLightSpell(cdTimer *core.Timer) {
+	if paladin.Level < 4 {
+		return
+	}
 	jolAuras := paladin.NewEnemyAuraArray(core.JudgementOfLightAura)
 
 	paladin.JudgementOfLight = paladin.RegisterSpell(core.SpellConfig{
@@ -67,8 +77,9 @@ func (paladin *Paladin) registerJudgementOfLightSpell(cdTimer *core.Timer) {
 		Flags:       SpellFlagPrimaryJudgement | core.SpellFlagAPL,
 
 		ManaCost: core.ManaCostOptions{
-			BaseCost:   0.05,
-			Multiplier: 1 - 0.02*float64(paladin.Talents.Benediction),
+			BaseCost:     0.05,
+			Multiplier:   1 - 0.02*float64(paladin.Talents.Benediction),
+			FlatModifier: core.TernaryFloat64(paladin.HasSetBonus(ItemSetCrystalforgeBattlegear, 2), -35, 0),
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
@@ -83,6 +94,10 @@ func (paladin *Paladin) registerJudgementOfLightSpell(cdTimer *core.Timer) {
 					core.TernaryDuration(paladin.HasSetBonus(ItemSetGladiatorsVindication, 4), 1*time.Second, 0),
 			},
 		},
+		ExtraCastCondition: func(sim *core.Simulation, target *core.Unit) bool {
+			return paladin.canJudgement()
+		},
+		DamageMultiplier: 1 + core.TernaryFloat64(paladin.HasSetBonus(ItemSetJusticarBattlegear, 4), 0.1, 0),
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			// Primary Judgements cannot crit or be dodged, parried, or blocked-- only miss. (Unless target is a hunter.)

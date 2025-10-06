@@ -23,7 +23,8 @@ PseudoStat,
 	RaidBuffs,
 	RangedWeaponType,
 	Spec,
-	Stat, 	TristateEffect,
+	Stat,
+TristateEffect,
 } from '../core/proto/common.js';
 import {
 	Hunter_Options_PetType as PetType,
@@ -76,15 +77,14 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecHunter, {
 		// Warning when too many Pet talent points are used without BM talented.
 		(simUI: IndividualSimUI<Spec.SpecHunter>) => {
 			return {
-				updateOn: TypedEvent.onAny([simUI.player.talentsChangeEmitter, simUI.player.specOptionsChangeEmitter]),
+				updateOn: TypedEvent.onAny([simUI.player.talentsChangeEmitter, simUI.player.specOptionsChangeEmitter, simUI.levelChangeEmitter]),
 				getContent: () => {
 					const specOptions = simUI.player.getSpecOptions();
 					const petTalents = specOptions.petTalents || HunterPetTalents.create();
 					const petTalentString = protoToTalentString(petTalents, getPetTalentsConfig(specOptions.petType));
 					const talentPoints = getTalentPoints(petTalentString);
 
-					const isBM = simUI.player.getTalents().beastMastery;
-					const maxPoints = isBM ? 20 : 16;
+					const maxPoints = simUI.player.getMaxPetTalentPoints();
 
 					if (talentPoints == 0) {
 						// Just return here, so we don't show a warning during page load.
@@ -92,7 +92,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecHunter, {
 					} else if (talentPoints < maxPoints) {
 						return 'Unspent pet talent points.';
 					} else if (talentPoints > maxPoints) {
-						return 'More than 16 points spent in pet talents, but Beast Mastery is not talented.';
+						return 'More than maximum pet talent points spent.';
 					} else {
 						return '';
 					}
@@ -133,17 +133,17 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecHunter, {
 	],
 	modifyDisplayStats: (player: Player<Spec.SpecHunter>) => {
 		let stats = new Stats();
-		stats = stats.addStat(Stat.StatMeleeCrit, player.getTalents().lethalShots * 1 * Ratings.CRIT_RATING_PER_CRIT_CHANCE);
+		stats = stats.addStat(Stat.StatMeleeCrit, player.getTalents().lethalShots * 1 * Ratings.GET_CRIT_RATING_PER_CRIT_CHANCE(player.getLevel()));
 
 		const rangedWeapon = player.getEquippedItem(ItemSlot.ItemSlotRanged);
 		if (rangedWeapon?.enchant?.effectId == 3608) {
 			stats = stats.addStat(Stat.StatMeleeCrit, 40);
 		}
 		if (player.getRace() == Race.RaceDwarf && rangedWeapon?.item.rangedWeaponType == RangedWeaponType.RangedWeaponTypeGun) {
-			stats = stats.addStat(Stat.StatMeleeCrit, 1 * Ratings.CRIT_RATING_PER_CRIT_CHANCE);
+			stats = stats.addStat(Stat.StatMeleeCrit, 1 * Ratings.GET_CRIT_RATING_PER_CRIT_CHANCE(player.getLevel()));
 		}
 		if (player.getRace() == Race.RaceTroll && rangedWeapon?.item.rangedWeaponType == RangedWeaponType.RangedWeaponTypeBow) {
-			stats = stats.addStat(Stat.StatMeleeCrit, 1 * Ratings.CRIT_RATING_PER_CRIT_CHANCE);
+			stats = stats.addStat(Stat.StatMeleeCrit, 1 * Ratings.GET_CRIT_RATING_PER_CRIT_CHANCE(player.getLevel()));
 		}
 
 		return {
@@ -291,7 +291,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecHunter, {
 
 		const serpentSting = APLAction.fromJsonString(`{"condition":{"cmp":{"op":"OpGt","lhs":{"remainingTime":{}},"rhs":{"const":{"val":"6s"}}}},"multidot":{"spellId":{"spellId":49001},"maxDots":${simple.multiDotSerpentSting ? 3 : 1},"maxOverlap":{"const":{"val":"0ms"}}}}`);
 		const scorpidSting = APLAction.fromJsonString(`{"condition":{"auraShouldRefresh":{"auraId":{"spellId":3043},"maxOverlap":{"const":{"val":"0ms"}}}},"castSpell":{"spellId":{"spellId":3043}}}`);
-		const trapWeave = APLAction.fromJsonString(`{"condition":{"not":{"val":{"dotIsActive":{"spellId":{"spellId":49067}}}}},"castSpell":{"spellId":{"tag":1,"spellId":49067}}}`);
+		const trapWeave = APLAction.fromJsonString(`{"condition":{"not":{"val":{"dotIsActive":{"spellId":{"spellId":49065}}}}},"castSpell":{"spellId":{"tag":1,"spellId":49065}}}`);
 		const volley = APLAction.fromJsonString(`{"castSpell":{"spellId":{"spellId":58434}}}`);
 		const killShot = APLAction.fromJsonString(`{"castSpell":{"spellId":{"spellId":61006}}}`);
 		const aimedShot = APLAction.fromJsonString(`{"castSpell":{"spellId":{"spellId":49050}}}`);

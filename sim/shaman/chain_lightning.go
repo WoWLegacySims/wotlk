@@ -5,23 +5,32 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/shamaninfo"
 )
 
 func (shaman *Shaman) registerChainLightningSpell() {
+	dbc := shamaninfo.ChainLightning.GetMaxRank(shaman.Level)
+	if dbc == nil {
+		return
+	}
 	numHits := min(core.TernaryInt32(shaman.HasMajorGlyph(proto.ShamanMajorGlyph_GlyphOfChainLightning), 4, 3), shaman.Env.GetNumTargets())
-	shaman.ChainLightning = shaman.newChainLightningSpell(false)
+	shaman.ChainLightning = shaman.newChainLightningSpell(false, dbc)
 	shaman.ChainLightningLOs = []*core.Spell{}
 	for i := int32(0); i < numHits; i++ {
-		shaman.ChainLightningLOs = append(shaman.ChainLightningLOs, shaman.newChainLightningSpell(true))
+		shaman.ChainLightningLOs = append(shaman.ChainLightningLOs, shaman.newChainLightningSpell(true, dbc))
 	}
 }
 
-func (shaman *Shaman) newChainLightningSpell(isLightningOverload bool) *core.Spell {
+func (shaman *Shaman) newChainLightningSpell(isLightningOverload bool, dbc *spellinfo.SpellInfo) *core.Spell {
+	bp, die := dbc.GetBPDie(0, shaman.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(shaman.Level)
 	spellConfig := shaman.newElectricSpellConfig(
-		core.ActionID{SpellID: 49271},
+		core.ActionID{SpellID: dbc.SpellID},
 		0.26,
 		time.Millisecond*2000,
-		isLightningOverload)
+		isLightningOverload,
+		shamaninfo.ChainLightning.GetAllIDs())
 
 	if !isLightningOverload {
 		spellConfig.Cast.CD = core.Cooldown{
@@ -31,9 +40,9 @@ func (shaman *Shaman) newChainLightningSpell(isLightningOverload bool) *core.Spe
 	}
 
 	numHits := min(core.TernaryInt32(shaman.HasMajorGlyph(proto.ShamanMajorGlyph_GlyphOfChainLightning), 4, 3), shaman.Env.GetNumTargets())
-	dmgReductionPerBounce := core.TernaryFloat64(shaman.HasSetBonus(ItemSetTidefury, 2), 0.83, 0.7)
-	dmgBonus := shaman.electricSpellBonusDamage(0.5714)
-	spellCoeff := 0.5714 + 0.04*float64(shaman.Talents.Shamanism)
+	dmgReductionPerBounce := dbc.Effects[0].ChainAmplitude * core.TernaryFloat64(shaman.HasSetBonus(ItemSetTidefury, 2), 1.19, 1)
+	dmgBonus := shaman.electricSpellBonusDamage(coef)
+	spellCoeff := coef + 0.04*float64(shaman.Talents.Shamanism)
 
 	canLO := !isLightningOverload && shaman.Talents.LightningOverload > 0
 	lightningOverloadChance := float64(shaman.Talents.LightningOverload) * 0.11 / 3
@@ -42,7 +51,7 @@ func (shaman *Shaman) newChainLightningSpell(isLightningOverload bool) *core.Spe
 		bounceCoeff := 1.0
 		curTarget := target
 		for hitIndex := int32(0); hitIndex < numHits; hitIndex++ {
-			baseDamage := dmgBonus + sim.Roll(973, 1111) + spellCoeff*spell.SpellPower()
+			baseDamage := dmgBonus + sim.Roll(bp, die) + spellCoeff*spell.SpellPower()
 			baseDamage *= bounceCoeff
 			result := spell.CalcDamage(sim, curTarget, baseDamage, spell.OutcomeMagicHitAndCrit)
 

@@ -30,11 +30,11 @@ type SpellConfig struct {
 	Cast               CastConfig
 	ExtraCastCondition CanCastCondition
 
-	BonusHitRating       float64
-	BonusCritRating      float64
-	BonusSpellPower      float64
-	BonusExpertiseRating float64
-	BonusArmorPenRating  float64
+	BonusHit            float64
+	BonusCrit           float64
+	BonusSpellPower     float64
+	BonusExpertise      float64
+	BonusArmorPenRating float64
 
 	DamageMultiplier         float64
 	DamageMultiplierAdditive float64
@@ -56,6 +56,12 @@ type SpellConfig struct {
 	Shield ShieldConfig
 
 	RelatedAuras []AuraArray
+
+	SpellRanks map[int32]bool
+}
+
+type RankedSpells struct {
+	Spells map[int]*Spell
 }
 
 type Spell struct {
@@ -107,10 +113,10 @@ type Spell struct {
 	// The current or most recent cast data.
 	CurCast Cast
 
-	BonusHitRating           float64
-	BonusCritRating          float64
+	BonusHit                 float64
+	BonusCrit                float64
 	BonusSpellPower          float64
-	BonusExpertiseRating     float64
+	BonusExpertise           float64
 	BonusArmorPenRating      float64
 	CastTimeMultiplier       float64
 	CostMultiplier           float64
@@ -124,8 +130,8 @@ type Spell struct {
 	// Adds a fixed amount of threat to this spell, before multipliers.
 	FlatThreatBonus float64
 
-	initialBonusHitRating           float64
-	initialBonusCritRating          float64
+	initialBonusHit                 float64
+	initialBonusCrit                float64
 	initialBonusSpellPower          float64
 	initialDamageMultiplier         float64
 	initialDamageMultiplierAdditive float64
@@ -143,6 +149,8 @@ type Spell struct {
 
 	// Per-target auras that are related to this spell, usually buffs or debuffs applied by the spell.
 	RelatedAuras []AuraArray
+
+	SpellRanks map[int32]bool
 }
 
 func (unit *Unit) OnSpellRegistered(handler SpellRegisteredHandler) {
@@ -207,10 +215,10 @@ func (unit *Unit) RegisterSpell(config SpellConfig) *Spell {
 		expectedInitialDamageInternal: config.ExpectedInitialDamage,
 		expectedTickDamageInternal:    config.ExpectedTickDamage,
 
-		BonusHitRating:           config.BonusHitRating,
-		BonusCritRating:          config.BonusCritRating,
+		BonusHit:                 config.BonusHit,
+		BonusCrit:                config.BonusCrit,
 		BonusSpellPower:          config.BonusSpellPower,
-		BonusExpertiseRating:     config.BonusExpertiseRating,
+		BonusExpertise:           config.BonusExpertise,
 		BonusArmorPenRating:      config.BonusArmorPenRating,
 		CastTimeMultiplier:       1,
 		CostMultiplier:           1,
@@ -224,6 +232,7 @@ func (unit *Unit) RegisterSpell(config SpellConfig) *Spell {
 		splitSpellMetrics: make([][]SpellMetrics, max(1, config.MetricSplits)),
 
 		RelatedAuras: config.RelatedAuras,
+		SpellRanks:   config.SpellRanks,
 	}
 
 	switch {
@@ -378,8 +387,8 @@ func (spell *Spell) finalize() {
 	if spell.CostMultiplier != 1 {
 		panic(spell.ActionID.String() + " has non-default CostMultiplier during finalize!")
 	}
-	spell.initialBonusHitRating = spell.BonusHitRating
-	spell.initialBonusCritRating = spell.BonusCritRating
+	spell.initialBonusHit = spell.BonusHit
+	spell.initialBonusCrit = spell.BonusCrit
 	spell.initialBonusSpellPower = spell.BonusSpellPower
 	spell.initialDamageMultiplier = spell.DamageMultiplier
 	spell.initialDamageMultiplierAdditive = spell.DamageMultiplierAdditive
@@ -404,8 +413,8 @@ func (spell *Spell) reset(_ *Simulation) {
 	spell.casts = 0
 
 	// Reset dynamic effects.
-	spell.BonusHitRating = spell.initialBonusHitRating
-	spell.BonusCritRating = spell.initialBonusCritRating
+	spell.BonusHit = spell.initialBonusHit
+	spell.BonusCrit = spell.initialBonusCrit
 	spell.BonusSpellPower = spell.initialBonusSpellPower
 	spell.CastTimeMultiplier = 1
 	spell.CostMultiplier = 1
@@ -606,4 +615,8 @@ type SpellCost interface {
 
 func (spell *Spell) IssueRefund(sim *Simulation) {
 	spell.Cost.IssueRefund(sim, spell)
+}
+
+func (spell *Spell) HasRank(actionID ActionID) bool {
+	return spell.SpellRanks[actionID.SpellID]
 }

@@ -36,11 +36,11 @@ const CharacterBuildPhaseAll = CharacterBuildPhaseBase | CharacterBuildPhaseGear
 type Character struct {
 	Unit
 
-	Name  string // Different from Label, needed for returned results.
-	Race  proto.Race
-	Class proto.Class
-	Spec  proto.Spec
-
+	Name      string // Different from Label, needed for returned results.
+	Race      proto.Race
+	Class     proto.Class
+	Spec      proto.Spec
+	Expansion proto.Expansion
 	// Current gear.
 	Equipment
 	//Item Swap Handler
@@ -82,6 +82,7 @@ type Character struct {
 	defensiveTrinketCD *Timer
 	offensiveTrinketCD *Timer
 	conjuredCD         *Timer
+	battlemasterCD     *Timer
 
 	Pets []*Pet // cached in AddPet, for advance()
 }
@@ -95,7 +96,7 @@ func NewCharacter(party *Party, partyIndex int, player *proto.Player) Character 
 		Unit: Unit{
 			Type:        PlayerUnit,
 			Index:       int32(party.Index*5 + partyIndex),
-			Level:       CharacterLevel,
+			Level:       player.Level,
 			auraTracker: newAuraTracker(),
 			PseudoStats: stats.NewPseudoStats(),
 			Metrics:     NewUnitMetrics(),
@@ -108,11 +109,11 @@ func NewCharacter(party *Party, partyIndex int, player *proto.Player) Character 
 			NibelungAverageCasts: player.NibelungAverageCasts,
 		},
 
-		Name:  player.Name,
-		Race:  player.Race,
-		Class: player.Class,
-		Spec:  PlayerProtoToSpec(player),
-
+		Name:      player.Name,
+		Race:      player.Race,
+		Class:     player.Class,
+		Spec:      PlayerProtoToSpec(player),
+		Expansion: player.Expansion,
 		Equipment: ProtoToEquipment(player.Equipment),
 
 		professions: [2]proto.Profession{
@@ -126,18 +127,39 @@ func NewCharacter(party *Party, partyIndex int, player *proto.Player) Character 
 		majorCooldownManager: newMajorCooldownManager(player.Cooldowns),
 	}
 
+	character.ExpertisePerQuarterPercentReduction = ExpertisePerQuarterPercentReduction[character.Level]
+	character.HasteRatingPerHastePercent = HasteRatingPerHastePercent[character.Level]
+	character.CritRatingPerCritChance = CritRatingPerCritChance[character.Level]
+	character.MeleeHitRatingPerHitChance = MeleeHitRatingPerHitChance[character.Level]
+	character.SpellHitRatingPerHitChance = SpellHitRatingPerHitChance[character.Level]
+	character.DefenseRatingPerDefense = DefenseRatingPerDefense[character.Level]
+	character.DodgeRatingPerDodgeChance = DodgeRatingPerDodgeChance[character.Level]
+	character.ParryRatingPerParryChance = ParryRatingPerParryChance[character.Level]
+	character.BlockRatingPerBlockChance = BlockRatingPerBlockChance[character.Level]
+	character.ResilienceRatingPerCritReductionChance = ResilienceRatingPerCritReductionChance[character.Level]
+	character.ArmorPenPerPercentArmor = ArmorPenPerPercentArmor[character.Level]
+
 	character.GCD = character.NewTimer()
 
 	character.Label = fmt.Sprintf("%s (#%d)", character.Name, character.Index+1)
 
 	if player.Glyphs != nil {
-		character.glyphs = [6]int32{
-			player.Glyphs.Major1,
-			player.Glyphs.Major2,
-			player.Glyphs.Major3,
-			player.Glyphs.Minor1,
-			player.Glyphs.Minor2,
-			player.Glyphs.Minor3,
+		character.glyphs = [6]int32{}
+		if character.Level >= 15 {
+			character.glyphs[0] = player.Glyphs.Major1
+			character.glyphs[3] = player.Glyphs.Minor1
+		}
+		if character.Level >= 30 {
+			character.glyphs[1] = player.Glyphs.Major2
+		}
+		if character.Level >= 50 {
+			character.glyphs[4] = player.Glyphs.Minor2
+		}
+		if character.Level >= 70 {
+			character.glyphs[5] = player.Glyphs.Minor3
+		}
+		if character.Level >= 80 {
+			character.glyphs[2] = player.Glyphs.Major3
 		}
 	}
 	character.PrimaryTalentTree = GetPrimaryTalentTreeIndex(player.TalentsString)
@@ -146,8 +168,7 @@ func NewCharacter(party *Party, partyIndex int, player *proto.Player) Character 
 	if player.Consumes != nil {
 		character.Consumes = player.Consumes
 	}
-
-	character.baseStats = BaseStats[BaseStatsKey{Race: character.Race, Class: character.Class}]
+	character.baseStats = MakeBaseStats(character.Race, character.Class, character.Level)
 
 	character.AddStats(character.baseStats)
 	character.addUniversalStatDependencies()
@@ -219,6 +240,41 @@ func (character *Character) RemoveEquipScaling(stat stats.Stat, multiplier float
 func (character *Character) RemoveDynamicEquipScaling(sim *Simulation, stat stats.Stat, multiplier float64) {
 	statDiff := character.applyEquipScaling(stat, 1/multiplier)
 	character.AddStatDynamic(sim, stat, statDiff)
+}
+
+func (character *Character) CalculateHitInheritance(from stats.Stat, to stats.Stat) float64 {
+	amount := character.GetStat(from)
+	var capFrom float64
+	var capTo float64
+	switch from {
+	case stats.MeleeHit:
+		amount /= character.MeleeHitRatingPerHitChance
+		capFrom = 8
+	case stats.SpellHit:
+		amount /= character.SpellHitRatingPerHitChance
+		capFrom = 17
+	case stats.Expertise:
+		amount /= character.ExpertisePerQuarterPercentReduction
+		capFrom = 26
+	}
+
+	var mult float64
+	//pet and owner have same level, so we can use the owner ratings
+	switch to {
+	case stats.MeleeHit:
+		mult = character.MeleeHitRatingPerHitChance
+		capTo = 8
+	case stats.SpellHit:
+		mult = character.SpellHitRatingPerHitChance
+		capTo = 17
+	case stats.Expertise:
+		mult = character.ExpertisePerQuarterPercentReduction
+		capTo = 26
+	}
+
+	amount = (amount / capFrom) * capTo
+
+	return amount * mult
 }
 
 func (character *Character) EquipStats() stats.Stats {
@@ -399,9 +455,13 @@ func (character *Character) AddPartyBuffs(partyBuffs *proto.PartyBuffs) {
 
 	switch character.MainHand().ID {
 	case ItemIDAtieshMage:
-		partyBuffs.AtieshMage += 1
+		partyBuffs.AtieshMage = true
 	case ItemIDAtieshWarlock:
-		partyBuffs.AtieshWarlock += 1
+		partyBuffs.AtieshWarlock = true
+	case ItemIDAtieshDruid:
+		partyBuffs.AtieshDruid = true
+	case ItemIDAtieshPriest:
+		partyBuffs.AtieshPriest = true
 	}
 
 	switch character.Neck().ID {
@@ -606,6 +666,9 @@ func (character *Character) getProcMaskFor(pred func(weapon *Item) bool) ProcMas
 	if pred(character.OffHand()) {
 		mask |= ProcMaskMeleeOH
 	}
+	if pred(character.Ranged()) {
+		mask |= ProcMaskRanged
+	}
 	return mask
 }
 
@@ -652,6 +715,9 @@ func (character *Character) GetOffensiveTrinketCD() *Timer {
 	return character.GetOrInitTimer(&character.offensiveTrinketCD)
 }
 func (character *Character) GetConjuredCD() *Timer {
+	return character.GetOrInitTimer(&character.conjuredCD)
+}
+func (character *Character) GetBattleMasterCD() *Timer {
 	return character.GetOrInitTimer(&character.conjuredCD)
 }
 

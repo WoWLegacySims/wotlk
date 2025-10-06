@@ -16,7 +16,8 @@ PseudoStat,
 	Race,
 	RaidBuffs,
 	Spec,
-	Stat, 	TristateEffect,
+	Stat,
+TristateEffect,
 } from '../core/proto/common.js';
 import { PaladinMajorGlyph, PaladinSeal } from '../core/proto/paladin.js';
 import { Stats } from '../core/proto_utils/stats.js';
@@ -78,7 +79,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecRetributionPaladin, {
 
 		TypedEvent.freezeAllAndDo(() => {
 			if (player.getMajorGlyphs().includes(PaladinMajorGlyph.GlyphOfSealOfVengeance) && (player.getSpecOptions().seal == PaladinSeal.Vengeance)) {
-				stats = stats.addStat(Stat.StatExpertise, 10 * Ratings.EXPERTISE_PER_QUARTER_PERCENT_REDUCTION);
+				stats = stats.addStat(Stat.StatExpertise, 10 * Ratings.GET_EXPERTISE_PER_QUARTER_PERCENT_REDUCTION(player.getLevel()));
 			}
 		})
 

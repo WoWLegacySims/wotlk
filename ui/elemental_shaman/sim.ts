@@ -74,9 +74,9 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecElementalShaman, {
 	],
 	modifyDisplayStats: (player: Player<Spec.SpecElementalShaman>) => {
 		let stats = new Stats();
-		stats = stats.addStat(Stat.StatSpellHit, player.getTalents().elementalPrecision * Ratings.SPELL_HIT_RATING_PER_HIT_CHANCE);
+		stats = stats.addStat(Stat.StatSpellHit, player.getTalents().elementalPrecision * Ratings.GET_SPELL_HIT_RATING_PER_HIT_CHANCE(player.getLevel()));
 		stats = stats.addStat(Stat.StatSpellCrit,
-			player.getTalents().tidalMastery * 1 * Ratings.CRIT_RATING_PER_CRIT_CHANCE);
+			player.getTalents().tidalMastery * 1 * Ratings.GET_CRIT_RATING_PER_CRIT_CHANCE(player.getLevel()));
 		return {
 			talents: stats,
 		};

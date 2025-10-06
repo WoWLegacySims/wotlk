@@ -4,17 +4,41 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/paladininfo"
 )
 
 func (paladin *Paladin) registerShieldOfRighteousnessSpell() {
+	dbc := paladininfo.ShieldofRighteousness.GetMaxRank(paladin.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, paladin.Level)
+	if paladin.Ranged().ID == 38363 {
+		bp += 96
+	}
+
 	var aegisPlateProcAura *core.Aura
 	if paladin.HasSetBonus(ItemSetAegisPlate, 4) {
 		aegisPlateProcAura = paladin.NewTemporaryStatsAura("Aegis", core.ActionID{SpellID: 64883}, stats.Stats{stats.BlockValue: 225}, time.Second*6)
 	}
 
+	var eternalTowerProcAura *core.Aura
+	if paladin.HasItem(50461, proto.ItemSlot_ItemSlotRanged) {
+		eternalTowerProcAura = paladin.GetOrRegisterAura(core.Aura{
+			ActionID:  core.ActionID{SpellID: 71194},
+			MaxStacks: 3,
+			Duration:  15 * time.Second,
+			OnStacksChange: func(aura *core.Aura, sim *core.Simulation, oldStacks, newStacks int32) {
+				paladin.AddStatDynamic(sim, stats.Dodge, float64(newStacks-oldStacks)*73)
+			},
+		})
+	}
+
 	paladin.ShieldOfRighteousness = paladin.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 61411},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  paladininfo.ShieldofRighteousness.GetAllIDs(),
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
@@ -43,15 +67,13 @@ func (paladin *Paladin) registerShieldOfRighteousnessSpell() {
 				aegisPlateProcAura.Activate(sim)
 			}
 
-			var baseDamage float64
-			// TODO: Derive or find accurate source for DR curve
-			bv := paladin.BlockValue()
-			if bv <= 2400.0 {
-				baseDamage = 520.0 + bv
-			} else {
-				bv = 2400.0 + (bv-2400.0)/2
-				baseDamage = 520.0 + core.TernaryFloat64(bv > 2760.0, 2760.0, bv)
+			if eternalTowerProcAura != nil {
+				eternalTowerProcAura.Activate(sim)
+				eternalTowerProcAura.AddStack(sim)
 			}
+
+			bv := paladin.GetShieldBlockValue(float64(paladin.Level)*29.5, float64(paladin.Level)*34.5)
+			baseDamage := bp + bv
 
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialHitAndCrit)
 		},

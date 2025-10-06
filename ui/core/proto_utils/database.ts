@@ -18,21 +18,19 @@ import {
 	UINPC as Npc,
 	UIZone as Zone,
 } from '../proto/ui.js';
-
+import { distinct } from '../utils.js';
+import { EquippedItem } from './equipped_item.js';
+import { Gear, ItemSwapGear } from './gear.js';
+import { gemEligibleForSocket, gemMatchesSocket } from './gems.js';
 import {
 	getEligibleEnchantSlots,
 	getEligibleItemSlots,
 } from './utils.js';
-import { gemEligibleForSocket, gemMatchesSocket } from './gems.js';
-import { EquippedItem } from './equipped_item.js';
-import { Gear, ItemSwapGear } from './gear.js';
-import { CHARACTER_LEVEL } from '../constants/mechanics.js';
-import { distinct } from '../utils.js';
 
-const dbUrlJson = '/sims/wotlk/BRANCH/assets/database/db.json';
-const dbUrlBin = '/sims/wotlk/BRANCH/assets/database/db.bin';
-const leftoversUrlJson = '/sims/wotlk/BRANCH/assets/database/leftover_db.json';
-const leftoversUrlBin = '/sims/wotlk/BRANCH/assets/database/leftover_db.bin';
+const dbUrlJson = '/sims/wotlk/all/assets/database/db.json';
+const dbUrlBin = '/sims/wotlk/all/assets/database/db.bin';
+const leftoversUrlJson = '/sims/wotlk/all/assets/database/leftover_db.json';
+const leftoversUrlBin = '/sims/wotlk/all/assets/database/leftover_db.bin';
 // When changing this value, don't forget to change the html <link> for preloading!
 const READ_JSON = true;
 
@@ -91,7 +89,7 @@ export class Database {
 	private readonly itemIcons: Record<number, Promise<IconData>> = {};
 	private readonly spellIcons: Record<number, Promise<IconData>> = {};
 	private readonly glyphIds: Array<GlyphID> = [];
-	private loadedLeftovers: boolean = false;
+	private loadedLeftovers = false;
 
 	private constructor(db: UIDatabase) {
 		this.loadProto(db);
@@ -147,8 +145,8 @@ export class Database {
 		if (!socketColor)
 			return Array.from(this.gems.values());
 
-		let ret = new Array();
-		for (let g of this.gems.values()){
+		const ret = [];
+		for (const g of this.gems.values()){
 			if (gemEligibleForSocket(g, socketColor))
 				ret.push(g);
 		}
@@ -163,8 +161,8 @@ export class Database {
 	}
 
 	getMatchingGems(socketColor: GemColor): Array<Gem> {
-		let ret = new Array();
-		for (let g of this.gems.values()){
+		const ret = [];
+		for (const g of this.gems.values()){
 			if (gemMatchesSocket(g, socketColor))
 				ret.push(g);
 		}
@@ -275,7 +273,7 @@ export class Database {
 		return Database.getWowheadTooltipData(id, 'spell');
 	}
 	private static async getWowheadTooltipData(id: number, tooltipPostfix: string): Promise<IconData> {
-		const url = `https://nether.wowhead.com/wotlk/tooltip/${tooltipPostfix}/${id}?lvl=${CHARACTER_LEVEL}`;
+		const url = `https://nether.wowhead.com/wotlk/tooltip/${tooltipPostfix}/${id}`;
 		try {
 			const response = await fetch(url);
 			const json = await response.json();

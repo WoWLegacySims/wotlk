@@ -5,9 +5,17 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/priestinfo"
 )
 
 func (priest *Priest) registerShadowWordDeathSpell() {
+	dbc := priestinfo.ShadowWordDeath.GetMaxRank(priest.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, priest.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(priest.Level)
+
 	if priest.HasMajorGlyph(proto.PriestMajorGlyph_GlyphOfShadowWordDeath) {
 		priest.RegisterResetEffect(func(sim *core.Simulation) {
 			sim.RegisterExecutePhaseCallback(func(sim *core.Simulation, isExecute int32) {
@@ -23,7 +31,8 @@ func (priest *Priest) registerShadowWordDeathSpell() {
 	shadowFocus := 0.02 * float64(priest.Talents.ShadowFocus)
 
 	priest.ShadowWordDeath = priest.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48158},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  priestinfo.ShadowWordDeath.GetAllIDs(),
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagAPL,
@@ -42,8 +51,8 @@ func (priest *Priest) registerShadowWordDeathSpell() {
 			},
 		},
 
-		BonusHitRating:  float64(priest.Talents.ShadowFocus) * 1 * core.SpellHitRatingPerHitChance,
-		BonusCritRating: 0 + core.TernaryFloat64(priest.HasSetBonus(ItemSetValorous, 4), 10, 0)*core.CritRatingPerCritChance, // might be 0.1?
+		BonusHit:  float64(priest.Talents.ShadowFocus),
+		BonusCrit: 0 + core.TernaryFloat64(priest.HasSetBonus(ItemSetValorous, 4), 10, 0), // might be 0.1?
 		DamageMultiplier: 1 +
 			0.02*float64(priest.Talents.Darkness) +
 			0.01*float64(priest.Talents.TwinDisciplines),
@@ -51,7 +60,7 @@ func (priest *Priest) registerShadowWordDeathSpell() {
 		ThreatMultiplier: 1 - 0.08*float64(priest.Talents.ShadowAffinity),
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(750, 870) + 0.429*spell.SpellPower()
+			baseDamage := sim.Roll(bp, die) + coef*spell.SpellPower()
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 
 			if result.Landed() {

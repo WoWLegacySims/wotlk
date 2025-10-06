@@ -5,20 +5,26 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warlockinfo"
 )
 
 func (warlock *Warlock) registerChaosBoltSpell() {
 	if !warlock.Talents.ChaosBolt {
 		return
 	}
-
-	spellCoeff := 0.714 * (1 + 0.04*float64(warlock.Talents.ShadowAndFlame))
+	dbc := warlockinfo.ChaosBolt.GetMaxRank(warlock.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, warlock.Level)
+	coef := dbc.GetCoefficient(0) * (1 + 0.04*float64(warlock.Talents.ShadowAndFlame)) * dbc.GetLevelPenalty(warlock.Level)
 
 	// ChaosBolt is affected by level-based partial resists.
 	// TODO If there's bosses with elevated fire resistances, we'd need another spell flag,
 	//  or add an unlimited amount of "bonusSpellPenetration".
 	warlock.ChaosBolt = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 59172},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  warlockinfo.ChaosBolt.GetAllIDs(),
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagAPL,
@@ -38,8 +44,8 @@ func (warlock *Warlock) registerChaosBoltSpell() {
 			},
 		},
 
-		BonusCritRating: 0 +
-			core.TernaryFloat64(warlock.Talents.Devastation, 1, 0)*5*core.CritRatingPerCritChance,
+		BonusCrit: 0 +
+			core.TernaryFloat64(warlock.Talents.Devastation, 1, 0)*5,
 		DamageMultiplierAdditive: 1 +
 			warlock.GrandFirestoneBonus() +
 			0.03*float64(warlock.Talents.Emberstorm),
@@ -47,7 +53,7 @@ func (warlock *Warlock) registerChaosBoltSpell() {
 		ThreatMultiplier: 1 - 0.1*float64(warlock.Talents.DestructiveReach),
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(1429, 1813) + spellCoeff*spell.SpellPower()
+			baseDamage := sim.Roll(bp, die) + coef*spell.SpellPower()
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMagicCrit)
 		},
 	})

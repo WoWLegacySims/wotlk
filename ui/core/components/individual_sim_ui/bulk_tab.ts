@@ -210,7 +210,7 @@ export class BulkItemPicker extends Component {
 			this.item = newItem;
 		} else {
 			this.itemElem.rootElem.style.opacity = '30%';
-			this.itemElem.iconElem.style.backgroundImage = `url('/sims/wotlk/BRANCH/assets/item_slots/empty.jpg')`;
+			this.itemElem.iconElem.style.backgroundImage = `url('/sims/wotlk/all/assets/item_slots/empty.jpg')`;
 			this.itemElem.nameElem.textContent = 'Add new item (not implemented)';
 			this.itemElem.rootElem.style.alignItems = 'center';
 		}
@@ -945,7 +945,7 @@ class GemSelectorModal extends BaseModal {
 						actionId: ActionId.fromItemId(gem.id),
 						name: gem.name,
 						quality: gem.quality,
-						phase: gem.phase,
+						expansion: gem.expansion,
 						heroic: false,
 						baseEP: 0,
 						ignoreEPFilter: true,
@@ -972,7 +972,6 @@ class GemSelectorModal extends BaseModal {
 
 			this.addOnDisposeCallback(() => this.ilist?.dispose());
 
-			this.simUI.sim.phaseChangeEmitter.on(applyFilter);
 			this.simUI.sim.filtersChangeEmitter.on(applyFilter);
 			// gearData.changeEvent.on(applyFilter);
 		}

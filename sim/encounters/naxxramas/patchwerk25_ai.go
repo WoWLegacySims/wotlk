@@ -85,7 +85,7 @@ func (ai *Patchwerk25AI) registerHatefulStrikeSpell(target *core.Target) {
 		CritMultiplier:   1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(79000, 81000)
+			baseDamage := sim.RollFloat(79000, 81000)
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeEnemyMeleeWhite)
 		},
 	})

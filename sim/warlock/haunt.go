@@ -5,21 +5,29 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warlockinfo"
 )
 
 func (warlock *Warlock) registerHauntSpell() {
 	if !warlock.Talents.Haunt {
 		return
 	}
+	dbc := warlockinfo.Haunt.GetMaxRank(warlock.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, warlock.Level)
+	coef := 0.429 * dbc.GetLevelPenalty(warlock.Level)
 
-	actionID := core.ActionID{SpellID: 59164}
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 	debuffMult := core.TernaryFloat64(warlock.HasMajorGlyph(proto.WarlockMajorGlyph_GlyphOfHaunt), 1.23, 1.2)
 
-	warlock.HauntDebuffAuras = warlock.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+	warlock.HauntDebuffAuras = warlock.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 		return target.GetOrRegisterAura(core.Aura{
-			Label:    "Haunt-" + warlock.Label,
-			ActionID: actionID,
-			Duration: time.Second * 12,
+			Label:     "Haunt-" + warlock.Label,
+			ActionID:  actionID,
+			AuraRanks: warlockinfo.Haunt.GetAllIDs(),
+			Duration:  time.Second * 12,
 			OnGain: func(aura *core.Aura, sim *core.Simulation) {
 				warlock.AttackTables[aura.Unit.UnitIndex].HauntSEDamageTakenMultiplier *= debuffMult
 			},
@@ -31,6 +39,7 @@ func (warlock *Warlock) registerHauntSpell() {
 
 	warlock.Haunt = warlock.RegisterSpell(core.SpellConfig{
 		ActionID:     actionID,
+		SpellRanks:   warlockinfo.Haunt.GetAllIDs(),
 		SpellSchool:  core.SpellSchoolShadow,
 		ProcMask:     core.ProcMaskSpellDamage,
 		Flags:        core.SpellFlagAPL,
@@ -58,7 +67,7 @@ func (warlock *Warlock) registerHauntSpell() {
 		ThreatMultiplier: 1 - 0.1*float64(warlock.Talents.ImprovedDrainSoul),
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(645, 753) + 0.429*spell.SpellPower()
+			baseDamage := sim.Roll(bp, die) + coef*spell.SpellPower()
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {
 				spell.DealDamage(sim, result)

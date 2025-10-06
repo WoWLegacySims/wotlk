@@ -1,32 +1,31 @@
+import { Tooltip } from 'bootstrap';
+
+import { Component } from '../core/components/component.js';
+import { Player } from "../core/player.js";
 import {
 	Class,
 	RaidBuffs,
 	Spec,
 } from '../core/proto/common.js';
-import { Component } from '../core/components/component.js';
-import { Player } from "../core/player.js";
-import { Raid } from "../core/raid.js";
-import { ActionId } from '../core/proto_utils/action_id.js';
-import {
-	ClassSpecs,
-	SpecTalents,
-	specToClass,
-	isTankSpec,
-	isHealingSpec,
-	isMeleeDpsSpec,
-	isRangedDpsSpec,
-	textCssClassForClass,
-} from '../core/proto_utils/utils.js';
-import { sum } from '../core/utils.js';
-
 import { Hunter_Options_PetType as HunterPetType } from '../core/proto/hunter.js';
 import { PaladinAura } from '../core/proto/paladin.js';
 import { AirTotem, EarthTotem, FireTotem, WaterTotem } from '../core/proto/shaman.js';
 import { Warlock_Options_Summon as WarlockSummon } from '../core/proto/warlock.js';
 import { WarriorShout } from '../core/proto/warrior.js';
-
+import { ActionId } from '../core/proto_utils/action_id.js';
+import {
+	ClassSpecs,
+	isHealingSpec,
+	isMeleeDpsSpec,
+	isRangedDpsSpec,
+	isTankSpec,
+	SpecTalents,
+	specToClass,
+	textCssClassForClass,
+} from '../core/proto_utils/utils.js';
+import { Raid } from "../core/raid.js";
+import { sum } from '../core/utils.js';
 import { RaidSimUI } from './raid_sim_ui.js';
-import { Tooltip } from 'bootstrap';
 
 interface RaidStatsOptions {
 	sections: Array<RaidStatsSectionOptions>,
@@ -58,7 +57,7 @@ export class RaidStats extends Component {
 	constructor(parent: HTMLElement, raidSimUI: RaidSimUI) {
 		super(parent, 'raid-stats');
 
-		let categories: Array<RaidStatsCategory> = [];
+		const categories: Array<RaidStatsCategory> = [];
 		RAID_STATS_OPTIONS.sections.forEach(section => {
 			const sectionElem = document.createElement('div');
 			sectionElem.classList.add('raid-stats-section');
@@ -814,7 +813,7 @@ const RAID_STATS_OPTIONS: RaidStatsOptions = {
 					effects: [
 						{
 							label: 'Sunder Armor',
-							actionId: ActionId.fromSpellId(47467),
+							actionId: ActionId.fromSpellId(7386),
 							playerData: playerClass(Class.ClassWarrior),
 						},
 						{

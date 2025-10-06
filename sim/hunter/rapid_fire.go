@@ -8,6 +8,9 @@ import (
 )
 
 func (hunter *Hunter) registerRapidFireCD() {
+	if hunter.Level < 26 {
+		return
+	}
 	actionID := core.ActionID{SpellID: 3045}
 
 	var manaMetrics *core.ResourceMetrics

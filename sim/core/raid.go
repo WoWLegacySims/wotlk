@@ -127,6 +127,8 @@ type Raid struct {
 	replenishmentUnits         []*Unit   // All units who can receive replenishment.
 	curReplenishmentUnits      [][]*Unit // Units that currently have replenishment active, separated by source.
 	leftoverReplenishmentUnits []*Unit   // Units without replenishment currently active.
+
+	Level int32
 }
 
 func (raid *Raid) GetActiveUnits() []*Unit {
@@ -150,6 +152,7 @@ func NewRaid(raidConfig *proto.Raid) *Raid {
 		dpsMetrics:   NewDistributionMetrics(),
 		hpsMetrics:   NewDistributionMetrics(),
 		nextPetIndex: int32(numParties) * 5,
+		Level:        raidConfig.Level,
 	}
 
 	for partyIndex, partyConfig := range raidConfig.Parties {

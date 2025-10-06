@@ -8,6 +8,9 @@ import (
 )
 
 func (rogue *Rogue) registerShivSpell() {
+	if rogue.Level < 70 {
+		return
+	}
 	baseCost := 20.0
 	if ohWeapon := rogue.GetOHWeapon(); ohWeapon != nil {
 		baseCost = rogue.costModifier(20 + 10*ohWeapon.SwingSpeed)

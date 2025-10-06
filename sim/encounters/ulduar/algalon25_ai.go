@@ -93,7 +93,7 @@ func (ai *Algalon25AI) registerQuantumStrikeSpell(target *core.Target) {
 		CritMultiplier:   1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(34125, 35875)
+			baseDamage := sim.RollFloat(34125, 35875)
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeAlwaysHit)
 		},
 	})
@@ -122,7 +122,7 @@ func (ai *Algalon25AI) registerPhasePunchSpell(target *core.Target) {
 		CritMultiplier:   1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(8788, 10212)
+			baseDamage := sim.RollFloat(8788, 10212)
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeAlwaysHit)
 		},
 	})
@@ -148,7 +148,7 @@ func (ai *Algalon25AI) registerBlackHoleExplosionSpell(target *core.Target) {
 		CritMultiplier:   1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(20475, 21525)
+			baseDamage := sim.RollFloat(20475, 21525)
 			for _, aoeTarget := range sim.Raid.GetActiveUnits() {
 				spell.CalcAndDealDamage(sim, aoeTarget, baseDamage, spell.OutcomeAlwaysHit)
 			}
@@ -182,9 +182,9 @@ func (ai *Algalon25AI) registerCosmicSmashSpell(target *core.Target) {
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			for _, aoeTarget := range sim.Raid.GetActiveUnits() {
 				// There are always 3 damage events at different distances
-				spell.CalcAndDealDamage(sim, aoeTarget, sim.Roll(200, 800), spell.OutcomeAlwaysHit)
-				spell.CalcAndDealDamage(sim, aoeTarget, sim.Roll(500, 2500), spell.OutcomeAlwaysHit)
-				spell.CalcAndDealDamage(sim, aoeTarget, sim.Roll(800, 5000), spell.OutcomeAlwaysHit)
+				spell.CalcAndDealDamage(sim, aoeTarget, sim.RollFloat(200, 800), spell.OutcomeAlwaysHit)
+				spell.CalcAndDealDamage(sim, aoeTarget, sim.RollFloat(500, 2500), spell.OutcomeAlwaysHit)
+				spell.CalcAndDealDamage(sim, aoeTarget, sim.RollFloat(800, 5000), spell.OutcomeAlwaysHit)
 			}
 		},
 	})

@@ -1,16 +1,15 @@
-import { Spec } from '../core/proto/common.js';
-import { ActionId } from '../core/proto_utils/action_id.js';
-import { Player } from '../core/player.js';
-import { TypedEvent } from '../core/typed_event.js';
-import { makePetTypeInputConfig } from '../core/talents/hunter_pet.js';
-
 import * as InputHelpers from '../core/components/input_helpers.js';
-
+import { HUNTERSMARK } from '../core/constants/auras.js';
+import { Player } from '../core/player.js';
+import { Spec } from '../core/proto/common.js';
 import {
+	Hunter_Options_Ammo as Ammo,
 	Hunter_Rotation_RotationType as RotationType,
 	Hunter_Rotation_StingType as StingType,
-	Hunter_Options_Ammo as Ammo,
 } from '../core/proto/hunter.js';
+import { ActionId, ActionIDMap } from '../core/proto_utils/action_id.js';
+import { makePetTypeInputConfig } from '../core/talents/hunter_pet.js';
+import { TypedEvent } from '../core/typed_event.js';
 
 // Configuration for spec-specific UI elements on the settings tab.
 // These don't need to be in a separate file but it keeps things cleaner.
@@ -41,7 +40,8 @@ export const PetUptime = InputHelpers.makeSpecOptionsNumberInput<Spec.SpecHunter
 
 export const UseHuntersMark = InputHelpers.makeSpecOptionsBooleanIconInput<Spec.SpecHunter>({
 	fieldName: 'useHuntersMark',
-	id: ActionId.fromSpellId(53338),
+	id: ActionIDMap.fromSpellId(HUNTERSMARK),
+	showWhen: player => player.getLevel() >= 6,
 });
 
 export const SniperTrainingUptime = InputHelpers.makeSpecOptionsNumberInput<Spec.SpecHunter>({

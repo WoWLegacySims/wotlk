@@ -5,19 +5,26 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warlockinfo"
 )
 
 func (wp *WarlockPet) registerCleaveSpell() {
+	dbc := warlockinfo.Cleave.GetMaxRank(wp.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, wp.Level)
+
 	numHits := min(2, wp.Env.GetNumTargets())
 
 	wp.primaryAbility = wp.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 47994},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage,
 
 		ManaCost: core.ManaCostOptions{
-			FlatCost: 439,
+			BaseCost: 0.1,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
@@ -35,7 +42,7 @@ func (wp *WarlockPet) registerCleaveSpell() {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			constBaseDamage := 124 + spell.BonusWeaponDamage()
+			constBaseDamage := bp + spell.BonusWeaponDamage()
 
 			curTarget := target
 			for hitIndex := int32(0); hitIndex < numHits; hitIndex++ {
@@ -52,13 +59,19 @@ func (wp *WarlockPet) registerInterceptSpell() {
 }
 
 func (wp *WarlockPet) registerLashOfPainSpell() {
+	dbc := warlockinfo.LashofPain.GetMaxRank(wp.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, wp.Level)
+
 	wp.primaryAbility = wp.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 47992},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
 
 		ManaCost: core.ManaCostOptions{
-			FlatCost: 250,
+			FlatCost: dbc.ManaCost,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
@@ -77,14 +90,20 @@ func (wp *WarlockPet) registerLashOfPainSpell() {
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			// TODO: the hidden 5% damage modifier succ currently gets also applies to this ...
-			baseDamage := 237 + 0.429*spell.SpellPower()
+			baseDamage := bp + 0.429*spell.SpellPower()
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 		},
 	})
 }
 
 func (wp *WarlockPet) registerShadowBiteSpell() {
-	actionID := core.ActionID{SpellID: 54053}
+	dbc := warlockinfo.ShadowBite.GetMaxRank(wp.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, wp.Level)
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 
 	var petManaMetrics *core.ResourceMetrics
 	maxManaMult := 0.04 * float64(wp.owner.Talents.ImprovedFelhunter)
@@ -99,8 +118,7 @@ func (wp *WarlockPet) registerShadowBiteSpell() {
 		ProcMask:    core.ProcMaskSpellDamage,
 
 		ManaCost: core.ManaCostOptions{
-			// TODO: should be 3% of BaseMana, but it's unclear what that actually refers to with pets
-			FlatCost: 131,
+			FlatCost: 0.03,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
@@ -118,7 +136,7 @@ func (wp *WarlockPet) registerShadowBiteSpell() {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(97+1, 97+41) + 0.429*spell.SpellPower()
+			baseDamage := sim.Roll(bp, die) + 0.429*spell.SpellPower()
 
 			w := wp.owner
 			spells := []*core.Spell{
@@ -151,18 +169,24 @@ func (wp *WarlockPet) registerShadowBiteSpell() {
 }
 
 func (wp *WarlockPet) registerFireboltSpell() {
+	dbc := warlockinfo.Firebolt.GetMaxRank(wp.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, wp.Level)
+
 	wp.primaryAbility = wp.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 47964},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
 
 		ManaCost: core.ManaCostOptions{
-			FlatCost: 180,
+			FlatCost: dbc.ManaCost,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
 				GCD:      core.GCDDefault,
-				CastTime: time.Millisecond * (2500 - time.Duration(250*wp.owner.Talents.DemonicPower)),
+				CastTime: dbc.CastTime - (250 * time.Millisecond * time.Duration(wp.owner.Talents.DemonicPower)),
 			},
 		},
 
@@ -172,7 +196,7 @@ func (wp *WarlockPet) registerFireboltSpell() {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(203, 227) + 0.571*spell.SpellPower()
+			baseDamage := sim.Roll(bp, die) + 0.714*spell.SpellPower()
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 		},
 	})

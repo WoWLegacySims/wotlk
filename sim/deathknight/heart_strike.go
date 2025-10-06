@@ -2,18 +2,25 @@ package deathknight
 
 import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/deathknightinfo"
 )
 
-var HeartStrikeActionID = core.ActionID{SpellID: 55262}
-
 func (dk *Deathknight) newHeartStrikeSpell(isMainTarget bool, isDrw bool) *core.Spell {
+	dbc := deathknightinfo.HeartStrike.GetMaxRank(dk.Level)
+	if dbc == nil {
+		return nil
+	}
+	damage := dbc.Effects[0].BasePoints + 1
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 	bonusBaseDamage := dk.sigilOfTheDarkRiderBonus()
 	diseaseMulti := dk.dkDiseaseMultiplier(0.1)
 
 	critMultiplier := dk.bonusCritMultiplier(dk.Talents.MightOfMograine)
 
 	conf := core.SpellConfig{
-		ActionID:    HeartStrikeActionID.WithTag(core.TernaryInt32(isMainTarget, 1, 2)),
+		ActionID:    actionID.WithTag(core.TernaryInt32(isMainTarget, 1, 2)),
+		SpellRanks:  deathknightinfo.HeartStrike.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage,
@@ -30,7 +37,7 @@ func (dk *Deathknight) newHeartStrikeSpell(isMainTarget bool, isDrw bool) *core.
 			IgnoreHaste: true,
 		},
 
-		BonusCritRating: (dk.subversionCritBonus() + dk.annihilationCritBonus()) * core.CritRatingPerCritChance,
+		BonusCrit: (dk.subversionCritBonus() + dk.annihilationCritBonus()),
 		DamageMultiplier: .5 *
 			core.TernaryFloat64(isMainTarget, 1, 0.5) *
 			dk.thassariansPlateDamageBonus() *
@@ -40,7 +47,7 @@ func (dk *Deathknight) newHeartStrikeSpell(isMainTarget bool, isDrw bool) *core.
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 736 + bonusBaseDamage
+			baseDamage := damage + bonusBaseDamage
 
 			if isDrw {
 				baseDamage += dk.DrwWeaponDamage(sim, spell)

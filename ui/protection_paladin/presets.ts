@@ -1,25 +1,20 @@
+import * as PresetUtils from '../core/preset_utils.js';
 import {
 	Consumes,
-	Flask,
-	Food,
 	Potions,
 } from '../core/proto/common.js';
-import { SavedTalents } from '../core/proto/ui.js';
-
+import {Flask,Food} from '../core/proto/consumes_gen.js'
 import {
 	PaladinAura as PaladinAura,
+	PaladinJudgement as PaladinJudgement,
 	PaladinMajorGlyph,
 	PaladinMinorGlyph,
-	PaladinJudgement as PaladinJudgement,
 	ProtectionPaladin_Options as ProtectionPaladinOptions,
 } from '../core/proto/paladin.js';
-
-import * as PresetUtils from '../core/preset_utils.js';
-
+import { SavedTalents } from '../core/proto/ui.js';
 // Preset options for this spec.
 // Eventually we will import these values for the raid sim too, so its good to
 // keep them in a separate file.
-
 import PreraidGear from './gear_sets/preraid.gear.json';
 export const PRERAID_PRESET = PresetUtils.makePresetGear('P1 PreRaid Preset', PreraidGear);
 import P4PreraidGear from './gear_sets/p4_preraid.gear.json';
@@ -60,8 +55,8 @@ export const DefaultOptions = ProtectionPaladinOptions.create({
 });
 
 export const DefaultConsumes = Consumes.create({
-	flask: Flask.FlaskOfStoneblood,
-	food: Food.FoodDragonfinFilet,
+	flask: Flask.FlaskofStoneblood,
+	food: Food.DragonfinFilet,
 	defaultPotion: Potions.IndestructiblePotion,
 	prepopPotion: Potions.IndestructiblePotion,
 });

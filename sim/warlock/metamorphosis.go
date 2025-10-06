@@ -54,6 +54,7 @@ func (warlock *Warlock) registerMetamorphosisSpell() {
 		},
 	})
 
+	bp := 251.0 + float64(warlock.Level-60)*11.5
 	warlock.ImmolationAura = warlock.RegisterSpell(core.SpellConfig{
 		// the spellID that deals damage in the combat log is 50590, but we don't use it here
 		ActionID:    core.ActionID{SpellID: 50589},
@@ -89,7 +90,7 @@ func (warlock *Warlock) registerMetamorphosisSpell() {
 			TickLength:          time.Second * 1,
 			AffectedByCastSpeed: true,
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
-				baseDmg := (251 + 20*11.5 + 0.143*dot.Spell.SpellPower()) * sim.Encounter.AOECapMultiplier()
+				baseDmg := (bp + 0.143*dot.Spell.SpellPower()) * sim.Encounter.AOECapMultiplier()
 				for _, aoeTarget := range sim.Encounter.TargetUnits {
 					dot.Spell.CalcAndDealDamage(sim, aoeTarget, baseDmg, dot.Spell.OutcomeMagicHit)
 				}

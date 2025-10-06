@@ -1,32 +1,27 @@
+import * as PresetUtils from '../core/preset_utils.js';
 import {
 	Consumes,
-	Flask,
-	Food,
 	Glyphs,
 	PetFood,
 	Potions,
 	Spec,
 } from '../core/proto/common.js';
-import { SavedTalents } from '../core/proto/ui.js';
-import { ferocityDefault, ferocityBMDefault } from '../core/talents/hunter_pet.js';
-
+import {Flask,Food} from '../core/proto/consumes_gen.js'
 import {
-	Hunter_Rotation as HunterRotation,
-	Hunter_Rotation_RotationType as RotationType,
-	Hunter_Rotation_StingType as StingType,
 	Hunter_Options as HunterOptions,
 	Hunter_Options_Ammo as Ammo,
 	Hunter_Options_PetType as PetType,
+	Hunter_Rotation as HunterRotation,
+	Hunter_Rotation_RotationType as RotationType,
+	Hunter_Rotation_StingType as StingType,
 	HunterMajorGlyph as MajorGlyph,
 	HunterMinorGlyph as MinorGlyph,
 } from '../core/proto/hunter.js';
-
-import * as PresetUtils from '../core/preset_utils.js';
-
+import { SavedTalents } from '../core/proto/ui.js';
+import { ferocityBMDefault,ferocityDefault } from '../core/talents/hunter_pet.js';
 // Preset options for this spec.
 // Eventually we will import these values for the raid sim too, so its good to
 // keep them in a separate file.
-
 import PreraidMMGear from './gear_sets/preraid_mm.gear.json';
 export const MM_PRERAID_PRESET = PresetUtils.makePresetGear('MM PreRaid Preset', PreraidMMGear, { talentTrees: [0, 1] });
 import P1MMGear from './gear_sets/p1_mm.gear.json';
@@ -145,7 +140,7 @@ export const BMDefaultOptions = HunterOptions.create({
 
 export const DefaultConsumes = Consumes.create({
 	defaultPotion: Potions.PotionOfSpeed,
-	flask: Flask.FlaskOfEndlessRage,
-	food: Food.FoodFishFeast,
+	flask: Flask.FlaskofEndlessRage,
+	food: Food.FishFeast,
 	petFood: PetFood.PetFoodSpicedMammothTreats,
 });

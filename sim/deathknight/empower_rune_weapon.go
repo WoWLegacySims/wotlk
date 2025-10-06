@@ -7,6 +7,9 @@ import (
 )
 
 func (dk *Deathknight) registerEmpowerRuneWeaponSpell() {
+	if dk.Level < 75 {
+		return
+	}
 	actionID := core.ActionID{SpellID: 47568}
 	cdTimer := dk.NewTimer()
 	cd := time.Minute * 5

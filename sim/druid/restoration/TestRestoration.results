@@ -1,39 +1,39 @@
 character_stats_results: {
  key: "TestRestoration-CharacterStats-Default"
  value: {
-  final_stats: 373.626
-  final_stats: 355.674
-  final_stats: 1333.497
-  final_stats: 1151.172
-  final_stats: 1165.1409
+  final_stats: 374.8041
+  final_stats: 356.8521
+  final_stats: 1334.3946
+  final_stats: 1152.0696
+  final_stats: 1166.17314
   final_stats: 2544
-  final_stats: 186
+  final_stats: 187.4
   final_stats: 0
-  final_stats: 655.59899
+  final_stats: 655.84622
   final_stats: 688
   final_stats: 0
-  final_stats: 1555.6772
+  final_stats: 1558.26902
   final_stats: 0
-  final_stats: 792.63093
+  final_stats: 793.27992
   final_stats: 688
   final_stats: 0
   final_stats: 0
-  final_stats: 20483.58
+  final_stats: 18692.044
   final_stats: 0
   final_stats: 0
-  final_stats: 6140.848
+  final_stats: 6143.2042
   final_stats: 755.7
   final_stats: 0
   final_stats: 0
   final_stats: 0
-  final_stats: 336.37118
+  final_stats: 337.48535
   final_stats: 0
   final_stats: 0
-  final_stats: 20942.82
-  final_stats: 75
-  final_stats: 75
-  final_stats: 75
-  final_stats: 75
+  final_stats: 20951.796
+  final_stats: 75.6
+  final_stats: 75.6
+  final_stats: 75.6
+  final_stats: 75.6
   final_stats: 130
   final_stats: 0
   final_stats: 0
@@ -44,6 +44,10 @@ character_stats_results: {
  }
 }
 dps_results: {
+ key: "TestRestoration-AllItems-AdamantineFigurine-27891"
+ value: {}
+}
+dps_results: {
  key: "TestRestoration-AllItems-Althor'sAbacus-50359"
  value: {}
 }
@@ -52,39 +56,19 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-AshtongueTalismanofEquilibrium-32486"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-AustereEarthsiegeDiamond"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-Bandit'sInsignia-40371"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-BandoftheEternalChampion-29301"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-BandoftheEternalDefender-29297"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-BandoftheEternalSage-29305"
  value: {}
 }
 dps_results: {
  key: "TestRestoration-AllItems-BaubleofTrueBlood-50354"
  value: {
-  hps: 87.04794
+  hps: 87.04825
  }
 }
 dps_results: {
  key: "TestRestoration-AllItems-BaubleofTrueBlood-50726"
  value: {
-  hps: 87.04794
+  hps: 87.04825
  }
 }
 dps_results: {
@@ -92,19 +76,11 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-Berserker'sCall-33831"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-BlackenedNaaruSliver-34427"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-BladeofUnquenchedThirst-31193"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-BlessedRegaliaofUndeadCleansing"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-BloodlustBrooch-29383"
  value: {}
 }
 dps_results: {
@@ -112,19 +88,7 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-BraidedEterniumChain-24114"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-BrutalGladiator'sIdolofResolve-35019"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-ChaoticSkyflareDiamond"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-CommendationofKael'thas-34473"
  value: {}
 }
 dps_results: {
@@ -142,27 +106,11 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestRestoration-AllItems-DarkmoonCard:Berserker!-42989"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-DarkmoonCard:Death-42990"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-DarkmoonCard:Greatness-44255"
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-DeadlyGladiator'sIdolofResolve-42588"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-Death'sChoice-47464"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-DeathKnight'sAnguish-38212"
+ key: "TestRestoration-AllItems-Death'sVerdict-47115"
  value: {}
 }
 dps_results: {
@@ -171,10 +119,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestRestoration-AllItems-Deathbringer'sWill-50363"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-Defender'sCode-40257"
  value: {}
 }
 dps_results: {
@@ -187,10 +131,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestRestoration-AllItems-DislodgedForeignObject-50353"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-DragonspineTrophy-28830"
  value: {}
 }
 dps_results: {
@@ -230,18 +170,6 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-ExtractofNecromanticPower-40373"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-EyeoftheBroodmother-45308"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-Felstriker-12590"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-Figurine-SapphireOwl-42413"
  value: {}
 }
@@ -250,27 +178,11 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-ForgeEmber-37660"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-ForlornSkyflareDiamond"
  value: {}
 }
 dps_results: {
  key: "TestRestoration-AllItems-ForlornStarflareDiamond"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-FuriousGladiator'sIdolofResolve-42589"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-FuryoftheFiveFlights-40431"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-FuturesightRune-38763"
  value: {}
 }
 dps_results: {
@@ -290,19 +202,15 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestRestoration-AllItems-GnomereganAuto-Blocker600-29387"
+ value: {}
+}
+dps_results: {
  key: "TestRestoration-AllItems-GnomishLightningGenerator-41121"
  value: {
-  dps: 37.01833
-  tps: 37.01833
+  dps: 37.01976
+  tps: 37.01976
  }
-}
-dps_results: {
- key: "TestRestoration-AllItems-HandofJustice-11815"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-HatefulGladiator'sIdolofResolve-42587"
- value: {}
 }
 dps_results: {
  key: "TestRestoration-AllItems-Heartpierce-49982"
@@ -313,35 +221,7 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-IdolofLunarFury-47670"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-IdolofMutilation-47668"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-IdoloftheCorruptor-45509"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-IdoloftheCryingMoon-50456"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-IdoloftheLunarEclipse-50457"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-IdoloftheRavenGoddess-32387"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-IdoloftheUnseenMoon-33510"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-IdoloftheWhiteStag-32257"
+ key: "TestRestoration-AllItems-IconofUnyieldingCourage-28121"
  value: {}
 }
 dps_results: {
@@ -350,10 +230,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestRestoration-AllItems-ImpassiveStarflareDiamond"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-IncisorFragment-37723"
  value: {}
 }
 dps_results: {
@@ -381,18 +257,6 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-Lavanthor'sTalisman-37872"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-MadnessoftheBetrayer-32505"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-MajesticDragonFigurine-40430"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-Malfurion'sBattlegear"
  value: {}
 }
@@ -401,7 +265,19 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-MeteoriteWhetstone-37390"
+ key: "TestRestoration-AllItems-MalorneHarness"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-MalorneRegalia"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-ManualofClouds-43664"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-Moroes'LuckyPocketWatch-28528"
  value: {}
 }
 dps_results: {
@@ -425,7 +301,11 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-OfferingofSacrifice-37638"
+ key: "TestRestoration-AllItems-NordrassilHarness"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-NordrassilRegalia"
  value: {}
 }
 dps_results: {
@@ -461,19 +341,7 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-ReignoftheDead-47316"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-ReignoftheDead-47477"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-RelentlessEarthsiegeDiamond"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-RelentlessGladiator'sIdolofResolve-42591"
  value: {}
 }
 dps_results: {
@@ -481,31 +349,11 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-RodoftheSunKing-29996"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-RuneofRepulsion-40372"
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-SavageGladiator'sIdolofResolve-42574"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-ScarabBrooch-21625"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-SealofthePantheon-36993"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-ShardofContempt-34472"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-ShiftingNaaruSliver-34429"
+ key: "TestRestoration-AllItems-ShadowmoonInsignia-32501"
  value: {}
 }
 dps_results: {
@@ -529,10 +377,6 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-SparkofLife-37657"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-StormshroudArmor"
  value: {}
 }
@@ -549,10 +393,6 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-SyphonoftheNathrezim-32262"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-TalismanofTrollDivinity-37734"
  value: {}
 }
@@ -562,6 +402,10 @@ dps_results: {
 }
 dps_results: {
  key: "TestRestoration-AllItems-TheGeneral'sHeart-45507"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-TheLightningCapacitor-28785"
  value: {}
 }
 dps_results: {
@@ -581,14 +425,6 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-TinyAbominationinaJar-50351"
- value: {}
-}
-dps_results: {
- key: "TestRestoration-AllItems-TinyAbominationinaJar-50706"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-TirelessSkyflareDiamond"
  value: {}
 }
@@ -605,10 +441,6 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-TsunamiTalisman-30627"
- value: {}
-}
-dps_results: {
  key: "TestRestoration-AllItems-UndeadSlayer'sBlessedArmor"
  value: {}
 }
@@ -617,11 +449,11 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-VengefulGladiator'sIdolofResolve-33947"
+ key: "TestRestoration-AllItems-VestigeofHaldor-37064"
  value: {}
 }
 dps_results: {
- key: "TestRestoration-AllItems-WrathfulGladiator'sIdolofResolve-51429"
+ key: "TestRestoration-AllItems-Warp-ScarabBrooch-27828"
  value: {}
 }
 dps_results: {

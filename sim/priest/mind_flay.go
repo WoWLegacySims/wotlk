@@ -6,31 +6,32 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/priestinfo"
 )
 
 func (priest *Priest) getMiseryCoefficient() float64 {
 	return 0.257 * (1 + 0.05*float64(priest.Talents.Misery))
 }
 
-func (priest *Priest) getMindFlayTickSpell(numTicks int32) *core.Spell {
+func (priest *Priest) getMindFlayTickSpell(numTicks int32, bp float64, coef float64) *core.Spell {
 	hasGlyphOfShadow := priest.HasGlyph(int32(proto.PriestMajorGlyph_GlyphOfShadow))
-	miseryCoeff := priest.getMiseryCoefficient()
 
 	return priest.GetOrRegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 58381}.WithTag(numTicks),
-		SpellSchool:    core.SpellSchoolShadow,
-		ProcMask:       core.ProcMaskProc | core.ProcMaskNotInSpellbook,
-		BonusHitRating: float64(priest.Talents.ShadowFocus) * 1 * core.SpellHitRatingPerHitChance,
-		BonusCritRating: 0 +
-			float64(priest.Talents.MindMelt)*2*core.CritRatingPerCritChance +
-			core.TernaryFloat64(priest.HasSetBonus(ItemSetZabras, 4), 5, 0)*core.CritRatingPerCritChance,
+		ActionID:    core.ActionID{SpellID: 58381}.WithTag(numTicks),
+		SpellSchool: core.SpellSchoolShadow,
+		ProcMask:    core.ProcMaskProc | core.ProcMaskNotInSpellbook,
+		BonusHit:    float64(priest.Talents.ShadowFocus),
+		BonusCrit: 0 +
+			float64(priest.Talents.MindMelt)*2 +
+			core.TernaryFloat64(priest.HasSetBonus(ItemSetZabras, 4), 5, 0),
 		DamageMultiplier: 1 +
 			0.02*float64(priest.Talents.Darkness) +
-			0.01*float64(priest.Talents.TwinDisciplines),
+			0.01*float64(priest.Talents.TwinDisciplines) +
+			core.TernaryFloat64(priest.HasSetBonus(ItemSetIncarnateRegalia, 4), 0.05, 0),
 		CritMultiplier:   priest.SpellCritMultiplier(1, float64(priest.Talents.ShadowPower)/5),
 		ThreatMultiplier: 1 - 0.08*float64(priest.Talents.ShadowAffinity),
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			damage := 588.0/3 + miseryCoeff*spell.SpellPower()
+			damage := bp + coef*spell.SpellPower()
 			damage *= priest.MindFlayModifier
 			result := spell.CalcAndDealDamage(sim, target, damage, spell.OutcomeMagicHitAndCrit)
 
@@ -59,6 +60,12 @@ func (priest *Priest) getPainAndSufferingSpell() *core.Spell {
 }
 
 func (priest *Priest) newMindFlaySpell(numTicksIdx int32) *core.Spell {
+	dbc := priestinfo.MindFlay.GetMaxRank(priest.Level)
+	if dbc == nil {
+		return nil
+	}
+	bp, _ := dbc.GetBPDie(2, priest.Level)
+
 	numTicks := numTicksIdx
 	flags := core.SpellFlagChanneled | core.SpellFlagNoMetrics
 	if numTicksIdx == 0 {
@@ -75,13 +82,14 @@ func (priest *Priest) newMindFlaySpell(numTicksIdx int32) *core.Spell {
 	rolloverChance := float64(priest.Talents.PainAndSuffering) / 3.0
 	shadowFocus := 0.02 * float64(priest.Talents.ShadowFocus)
 	focusedMind := 0.05 * float64(priest.Talents.FocusedMind)
-	miseryCoeff := priest.getMiseryCoefficient()
+	miseryCoeff := priest.getMiseryCoefficient() * dbc.GetLevelPenalty(priest.Level)
 
 	painAndSufferingSpell := priest.getPainAndSufferingSpell()
-	mindFlayTickSpell := priest.getMindFlayTickSpell(numTicksIdx)
+	mindFlayTickSpell := priest.getMindFlayTickSpell(numTicksIdx, bp, miseryCoeff)
 
 	return priest.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48156}.WithTag(numTicksIdx),
+		ActionID:    core.ActionID{SpellID: dbc.SpellID}.WithTag(numTicksIdx),
+		SpellRanks:  priestinfo.MindFlay.GetAllIDs(),
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       flags,
@@ -94,10 +102,10 @@ func (priest *Priest) newMindFlaySpell(numTicksIdx int32) *core.Spell {
 				GCD: core.GCDDefault,
 			},
 		},
-		BonusHitRating: float64(priest.Talents.ShadowFocus) * 1 * core.SpellHitRatingPerHitChance,
-		BonusCritRating: 0 +
-			float64(priest.Talents.MindMelt)*2*core.CritRatingPerCritChance +
-			core.TernaryFloat64(priest.HasSetBonus(ItemSetZabras, 4), 5, 0)*core.CritRatingPerCritChance,
+		BonusHit: float64(priest.Talents.ShadowFocus),
+		BonusCrit: 0 +
+			float64(priest.Talents.MindMelt)*2 +
+			core.TernaryFloat64(priest.HasSetBonus(ItemSetZabras, 4), 5, 0),
 		DamageMultiplier: 1 +
 			0.02*float64(priest.Talents.Darkness) +
 			0.01*float64(priest.Talents.TwinDisciplines),

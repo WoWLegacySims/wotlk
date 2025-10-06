@@ -93,8 +93,8 @@ var HolyGlyphs = &proto.Glyphs{
 }
 
 var FullConsumes = &proto.Consumes{
-	Flask:         proto.Flask_FlaskOfTheFrostWyrm,
-	Food:          proto.Food_FoodFishFeast,
+	Flask:         proto.Flask_FlaskoftheFrostWyrm,
+	Food:          proto.Food_FishFeast,
 	DefaultPotion: proto.Potions_RunicManaInjector,
 	PrepopPotion:  proto.Potions_PotionOfWildMagic,
 }

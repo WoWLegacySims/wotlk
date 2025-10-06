@@ -231,7 +231,7 @@ func CalcStatWeight(swr *proto.StatWeightsRequest, referenceStat stats.Stat, pro
 		stat := stats.UnitStatFromStat(s)
 		statMod := defaultStatMod
 		if stat.EqualsStat(stats.Expertise) {
-			statMod = ExpertisePerQuarterPercentReduction
+			statMod = ExpertisePerQuarterPercentReduction[swr.Player.Level]
 		} else if stat.EqualsStat(stats.Armor) || stat.EqualsStat(stats.BonusArmor) {
 			statMod = defaultStatMod * 10
 		}

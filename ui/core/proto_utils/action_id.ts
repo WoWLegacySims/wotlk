@@ -1,10 +1,63 @@
-import { CHARACTER_LEVEL } from '../constants/mechanics.js';
 import { ResourceType } from '../proto/api.js';
 import { ActionID as ActionIdProto , OtherAction } from '../proto/common.js';
 import { IconData ,
 	UIItem as Item,
 } from '../proto/ui.js';
 import { Database } from './database.js';
+
+
+interface ActionIDs {
+	[key:number]: ActionId
+}
+
+interface ActionIDInput {
+	level: number,
+	id: number,
+	tag?: number,
+}
+
+export class ActionIDMap {
+	readonly actionIds: ActionIDs;
+
+	private constructor(actionIds: ActionIDs){
+		this.actionIds = actionIds;
+	}
+
+	getActionId(level: number):ActionId | null {
+		let maxLevel = 0;
+		Object.keys(this.actionIds).forEach(k => {
+			const actionLevel = parseInt(k);
+			if(actionLevel <= level && actionLevel > maxLevel) maxLevel = actionLevel;
+		})
+		if (maxLevel)
+			return this.actionIds[maxLevel];
+		return null
+	}
+
+	static fromSpellId(pairs: ActionIDInput[]): ActionIDMap {
+		const actionids:ActionIDs = {};
+		pairs.forEach(pair => {
+			actionids[pair.level] = ActionId.fromSpellId(pair.id,pair.tag);
+		})
+		return new ActionIDMap(actionids);
+	}
+
+	static fromItemId(pairs: ActionIDInput[]): ActionIDMap {
+		const actionids:ActionIDs = {};
+		pairs.forEach(pair => {
+			actionids[pair.level] = ActionId.fromItemId(pair.id,pair.tag);
+		})
+		return new ActionIDMap(actionids);
+	}
+
+	static fromOtherId(pairs: ActionIDInput[]): ActionIDMap {
+		const actionids:ActionIDs = {};
+		pairs.forEach(pair => {
+			actionids[pair.level] = ActionId.fromOtherId(pair.id,pair.tag);
+		})
+		return new ActionIDMap(actionids);
+	}
+}
 
 // Uniquely identifies a specific item / spell / thing in WoW. This object is immutable.
 export class ActionId {
@@ -129,11 +182,11 @@ export class ActionId {
 		}
 	}
 
-	static makeItemUrl(id: number): string {
-		return `https://wowgaming.altervista.org/aowow/?item=${id}`;
+	static makeItemUrl(id: number, level?: number): string {
+		return `https://wowgaming.altervista.org/aowow/?item=${id}${level ? `&level=${level}` : `` }`;
 	}
-	static makeSpellUrl(id: number): string {
-		return `https://wowgaming.altervista.org/aowow/?spell=${id}`;
+	static makeSpellUrl(id: number, level?: number): string {
+		return `https://wowgaming.altervista.org/aowow/?spell=${id}${level ? `&level=${level}` : `` }`;
 	}
 	static makeQuestUrl(id: number): string {
 		return `https://wowgaming.altervista.org/aowow/?quest=${id}`;
@@ -145,23 +198,23 @@ export class ActionId {
 		return `https://wowgaming.altervista.org/aowow/?zone=${id}`;
 	}
 
-	setWowheadHref(elem: HTMLAnchorElement) {
+	setWowheadHref(elem: HTMLAnchorElement, level?: number) {
 		if (this.itemId) {
-			elem.href = ActionId.makeItemUrl(this.itemId);
+			elem.href = ActionId.makeItemUrl(this.itemId, level);
 		} else if (this.spellId) {
-			elem.href = ActionId.makeSpellUrl(this.spellId);
+			elem.href = ActionId.makeSpellUrl(this.spellId, level);
 		}
 	}
 
-	setBackgroundAndHref(elem: HTMLAnchorElement) {
+	setBackgroundAndHref(elem: HTMLAnchorElement, level?: number) {
 		this.setBackground(elem);
-		this.setWowheadHref(elem);
+		this.setWowheadHref(elem, level);
 	}
 
-	async fillAndSet(elem: HTMLAnchorElement, setHref: boolean, setBackground: boolean): Promise<ActionId> {
+	async fillAndSet(elem: HTMLAnchorElement, setHref: boolean, setBackground: boolean, level?: number): Promise<ActionId> {
 		const filled = await this.fill();
 		if (setHref) {
-			filled.setWowheadHref(elem);
+			filled.setWowheadHref(elem, level);
 		}
 		if (setBackground) {
 			filled.setBackground(elem);
@@ -186,11 +239,7 @@ export class ActionId {
 		let name = baseName;
 		switch (baseName) {
 			case 'Explosive Shot':
-				if (this.spellId == 60053) {
-					name += ' (R4)';
-				} else if (this.spellId == 60052) {
-					name += ' (R3)';
-				}
+				name += ` (Rank ${this.tag})`
 				break;
 			case 'Explosive Trap':
 				if (this.tag == 1) {
@@ -211,11 +260,7 @@ export class ActionId {
 				break;
 			case 'Fireball':
 			case 'Flamestrike':
-				if (this.tag == 8) {
-					name += ' (Rank 8)';
-				} else if (this.tag == 9) {
-					name += ' (Rank 9)';
-				}
+				name += ` (Rank ${this.tag})`
 				break;
 			case 'Pyroblast':
 				if (this.tag) name += ' (DoT)';
@@ -423,6 +468,7 @@ export class ActionId {
 
 		const idString = this.toProtoString();
 		const iconOverrideId = idOverrides[idString] || null;
+
 
 		let iconUrl = ActionId.makeIconUrl(tooltipData['icon']);
 		if (iconOverrideId) {
@@ -656,8 +702,8 @@ export const resourceTypeToIcon: Record<ResourceType, string> = {
 	[ResourceType.ResourceTypeComboPoints]: 'https://wow.zamimg.com/images/wow/icons/medium/inv_mace_2h_pvp410_c_01.jpg',
 	[ResourceType.ResourceTypeFocus]: 'https://wow.zamimg.com/images/wow/icons/medium/ability_hunter_focusfire.jpg',
 	[ResourceType.ResourceTypeRunicPower]: 'https://wow.zamimg.com/images/wow/icons/medium/inv_sword_62.jpg',
-	[ResourceType.ResourceTypeBloodRune]: '/sims/wotlk/BRANCH/assets/img/blood_rune.png',
-	[ResourceType.ResourceTypeFrostRune]: '/sims/wotlk/BRANCH/assets/img/frost_rune.png',
-	[ResourceType.ResourceTypeUnholyRune]: '/sims/wotlk/BRANCH/assets/img/unholy_rune.png',
-	[ResourceType.ResourceTypeDeathRune]: '/sims/wotlk/BRANCH/assets/img/death_rune.png',
+	[ResourceType.ResourceTypeBloodRune]: '/sims/wotlk/all/assets/img/blood_rune.png',
+	[ResourceType.ResourceTypeFrostRune]: '/sims/wotlk/all/assets/img/frost_rune.png',
+	[ResourceType.ResourceTypeUnholyRune]: '/sims/wotlk/all/assets/img/unholy_rune.png',
+	[ResourceType.ResourceTypeDeathRune]: '/sims/wotlk/all/assets/img/death_rune.png',
 };

@@ -1,30 +1,29 @@
+import * as Mechanics from './constants/mechanics.js';
+import { UnitMetadataList } from './player.js';
 import {
 	Encounter as EncounterProto,
 	MobType,
+	PresetEncounter,
+	PresetTarget,
 	SpellSchool,
 	Stat,
 	Target as TargetProto,
 	TargetInput,
-	PresetEncounter,
-	PresetTarget,
 } from './proto/common.js';
 import { Stats } from './proto_utils/stats.js';
-import * as Mechanics from './constants/mechanics.js';
-
 import { Sim } from './sim.js';
-import { UnitMetadataList } from './player.js';
 import { EventID, TypedEvent } from './typed_event.js';
 
 // Manages all the settings for an Encounter.
 export class Encounter {
 	readonly sim: Sim;
 
-	private duration: number = 180;
-	private durationVariation: number = 5;
-	private executeProportion20: number = 0.2;
-	private executeProportion25: number = 0.25;
-	private executeProportion35: number = 0.35;
-	private useHealth: boolean = false;
+	private duration = 180;
+	private durationVariation = 5;
+	private executeProportion20 = 0.2;
+	private executeProportion25 = 0.25;
+	private executeProportion35 = 0.35;
+	private useHealth = false;
 	targets: Array<TargetProto>;
 	targetsMetadata: UnitMetadataList;
 

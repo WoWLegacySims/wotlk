@@ -8,6 +8,9 @@ import (
 )
 
 func (druid *Druid) registerFrenziedRegenerationCD() {
+	if druid.Level < 36 {
+		return
+	}
 	actionID := core.ActionID{SpellID: 22842}
 	healthMetrics := druid.NewHealthMetrics(actionID)
 	rageMetrics := druid.NewRageMetrics(actionID)

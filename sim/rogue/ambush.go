@@ -4,11 +4,19 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/rogueinfo"
 )
 
 func (rogue *Rogue) registerAmbushSpell() {
+	dbc := rogueinfo.Ambush.GetMaxRank(rogue.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, rogue.Level)
+
 	rogue.Ambush = rogue.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48691},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  rogueinfo.Ambush.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | SpellFlagBuilder | SpellFlagColdBlooded | core.SpellFlagAPL,
@@ -27,8 +35,8 @@ func (rogue *Rogue) registerAmbushSpell() {
 			return !rogue.PseudoStats.InFrontOfTarget && rogue.HasDagger(core.MainHand) && rogue.IsStealthed()
 		},
 
-		BonusCritRating: []float64{0, 2, 4, 6}[rogue.Talents.TurnTheTables]*core.CritRatingPerCritChance +
-			25*core.CritRatingPerCritChance*float64(rogue.Talents.ImprovedAmbush),
+		BonusCrit: float64(rogue.Talents.TurnTheTables)*2 +
+			25*float64(rogue.Talents.ImprovedAmbush),
 		// All of these use "Apply Aura: Modifies Damage/Healing Done", and stack additively.
 		DamageMultiplier: 2.75 * (1 +
 			0.02*float64(rogue.Talents.FindWeakness) +
@@ -38,7 +46,7 @@ func (rogue *Rogue) registerAmbushSpell() {
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			rogue.BreakStealth(sim)
-			baseDamage := 330 +
+			baseDamage := bp +
 				spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
 				spell.BonusWeaponDamage()
 

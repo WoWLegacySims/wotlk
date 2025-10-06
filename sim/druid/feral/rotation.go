@@ -108,6 +108,9 @@ func (cat *FeralDruid) canBite(sim *core.Simulation) bool {
 }
 
 func (cat *FeralDruid) berserkExpectedAt(sim *core.Simulation, futureTime time.Duration) bool {
+	if !cat.Talents.Berserk {
+		return false
+	}
 	if cat.BerserkAura.IsActive() {
 		return futureTime < cat.BerserkAura.ExpiresAt() || futureTime > cat.Berserk.ReadyAt()
 	}
@@ -183,10 +186,9 @@ func (cat *FeralDruid) doTigersFury(sim *core.Simulation) {
 	// expire within 3 GCDs (two cat specials + shapeshift), since we
 	// won't be able to spend down our Energy fast enough to avoid
 	// Energy capping otherwise.
-	lacerateDot := cat.Lacerate.CurDot()
 	if cat.Rotation.BearweaveType == proto.FeralDruid_Rotation_Lacerate {
 		nextPossibleLac := sim.CurrentTime + leewayTime + cat.latency + time.Duration(3.5*float64(time.Second))
-		tfNow = tfNow && (!lacerateDot.IsActive() || (lacerateDot.ExpiresAt() > nextPossibleLac) || (lacerateDot.RemainingDuration(sim) > sim.GetRemainingDuration()))
+		tfNow = tfNow && (cat.Lacerate == nil || (!cat.Lacerate.CurDot().IsActive() || (cat.Lacerate.CurDot().ExpiresAt() > nextPossibleLac) || (cat.Lacerate.CurDot().RemainingDuration(sim) > sim.GetRemainingDuration())))
 	}
 
 	if tfNow {
@@ -249,10 +251,17 @@ func (cat *FeralDruid) doRotation(sim *core.Simulation) (bool, time.Duration) {
 	isClearcast := cat.ClearcastingAura.IsActive()
 	simTimeRemain := sim.GetRemainingDuration()
 	shiftCost := cat.CatForm.DefaultCast.Cost
-	rakeDot := cat.Rake.CurDot()
-	ripDot := cat.Rip.CurDot()
-	lacerateDot := cat.Lacerate.CurDot()
-	isBleedActive := cat.AssumeBleedActive || ripDot.IsActive() || rakeDot.IsActive() || lacerateDot.IsActive()
+	var rakeDot, lacerateDot, ripDot *core.Dot
+	if cat.Rake != nil {
+		rakeDot = cat.Rake.CurDot()
+	}
+	if cat.Rip != nil {
+		ripDot = cat.Rip.CurDot()
+	}
+	if cat.Lacerate != nil {
+		lacerateDot = cat.Lacerate.CurDot()
+	}
+	isBleedActive := cat.AssumeBleedActive || (ripDot != nil && ripDot.IsActive()) || (rakeDot != nil && rakeDot.IsActive()) || (lacerateDot != nil && lacerateDot.IsActive())
 
 	// Prioritize using rake/rip with omen procs if bleed isnt active
 	// But less priority then mangle aura
@@ -261,7 +270,7 @@ func (cat *FeralDruid) doRotation(sim *core.Simulation) (bool, time.Duration) {
 
 	endThresh := time.Second * 10
 
-	ripNow := (curCp >= rotation.MinCombosForRip) && !ripDot.IsActive() && (simTimeRemain >= endThresh) && ripCcCheck
+	ripNow := ripDot != nil && (curCp >= rotation.MinCombosForRip) && !ripDot.IsActive() && (simTimeRemain >= endThresh) && ripCcCheck
 	biteAtEnd := (curCp >= rotation.MinCombosForBite) && ((simTimeRemain < endThresh) || (ripDot.IsActive() && (simTimeRemain-ripDot.RemainingDuration(sim) < endThresh)))
 
 	// Clip Mangle if it won't change the total number of Mangles we have to
@@ -287,7 +296,7 @@ func (cat *FeralDruid) doRotation(sim *core.Simulation) (bool, time.Duration) {
 		biteNow = curEnergy <= rotation.BerserkBiteThresh
 	}
 
-	rakeNow := rotation.UseRake && !rakeDot.IsActive() && (simTimeRemain > rakeDot.Duration) && rakeCcCheck
+	rakeNow := rakeDot != nil && rotation.UseRake && !rakeDot.IsActive() && (simTimeRemain > rakeDot.Duration) && rakeCcCheck
 
 	// Additionally, don't Rake if the current Shred DPE is higher due to
 	// trinket procs etc.
@@ -298,7 +307,7 @@ func (cat *FeralDruid) doRotation(sim *core.Simulation) (bool, time.Duration) {
 
 	// Additionally, don't Rake if there is insufficient time to max out
 	// our available glyph of shred extensions before rip falls off
-	if rakeNow && ripDot.IsActive() {
+	if rakeNow && (ripDot != nil && ripDot.IsActive()) {
 		maxRipDur := time.Duration(cat.maxRipTicks) * ripDot.TickLength
 		remainingExt := cat.maxRipTicks - ripDot.NumberOfTicks
 		energyForShreds := curEnergy - cat.CurrentRakeCost() - 30 + float64((ripDot.StartedAt()+maxRipDur-sim.CurrentTime)/core.EnergyTickDuration) + core.Ternary(cat.tfExpectedBefore(sim, ripDot.StartedAt()+maxRipDur), 60.0, 0.0)
@@ -314,8 +323,8 @@ func (cat *FeralDruid) doRotation(sim *core.Simulation) (bool, time.Duration) {
 	// *unless* we'll lose Berserk uptime by waiting for Tiger's Fury to
 	// come off cooldown. The latter exception is necessary for
 	// Lacerateweave rotation since TF timings can drift over time.
-	waitForTf := cat.Talents.Berserk && (cat.TigersFury.ReadyAt() <= cat.BerserkAura.Duration) && (cat.TigersFury.ReadyAt()+time.Second < simTimeRemain-cat.BerserkAura.Duration)
-	berserkNow := cat.Berserk.IsReady(sim) && !waitForTf && ripDot.IsActive() && !isClearcast
+	waitForTf := cat.Talents.Berserk && cat.TigersFury != nil && (cat.TigersFury.ReadyAt() <= cat.BerserkAura.Duration) && (cat.TigersFury.ReadyAt()+time.Second < simTimeRemain-cat.BerserkAura.Duration)
+	berserkNow := cat.Berserk.IsReady(sim) && !waitForTf && (ripDot != nil && ripDot.IsActive()) && !isClearcast
 
 	// Additionally, for Lacerateweave rotation, postpone the final Berserk
 	// of the fight to as late as possible so as to minimize the impact of
@@ -327,7 +336,7 @@ func (cat *FeralDruid) doRotation(sim *core.Simulation) (bool, time.Duration) {
 		berserkNow = simTimeRemain < cat.BerserkAura.Duration+(3*time.Second)
 	}
 
-	roarNow := curCp >= 1 && (!cat.SavageRoarAura.IsActive() || cat.clipRoar(sim))
+	roarNow := cat.SavageRoar != nil && curCp >= 1 && (!cat.SavageRoarAura.IsActive() || cat.clipRoar(sim))
 
 	// Faerie Fire on cooldown for Omen procs. Each second of FF delay is
 	// worth ~7 Energy, so it is okay to waste up to 7 Energy to cap when
@@ -338,7 +347,7 @@ func (cat *FeralDruid) doRotation(sim *core.Simulation) (bool, time.Duration) {
 	if cat.BerserkAura.IsActive() {
 		ffThresh = cat.Rotation.BerserkFfThresh
 	}
-	ffNow := cat.FaerieFire.CanCast(sim, cat.CurrentTarget) && !isClearcast && curEnergy < ffThresh && (!ripNow || (curEnergy < cat.CurrentRipCost()))
+	ffNow := cat.FaerieFire != nil && cat.FaerieFire.CanCast(sim, cat.CurrentTarget) && !isClearcast && curEnergy < ffThresh && (!ripNow || (curEnergy < cat.CurrentRipCost()))
 
 	// Also add an end of fight condition to make sure we can spend down our
 	// Energy post-FF before the encounter ends. Time to spend is
@@ -362,12 +371,12 @@ func (cat *FeralDruid) doRotation(sim *core.Simulation) (bool, time.Duration) {
 	pendingPool := PoolingActions{}
 	pendingPool.create(4)
 
-	if ripDot.IsActive() && (ripDot.RemainingDuration(sim) < simTimeRemain-endThresh) && curCp == 5 {
+	if ripDot != nil && ripDot.IsActive() && (ripDot.RemainingDuration(sim) < simTimeRemain-endThresh) && curCp == 5 {
 		ripCost := core.Ternary(cat.berserkExpectedAt(sim, ripDot.ExpiresAt()), cat.Rip.DefaultCast.Cost*0.5, cat.Rip.DefaultCast.Cost)
 		pendingPool.addAction(ripDot.ExpiresAt(), ripCost)
 		cat.ripRefreshPending = true
 	}
-	if poolForRake && rakeDot.IsActive() && (rakeDot.RemainingDuration(sim) < simTimeRemain-rakeDot.Duration) {
+	if poolForRake && rakeDot != nil && rakeDot.IsActive() && (rakeDot.RemainingDuration(sim) < simTimeRemain-rakeDot.Duration) {
 		rakeCost := core.Ternary(cat.berserkExpectedAt(sim, rakeDot.ExpiresAt()), cat.Rake.DefaultCast.Cost*0.5, cat.Rake.DefaultCast.Cost)
 		pendingPool.addAction(rakeDot.ExpiresAt(), rakeCost)
 	}
@@ -375,7 +384,7 @@ func (cat *FeralDruid) doRotation(sim *core.Simulation) (bool, time.Duration) {
 		mangleCost := core.Ternary(cat.berserkExpectedAt(sim, cat.bleedAura.ExpiresAt()), cat.MangleCat.DefaultCast.Cost*0.5, cat.MangleCat.DefaultCast.Cost)
 		pendingPool.addAction(cat.bleedAura.ExpiresAt(), mangleCost)
 	}
-	if cat.SavageRoarAura.IsActive() {
+	if cat.SavageRoarAura != nil && cat.SavageRoarAura.IsActive() {
 		roarCost := core.Ternary(cat.berserkExpectedAt(sim, cat.SavageRoarAura.ExpiresAt()), cat.SavageRoar.DefaultCast.Cost*0.5, cat.SavageRoar.DefaultCast.Cost)
 		pendingPool.addAction(cat.SavageRoarAura.ExpiresAt(), roarCost)
 	}
@@ -398,7 +407,7 @@ func (cat *FeralDruid) doRotation(sim *core.Simulation) (bool, time.Duration) {
 	}
 
 	weaveEnd := time.Duration(float64(sim.CurrentTime) + (4.5+2*latencySecs)*float64(time.Second))
-	bearweaveNow := rotation.BearweaveType != proto.FeralDruid_Rotation_None && curEnergy <= weaveEnergy && !isClearcast && (!cat.ripRefreshPending || ripDot.ExpiresAt() >= weaveEnd) && !cat.BerserkAura.IsActive()
+	bearweaveNow := rotation.BearweaveType != proto.FeralDruid_Rotation_None && curEnergy <= weaveEnergy && !isClearcast && (ripDot == nil || !cat.ripRefreshPending || ripDot.ExpiresAt() >= weaveEnd) && !cat.BerserkAura.IsActive()
 
 	if bearweaveNow && rotation.BearweaveType != proto.FeralDruid_Rotation_Lacerate {
 		bearweaveNow = !cat.tfExpectedBefore(sim, weaveEnd)
@@ -416,8 +425,11 @@ func (cat *FeralDruid) doRotation(sim *core.Simulation) (bool, time.Duration) {
 	// If we're maintaining Lacerate, then allow for emergency bearweaves
 	// if Lacerate is about to fall off even if the above conditions do not
 	// apply.
-	lacRemain := core.Ternary(lacerateDot.IsActive(), lacerateDot.RemainingDuration(sim), time.Duration(0))
-	emergencyBearweave := rotation.BearweaveType == proto.FeralDruid_Rotation_Lacerate && lacerateDot.IsActive() && (float64(lacRemain) < (2.5+latencySecs)*float64(time.Second)) && (lacRemain < simTimeRemain) && !cat.BerserkAura.IsActive()
+	lacRemain := time.Duration(0)
+	if lacerateDot != nil && lacerateDot.IsActive() {
+		lacRemain = lacerateDot.RemainingDuration(sim)
+	}
+	emergencyBearweave := rotation.BearweaveType == proto.FeralDruid_Rotation_Lacerate && (lacerateDot != nil && lacerateDot.IsActive()) && (float64(lacRemain) < (2.5+latencySecs)*float64(time.Second)) && (lacRemain < simTimeRemain) && !cat.BerserkAura.IsActive()
 
 	// As an alternative to bearweaving, cast GotW on the raid under
 	// analagous conditions to the above. Only difference is that there is
@@ -487,11 +499,11 @@ func (cat *FeralDruid) doRotation(sim *core.Simulation) (bool, time.Duration) {
 			shiftNow = shiftNow || curRage < 10
 		}
 
-		buildLacerate := !lacerateDot.IsActive() || lacerateDot.GetStacks() < 5
-		maintainLacerate := !buildLacerate && (lacRemain <= rotation.LacerateTime) && (curRage < 38 || shiftNext) && (lacRemain < simTimeRemain)
+		buildLacerate := lacerateDot != nil && !lacerateDot.IsActive() || lacerateDot.GetStacks() < 5
+		maintainLacerate := lacerateDot != nil && !buildLacerate && (lacRemain <= rotation.LacerateTime) && (curRage < 38 || shiftNext) && (lacRemain < simTimeRemain)
 
 		lacerateNow := rotation.BearweaveType == proto.FeralDruid_Rotation_Lacerate && (buildLacerate || maintainLacerate)
-		emergencyLacerate := rotation.BearweaveType == proto.FeralDruid_Rotation_Lacerate && lacerateDot.IsActive() && (lacRemain < 3*time.Second+2*cat.latency) && lacRemain < simTimeRemain
+		emergencyLacerate := lacerateDot != nil && rotation.BearweaveType == proto.FeralDruid_Rotation_Lacerate && lacerateDot.IsActive() && (lacRemain < 3*time.Second+2*cat.latency) && lacRemain < simTimeRemain
 
 		if (rotation.BearweaveType != proto.FeralDruid_Rotation_Lacerate) || !lacerateNow {
 			shiftNow = shiftNow || isClearcast
@@ -629,9 +641,11 @@ func (cat *FeralDruid) doRotation(sim *core.Simulation) (bool, time.Duration) {
 
 	// If Lacerateweaving, then also schedule an action just before Lacerate
 	// expires to ensure we can save it in time.
-	lacRefreshTime := lacerateDot.ExpiresAt() - (1500 * time.Millisecond) - (3 * cat.latency)
-	if rotation.BearweaveType == proto.FeralDruid_Rotation_Lacerate && lacerateDot.IsActive() && lacerateDot.RemainingDuration(sim) < simTimeRemain && (sim.CurrentTime < lacRefreshTime) {
-		nextAction = min(nextAction, lacRefreshTime)
+	if lacerateDot != nil {
+		lacRefreshTime := lacerateDot.ExpiresAt() - (1500 * time.Millisecond) - (3 * cat.latency)
+		if rotation.BearweaveType == proto.FeralDruid_Rotation_Lacerate && lacerateDot.IsActive() && lacerateDot.RemainingDuration(sim) < simTimeRemain && (sim.CurrentTime < lacRefreshTime) {
+			nextAction = min(nextAction, lacRefreshTime)
+		}
 	}
 
 	return true, nextAction

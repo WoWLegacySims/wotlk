@@ -4,9 +4,16 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/hunterinfo"
 )
 
 func (hunter *Hunter) registerSteadyShotSpell() {
+	dbc := hunterinfo.SteadyShot.GetMaxRank(hunter.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, hunter.Level)
+
 	impSSProcChance := 0.05 * float64(hunter.Talents.ImprovedSteadyShot)
 	if hunter.Talents.ImprovedSteadyShot > 0 {
 		hunter.ImprovedSteadyShotAura = hunter.RegisterAura(core.Aura{
@@ -46,7 +53,8 @@ func (hunter *Hunter) registerSteadyShotSpell() {
 	}
 
 	hunter.SteadyShot = hunter.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 49052},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  hunterinfo.SteadyShot.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskRangedSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagAPL,
@@ -72,8 +80,9 @@ func (hunter *Hunter) registerSteadyShotSpell() {
 			},
 		},
 
-		BonusCritRating: 0 +
-			2*core.CritRatingPerCritChance*float64(hunter.Talents.SurvivalInstincts),
+		BonusCrit: 0 +
+			2*float64(hunter.Talents.SurvivalInstincts) +
+			core.TernaryFloat64(hunter.HasSetBonus(ItemSetRiftStalker, 4), 5, 0),
 		DamageMultiplierAdditive: 1 +
 			.03*float64(hunter.Talents.FerociousInspiration) +
 			core.TernaryFloat64(hunter.HasSetBonus(ItemSetGronnstalker, 4), .1, 0),
@@ -86,7 +95,7 @@ func (hunter *Hunter) registerSteadyShotSpell() {
 			baseDamage := 0.1*spell.RangedAttackPower(target) +
 				hunter.AutoAttacks.Ranged().BaseDamage(sim)*2.8/hunter.AutoAttacks.Ranged().SwingSpeed +
 				hunter.NormalizedAmmoDamageBonus +
-				252
+				bp
 
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeRangedHitAndCrit)
 			if result.Landed() && impSSProcChance > 0 && sim.RandomFloat("Imp Steady Shot") < impSSProcChance {

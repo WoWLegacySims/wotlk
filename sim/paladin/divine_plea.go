@@ -8,6 +8,9 @@ import (
 )
 
 func (paladin *Paladin) registerDivinePleaSpell() {
+	if paladin.Level < 71 {
+		return
+	}
 	actionID := core.ActionID{SpellID: 54428}
 	hasGlyph := paladin.HasMajorGlyph(proto.PaladinMajorGlyph_GlyphOfDivinePlea)
 	manaMetrics := paladin.NewManaMetrics(actionID)

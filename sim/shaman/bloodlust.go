@@ -12,6 +12,9 @@ func (shaman *Shaman) BloodlustActionID() core.ActionID {
 }
 
 func (shaman *Shaman) registerBloodlustCD() {
+	if shaman.Level < 70 {
+		return
+	}
 	actionID := shaman.BloodlustActionID()
 
 	blAuras := []*core.Aura{}

@@ -292,8 +292,6 @@ export const sourceNames: Map<SourceFilterOption, string> = new Map([
 ]);
 export const raidNames: Map<RaidFilterOption, string> = new Map([
 	[RaidFilterOption.RaidUnknown, 'Unknown'],
-	[RaidFilterOption.RaidVanilla, 'Vanilla'],
-	[RaidFilterOption.RaidTbc, 'TBC'],
 	[RaidFilterOption.RaidNaxxramas, 'Naxxramas'],
 	[RaidFilterOption.RaidEyeOfEternity, 'Eye of Eternity'],
 	[RaidFilterOption.RaidObsidianSanctum, 'Obsidian Sanctum'],

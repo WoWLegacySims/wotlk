@@ -50,7 +50,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecMage, {
 		let stats = new Stats();
 
 		if (player.getTalentTree() === 0) {
-			stats = stats.addStat(Stat.StatSpellHit, player.getTalents().arcaneFocus * 1 * Ratings.SPELL_HIT_RATING_PER_HIT_CHANCE);
+			stats = stats.addStat(Stat.StatSpellHit, player.getTalents().arcaneFocus * 1 * Ratings.GET_SPELL_HIT_RATING_PER_HIT_CHANCE(player.getLevel()));
 		}
 
 		return {
@@ -236,7 +236,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecMage, {
 		const frostfireBolt = APLAction.fromJsonString(`{"castSpell":{"spellId":{"spellId":47610}}}`);
 		const scorch = APLAction.fromJsonString(`{"castSpell":{"spellId":{"spellId":42859}}}`);
 
-		const deepFreeze = APLAction.fromJsonString(`{"condition":{"auraIsActive":{"auraId":{"spellId":44545}}},"castSpell":{"spellId":{"spellId":44572}}}`);
+		const deepFreeze = APLAction.fromJsonString(`{"condition":{"auraIsActive":{"auraId":{"spellId":44545}}},"castSpell":{"spellId":{"spellId":71757}}}`);
 		const frostfireBoltWithBrainFreeze = APLAction.fromJsonString(`{"condition":{"auraIsActiveWithReactionTime":{"auraId":{"spellId":44549}}},"castSpell":{"spellId":{"spellId":47610}}}`);
 		const frostbolt = APLAction.fromJsonString(`{"castSpell":{"spellId":{"spellId":42842}}}`);
 		const iceLance = APLAction.fromJsonString(`{"condition":{"cmp":{"op":"OpEq","lhs":{"auraNumStacks":{"auraId":{"spellId":44545}}},"rhs":{"const":{"val":"1"}}}},"castSpell":{"spellId":{"spellId":42914}}}`);

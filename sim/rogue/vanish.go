@@ -7,6 +7,9 @@ import (
 )
 
 func (rogue *Rogue) registerVanishSpell() {
+	if rogue.Level < 62 {
+		return
+	}
 	rogue.Vanish = rogue.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: 26889},
 		SpellSchool: core.SpellSchoolPhysical,

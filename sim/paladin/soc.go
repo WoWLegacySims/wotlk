@@ -6,6 +6,9 @@ import (
 )
 
 func (paladin *Paladin) registerSealOfCommandSpellAndAura() {
+	if !paladin.Talents.SealOfCommand {
+		return
+	}
 	/*
 	 * Seal of Command is an Spell/Aura that when active makes the paladin capable of procing
 	 * 2 different SpellIDs depending on a paladin's casted spell or melee swing.
@@ -26,6 +29,8 @@ func (paladin *Paladin) registerSealOfCommandSpellAndAura() {
 
 	numHits := min(3, paladin.Env.GetNumTargets()) // primary target + 2 others
 	results := make([]*core.SpellResult, numHits)
+	bonusDamage := paladin.getPreS4GlovesBonus()
+	bonusDamage += core.TernaryFloat64(paladin.HasSetBonus(ItemSetJusticarBattlegear, 2), 33, 0)
 
 	onJudgementProc := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: 20467}, // Judgement of Command
@@ -33,13 +38,15 @@ func (paladin *Paladin) registerSealOfCommandSpellAndAura() {
 		ProcMask:    core.ProcMaskMeleeSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | SpellFlagSecondaryJudgement,
 
-		BonusCritRating: (6 * float64(paladin.Talents.Fanaticism) * core.CritRatingPerCritChance) +
-			(core.TernaryFloat64(paladin.HasSetBonus(ItemSetTuralyonsBattlegear, 4), 5, 0) * core.CritRatingPerCritChance),
+		BonusCrit: (6 * float64(paladin.Talents.Fanaticism)) +
+			(core.TernaryFloat64(paladin.HasSetBonus(ItemSetTuralyonsBattlegear, 4), 5, 0)),
 
 		DamageMultiplier: 1 *
 			(1 + paladin.getItemSetLightswornBattlegearBonus4() +
 				paladin.getMajorGlyphOfJudgementBonus() + paladin.getTalentTheArtOfWarBonus()) *
-			(1 + paladin.getTalentTwoHandedWeaponSpecializationBonus()),
+			(1 + paladin.getTalentTwoHandedWeaponSpecializationBonus()) *
+			(1 + core.TernaryFloat64(paladin.HasSetBonus(ItemSetJusticarBattlegear, 4), 0.1, 0)) *
+			(1 + core.TernaryFloat64(paladin.HasSetBonus(ItemSetJusticarArmor, 2), 0.1, 0)),
 		CritMultiplier:   paladin.MeleeCritMultiplier(),
 		ThreatMultiplier: 1,
 
@@ -49,7 +56,8 @@ func (paladin *Paladin) registerSealOfCommandSpellAndAura() {
 				spell.BonusWeaponDamage()
 			baseDamage := 0.19*mhWeaponDamage +
 				0.08*spell.MeleeAttackPower() +
-				0.13*spell.SpellPower()
+				0.13*spell.SpellPower() +
+				bonusDamage
 
 			// Secondary Judgements cannot miss if the Primary Judgement hit, only roll for crit.
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialCritOnly)
@@ -145,7 +153,7 @@ func (paladin *Paladin) registerSealOfCommandSpellAndAura() {
 				}
 			} else if spell.IsMelee() {
 				// Temporary check to avoid AOE double procing.
-				if spell.SpellID == paladin.HammerOfTheRighteous.SpellID || spell.SpellID == paladin.DivineStorm.SpellID {
+				if spell.IsSpell(paladin.HammerOfTheRighteous) || spell.IsSpell(paladin.DivineStorm) {
 					onSpecialOrSwingProc.Cast(sim, result.Target)
 				} else {
 					onSpecialOrSwingProcCleave.Cast(sim, result.Target)

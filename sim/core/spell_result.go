@@ -86,39 +86,53 @@ func (spell *Spell) ExpertisePercentage() float64 {
 	// percent intervals. Note that in-game character sheet tooltips will still
 	// display the truncated values, but it has been tested to behave continuously in
 	// reality since the patch.
-	expertiseRating := spell.Unit.stats[stats.Expertise] + spell.BonusExpertiseRating
-	return expertiseRating / ExpertisePerQuarterPercentReduction / 400
+	expertiseRating := spell.Unit.stats[stats.Expertise]
+	return (expertiseRating/spell.Unit.ExpertisePerQuarterPercentReduction + spell.BonusExpertise) / 400
 }
 
 func (spell *Spell) PhysicalHitChance(attackTable *AttackTable) float64 {
-	hitRating := spell.Unit.stats[stats.MeleeHit] +
-		spell.BonusHitRating +
-		attackTable.Defender.PseudoStats.BonusMeleeHitRatingTaken
-	return hitRating / (MeleeHitRatingPerHitChance * 100)
+	hitRating := spell.Unit.stats[stats.MeleeHit]
+	return (hitRating/spell.Unit.MeleeHitRatingPerHitChance + spell.BonusHit + attackTable.Defender.PseudoStats.BonusMeleeHitTaken) / 100
 }
 
 func (spell *Spell) PhysicalCritChance(attackTable *AttackTable) float64 {
-	critRating := spell.Unit.stats[stats.MeleeCrit] +
-		spell.BonusCritRating +
-		attackTable.Defender.PseudoStats.BonusCritRatingTaken
-	return critRating/(CritRatingPerCritChance*100) - attackTable.MeleeCritSuppression
+	critRating := spell.Unit.stats[stats.MeleeCrit]
+	return (critRating/spell.Unit.CritRatingPerCritChance+spell.BonusCrit+attackTable.Defender.PseudoStats.BonusCritTaken)/100 - attackTable.MeleeCritSuppression
 }
 func (spell *Spell) PhysicalCritCheck(sim *Simulation, attackTable *AttackTable) bool {
 	return sim.RandomFloat("Physical Crit Roll") < spell.PhysicalCritChance(attackTable)
 }
 
 func (spell *Spell) SpellPower() float64 {
+	schoolSP := 0.0
+	if spell.SpellSchool.Matches(SpellSchoolArcane) {
+		schoolSP = max(schoolSP, spell.Unit.PseudoStats.ArcaneSpellPower)
+	}
+	if spell.SpellSchool.Matches(SpellSchoolFire) {
+		schoolSP = max(schoolSP, spell.Unit.PseudoStats.FireSpellPower)
+	}
+	if spell.SpellSchool.Matches(SpellSchoolFrost) {
+		schoolSP = max(schoolSP, spell.Unit.PseudoStats.FrostSpellPower)
+	}
+	if spell.SpellSchool.Matches(SpellSchoolHoly) {
+		schoolSP = max(schoolSP, spell.Unit.PseudoStats.HolySpellPower)
+	}
+	if spell.SpellSchool.Matches(SpellSchoolNature) {
+		schoolSP = max(schoolSP, spell.Unit.PseudoStats.NatureSpellPower)
+	}
+	if spell.SpellSchool.Matches(SpellSchoolShadow) {
+		schoolSP = max(schoolSP, spell.Unit.PseudoStats.ShadowSpellPower)
+	}
 	return spell.Unit.GetStat(stats.SpellPower) +
 		spell.BonusSpellPower +
-		spell.Unit.PseudoStats.MobTypeSpellPower
+		spell.Unit.PseudoStats.MobTypeSpellPower +
+		schoolSP
 }
 
 func (spell *Spell) SpellHitChance(target *Unit) float64 {
-	hitRating := spell.Unit.stats[stats.SpellHit] +
-		spell.BonusHitRating +
-		target.PseudoStats.BonusSpellHitRatingTaken
+	hitRating := spell.Unit.stats[stats.SpellHit]
 
-	return hitRating / (SpellHitRatingPerHitChance * 100)
+	return (hitRating/spell.Unit.SpellHitRatingPerHitChance + spell.BonusHit + target.PseudoStats.BonusSpellHitTaken) / 100
 }
 func (spell *Spell) SpellChanceToMiss(attackTable *AttackTable) float64 {
 	return math.Max(0, attackTable.BaseSpellMissChance-spell.SpellHitChance(attackTable.Defender))
@@ -128,13 +142,10 @@ func (spell *Spell) MagicHitCheck(sim *Simulation, attackTable *AttackTable) boo
 }
 
 func (spell *Spell) spellCritRating(target *Unit) float64 {
-	return spell.Unit.stats[stats.SpellCrit] +
-		spell.BonusCritRating +
-		target.PseudoStats.BonusCritRatingTaken +
-		target.PseudoStats.BonusSpellCritRatingTaken
+	return spell.Unit.stats[stats.SpellCrit]
 }
 func (spell *Spell) SpellCritChance(target *Unit) float64 {
-	return spell.spellCritRating(target)/(CritRatingPerCritChance*100) - spell.Unit.AttackTables[target.UnitIndex].SpellCritSuppression
+	return (spell.spellCritRating(target)/(spell.Unit.CritRatingPerCritChance)+spell.BonusCrit+target.PseudoStats.BonusCritTaken+target.PseudoStats.BonusSpellCritTaken)/100 - spell.Unit.AttackTables[target.UnitIndex].SpellCritSuppression
 }
 func (spell *Spell) MagicCritCheck(sim *Simulation, target *Unit) bool {
 	critChance := spell.SpellCritChance(target)
@@ -142,13 +153,15 @@ func (spell *Spell) MagicCritCheck(sim *Simulation, target *Unit) bool {
 }
 
 func (spell *Spell) HealingPower(target *Unit) float64 {
-	return spell.SpellPower() + target.PseudoStats.BonusHealingTaken
+	return spell.Unit.GetStat(stats.SpellPower) +
+		spell.BonusSpellPower +
+		target.PseudoStats.BonusHealingTaken
 }
 func (spell *Spell) healingCritRating() float64 {
-	return spell.Unit.GetStat(stats.SpellCrit) + spell.BonusCritRating
+	return spell.Unit.GetStat(stats.SpellCrit)
 }
 func (spell *Spell) HealingCritChance() float64 {
-	return spell.healingCritRating() / (CritRatingPerCritChance * 100)
+	return (spell.healingCritRating()/spell.Unit.CritRatingPerCritChance + spell.BonusCrit) / 100
 }
 
 func (spell *Spell) HealingCritCheck(sim *Simulation) bool {
@@ -397,6 +410,10 @@ func (result *SpellResult) applyTargetModifiers(spell *Spell, attackTable *Attac
 
 	if spell.SpellSchool.Matches(SpellSchoolPhysical) && spell.Flags.Matches(SpellFlagIncludeTargetBonusDamage) {
 		result.Damage += attackTable.Defender.PseudoStats.BonusPhysicalDamageTaken
+	}
+
+	if spell.SpellSchool.Matches(SpellSchoolMagic) && spell.Flags.Matches(SpellFlagIncludeTargetBonusDamage) {
+		result.Damage += attackTable.Defender.PseudoStats.BonusSpellDamageTaken
 	}
 
 	result.Damage *= spell.TargetDamageMultiplier(attackTable, isPeriodic)

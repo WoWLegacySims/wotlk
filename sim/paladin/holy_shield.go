@@ -5,10 +5,17 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/paladininfo"
 )
 
 func (paladin *Paladin) registerHolyShieldSpell() {
-	actionID := core.ActionID{SpellID: 48952}
+	dbc := paladininfo.HolyShield.GetMaxRank(paladin.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(1, paladin.Level)
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 	numCharges := int32(8)
 
 	procSpell := paladin.RegisterSpell(core.SpellConfig{
@@ -16,12 +23,12 @@ func (paladin *Paladin) registerHolyShieldSpell() {
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    core.ProcMaskEmpty,
 
-		DamageMultiplier: 1,
+		DamageMultiplier: 1 * core.TernaryFloat64(paladin.HasSetBonus(ItemSetJusticarArmor, 4), 1.1, 1),
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			// Beta testing shows wowhead coeffs are probably correct
-			baseDamage := 274 +
+			baseDamage := bp +
 				0.0732*spell.MeleeAttackPower() +
 				0.117*spell.SpellPower()
 
@@ -29,11 +36,12 @@ func (paladin *Paladin) registerHolyShieldSpell() {
 		},
 	})
 
-	blockBonus := 30*core.BlockRatingPerBlockChance + core.TernaryFloat64(paladin.Ranged().ID == 29388, 42, 0)
+	blockBonus := 30*paladin.BlockRatingPerBlockChance + core.TernaryFloat64(paladin.Ranged().ID == 29388, 42, 0)
 
 	paladin.HolyShieldAura = paladin.RegisterAura(core.Aura{
 		Label:     "Holy Shield",
 		ActionID:  actionID,
+		AuraRanks: paladininfo.HolyShield.GetAllIDs(),
 		Duration:  time.Second * 10,
 		MaxStacks: numCharges,
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
@@ -53,6 +61,7 @@ func (paladin *Paladin) registerHolyShieldSpell() {
 
 	paladin.HolyShield = paladin.RegisterSpell(core.SpellConfig{
 		ActionID:    actionID,
+		SpellRanks:  paladininfo.HolyShield.GetAllIDs(),
 		SpellSchool: core.SpellSchoolHoly,
 		Flags:       core.SpellFlagAPL,
 

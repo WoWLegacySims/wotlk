@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
@@ -62,19 +63,17 @@ type TreantPet struct {
 
 func (druid *Druid) NewTreant() *TreantPet {
 	treant := &TreantPet{
-		Pet: core.NewPet("Treant", &druid.Character, treantBaseStats, func(ownerStats stats.Stats) stats.Stats {
-			return stats.Stats{}
-		}, false, false),
+		Pet:        core.NewPet("Treant", &druid.Character, treantBaseStats, treantBasePercentageStats, druid.treantStatInheritance(), false, false),
 		druidOwner: druid,
 	}
 	treant.AddStatDependency(stats.Strength, stats.AttackPower, 2)
-	treant.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritRatingPerCritChance/83.3)
+	treant.AddStatDependency(stats.Agility, stats.MeleeCrit, treant.CritRatingPerCritChance*core.CritPerAgi[proto.Class_ClassRogue][treant.Level])
 
 	treant.PseudoStats.DamageDealtMultiplier = 1 + 0.05*float64(druid.Talents.Brambles)
 	treant.EnableAutoAttacks(treant, core.AutoAttackOptions{
 		MainHand: core.Weapon{
-			BaseDamageMin:  252,
-			BaseDamageMax:  357,
+			BaseDamageMin:  float64(druid.Level) - float64(druid.Level)/4,
+			BaseDamageMax:  float64(druid.Level) - float64(druid.Level)/4,
 			SwingSpeed:     2,
 			CritMultiplier: druid.BalanceCritMultiplier(),
 		},
@@ -111,14 +110,22 @@ func (treant *TreantPet) Reset(_ *core.Simulation) {
 func (treant *TreantPet) ExecuteCustomRotation(_ *core.Simulation) {
 }
 
-// TODO : fix miss/dodge
-var treantBaseStats = stats.Stats{
-	stats.Strength:  331,
-	stats.Agility:   113,
-	stats.Stamina:   598,
-	stats.Intellect: 281,
-	stats.Spirit:    109,
-	stats.MeleeCrit: 5 * core.CritRatingPerCritChance,
-	stats.MeleeHit:  5 * core.MeleeHitRatingPerHitChance,
-	stats.Expertise: 120,
+func (druid *Druid) treantStatInheritance() core.PetStatInheritance {
+	return func(ownerStats stats.Stats, ownerPseudoStats stats.PseudoStats) stats.Stats {
+
+		return stats.Stats{ //still need to nail down shadow fiend crit scaling, but removing owner crit scaling after further investigation
+			// 3 x sp to ap, lol
+			stats.AttackPower: (ownerStats[stats.SpellPower] + ownerPseudoStats.NatureSpellPower) * 1.05,
+			stats.MeleeHit:    druid.CalculateHitInheritance(stats.SpellHit, stats.MeleeHit),
+			stats.Expertise:   druid.CalculateHitInheritance(stats.SpellHit, stats.Expertise),
+			stats.Stamina:     ownerStats[stats.Stamina] * 0.3,
+			stats.Intellect:   ownerStats[stats.Intellect] * 0.3,
+		}
+	}
+}
+
+var treantBaseStats = core.PetBaseStats[core.Pet_Unknown][1].Stats
+
+var treantBasePercentageStats = stats.Stats{
+	stats.MeleeCrit: 5,
 }

@@ -1,39 +1,39 @@
 character_stats_results: {
  key: "TestHoly-CharacterStats-Default"
  value: {
-  final_stats: 469.7
-  final_stats: 364.1
-  final_stats: 1395.35
-  final_stats: 1635.92
-  final_stats: 260.7
+  final_stats: 470.855
+  final_stats: 365.255
+  final_stats: 1396.23
+  final_stats: 1636.888
+  final_stats: 261.58
   final_stats: 2250
-  final_stats: 212
+  final_stats: 213.4
   final_stats: 0
-  final_stats: 1258.24049
+  final_stats: 1258.50711
   final_stats: 620
   final_stats: 0
-  final_stats: 2031.04
+  final_stats: 2033.581
   final_stats: 0
-  final_stats: 1125.48955
+  final_stats: 1126.50757
   final_stats: 620
   final_stats: 0
   final_stats: 0
-  final_stats: 28652.8
+  final_stats: 27432.32
   final_stats: 0
   final_stats: 0
-  final_stats: 25305.58
+  final_stats: 25307.89
   final_stats: 755.7
   final_stats: 0
   final_stats: 0
-  final_stats: 455.85
-  final_stats: 275.14351
+  final_stats: 456.4275
+  final_stats: 276.01632
   final_stats: 0
   final_stats: 0
-  final_stats: 22007.5
-  final_stats: 75
-  final_stats: 75
-  final_stats: 75
-  final_stats: 75
+  final_stats: 22016.3
+  final_stats: 75.6
+  final_stats: 75.6
+  final_stats: 75.6
+  final_stats: 75.6
   final_stats: 130
   final_stats: 0
   final_stats: 0
@@ -42,6 +42,10 @@ character_stats_results: {
   final_stats: 0
   final_stats: 0
  }
+}
+dps_results: {
+ key: "TestHoly-AllItems-AdamantineFigurine-27891"
+ value: {}
 }
 dps_results: {
  key: "TestHoly-AllItems-AegisBattlegear"
@@ -60,57 +64,25 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestHoly-AllItems-AshtongueTalismanofZeal-32489"
- value: {}
-}
-dps_results: {
  key: "TestHoly-AllItems-AustereEarthsiegeDiamond"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-Bandit'sInsignia-40371"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-BandoftheEternalChampion-29301"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-BandoftheEternalDefender-29297"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-BandoftheEternalSage-29305"
  value: {}
 }
 dps_results: {
  key: "TestHoly-AllItems-BaubleofTrueBlood-50354"
  value: {
-  tps: 5.35816
-  hps: 90.47701
+  tps: 5.83559
+  hps: 90.47733
  }
 }
 dps_results: {
  key: "TestHoly-AllItems-BaubleofTrueBlood-50726"
  value: {
-  tps: 5.35816
-  hps: 90.47701
+  tps: 5.83559
+  hps: 90.47733
  }
 }
 dps_results: {
  key: "TestHoly-AllItems-BeamingEarthsiegeDiamond"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-Beast-tamer'sShoulders-30892"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-Berserker'sCall-33831"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-BlackenedNaaruSliver-34427"
  value: {}
 }
 dps_results: {
@@ -126,23 +98,19 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestHoly-AllItems-BloodlustBrooch-29383"
+ value: {}
+}
+dps_results: {
+ key: "TestHoly-AllItems-Bloodrazor-809"
+ value: {}
+}
+dps_results: {
  key: "TestHoly-AllItems-BracingEarthsiegeDiamond"
  value: {}
 }
 dps_results: {
- key: "TestHoly-AllItems-BraidedEterniumChain-24114"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-BulwarkofAzzinoth-32375"
- value: {}
-}
-dps_results: {
  key: "TestHoly-AllItems-ChaoticSkyflareDiamond"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-CommendationofKael'thas-34473"
  value: {}
 }
 dps_results: {
@@ -160,23 +128,15 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestHoly-AllItems-DarkmoonCard:Berserker!-42989"
+ key: "TestHoly-AllItems-CrystalforgeArmor"
  value: {}
 }
 dps_results: {
- key: "TestHoly-AllItems-DarkmoonCard:Death-42990"
+ key: "TestHoly-AllItems-CrystalforgeBattlegear"
  value: {}
 }
 dps_results: {
- key: "TestHoly-AllItems-DeadlyGladiator'sLibramofFortitude-42852"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-Death'sChoice-47464"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-DeathKnight'sAnguish-38212"
+ key: "TestHoly-AllItems-Death'sVerdict-47115"
  value: {}
 }
 dps_results: {
@@ -185,10 +145,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestHoly-AllItems-Deathbringer'sWill-50363"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-Defender'sCode-40257"
  value: {}
 }
 dps_results: {
@@ -201,10 +157,6 @@ dps_results: {
 }
 dps_results: {
  key: "TestHoly-AllItems-DislodgedForeignObject-50353"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-DragonspineTrophy-28830"
  value: {}
 }
 dps_results: {
@@ -236,14 +188,6 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestHoly-AllItems-ExtractofNecromanticPower-40373"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-EyeoftheBroodmother-45308"
- value: {}
-}
-dps_results: {
  key: "TestHoly-AllItems-Figurine-SapphireOwl-42413"
  value: {}
 }
@@ -252,27 +196,11 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestHoly-AllItems-ForgeEmber-37660"
- value: {}
-}
-dps_results: {
  key: "TestHoly-AllItems-ForlornSkyflareDiamond"
  value: {}
 }
 dps_results: {
  key: "TestHoly-AllItems-ForlornStarflareDiamond"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-FuriousGladiator'sLibramofFortitude-42853"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-FuryoftheFiveFlights-40431"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-FuturesightRune-38763"
  value: {}
 }
 dps_results: {
@@ -288,22 +216,18 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestHoly-AllItems-GnomereganAuto-Blocker600-29387"
+ value: {}
+}
+dps_results: {
  key: "TestHoly-AllItems-GnomishLightningGenerator-41121"
  value: {
-  dps: 38.66144
-  tps: 38.66144
+  dps: 38.66289
+  tps: 38.66289
  }
 }
 dps_results: {
- key: "TestHoly-AllItems-HandofJustice-11815"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-HatefulGladiator'sLibramofFortitude-42851"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-IllustrationoftheDragonSoul-40432"
+ key: "TestHoly-AllItems-IconofUnyieldingCourage-28121"
  value: {}
 }
 dps_results: {
@@ -315,15 +239,19 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestHoly-AllItems-IncisorFragment-37723"
- value: {}
-}
-dps_results: {
  key: "TestHoly-AllItems-InsightfulEarthsiegeDiamond"
  value: {}
 }
 dps_results: {
  key: "TestHoly-AllItems-InvigoratingEarthsiegeDiamond"
+ value: {}
+}
+dps_results: {
+ key: "TestHoly-AllItems-JusticarArmor"
+ value: {}
+}
+dps_results: {
+ key: "TestHoly-AllItems-JusticarBattlegear"
  value: {}
 }
 dps_results: {
@@ -335,31 +263,7 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestHoly-AllItems-Lavanthor'sTalisman-37872"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-LibramofFuriousBlows-37574"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-LibramofObstruction-40707"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-LibramofReciprocation-40706"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-LibramofThreeTruths-50455"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-LibramofValiance-47661"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-LibramoftheSacredShield-45145"
+ key: "TestHoly-AllItems-LightbringerArmor"
  value: {}
 }
 dps_results: {
@@ -375,23 +279,11 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestHoly-AllItems-MadnessoftheBetrayer-32505"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-MajesticDragonFigurine-40430"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-MeteoriteWhetstone-37390"
+ key: "TestHoly-AllItems-Moroes'LuckyPocketWatch-28528"
  value: {}
 }
 dps_results: {
  key: "TestHoly-AllItems-NevermeltingIceCrystal-50259"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-OfferingofSacrifice-37638"
  value: {}
 }
 dps_results: {
@@ -435,19 +327,7 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestHoly-AllItems-ReignoftheDead-47316"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-ReignoftheDead-47477"
- value: {}
-}
-dps_results: {
  key: "TestHoly-AllItems-RelentlessEarthsiegeDiamond"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-RelentlessGladiator'sLibramofFortitude-42854"
  value: {}
 }
 dps_results: {
@@ -455,31 +335,11 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestHoly-AllItems-RodoftheSunKing-29996"
- value: {}
-}
-dps_results: {
  key: "TestHoly-AllItems-RuneofRepulsion-40372"
  value: {}
 }
 dps_results: {
- key: "TestHoly-AllItems-SavageGladiator'sLibramofFortitude-42611"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-ScarabBrooch-21625"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-SealofthePantheon-36993"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-ShardofContempt-34472"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-ShiftingNaaruSliver-34429"
+ key: "TestHoly-AllItems-ShadowmoonInsignia-32501"
  value: {}
 }
 dps_results: {
@@ -487,7 +347,15 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestHoly-AllItems-ShortswordofVengeance-754"
+ value: {}
+}
+dps_results: {
  key: "TestHoly-AllItems-Sindragosa'sFlawlessFang-50361"
+ value: {}
+}
+dps_results: {
+ key: "TestHoly-AllItems-SkullflameShield-1168"
  value: {}
 }
 dps_results: {
@@ -503,11 +371,11 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestHoly-AllItems-SparkofLife-37657"
+ key: "TestHoly-AllItems-StormshroudArmor"
  value: {}
 }
 dps_results: {
- key: "TestHoly-AllItems-StormshroudArmor"
+ key: "TestHoly-AllItems-Sul'thrazetheLasher-9372"
  value: {}
 }
 dps_results: {
@@ -523,10 +391,6 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestHoly-AllItems-SyphonoftheNathrezim-32262"
- value: {}
-}
-dps_results: {
  key: "TestHoly-AllItems-TalismanofTrollDivinity-37734"
  value: {}
 }
@@ -539,6 +403,14 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestHoly-AllItems-TheGreenTower-1204"
+ value: {}
+}
+dps_results: {
+ key: "TestHoly-AllItems-TheLightningCapacitor-28785"
+ value: {}
+}
+dps_results: {
  key: "TestHoly-AllItems-TheSkullofGul'dan-32483"
  value: {}
 }
@@ -547,19 +419,7 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestHoly-AllItems-Thunderfury,BlessedBladeoftheWindseeker-19019"
- value: {}
-}
-dps_results: {
  key: "TestHoly-AllItems-ThunderingSkyflareDiamond"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-TinyAbominationinaJar-50351"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-TinyAbominationinaJar-50706"
  value: {}
 }
 dps_results: {
@@ -571,19 +431,11 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestHoly-AllItems-TomeoftheLightbringer-32368"
- value: {}
-}
-dps_results: {
  key: "TestHoly-AllItems-TrenchantEarthshatterDiamond"
  value: {}
 }
 dps_results: {
  key: "TestHoly-AllItems-TrenchantEarthsiegeDiamond"
- value: {}
-}
-dps_results: {
- key: "TestHoly-AllItems-TsunamiTalisman-30627"
  value: {}
 }
 dps_results: {
@@ -603,7 +455,11 @@ dps_results: {
  value: {}
 }
 dps_results: {
- key: "TestHoly-AllItems-WrathfulGladiator'sLibramofFortitude-51478"
+ key: "TestHoly-AllItems-VestigeofHaldor-37064"
+ value: {}
+}
+dps_results: {
+ key: "TestHoly-AllItems-Warp-ScarabBrooch-27828"
  value: {}
 }
 dps_results: {

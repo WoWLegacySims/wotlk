@@ -320,7 +320,7 @@ var DeadlyDeadly = &proto.Rogue_Options{
 }
 
 var FullConsumes = &proto.Consumes{
-	Flask:           proto.Flask_FlaskOfEndlessRage,
+	Flask:           proto.Flask_FlaskofEndlessRage,
 	DefaultPotion:   proto.Potions_PotionOfSpeed,
 	DefaultConjured: proto.Conjured_ConjuredRogueThistleTea,
 }

@@ -5,13 +5,22 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/priestinfo"
 )
 
 func (priest *Priest) registerPrayerOfHealingSpell() {
+	dbc := priestinfo.PrayerofHealing.GetMaxRank(priest.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, priest.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(priest.Level)
+
 	var glyphSpell *core.Spell
 
 	priest.PrayerOfHealing = priest.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48072},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  priestinfo.PrayerofHealing.GetAllIDs(),
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    core.ProcMaskSpellHealing,
 		Flags:       core.SpellFlagHelpful | core.SpellFlagAPL,
@@ -29,9 +38,9 @@ func (priest *Priest) registerPrayerOfHealingSpell() {
 			},
 		},
 
-		BonusCritRating: 0 +
-			1*float64(priest.Talents.HolySpecialization)*core.CritRatingPerCritChance +
-			core.TernaryFloat64(priest.HasSetBonus(ItemSetSanctificationRegalia, 2), 10*core.CritRatingPerCritChance, 0),
+		BonusCrit: 0 +
+			1*float64(priest.Talents.HolySpecialization) +
+			core.TernaryFloat64(priest.HasSetBonus(ItemSetSanctificationRegalia, 2), 10, 0),
 		DamageMultiplier: 1 *
 			(1 + .02*float64(priest.Talents.SpiritualHealing)) *
 			(1 + .01*float64(priest.Talents.BlessedResilience)) *
@@ -46,7 +55,7 @@ func (priest *Priest) registerPrayerOfHealingSpell() {
 
 			for _, partyAgent := range party.PlayersAndPets {
 				partyTarget := &partyAgent.GetCharacter().Unit
-				baseHealing := sim.Roll(2109, 2228) + 0.526*spell.HealingPower(partyTarget)
+				baseHealing := sim.Roll(bp, die) + coef*spell.HealingPower(partyTarget)
 				spell.CalcAndDealHealing(sim, partyTarget, baseHealing, spell.OutcomeHealingCrit)
 				if glyphSpell != nil {
 					glyphSpell.Hot(partyTarget).Apply(sim)

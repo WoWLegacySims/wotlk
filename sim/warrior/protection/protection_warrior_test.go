@@ -101,6 +101,6 @@ var warriorOptions = &proto.ProtectionWarrior_Options{
 }
 
 var FullConsumes = &proto.Consumes{
-	BattleElixir:   proto.BattleElixir_ElixirOfMastery,
-	GuardianElixir: proto.GuardianElixir_GiftOfArthas,
+	BattleElixir:   proto.BattleElixir_ElixirofMastery,
+	GuardianElixir: proto.GuardianElixir_GiftofArthas,
 }

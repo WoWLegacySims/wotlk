@@ -1,18 +1,16 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { element } from 'tsx-vanilla';
 
-import { Glyphs } from '../proto/common.js';
-import { ItemQuality } from '../proto/common.js';
-import { ActionId } from '../proto_utils/action_id.js';
+import { BaseModal } from '../components/base_modal.js';
+import { Component } from '../components/component.js';
+import { ContentBlock } from '../components/content_block.js';
+import { Input } from '../components/input.js';
 import { setItemQualityCssClass } from '../css_utils.js';
 import { Player } from '../player.js';
+import { Glyphs , ItemQuality } from '../proto/common.js';
+import { ActionId } from '../proto_utils/action_id.js';
 import { EventID, TypedEvent } from '../typed_event.js';
 import { stringComparator } from '../utils.js';
-
-import { Component } from '../components/component.js';
-import { Input } from '../components/input.js';
-import { BaseModal } from '../components/base_modal.js';
-import { ContentBlock } from '../components/content_block.js';
 
 export type GlyphConfig = {
 	name: string,
@@ -103,12 +101,34 @@ class GlyphPicker extends Input<Player<any>, number> {
 
 	constructor(parent: HTMLElement, player: Player<any>, glyphOptions: Array<GlyphData>, glyphField: keyof Glyphs, isMajor: boolean) {
 		super(parent, 'glyph-picker-root', player, {
-			changedEvent: (player: Player<any>) => player.glyphsChangeEmitter,
+			changedEvent: (player: Player<any>) => TypedEvent.onAny([player.glyphsChangeEmitter,player.levelChangeEmitter]),
 			getValue: (player: Player<any>) => player.getGlyphs()[glyphField] as number,
 			setValue: (eventID: EventID, player: Player<any>, newValue: number) => {
 				const glyphs = player.getGlyphs();
 				(glyphs[glyphField] as number) = newValue;
 				player.setGlyphs(eventID, glyphs);
+			},
+			enableWhen:player => {
+				let level: number;
+				switch(glyphField){
+					case 'major1':
+					case 'minor1':
+						level = 15;
+						break;
+					case 'major2':
+						level = 30;
+						break;
+					case 'minor2':
+						level = 50;
+						break;
+					case 'minor3':
+						level = 70;
+						break;
+					case 'major3':
+						level = 80;
+						break;
+				}
+				return player.getLevel() >= level
 			},
 		});
 		if (!isMajor) {
@@ -215,7 +235,7 @@ class GlyphSelectorModal extends BaseModal {
 					const searchQuery = searchInput.value.toLowerCase().split(" ");
 					const name = listItemData.name.toLowerCase();
 
-					var include = true;
+					let include = true;
 					searchQuery.forEach(v => {
 						if (!name.includes(v))
 							include = false;

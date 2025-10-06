@@ -117,8 +117,8 @@ var DefaultOptions = &proto.Player_ProtectionPaladin{
 }
 
 var FullConsumes = &proto.Consumes{
-	Flask:           proto.Flask_FlaskOfStoneblood,
-	Food:            proto.Food_FoodDragonfinFilet,
+	Flask:           proto.Flask_FlaskofStoneblood,
+	Food:            proto.Food_DragonfinFilet,
 	DefaultPotion:   proto.Potions_IndestructiblePotion,
 	PrepopPotion:    proto.Potions_IndestructiblePotion,
 	DefaultConjured: proto.Conjured_ConjuredDarkRune,

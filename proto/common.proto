@@ -3,6 +3,8 @@ package proto;
 
 option go_package = "./proto";
 
+import "consumes_gen.proto";
+
 enum Spec {
 	SpecBalanceDruid = 0;
 	SpecFeralDruid = 12;
@@ -74,6 +76,13 @@ enum Profession {
 	Mining = 9;
 	Skinning = 10;
 	Tailoring = 11;
+}
+
+enum Expansion {
+	ExpansionUnknown = 0;
+	ExpansionVanilla = 1;
+	ExpansionTbc = 2;
+	ExpansionWotlk = 3;
 }
 
 // Keep in sync with sim/core/stats/stats.go.
@@ -260,10 +269,27 @@ enum TristateEffect {
 	TristateEffectImproved = 2;
 }
 
-enum Explosive {
-	ExplosiveUnknown = 0;
+enum Explosive_Small {
+	ExplosiveSmallUnknown = 0;
 	ExplosiveSaroniteBomb = 1;
 	ExplosiveCobaltFragBomb = 2;
+	TheBiggerOne = 3;
+	DenseDynamite = 4;
+	EzThroDynamiteII = 5;
+	HeavyDynamite = 6;
+	EzThroDynamite = 7;
+}
+
+enum Explosive_Medium {
+	ExplosiveMediumUnknown = 0;
+	ExplosiveDecoy = 1;
+}
+
+enum Explosive_Big {
+	ExplosiveBigUnknown = 0;
+	ThermalSapper = 1;
+	SuperSapperCharge = 2;
+	GoblinSapperCharge = 3;
 }
 
 enum Potions {
@@ -294,94 +320,35 @@ enum Conjured {
 	ConjuredRogueThistleTea = 4;
 }
 
-enum Flask {
-	FlaskUnknown = 0;
-	FlaskOfTheFrostWyrm = 1;
-	FlaskOfEndlessRage = 2;
-	FlaskOfPureMojo = 3;
-	FlaskOfStoneblood = 4;
-	LesserFlaskOfToughness = 5;
-	LesserFlaskOfResistance = 6;
-
-	// TBC
-	FlaskOfBlindingLight = 7;
-	FlaskOfMightyRestoration = 8;
-	FlaskOfPureDeath = 9;
-	FlaskOfRelentlessAssault = 10;
-	FlaskOfSupremePower = 11;
-	FlaskOfFortification = 12;
-	FlaskOfChromaticWonder = 13;
-}
-
-enum BattleElixir {
-	BattleElixirUnknown = 0;
-	ElixirOfAccuracy = 1;
-	ElixirOfArmorPiercing = 2;
-	ElixirOfDeadlyStrikes = 3;
-	ElixirOfExpertise = 4;
-	ElixirOfLightningSpeed = 5;
-	ElixirOfMightyAgility = 6;
-	ElixirOfMightyStrength = 7;
-	GurusElixir = 8;
-	SpellpowerElixir = 9;
-	WrathElixir = 10;
-
-	// TBC
-	AdeptsElixir = 11;
-	ElixirOfDemonslaying = 12;
-	ElixirOfMajorAgility = 13;
-	ElixirOfMajorFirePower = 14;
-	ElixirOfMajorFrostPower = 15;
-	ElixirOfMajorShadowPower = 16;
-	ElixirOfMajorStrength = 17;
-	ElixirOfMastery = 18;
-	ElixirOfTheMongoose = 19;
-	FelStrengthElixir = 20;
-	GreaterArcaneElixir = 21;
-}
-
-enum GuardianElixir {
-	GuardianElixirUnknown = 0;
-	ElixirOfMightyDefense = 1;
-	ElixirOfMightyFortitude = 2;
-	ElixirOfMightyMageblood = 3;
-	ElixirOfMightyThoughts = 4;
-	ElixirOfProtection = 5;
-	ElixirOfSpirit = 6;
-
-	// TBC
-	GiftOfArthas = 7;
-	ElixirOfDraenicWisdom = 8;
-	ElixirOfIronskin = 9;
-	ElixirOfMajorDefense = 10;
-	ElixirOfMajorFortitude = 11;
-	ElixirOfMajorMageblood = 12;
-}
-
-enum Food {
-	FoodUnknown = 0;
-	FoodFishFeast = 1;
-	FoodGreatFeast = 2;
-	FoodBlackenedDragonfin = 3;
-	FoodHeartyRhino = 4;
-	FoodMegaMammothMeal = 5;
-	FoodSpicedWormBurger = 6;
-	FoodRhinoliciousWormsteak = 7;
-	FoodImperialMantaSteak = 8;
-	FoodSnapperExtreme = 9;
-	FoodMightyRhinoDogs = 10;
-	FoodFirecrackerSalmon = 11;
-	FoodCuttlesteak = 12;
-	FoodDragonfinFilet = 13;
-
-	// TBC Foods
-	FoodBlackenedBasilisk = 14;
-	FoodGrilledMudfish = 15;
-	FoodRavagerDog = 16;
-	FoodRoastedClefthoof = 17;
-	FoodSkullfishSoup = 18;
-	FoodSpicyHotTalbuk = 19;
-	FoodFishermansFeast = 20;
+enum WeaponImbue {
+	ImbueUnknown = 0;
+	BrilliantWizardOil = 1;
+	BrilliantManaOil = 2;
+	SuperiorWizardOil = 3;
+	SuperiorManaOil = 4;
+	WizardOil = 5;
+	LesserManaOil = 6;
+	LesserWizardOil = 7;
+	MinorManaOil = 8;
+	MinorWizardOil = 9;
+	AdamantiteSharpeningStone = 10;
+	AdamantiteWeightStone = 11;
+	FelSharpeningStone = 12;
+	FelWeightstone = 13;
+	ElementalSharpeningStone = 14;
+	DenseSharpeningStone = 15;
+	DenseWeightstone = 16;
+	SolidSharpeningStone = 17;
+	SolidWeightStone = 18;
+	HeavySharpeningStone = 19;
+	HeavyWeightStone = 20;
+	CoarseSharpeningStone = 21;
+	CoarseWeightStone = 22;
+	RoughSharpeningStone = 23;
+	RoughWeightStone = 24;
+	ConsecratedWeapon = 25;
+	BlessedWeaponCoating = 26;
+	RighteousWeaponCoating = 27;
 }
 
 enum PetFood {
@@ -401,12 +368,12 @@ message RaidBuffs {
 
 	// +Health
 	TristateEffect commanding_shout = 3;
-	TristateEffect blood_pact = 4;	
+	TristateEffect blood_pact = 4;
 
 	// + Agi and Str
 	bool horn_of_winter = 5;
 	TristateEffect strength_of_earth_totem = 6; // none, normal, 15% improved
-	
+
 	// +Intell and/or Spi
 	bool arcane_brilliance = 7;
 	TristateEffect fel_intelligence = 8;
@@ -414,7 +381,7 @@ message RaidBuffs {
 
 	// +AP
 	TristateEffect battle_shout = 10;
-	
+
 	// 10% AP
 	bool trueshot_aura = 11;
 	bool unleashed_rage = 12;
@@ -455,7 +422,10 @@ message RaidBuffs {
 	bool aspect_of_the_wild = 46;
 	bool frost_resistance_aura = 47;
 	bool frost_resistance_totem = 48;
-	
+	bool fire_resistance_totem = 50;
+	bool fire_resistance_aura = 51;
+	bool shadow_resistance_aura = 52;
+
 	// Miscellaneous
 	bool bloodlust = 29;
 	TristateEffect thorns = 30;
@@ -480,16 +450,18 @@ message RaidBuffs {
 // Buffs that affect a single party.
 message PartyBuffs {
 	// Item Buffs
-	int32 atiesh_mage = 1;
-	int32 atiesh_warlock = 2;
+	bool atiesh_mage = 1;
+	bool atiesh_warlock = 2;
+	bool atiesh_priest = 3;
+	bool atiesh_druid = 4;
 
-	bool braided_eternium_chain = 3;
-	bool eye_of_the_night = 4;
-	bool chain_of_the_twilight_owl = 5;
-	
+	bool braided_eternium_chain = 5;
+	bool eye_of_the_night = 6;
+	bool chain_of_the_twilight_owl = 7;
+
 	// Group buffs
-	int32 mana_tide_totems = 6;
-	bool heroic_presence = 7;
+	int32 mana_tide_totems = 8;
+	bool heroic_presence = 9;
 }
 
 // These are usually individual actions taken by other Characters.
@@ -501,7 +473,7 @@ message IndividualBuffs {
 	bool blessing_of_sanctuary = 4;
 	bool vigilance = 5;
 	bool renewed_hope = 6;
-	// Only used in individual sims 
+	// Only used in individual sims
 	//   as the class that provides these would cast them in raid sim
 
 	// How many of each of these buffs the player will be receiving.
@@ -537,6 +509,9 @@ message Consumes {
 	BattleElixir battle_elixir = 2;
 	GuardianElixir guardian_elixir = 3;
 
+	WeaponImbue MhImbue = 4;
+	WeaponImbue OhImbue = 5;
+
 	Food food = 6;
 	PetFood pet_food = 7;
 
@@ -547,9 +522,9 @@ message Consumes {
 	Potions prepop_potion = 11;
 	Conjured default_conjured = 12;
 
-	bool thermal_sapper = 15;
-	bool explosive_decoy = 16;
-	Explosive filler_explosive = 17;
+	Explosive_Big explosive_big = 15;
+	Explosive_Medium explosive_medium = 16;
+	Explosive_Small explosive_small = 17;
 }
 
 message Debuffs {
@@ -563,7 +538,7 @@ message Debuffs {
 	bool curse_of_elements = 5;
 	bool ebon_plaguebringer = 6;
 	bool earth_and_moon = 7;
-	
+
 	// +3% to crit against target
 	bool heart_of_the_crusader = 8;
 	bool master_poisoner = 9;
@@ -579,7 +554,7 @@ message Debuffs {
 
 	// TODO: validate these
 	bool gift_of_arthas = 16;
-	
+
 	// Bleed %
 	bool mangle = 17;
 	bool trauma = 18;
@@ -635,7 +610,7 @@ message TargetInput {
 	InputType input_type = 1;
 	string label = 2;
 	string tooltip = 5;
-	
+
 	bool bool_value = 3;
 	double number_value = 4;
 }

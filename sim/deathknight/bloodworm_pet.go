@@ -2,6 +2,7 @@ package deathknight
 
 import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
@@ -12,15 +13,20 @@ type BloodwormPet struct {
 }
 
 func (dk *Deathknight) NewBloodwormPet(_ int) *BloodwormPet {
+	bloodwormStats := core.PetBaseStats[core.Pet_Unknown][1].Stats
+
+	minDamage := float64(dk.Level) - 30 - float64(dk.Level)/4
+	maxDamage := float64(dk.Level) - 30 + float64(dk.Level)/4
+
 	bloodworm := &BloodwormPet{
-		Pet:     core.NewPet("Bloodworm", &dk.Character, bloodwormPetBaseStats, dk.bloodwormStatInheritance(), false, true),
+		Pet:     core.NewPet("Bloodworm", &dk.Character, bloodwormStats, bloodwormPetBaseCrit, dk.bloodwormStatInheritance(), false, true),
 		dkOwner: dk,
 	}
 
 	bloodworm.EnableAutoAttacks(bloodworm, core.AutoAttackOptions{
 		MainHand: core.Weapon{
-			BaseDamageMin:  37,
-			BaseDamageMax:  42,
+			BaseDamageMin:  minDamage,
+			BaseDamageMax:  maxDamage,
 			SwingSpeed:     2,
 			CritMultiplier: 2,
 		},
@@ -36,7 +42,7 @@ func (dk *Deathknight) NewBloodwormPet(_ int) *BloodwormPet {
 	// }
 
 	bloodworm.AddStatDependency(stats.Strength, stats.AttackPower, 1.0+1)
-	bloodworm.AddStatDependency(stats.Agility, stats.MeleeCrit, 1.0+(core.CritRatingPerCritChance/83.3))
+	bloodworm.AddStatDependency(stats.Agility, stats.MeleeCrit, 1.0+(bloodworm.CritRatingPerCritChance*core.CritPerAgi[proto.Class_ClassRogue][bloodworm.Level]))
 
 	bloodworm.OnPetEnable = bloodworm.enable
 	bloodworm.OnPetDisable = bloodworm.disable
@@ -72,14 +78,14 @@ func (bloodworm *BloodwormPet) disable(sim *core.Simulation) {
 	bloodworm.MultiplyMeleeSpeed(sim, 1)
 }
 
-var bloodwormPetBaseStats = stats.Stats{
-	stats.MeleeCrit: 8 * core.CritRatingPerCritChance,
+var bloodwormPetBaseCrit = stats.Stats{
+	stats.MeleeCrit: 5,
 }
 
 func (dk *Deathknight) bloodwormStatInheritance() core.PetStatInheritance {
-	return func(ownerStats stats.Stats) stats.Stats {
+	return func(ownerStats stats.Stats, _ stats.PseudoStats) stats.Stats {
 		return stats.Stats{
-			stats.AttackPower: ownerStats[stats.AttackPower] * 0.112,
+			stats.AttackPower: ownerStats[stats.AttackPower] * 0.168,
 			stats.MeleeHaste:  ownerStats[stats.MeleeHaste],
 		}
 	}

@@ -289,7 +289,7 @@ func init() {
 			ThreatMultiplier: 1,
 
 			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-				spell.CalcAndDealDamage(sim, target, sim.Roll(1530, 1870), spell.OutcomeMagicHitAndCrit)
+				spell.CalcAndDealDamage(sim, target, sim.Roll(1529, 341), spell.OutcomeMagicHitAndCrit)
 			},
 		})
 
@@ -719,7 +719,7 @@ func init() {
 				CritMultiplier:   character.DefaultHealingCritMultiplier(),
 
 				ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-					baseHealing := sim.Roll(7400, 8600)
+					baseHealing := sim.Roll(7399, 1201)
 					spell.CalcAndDealHealing(sim, target, baseHealing, spell.OutcomeHealingCrit)
 				},
 			})
@@ -734,13 +734,13 @@ func init() {
 	NewItemEffectWithHeroic(func(isHeroic bool) {
 		name := "Althor's Abacus"
 		itemID := int32(50359)
-		minHeal := 5550.0
-		maxHeal := 6450.0
+		bp := 5549.0
+		die := 901.0
 		if isHeroic {
 			name += " H"
 			itemID = 50366
-			minHeal = 6280.0
-			maxHeal = 7298.0
+			bp = 6279.0
+			die = 1019.0
 		}
 
 		core.NewItemEffect(itemID, func(agent core.Agent) {
@@ -758,7 +758,7 @@ func init() {
 				CritMultiplier:   character.DefaultHealingCritMultiplier(),
 
 				ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-					baseHealing := sim.Roll(minHeal, maxHeal)
+					baseHealing := sim.Roll(bp, die)
 					spell.CalcAndDealHealing(sim, target, baseHealing, spell.OutcomeHealingCrit)
 				},
 			})
@@ -898,14 +898,14 @@ func init() {
 	// with ~10k auto attacks.
 	NewItemEffectWithHeroic(func(isHeroic bool) {
 		name := "Bryntroll, the Bone Arbiter"
-		itemID := int32(50415)
-		minDmg := float64(2138)
-		maxDmg := float64(2362)
+		var itemID int32 = 50415
+		minDmg := 2137.0
+		maxDmg := 225.0
 		if isHeroic {
 			name += " H"
 			itemID = 50709
-			minDmg = float64(2412)
-			maxDmg = float64(2664)
+			minDmg = 2411.0
+			maxDmg = 253.0
 		}
 
 		core.NewItemEffect(itemID, func(agent core.Agent) {

@@ -5,11 +5,19 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/hunterinfo"
 )
 
 func (hunter *Hunter) registerKillShotSpell() {
+	dbc := hunterinfo.KillShot.GetMaxRank(hunter.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, hunter.Level)
+
 	hunter.KillShot = hunter.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 61006},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  hunterinfo.KillShot.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskRangedSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagAPL,
@@ -32,8 +40,8 @@ func (hunter *Hunter) registerKillShotSpell() {
 			return sim.IsExecutePhase20()
 		},
 
-		BonusCritRating: 0 +
-			5*core.CritRatingPerCritChance*float64(hunter.Talents.SniperTraining),
+		BonusCrit: 0 +
+			5*float64(hunter.Talents.SniperTraining),
 		DamageMultiplier: 1 *
 			hunter.markedForDeathMultiplier(),
 		CritMultiplier:   hunter.critMultiplier(true, true, false),
@@ -45,7 +53,7 @@ func (hunter *Hunter) registerKillShotSpell() {
 				hunter.AutoAttacks.Ranged().BaseDamage(sim) +
 				hunter.AmmoDamageBonus +
 				spell.BonusWeaponDamage() +
-				325
+				bp
 			baseDamage *= 2
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeRangedHitAndCrit)
 		},

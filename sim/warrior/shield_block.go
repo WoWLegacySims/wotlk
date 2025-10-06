@@ -8,6 +8,9 @@ import (
 )
 
 func (warrior *Warrior) RegisterShieldBlockCD() {
+	if warrior.Level < 16 {
+		return
+	}
 	actionID := core.ActionID{SpellID: 2565}
 	cooldownDur := time.Second*60 - time.Second*10*time.Duration(warrior.Talents.ShieldMastery)
 	cooldownDur = core.TernaryDuration(warrior.HasSetBonus(ItemSetWrynnsPlate, 4), cooldownDur-time.Second*10, cooldownDur)
@@ -17,11 +20,11 @@ func (warrior *Warrior) RegisterShieldBlockCD() {
 		ActionID: actionID,
 		Duration: time.Second * 10,
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
-			warrior.AddStatDynamic(sim, stats.Block, 100*core.BlockRatingPerBlockChance)
+			warrior.AddStatDynamic(sim, stats.Block, 100*warrior.BlockRatingPerBlockChance)
 			warrior.PseudoStats.BlockValueMultiplier += 1
 		},
 		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
-			warrior.AddStatDynamic(sim, stats.Block, -100*core.BlockRatingPerBlockChance)
+			warrior.AddStatDynamic(sim, stats.Block, -100*warrior.BlockRatingPerBlockChance)
 			warrior.PseudoStats.BlockValueMultiplier -= 1
 		},
 	})

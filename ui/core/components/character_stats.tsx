@@ -7,7 +7,7 @@ import { getClassStatName, statOrder } from '..//proto_utils/names.js';
 import { Stats } from '..//proto_utils/stats.js';
 import { EventID, TypedEvent } from '..//typed_event.js';
 import * as Mechanics from '../constants/mechanics.js';
-import * as Ratings from '../constants/ratings.js'
+import * as Ratings from '../constants/ratings.js';
 import { Component } from './component.js';
 import { NumberPicker } from './number_picker';
 
@@ -246,35 +246,37 @@ export class CharacterStats extends Component {
 			rawValue *= stats.getPseudoStat(PseudoStat.PseudoStatBlockValueMultiplier) || 1;
 		}
 
+		const level = this.player.getLevel();
+
 		let displayStr = String(Math.round(rawValue));
 
 		if (stat == Stat.StatMeleeHit) {
-			displayStr += ` (${(rawValue / Ratings.MELEE_HIT_RATING_PER_HIT_CHANCE).toFixed(2)}%)`;
+			displayStr += ` (${(rawValue / Ratings.GET_MELEE_HIT_RATING_PER_HIT_CHANCE(level)).toFixed(2)}%)`;
 		} else if (stat == Stat.StatSpellHit) {
-			displayStr += ` (${(rawValue / Ratings.SPELL_HIT_RATING_PER_HIT_CHANCE).toFixed(2)}%)`;
+			displayStr += ` (${(rawValue / Ratings.GET_SPELL_HIT_RATING_PER_HIT_CHANCE(level)).toFixed(2)}%)`;
 		} else if (stat == Stat.StatMeleeCrit || stat == Stat.StatSpellCrit) {
-			displayStr += ` (${(rawValue / Ratings.CRIT_RATING_PER_CRIT_CHANCE).toFixed(2)}%)`;
+			displayStr += ` (${(rawValue / Ratings.GET_CRIT_RATING_PER_CRIT_CHANCE(level)).toFixed(2)}%)`;
 		} else if (stat == Stat.StatMeleeHaste) {
-			let mult = 1;
+			let multiplier = 1;
 			if ([Class.ClassDruid, Class.ClassShaman, Class.ClassPaladin, Class.ClassDeathknight].includes(this.player.getClass())) {
-				mult = 1.3;
+				multiplier = 1.3;
 			}
-			displayStr += ` (${(rawValue / (Ratings.HASTE_RATING_PER_HASTE_PERCENT/mult)).toFixed(2)}%)`;
+			displayStr += ` (${(rawValue / (Ratings.GET_HASTE_RATING_PER_HASTE_PERCENT(level) / multiplier)).toFixed(2)}%)`;
 		} else if (stat == Stat.StatSpellHaste) {
-			displayStr += ` (${(rawValue / Ratings.HASTE_RATING_PER_HASTE_PERCENT).toFixed(2)}%)`;
+			displayStr += ` (${(rawValue / Ratings.GET_HASTE_RATING_PER_HASTE_PERCENT(level)).toFixed(2)}%)`;
 		} else if (stat == Stat.StatArmorPenetration) {
-			displayStr += ` (${(rawValue / Ratings.ARMOR_PEN_PER_PERCENT_ARMOR).toFixed(2)}%)`;
+			displayStr += ` (${(rawValue / Ratings.GET_ARMOR_PEN_PER_PERCENT_ARMOR(level)).toFixed(2)}%)`;
 		} else if (stat == Stat.StatExpertise) {
 			// As of 06/20, Blizzard has changed Expertise to no longer truncate at quarter percent intervals. Note that
 			// in-game character sheet tooltips will still display the truncated values, but it has been tested to behave
 			// continuously in reality since the patch.
-			displayStr += ` (${(rawValue / Ratings.EXPERTISE_PER_QUARTER_PERCENT_REDUCTION / 4).toFixed(2)}%)`;
+			displayStr += ` (${(rawValue / Ratings.GET_EXPERTISE_PER_QUARTER_PERCENT_REDUCTION(level) / 4).toFixed(2)}%)`;
 		} else if (stat == Stat.StatDefense) {
-			displayStr += ` (${(Mechanics.CHARACTER_LEVEL * 5 + Math.floor(rawValue / Ratings.DEFENSE_RATING_PER_DEFENSE)).toFixed(0)})`;
+			displayStr += ` (${(level * 5 + Math.floor(rawValue / Ratings.GET_DEFENSE_RATING_PER_DEFENSE(level))).toFixed(0)})`;
 		} else if (stat == Stat.StatBlock) {
 			// TODO: Figure out how to display these differently for the components than the final value
 			//displayStr += ` (${(rawValue / Mechanics.BLOCK_RATING_PER_BLOCK_CHANCE).toFixed(2)}%)`;
-			displayStr += ` (${((rawValue / Ratings.BLOCK_RATING_PER_BLOCK_CHANCE) + (Mechanics.MISS_DODGE_PARRY_BLOCK_CRIT_CHANCE_PER_DEFENSE * Math.floor(stats.getStat(Stat.StatDefense) / Ratings.DEFENSE_RATING_PER_DEFENSE)) + 5.00).toFixed(2)}%)`;
+			displayStr += ` (${((rawValue / Ratings.GET_BLOCK_RATING_PER_BLOCK_CHANCE(level)) + (Mechanics.MISS_DODGE_PARRY_BLOCK_CRIT_CHANCE_PER_DEFENSE * Math.floor(stats.getStat(Stat.StatDefense) / Ratings.GET_DEFENSE_RATING_PER_DEFENSE(level))) + 5.00).toFixed(2)}%)`;
 		} else if (stat == Stat.StatDodge) {
 			//displayStr += ` (${(rawValue / Mechanics.DODGE_RATING_PER_DODGE_CHANCE).toFixed(2)}%)`;
 			displayStr += ` (${(stats.getPseudoStat(PseudoStat.PseudoStatDodge) * 100).toFixed(2)}%)`;
@@ -282,7 +284,7 @@ export class CharacterStats extends Component {
 			//displayStr += ` (${(rawValue / Mechanics.PARRY_RATING_PER_PARRY_CHANCE).toFixed(2)}%)`;
 			displayStr += ` (${(stats.getPseudoStat(PseudoStat.PseudoStatParry) * 100).toFixed(2)}%)`;
 		} else if (stat == Stat.StatResilience) {
-			displayStr += ` (${(rawValue / Ratings.RESILIENCE_RATING_PER_CRIT_REDUCTION_CHANCE).toFixed(2)}%)`;
+			displayStr += ` (${(rawValue / Ratings.GET_RESILIENCE_RATING_PER_CRIT_REDUCTION_CHANCE(level)).toFixed(2)}%)`;
 		}
 
 		return displayStr;
@@ -292,15 +294,16 @@ export class CharacterStats extends Component {
 		let debuffStats = new Stats();
 
 		const debuffs = this.player.sim.raid.getDebuffs();
+		const level = this.player.getLevel();
 		if (debuffs.misery || debuffs.faerieFire == TristateEffect.TristateEffectImproved) {
-			debuffStats = debuffStats.addStat(Stat.StatSpellHit, 3 * Ratings.SPELL_HIT_RATING_PER_HIT_CHANCE);
+			debuffStats = debuffStats.addStat(Stat.StatSpellHit, 3 * Ratings.GET_SPELL_HIT_RATING_PER_HIT_CHANCE(level));
 		}
 		if (debuffs.totemOfWrath || debuffs.heartOfTheCrusader || debuffs.masterPoisoner) {
-			debuffStats = debuffStats.addStat(Stat.StatSpellCrit, 3 * Ratings.CRIT_RATING_PER_CRIT_CHANCE);
-			debuffStats = debuffStats.addStat(Stat.StatMeleeCrit, 3 * Ratings.CRIT_RATING_PER_CRIT_CHANCE);
+			debuffStats = debuffStats.addStat(Stat.StatSpellCrit, 3 * Ratings.GET_CRIT_RATING_PER_CRIT_CHANCE(level));
+			debuffStats = debuffStats.addStat(Stat.StatMeleeCrit, 3 * Ratings.GET_CRIT_RATING_PER_CRIT_CHANCE(level));
 		}
 		if (debuffs.improvedScorch || debuffs.wintersChill || debuffs.shadowMastery) {
-			debuffStats = debuffStats.addStat(Stat.StatSpellCrit, 5 * Ratings.CRIT_RATING_PER_CRIT_CHANCE);
+			debuffStats = debuffStats.addStat(Stat.StatSpellCrit, 5 * Ratings.GET_CRIT_RATING_PER_CRIT_CHANCE(level));
 		}
 
 		return debuffStats;

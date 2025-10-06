@@ -2,7 +2,7 @@ name: Run Tests
 on:
   pull_request:
     branches:
-      - BRANCH
+      - all
 jobs:
   build-and-test:
     runs-on: ubuntu-latest

@@ -67,9 +67,11 @@ func (dk *Deathknight) registerDiseaseDots() {
 }
 
 func (dk *Deathknight) registerFrostFever() {
-	dk.FrostFeverDebuffAura = dk.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+	dk.FrostFeverDebuffAura = dk.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 		return core.FrostFeverAura(target, dk.Talents.ImprovedIcyTouch, dk.Talents.Epidemic)
 	})
+
+	baseDamage := 0.32 * float64(dk.Level)
 
 	dk.FrostFeverSpell = dk.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: 55095},
@@ -96,7 +98,8 @@ func (dk *Deathknight) registerFrostFever() {
 			NumberOfTicks: 5 + dk.Talents.Epidemic,
 			TickLength:    time.Second * 3,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				dot.SnapshotBaseDamage = 25.6 + 0.06325*dk.getImpurityBonus(dot.Spell)
+				// 80.0 * 0.32 * 1.15 base, 0.055 * 1.15
+				dot.SnapshotBaseDamage = baseDamage + 0.0633*dk.getImpurityBonus(dot.Spell)
 
 				if !isRollover {
 					dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(dot.Spell.Unit.AttackTables[target.UnitIndex])
@@ -123,6 +126,8 @@ func (dk *Deathknight) registerFrostFever() {
 func (dk *Deathknight) registerBloodPlague() {
 	// Tier9 4Piece
 	canCrit := dk.HasSetBonus(ItemSetThassariansBattlegear, 4)
+
+	baseDamage := 0.394 * float64(dk.Level)
 
 	// SM can proc off blood plague application
 	bloodPlagueApplicationSpell := dk.RegisterSpell(core.SpellConfig{
@@ -159,7 +164,7 @@ func (dk *Deathknight) registerBloodPlague() {
 			TickLength:    time.Second * 3,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				dot.SnapshotBaseDamage = 31.52 + 0.06325*dk.getImpurityBonus(dot.Spell)
+				dot.SnapshotBaseDamage = baseDamage + 0.0633*dk.getImpurityBonus(dot.Spell)
 
 				if !isRollover {
 					dot.SnapshotCritChance = dot.Spell.SpellCritChance(target)
@@ -190,6 +195,7 @@ func (dk *Deathknight) registerDrwDiseaseDots() {
 }
 
 func (dk *Deathknight) registerDrwFrostFever() {
+	baseDamage := 0.32 * float64(dk.Level)
 	dk.RuneWeapon.FrostFeverSpell = dk.RuneWeapon.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: 55095},
 		SpellSchool: core.SpellSchoolFrost,
@@ -206,7 +212,7 @@ func (dk *Deathknight) registerDrwFrostFever() {
 			NumberOfTicks: 5 + dk.Talents.Epidemic,
 			TickLength:    time.Second * 3,
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				dot.SnapshotBaseDamage = 25.6 + 0.0633*dk.getImpurityBonus(dot.Spell)
+				dot.SnapshotBaseDamage = baseDamage + 0.0633*dk.getImpurityBonus(dot.Spell)
 
 				if !isRollover {
 					dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(dot.Spell.Unit.AttackTables[target.UnitIndex])
@@ -226,7 +232,7 @@ func (dk *Deathknight) registerDrwFrostFever() {
 func (dk *Deathknight) registerDrwBloodPlague() {
 	// Tier9 4Piece
 	canCrit := dk.HasSetBonus(ItemSetThassariansBattlegear, 4)
-
+	baseDamage := 0.394 * float64(dk.Level)
 	dk.RuneWeapon.BloodPlagueSpell = dk.RuneWeapon.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: 55078},
 		SpellSchool: core.SpellSchoolShadow,
@@ -245,7 +251,7 @@ func (dk *Deathknight) registerDrwBloodPlague() {
 			TickLength:    time.Second * 3,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
-				dot.SnapshotBaseDamage = 31.52 + 0.0633*dk.getImpurityBonus(dot.Spell)
+				dot.SnapshotBaseDamage = baseDamage + 0.0633*dk.getImpurityBonus(dot.Spell)
 
 				if !isRollover {
 					dot.SnapshotCritChance = dot.Spell.SpellCritChance(target)

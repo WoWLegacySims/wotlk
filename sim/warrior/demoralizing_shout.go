@@ -2,15 +2,21 @@ package warrior
 
 import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warriorinfo"
 )
 
 func (warrior *Warrior) registerDemoralizingShoutSpell() {
-	warrior.DemoralizingShoutAuras = warrior.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
-		return core.DemoralizingShoutAura(target, warrior.Talents.BoomingVoice, warrior.Talents.ImprovedDemoralizingShout)
+	dbc := warriorinfo.DemoralizingShout.GetMaxRank(warrior.Level)
+	if dbc == nil {
+		return
+	}
+	warrior.DemoralizingShoutAuras = warrior.NewEnemyAuraArray(func(target *core.Unit, level int32) *core.Aura {
+		return core.DemoralizingShoutAura(target, warrior.Talents.BoomingVoice, warrior.Talents.ImprovedDemoralizingShout, level)
 	})
 
 	warrior.DemoralizingShout = warrior.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 25203},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  warriorinfo.DemoralizingShout.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskEmpty,
 		Flags:       core.SpellFlagAPL,

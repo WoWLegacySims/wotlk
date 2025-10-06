@@ -5,14 +5,21 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/druidinfo"
 )
 
 func (druid *Druid) registerRipSpell() {
+	dbc := druidinfo.Rip.GetMaxRank(druid.Level)
+	if dbc == nil {
+		return
+	}
+	dmg, _ := dbc.GetBPDie(0, druid.Level)
+
 	ripBaseNumTicks := 6 +
 		core.TernaryInt32(druid.HasMajorGlyph(proto.DruidMajorGlyph_GlyphOfRip), 2, 0) +
 		core.TernaryInt32(druid.HasSetBonus(ItemSetDreamwalkerBattlegear, 2), 2, 0)
 
-	comboPointCoeff := 93.0
+	comboPointCoeff := dbc.Effects[0].PointsPerCombo
 	if druid.Ranged().ID == 28372 { // Idol of Feral Shadows
 		comboPointCoeff += 7
 	} else if druid.Ranged().ID == 39757 { // Idol of Worship
@@ -20,7 +27,8 @@ func (druid *Druid) registerRipSpell() {
 	}
 
 	druid.Rip = druid.RegisterSpell(Cat, core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 49800},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  druidinfo.Rip.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
@@ -40,7 +48,7 @@ func (druid *Druid) registerRipSpell() {
 			return druid.ComboPoints() > 0
 		},
 
-		BonusCritRating:  core.TernaryFloat64(druid.HasSetBonus(ItemSetMalfurionsBattlegear, 4), 5*core.CritRatingPerCritChance, 0.0),
+		BonusCrit:        core.TernaryFloat64(druid.HasSetBonus(ItemSetMalfurionsBattlegear, 4), 5, 0.0),
 		DamageMultiplier: 1 + core.TernaryFloat64(druid.HasSetBonus(ItemSetThunderheartHarness, 4), 0.15, 0),
 		CritMultiplier:   druid.MeleeCritMultiplier(Cat),
 		ThreatMultiplier: 1,
@@ -56,7 +64,7 @@ func (druid *Druid) registerRipSpell() {
 				cp := float64(druid.ComboPoints())
 				ap := dot.Spell.MeleeAttackPower()
 
-				dot.SnapshotBaseDamage = 36 + comboPointCoeff*cp + 0.01*cp*ap
+				dot.SnapshotBaseDamage = dmg + comboPointCoeff*cp + 0.01*cp*ap
 
 				if !isRollover {
 					attackTable := dot.Spell.Unit.AttackTables[target.UnitIndex]

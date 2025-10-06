@@ -84,6 +84,7 @@ ${error?.message}`);
 		simUI: IndividualSimUI<SpecType>,
 		charClass: Class,
 		race: Race,
+		level: number,
 		equipmentSpec: EquipmentSpec,
 		talentsStr: string,
 		glyphs: Glyphs | null,
@@ -111,6 +112,7 @@ ${error?.message}`);
 		TypedEvent.freezeAllAndDo(() => {
 			simUI.player.setRace(eventID, race);
 			simUI.player.setGear(eventID, gear);
+			simUI.player.setLevel(eventID,level);
 			if (talentsStr && talentsStr != '--') {
 				simUI.player.setTalentsString(eventID, talentsStr);
 			}
@@ -279,7 +281,7 @@ export class Individual80UImporter<SpecType extends Spec> extends Importer {
 
 		const gear = this.simUI.sim.db.lookupEquipmentSpec(equipmentSpec);
 
-		this.finishIndividualImport(this.simUI, charClass, race, equipmentSpec, talentsStr, null, []);
+		this.finishIndividualImport(this.simUI, charClass, race, charLevel, equipmentSpec, talentsStr, null, []);
 	}
 }
 
@@ -334,6 +336,7 @@ export class IndividualWowheadGearPlannerImporter<SpecType extends Spec> extends
 
 		// Talent hex string looks like '230005232100330150323102505321f03f023203001f'
 		// Just like regular wowhead talents string except 'f' instead of '-'.
+		const level = data[2];
 		const numTalentBytes = data[3];
 		const talentBytes = data.subarray(4, 4 + numTalentBytes);
 		const talentsHexStr = buf2hex(talentBytes);
@@ -446,7 +449,7 @@ export class IndividualWowheadGearPlannerImporter<SpecType extends Spec> extends
 		}
 		const gear = this.simUI.sim.db.lookupEquipmentSpec(equipmentSpec);
 
-		this.finishIndividualImport(this.simUI, charClass, race, equipmentSpec, talentsStr, hasGlyphs ? glyphs : null, []);
+		this.finishIndividualImport(this.simUI, charClass, race, level, equipmentSpec, talentsStr, hasGlyphs ? glyphs : null, []);
 	}
 
 	static slotIDs: Record<ItemSlot, number> = {
@@ -503,6 +506,8 @@ export class IndividualAddonImporter<SpecType extends Spec> extends Importer {
 			throw new Error('Could not parse Race!');
 		}
 
+		const level = importJson['level'] as number;
+
 		const professions = (importJson['professions'] as Array<{ name: string; level: number }>).map(profData => nameToProfession(profData.name));
 		professions.forEach((prof, i) => {
 			if (prof == Profession.ProfessionUnknown) {
@@ -536,7 +541,7 @@ export class IndividualAddonImporter<SpecType extends Spec> extends Importer {
 		});
 		const equipmentSpec = EquipmentSpec.fromJson(gearJson);
 
-		this.finishIndividualImport(this.simUI, charClass, race, equipmentSpec, talentsStr, glyphs, professions);
+		this.finishIndividualImport(this.simUI, charClass, level, race, equipmentSpec, talentsStr, glyphs, professions);
 	}
 }
 

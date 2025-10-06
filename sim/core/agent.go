@@ -2,6 +2,7 @@ package core
 
 import (
 	"reflect"
+	"slices"
 	"strconv"
 	"strings"
 
@@ -59,6 +60,14 @@ func (actionID ActionID) IsEmptyAction() bool {
 
 func (actionID ActionID) IsSpellAction(spellID int32) bool {
 	return actionID.SpellID == spellID
+}
+
+func (actionID ActionID) IsSpell(spell *Spell) bool {
+	return spell != nil && spell.SpellID == actionID.SpellID
+}
+
+func (actionID ActionID) IsOneOfSpells(spells []*Spell) bool {
+	return spells != nil && slices.ContainsFunc(spells, func(s *Spell) bool { return s != nil && s.SpellID == actionID.SpellID })
 }
 
 func (actionID ActionID) IsItemAction(itemID int32) bool {

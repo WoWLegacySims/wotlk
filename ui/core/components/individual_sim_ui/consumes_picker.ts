@@ -1,18 +1,17 @@
 import { IndividualSimUI } from "../../individual_sim_ui";
 import { Player } from "../../player";
 import {
+	Class,
 	Spec,
 } from "../../proto/common";
 import { TypedEvent } from "../../typed_event";
-
 import { Component } from "../component";
 import { buildIconInput } from "../icon_inputs.js";
-import { relevantStatOptions } from "../inputs/stat_options";
 import { TypedIconEnumPickerConfig, TypedIconPickerConfig } from "../input_helpers";
-
-import { SettingsTab } from "./settings_tab";
-
 import * as ConsumablesInputs from '../inputs/consumables';
+import {BATTLEELIXIR_CONFIG, FLASK_CONFIG, FOOD_CONFIG, GUARDIANELIXIR_CONFIG} from "../inputs/consumes_gen"
+import { relevantStatOptions } from "../inputs/stat_options";
+import { SettingsTab } from "./settings_tab";
 
 export class ConsumesPicker extends Component {
 	protected settingsTab: SettingsTab;
@@ -26,12 +25,15 @@ export class ConsumesPicker extends Component {
 		this.buildPotionsPicker();
 		this.buildElixirsPicker();
 		this.buildFoodPicker();
+		if (!((this.simUI.player.getClass() == Class.ClassRogue) || (this.simUI.player.getClass() == Class.ClassShaman) || (this.simUI.player.getClass() == Class.ClassShaman))) {
+			this.buildImbuePicker();
+		  }
 		this.buildEngPicker();
 		this.buildPetPicker();
 	}
 
 	private buildPotionsPicker() {
-		let fragment = document.createElement('fragment');
+		const fragment = document.createElement('fragment');
 		fragment.innerHTML = `
 			<div class="consumes-row input-root input-inline">
 				<label class="form-label">Potions</label>
@@ -49,8 +51,7 @@ export class ConsumesPicker extends Component {
 		const conjuredElem = this.rootElem.querySelector('.consumes-conjured') as HTMLElement;
 
 		this.buildPickers({
-			// GearChangeEmitter for ConjuredMinorRecombobulator
-			changeEmitters: [],
+			changeEmitters: [this.simUI.levelChangeEmitter],
 			containerElem: rowElem,
 			options: [
 				{
@@ -77,7 +78,7 @@ export class ConsumesPicker extends Component {
 	}
 
 	private buildElixirsPicker() {
-		let fragment = document.createElement('fragment');
+		const fragment = document.createElement('fragment');
 		fragment.innerHTML = `
       <div class="consumes-row input-root input-inline">
         <label class="form-label">Elixirs</label>
@@ -96,24 +97,24 @@ export class ConsumesPicker extends Component {
 		const guardianElixirsElem = this.rootElem.querySelector('.consumes-guardian-elixirs') as HTMLElement;
 
 		this.buildPickers({
-			changeEmitters: [],
+			changeEmitters: [this.simUI.levelChangeEmitter],
 			containerElem: rowElem,
 			options: [
 				{
 					getConfig: () => ConsumablesInputs.makeFlasksInput(
-						relevantStatOptions(ConsumablesInputs.FLASKS_CONFIG, this.simUI)
+						relevantStatOptions(FLASK_CONFIG, this.simUI)
 					),
 					parentElem: flasksElem,
 				},
 				{
 					getConfig: () => ConsumablesInputs.makeBattleElixirsInput(
-						relevantStatOptions(ConsumablesInputs.BATTLE_ELIXIRS_CONFIG, this.simUI)
+						relevantStatOptions(BATTLEELIXIR_CONFIG, this.simUI)
 					),
 					parentElem: battleElixirsElem,
 				},
 				{
 					getConfig: () => ConsumablesInputs.makeGuardianElixirsInput(
-						relevantStatOptions(ConsumablesInputs.GUARDIAN_ELIXIRS_CONFIG, this.simUI)
+						relevantStatOptions(GUARDIANELIXIR_CONFIG, this.simUI)
 					),
 					parentElem: guardianElixirsElem,
 				}
@@ -121,8 +122,43 @@ export class ConsumesPicker extends Component {
 		})
 	}
 
+	private buildImbuePicker() {
+		const fragment = document.createElement('fragment');
+		fragment.innerHTML = `
+		  <div class="consumes-row input-root input-inline">
+			<label class="form-label">Weapon Imbue</label>
+			<div class="consumes-row-inputs">
+			  <div class="consumes-weapon-mh"></div>
+			  <div class="consumes-weapon-oh"></div>
+			</div>
+		  </div>
+    `;
+
+		const rowElem = this.rootElem.appendChild(fragment.children[0] as HTMLElement);
+		const mhElem = this.rootElem.querySelector('.consumes-weapon-mh') as HTMLElement;
+		const ohElem = this.rootElem.querySelector('.consumes-weapon-oh') as HTMLElement;
+
+		this.buildPickers({
+			changeEmitters: [this.simUI.player.gearChangeEmitter, this.simUI.levelChangeEmitter],
+			containerElem: rowElem,
+			options: [{
+				getConfig: () => ConsumablesInputs.makeMHImbueInput(
+					relevantStatOptions(ConsumablesInputs.IMBUE_CONFIG, this.simUI)
+				),
+				parentElem: mhElem,
+			},
+			{
+				getConfig: () => ConsumablesInputs.makeOHImbueInput(
+					relevantStatOptions(ConsumablesInputs.IMBUE_CONFIG, this.simUI)
+				),
+				parentElem: ohElem,
+			}
+		],
+		})
+	}
+
 	private buildFoodPicker() {
-		let fragment = document.createElement('fragment');
+		const fragment = document.createElement('fragment');
 		fragment.innerHTML = `
       <div class="consumes-row input-root input-inline">
         <label class="form-label">Food</label>
@@ -136,12 +172,12 @@ export class ConsumesPicker extends Component {
 		const foodsElem = this.rootElem.querySelector('.consumes-food') as HTMLElement;
 
 		this.buildPickers({
-			changeEmitters: [],
+			changeEmitters: [this.simUI.levelChangeEmitter],
 			containerElem: rowElem,
 			options: [
 				{
 					getConfig: () => ConsumablesInputs.makeFoodInput(
-						relevantStatOptions(ConsumablesInputs.FOOD_CONFIG, this.simUI),
+						relevantStatOptions(FOOD_CONFIG, this.simUI),
 					),
 					parentElem: foodsElem,
 				},
@@ -150,7 +186,7 @@ export class ConsumesPicker extends Component {
 	}
 
 	private buildEngPicker() {
-		let fragment = document.createElement('fragment');
+		const fragment = document.createElement('fragment');
 		fragment.innerHTML = `
       <div class="consumes-row input-root input-inline">
         <label class="form-label">Engineering</label>
@@ -172,17 +208,20 @@ export class ConsumesPicker extends Component {
 			containerElem: rowElem,
 			options: [
 				{
-					getConfig: () => ConsumablesInputs.ThermalSapper,
+					getConfig: () => ConsumablesInputs.makeBigExplosivesInput(
+						relevantStatOptions(ConsumablesInputs.BIG_EXPLOSIVES_CONFIG, this.simUI)
+					),
 					parentElem: sapperElem,
 				},
 				{
-					getConfig: () => ConsumablesInputs.ExplosiveDecoy,
+					getConfig: () => ConsumablesInputs.makeDecoyExplosivesInput(
+						relevantStatOptions(ConsumablesInputs.DECOY_EXPLOSIVE_CONFIG, this.simUI)
+					),
 					parentElem: decoyElem,
 				},
 				{
 					getConfig: () => ConsumablesInputs.makeExplosivesInput(
-						relevantStatOptions(ConsumablesInputs.EXPLOSIVES_CONFIG, this.simUI),
-						'Explosives',
+						relevantStatOptions(ConsumablesInputs.EXPLOSIVES_CONFIG, this.simUI)
 					),
 					parentElem: explosivesElem,
 				}
@@ -192,7 +231,7 @@ export class ConsumesPicker extends Component {
 
 	private buildPetPicker() {
 		if (this.simUI.individualConfig.petConsumeInputs?.length) {
-			let fragment = document.createElement('fragment');
+			const fragment = document.createElement('fragment');
 			fragment.innerHTML = `
         <div class="consumes-row input-root input-inline">
           <label class="form-label">Pet</label>
@@ -205,7 +244,7 @@ export class ConsumesPicker extends Component {
 			this.rootElem.appendChild(fragment.children[0] as HTMLElement);
 			const petConsumesElem = this.rootElem.querySelector('.consumes-pet') as HTMLElement;
 
-			this.simUI.individualConfig.petConsumeInputs.map(iconInput => buildIconInput(petConsumesElem, this.simUI.player, iconInput));
+			this.simUI.individualConfig.petConsumeInputs.map(iconInput => buildIconInput(petConsumesElem, this.simUI, iconInput));
 		}
 	}
 
@@ -231,8 +270,11 @@ export class ConsumesPicker extends Component {
 						config.values.filter(value => !value.showWhen || value.showWhen(this.simUI.player)).length > 1;
 				}
 
-				if (isShown) buildIconInput(optionSet.parentElem, this.simUI.player, config);
-
+				if (isShown) {
+					buildIconInput(optionSet.parentElem, this.simUI, config);
+				}
+				else optionSet.parentElem.classList.add('hide')
+				if(!isShown && ((value: any): value is TypedIconEnumPickerConfig<Player<Spec>, number> => value.setValue !== undefined)(config)) config.setValue(0,this.simUI.player,0);
 				return isShown;
 			}).filter(isShown => isShown).length > 0;
 

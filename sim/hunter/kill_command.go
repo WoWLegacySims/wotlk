@@ -4,15 +4,21 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
 func (hunter *Hunter) registerKillCommandCD() {
-	if hunter.pet == nil {
+	if hunter.pet == nil || hunter.Level < 66 {
 		return
 	}
 
+	var beastLordProcAura *core.Aura
+	if hunter.HasSetBonus(ItemSetBeastLord, 4) {
+		beastLordProcAura = hunter.NewTemporaryStatsAura("Beast Lord Proc", core.ActionID{SpellID: 37483}, stats.Stats{stats.ArmorPenetration: 85}, time.Second*15)
+	}
+
 	actionID := core.ActionID{SpellID: 34026}
-	bonusPetSpecialCrit := 10 * core.CritRatingPerCritChance * float64(hunter.Talents.FocusedFire)
+	bonusPetSpecialCrit := 10 * float64(hunter.Talents.FocusedFire)
 
 	hunter.pet.KillCommandAura = hunter.pet.RegisterAura(core.Aura{
 		Label:     "Kill Command",
@@ -20,15 +26,15 @@ func (hunter *Hunter) registerKillCommandCD() {
 		Duration:  time.Second * 30,
 		MaxStacks: 3,
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
-			hunter.pet.focusDump.BonusCritRating += bonusPetSpecialCrit
+			hunter.pet.focusDump.BonusCrit += bonusPetSpecialCrit
 			if hunter.pet.specialAbility != nil {
-				hunter.pet.specialAbility.BonusCritRating += bonusPetSpecialCrit
+				hunter.pet.specialAbility.BonusCrit += bonusPetSpecialCrit
 			}
 		},
 		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
-			hunter.pet.focusDump.BonusCritRating -= bonusPetSpecialCrit
+			hunter.pet.focusDump.BonusCrit -= bonusPetSpecialCrit
 			if hunter.pet.specialAbility != nil {
-				hunter.pet.specialAbility.BonusCritRating -= bonusPetSpecialCrit
+				hunter.pet.specialAbility.BonusCrit -= bonusPetSpecialCrit
 			}
 		},
 		OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
@@ -59,6 +65,9 @@ func (hunter *Hunter) registerKillCommandCD() {
 		ApplyEffects: func(sim *core.Simulation, _ *core.Unit, _ *core.Spell) {
 			hunter.pet.KillCommandAura.Activate(sim)
 			hunter.pet.KillCommandAura.SetStacks(sim, 3)
+			if beastLordProcAura != nil {
+				beastLordProcAura.Activate(sim)
+			}
 		},
 	})
 

@@ -4,11 +4,20 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/priestinfo"
 )
 
 func (priest *Priest) RegisterSmiteSpell() {
+	dbc := priestinfo.Smite.GetMaxRank(priest.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, priest.Level)
+	coef := 0.1833 * dbc.GetLevelPenalty(priest.Level)
+
 	priest.Smite = priest.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48123},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  priestinfo.Smite.GetAllIDs(),
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagAPL,
@@ -23,13 +32,15 @@ func (priest *Priest) RegisterSmiteSpell() {
 			},
 		},
 
-		BonusCritRating:  float64(priest.Talents.HolySpecialization) * 1 * core.CritRatingPerCritChance,
-		DamageMultiplier: 1 + 0.05*float64(priest.Talents.SearingLight),
+		BonusCrit: float64(priest.Talents.HolySpecialization),
+		DamageMultiplier: 1 +
+			0.05*float64(priest.Talents.SearingLight) +
+			core.TernaryFloat64(priest.HasSetBonus(ItemSetIncarnateRegalia, 4), 0.05, 0),
 		CritMultiplier:   priest.DefaultSpellCritMultiplier(),
 		ThreatMultiplier: 1 - []float64{0, .07, .14, .20}[priest.Talents.SilentResolve],
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(713, 799) + 0.7143*spell.SpellPower()
+			baseDamage := sim.Roll(bp, die) + coef*spell.SpellPower()
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 		},
 	})

@@ -9,6 +9,9 @@ import (
 )
 
 func (paladin *Paladin) registerSealOfVengeanceSpellAndAura() {
+	if paladin.Level < 64 {
+		return
+	}
 	/*
 	 * Seal of Vengeance is an Spell/Aura that when active makes the paladin capable of procing
 	 * 3 different SpellIDs depending on a paladin's casted spell or melee swing.
@@ -96,15 +99,15 @@ func (paladin *Paladin) registerSealOfVengeanceSpellAndAura() {
 			}
 		},
 	})
-
+	bonusDamage := paladin.getPreS4GlovesBonus() + core.TernaryFloat64(paladin.HasSetBonus(ItemSetJusticarBattlegear, 2), 33, 0)
 	onJudgementProc := paladin.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: 31804}, // Judgement of Vengeance.
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    core.ProcMaskMeleeSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | SpellFlagSecondaryJudgement,
 
-		BonusCritRating: (6 * float64(paladin.Talents.Fanaticism) * core.CritRatingPerCritChance) +
-			(core.TernaryFloat64(paladin.HasSetBonus(ItemSetTuralyonsBattlegear, 4), 5, 0) * core.CritRatingPerCritChance),
+		BonusCrit: (6 * float64(paladin.Talents.Fanaticism)) +
+			(core.TernaryFloat64(paladin.HasSetBonus(ItemSetTuralyonsBattlegear, 4), 5, 0)),
 		DamageMultiplier: 1 *
 			(1 + paladin.getItemSetLightswornBattlegearBonus4() +
 				paladin.getTalentSealsOfThePureBonus() + paladin.getMajorGlyphOfJudgementBonus() + paladin.getTalentTheArtOfWarBonus()) *
@@ -119,7 +122,7 @@ func (paladin *Paladin) registerSealOfVengeanceSpellAndAura() {
 				.14*spell.MeleeAttackPower()
 
 			// i = i * (1 + (0.10 * stacks))
-			baseDamage *= 1 + .1*float64(dotSpell.Dot(target).GetStacks())
+			baseDamage *= 1 + .1*float64(dotSpell.Dot(target).GetStacks()) + bonusDamage
 
 			// Secondary Judgements cannot miss if the Primary Judgement hit, only roll for crit.
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialCritOnly)
@@ -135,7 +138,8 @@ func (paladin *Paladin) registerSealOfVengeanceSpellAndAura() {
 		// (mult * weaponScaling / stacks)
 		DamageMultiplier: 1 *
 			(1 + paladin.getItemSetLightswornBattlegearBonus4() + paladin.getItemSetAegisPlateBonus2() + paladin.getTalentSealsOfThePureBonus()) *
-			(1 + paladin.getTalentTwoHandedWeaponSpecializationBonus()) * .33 / 5,
+			(1 + paladin.getTalentTwoHandedWeaponSpecializationBonus()) *
+			(1 + core.TernaryFloat64(paladin.HasSetBonus(ItemSetJusticarArmor, 2), 0.1, 0)) * .33 / 5,
 		CritMultiplier:   paladin.MeleeCritMultiplier(),
 		ThreatMultiplier: 1,
 
@@ -158,14 +162,14 @@ func (paladin *Paladin) registerSealOfVengeanceSpellAndAura() {
 		Duration: SealDuration,
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
 			if paladin.HasMajorGlyph(proto.PaladinMajorGlyph_GlyphOfSealOfVengeance) {
-				expertise := core.ExpertisePerQuarterPercentReduction * 10
+				expertise := paladin.ExpertisePerQuarterPercentReduction * 10
 				paladin.AddStatDynamic(sim, stats.Expertise, expertise)
 			}
 		},
 
 		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
 			if paladin.HasMajorGlyph(proto.PaladinMajorGlyph_GlyphOfSealOfVengeance) {
-				expertise := core.ExpertisePerQuarterPercentReduction * 10
+				expertise := paladin.ExpertisePerQuarterPercentReduction * 10
 				paladin.AddStatDynamic(sim, stats.Expertise, -expertise)
 			}
 		},

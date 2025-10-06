@@ -8,6 +8,9 @@ import (
 )
 
 func (paladin *Paladin) registerCrusaderStrikeSpell() {
+	if !paladin.Talents.CrusaderStrike {
+		return
+	}
 	bonusDmg := core.TernaryFloat64(paladin.Ranged().ID == 31033, 36, 0) + // Libram of Righteous Power
 		core.TernaryFloat64(paladin.Ranged().ID == 40191, 79, 0) // Libram of Radiance
 
@@ -37,7 +40,7 @@ func (paladin *Paladin) registerCrusaderStrikeSpell() {
 			},
 		},
 
-		BonusCritRating: core.TernaryFloat64(paladin.HasSetBonus(ItemSetAegisBattlegear, 4), 10, 0) * core.CritRatingPerCritChance,
+		BonusCrit: core.TernaryFloat64(paladin.HasSetBonus(ItemSetAegisBattlegear, 4), 10, 0),
 		DamageMultiplierAdditive: 1 +
 			paladin.getTalentSanctityOfBattleBonus() +
 			paladin.getTalentTheArtOfWarBonus() +

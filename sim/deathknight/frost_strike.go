@@ -3,22 +3,28 @@ package deathknight
 import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/deathknightinfo"
 )
 
-var frostStrikeActionID = core.ActionID{SpellID: 55268}
-var FrostStrikeMHActionID = frostStrikeActionID.WithTag(1)
-var FrostStrikeOHActionID = frostStrikeActionID.WithTag(2)
-
 func (dk *Deathknight) newFrostStrikeHitSpell(isMH bool) *core.Spell {
+	dbc := deathknightinfo.FrostStrike.GetMaxRank(dk.Level)
+	if dbc == nil {
+		return nil
+	}
+	damage := dbc.Effects[0].BasePoints + 1
+
+	baseActionID := core.ActionID{SpellID: dbc.SpellID}
+
 	bonusBaseDamage := dk.sigilOfTheVengefulHeartFrostStrike()
 
-	actionID := FrostStrikeMHActionID
+	actionID := baseActionID.WithTag(1)
 	if !isMH {
-		actionID = FrostStrikeOHActionID
+		actionID = baseActionID.WithTag(2)
 	}
 
 	conf := core.SpellConfig{
 		ActionID:    actionID,
+		SpellRanks:  deathknightinfo.FrostStrike.GetAllIDs(),
 		SpellSchool: core.SpellSchoolFrost,
 		ProcMask:    dk.threatOfThassarianProcMask(isMH),
 		Flags:       core.SpellFlagMeleeMetrics,
@@ -34,7 +40,7 @@ func (dk *Deathknight) newFrostStrikeHitSpell(isMH bool) *core.Spell {
 			IgnoreHaste: true,
 		},
 
-		BonusCritRating: (dk.annihilationCritBonus() + dk.darkrunedBattlegearCritBonus()) * core.CritRatingPerCritChance,
+		BonusCrit: (dk.annihilationCritBonus() + dk.darkrunedBattlegearCritBonus()),
 		DamageMultiplier: .55 *
 			core.TernaryFloat64(isMH, 1, dk.nervesOfColdSteelBonus()) *
 			dk.bloodOfTheNorthCoeff(),
@@ -44,13 +50,13 @@ func (dk *Deathknight) newFrostStrikeHitSpell(isMH bool) *core.Spell {
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			var baseDamage float64
 			if isMH {
-				baseDamage = 250 +
+				baseDamage = damage +
 					bonusBaseDamage +
 					spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
 					spell.BonusWeaponDamage()
 			} else {
 				// SpellID 66962
-				baseDamage = 125 +
+				baseDamage = damage/2 +
 					bonusBaseDamage +
 					spell.Unit.OHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
 					spell.BonusWeaponDamage()

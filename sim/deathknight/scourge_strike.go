@@ -5,12 +5,18 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/deathknightinfo"
 )
-
-var ScourgeStrikeActionID = core.ActionID{SpellID: 55271}
 
 // this is just a simple spell because it has no rune costs and is really just a wrapper.
 func (dk *Deathknight) registerScourgeStrikeShadowDamageSpell() *core.Spell {
+	dbc := deathknightinfo.ScourgeStrike.GetMaxRank(dk.Level)
+	if dbc == nil {
+		return nil
+	}
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
+
 	diseaseMulti := dk.dkDiseaseMultiplier(0.12)
 
 	// This spell (70890) is marked as "Ignore Damage Taken Modifiers" and "Ignore Caster Damage Modifiers", but does neither.
@@ -19,7 +25,7 @@ func (dk *Deathknight) registerScourgeStrikeShadowDamageSpell() *core.Spell {
 	//  the regular ~32.9% damage).
 
 	return dk.Unit.RegisterSpell(core.SpellConfig{
-		ActionID:    ScourgeStrikeActionID.WithTag(2),
+		ActionID:    actionID.WithTag(2),
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage | core.ProcMaskProc,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIgnoreAttackerModifiers,
@@ -38,13 +44,20 @@ func (dk *Deathknight) registerScourgeStrikeSpell() {
 	if !dk.Talents.ScourgeStrike {
 		return
 	}
+	dbc := deathknightinfo.ScourgeStrike.GetMaxRank(dk.Level)
+	if dbc == nil {
+		return
+	}
+	damage := dbc.Effects[0].BasePoints + 1
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 
 	shadowDamageSpell := dk.registerScourgeStrikeShadowDamageSpell()
 	bonusBaseDamage := dk.sigilOfAwarenessBonus() + dk.sigilOfArthriticBindingBonus()
 	hasGlyph := dk.HasMajorGlyph(proto.DeathknightMajorGlyph_GlyphOfScourgeStrike)
 
 	dk.ScourgeStrike = dk.RegisterSpell(core.SpellConfig{
-		ActionID:    ScourgeStrikeActionID.WithTag(1),
+		ActionID:    actionID.WithTag(1),
+		SpellRanks:  deathknightinfo.ScourgeStrike.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagAPL,
@@ -62,7 +75,7 @@ func (dk *Deathknight) registerScourgeStrikeSpell() {
 			IgnoreHaste: true,
 		},
 
-		BonusCritRating: (dk.subversionCritBonus() + dk.viciousStrikesCritChanceBonus() + dk.scourgeborneBattlegearCritBonus()) * core.CritRatingPerCritChance,
+		BonusCrit: (dk.subversionCritBonus() + dk.viciousStrikesCritChanceBonus() + dk.scourgeborneBattlegearCritBonus()),
 
 		DamageMultiplier: .7 *
 			[]float64{1.0, 1.07, 1.13, 1.2}[dk.Talents.Outbreak] *
@@ -72,7 +85,7 @@ func (dk *Deathknight) registerScourgeStrikeSpell() {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 800 +
+			baseDamage := damage +
 				bonusBaseDamage +
 				spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
 				spell.BonusWeaponDamage()

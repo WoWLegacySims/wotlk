@@ -8,11 +8,14 @@ import (
 var PestilenceActionID = core.ActionID{SpellID: 50842}
 
 func (dk *Deathknight) registerPestilenceSpell() {
+	if dk.Level < 56 {
+		return
+	}
 	hasGlyphOfDisease := dk.HasMajorGlyph(proto.DeathknightMajorGlyph_GlyphOfDisease)
 	deathConvertChance := float64(dk.Talents.BloodOfTheNorth+dk.Talents.Reaping) / 3
 
 	dk.Pestilence = dk.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 50842},
+		ActionID:    PestilenceActionID,
 		Flags:       core.SpellFlagAPL,
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,

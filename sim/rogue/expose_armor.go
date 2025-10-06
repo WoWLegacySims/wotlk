@@ -8,7 +8,10 @@ import (
 )
 
 func (rogue *Rogue) registerExposeArmorSpell() {
-	rogue.ExposeArmorAuras = rogue.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+	if rogue.Level < 14 {
+		return
+	}
+	rogue.ExposeArmorAuras = rogue.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 		return core.ExposeArmorAura(target, rogue.HasMajorGlyph(proto.RogueMajorGlyph_GlyphOfExposeArmor))
 	})
 	durationBonus := core.TernaryDuration(rogue.HasMajorGlyph(proto.RogueMajorGlyph_GlyphOfExposeArmor), time.Second*12, 0)
@@ -40,6 +43,7 @@ func (rogue *Rogue) registerExposeArmorSpell() {
 			IgnoreHaste: true,
 			ModifyCast: func(sim *core.Simulation, spell *core.Spell, cast *core.Cast) {
 				spell.SetMetricsSplit(spell.Unit.ComboPoints())
+				rogue.applyDeathmantle(sim, spell, cast)
 			},
 		},
 		ExtraCastCondition: func(sim *core.Simulation, target *core.Unit) bool {

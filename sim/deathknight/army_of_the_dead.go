@@ -7,6 +7,9 @@ import (
 )
 
 func (dk *Deathknight) registerArmyOfTheDeadCD() {
+	if dk.Level < 80 {
+		return
+	}
 	var ghoulIndex = 0
 	aotdAura := dk.RegisterAura(core.Aura{
 		Label:    "Army of the Dead",

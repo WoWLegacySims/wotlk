@@ -9,6 +9,28 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
+const (
+	Pet_Unknown              int32 = 0
+	Pet_Hunter               int32 = 1
+	Pet_Infernal             int32 = 89
+	Pet_Imp                  int32 = 416
+	Pet_Felhunter            int32 = 417
+	Pet_WaterElementalTemp   int32 = 510
+	Pet_Voidwalker           int32 = 1860
+	Pet_Succubus             int32 = 1863
+	Pet_GreaterFireElemental int32 = 15438
+	Pet_Felguard             int32 = 17252
+	Pet_Shadowfiend          int32 = 19668
+	Pet_RisenGhoul           int32 = 26125
+	Pet_WaterElementalPerm   int32 = 37994
+)
+
+type PetStat struct {
+	stats.Stats
+	Min_dmg int32
+	Max_dmg int32
+}
+
 // Extension of Agent interface, for Pets.
 type PetAgent interface {
 	Agent
@@ -20,7 +42,7 @@ type PetAgent interface {
 type OnPetEnable func(sim *Simulation)
 type OnPetDisable func(sim *Simulation)
 
-type PetStatInheritance func(ownerStats stats.Stats) stats.Stats
+type PetStatInheritance func(ownerStats stats.Stats, ownerPseudoStats stats.PseudoStats) stats.Stats
 type PetMeleeSpeedInheritance func(amount float64)
 
 // Pet is an extension of Character, for any entity created by a player that can
@@ -51,14 +73,14 @@ type Pet struct {
 	timeoutAction *PendingAction
 }
 
-func NewPet(name string, owner *Character, baseStats stats.Stats, statInheritance PetStatInheritance, enabledOnStart bool, isGuardian bool) Pet {
+func NewPet(name string, owner *Character, baseStats stats.Stats, basePercentageStats stats.Stats, statInheritance PetStatInheritance, enabledOnStart bool, isGuardian bool) Pet {
 	pet := Pet{
 		Character: Character{
 			Unit: Unit{
 				Type:        PetUnit,
 				Index:       owner.Party.Raid.getNextPetIndex(),
 				Label:       fmt.Sprintf("%s - %s", owner.Label, name),
-				Level:       CharacterLevel,
+				Level:       owner.Level,
 				PseudoStats: stats.NewPseudoStats(),
 				auraTracker: newAuraTracker(),
 				Metrics:     NewUnitMetrics(),
@@ -75,9 +97,35 @@ func NewPet(name string, owner *Character, baseStats stats.Stats, statInheritanc
 		enabledOnStart:  enabledOnStart,
 		isGuardian:      isGuardian,
 	}
+	pet.ExpertisePerQuarterPercentReduction = ExpertisePerQuarterPercentReduction[pet.Level]
+	pet.HasteRatingPerHastePercent = HasteRatingPerHastePercent[pet.Level]
+	pet.CritRatingPerCritChance = CritRatingPerCritChance[pet.Level]
+	pet.MeleeHitRatingPerHitChance = MeleeHitRatingPerHitChance[pet.Level]
+	pet.SpellHitRatingPerHitChance = SpellHitRatingPerHitChance[pet.Level]
+	pet.DefenseRatingPerDefense = DefenseRatingPerDefense[pet.Level]
+	pet.DodgeRatingPerDodgeChance = DodgeRatingPerDodgeChance[pet.Level]
+	pet.ParryRatingPerParryChance = ParryRatingPerParryChance[pet.Level]
+	pet.BlockRatingPerBlockChance = BlockRatingPerBlockChance[pet.Level]
+	pet.ResilienceRatingPerCritReductionChance = ResilienceRatingPerCritReductionChance[pet.Level]
+	pet.ArmorPenPerPercentArmor = ArmorPenPerPercentArmor[pet.Level]
+	var statMultiplier = stats.Stats{
+		stats.Expertise:  pet.ExpertisePerQuarterPercentReduction,
+		stats.MeleeHaste: pet.HasteRatingPerHastePercent,
+		stats.MeleeCrit:  pet.CritRatingPerCritChance,
+		stats.MeleeHit:   pet.MeleeHitRatingPerHitChance,
+		stats.SpellCrit:  pet.CritRatingPerCritChance,
+		stats.SpellHit:   pet.SpellHitRatingPerHitChance,
+		stats.Defense:    pet.DefenseRatingPerDefense,
+		stats.Dodge:      pet.DodgeRatingPerDodgeChance,
+		stats.Parry:      pet.ParryRatingPerParryChance,
+		stats.Block:      pet.BlockRatingPerBlockChance,
+		stats.Resilience: pet.ResilienceRatingPerCritReductionChance,
+	}
+	baseStats = baseStats.Add(basePercentageStats.DotProduct(statMultiplier))
 	pet.GCD = pet.NewTimer()
 
 	pet.AddStats(baseStats)
+
 	pet.addUniversalStatDependencies()
 	pet.PseudoStats.InFrontOfTarget = owner.PseudoStats.InFrontOfTarget
 
@@ -88,7 +136,14 @@ func NewPet(name string, owner *Character, baseStats stats.Stats, statInheritanc
 // addedStats is the amount of stats added to the owner (will be negative if the
 // owner lost stats).
 func (pet *Pet) addOwnerStats(sim *Simulation, addedStats stats.Stats) {
-	inheritedChange := pet.dynamicStatInheritance(addedStats)
+	inheritedChange := pet.dynamicStatInheritance(addedStats, stats.PseudoStats{})
+
+	pet.inheritedStats.AddInplace(&inheritedChange)
+	pet.AddStatsDynamic(sim, inheritedChange)
+}
+
+func (pet *Pet) addOwnerPseudoStats(sim *Simulation, addedStats stats.PseudoStats) {
+	inheritedChange := pet.dynamicStatInheritance(stats.Stats{}, addedStats)
 
 	pet.inheritedStats.AddInplace(&inheritedChange)
 	pet.AddStatsDynamic(sim, inheritedChange)
@@ -134,7 +189,7 @@ func (pet *Pet) Enable(sim *Simulation, petAgent PetAgent) {
 		pet.reset(sim, petAgent)
 	}
 
-	pet.inheritedStats = pet.statInheritance(pet.Owner.GetStats())
+	pet.inheritedStats = pet.statInheritance(pet.Owner.GetStats(), pet.Owner.PseudoStats)
 	pet.AddStatsDynamic(sim, pet.inheritedStats)
 
 	if !pet.isGuardian {

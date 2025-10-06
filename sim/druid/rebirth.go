@@ -10,6 +10,9 @@ import (
 // Consider adding moonkin shapeshift spell / form tracking to balance rotation instead
 // Then we can properly incur Rebirth cost through additional Moonkin form spell cast
 func (druid *Druid) registerRebirthSpell() {
+	if druid.Level < 20 {
+		return
+	}
 	baseCost := 0.68
 	castTime := time.Second * 2
 	forms := Humanoid | Tree

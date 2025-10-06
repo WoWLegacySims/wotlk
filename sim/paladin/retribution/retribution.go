@@ -36,7 +36,7 @@ func NewRetributionPaladin(character *core.Character, options *proto.Player) *Re
 	ret.PaladinAura = retOptions.Options.Aura
 
 	ret.EnableAutoAttacks(ret, core.AutoAttackOptions{
-		MainHand:       ret.WeaponFromMainHand(0), // Set crit multiplier later when we have targets.
+		MainHand:       ret.WeaponFromMainHand(ret.MeleeCritMultiplier()), // Set crit multiplier later when we have targets.
 		AutoSwingMelee: true,
 	})
 
@@ -63,12 +63,21 @@ func (ret *RetributionPaladin) Reset(sim *core.Simulation) {
 
 	switch ret.Seal {
 	case proto.PaladinSeal_Vengeance:
+		if ret.SealOfVengeanceAura == nil {
+			return
+		}
 		ret.CurrentSeal = ret.SealOfVengeanceAura
 		ret.SealOfVengeanceAura.Activate(sim)
 	case proto.PaladinSeal_Command:
+		if ret.SealOfCommandAura == nil {
+			return
+		}
 		ret.CurrentSeal = ret.SealOfCommandAura
 		ret.SealOfCommandAura.Activate(sim)
 	case proto.PaladinSeal_Righteousness:
+		if ret.SealOfRighteousnessAura == nil {
+			return
+		}
 		ret.CurrentSeal = ret.SealOfRighteousnessAura
 		ret.SealOfRighteousnessAura.Activate(sim)
 	}

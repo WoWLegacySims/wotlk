@@ -37,7 +37,7 @@ func NewProtectionPaladin(character *core.Character, options *proto.Player) *Pro
 	prot.HasGlyphAS = prot.HasMajorGlyph(proto.PaladinMajorGlyph_GlyphOfAvengerSShield)
 
 	prot.EnableAutoAttacks(prot, core.AutoAttackOptions{
-		MainHand:       prot.WeaponFromMainHand(0), // Set crit multiplier later when we have targets.
+		MainHand:       prot.WeaponFromMainHand(prot.MeleeCritMultiplier()), // Set crit multiplier later when we have targets.
 		AutoSwingMelee: true,
 	})
 
@@ -81,12 +81,21 @@ func (prot *ProtectionPaladin) Reset(sim *core.Simulation) {
 
 	switch prot.Seal {
 	case proto.PaladinSeal_Vengeance:
+		if prot.SealOfVengeanceAura == nil {
+			return
+		}
 		prot.CurrentSeal = prot.SealOfVengeanceAura
 		prot.SealOfVengeanceAura.Activate(sim)
 	case proto.PaladinSeal_Command:
+		if prot.SealOfCommandAura == nil {
+			return
+		}
 		prot.CurrentSeal = prot.SealOfCommandAura
 		prot.SealOfCommandAura.Activate(sim)
 	case proto.PaladinSeal_Righteousness:
+		if prot.SealOfRighteousnessAura == nil {
+			return
+		}
 		prot.CurrentSeal = prot.SealOfRighteousnessAura
 		prot.SealOfRighteousnessAura.Activate(sim)
 	}

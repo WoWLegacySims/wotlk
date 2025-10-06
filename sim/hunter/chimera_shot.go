@@ -7,6 +7,7 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 )
 
+// @todo
 func (hunter *Hunter) registerChimeraShotSpell() {
 	if !hunter.Talents.ChimeraShot {
 		return

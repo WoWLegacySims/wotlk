@@ -1,4 +1,4 @@
-OUT_DIR := dist/sims/wotlk/BRANCH
+OUT_DIR := dist/sims/wotlk/all
 TS_CORE_SRC := $(shell find ui/core -name '*.ts' -type f)
 ASSETS_INPUT := $(shell find assets/ -type f)
 ASSETS := $(patsubst assets/%,$(OUT_DIR)/assets/%,$(ASSETS_INPUT))
@@ -124,18 +124,18 @@ $(OUT_DIR)/assets/%: assets/%
 	rm -rf $(OUT_DIR)/assets/db_inputs
 
 binary_dist/dist.go: sim/web/dist.go.tmpl
-	mkdir -p binary_dist/BRANCH
-	touch binary_dist/BRANCH/embedded
+	mkdir -p binary_dist/all
+	touch binary_dist/all/embedded
 	cp sim/web/dist.go.tmpl binary_dist/dist.go
 
 binary_dist: $(OUT_DIR)/.dirstamp
 	rm -rf binary_dist
 	mkdir -p binary_dist
 	cp -r $(OUT_DIR) binary_dist/
-	rm binary_dist/BRANCH/lib.wasm
-	rm -rf binary_dist/BRANCH/assets/db_inputs
-	rm binary_dist/BRANCH/assets/database/db.bin
-	rm binary_dist/BRANCH/assets/database/leftover_db.bin
+	rm binary_dist/all/lib.wasm
+	rm -rf binary_dist/all/assets/db_inputs
+	rm binary_dist/all/assets/database/db.bin
+	rm binary_dist/all/assets/database/leftover_db.bin
 
 # Rebuild the protobuf generated code.
 .PHONY: proto
@@ -173,22 +173,22 @@ else
 endif
 
 wowsimwotlk-windows.exe: wowsimwotlk
-	mkdir -p release/BRANCH
+	mkdir -p release/all
 # go build only considers syso files when invoked without specifying .go files: https://github.com/golang/go/issues/16090
 	cp ./assets/favicon_io/icon-windows_amd64.syso ./sim/web/icon-windows_amd64.syso
 	cd ./sim/web/ && GOOS=windows GOARCH=amd64 GOAMD64=v2 go build -o wowsimwotlk-windows.exe -ldflags="-X 'main.Version=$(VERSION)' -s -w"
 	cd ./cmd/wowsimcli && GOOS=windows GOARCH=amd64 GOAMD64=v2 go build -o wowsimcli-windows.exe --tags=with_db -ldflags="-X 'main.Version=$(VERSION)' -s -w"
 	rm ./sim/web/icon-windows_amd64.syso
-	mv ./sim/web/wowsimwotlk-windows.exe ./release/BRANCH/wowsimwotlk-windows.exe
-	mv ./cmd/wowsimcli/wowsimcli-windows.exe ./release/BRANCH/wowsimcli-windows.exe
+	mv ./sim/web/wowsimwotlk-windows.exe ./release/all/wowsimwotlk-windows.exe
+	mv ./cmd/wowsimcli/wowsimcli-windows.exe ./release/all/wowsimcli-windows.exe
 
 release: wowsimwotlk wowsimwotlk-windows.exe
-	GOOS=darwin GOARCH=amd64 GOAMD64=v2 go build -o release/BRANCH/wowsimwotlk-amd64-darwin -ldflags="-X 'main.Version=$(VERSION)' -s -w" ./sim/web/main.go
-	GOOS=darwin GOARCH=arm64 go build -o release/BRANCH/wowsimwotlk-arm64-darwin -ldflags="-X 'main.Version=$(VERSION)' -s -w" ./sim/web/main.go
-	GOOS=linux GOARCH=amd64 GOAMD64=v2 go build -o release/BRANCH/wowsimwotlk-amd64-linux   -ldflags="-X 'main.Version=$(VERSION)' -s -w" ./sim/web/main.go
-	GOOS=linux GOARCH=amd64 GOAMD64=v2 go build -o release/BRANCH/wowsimcli-amd64-linux --tags=with_db -ldflags="-X 'main.Version=$(VERSION)' -s -w" ./cmd/wowsimcli/cli_main.go
+	GOOS=darwin GOARCH=amd64 GOAMD64=v2 go build -o release/all/wowsimwotlk-amd64-darwin -ldflags="-X 'main.Version=$(VERSION)' -s -w" ./sim/web/main.go
+	GOOS=darwin GOARCH=arm64 go build -o release/all/wowsimwotlk-arm64-darwin -ldflags="-X 'main.Version=$(VERSION)' -s -w" ./sim/web/main.go
+	GOOS=linux GOARCH=amd64 GOAMD64=v2 go build -o release/all/wowsimwotlk-amd64-linux   -ldflags="-X 'main.Version=$(VERSION)' -s -w" ./sim/web/main.go
+	GOOS=linux GOARCH=amd64 GOAMD64=v2 go build -o release/all/wowsimcli-amd64-linux --tags=with_db -ldflags="-X 'main.Version=$(VERSION)' -s -w" ./cmd/wowsimcli/cli_main.go
 # Now compress into a zip because the files are getting large.
-	cd ./release/BRANCH/ && zip wowsimwotlk-windows.exe.zip wowsimwotlk-windows.exe && zip wowsimwotlk-amd64-darwin.zip wowsimwotlk-amd64-darwin && zip wowsimwotlk-arm64-darwin.zip wowsimwotlk-arm64-darwin && zip wowsimwotlk-amd64-linux.zip wowsimwotlk-amd64-linux && zip wowsimcli-amd64-linux.zip wowsimcli-amd64-linux && zip wowsimcli-windows.exe.zip wowsimcli-windows.exe
+	cd ./release/all/ && zip wowsimwotlk-windows.exe.zip wowsimwotlk-windows.exe && zip wowsimwotlk-amd64-darwin.zip wowsimwotlk-amd64-darwin && zip wowsimwotlk-arm64-darwin.zip wowsimwotlk-arm64-darwin && zip wowsimwotlk-amd64-linux.zip wowsimwotlk-amd64-linux && zip wowsimcli-amd64-linux.zip wowsimcli-amd64-linux && zip wowsimcli-windows.exe.zip wowsimcli-windows.exe
 
 sim/core/proto/api.pb.go: proto/*.proto
 	protoc -I=./proto --go_out=./sim/core ./proto/*.proto

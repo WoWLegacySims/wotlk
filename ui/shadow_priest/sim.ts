@@ -53,7 +53,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecShadowPriest, {
 	],
 	modifyDisplayStats: (player: Player<Spec.SpecShadowPriest>) => {
 		let stats = new Stats();
-		stats = stats.addStat(Stat.StatSpellHit, player.getTalents().shadowFocus * 1 * Ratings.SPELL_HIT_RATING_PER_HIT_CHANCE);
+		stats = stats.addStat(Stat.StatSpellHit, player.getTalents().shadowFocus * 1 * Ratings.GET_SPELL_HIT_RATING_PER_HIT_CHANCE(player.getLevel()));
 
 		return {
 			talents: stats,

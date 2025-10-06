@@ -127,9 +127,9 @@ var DefaultOptions = &proto.Player_RetributionPaladin{
 }
 
 var FullConsumes = &proto.Consumes{
-	Flask:           proto.Flask_FlaskOfRelentlessAssault,
+	Flask:           proto.Flask_FlaskofRelentlessAssault,
 	DefaultPotion:   proto.Potions_HastePotion,
 	DefaultConjured: proto.Conjured_ConjuredDarkRune,
-	Food:            proto.Food_FoodRoastedClefthoof,
-	ThermalSapper:   true,
+	Food:            proto.Food_RoastedClefthoof,
+	ExplosiveBig:    proto.Explosive_Big_ThermalSapper,
 }

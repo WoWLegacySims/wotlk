@@ -1,9 +1,10 @@
+import { IndividualSimUI } from '../individual_sim_ui.js';
 import { Player } from '../player.js';
-import { ActionId } from '../proto_utils/action_id.js';
+import { Spec } from '../proto/common.js';
+import { ActionId, ActionIDMap } from '../proto_utils/action_id.js';
 import { SimUI } from '../sim_ui.js';
 import { TypedEvent } from '../typed_event.js';
 import { isRightClick } from '../utils.js';
-
 import { Component } from './component.js';
 import { IconPicker, IconPickerConfig } from './icon_picker.js';
 
@@ -84,7 +85,7 @@ export class MultiIconPicker<ModObject> extends Component {
 			optionContainer.classList.add('icon-picker-option', 'dropdown-option');
 			this.dropdownMenu.appendChild(optionContainer);
 
-			return new IconPicker(optionContainer, modObj, pickerConfig);
+			return new IconPicker(optionContainer, modObj, pickerConfig,simUI);
 		});
 		simUI.sim.waitForInit().then(() => this.updateButtonImage());
 		simUI.changeEmitter.on(() => this.updateButtonImage());
@@ -111,7 +112,7 @@ export class MultiIconPicker<ModObject> extends Component {
 
 	private clearPicker() {
 		TypedEvent.freezeAllAndDo(() => {
-			this.pickers.forEach((picker) => {
+			this.pickers.forEach(picker => {
 				picker.setInputValue(null)
 				picker.inputChanged(TypedEvent.nextEventID());
 			});

@@ -4,14 +4,24 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/druidinfo"
 )
 
 func (druid *Druid) registerLacerateSpell() {
-	tickDamage := 320.0 / 5
-	initialDamage := 88.0
+	dbc := druidinfo.Lacerate.GetMaxRank(druid.Level)
+	if dbc == nil {
+		return
+	}
+	tickDamage, _ := dbc.GetBPDie(0, druid.Level)
+	initialDamage, _ := dbc.GetBPDie(0, druid.Level)
+
 	if druid.Ranged().ID == 27744 { // Idol of Ursoc
 		tickDamage += 8
 		initialDamage += 8
+	}
+
+	if druid.HasSetBonus(ItemSetNordrassilHarness, 4) {
+		tickDamage += 3
 	}
 
 	initialDamageMul := 1 *
@@ -23,7 +33,8 @@ func (druid *Druid) registerLacerateSpell() {
 		core.TernaryFloat64(druid.HasSetBonus(ItemSetMalfurionsBattlegear, 2), 1.05, 1)
 
 	druid.Lacerate = druid.RegisterSpell(Bear, core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48568},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  druidinfo.Lacerate.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL,

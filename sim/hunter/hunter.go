@@ -105,8 +105,6 @@ func (hunter *Hunter) AddPartyBuffs(_ *proto.PartyBuffs) {
 
 func (hunter *Hunter) Initialize() {
 	// Update auto crit multipliers now that we have the targets.
-	hunter.AutoAttacks.MHConfig().CritMultiplier = hunter.critMultiplier(false, false, false)
-	hunter.AutoAttacks.OHConfig().CritMultiplier = hunter.critMultiplier(false, false, false)
 	hunter.AutoAttacks.RangedConfig().CritMultiplier = hunter.critMultiplier(false, false, false)
 
 	hunter.registerAspectOfTheDragonhawkSpell()
@@ -136,7 +134,7 @@ func (hunter *Hunter) Initialize() {
 
 	if hunter.Options.UseHuntersMark {
 		hunter.RegisterPrepullAction(0, func(sim *core.Simulation) {
-			huntersMarkAura := core.HuntersMarkAura(hunter.CurrentTarget, hunter.Talents.ImprovedHuntersMark, hunter.HasMajorGlyph(proto.HunterMajorGlyph_GlyphOfHuntersMark))
+			huntersMarkAura := core.HuntersMarkAura(hunter.CurrentTarget, hunter.Talents.ImprovedHuntersMark, hunter.HasMajorGlyph(proto.HunterMajorGlyph_GlyphOfHuntersMark), hunter.Level)
 			huntersMarkAura.Activate(sim)
 		})
 	}
@@ -155,7 +153,7 @@ func NewHunter(character *core.Character, options *proto.Player) *Hunter {
 		Options:   hunterOptions.Options,
 	}
 	core.FillTalentsProto(hunter.Talents.ProtoReflect(), options.TalentsString, TalentTreeSizes)
-	hunter.EnableManaBar()
+	hunter.EnableManaBar(15)
 
 	hunter.PseudoStats.CanParry = true
 
@@ -188,8 +186,8 @@ func NewHunter(character *core.Character, options *proto.Player) *Hunter {
 	hunter.EnableAutoAttacks(hunter, core.AutoAttackOptions{
 		// We don't know crit multiplier until later when we see the target so just
 		// use 0 for now.
-		MainHand:        hunter.WeaponFromMainHand(0),
-		OffHand:         hunter.WeaponFromOffHand(0),
+		MainHand:        hunter.WeaponFromMainHand(hunter.critMultiplier(false, false, false)),
+		OffHand:         hunter.WeaponFromOffHand(hunter.critMultiplier(false, false, false)),
 		Ranged:          rangedWeapon,
 		ReplaceMHSwing:  hunter.TryRaptorStrike,
 		AutoSwingRanged: true,
@@ -206,7 +204,7 @@ func NewHunter(character *core.Character, options *proto.Player) *Hunter {
 	hunter.AddStatDependency(stats.Strength, stats.AttackPower, 1)
 	hunter.AddStatDependency(stats.Agility, stats.AttackPower, 1)
 	hunter.AddStatDependency(stats.Agility, stats.RangedAttackPower, 1)
-	hunter.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritPerAgiMaxLevel[character.Class]*core.CritRatingPerCritChance)
+	hunter.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritPerAgi[character.Class][hunter.Level]*hunter.CritRatingPerCritChance)
 
 	return hunter
 }

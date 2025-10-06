@@ -5,16 +5,23 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/rogueinfo"
 )
 
 const RuptureEnergyCost = 25.0
-const RuptureSpellID = 48672
 
 func (rogue *Rogue) registerRupture() {
+	dbc := rogueinfo.Rupture.GetMaxRank(rogue.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, rogue.Level)
+
 	glyphTicks := core.TernaryInt32(rogue.HasMajorGlyph(proto.RogueMajorGlyph_GlyphOfRupture), 2, 0)
 
 	rogue.Rupture = rogue.RegisterSpell(core.SpellConfig{
-		ActionID:     core.ActionID{SpellID: RuptureSpellID},
+		ActionID:     core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:   rogueinfo.Rupture.GetAllIDs(),
 		SpellSchool:  core.SpellSchoolPhysical,
 		ProcMask:     core.ProcMaskMeleeMHSpecial,
 		Flags:        core.SpellFlagMeleeMetrics | rogue.finisherFlags() | core.SpellFlagAPL,
@@ -32,6 +39,7 @@ func (rogue *Rogue) registerRupture() {
 			IgnoreHaste: true,
 			ModifyCast: func(sim *core.Simulation, spell *core.Spell, cast *core.Cast) {
 				spell.SetMetricsSplit(spell.Unit.ComboPoints())
+				rogue.applyDeathmantle(sim, spell, cast)
 			},
 		},
 		ExtraCastCondition: func(sim *core.Simulation, target *core.Unit) bool {
@@ -56,7 +64,7 @@ func (rogue *Rogue) registerRupture() {
 			TickLength:    time.Second * 2,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, _ bool) {
-				dot.SnapshotBaseDamage = rogue.RuptureDamage(rogue.ComboPoints())
+				dot.SnapshotBaseDamage = rogue.RuptureDamage(rogue.ComboPoints(), bp)
 				attackTable := dot.Spell.Unit.AttackTables[target.UnitIndex]
 				dot.SnapshotCritChance = dot.Spell.PhysicalCritChance(attackTable)
 				dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(attackTable)
@@ -85,8 +93,8 @@ func (rogue *Rogue) registerRupture() {
 	})
 }
 
-func (rogue *Rogue) RuptureDamage(comboPoints int32) float64 {
-	return 127 +
+func (rogue *Rogue) RuptureDamage(comboPoints int32, bp float64) float64 {
+	return bp +
 		18*float64(comboPoints) +
 		[]float64{0, 0.06 / 4, 0.12 / 5, 0.18 / 6, 0.24 / 7, 0.30 / 8}[comboPoints]*rogue.Rupture.MeleeAttackPower()
 }

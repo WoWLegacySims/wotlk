@@ -8,7 +8,7 @@ import (
 )
 
 func (druid *Druid) registerBarkskinCD() {
-	if !druid.InForm(Bear) {
+	if !druid.InForm(Bear) || druid.Level < 44 {
 		return
 	}
 

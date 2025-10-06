@@ -20,7 +20,8 @@ PseudoStat,
 	Race,
 	RaidBuffs,
 	Spec,
-	Stat, 	TristateEffect,
+	Stat,
+TristateEffect,
 } from '../core/proto/common.js';
 import { PaladinMajorGlyph, PaladinSeal, ProtectionPaladin_Rotation as ProtectionPaladinRotation } from '../core/proto/paladin.js';
 import * as AplUtils from '../core/proto_utils/apl_utils.js';
@@ -70,6 +71,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecProtectionPaladin, {
 	// Which stats to display in the Character Stats section, at the bottom of the left-hand sidebar.
 	displayStats: [
 		Stat.StatHealth,
+		Stat.StatHealth,
 		Stat.StatArmor,
 		Stat.StatBonusArmor,
 		Stat.StatStamina,
@@ -98,7 +100,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecProtectionPaladin, {
 
 		TypedEvent.freezeAllAndDo(() => {
 			if (player.getMajorGlyphs().includes(PaladinMajorGlyph.GlyphOfSealOfVengeance) && (player.getSpecOptions().seal == PaladinSeal.Vengeance)) {
-				stats = stats.addStat(Stat.StatExpertise, 10 * Ratings.EXPERTISE_PER_QUARTER_PERCENT_REDUCTION);
+				stats = stats.addStat(Stat.StatExpertise, 10 * Ratings.GET_EXPERTISE_PER_QUARTER_PERCENT_REDUCTION(player.getLevel()));
 			}
 		})
 

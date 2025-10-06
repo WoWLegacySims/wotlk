@@ -1,12 +1,17 @@
 package druid
 
 import (
+	"time"
+
 	"github.com/WoWLegacySims/wotlk/sim/core"
 )
 
 // Returns the time to wait before the next action, or 0 if innervate is on CD
 // or disabled.
 func (druid *Druid) registerInnervateCD() {
+	if druid.Level < 40 {
+		return
+	}
 	innervateTarget := druid.GetUnit(druid.SelfBuffs.InnervateTarget)
 	if innervateTarget == nil {
 		return
@@ -17,6 +22,10 @@ func (druid *Druid) registerInnervateCD() {
 	var innervateSpell *DruidSpell
 
 	innervateCD := core.InnervateCD
+
+	if druid.HasSetBonus(ItemSetMalorneRegalia, 4) {
+		innervateCD -= time.Second * 48
+	}
 
 	var innervateAura *core.Aura
 	var innervateManaThreshold float64

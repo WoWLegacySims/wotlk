@@ -5,9 +5,16 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warriorinfo"
 )
 
 func (warrior *Warrior) registerShieldSlamSpell() {
+	dbc := warriorinfo.ShieldSlam.GetMaxRank(warrior.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(1, warrior.Level)
+
 	hasGlyph := warrior.HasMajorGlyph(proto.WarriorMajorGlyph_GlyphOfBlocking)
 	var glyphOfBlockingAura *core.Aura = nil
 	if hasGlyph {
@@ -25,7 +32,8 @@ func (warrior *Warrior) registerShieldSlamSpell() {
 	}
 
 	warrior.ShieldSlam = warrior.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 47488},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  warriorinfo.ShieldSlam.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial, // TODO: Is this right?
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagAPL,
@@ -48,7 +56,7 @@ func (warrior *Warrior) registerShieldSlamSpell() {
 			return warrior.PseudoStats.CanBlock
 		},
 
-		BonusCritRating: 5 * core.CritRatingPerCritChance * float64(warrior.Talents.CriticalBlock),
+		BonusCrit: 5 * float64(warrior.Talents.CriticalBlock),
 		DamageMultiplier: 1 +
 			.05*float64(warrior.Talents.GagOrder) +
 			core.TernaryFloat64(warrior.HasSetBonus(ItemSetOnslaughtArmor, 4), .10, 0) +
@@ -63,14 +71,11 @@ func (warrior *Warrior) registerShieldSlamSpell() {
 			// Apply SBV cap with special bypass rules for Shield Block and Glyph of Blocking
 			// TODO: Verify that this bypass behavior and DR curve are correct
 
-			sbvMod := warrior.PseudoStats.BlockValueMultiplier
-			sbvMod /= (sbvMod - core.TernaryFloat64(warrior.ShieldBlockAura.IsActive(), 1, 0) - core.TernaryFloat64(glyphOfBlockingAura.IsActive(), 0.1, 0))
+			sbvMod := core.TernaryFloat64(warrior.ShieldBlockAura.IsActive(), 2.0, 1.0)
 
-			sbv := warrior.BlockValue() / sbvMod
+			sbv := warrior.GetShieldBlockValue(float64(warrior.Level)*24.5*sbvMod, float64(warrior.Level)*34.5*sbvMod)
 
-			sbv = sbvMod * (core.TernaryFloat64(sbv <= 1960.0, sbv, 0.0) + core.TernaryFloat64(sbv > 1960.0 && sbv <= 3160.0, 0.09333333333*sbv+1777.06666667, 0.0) + core.TernaryFloat64(sbv > 3160.0, 2072.0, 0.0))
-
-			baseDamage := sim.Roll(990, 1040) + sbv
+			baseDamage := sim.Roll(bp, die) + sbv
 			result := spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialHitAndCrit)
 
 			if result.Landed() {

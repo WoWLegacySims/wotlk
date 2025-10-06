@@ -9,6 +9,9 @@ import (
 
 // TODO: This currently only affects the caster, not other raid members.
 func (priest *Priest) RegisterHymnOfHopeCD() {
+	if priest.Level < 80 {
+		return
+	}
 	actionID := core.ActionID{SpellID: 64901}
 	manaMetrics := priest.NewManaMetrics(actionID)
 

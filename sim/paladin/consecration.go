@@ -5,18 +5,24 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/paladininfo"
 )
 
 // Maybe could switch "rank" parameter type to some proto thing. Would require updates to proto files.
 // Prot guys do whatever you want here I guess
 func (paladin *Paladin) registerConsecrationSpell() {
-	// TODO: Properly implement max rank consecration.
+	dbc := paladininfo.Consecration.GetMaxRank(paladin.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, paladin.Level)
 	bonusSpellPower := 0 +
 		core.TernaryFloat64(paladin.Ranged().ID == 27917, 47*0.8, 0) +
 		core.TernaryFloat64(paladin.Ranged().ID == 40337, 141, 0) // Libram of Resurgence
 
 	paladin.Consecration = paladin.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48819},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  paladininfo.Consecration.GetAllIDs(),
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
@@ -35,7 +41,7 @@ func (paladin *Paladin) registerConsecrationSpell() {
 			},
 		},
 
-		DamageMultiplier: 1,
+		DamageMultiplier: 1 * core.TernaryFloat64(paladin.HasSetBonus(ItemSetLightbringerArmor, 4), 1.1, 1),
 		ThreatMultiplier: 1,
 
 		Dot: core.DotConfig{
@@ -49,8 +55,7 @@ func (paladin *Paladin) registerConsecrationSpell() {
 			OnSnapshot: func(sim *core.Simulation, _ *core.Unit, dot *core.Dot, _ bool) {
 				target := paladin.CurrentTarget
 
-				// i = 113 + 0.04*HolP + 0.04*AP
-				dot.SnapshotBaseDamage = 113 +
+				dot.SnapshotBaseDamage = bp +
 					.04*dot.Spell.MeleeAttackPower() +
 					.04*(dot.Spell.SpellPower()+bonusSpellPower)
 

@@ -65,9 +65,9 @@ type WowheadItem struct {
 	Name string `json:"name"`
 	Icon string `json:"icon"`
 
-	Quality int32 `json:"quality"`
-	Ilvl    int32 `json:"itemLevel"`
-	Phase   int32 `json:"contentPhase"`
+	Quality   int32           `json:"quality"`
+	Ilvl      int32           `json:"itemLevel"`
+	Expansion proto.Expansion `json:"contentExpansion"`
 
 	RaceMask  uint16 `json:"raceMask"`
 	ClassMask uint16 `json:"classMask"`
@@ -127,11 +127,11 @@ func (wi WowheadItem) ToProto() *proto.UIItem {
 	}
 
 	return &proto.UIItem{
-		Id:                 wi.ID,
-		Name:               wi.Name,
-		Icon:               wi.Icon,
-		Ilvl:               wi.Ilvl,
-		Phase:              wi.Phase,
+		Id:   wi.ID,
+		Name: wi.Name,
+		Icon: wi.Icon,
+		Ilvl: wi.Ilvl,
+		//Expansion:              wi.Ex,
 		FactionRestriction: wi.getFactionRstriction(),
 		ClassAllowlist:     wi.getClassRestriction(),
 		Sources:            sources,

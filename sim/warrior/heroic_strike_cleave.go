@@ -3,9 +3,16 @@ package warrior
 import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/warriorinfo"
 )
 
 func (warrior *Warrior) registerHeroicStrikeSpell() {
+	dbc := warriorinfo.HeroicStrike.GetMaxRank(warrior.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, warrior.Level)
+
 	hasGlyph := warrior.HasMajorGlyph(proto.WarriorMajorGlyph_GlyphOfHeroicStrike)
 	var rageMetrics *core.ResourceMetrics
 	if hasGlyph {
@@ -13,7 +20,8 @@ func (warrior *Warrior) registerHeroicStrikeSpell() {
 	}
 
 	warrior.HeroicStrike = warrior.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 47450},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  warriorinfo.HeroicStrike.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagNoOnCastComplete | SpellFlagBloodsurge,
@@ -23,14 +31,14 @@ func (warrior *Warrior) registerHeroicStrikeSpell() {
 			Refund: 0.8,
 		},
 
-		BonusCritRating:  (5*float64(warrior.Talents.Incite) + core.TernaryFloat64(warrior.HasSetBonus(ItemSetWrynnsBattlegear, 4), 5, 0)) * core.CritRatingPerCritChance,
+		BonusCrit:        (5*float64(warrior.Talents.Incite) + core.TernaryFloat64(warrior.HasSetBonus(ItemSetWrynnsBattlegear, 4), 5, 0)),
 		DamageMultiplier: 1,
 		CritMultiplier:   warrior.critMultiplier(mh),
 		ThreatMultiplier: 1,
 		FlatThreatBonus:  259,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 495 +
+			baseDamage := bp +
 				spell.Unit.MHWeaponDamage(sim, spell.MeleeAttackPower()) +
 				spell.BonusWeaponDamage()
 
@@ -52,14 +60,21 @@ func (warrior *Warrior) registerHeroicStrikeSpell() {
 }
 
 func (warrior *Warrior) registerCleaveSpell() {
-	flatDamageBonus := 222 * (1 + 0.4*float64(warrior.Talents.ImprovedCleave))
+	dbc := warriorinfo.Cleave.GetMaxRank(warrior.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, warrior.Level)
+
+	flatDamageBonus := bp * (1 + 0.4*float64(warrior.Talents.ImprovedCleave))
 
 	targets := core.TernaryInt32(warrior.HasMajorGlyph(proto.WarriorMajorGlyph_GlyphOfCleaving), 3, 2)
 	numHits := min(targets, warrior.Env.GetNumTargets())
 	results := make([]*core.SpellResult, numHits)
 
 	warrior.Cleave = warrior.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 47520},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  warriorinfo.Cleave.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage,
@@ -68,7 +83,7 @@ func (warrior *Warrior) registerCleaveSpell() {
 			Cost: 20 - float64(warrior.Talents.FocusedRage),
 		},
 
-		BonusCritRating:  float64(warrior.Talents.Incite) * 5 * core.CritRatingPerCritChance,
+		BonusCrit:        float64(warrior.Talents.Incite) * 5,
 		DamageMultiplier: 1,
 		CritMultiplier:   warrior.critMultiplier(mh),
 		ThreatMultiplier: 1,

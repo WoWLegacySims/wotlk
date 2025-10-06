@@ -4,10 +4,15 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/druidinfo"
 )
 
 func (druid *Druid) registerSwipeBearSpell() {
-	flatBaseDamage := 108.0
+	dbc := druidinfo.SwipeBear.GetMaxRank(druid.Level)
+	if dbc == nil {
+		return
+	}
+	flatBaseDamage, _ := dbc.GetBPDie(0, druid.Level)
 	if druid.Ranged().ID == 23198 { // Idol of Brutality
 		flatBaseDamage += 10
 	} else if druid.Ranged().ID == 38365 { // Idol of Perspicacious Attacks
@@ -19,7 +24,8 @@ func (druid *Druid) registerSwipeBearSpell() {
 	fidm := 1.0 + 0.1*float64(druid.Talents.FeralInstinct)
 
 	druid.SwipeBear = druid.RegisterSpell(Bear, core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 48562},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  druidinfo.SwipeBear.GetAllIDs(),
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
 		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagAPL,
@@ -49,6 +55,9 @@ func (druid *Druid) registerSwipeBearSpell() {
 }
 
 func (druid *Druid) registerSwipeCatSpell() {
+	if druid.Level < 71 {
+		return
+	}
 	weaponMulti := 2.5
 	fidm := 1.0 + 0.1*float64(druid.Talents.FeralInstinct)
 

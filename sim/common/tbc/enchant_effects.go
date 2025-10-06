@@ -5,16 +5,10 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/common/helpers"
 	"github.com/WoWLegacySims/wotlk/sim/core"
-	"github.com/WoWLegacySims/wotlk/sim/core/proto"
 	"github.com/WoWLegacySims/wotlk/sim/core/stats"
 )
 
 func init() {
-	core.AddEffectsToTest = false
-	// Keep these in order by item ID.
-
-	helpers.AddWeaponDamageEnchant(1896, 9)
-
 	core.NewEnchantEffect(2523, func(agent core.Agent) {
 		agent.GetCharacter().AddBonusRangedHitRating(30)
 	})
@@ -24,24 +18,23 @@ func init() {
 
 	core.NewEnchantEffect(2671, func(agent core.Agent) {
 		// Sunfire
-		agent.GetCharacter().OnSpellRegistered(func(spell *core.Spell) {
-			if spell.SpellSchool.Matches(core.SpellSchoolArcane | core.SpellSchoolFire) {
-				spell.BonusSpellPower += 50
-			}
-		})
+		agent.GetCharacter().PseudoStats.ArcaneSpellPower += 50
+		agent.GetCharacter().PseudoStats.FireSpellPower += 50
 	})
 	core.NewEnchantEffect(2672, func(agent core.Agent) {
 		// Soulfrost
-		agent.GetCharacter().OnSpellRegistered(func(spell *core.Spell) {
-			if spell.SpellSchool.Matches(core.SpellSchoolFrost | core.SpellSchoolShadow) {
-				spell.BonusSpellPower += 54
-			}
-		})
+		agent.GetCharacter().PseudoStats.ArcaneSpellPower += 54
+		agent.GetCharacter().PseudoStats.FireSpellPower += 54
 	})
 
 	core.NewEnchantEffect(2929, func(agent core.Agent) {
 		agent.GetCharacter().PseudoStats.BonusDamage += 2
 	})
+
+	helpers.AddShieldSpike(2714, 23530, "Felsteel Shield Spike", 25, 13)
+
+	helpers.AddScope(2722, 10)
+	helpers.AddScope(2723, 12)
 
 	// ApplyMongooseEffect will be applied twice if there is two weapons with this enchant.
 	//   However, it will automatically overwrite one of them, so it should be ok.
@@ -79,10 +72,71 @@ func init() {
 		character.ItemSwap.RegisterOnSwapItemForEffectWithPPMManager(2673, 0.73, &ppmm, aura)
 	})
 
-	core.AddWeaponEffect(2723, func(agent core.Agent, _ proto.ItemSlot) {
-		w := agent.GetCharacter().AutoAttacks.Ranged()
-		w.BaseDamageMin += 12
-		w.BaseDamageMax += 12
+	core.NewEnchantEffect(2674, func(a core.Agent) {
+		character := a.GetCharacter()
+
+		procMask := character.GetProcMaskForEnchant(2674)
+		manaMetrics := character.NewManaMetrics(core.ActionID{SpellID: 27996})
+
+		procSpell := character.RegisterSpell(core.SpellConfig{
+			ActionID:    core.ActionID{SpellID: 27996},
+			SpellSchool: core.SpellSchoolPhysical,
+			ProcMask:    core.ProcMaskEmpty,
+			ApplyEffects: func(sim *core.Simulation, _ *core.Unit, spell *core.Spell) {
+				for _, c := range character.Party.PlayersAndPets {
+					c.GetCharacter().AddMana(sim, 100, manaMetrics)
+				}
+			},
+		})
+
+		aura := core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			Name:       "Spellsurge",
+			Callback:   core.CallbackOnSpellHitDealt,
+			ProcMask:   procMask,
+			Outcome:    core.OutcomeLanded,
+			ProcChance: 0.15,
+			ICD:        time.Second * 50,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				procSpell.Cast(sim, result.Target)
+			},
+		})
+
+		character.ItemSwap.RegisterOnSwapItemForEnchantEffect(2674, aura)
+	})
+
+	core.NewEnchantEffect(2675, func(a core.Agent) {
+		character := a.GetCharacter()
+
+		procMask := character.GetProcMaskForEnchant(2674)
+
+		procSpell := character.RegisterSpell(core.SpellConfig{
+			ActionID:         core.ActionID{SpellID: 28005},
+			SpellSchool:      core.SpellSchoolArcane,
+			ProcMask:         core.ProcMaskEmpty,
+			DamageMultiplier: 1,
+			CritMultiplier:   character.DefaultSpellCritMultiplier(),
+			ThreatMultiplier: 1,
+			ApplyEffects: func(sim *core.Simulation, _ *core.Unit, spell *core.Spell) {
+				for _, c := range character.Party.PlayersAndPets {
+					heal := sim.Roll(179, 221)
+					spell.CalcAndDealHealing(sim, &c.GetCharacter().Unit, heal, spell.OutcomeMagicHitAndCrit)
+				}
+			},
+		})
+
+		aura := core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			Name:     "Battlemaster",
+			Callback: core.CallbackOnSpellHitDealt,
+			ProcMask: procMask,
+			Outcome:  core.OutcomeLanded,
+			PPM:      1,
+			ICD:      time.Second * 50,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				procSpell.Cast(sim, result.Target)
+			},
+		})
+
+		character.ItemSwap.RegisterOnSwapItemForEnchantEffect(2675, aura)
 	})
 
 	core.NewEnchantEffect(3225, func(agent core.Agent) {
@@ -205,6 +259,4 @@ func init() {
 			applyDeathfrostForWeapon(character, procSpell, false)
 		}
 	})
-
-	core.AddEffectsToTest = true
 }

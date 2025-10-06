@@ -1,6 +1,7 @@
 package core
 
 import (
+	"strings"
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
@@ -155,6 +156,19 @@ type Unit struct {
 
 	// The currently-channeled DOT spell, otherwise nil.
 	ChanneledDot *Dot
+
+	ExpertisePerQuarterPercentReduction    float64
+	HasteRatingPerHastePercent             float64
+	CritRatingPerCritChance                float64
+	MeleeHitRatingPerHitChance             float64
+	SpellHitRatingPerHitChance             float64
+	DefenseRatingPerDefense                float64
+	DodgeRatingPerDodgeChance              float64
+	ParryRatingPerParryChance              float64
+	BlockRatingPerBlockChance              float64
+	ResilienceRatingPerCritReductionChance float64
+	CritPerAgi                             float64
+	ArmorPenPerPercentArmor                float64
 }
 
 // Units can be disabled for several reasons:
@@ -238,6 +252,48 @@ func (unit *Unit) AddStatsDynamic(sim *Simulation, bonus stats.Stats) {
 	unit.processDynamicBonus(sim, bonus)
 }
 
+func (unit *Unit) AddPseudoSpellpowerDynamic(sim *Simulation, school SpellSchool, amount float64) {
+	if unit.Env == nil {
+		panic("Environment not constructed.")
+	} else if !unit.Env.IsFinalized() && !unit.Env.MeasuringStats {
+		panic("Not finalized, use AddStats instead!")
+	}
+	bonus := stats.PseudoStats{}
+	names := []string{}
+	if school&SpellSchoolArcane != 0 {
+		bonus.ArcaneSpellPower += amount
+		names = append(names, "Arcane")
+	}
+	if school&SpellSchoolFire != 0 {
+		bonus.FireSpellPower += amount
+		names = append(names, "Fire")
+	}
+	if school&SpellSchoolFrost != 0 {
+		bonus.FrostSpellPower += amount
+		names = append(names, "Frost")
+	}
+	if school&SpellSchoolHoly != 0 {
+		bonus.HolySpellPower += amount
+		names = append(names, "Holy")
+	}
+	if school&SpellSchoolNature != 0 {
+		bonus.NatureSpellPower += amount
+		names = append(names, "Nature")
+	}
+	if school&SpellSchoolShadow != 0 {
+		bonus.ShadowSpellPower += amount
+		names = append(names, "Shadow")
+	}
+
+	if sim.Log != nil {
+		unit.Log(sim, "Dynamic spellpower change %s: %d", strings.Join(names, ","), amount)
+	}
+
+	for _, pet := range unit.DynamicStatsPets {
+		pet.addOwnerPseudoStats(sim, bonus)
+	}
+}
+
 func (unit *Unit) AddStatDynamic(sim *Simulation, stat stats.Stat, amount float64) {
 	bonus := stats.Stats{}
 	bonus[stat] = amount
@@ -312,7 +368,7 @@ func (unit *Unit) SpellGCD() time.Duration {
 }
 
 func (unit *Unit) updateCastSpeed() {
-	unit.CastSpeed = 1 / (unit.PseudoStats.CastSpeedMultiplier * (1 + (unit.stats[stats.SpellHaste] / (HasteRatingPerHastePercent * 100))))
+	unit.CastSpeed = 1 / (unit.PseudoStats.CastSpeedMultiplier * (1 + (unit.stats[stats.SpellHaste] / (unit.HasteRatingPerHastePercent * 100))))
 }
 func (unit *Unit) MultiplyCastSpeed(amount float64) {
 	unit.PseudoStats.CastSpeedMultiplier *= amount
@@ -338,12 +394,22 @@ func (unit *Unit) BlockValue() float64 {
 	return unit.PseudoStats.BlockValueMultiplier * unit.stats[stats.BlockValue]
 }
 
+func (unit *Unit) GetShieldBlockValue(softcap float64, hardcap float64) float64 {
+	value := unit.BlockValue()
+	if value >= hardcap {
+		value = (softcap + hardcap) / 2
+	} else if value > softcap {
+		value = softcap + ((value - softcap) / 2)
+	}
+	return value
+}
+
 func (unit *Unit) ArmorPenetrationPercentage(armorPenRating float64) float64 {
-	return max(min(armorPenRating/ArmorPenPerPercentArmor, 100.0)*0.01, 0.0)
+	return max(min(armorPenRating/unit.ArmorPenPerPercentArmor, 100.0)*0.01, 0.0)
 }
 
 func (unit *Unit) RangedSwingSpeed() float64 {
-	return unit.PseudoStats.RangedSpeedMultiplier * (1 + (unit.stats[stats.MeleeHaste] / (HasteRatingPerHastePercent * 100)))
+	return unit.PseudoStats.RangedSpeedMultiplier * (1 + (unit.stats[stats.MeleeHaste] / (unit.HasteRatingPerHastePercent * 100)))
 }
 
 // MultiplyMeleeSpeed will alter the attack speed multiplier and change swing speed of all autoattack swings in progress.
@@ -375,14 +441,14 @@ func (unit *Unit) MultiplyAttackSpeed(sim *Simulation, amount float64) {
 func (unit *Unit) AddBonusRangedHitRating(amount float64) {
 	unit.OnSpellRegistered(func(spell *Spell) {
 		if spell.ProcMask.Matches(ProcMaskRanged) {
-			spell.BonusHitRating += amount
+			spell.BonusHit += amount / unit.MeleeHitRatingPerHitChance
 		}
 	})
 }
 func (unit *Unit) AddBonusRangedCritRating(amount float64) {
 	unit.OnSpellRegistered(func(spell *Spell) {
 		if spell.ProcMask.Matches(ProcMaskRanged) {
-			spell.BonusCritRating += amount
+			spell.BonusCrit += amount / unit.CritRatingPerCritChance
 		}
 	})
 }

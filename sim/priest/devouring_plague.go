@@ -5,10 +5,18 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/priestinfo"
 )
 
 func (priest *Priest) registerDevouringPlagueSpell() {
-	actionID := core.ActionID{SpellID: 48300}
+	dbc := priestinfo.DevouringPlague.GetMaxRank(priest.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, priest.Level)
+	coef := dbc.GetCoefficient(0) * dbc.GetLevelPenalty(priest.Level)
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 	mentalAgility := []float64{0, .04, .07, .10}[priest.Talents.MentalAgility]
 	shadowFocus := 0.02 * float64(priest.Talents.ShadowFocus)
 	priest.DpInitMultiplier = 8 * 0.1 * float64(priest.Talents.ImprovedDevouringPlague)
@@ -22,10 +30,10 @@ func (priest *Priest) registerDevouringPlagueSpell() {
 			ProcMask:    core.ProcMaskSuppressedProc, // this can proc things like Talisman of Volatile Power
 			Flags:       core.SpellFlagDisease,
 
-			BonusHitRating: float64(priest.Talents.ShadowFocus) * 1 * core.SpellHitRatingPerHitChance,
-			BonusCritRating: 0 +
-				3*float64(priest.Talents.MindMelt)*core.CritRatingPerCritChance +
-				core.TernaryFloat64(priest.HasSetBonus(ItemSetCrimsonAcolyte, 2), 5, 0)*core.CritRatingPerCritChance,
+			BonusHit: float64(priest.Talents.ShadowFocus),
+			BonusCrit: 0 +
+				3*float64(priest.Talents.MindMelt) +
+				core.TernaryFloat64(priest.HasSetBonus(ItemSetCrimsonAcolyte, 2), 5, 0),
 			DamageMultiplier: 1 +
 				0.02*float64(priest.Talents.Darkness) +
 				0.01*float64(priest.Talents.TwinDisciplines) +
@@ -35,7 +43,7 @@ func (priest *Priest) registerDevouringPlagueSpell() {
 			ThreatMultiplier: 1 - 0.05*float64(priest.Talents.ShadowAffinity),
 
 			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-				baseDamage := (1376/8 + 0.1849*spell.SpellPower()) * priest.DpInitMultiplier
+				baseDamage := (bp + coef*spell.SpellPower()) * priest.DpInitMultiplier
 				result := spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 
 				if result.DidCrit() && hasGlyphOfShadow {
@@ -47,6 +55,7 @@ func (priest *Priest) registerDevouringPlagueSpell() {
 
 	priest.DevouringPlague = priest.RegisterSpell(core.SpellConfig{
 		ActionID:    actionID,
+		SpellRanks:  priestinfo.DevouringPlague.GetAllIDs(),
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
 		Flags:       core.SpellFlagDisease | core.SpellFlagAPL,
@@ -61,10 +70,10 @@ func (priest *Priest) registerDevouringPlagueSpell() {
 			},
 		},
 
-		BonusHitRating: float64(priest.Talents.ShadowFocus) * 1 * core.SpellHitRatingPerHitChance,
-		BonusCritRating: 0 +
-			3*float64(priest.Talents.MindMelt)*core.CritRatingPerCritChance +
-			core.TernaryFloat64(priest.HasSetBonus(ItemSetCrimsonAcolyte, 2), 5, 0)*core.CritRatingPerCritChance,
+		BonusHit: float64(priest.Talents.ShadowFocus) * 1,
+		BonusCrit: 0 +
+			3*float64(priest.Talents.MindMelt) +
+			core.TernaryFloat64(priest.HasSetBonus(ItemSetCrimsonAcolyte, 2), 5, 0),
 		DamageMultiplier: 1 +
 			0.02*float64(priest.Talents.Darkness) +
 			0.01*float64(priest.Talents.TwinDisciplines) +
@@ -83,7 +92,7 @@ func (priest *Priest) registerDevouringPlagueSpell() {
 			AffectedByCastSpeed: priest.Talents.Shadowform,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, _ bool) {
-				dot.SnapshotBaseDamage = 1376/8 + 0.1849*dot.Spell.SpellPower()
+				dot.SnapshotBaseDamage = bp + coef*dot.Spell.SpellPower()
 				dot.SnapshotCritChance = dot.Spell.SpellCritChance(target)
 				dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(dot.Spell.Unit.AttackTables[target.UnitIndex])
 			},
@@ -119,7 +128,7 @@ func (priest *Priest) registerDevouringPlagueSpell() {
 					return dot.CalcSnapshotDamage(sim, target, spell.OutcomeExpectedMagicAlwaysHit)
 				}
 			} else {
-				baseDamage := 1376/8 + 0.1849*spell.SpellPower()
+				baseDamage := bp + coef*spell.SpellPower()
 				if priest.Talents.Shadowform {
 					return spell.CalcPeriodicDamage(sim, target, baseDamage, spell.OutcomeExpectedMagicCrit)
 				} else {

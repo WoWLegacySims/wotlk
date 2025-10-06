@@ -7,7 +7,7 @@ import (
 )
 
 func (priest *Priest) registerShadowfiendSpell() {
-	if !priest.UseShadowfiend {
+	if !priest.UseShadowfiend || priest.Level < 66 {
 		return
 	}
 
@@ -17,7 +17,7 @@ func (priest *Priest) registerShadowfiendSpell() {
 	priest.ShadowfiendAura = priest.RegisterAura(core.Aura{
 		ActionID: actionID,
 		Label:    "Shadowfiend",
-		Duration: time.Second * 15.0,
+		Duration: time.Second*15.0 + core.TernaryDuration(priest.HasSetBonus(ItemSetIncarnateRegalia, 2), time.Second*3, 0.0),
 	})
 
 	priest.Shadowfiend = priest.RegisterSpell(core.SpellConfig{

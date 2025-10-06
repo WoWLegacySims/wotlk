@@ -4,9 +4,17 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/priestinfo"
 )
 
 func (priest *Priest) registerVampiricTouchSpell() {
+	dbc := priestinfo.VampiricTouch.GetMaxRank(priest.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(1, priest.Level)
+	coef := dbc.GetCoefficient(1) * dbc.GetLevelPenalty(priest.Level)
+
 	shadowFocus := 0.02 * float64(priest.Talents.ShadowFocus)
 
 	priest.VampiricTouch = priest.RegisterSpell(core.SpellConfig{
@@ -26,8 +34,8 @@ func (priest *Priest) registerVampiricTouchSpell() {
 			},
 		},
 
-		BonusHitRating:   float64(priest.Talents.ShadowFocus) * 1 * core.SpellHitRatingPerHitChance,
-		BonusCritRating:  float64(priest.Talents.MindMelt)*3*core.CritRatingPerCritChance + core.TernaryFloat64(priest.HasSetBonus(ItemSetCrimsonAcolyte, 2), 5, 0)*core.CritRatingPerCritChance,
+		BonusHit:         float64(priest.Talents.ShadowFocus),
+		BonusCrit:        float64(priest.Talents.MindMelt)*3 + core.TernaryFloat64(priest.HasSetBonus(ItemSetCrimsonAcolyte, 2), 5, 0),
 		DamageMultiplier: 1 + float64(priest.Talents.Darkness)*0.02,
 		CritMultiplier:   priest.SpellCritMultiplier(1, 1),
 		ThreatMultiplier: 1 - 0.08*float64(priest.Talents.ShadowAffinity),
@@ -41,7 +49,7 @@ func (priest *Priest) registerVampiricTouchSpell() {
 			AffectedByCastSpeed: priest.Talents.Shadowform,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, _ bool) {
-				dot.SnapshotBaseDamage = 850/5 + 0.4*dot.Spell.SpellPower()
+				dot.SnapshotBaseDamage = bp + coef*dot.Spell.SpellPower()
 				dot.SnapshotCritChance = dot.Spell.SpellCritChance(target)
 				dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(dot.Spell.Unit.AttackTables[target.UnitIndex])
 			},
@@ -72,7 +80,7 @@ func (priest *Priest) registerVampiricTouchSpell() {
 					return dot.CalcSnapshotDamage(sim, target, spell.OutcomeExpectedMagicAlwaysHit)
 				}
 			} else {
-				baseDamage := 850/5 + 0.4*spell.SpellPower()
+				baseDamage := bp + coef*spell.SpellPower()
 				if priest.Talents.Shadowform {
 					return spell.CalcPeriodicDamage(sim, target, baseDamage, spell.OutcomeExpectedMagicCrit)
 				} else {

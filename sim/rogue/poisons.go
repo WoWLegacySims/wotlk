@@ -6,6 +6,7 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/rogueinfo"
 )
 
 func (rogue *Rogue) applyPoisons() {
@@ -16,12 +17,12 @@ func (rogue *Rogue) applyPoisons() {
 
 func (rogue *Rogue) registerPoisonAuras() {
 	if rogue.Talents.SavageCombat > 0 {
-		rogue.savageCombatDebuffAuras = rogue.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+		rogue.savageCombatDebuffAuras = rogue.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 			return core.SavageCombatAura(target, rogue.Talents.SavageCombat)
 		})
 	}
 	if rogue.Talents.MasterPoisoner > 0 {
-		rogue.masterPoisonerDebuffAuras = rogue.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+		rogue.masterPoisonerDebuffAuras = rogue.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 			aura := core.MasterPoisonerDebuff(target, rogue.Talents.MasterPoisoner)
 			aura.Duration = core.NeverExpires
 			return aura
@@ -30,13 +31,20 @@ func (rogue *Rogue) registerPoisonAuras() {
 }
 
 func (rogue *Rogue) registerDeadlyPoisonSpell() {
+	dbc := rogueinfo.DeadlyPoison.GetMaxRank(rogue.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(0, rogue.Level)
+
 	var energyMetrics *core.ResourceMetrics
 	if rogue.HasSetBonus(Tier8, 2) {
 		energyMetrics = rogue.NewEnergyMetrics(core.ActionID{SpellID: 64913})
 	}
 
 	rogue.DeadlyPoison = rogue.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 57970},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID},
+		SpellRanks:  rogueinfo.DeadlyPoison.GetAllIDs(),
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskWeaponProc,
 
@@ -70,7 +78,7 @@ func (rogue *Rogue) registerDeadlyPoisonSpell() {
 
 			OnSnapshot: func(_ *core.Simulation, target *core.Unit, dot *core.Dot, _ bool) {
 				if stacks := dot.GetStacks(); stacks > 0 {
-					dot.SnapshotBaseDamage = (74 + 0.027*dot.Spell.MeleeAttackPower()) * float64(stacks)
+					dot.SnapshotBaseDamage = (bp + 0.027*dot.Spell.MeleeAttackPower()) * float64(stacks)
 					attackTable := dot.Spell.Unit.AttackTables[target.UnitIndex]
 					dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(attackTable)
 				}
@@ -145,7 +153,7 @@ func (rogue *Rogue) getPoisonProcMask(imbue proto.Rogue_Options_PoisonImbue) cor
 
 func (rogue *Rogue) applyDeadlyPoison() {
 	procMask := rogue.getPoisonProcMask(proto.Rogue_Options_DeadlyPoison)
-	if procMask == core.ProcMaskUnknown {
+	if procMask == core.ProcMaskUnknown || rogue.Level < 30 {
 		return
 	}
 
@@ -168,7 +176,7 @@ func (rogue *Rogue) applyDeadlyPoison() {
 
 func (rogue *Rogue) applyWoundPoison() {
 	procMask := rogue.getPoisonProcMask(proto.Rogue_Options_WoundPoison)
-	if procMask == core.ProcMaskUnknown {
+	if procMask == core.ProcMaskUnknown || rogue.Level < 32 {
 		return
 	}
 
@@ -202,10 +210,16 @@ const (
 )
 
 func (rogue *Rogue) makeInstantPoison(procSource PoisonProcSource) *core.Spell {
+	dbc := rogueinfo.InstantPoison.GetMaxRank(rogue.Level)
+	if dbc == nil {
+		return nil
+	}
+	bp, die := dbc.GetBPDie(0, rogue.Level)
+
 	isShivProc := procSource == ShivProc
 
 	return rogue.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 57965, Tag: int32(procSource)},
+		ActionID:    core.ActionID{SpellID: dbc.SpellID, Tag: int32(procSource)},
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskWeaponProc,
 
@@ -214,7 +228,7 @@ func (rogue *Rogue) makeInstantPoison(procSource PoisonProcSource) *core.Spell {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(300, 400) + 0.09*spell.MeleeAttackPower()
+			baseDamage := sim.Roll(bp, die) + 0.09*spell.MeleeAttackPower()
 			if isShivProc {
 				spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMagicHit)
 			} else {
@@ -224,11 +238,11 @@ func (rogue *Rogue) makeInstantPoison(procSource PoisonProcSource) *core.Spell {
 	})
 }
 
-func (rogue *Rogue) makeWoundPoison(procSource PoisonProcSource) *core.Spell {
+func (rogue *Rogue) makeWoundPoison(procSource PoisonProcSource, dmg float64, id int32) *core.Spell {
 	isShivProc := procSource == ShivProc
 
 	return rogue.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 57975, Tag: int32(procSource)},
+		ActionID:    core.ActionID{SpellID: id, Tag: int32(procSource)},
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskWeaponProc,
 
@@ -237,7 +251,7 @@ func (rogue *Rogue) makeWoundPoison(procSource PoisonProcSource) *core.Spell {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := 231 + 0.036*spell.MeleeAttackPower()
+			baseDamage := dmg + 0.036*spell.MeleeAttackPower()
 
 			var result *core.SpellResult
 			if isShivProc {
@@ -253,13 +267,19 @@ func (rogue *Rogue) makeWoundPoison(procSource PoisonProcSource) *core.Spell {
 	})
 }
 
-var WoundPoisonActionID = core.ActionID{SpellID: 57975}
-
 func (rogue *Rogue) registerWoundPoisonSpell() {
+	dbc := rogueinfo.WoundPoison.GetMaxRank(rogue.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(1, rogue.Level)
+	id := dbc.SpellID
+
 	woundPoisonDebuffAura := core.Aura{
-		Label:    "WoundPoison-" + strconv.Itoa(int(rogue.Index)),
-		ActionID: WoundPoisonActionID,
-		Duration: time.Second * 15,
+		Label:     "WoundPoison-" + strconv.Itoa(int(rogue.Index)),
+		ActionID:  core.ActionID{SpellID: id},
+		AuraRanks: rogueinfo.WoundPoison.GetAllIDs(),
+		Duration:  time.Second * 15,
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
 			if rogue.Talents.SavageCombat > 0 {
 				rogue.savageCombatDebuffAuras.Get(aura.Unit).Activate(sim)
@@ -278,13 +298,13 @@ func (rogue *Rogue) registerWoundPoisonSpell() {
 		},
 	}
 
-	rogue.woundPoisonDebuffAuras = rogue.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
+	rogue.woundPoisonDebuffAuras = rogue.NewEnemyAuraArray(func(target *core.Unit, _ int32) *core.Aura {
 		return target.RegisterAura(woundPoisonDebuffAura)
 	})
 	rogue.WoundPoison = [3]*core.Spell{
-		rogue.makeWoundPoison(NormalProc),
-		rogue.makeWoundPoison(DeadlyProc),
-		rogue.makeWoundPoison(ShivProc),
+		rogue.makeWoundPoison(NormalProc, bp, id),
+		rogue.makeWoundPoison(DeadlyProc, bp, id),
+		rogue.makeWoundPoison(ShivProc, bp, id),
 	}
 }
 
@@ -314,7 +334,7 @@ func (rogue *Rogue) UpdateInstantPoisonPPM(bonusChance float64) {
 
 func (rogue *Rogue) applyInstantPoison() {
 	procMask := rogue.getPoisonProcMask(proto.Rogue_Options_InstantPoison)
-	if procMask == core.ProcMaskUnknown {
+	if procMask == core.ProcMaskUnknown || rogue.Level < 20 {
 		return
 	}
 

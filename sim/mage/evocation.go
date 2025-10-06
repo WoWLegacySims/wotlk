@@ -7,6 +7,9 @@ import (
 )
 
 func (mage *Mage) registerEvocation() {
+	if mage.Level < 20 {
+		return
+	}
 	actionID := core.ActionID{SpellID: 12051}
 	maxTicks := core.TernaryInt32(mage.HasSetBonus(ItemSetTempestRegalia, 2), 5, 4)
 	manaMetrics := mage.NewManaMetrics(actionID)

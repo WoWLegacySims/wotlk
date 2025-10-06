@@ -5,14 +5,24 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/rogueinfo"
 )
 
 func (rogue *Rogue) registerSliceAndDice() {
-	actionID := core.ActionID{SpellID: 6774}
+	dbc := rogueinfo.SliceandDice.GetMaxRank(rogue.Level)
+	if dbc == nil {
+		return
+	}
+	bp, _ := dbc.GetBPDie(1, rogue.Level)
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 
 	durationMultiplier := 1.0 + 0.25*float64(rogue.Talents.ImprovedSliceAndDice)
 	durationBonus := time.Duration(0)
 	if rogue.HasMajorGlyph(proto.RogueMajorGlyph_GlyphOfSliceAndDice) {
+		durationBonus += time.Second * 3
+	}
+	if rogue.HasSetBonus(Tier4, 2) {
 		durationBonus += time.Second * 3
 	}
 	rogue.sliceAndDiceDurations = [6]time.Duration{
@@ -24,7 +34,7 @@ func (rogue *Rogue) registerSliceAndDice() {
 		time.Duration(float64(time.Second*21+durationBonus) * durationMultiplier),
 	}
 
-	hasteBonus := 1.4
+	hasteBonus := 1 + (bp / 100)
 	if rogue.HasSetBonus(Tier6, 2) {
 		hasteBonus += 0.05
 	}
@@ -45,6 +55,7 @@ func (rogue *Rogue) registerSliceAndDice() {
 
 	rogue.SliceAndDice = rogue.RegisterSpell(core.SpellConfig{
 		ActionID:     actionID,
+		SpellRanks:   rogueinfo.SliceandDice.GetAllIDs(),
 		Flags:        SpellFlagFinisher | core.SpellFlagAPL,
 		MetricSplits: 6,
 
@@ -58,6 +69,7 @@ func (rogue *Rogue) registerSliceAndDice() {
 			IgnoreHaste: true,
 			ModifyCast: func(sim *core.Simulation, spell *core.Spell, cast *core.Cast) {
 				spell.SetMetricsSplit(spell.Unit.ComboPoints())
+				rogue.applyDeathmantle(sim, spell, cast)
 			},
 		},
 		ExtraCastCondition: func(sim *core.Simulation, target *core.Unit) bool {

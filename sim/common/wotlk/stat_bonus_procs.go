@@ -9,6 +9,7 @@ import (
 )
 
 func init() {
+	core.AddEffectsToTest = false
 	// Keep these separated by stat, ordered by item ID within each group.
 	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
 		Name:       "Meteorite Whetstone",
@@ -22,17 +23,17 @@ func init() {
 		ProcChance: 0.15,
 		ICD:        time.Second * 45,
 	})
-	//helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
-	//	Name:       "Serrah's Star",
-	//	ID:         37559,
-	//	Bonus:      stats.Stats{stats.MeleeCrit: 167, stats.SpellCrit: 167},
-	//	Duration:   time.Second * 10,
-	//	Callback: core.CallbackOnSpellHitDealt,
-	//	ProcMask:   core.ProcMaskSpellDamage,
-	//	Outcome:    core.OutcomeCrit,
-	//	ProcChance: 0.45,
-	//	ICD:        time.Second * 45,
-	//})
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:       "Serrah's Star",
+		ID:         37559,
+		Bonus:      stats.Stats{stats.MeleeCrit: 167, stats.SpellCrit: 167},
+		Duration:   time.Second * 10,
+		Callback:   core.CallbackOnSpellHitDealt,
+		ProcMask:   core.ProcMaskSpellDamage,
+		Outcome:    core.OutcomeCrit,
+		ProcChance: 0.45,
+		ICD:        time.Second * 45,
+	})
 	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
 		Name:       "Spark of Life",
 		ID:         37657,
@@ -56,8 +57,6 @@ func init() {
 		ICD:        time.Second * 45,
 	})
 
-	core.AddEffectsToTest = false
-
 	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
 		Name:       "Je'Tze's Bell",
 		ID:         37835,
@@ -68,17 +67,17 @@ func init() {
 		ProcChance: 0.10,
 		ICD:        time.Second * 50,
 	})
-	//helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
-	//	Name:       "Valonforth's Remembrance",
-	//	ID:         38071,
-	//	Bonus:      stats.Stats{stats.Spirit: 222},
-	//	Duration:   time.Second * 10,
-	//	Callback: core.CallbackOnSpellHitDealt,
-	//	ProcMask:   core.ProcMaskSpellDamage,
-	//	Outcome:    core.OutcomeLanded,
-	//	ProcChance: 0.15,
-	//	ICD:        time.Second * 45,
-	//})
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:       "Valonforth's Remembrance",
+		ID:         38071,
+		Bonus:      stats.Stats{stats.Spirit: 222},
+		Duration:   time.Second * 10,
+		Callback:   core.CallbackOnSpellHitDealt,
+		ProcMask:   core.ProcMaskSpellDamage,
+		Outcome:    core.OutcomeLanded,
+		ProcChance: 0.15,
+		ICD:        time.Second * 45,
+	})
 	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
 		Name:       "Embrace of the Spider",
 		ID:         39229,
@@ -438,6 +437,26 @@ func init() {
 		ICD:        time.Second * 45,
 	})
 	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:       "Burnished Quel'Serrar",
+		ID:         49303,
+		AuraID:     69207,
+		Bonus:      stats.Stats{stats.Defense: 100, stats.BonusArmor: 1400},
+		Duration:   time.Second * 10,
+		Callback:   core.CallbackOnSpellHitDealt,
+		ProcChance: 0.0378,
+		Weapon:     true,
+	})
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		Name:       "Burnished Quel'Serrar",
+		ID:         49495,
+		AuraID:     69208,
+		Bonus:      stats.Stats{stats.Defense: 110, stats.BonusArmor: 1550},
+		Duration:   time.Second * 10,
+		Callback:   core.CallbackOnSpellHitDealt,
+		ProcChance: 0.0378,
+		Weapon:     true,
+	})
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
 		Name:       "Needle-Encrusted Scorpion",
 		ID:         50198,
 		AuraID:     71403,
@@ -527,6 +546,32 @@ func init() {
 		Duration:   time.Second * 10,
 		Callback:   core.CallbackOnSpellHitDealt,
 		ProcMask:   core.ProcMaskSpellDamage,
+		Outcome:    core.OutcomeLanded,
+		ProcChance: 0.10,
+		ICD:        time.Second * 60,
+	})
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		// Ashen Band of Unmatched Wisdom
+		Name:       "Frostforged Healer",
+		ID:         50399,
+		AuraID:     72419,
+		Bonus:      stats.Stats{stats.SpellPower: 285},
+		Duration:   time.Second * 10,
+		Callback:   core.CallbackOnHealDealt,
+		ProcMask:   core.ProcMaskSpellHealing,
+		Outcome:    core.OutcomeLanded,
+		ProcChance: 0.10,
+		ICD:        time.Second * 60,
+	})
+	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
+		// Ashen Band of Endless Wisdom
+		Name:       "Frostforged Healer",
+		ID:         50400,
+		AuraID:     72419,
+		Bonus:      stats.Stats{stats.SpellPower: 285},
+		Duration:   time.Second * 10,
+		Callback:   core.CallbackOnHealDealt,
+		ProcMask:   core.ProcMaskSpellHealing,
 		Outcome:    core.OutcomeLanded,
 		ProcChance: 0.10,
 		ICD:        time.Second * 60,
@@ -655,6 +700,5 @@ func init() {
 		ProcChance: 0.10,
 		ICD:        time.Second * 50,
 	})
-
 	core.AddEffectsToTest = true
 }

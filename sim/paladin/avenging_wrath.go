@@ -8,6 +8,9 @@ import (
 )
 
 func (paladin *Paladin) RegisterAvengingWrathCD() {
+	if paladin.Level < 70 {
+		return
+	}
 	actionID := core.ActionID{SpellID: 31884}
 
 	paladin.AvengingWrathAura = paladin.RegisterAura(core.Aura{

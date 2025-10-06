@@ -1,9 +1,8 @@
-import { GemColor } from '../proto/common.js';
-import { Profession } from '../proto/common.js';
-import { getEnumValues } from '../utils.js';
+import { Expansion, GemColor , Profession } from '../proto/common.js';
 import {
 	UIGem as Gem,
 } from '../proto/ui.js';
+import { getEnumValues } from '../utils.js';
 
 export const GEM_COLORS = (getEnumValues(GemColor) as Array<GemColor>).filter(color => color != GemColor.GemColorUnknown);
 export const PRIMARY_COLORS = [GemColor.GemColorRed, GemColor.GemColorYellow, GemColor.GemColorBlue];
@@ -39,10 +38,10 @@ export function gemEligibleForSocket(gem: Gem, socketColor: GemColor) {
 	return (gem.color == GemColor.GemColorMeta) == (socketColor == GemColor.GemColorMeta);
 }
 
-export function isUnrestrictedGem(gem: Gem, phase?: number): boolean {
+export function isUnrestrictedGem(gem: Gem, expansion?: Expansion): boolean {
 	return !gem.unique &&
 		gem.requiredProfession == Profession.ProfessionUnknown &&
-		(phase == null || gem.phase <= phase);
+		(expansion == null || gem.expansion <= expansion);
 }
 
 

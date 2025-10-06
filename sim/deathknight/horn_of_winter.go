@@ -4,15 +4,21 @@ import (
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/deathknightinfo"
 )
 
 func (dk *Deathknight) registerHornOfWinterSpell() {
-	actionID := core.ActionID{SpellID: 57623}
+	dbc := deathknightinfo.HornofWinter.GetMaxRank(dk.Level)
+	if dbc == nil {
+		return
+	}
+	actionID := core.ActionID{SpellID: dbc.SpellID}
 	rpMetrics := dk.NewRunicPowerMetrics(actionID)
 
 	dk.HornOfWinter = dk.RegisterSpell(core.SpellConfig{
-		ActionID: actionID,
-		Flags:    core.SpellFlagAPL,
+		ActionID:   actionID,
+		SpellRanks: deathknightinfo.HornofWinter.GetAllIDs(),
+		Flags:      core.SpellFlagAPL,
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
 				GCD: core.GCDDefault,

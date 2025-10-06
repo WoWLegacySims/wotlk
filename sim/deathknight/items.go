@@ -447,7 +447,7 @@ func (dk *Deathknight) registerItems() {
 	addEnchantEffect(3883, func(agent core.Agent) {
 		character := agent.GetCharacter()
 
-		character.AddStat(stats.Defense, 13*core.DefenseRatingPerDefense)
+		character.AddStat(stats.Defense, 13*character.DefenseRatingPerDefense)
 		character.MultiplyStat(stats.Stamina, 1.01)
 	})
 
@@ -455,7 +455,7 @@ func (dk *Deathknight) registerItems() {
 	addEnchantEffect(3847, func(agent core.Agent) {
 		character := agent.GetCharacter()
 
-		character.AddStat(stats.Defense, 25*core.DefenseRatingPerDefense)
+		character.AddStat(stats.Defense, 25*character.DefenseRatingPerDefense)
 		character.MultiplyStat(stats.Stamina, 1.02)
 	})
 
@@ -463,14 +463,14 @@ func (dk *Deathknight) registerItems() {
 	addEnchantEffect(3594, func(agent core.Agent) {
 		character := agent.GetCharacter()
 
-		character.AddStat(stats.Parry, 2*core.ParryRatingPerParryChance)
+		character.AddStat(stats.Parry, 2*character.ParryRatingPerParryChance)
 	})
 
 	// Rune of Swordshattering
 	addEnchantEffect(3365, func(agent core.Agent) {
 		character := agent.GetCharacter()
 
-		character.AddStat(stats.Parry, 4*core.ParryRatingPerParryChance)
+		character.AddStat(stats.Parry, 4*character.ParryRatingPerParryChance)
 	})
 
 	// Rune of the Spellbreaking
@@ -486,14 +486,6 @@ func (dk *Deathknight) registerItems() {
 	})
 
 	cinderBonusCoeff := 1.2
-
-	consumeSpells := [5]core.ActionID{
-		BloodBoilActionID,
-		DeathCoilActionID,
-		FrostStrikeMHActionID,
-		HowlingBlastActionID,
-		IcyTouchActionID,
-	}
 
 	targetsHit := 0
 
@@ -514,7 +506,7 @@ func (dk *Deathknight) registerItems() {
 			dk.modifyShadowDamageModifier(-0.2)
 		},
 		OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-			if spell.ActionID == HowlingBlastActionID || spell.ActionID == BloodBoilActionID {
+			if spell.IsSpell(dk.HowlingBlast) || spell.IsSpell(dk.BloodBoil) {
 				if result.Target.Index == 0 {
 					targetsHit = 0
 				}
@@ -535,14 +527,7 @@ func (dk *Deathknight) registerItems() {
 			if !result.Landed() {
 				return
 			}
-
-			shouldConsume := false
-			for _, consumeSpell := range consumeSpells {
-				if spell.ActionID == consumeSpell {
-					shouldConsume = true
-					break
-				}
-			}
+			shouldConsume := spell.IsOneOfSpells([]*core.Spell{dk.BloodBoil, dk.DeathCoil, dk.FrostStrike, dk.HowlingBlast, dk.IcyTouch})
 
 			if shouldConsume {
 				aura.RemoveStack(sim)
@@ -573,11 +558,50 @@ func (dk *Deathknight) registerItems() {
 		}))
 	})
 
+	core.AddEffectsToTest = false
+
+	addItemEffect(38674, func(a core.Agent) {
+		dk := a.(DeathKnightAgent).GetDeathKnight()
+		procAura := dk.NewTemporaryStatsAura("Soul Harvester's Charm Proc", core.ActionID{SpellID: 52419}, stats.Stats{stats.Parry: 90}, time.Second*10)
+
+		core.MakeProcTriggerAura(&dk.Unit, core.ProcTrigger{
+			Name:       "Soul Harvester's Charm",
+			ActionID:   core.ActionID{ItemID: 38674},
+			Callback:   core.CallbackOnSpellHitTaken,
+			ProcMask:   core.ProcMaskMelee,
+			Outcome:    core.OutcomeLanded,
+			ProcChance: 1,
+			ICD:        time.Second * 30,
+			CustomCheck: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) bool {
+				return dk.CurrentHealthPercent() <= 0.35
+			},
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				procAura.Activate(sim)
+			},
+		})
+	})
+
+	addItemEffect(38675, func(a core.Agent) {
+		dk := a.(DeathKnightAgent).GetDeathKnight()
+		procAura := dk.NewTemporaryStatsAura("Signet of the Dark Brotherhood Proc", core.ActionID{SpellID: 52424}, stats.Stats{stats.Strength: 120}, time.Second*10)
+
+		core.MakeProcTriggerAura(&dk.Unit, core.ProcTrigger{
+			Name:       "Signet of the Dark Brotherhood",
+			ActionID:   core.ActionID{ItemID: 38675},
+			Callback:   core.CallbackOnSpellHitTaken,
+			Outcome:    core.OutcomeParry,
+			ProcChance: 0.3,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				procAura.Activate(sim)
+			},
+		})
+	})
+
 	// Sigils
 
 	addItemEffect(40714, func(agent core.Agent) {
 		dk := agent.(DeathKnightAgent).GetDeathKnight()
-		procAura := dk.NewTemporaryStatsAura("Sigil of the Unfaltering Knight Proc", core.ActionID{SpellID: 62146}, stats.Stats{stats.Defense: 53.0 / core.DefenseRatingPerDefense}, time.Second*30)
+		procAura := dk.NewTemporaryStatsAura("Sigil of the Unfaltering Knight Proc", core.ActionID{SpellID: 62146}, stats.Stats{stats.Defense: 53.0}, time.Second*30)
 
 		core.MakePermanent(dk.GetOrRegisterAura(core.Aura{
 			Label: "Sigil of the Unfaltering Knight",
@@ -742,6 +766,8 @@ func (dk *Deathknight) registerItems() {
 	CreateGladiatorsSigil(42621, "Furious", 144, 10)
 	CreateGladiatorsSigil(42622, "Relentless", 172, 10)
 	CreateGladiatorsSigil(51417, "Wrathful", 204, 10)
+
+	core.AddEffectsToTest = true
 }
 
 func CreateGladiatorsSigil(id int32, name string, ap float64, seconds time.Duration) {

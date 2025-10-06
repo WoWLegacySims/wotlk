@@ -1,20 +1,16 @@
+import * as Mechanics from '../../constants/mechanics';
 import { IndividualSimUI } from "../../individual_sim_ui";
 import { Player } from "../../player";
-import { EventID, TypedEvent } from "../../typed_event";
-
 import { Class, Glyphs, Spec } from "../../proto/common";
 import { SavedTalents } from "../../proto/ui";
-
 import { classGlyphsConfig, classTalentsConfig } from "../../talents/factory";
 import { GlyphsPicker } from "../../talents/glyphs_picker";
 import { HunterPetTalentsPicker, makePetTypeInputConfig } from "../../talents/hunter_pet";
 import { TalentsPicker } from "../../talents/talents_picker";
-
+import { EventID, TypedEvent } from "../../typed_event";
 import { IconEnumPicker } from "../icon_enum_picker";
 import { SavedDataManager } from "../saved_data_manager";
 import { SimTab } from "../sim_tab";
-
-import * as Mechanics from '../../constants/mechanics';
 
 export class TalentsTab extends SimTab {
 	protected simUI: IndividualSimUI<Spec>;
@@ -52,13 +48,13 @@ export class TalentsTab extends SimTab {
     new TalentsPicker(parentElem, this.simUI.player, {
       klass: this.simUI.player.getClass(),
       trees: classTalentsConfig[this.simUI.player.getClass()],
-      changedEvent: (player: Player<any>) => player.talentsChangeEmitter,
+      changedEvent: (player: Player<any>) => TypedEvent.onAny([player.talentsChangeEmitter,player.levelChangeEmitter]),
       getValue: (player: Player<any>) => player.getTalentsString(),
       setValue: (eventID: EventID, player: Player<any>, newValue: string) => {
         player.setTalentsString(eventID, newValue);
       },
       pointsPerRow: 5,
-      maxPoints: Mechanics.MAX_TALENT_POINTS,
+      maxPoints: this.simUI.player.getMaxTalentPoints(),
     });
   }
 
@@ -114,7 +110,7 @@ export class TalentsTab extends SimTab {
 
   private buildHunterPetPicker(parentElem: HTMLElement) {
     new HunterPetTalentsPicker(parentElem, this.simUI, this.simUI.player as Player<Spec.SpecHunter>);
-    new IconEnumPicker(parentElem, this.simUI.player as Player<Spec.SpecHunter>, makePetTypeInputConfig());
+    new IconEnumPicker(parentElem, this.simUI.player as Player<Spec.SpecHunter>, makePetTypeInputConfig(),this.simUI);
   }
 
   private buildSavedTalentsPicker() {
@@ -149,5 +145,5 @@ export class TalentsTab extends SimTab {
 				});
 			});
 		});
-  } 
+  }
 }

@@ -2,15 +2,23 @@ package deathknight
 
 import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/deathknightinfo"
 )
 
-var BloodBoilActionID = core.ActionID{SpellID: 49941}
-
 func (dk *Deathknight) registerBloodBoilSpell() {
+	dbc := deathknightinfo.BloodBoil.GetMaxRank(dk.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, dk.Level)
+
+	actionID := core.ActionID{SpellID: dbc.SpellID}
+
 	// TODO: Handle blood boil correctly -
 	//  There is no refund and you only get RP on at least one of the effects hitting.
 	dk.BloodBoil = dk.RegisterSpell(core.SpellConfig{
-		ActionID:    BloodBoilActionID,
+		ActionID:    actionID,
+		SpellRanks:  deathknightinfo.BloodBoil.GetAllIDs(),
 		Flags:       core.SpellFlagAPL,
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
@@ -32,7 +40,7 @@ func (dk *Deathknight) registerBloodBoilSpell() {
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			for _, aoeTarget := range sim.Encounter.TargetUnits {
-				baseDamage := (sim.Roll(180, 220) + 0.06*dk.getImpurityBonus(spell)) * dk.RoRTSBonus(aoeTarget) * core.TernaryFloat64(dk.DiseasesAreActive(aoeTarget), 1.5, 1.0)
+				baseDamage := (sim.Roll(bp, die) + 0.06*dk.getImpurityBonus(spell)) * dk.RoRTSBonus(aoeTarget) * core.TernaryFloat64(dk.DiseasesAreActive(aoeTarget), 1.5, 1.0)
 				baseDamage *= sim.Encounter.AOECapMultiplier()
 
 				result := spell.CalcAndDealDamage(sim, aoeTarget, baseDamage, spell.OutcomeMagicHitAndCrit)
@@ -46,8 +54,15 @@ func (dk *Deathknight) registerBloodBoilSpell() {
 }
 
 func (dk *Deathknight) registerDrwBloodBoilSpell() {
+	dbc := deathknightinfo.BloodBoil.GetMaxRank(dk.Level)
+	if dbc == nil {
+		return
+	}
+	bp, die := dbc.GetBPDie(0, dk.Level)
+	actionID := core.ActionID{SpellID: dbc.SpellID}
+
 	dk.RuneWeapon.BloodBoil = dk.RuneWeapon.RegisterSpell(core.SpellConfig{
-		ActionID:    BloodBoilActionID,
+		ActionID:    actionID,
 		SpellSchool: core.SpellSchoolShadow,
 		ProcMask:    core.ProcMaskSpellDamage,
 
@@ -57,7 +72,7 @@ func (dk *Deathknight) registerDrwBloodBoilSpell() {
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			for _, aoeTarget := range sim.Encounter.TargetUnits {
-				baseDamage := (sim.Roll(180, 220) + 0.06*dk.RuneWeapon.getImpurityBonus(spell)) * core.TernaryFloat64(dk.DrwDiseasesAreActive(aoeTarget), 1.5, 1.0)
+				baseDamage := (sim.Roll(bp, die) + 0.06*dk.RuneWeapon.getImpurityBonus(spell)) * core.TernaryFloat64(dk.DrwDiseasesAreActive(aoeTarget), 1.5, 1.0)
 				baseDamage *= sim.Encounter.AOECapMultiplier()
 
 				spell.CalcAndDealDamage(sim, aoeTarget, baseDamage, spell.OutcomeMagicHitAndCrit)

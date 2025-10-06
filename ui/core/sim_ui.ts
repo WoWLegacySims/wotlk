@@ -42,6 +42,7 @@ export abstract class SimUI extends Component {
 
 	// Emits when anything from the sim, raid, or encounter changes.
 	readonly changeEmitter;
+	levelChangeEmitter = new TypedEvent<void>();
 
 	readonly resultsViewer: ResultsViewer;
 	readonly simHeader: SimHeader;
@@ -93,7 +94,7 @@ export abstract class SimUI extends Component {
 			this.rootElem.classList.add('not-within-raid-sim');
 		}
 
-		this.changeEmitter = TypedEvent.onAny([this.sim.changeEmitter], 'SimUIChange');
+		this.changeEmitter = TypedEvent.onAny([this.sim.changeEmitter, this.levelChangeEmitter], 'SimUIChange');
 
 		this.sim.crashEmitter.on((eventID: EventID, error: SimError) => this.handleCrash(error));
 
@@ -354,6 +355,8 @@ export abstract class SimUI extends Component {
 
 	abstract applyDefaults(eventID: EventID): void;
 	abstract toLink(): string;
+	abstract getLevel(): number;
+
 }
 
 class CrashModal extends BaseModal {

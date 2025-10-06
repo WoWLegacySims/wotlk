@@ -25,6 +25,7 @@ import {
 	Debuffs,
 	Encounter as EncounterProto,
 	EquipmentSpec,
+	Expansion,
 	Faction,
 	Glyphs,
 	HandType,
@@ -75,6 +76,8 @@ export interface OtherDefaults {
 	distanceFromTarget?: number;
 	channelClipDelay?: number;
 	nibelungAverageCasts?: number;
+	level?: number;
+	expansion?: Expansion
 }
 
 export interface RaidSimPreset<SpecType extends Spec> {
@@ -203,6 +206,7 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 		this.raidSimResultsManager = null;
 		this.prevEpIterations = 0;
 		this.prevEpSimResult = null;
+		this.levelChangeEmitter = this.player.levelChangeEmitter;
 
 		if (
 			(config.itemSwapSlots || []).length > 0 &&
@@ -214,7 +218,7 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 		this.addWarning({
 			updateOn: this.player.gearChangeEmitter,
 			getContent: () => {
-				if (!this.player.getGear().hasInactiveMetaGem(this.player.isBlacksmithing())) {
+				if (!this.player.getGear().hasInactiveMetaGem(this.player.isBlacksmithing(),this.player.canUseExtraSockets())) {
 					return '';
 				}
 
@@ -248,7 +252,7 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 		this.addWarning({
 			updateOn: this.player.gearChangeEmitter,
 			getContent: () => {
-				const jcGems = this.player.getGear().getJCGems(this.player.isBlacksmithing());
+				const jcGems = this.player.getGear().getJCGems(this.player.isBlacksmithing(),this.player.canUseExtraSockets());
 				if (jcGems.length <= 3) {
 					return '';
 				}
@@ -257,16 +261,19 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 			},
 		});
 		this.addWarning({
-			updateOn: this.player.talentsChangeEmitter,
+			updateOn: TypedEvent.onAny([
+				this.levelChangeEmitter,
+				this.player.talentsChangeEmitter,
+			]),
 			getContent: () => {
 				const talentPoints = getTalentPoints(this.player.getTalentsString());
 
 				if (talentPoints == 0) {
 					// Just return here, so we don't show a warning during page load.
 					return '';
-				} else if (talentPoints < Mechanics.MAX_TALENT_POINTS) {
+				} else if (talentPoints < player.getMaxTalentPoints()) {
 					return 'Unspent talent points.';
-				} else if (talentPoints > Mechanics.MAX_TALENT_POINTS) {
+				} else if (talentPoints > player.getMaxTalentPoints()) {
 					return 'More than maximum talent points spent.';
 				} else {
 					return '';
@@ -520,6 +527,8 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 				eventID,
 				this.individualConfig.defaults.other?.profession2 || Profession.Jewelcrafting,
 			);
+			this.player.setExpansion(eventID, this.individualConfig.defaults.other?.expansion || Expansion.ExpansionWotlk)
+			this.player.setLevel(eventID, this.individualConfig.defaults.other?.level || this.player.getMaxLevel());
 			this.player.setDistanceFromTarget(
 				eventID,
 				this.individualConfig.defaults.other?.distanceFromTarget || 0,
@@ -615,6 +624,10 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 
 	toLink(): string {
 		return Exporters.IndividualLinkExporter.createLink(this);
+	}
+
+	getLevel(): number {
+		return this.player.getLevel();
 	}
 
 	fromProto(

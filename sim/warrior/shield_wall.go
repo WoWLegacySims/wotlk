@@ -8,7 +8,7 @@ import (
 )
 
 func (warrior *Warrior) RegisterShieldWallCD() {
-	if warrior.OffHand().WeaponType != proto.WeaponType_WeaponTypeShield {
+	if warrior.OffHand().WeaponType != proto.WeaponType_WeaponTypeShield || warrior.Level < 28 {
 		return
 	}
 

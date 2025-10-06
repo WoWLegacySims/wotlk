@@ -5,6 +5,7 @@ import (
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
 	"github.com/WoWLegacySims/wotlk/sim/core/proto"
+	"github.com/WoWLegacySims/wotlk/sim/spellinfo/shamaninfo"
 )
 
 func (shaman *Shaman) newTotemSpellConfig(baseCost float64, spellID int32) core.SpellConfig {
@@ -22,6 +23,9 @@ func (shaman *Shaman) newTotemSpellConfig(baseCost float64, spellID int32) core.
 }
 
 func (shaman *Shaman) registerWrathOfAirTotemSpell() {
+	if shaman.Level < 64 {
+		return
+	}
 	config := shaman.newTotemSpellConfig(0.11, 3738)
 	config.ApplyEffects = func(sim *core.Simulation, _ *core.Unit, _ *core.Spell) {
 		shaman.TotemExpirations[AirTotem] = sim.CurrentTime + time.Second*300
@@ -30,6 +34,9 @@ func (shaman *Shaman) registerWrathOfAirTotemSpell() {
 }
 
 func (shaman *Shaman) registerWindfuryTotemSpell() {
+	if shaman.Level < 32 {
+		return
+	}
 	config := shaman.newTotemSpellConfig(0.11, 8512)
 	config.ApplyEffects = func(sim *core.Simulation, _ *core.Unit, _ *core.Spell) {
 		shaman.TotemExpirations[AirTotem] = sim.CurrentTime + time.Second*300
@@ -38,7 +45,12 @@ func (shaman *Shaman) registerWindfuryTotemSpell() {
 }
 
 func (shaman *Shaman) registerManaSpringTotemSpell() {
-	config := shaman.newTotemSpellConfig(0.04, 58774)
+	dbc := shamaninfo.ManaSpringTotem.GetMaxRank(shaman.Level)
+	if dbc == nil {
+		return
+	}
+	config := shaman.newTotemSpellConfig(0.04, dbc.SpellID)
+	config.SpellRanks = shamaninfo.ManaSpringTotem.GetAllIDs()
 	config.ApplyEffects = func(sim *core.Simulation, _ *core.Unit, _ *core.Spell) {
 		shaman.TotemExpirations[WaterTotem] = sim.CurrentTime + time.Second*300
 	}
@@ -46,7 +58,16 @@ func (shaman *Shaman) registerManaSpringTotemSpell() {
 }
 
 func (shaman *Shaman) registerHealingStreamTotemSpell() {
-	config := shaman.newTotemSpellConfig(0.03, 58757)
+	dbc := shamaninfo.HealingStreamTotem.GetMaxRank(shaman.Level)
+	dbcEffect := shamaninfo.HealingStream.GetMaxRank(shaman.Level)
+	if dbc == nil || dbcEffect == nil {
+		return
+	}
+
+	bp, _ := dbcEffect.GetBPDie(0, shaman.Level)
+
+	config := shaman.newTotemSpellConfig(0.03, dbc.SpellID)
+	config.SpellRanks = shamaninfo.HealingStreamTotem.GetAllIDs()
 	hsHeal := shaman.RegisterSpell(core.SpellConfig{
 		ActionID:         core.ActionID{SpellID: 52042},
 		SpellSchool:      core.SpellSchoolNature,
@@ -56,8 +77,7 @@ func (shaman *Shaman) registerHealingStreamTotemSpell() {
 		CritMultiplier:   1,
 		ThreatMultiplier: 1 - (float64(shaman.Talents.HealingGrace) * 0.05),
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			// TODO: find healing stream coeff
-			healing := 25 + spell.HealingPower(target)*0.08272
+			healing := bp + spell.HealingPower(target)*0.0827
 			spell.CalcAndDealHealing(sim, target, healing, spell.OutcomeHealing)
 		},
 	})
@@ -81,7 +101,12 @@ func (shaman *Shaman) registerHealingStreamTotemSpell() {
 }
 
 func (shaman *Shaman) registerTotemOfWrathSpell() {
-	config := shaman.newTotemSpellConfig(0.05, 57722)
+	dbc := shamaninfo.TotemofWrath.GetMaxRank(shaman.Level)
+	if dbc == nil || !shaman.Talents.TotemOfWrath {
+		return
+	}
+	config := shaman.newTotemSpellConfig(0.05, dbc.SpellID)
+	config.SpellRanks = shamaninfo.TotemofWrath.GetAllIDs()
 	config.ApplyEffects = func(sim *core.Simulation, _ *core.Unit, _ *core.Spell) {
 		shaman.TotemExpirations[FireTotem] = sim.CurrentTime + time.Second*300
 		shaman.applyToWDebuff(sim)
@@ -97,7 +122,12 @@ func (shaman *Shaman) applyToWDebuff(sim *core.Simulation) {
 }
 
 func (shaman *Shaman) registerFlametongueTotemSpell() {
-	config := shaman.newTotemSpellConfig(0.11, 58656)
+	dbc := shamaninfo.FlametongueTotem.GetMaxRank(shaman.Level)
+	if dbc == nil {
+		return
+	}
+	config := shaman.newTotemSpellConfig(0.11, dbc.SpellID)
+	config.SpellRanks = shamaninfo.FlametongueTotem.GetAllIDs()
 	config.ApplyEffects = func(sim *core.Simulation, _ *core.Unit, _ *core.Spell) {
 		shaman.TotemExpirations[FireTotem] = sim.CurrentTime + time.Second*300
 	}
@@ -105,7 +135,12 @@ func (shaman *Shaman) registerFlametongueTotemSpell() {
 }
 
 func (shaman *Shaman) registerStrengthOfEarthTotemSpell() {
-	config := shaman.newTotemSpellConfig(0.1, 58643)
+	dbc := shamaninfo.StrengthofEarthTotem.GetMaxRank(shaman.Level)
+	if dbc == nil {
+		return
+	}
+	config := shaman.newTotemSpellConfig(0.1, dbc.SpellID)
+	config.SpellRanks = shamaninfo.StrengthofEarthTotem.GetAllIDs()
 	config.ApplyEffects = func(sim *core.Simulation, _ *core.Unit, _ *core.Spell) {
 		shaman.TotemExpirations[EarthTotem] = sim.CurrentTime + time.Second*300
 	}
@@ -113,6 +148,9 @@ func (shaman *Shaman) registerStrengthOfEarthTotemSpell() {
 }
 
 func (shaman *Shaman) registerTremorTotemSpell() {
+	if shaman.Level < 18 {
+		return
+	}
 	config := shaman.newTotemSpellConfig(0.02, 8143)
 	config.ApplyEffects = func(sim *core.Simulation, _ *core.Unit, _ *core.Spell) {
 		shaman.TotemExpirations[EarthTotem] = sim.CurrentTime + time.Second*300
@@ -121,7 +159,12 @@ func (shaman *Shaman) registerTremorTotemSpell() {
 }
 
 func (shaman *Shaman) registerStoneskinTotemSpell() {
-	config := shaman.newTotemSpellConfig(0.1, 58753)
+	dbc := shamaninfo.StoneskinTotem.GetMaxRank(shaman.Level)
+	if dbc == nil {
+		return
+	}
+	config := shaman.newTotemSpellConfig(0.1, dbc.SpellID)
+	config.SpellRanks = shamaninfo.StoneskinTotem.GetAllIDs()
 	config.ApplyEffects = func(sim *core.Simulation, _ *core.Unit, _ *core.Spell) {
 		shaman.TotemExpirations[EarthTotem] = sim.CurrentTime + time.Second*300
 	}
