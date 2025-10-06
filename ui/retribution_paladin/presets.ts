@@ -22,6 +22,8 @@ import * as PresetUtils from '../core/preset_utils.js';
 // Eventually we will import these values for the raid sim too, so its good to
 // keep them in a separate file.
 
+import WotlkPrepatch from './gear_sets/tbcprepatch.json';
+export const WOTLK_PREPATCH = PresetUtils.makePresetGear('Wotlk Prepatch', WotlkPrepatch);
 import PreraidGear from './gear_sets/preraid.gear.json';
 export const PRERAID_PRESET = PresetUtils.makePresetGear('PreRaid', PreraidGear);
 import P1Gear from './gear_sets/p1.gear.json';
