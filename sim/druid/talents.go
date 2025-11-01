@@ -1,7 +1,6 @@
 package druid
 
 import (
-	"math"
 	"time"
 
 	"github.com/WoWLegacySims/wotlk/sim/core"
@@ -410,24 +409,23 @@ func (druid *Druid) applyOmenOfClarity() {
 				// https://github.com/JamminL/wotlk-classic-bugs/issues/66#issuecomment-1182017571
 				// Instants are treated as 1.5
 				// Uses current cast time rather than default cast time (PPM is constant with haste)
-				castTime := spell.CurCast.CastTime.Seconds()
-				if castTime == 0 {
-					castTime = 1.5
-				}
+				castTime := max(spell.DefaultCast.CastTime.Seconds(), 1.5)
 
 				chanceToProc := (castTime / 60) * 3.5
-				if druid.Typhoon.IsEqual(spell) { // Add Typhoon
-					chanceToProc *= 0.25
-				} else if druid.Moonfire.IsEqual(spell) { // Add Moonfire
-					chanceToProc *= 0.076
-				} else if druid.GiftOfTheWild.IsEqual(spell) { // Add Gift of the Wild
-					// the above comment says it's 0.0875 * (1-0.924) which apparently is out-dated,
-					// there is no longer an instant suppression factor
-					// we assume 30 targets (25man + pets)
-					chanceToProc = 1 - math.Pow(1-chanceToProc, 30)
-				} else {
-					chanceToProc *= 0.666
-				}
+				/*
+					if druid.Typhoon.IsEqual(spell) { // Add Typhoon
+						chanceToProc *= 0.25
+					} else if druid.Moonfire.IsEqual(spell) { // Add Moonfire
+						chanceToProc *= 0.076
+					} else if druid.GiftOfTheWild.IsEqual(spell) { // Add Gift of the Wild
+						// the above comment says it's 0.0875 * (1-0.924) which apparently is out-dated,
+						// there is no longer an instant suppression factor
+						// we assume 30 targets (25man + pets)
+						chanceToProc = 1 - math.Pow(1-chanceToProc, 30)
+					} else {
+						chanceToProc *= 0.666
+					}
+				*/
 				if sim.RandomFloat("Clearcasting") < chanceToProc {
 					druid.ProcOoc(sim)
 				}
