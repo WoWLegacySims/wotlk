@@ -242,8 +242,7 @@ func (character *Character) RemoveDynamicEquipScaling(sim *Simulation, stat stat
 	character.AddStatDynamic(sim, stat, statDiff)
 }
 
-func (character *Character) CalculateHitInheritance(from stats.Stat, to stats.Stat) float64 {
-	amount := character.GetStat(from)
+func (character *Character) CalculateHitInheritance(amount float64, from stats.Stat, to stats.Stat) float64 {
 	var capFrom float64
 	var capTo float64
 	switch from {

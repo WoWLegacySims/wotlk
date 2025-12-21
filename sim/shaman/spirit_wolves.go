@@ -75,7 +75,7 @@ func (shaman *Shaman) makeStatInheritance() core.PetStatInheritance {
 			stats.SpellPower:  ownerStats[stats.SpellPower] * 0.3,
 
 			stats.MeleeHit:  hitRatingFromOwner,
-			stats.Expertise: shaman.CalculateHitInheritance(stats.SpellHit, stats.Expertise),
+			stats.Expertise: shaman.CalculateHitInheritance(ownerStats[stats.SpellHit], stats.SpellHit, stats.Expertise),
 		}
 	}
 }

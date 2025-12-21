@@ -259,9 +259,9 @@ func (warlock *Warlock) makeStatInheritance() core.PetStatInheritance {
 			stats.SpellPenetration: ownerStats[stats.SpellPenetration],
 			stats.SpellCrit:        improvedDemonicTactics * 0.1 * ownerStats[stats.SpellCrit],
 			stats.MeleeCrit:        improvedDemonicTactics * 0.1 * ownerStats[stats.SpellCrit],
-			stats.MeleeHit:         warlock.CalculateHitInheritance(stats.SpellHit, stats.MeleeHit),
+			stats.MeleeHit:         warlock.CalculateHitInheritance(ownerStats[stats.SpellHit], stats.SpellHit, stats.MeleeHit),
 			stats.SpellHit:         ownerStats[stats.SpellHit],
-			stats.Expertise:        warlock.CalculateHitInheritance(stats.SpellHit, stats.Expertise),
+			stats.Expertise:        warlock.CalculateHitInheritance(ownerStats[stats.SpellHit], stats.SpellHit, stats.Expertise),
 			// Resists, 40%
 		}
 	}

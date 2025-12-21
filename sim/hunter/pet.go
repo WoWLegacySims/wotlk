@@ -160,8 +160,8 @@ func (hunter *Hunter) makeStatInheritance() core.PetStatInheritance {
 			stats.AttackPower: ownerStats[stats.RangedAttackPower]*0.22*(1+0.15*float64(wildHunt)) + ownerStats[stats.Stamina]*0.1*float64(hvw),
 
 			stats.MeleeHit:  hitRatingFromOwner,
-			stats.SpellHit:  hunter.CalculateHitInheritance(stats.MeleeHit, stats.SpellHit),
-			stats.Expertise: hunter.CalculateHitInheritance(stats.MeleeHit, stats.Expertise),
+			stats.SpellHit:  hunter.CalculateHitInheritance(ownerStats[stats.MeleeHit], stats.MeleeHit, stats.SpellHit),
+			stats.Expertise: hunter.CalculateHitInheritance(ownerStats[stats.MeleeHit], stats.MeleeHit, stats.Expertise),
 		}
 	}
 }

@@ -116,8 +116,8 @@ func (druid *Druid) treantStatInheritance() core.PetStatInheritance {
 		return stats.Stats{ //still need to nail down shadow fiend crit scaling, but removing owner crit scaling after further investigation
 			// 3 x sp to ap, lol
 			stats.AttackPower: (ownerStats[stats.SpellPower] + ownerPseudoStats.NatureSpellPower) * 1.05,
-			stats.MeleeHit:    druid.CalculateHitInheritance(stats.SpellHit, stats.MeleeHit),
-			stats.Expertise:   druid.CalculateHitInheritance(stats.SpellHit, stats.Expertise),
+			stats.MeleeHit:    druid.CalculateHitInheritance(ownerStats[stats.SpellHit], stats.SpellHit, stats.MeleeHit),
+			stats.Expertise:   druid.CalculateHitInheritance(ownerStats[stats.SpellHit], stats.SpellHit, stats.Expertise),
 			stats.Stamina:     ownerStats[stats.Stamina] * 0.3,
 			stats.Intellect:   ownerStats[stats.Intellect] * 0.3,
 		}

@@ -155,9 +155,9 @@ func (shaman *Shaman) fireElementalStatInheritance() core.PetStatInheritance {
 			stats.SpellPower:  spellPower,
 			stats.AttackPower: spellPower * 3,
 
-			stats.MeleeHit:  shaman.CalculateHitInheritance(stats.SpellHit, stats.MeleeHit),
+			stats.MeleeHit:  shaman.CalculateHitInheritance(ownerStats[stats.SpellHit], stats.SpellHit, stats.MeleeHit),
 			stats.SpellHit:  ownerStats[stats.SpellHit],
-			stats.Expertise: shaman.CalculateHitInheritance(stats.SpellHit, stats.Expertise),
+			stats.Expertise: shaman.CalculateHitInheritance(ownerStats[stats.SpellHit], stats.SpellHit, stats.Expertise),
 		}
 	}
 }

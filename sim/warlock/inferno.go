@@ -76,9 +76,9 @@ func (warlock *Warlock) NewInfernal() *InfernalPet {
 			stats.AttackPower:      spellPower * 0.57,
 			stats.SpellPower:       spellPower * 0.15,
 			stats.SpellPenetration: ownerStats[stats.SpellPenetration],
-			stats.MeleeHit:         warlock.CalculateHitInheritance(stats.SpellHit, stats.MeleeHit),
+			stats.MeleeHit:         warlock.CalculateHitInheritance(ownerStats[stats.SpellHit], stats.SpellHit, stats.MeleeHit),
 			stats.SpellHit:         ownerStats[stats.SpellHit],
-			stats.Expertise:        warlock.CalculateHitInheritance(stats.SpellHit, stats.Expertise),
+			stats.Expertise:        warlock.CalculateHitInheritance(ownerStats[stats.SpellHit], stats.SpellHit, stats.Expertise),
 		}
 	}
 

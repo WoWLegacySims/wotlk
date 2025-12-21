@@ -97,8 +97,8 @@ func (priest *Priest) shadowfiendStatInheritance() core.PetStatInheritance {
 			// 3 x sp to ap, lol
 			stats.AttackPower: (ownerStats[stats.SpellPower] + ownerPseudoStats.ShadowSpellPower) * 3,
 			stats.SpellPower:  (ownerStats[stats.SpellPower] + ownerPseudoStats.ShadowSpellPower) * 0.3,
-			stats.MeleeHit:    priest.CalculateHitInheritance(stats.SpellHit, stats.MeleeHit),
-			stats.Expertise:   priest.CalculateHitInheritance(stats.SpellHit, stats.Expertise),
+			stats.MeleeHit:    priest.CalculateHitInheritance(ownerStats[stats.SpellHit], stats.SpellHit, stats.MeleeHit),
+			stats.Expertise:   priest.CalculateHitInheritance(ownerStats[stats.SpellHit], stats.SpellHit, stats.Expertise),
 			stats.Stamina:     ownerStats[stats.Stamina] * 0.65,
 			stats.Intellect:   ownerStats[stats.Intellect] * 0.3,
 		}
