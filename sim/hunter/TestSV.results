@@ -53,8 +53,8 @@ dps_results: {
 dps_results: {
  key: "TestSV-AllItems-Ahn'KaharBloodHunter'sBattlegear"
  value: {
-  dps: 8749.12943
-  tps: 7716.05539
+  dps: 8747.2672
+  tps: 7726.69177
  }
 }
 dps_results: {
@@ -104,8 +104,8 @@ dps_results: {
 dps_results: {
  key: "TestSV-AllItems-BeastLordArmor"
  value: {
-  dps: 5631.90784
-  tps: 4806.7887
+  dps: 5609.6174
+  tps: 4806.95875
  }
 }
 dps_results: {
@@ -125,15 +125,15 @@ dps_results: {
 dps_results: {
  key: "TestSV-AllItems-BlessedGarboftheUndeadSlayer"
  value: {
-  dps: 6168.55265
-  tps: 5307.96428
+  dps: 6151.8662
+  tps: 5328.96215
  }
 }
 dps_results: {
  key: "TestSV-AllItems-BlessedRegaliaofUndeadCleansing"
  value: {
-  dps: 5905.80791
-  tps: 5067.13118
+  dps: 5868.29985
+  tps: 5064.33869
  }
 }
 dps_results: {
@@ -203,8 +203,8 @@ dps_results: {
 dps_results: {
  key: "TestSV-AllItems-CryptstalkerBattlegear"
  value: {
-  dps: 6726.28911
-  tps: 5759.39198
+  dps: 6717.48821
+  tps: 5776.05974
  }
 }
 dps_results: {
@@ -238,8 +238,8 @@ dps_results: {
 dps_results: {
  key: "TestSV-AllItems-DemonStalkerArmor"
  value: {
-  dps: 5747.69407
-  tps: 4895.51702
+  dps: 5716.51706
+  tps: 4892.32997
  }
 }
 dps_results: {
@@ -357,8 +357,8 @@ dps_results: {
 dps_results: {
  key: "TestSV-AllItems-Gladiator'sPursuit"
  value: {
-  dps: 7417.60606
-  tps: 6421.32874
+  dps: 7402.87238
+  tps: 6440.7901
  }
 }
 dps_results: {
@@ -392,8 +392,8 @@ dps_results: {
 dps_results: {
  key: "TestSV-AllItems-Gronnstalker'sArmor"
  value: {
-  dps: 5468.43463
-  tps: 4653.55411
+  dps: 5442.95433
+  tps: 4656.33877
  }
 }
 dps_results: {
@@ -582,8 +582,8 @@ dps_results: {
 dps_results: {
  key: "TestSV-AllItems-RiftStalkerArmor"
  value: {
-  dps: 5999.1779
-  tps: 5123.84008
+  dps: 5978.71607
+  tps: 5116.92948
  }
 }
 dps_results: {
@@ -666,8 +666,8 @@ dps_results: {
 dps_results: {
  key: "TestSV-AllItems-StormshroudArmor"
  value: {
-  dps: 5694.88759
-  tps: 4870.27724
+  dps: 5686.01756
+  tps: 4881.62262
  }
 }
 dps_results: {
@@ -785,8 +785,8 @@ dps_results: {
 dps_results: {
  key: "TestSV-AllItems-UndeadSlayer'sBlessedArmor"
  value: {
-  dps: 6082.02428
-  tps: 5227.30777
+  dps: 6091.9528
+  tps: 5265.40724
  }
 }
 dps_results: {
@@ -813,8 +813,8 @@ dps_results: {
 dps_results: {
  key: "TestSV-AllItems-Windrunner'sPursuit"
  value: {
-  dps: 7421.90376
-  tps: 6429.11497
+  dps: 7429.57403
+  tps: 6440.57115
  }
 }
 dps_results: {
@@ -1093,7 +1093,7 @@ dps_results: {
 dps_results: {
  key: "TestSV-SwitchInFrontOfTarget-Default"
  value: {
-  dps: 7609.71514
-  tps: 6593.31011
+  dps: 7521.62352
+  tps: 6582.255
  }
 }
