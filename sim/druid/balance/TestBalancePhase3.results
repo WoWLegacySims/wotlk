@@ -210,8 +210,8 @@ dps_results: {
 dps_results: {
  key: "TestBalancePhase3-AllItems-DarkmoonCard:Berserker!-42989"
  value: {
-  dps: 10834.90923
-  tps: 10556.49335
+  dps: 11087.16114
+  tps: 10813.422
  }
 }
 dps_results: {
@@ -371,8 +371,8 @@ dps_results: {
 dps_results: {
  key: "TestBalancePhase3-AllItems-EyeoftheBroodmother-45308"
  value: {
-  dps: 11063.12438
-  tps: 10789.12918
+  dps: 11331.20158
+  tps: 11054.0255
  }
 }
 dps_results: {
@@ -553,8 +553,8 @@ dps_results: {
 dps_results: {
  key: "TestBalancePhase3-AllItems-IllustrationoftheDragonSoul-40432"
  value: {
-  dps: 10834.90923
-  tps: 10556.49335
+  dps: 11232.70058
+  tps: 10948.79616
  }
 }
 dps_results: {
@@ -637,8 +637,8 @@ dps_results: {
 dps_results: {
  key: "TestBalancePhase3-AllItems-MajesticDragonFigurine-40430"
  value: {
-  dps: 10834.90923
-  tps: 10556.49335
+  dps: 10957.39489
+  tps: 10677.31631
  }
 }
 dps_results: {

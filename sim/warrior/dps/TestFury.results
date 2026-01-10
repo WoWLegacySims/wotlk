@@ -146,8 +146,8 @@ dps_results: {
 dps_results: {
  key: "TestFury-AllItems-BlackenedNaaruSliver-34427"
  value: {
-  dps: 6901.45891
-  tps: 5119.74684
+  dps: 6905.16143
+  tps: 5122.93625
  }
 }
 dps_results: {
@@ -448,8 +448,8 @@ dps_results: {
 dps_results: {
  key: "TestFury-AllItems-FuryoftheFiveFlights-40431"
  value: {
-  dps: 6874.02946
-  tps: 5102.33162
+  dps: 6874.94836
+  tps: 5102.9926
  }
 }
 dps_results: {

@@ -146,8 +146,8 @@ dps_results: {
 dps_results: {
  key: "TestSubtlety-AllItems-BlackenedNaaruSliver-34427"
  value: {
-  dps: 6346.05841
-  tps: 4505.70147
+  dps: 6348.11079
+  tps: 4507.15866
  }
 }
 dps_results: {
@@ -224,8 +224,8 @@ dps_results: {
 dps_results: {
  key: "TestSubtlety-AllItems-DarkmoonCard:Berserker!-42989"
  value: {
-  dps: 6243.94874
-  tps: 4433.2036
+  dps: 6244.21722
+  tps: 4433.39423
  }
 }
 dps_results: {
@@ -413,8 +413,8 @@ dps_results: {
 dps_results: {
  key: "TestSubtlety-AllItems-FuryoftheFiveFlights-40431"
  value: {
-  dps: 6393.23394
-  tps: 4539.1961
+  dps: 6393.52379
+  tps: 4539.40189
  }
 }
 dps_results: {

@@ -132,8 +132,8 @@ dps_results: {
 dps_results: {
  key: "TestFrost-AllItems-BlackenedNaaruSliver-34427"
  value: {
-  dps: 10898.45693
-  tps: 6274.65236
+  dps: 10900.62799
+  tps: 6275.955
  }
 }
 dps_results: {
@@ -224,8 +224,8 @@ dps_results: {
 dps_results: {
  key: "TestFrost-AllItems-DarkmoonCard:Berserker!-42989"
  value: {
-  dps: 10876.48172
-  tps: 6263.19453
+  dps: 10878.05815
+  tps: 6264.14039
  }
 }
 dps_results: {
@@ -427,8 +427,8 @@ dps_results: {
 dps_results: {
  key: "TestFrost-AllItems-FuryoftheFiveFlights-40431"
  value: {
-  dps: 10970.24224
-  tps: 6319.45084
+  dps: 10970.63395
+  tps: 6319.68587
  }
 }
 dps_results: {
@@ -792,8 +792,8 @@ dps_results: {
 dps_results: {
  key: "TestFrost-AllItems-SigiloftheHangedMan-50459"
  value: {
-  dps: 11140.06524
-  tps: 6413.59809
+  dps: 11130.37963
+  tps: 6407.78672
  }
 }
 dps_results: {

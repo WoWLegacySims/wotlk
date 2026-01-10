@@ -142,8 +142,8 @@ dps_results: {
 dps_results: {
  key: "TestUnholy-AllItems-BlackenedNaaruSliver-34427"
  value: {
-  dps: 9543.61559
-  tps: 5575.522
+  dps: 9548.47479
+  tps: 5577.87441
   hps: 41.44646
  }
 }
@@ -478,8 +478,8 @@ dps_results: {
 dps_results: {
  key: "TestUnholy-AllItems-FuryoftheFiveFlights-40431"
  value: {
-  dps: 9595.82925
-  tps: 5761.33451
+  dps: 9597.35958
+  tps: 5761.74918
   hps: 41.44646
  }
 }

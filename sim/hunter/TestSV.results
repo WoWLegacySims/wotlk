@@ -266,8 +266,8 @@ dps_results: {
 dps_results: {
  key: "TestSV-AllItems-DarkmoonCard:Berserker!-42989"
  value: {
-  dps: 7429.11527
-  tps: 6390.24486
+  dps: 7427.88587
+  tps: 6389.027
  }
 }
 dps_results: {
@@ -455,8 +455,8 @@ dps_results: {
 dps_results: {
  key: "TestSV-AllItems-FuryoftheFiveFlights-40431"
  value: {
-  dps: 7518.64106
-  tps: 6463.14897
+  dps: 7517.53546
+  tps: 6462.14149
  }
 }
 dps_results: {

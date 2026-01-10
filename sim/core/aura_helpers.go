@@ -173,11 +173,6 @@ func MakeStackingAura(character *Character, config StackingStatAura) *Aura {
 	config.Aura.OnStacksChange = func(aura *Aura, sim *Simulation, oldStacks int32, newStacks int32) {
 		character.AddStatsDynamic(sim, bonusPerStack.Multiply(float64(newStacks-oldStacks)))
 	}
-	config.Aura.OnSpellHitDealt = func(aura *Aura, sim *Simulation, spell *Spell, result *SpellResult) {
-		if result.Landed() && spell.ProcMask.Matches(ProcMaskMeleeOrRanged) {
-			aura.AddStack(sim)
-		}
-	}
 	return character.RegisterAura(config.Aura)
 }
 
