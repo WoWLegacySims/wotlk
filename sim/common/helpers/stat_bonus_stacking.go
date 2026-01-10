@@ -20,8 +20,6 @@ type StackingStatBonusEffect struct {
 	Outcome    core.HitOutcome
 	Harmful    bool
 	ProcChance float64
-	ICD        time.Duration
-	PPM        float64
 	Weapon     bool
 }
 
@@ -55,10 +53,9 @@ func NewStackingStatBonusEffect(config StackingStatBonusEffect) {
 			Outcome:    config.Outcome,
 			Harmful:    config.Harmful,
 			ProcChance: config.ProcChance,
-			ICD:        config.ICD,
-			PPM:        config.PPM,
 			Handler: func(sim *core.Simulation, _ *core.Spell, _ *core.SpellResult) {
 				procAura.Activate(sim)
+				procAura.AddStack(sim)
 			},
 		})
 	})
@@ -142,6 +139,75 @@ func NewStackingStatBonusCD(config StackingStatBonusCD) {
 		character.AddMajorCooldown(core.MajorCooldown{
 			Spell: spell,
 			Type:  core.CooldownTypeDPS,
+		})
+	})
+}
+
+type StackingStatBonusProc struct {
+	Name       string
+	ID         int32
+	AuraID     int32
+	Bonus      stats.Stats
+	Duration   time.Duration
+	MaxStacks  int32
+	Callback   core.AuraCallback
+	ProcMask   core.ProcMask
+	SpellFlags core.SpellFlag
+	Outcome    core.HitOutcome
+	Harmful    bool
+	ProcChance float64
+	ICD        time.Duration
+	PPM        float64
+	Weapon     bool
+}
+
+func NewStackingStatBonusProc(config StackingStatBonusProc) {
+	core.NewItemEffect(config.ID, func(agent core.Agent) {
+		character := agent.GetCharacter()
+		if config.Weapon {
+			config.ProcMask = character.GetProcMaskForItem(config.ID)
+		}
+
+		auraID := core.ActionID{SpellID: config.AuraID}
+		if auraID.IsEmptyAction() {
+			auraID = core.ActionID{ItemID: config.ID}
+		}
+		procAura := core.MakeStackingAura(character, core.StackingStatAura{
+			Aura: core.Aura{
+				Label:     config.Name + " Proc",
+				ActionID:  auraID,
+				Duration:  config.Duration,
+				MaxStacks: config.MaxStacks,
+			},
+			BonusPerStack: config.Bonus,
+		})
+
+		core.ApplyProcTriggerCallback(&character.Unit, procAura, core.ProcTrigger{
+			Name:       config.Name + " Proc",
+			Callback:   config.Callback,
+			ProcMask:   config.ProcMask,
+			SpellFlags: config.SpellFlags,
+			Outcome:    config.Outcome,
+			Harmful:    config.Harmful,
+			Handler: func(sim *core.Simulation, _ *core.Spell, _ *core.SpellResult) {
+				procAura.AddStack(sim)
+			},
+		})
+
+		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			ActionID:   core.ActionID{ItemID: config.ID},
+			Name:       config.Name,
+			Callback:   config.Callback,
+			ProcMask:   config.ProcMask,
+			SpellFlags: config.SpellFlags,
+			Outcome:    config.Outcome,
+			Harmful:    config.Harmful,
+			ProcChance: config.ProcChance,
+			ICD:        config.ICD,
+			PPM:        config.PPM,
+			Handler: func(sim *core.Simulation, _ *core.Spell, _ *core.SpellResult) {
+				procAura.Activate(sim)
+			},
 		})
 	})
 }

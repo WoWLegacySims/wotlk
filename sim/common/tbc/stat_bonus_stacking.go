@@ -147,7 +147,7 @@ func init() {
 		})
 	})
 
-	helpers.NewStackingStatBonusEffect(helpers.StackingStatBonusEffect{
+	helpers.NewStackingStatBonusProc(helpers.StackingStatBonusProc{
 		Name:       "Blackened Naaru Sliver",
 		ID:         34427,
 		Duration:   time.Second * 20,
