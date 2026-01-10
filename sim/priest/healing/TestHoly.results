@@ -355,7 +355,7 @@ dps_results: {
  key: "TestHoly-AllItems-EyeoftheBroodmother-45308"
  value: {
   tps: 33.51168
-  hps: 4635.438
+  hps: 4770.99484
  }
 }
 dps_results: {
@@ -474,7 +474,7 @@ dps_results: {
  key: "TestHoly-AllItems-IllustrationoftheDragonSoul-40432"
  value: {
   tps: 33.51168
-  hps: 4611.01578
+  hps: 4812.91396
  }
 }
 dps_results: {
@@ -543,8 +543,8 @@ dps_results: {
 dps_results: {
  key: "TestHoly-AllItems-MajesticDragonFigurine-40430"
  value: {
-  tps: 33.51168
-  hps: 4611.01578
+  tps: 34.22265
+  hps: 5043.38491
  }
 }
 dps_results: {

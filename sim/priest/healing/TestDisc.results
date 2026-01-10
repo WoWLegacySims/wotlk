@@ -400,7 +400,7 @@ dps_results: {
  key: "TestDisc-AllItems-EyeoftheBroodmother-45308"
  value: {
   tps: 17.13694
-  hps: 3686.49776
+  hps: 3776.23099
  }
 }
 dps_results: {
@@ -519,7 +519,7 @@ dps_results: {
  key: "TestDisc-AllItems-IllustrationoftheDragonSoul-40432"
  value: {
   tps: 17.13694
-  hps: 3642.67331
+  hps: 3696.16447
  }
 }
 dps_results: {
@@ -588,7 +588,7 @@ dps_results: {
 dps_results: {
  key: "TestDisc-AllItems-MajesticDragonFigurine-40430"
  value: {
-  tps: 17.13694
+  tps: 16.9367
   hps: 3642.67331
  }
 }

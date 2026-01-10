@@ -144,8 +144,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralTank-AllItems-BlackenedNaaruSliver-34427"
  value: {
-  dps: 2613.42676
-  tps: 5514.67368
+  dps: 2622.5537
+  tps: 5540.06318
   dtps: 7.24371
  }
 }
@@ -233,8 +233,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralTank-AllItems-DarkmoonCard:Berserker!-42989"
  value: {
-  dps: 2615.68145
-  tps: 5500.83499
+  dps: 2619.00589
+  tps: 5511.51754
   dtps: 7.24371
  }
 }
@@ -473,8 +473,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralTank-AllItems-FuryoftheFiveFlights-40431"
  value: {
-  dps: 2649.68477
-  tps: 5565.47724
+  dps: 2657.91425
+  tps: 5577.62871
   dtps: 7.24371
  }
 }
@@ -585,8 +585,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralTank-AllItems-IdoloftheCryingMoon-50456"
  value: {
-  dps: 2546.61009
-  tps: 5379.88541
+  dps: 2555.52819
+  tps: 5398.7184
   dtps: 7.24371
  }
 }

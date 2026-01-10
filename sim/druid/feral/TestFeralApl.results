@@ -132,8 +132,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-BlackenedNaaruSliver-34427"
  value: {
-  dps: 9606.33157
-  tps: 6884.73716
+  dps: 9606.45666
+  tps: 6884.82598
  }
 }
 dps_results: {
@@ -427,8 +427,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-FuryoftheFiveFlights-40431"
  value: {
-  dps: 9608.61417
-  tps: 6886.58217
+  dps: 9609.05026
+  tps: 6886.89179
  }
 }
 dps_results: {
@@ -518,8 +518,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-IdoloftheCryingMoon-50456"
  value: {
-  dps: 9972.45663
-  tps: 7144.76074
+  dps: 9962.94935
+  tps: 7138.01057
  }
 }
 dps_results: {
