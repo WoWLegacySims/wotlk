@@ -1058,8 +1058,8 @@ dps_results: {
 dps_results: {
  key: "TestRetribution-AllItems-ThunderingSkyflareDiamond"
  value: {
-  dps: 6518.29363
-  tps: 6604.05275
+  dps: 6575.55357
+  tps: 6661.29251
   dtps: 9.92959
  }
 }
