@@ -85,10 +85,10 @@ func init() {
 			Name:     "Thundering Skyflare Diamond",
 			Callback: core.CallbackOnSpellHitDealt,
 			// Mask 68, melee or ranged auto attacks.
-			ProcMask: core.ProcMaskWhiteHit,
-			Outcome:  core.OutcomeLanded,
-			PPM:      1,
-			ICD:      time.Second * 40,
+			ProcMask:   core.ProcMaskWhiteHit,
+			Outcome:    core.OutcomeLanded,
+			ProcChance: 1,
+			ICD:        time.Second * 40,
 			Handler: func(sim *core.Simulation, _ *core.Spell, _ *core.SpellResult) {
 				procAura.Activate(sim)
 			},
