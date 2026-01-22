@@ -97,15 +97,15 @@ dps_results: {
 dps_results: {
  key: "TestFury-AllItems-BlackBruise-50035"
  value: {
-  dps: 5989.67666
-  tps: 4469.89408
+  dps: 5993.61052
+  tps: 4472.67093
  }
 }
 dps_results: {
  key: "TestFury-AllItems-BlackBruise-50692"
  value: {
-  dps: 6050.62489
-  tps: 4513.84512
+  dps: 6055.00057
+  tps: 4516.9381
  }
 }
 dps_results: {
@@ -392,8 +392,8 @@ dps_results: {
 dps_results: {
  key: "TestFury-AllItems-GnomishLightningGenerator-41121"
  value: {
-  dps: 6841.07332
-  tps: 5077.68053
+  dps: 6841.82525
+  tps: 5078.20688
  }
 }
 dps_results: {
@@ -659,8 +659,8 @@ dps_results: {
 dps_results: {
  key: "TestFury-AllItems-StormshroudArmor"
  value: {
-  dps: 5152.68206
-  tps: 3840.50758
+  dps: 5152.71933
+  tps: 3840.53398
  }
 }
 dps_results: {
@@ -708,8 +708,8 @@ dps_results: {
 dps_results: {
  key: "TestFury-AllItems-TheFistsofFury"
  value: {
-  dps: 5080.4703
-  tps: 3781.32311
+  dps: 5081.04483
+  tps: 3781.72944
  }
 }
 dps_results: {
@@ -792,8 +792,8 @@ dps_results: {
 dps_results: {
  key: "TestFury-AllItems-VestigeofHaldor-37064"
  value: {
-  dps: 6822.48158
-  tps: 5058.40618
+  dps: 6823.25963
+  tps: 5058.95841
  }
 }
 dps_results: {

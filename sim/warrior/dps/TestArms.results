@@ -97,15 +97,15 @@ dps_results: {
 dps_results: {
  key: "TestArms-AllItems-BlackBruise-50035"
  value: {
-  dps: 4852.74954
-  tps: 3964.60439
+  dps: 4855.16737
+  tps: 3966.53865
  }
 }
 dps_results: {
  key: "TestArms-AllItems-BlackBruise-50692"
  value: {
-  dps: 5004.29536
-  tps: 4086.13737
+  dps: 5007.20293
+  tps: 4088.46343
  }
 }
 dps_results: {
@@ -153,15 +153,15 @@ dps_results: {
 dps_results: {
  key: "TestArms-AllItems-Bryntroll,theBoneArbiter-50415"
  value: {
-  dps: 8628.44087
-  tps: 7034.8748
+  dps: 8631.59044
+  tps: 7037.39446
  }
 }
 dps_results: {
  key: "TestArms-AllItems-Bryntroll,theBoneArbiter-50709"
  value: {
-  dps: 8735.82158
-  tps: 7123.93012
+  dps: 8739.31871
+  tps: 7126.72783
  }
 }
 dps_results: {
@@ -322,8 +322,8 @@ dps_results: {
 dps_results: {
  key: "TestArms-AllItems-FieryWarAxe-870"
  value: {
-  dps: 7976.76949
-  tps: 6490.26732
+  dps: 7978.8517
+  tps: 6491.93308
  }
 }
 dps_results: {
@@ -392,8 +392,8 @@ dps_results: {
 dps_results: {
  key: "TestArms-AllItems-GnomishLightningGenerator-41121"
  value: {
-  dps: 6560.72767
-  tps: 5302.19047
+  dps: 6561.45986
+  tps: 5302.77622
  }
 }
 dps_results: {
@@ -477,7 +477,7 @@ dps_results: {
 dps_results: {
  key: "TestArms-AllItems-NightReaver-1318"
  value: {
-  dps: 9654.12203
+  dps: 9655.71574
   tps: 7876.63419
  }
 }
@@ -589,8 +589,8 @@ dps_results: {
 dps_results: {
  key: "TestArms-AllItems-Shadowmourne-49623"
  value: {
-  dps: 9653.65367
-  tps: 7862.11851
+  dps: 9656.72107
+  tps: 7864.57243
  }
 }
 dps_results: {
@@ -603,8 +603,8 @@ dps_results: {
 dps_results: {
  key: "TestArms-AllItems-ShortswordofVengeance-754"
  value: {
-  dps: 7633.9211
-  tps: 6201.07175
+  dps: 7633.96379
+  tps: 6201.1059
  }
 }
 dps_results: {
@@ -659,15 +659,15 @@ dps_results: {
 dps_results: {
  key: "TestArms-AllItems-StormshroudArmor"
  value: {
-  dps: 5048.15253
-  tps: 4069.35213
+  dps: 5048.1836
+  tps: 4069.37698
  }
 }
 dps_results: {
  key: "TestArms-AllItems-Sul'thrazetheLasher-9372"
  value: {
-  dps: 7698.83115
-  tps: 6262.48373
+  dps: 7699.05246
+  tps: 6262.66078
  }
 }
 dps_results: {
@@ -708,8 +708,8 @@ dps_results: {
 dps_results: {
  key: "TestArms-AllItems-TheFistsofFury"
  value: {
-  dps: 4851.65706
-  tps: 4035.62211
+  dps: 4852.22314
+  tps: 4036.07497
  }
 }
 dps_results: {
@@ -792,8 +792,8 @@ dps_results: {
 dps_results: {
  key: "TestArms-AllItems-VestigeofHaldor-37064"
  value: {
-  dps: 6489.22616
-  tps: 5236.90359
+  dps: 6489.94574
+  tps: 5237.47925
  }
 }
 dps_results: {

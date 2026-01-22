@@ -322,8 +322,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-GnomishLightningGenerator-41121"
  value: {
-  dps: 9590.44362
-  tps: 6873.45672
+  dps: 9591.33989
+  tps: 6874.09307
  }
 }
 dps_results: {
@@ -624,8 +624,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-StormshroudArmor"
  value: {
-  dps: 7457.62849
-  tps: 5356.98916
+  dps: 7457.68097
+  tps: 5357.02643
  }
 }
 dps_results: {
@@ -750,8 +750,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralApl-AllItems-VestigeofHaldor-37064"
  value: {
-  dps: 9585.28266
-  tps: 6869.64286
+  dps: 9586.2364
+  tps: 6870.32002
  }
 }
 dps_results: {

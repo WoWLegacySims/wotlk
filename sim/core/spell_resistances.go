@@ -89,23 +89,18 @@ func (at *AttackTable) GetArmorDamageModifier(spell *Spell) float64 {
 
 func (unit *Unit) averageResist(school SpellSchool, attacker *Unit) float64 {
 	resistance := unit.GetStat(school.ResistanceStat()) - attacker.stats[stats.SpellPenetration]
-	if resistance <= 0 {
-		return unit.levelBasedResist(attacker)
+	resistance = math.Max(resistance, 0.0)
+
+	resistance += math.Max(float64(unit.Level-attacker.Level)*5.0, 0.0)
+
+	constant := 50.0
+	if attacker.Level > 60 {
+		constant = 150.0 + (float64(attacker.Level)-60)*(float64(attacker.Level)-67.5)
+	} else if attacker.Level > 20 {
+		constant = 50.0 + (float64(attacker.Level)-20)*2.5
 	}
 
-	c := 5 * float64(attacker.Level)
-	if attacker.Type == EnemyUnit && attacker.Level-unit.Level >= 3 {
-		c = 150 + (float64(attacker.Level)-60)*(float64(attacker.Level)-67.5)
-	}
-
-	return resistance/(c+resistance) + unit.levelBasedResist(attacker) // these may stack differently, but that's irrelevant in practice
-}
-
-func (unit *Unit) levelBasedResist(attacker *Unit) float64 {
-	if unit.Type == EnemyUnit && unit.Level > attacker.Level {
-		return 0.02 * float64(unit.Level-attacker.Level)
-	}
-	return 0
+	return math.Min(resistance/(constant+resistance), 0.75)
 }
 
 type Threshold struct {
@@ -123,7 +118,7 @@ func (x Thresholds) String() string {
 	var sb strings.Builder
 	var chance float64
 	for _, t := range x {
-		sb.WriteString(fmt.Sprintf("%.1f%% for %d%% ", (t.cumulativeChance-chance)*100, t.bracket*10))
+		sb.WriteString(fmt.Sprintf("%.5f%% for %d%% ", (t.cumulativeChance-chance)*100, t.bracket*10))
 		if t.cumulativeChance >= 1 {
 			break
 		}
