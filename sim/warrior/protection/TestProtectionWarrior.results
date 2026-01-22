@@ -71,7 +71,7 @@ stat_weights_results: {
   weights: 0
   weights: 0
   weights: 0.43043
-  weights: 0.09932
+  weights: 0.09908
   weights: 0
   weights: 0
   weights: 0
@@ -112,8 +112,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-Bandit'sInsignia-40371"
  value: {
-  dps: 1498.67033
-  tps: 3868.1382
+  dps: 1499.53956
+  tps: 3869.94055
  }
 }
 dps_results: {
@@ -177,15 +177,15 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-BlackBruise-50035"
  value: {
-  dps: 1502.62813
-  tps: 3840.29252
+  dps: 1503.04056
+  tps: 3841.1477
  }
 }
 dps_results: {
  key: "TestProtectionWarrior-AllItems-BlackBruise-50692"
  value: {
-  dps: 1532.82854
-  tps: 3902.58233
+  dps: 1533.37468
+  tps: 3903.71475
  }
 }
 dps_results: {
@@ -304,8 +304,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-DarkmoonCard:Death-42990"
  value: {
-  dps: 1515.95852
-  tps: 3910.2992
+  dps: 1517.00097
+  tps: 3912.46071
  }
 }
 dps_results: {
@@ -437,8 +437,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-ExtractofNecromanticPower-40373"
  value: {
-  dps: 1517.71226
-  tps: 3910.28111
+  dps: 1518.72402
+  tps: 3912.37899
  }
 }
 dps_results: {
@@ -528,8 +528,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-GnomishLightningGenerator-41121"
  value: {
-  dps: 1500.6522
-  tps: 3879.00222
+  dps: 1501.3436
+  tps: 3880.43584
  }
 }
 dps_results: {
@@ -865,8 +865,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-StormshroudArmor"
  value: {
-  dps: 1133.69402
-  tps: 2978.51045
+  dps: 1133.71705
+  tps: 2978.55819
  }
 }
 dps_results: {
@@ -914,8 +914,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-TheFistsofFury"
  value: {
-  dps: 1008.06102
-  tps: 2282.10252
+  dps: 1008.33649
+  tps: 2282.6737
  }
 }
 dps_results: {
@@ -1047,8 +1047,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-Average-Default"
  value: {
-  dps: 2771.65176
-  tps: 6733.04173
+  dps: 2772.29072
+  tps: 6734.36661
   dtps: 127.4897
  }
 }
@@ -1139,8 +1139,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-SwitchInFrontOfTarget-Default"
  value: {
-  dps: 2890.35455
-  tps: 7022.68811
+  dps: 2890.73123
+  tps: 7023.46915
   dtps: 120.81343
  }
 }

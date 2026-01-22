@@ -49,7 +49,7 @@ func Test_PartialResistsVsPlayer(t *testing.T) {
 			chance = th.cumulativeChance
 		}
 
-		expectedAr := float64(resist) / ((150 + (float64(attacker.Level)-60)*(float64(attacker.Level)-67.5)) + float64(resist))
+		expectedAr := math.Min(float64(resist)/((150+(float64(attacker.Level)-60)*(float64(attacker.Level)-67.5))+float64(resist)), 0.75)
 
 		if math.Abs(resultingAr-expectedAr) > 1e-9 {
 			t.Errorf("resist = %d, thresholds = %s, resultingAr = %.2f%%, expectedAr = %.2f%%", resist, thresholds, resultingAr, expectedAr)
@@ -119,7 +119,7 @@ func Test_PartialResistsVsBoss(t *testing.T) {
 			chance = th.cumulativeChance
 		}
 
-		expectedAr := 0.06 + resist/(400+resist)
+		expectedAr := (resist + 15.0) / (400.0 + resist + 15.0)
 
 		if math.Abs(resultingAr-expectedAr) > 1e-9 {
 			t.Errorf("resist = %.2f, thresholds = %s, resultingAr = %.2f%%, expectedAr = %.2f%%", resist, thresholds, resultingAr, expectedAr)
