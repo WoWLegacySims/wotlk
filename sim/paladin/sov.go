@@ -193,19 +193,7 @@ func (paladin *Paladin) registerSealOfVengeanceSpellAndAura() {
 				}
 			}
 
-			dotApplicableSpells := []*core.Spell{
-				paladin.HammerOfTheRighteous,
-				paladin.HammerOfWrath,
-				paladin.ShieldOfRighteousness,
-			}
-			isApplicableSpell := false
-			for _, validSpell := range dotApplicableSpells {
-				if spell == validSpell {
-					isApplicableSpell = true
-				}
-			}
-
-			if spell.ProcMask.Matches(core.ProcMaskMeleeWhiteHit) || isApplicableSpell {
+			if spell.ProcMask.Matches(core.ProcMaskMeleeWhiteHit) || spell == paladin.HammerOfTheRighteous {
 				dotApplicationSpell.Cast(sim, result.Target)
 			}
 		},
