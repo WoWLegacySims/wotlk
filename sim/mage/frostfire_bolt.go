@@ -36,8 +36,6 @@ func (mage *Mage) registerFrostfireBoltSpell() {
 			},
 		},
 
-		// FFB double-dips the bonus from Precision, so add it again here.
-		BonusHit: float64(mage.Talents.Precision),
 		BonusCrit: 0 +
 			core.TernaryFloat64(mage.HasSetBonus(ItemSetKhadgarsRegalia, 4), 5, 0) +
 			core.TernaryFloat64(mage.HasMajorGlyph(proto.MageMajorGlyph_GlyphOfFrostfire), 2, 0) +
@@ -75,15 +73,7 @@ func (mage *Mage) registerFrostfireBoltSpell() {
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			baseDamage := sim.Roll(bp, die) + spellCoeff*spell.SpellPower()
 
-			// FFB also double-dips the bonus from debuff crit modifiers:
-			//  1) Totem of Wrath / Heart of the Crusader / Master Poisoner
-			//  2) Shadow Mastery / Improved Scorch / Winter's Chill
-			// Luckily, each of those effects has its own dedicated pseudostat, so we
-			// can implement this by modifying the crit of this spell before the calc.
-			doubleDipBonus := (target.PseudoStats.BonusCritTaken + target.PseudoStats.BonusSpellCritTaken)
-			spell.BonusCrit += doubleDipBonus
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
-			spell.BonusCrit -= doubleDipBonus
 
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {
 				if result.Landed() {
