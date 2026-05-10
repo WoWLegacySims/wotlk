@@ -369,7 +369,7 @@ func init() {
 	helpers.NewProcStatBonusEffect(helpers.ProcStatBonusEffect{
 		Name:     "Madness of the Betrayer",
 		ID:       32505,
-		AuraID:   42083,
+		AuraID:   40475,
 		Bonus:    stats.Stats{stats.ArmorPenetration: 42},
 		Duration: time.Second * 10,
 		Callback: core.CallbackOnSpellHitDealt,
