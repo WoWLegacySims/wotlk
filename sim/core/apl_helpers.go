@@ -151,8 +151,9 @@ func (rot *APLRotation) GetAPLSpell(spellId *proto.ActionID) *Spell {
 		// Prefer spells marked with APL, but fallback to unmarked spells.
 		var aplSpell *Spell
 		for _, s := range rot.unit.Spellbook {
-			if s.ActionID.SameAction(actionID) || (s.HasRank(actionID) && s.ActionID.Tag == actionID.Tag) {
+			if s.Flags.Matches(SpellFlagAPL) && (s.ActionID.SameAction(actionID) || (s.HasRank(actionID) && s.ActionID.Tag == actionID.Tag)) {
 				aplSpell = s
+				break
 			}
 		}
 		if aplSpell == nil {
