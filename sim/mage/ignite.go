@@ -9,7 +9,7 @@ import (
 
 // If two spells proc Ignite at almost exactly the same time, the latter
 // overwrites the former.
-const IgniteMunchWindow = time.Millisecond * 20
+const IgniteMunchWindow = time.Millisecond * 400
 const IgniteTicks = 2
 
 func (mage *Mage) applyIgnite() {
