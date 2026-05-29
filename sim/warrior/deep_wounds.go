@@ -7,7 +7,7 @@ import (
 	"github.com/WoWLegacySims/wotlk/sim/core"
 )
 
-const munchingWindow = time.Millisecond * 20
+const munchingWindow = time.Millisecond * 400
 
 func (warrior *Warrior) applyDeepWounds() {
 	if warrior.Talents.DeepWounds == 0 {
