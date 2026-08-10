@@ -19,7 +19,7 @@ func init() {
 	helpers.NewHasteActive(38764, 208, time.Second*20, time.Minute*2) // Rune of Finite Variation
 	helpers.NewHasteActive(40531, 491, time.Second*20, time.Minute*2) // Mark of Norgannon
 	helpers.NewHasteActive(43836, 212, time.Second*20, time.Minute*2) // Thorny Rose Brooch
-	helpers.NewHasteActive(45466, 457, time.Second*20, time.Minute*2) // Scale of Fates
+	helpers.NewHasteActive(45466, 432, time.Second*20, time.Minute*2) // Scale of Fates
 	helpers.NewHasteActive(46088, 375, time.Second*20, time.Minute*2) // Platinum Disks of Swiftness
 	helpers.NewHasteActive(48722, 512, time.Second*20, time.Minute*2) // Shard of the Crystal Heart
 
@@ -33,7 +33,7 @@ func init() {
 	helpers.NewAttackPowerActive(38761, 248, time.Second*20, time.Minute*2)  // Talon of Hatred
 	helpers.NewAttackPowerActive(39257, 670, time.Second*20, time.Minute*2)  // Loatheb's Shadow
 	helpers.NewAttackPowerActive(44014, 432, time.Second*15, time.Minute*2)  // Fezzik's Pocketwatch
-	helpers.NewAttackPowerActive(45263, 905, time.Second*20, time.Minute*2)  // Wrathstone
+	helpers.NewAttackPowerActive(45263, 856, time.Second*20, time.Minute*2)  // Wrathstone
 	helpers.NewAttackPowerActive(46086, 752, time.Second*20, time.Minute*2)  // Platinum Disks of Battle
 	helpers.NewAttackPowerActive(47734, 1024, time.Second*20, time.Minute*2) // Mark of Supremacy
 
@@ -57,8 +57,8 @@ func init() {
 	helpers.NewSpellPowerActive(43837, 281, time.Second*20, time.Minute*2) // Soflty Glowing Orb
 	helpers.NewSpellPowerActive(44013, 281, time.Second*20, time.Minute*2) // Cannoneer's Fuselighter
 	helpers.NewSpellPowerActive(44015, 281, time.Second*20, time.Minute*2) // Cannoneer's Morale
-	helpers.NewSpellPowerActive(45148, 534, time.Second*20, time.Minute*2) // Living Flame
-	helpers.NewSpellPowerActive(45292, 431, time.Second*20, time.Minute*2) // Energy Siphon
+	helpers.NewSpellPowerActive(45148, 505, time.Second*20, time.Minute*2) // Living Flame
+	helpers.NewSpellPowerActive(45292, 408, time.Second*20, time.Minute*2) // Energy Siphon
 	helpers.NewSpellPowerActive(46087, 440, time.Second*20, time.Minute*2) // Platinum Disks of Sorcery
 	helpers.NewSpellPowerActive(48724, 599, time.Second*20, time.Minute*2) // Talisman of Resurgence
 	helpers.NewSpellPowerActive(50357, 716, time.Second*20, time.Minute*2) // Maghia's Misguided Quill
@@ -84,19 +84,19 @@ func init() {
 	helpers.NewHealthActive(50235, 4104, time.Second*15, time.Minute*3) // Ick's Rotting Thumb
 
 	helpers.NewArmorActive(36993, 3570, time.Second*20, time.Minute*2) // Seal of the Pantheon
-	helpers.NewArmorActive(45313, 5448, time.Second*20, time.Minute*2) // Furnace Stone
+	helpers.NewArmorActive(45313, 5152, time.Second*20, time.Minute*2) // Furnace Stone
 
 	helpers.NewBlockValueActive(37872, 440, time.Second*40, time.Minute*2) // Lavanthor's Talisman
 
 	helpers.NewDodgeActive(40257, 455, time.Second*20, time.Minute*2) // Defender's Code
 	helpers.NewDodgeActive(40683, 335, time.Second*20, time.Minute*2) // Valor Medal of the First War
 	helpers.NewDodgeActive(44063, 300, time.Second*10, time.Minute*1) // Figurine - Monarch Crab
-	helpers.NewDodgeActive(45158, 457, time.Second*20, time.Minute*2) // Heart of Iron
+	helpers.NewDodgeActive(45158, 432, time.Second*20, time.Minute*2) // Heart of Iron
 	helpers.NewDodgeActive(49080, 335, time.Second*20, time.Minute*2) // Brawler's Souvenir
 	helpers.NewDodgeActive(47735, 512, time.Second*20, time.Minute*2) // Glyph of Indomitability
 
 	helpers.NewParryActive(40372, 375, time.Second*20, time.Minute*2) // Rune of Repulsion
-	helpers.NewParryActive(46021, 402, time.Second*20, time.Minute*2) // Royal Seal of King Llane
+	helpers.NewParryActive(46021, 380, time.Second*20, time.Minute*2) // Royal Seal of King Llane
 
 	helpers.NewSpiritActive(38763, 184, time.Second*20, time.Minute*2) // Futuresight Rune
 	helpers.NewSpiritActive(39388, 336, time.Second*20, time.Minute*2) // Spirit-World Glass
