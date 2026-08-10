@@ -416,7 +416,7 @@ func init() {
 
 	core.NewItemEffect(45509, func(agent core.Agent) {
 		druid := agent.(DruidAgent).GetDruid()
-		procAura := druid.NewTemporaryStatsAura("Idol of the Corruptor Proc", core.ActionID{SpellID: 64951}, stats.Stats{stats.Agility: 162}, time.Second*12)
+		procAura := druid.NewTemporaryStatsAura("Idol of the Corruptor Proc", core.ActionID{SpellID: 64951}, stats.Stats{stats.Agility: 153}, time.Second*12)
 
 		// Proc chances based on testing by druid discord
 		procChanceBear := 0.50
